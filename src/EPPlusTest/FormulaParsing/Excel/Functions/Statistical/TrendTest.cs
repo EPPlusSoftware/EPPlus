@@ -365,34 +365,34 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Statistical
             }
         }
 
-        [TestMethod]
+        //[TestMethod]
 
-        public void WorkBookTest()
-        {
-            var wbPath = "C:\\Users\\HannesAlm\\Downloads\\TrendTest.xlsx";
-            using (ExcelPackage package = new ExcelPackage(new FileInfo(wbPath)))
-            {
-                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+        //public void WorkBookTest()
+        //{
+        //    var wbPath = "C:\\Users\\HannesAlm\\Downloads\\TrendTest.xlsx";
+        //    using (ExcelPackage package = new ExcelPackage(new FileInfo(wbPath)))
+        //    {
+        //        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
 
-                worksheet.Cells["O1"].Value = "EPPLUS RESULT";
-                worksheet.Cells["O1"].Style.Font.Bold = true;
-                worksheet.Cells["O2"].Formula = "TREND(A2:A1001, B2:F1001, G2:K1001, FALSE)";
-                worksheet.Calculate();
-                for (int i = 2; i < 1002; i++ )
-                {
-                    var trendVal = (double)System.Math.Round((double)worksheet.Cells["N" + i].Value, 6);
-                    var epplusVal = (double)System.Math.Round((double)worksheet.Cells["O" + i].Value, 6);
-                    if (trendVal == epplusVal)
-                    {
-                        worksheet.Cells["P" + i].Value = "CORRECT";
-                    }
-                    else
-                    {
-                        worksheet.Cells["P" + i].Value = "INCORRECT";
-                    }
-                }
-                package.Save();
-            }
-        }
+        //        worksheet.Cells["O1"].Value = "EPPLUS RESULT";
+        //        worksheet.Cells["O1"].Style.Font.Bold = true;
+        //        worksheet.Cells["O2"].Formula = "TREND(A2:A1001, B2:F1001, G2:K1001, FALSE)";
+        //        worksheet.Calculate();
+        //        for (int i = 2; i < 1002; i++ )
+        //        {
+        //            var trendVal = (double)System.Math.Round((double)worksheet.Cells["N" + i].Value, 6);
+        //            var epplusVal = (double)System.Math.Round((double)worksheet.Cells["O" + i].Value, 6);
+        //            if (trendVal == epplusVal)
+        //            {
+        //                worksheet.Cells["P" + i].Value = "CORRECT";
+        //            }
+        //            else
+        //            {
+        //                worksheet.Cells["P" + i].Value = "INCORRECT";
+        //            }
+        //        }
+        //        package.Save();
+        //    }
+        //}
     }
 }
