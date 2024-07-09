@@ -20,7 +20,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
     internal class LinestHelper
     {
-        public static InMemoryRange MultipleRegResult(double[] knownYs, double[][] xRangeList, bool constVar, bool stats, bool logest)
+        internal static InMemoryRange MultipleRegResult(double[] knownYs, double[][] xRangeList, bool constVar, bool stats, bool logest)
         {
 
             //Adding a column of ones to account for the intercept.
@@ -162,7 +162,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             }
         }
 
-        private static double[] GetSlope(double[][] xValues, double[] yValues, bool constVar, bool stats, bool logest, out bool matrixIsSingular)
+        internal static double[] GetSlope(double[][] xValues, double[] yValues, bool constVar, bool stats, bool logest, out bool matrixIsSingular)
         {
             var width = xValues[0].Count();
             var height = xValues.Count();
@@ -191,7 +191,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return bArray;
         }
 
-        public static InMemoryRange LinearRegResult(double[] knownXs, double[] knownYs, bool constVar, bool stats, bool logest)
+        internal static InMemoryRange LinearRegResult(double[] knownXs, double[] knownYs, bool constVar, bool stats, bool logest)
         {
             var knownYsCopy = knownYs.ToList();
             if (logest)

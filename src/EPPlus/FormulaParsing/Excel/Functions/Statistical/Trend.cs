@@ -63,7 +63,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 return CreateDynamicArrayResult(TrendHelper.GetTrendValuesSingle(xVals, defaultCoefficients, columnArray), DataType.ExcelRange);
             }
 
-            if (arguments.Count > 3) constVar = ArgToBool(arguments, 3);
+            if (arguments.Count() > 3) constVar = ArgToBool(arguments, 3);
 
             //Get the line coefficient(s)
             if ((argX.Size.NumberOfRows != argY.Size.NumberOfRows && argX.Size.NumberOfCols == argY.Size.NumberOfCols)
@@ -78,6 +78,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 coefficients[i] = (double)linestResult.GetValue(0, i);
             }
 
+            //If newXs is given:
             if (arguments[2].IsExcelRange)
             {
                 argNewX = arguments[2].ValueAsRangeInfo;
@@ -99,6 +100,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
                 }
             }
             
+            //If newXs is omitted:
             if (multipleXranges)
             {
                 var xRanges = LinestHelper.GetRangeAsJaggedDouble(argX, argY, constVar, multipleXranges);
@@ -108,117 +110,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             //Return for single variable case
             RangeFlattener.GetNumericPairLists(argX, argY, !multipleXranges, out List<double> knownXsList, out List<double> knownYsList);
             var knownXs = MatrixHelper.ListToArray(knownXsList);
-            if (argX.Size.NumberOfCols == 1) columnArray = true;
             return CreateDynamicArrayResult(TrendHelper.GetTrendValuesSingle(knownXs, coefficients, columnArray), DataType.ExcelRange);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //if (arguments.Count() > 1 && arguments[1].IsExcelRange)
-            //{
-            //    var argY = arguments[0].ValueAsRangeInfo;
-            //    var argX = arguments[1].ValueAsRangeInfo;
-
-            //    if (arguments.Count() > 3) constVar = ArgToBool(arguments, 3);
-
-            //    var linestResult = LinestHelper.ExecuteLinest(argX, argY, constVar, false, false, out eErrorType? error);
-            //    double[] coefficients = new double[linestResult.Size.NumberOfCols];
-            //    for (var i = 0; i < coefficients.Length; i++)
-            //    {
-            //        coefficients[i] = (double)linestResult.GetValue(0, i);
-            //    }
-
-            //    bool multipleXranges = false;
-            //    double[][] xRanges;
-            //    if (arguments[2].IsExcelRange)
-            //    {
-            //        var argNewX = arguments[2].ValueAsRangeInfo;
-            //        if ((argNewX.Size.NumberOfRows != argY.Size.NumberOfRows && argNewX.Size.NumberOfCols == argY.Size.NumberOfCols)
-            //        || (argNewX.Size.NumberOfCols != argY.Size.NumberOfCols && argNewX.Size.NumberOfRows == argY.Size.NumberOfRows)) multipleXranges = true;
-            //        if (multipleXranges)
-            //        {
-            //            if (multipleXranges && argNewX.Size.NumberOfCols != argY.Size.NumberOfCols)
-            //            {
-            //                columnArray = true;
-            //            }
-            //            xRanges = LinestHelper.RangeToJaggedDouble(argNewX, argY, constVar, multipleXranges);
-            //            if (multipleXranges)
-            //            {
-            //                return CreateDynamicArrayResult(TrendHelper.GetTrendValuesMultiple(xRanges, coefficients, constVar, columnArray), DataType.ExcelRange);
-            //            }
-            //            else
-            //            {
-            //                RangeFlattener.GetNumericPairLists(argNewX, argY, !multipleXranges, out List<double> knownXsList, out List<double> knownYsList);
-            //                var knownXs = MatrixHelper.ListToArray(knownXsList);
-            //                if (argNewX.Size.NumberOfCols == 1) columnArray = true;
-            //                return CreateDynamicArrayResult(TrendHelper.GetTrendValuesSingle(knownXs, coefficients, columnArray), DataType.ExcelRange);
-            //            }
-            //        }
-            //        else
-            //        {
-            //            if ((argX.Size.NumberOfRows != argY.Size.NumberOfRows && argX.Size.NumberOfCols == argY.Size.NumberOfCols)
-            //            || (argX.Size.NumberOfCols != argY.Size.NumberOfCols && argX.Size.NumberOfRows == argY.Size.NumberOfRows)) multipleXranges = true;
-            //            if (multipleXranges)
-            //            {
-            //                if (multipleXranges && argNewX.Size.NumberOfCols != argY.Size.NumberOfCols)
-            //                {
-            //                    columnArray = true;
-            //                }
-            //            }
-            //            if (multipleXranges)
-            //            {
-            //                xRanges = LinestHelper.RangeToJaggedDouble(argX, argY, constVar, multipleXranges);
-            //                return CreateDynamicArrayResult(TrendHelper.GetTrendValuesMultiple(xRanges, coefficients, constVar, columnArray), DataType.ExcelRange);
-            //            }
-            //            else
-            //            {
-            //                RangeFlattener.GetNumericPairLists(argX, argY, !multipleXranges, out List<double> knownXsList, out List<double> knownYsList);
-            //                var knownXs = MatrixHelper.ListToArray(knownXsList);
-            //                if (argNewX.Size.NumberOfCols == 1) columnArray = true;
-            //                return CreateDynamicArrayResult(TrendHelper.GetTrendValuesSingle(knownXs, coefficients, columnArray), DataType.ExcelRange);
-            //            }
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    //Code for default values here
-            //    var knownYsList = ArgsToDoubleEnumerable(new List<FunctionArgument> { arguments[0] }, context, out ExcelErrorValue e1).ToList();
-            //    var knownYs = MatrixHelper.ListToArray(knownYsList);
-            //    var knownXs = LinestHelper.GetDefaultKnownXs(knownYs.Count());
-            //    var linestDefaultResult = LinestHelper.LinearRegResult(knownXs, knownYs, constVar, false, false);
-            //    double[] coefficients3 = new double[linestDefaultResult.Size.NumberOfCols];
-            //    for (var i = 0; i < coefficients3.Length; i++)
-            //    {
-            //        coefficients3[i] = (double)linestDefaultResult.GetValue(0, i);
-            //    }
-            //    return CreateDynamicArrayResult(TrendHelper.GetTrendValuesSingle(knownXs, coefficients3, columnArray), DataType.ExcelRange);        
-            //}
         }
     }
 }
