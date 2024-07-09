@@ -60,7 +60,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Down);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
                 InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
-                InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
+                InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws, true);
 
                 WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(ws, rowFrom, rows);
 
@@ -220,7 +220,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         private static void InsertConditionalFormatting(ExcelRangeBase range, eShiftTypeInsert shift, ExcelAddressBase effectedAddress, ExcelWorksheet ws, bool isTable)
         {
-            var delCF = new List<ConditionalFormatting.Contracts.IExcelConditionalFormattingRule>();
+            var delCF = new List<IExcelConditionalFormattingRule>();
             //Update Conditional formatting references
             foreach (var cf in ws.ConditionalFormatting)
             {
@@ -399,7 +399,7 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             if (address.CollideFullColumn(range._fromCol, range._toCol) && (shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow))
             {
-                return address.AddRow(range._fromRow, range.Rows,false,false, isTable);
+                return address.AddRow(range._fromRow, range.Rows, false, false, isTable);
             }
             else if (address.CollideFullRow(range._fromRow, range._toRow) && (shift == eShiftTypeInsert.Right || shift == eShiftTypeInsert.EntireColumn))
             {

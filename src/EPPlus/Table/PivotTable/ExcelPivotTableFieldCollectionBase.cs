@@ -92,7 +92,8 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The index of the item</returns>
         public int GetIndexByValue(object value)
         {
-			var cl = _field.Cache.GetCacheLookup();
+            if (value == null) return -1; 
+            var cl = _field.Cache.GetCacheLookup();
 			if (cl.TryGetValue(value, out int ix))
             {
                 if(_cacheDictionary.TryGetValue(ix, out int i))
@@ -104,14 +105,16 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         internal void MatchValueToIndex()
         {
-            var cacheLookup = _field.Cache.GetCacheLookup();
+            var cache = _field.Cache;
+            var isGroup = cache.Grouping != null;
+            var cacheLookup = cache.GetCacheLookup();
             foreach (var item in _list)
             {
                 var v = item.Value ?? ExcelPivotTable.PivotNullValue;
                 if (item.Type == eItemType.Data && cacheLookup.TryGetValue(v, out int x))
                 {
                     item.X = cacheLookup[v];
-                }
+                }                
                 else
                 {
                     item.X = -1;
@@ -209,15 +212,17 @@ namespace OfficeOpenXml.Table.PivotTable
 
 			public int Compare(ExcelPivotTableFieldItem x, ExcelPivotTableFieldItem y)
 			{
-                if (x.Type == eItemType.Data)
+                if (x.Type == eItemType.Data && y.Type == eItemType.Data)
                 {
+                    if(x.Value == null) return 1;
+                    if(y.Value == null) return -1;
                     var xText = GetTextValue(x);
                     var yText = GetTextValue(y);
                     return xText.CompareTo(yText) * _mult;
                 }
                 else
                 {
-					return 1;
+					return x.Type == eItemType.Data ? -1 : 1;
 				}
 			}
 

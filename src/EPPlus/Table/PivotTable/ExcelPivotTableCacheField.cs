@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             SchemaNodeOrder = ["sharedItems", "fieldGroup", "mpMap"];
             
-            if (Grouping == null || Grouping.BaseIndex==Index)
+            if (Grouping == null || Grouping.BaseIndex == Index)
             {
                 UpdateCacheLookupFromItems(SharedItems._list, ref _cacheLookup);
             }
@@ -116,7 +116,8 @@ namespace OfficeOpenXml.Table.PivotTable
             internal T MaxValue { get; set; }
         }
         internal Dictionary<object, int> _cacheLookup = null;
-		internal Dictionary<object, int> _groupLookup = null;
+        internal Dictionary<int, int> _duplicateCacheItems = null;
+        internal Dictionary<object, int> _groupLookup = null;
 		internal Dictionary<int, List<int>> _fieldRecordIndex { get; set; }
 
         /// <summary>
@@ -405,7 +406,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
 		internal static string GetSharedStringText(object si, out string dt)
 		{
-			var t = si.GetType();
+			var t = si?.GetType();
 			var tc = Type.GetTypeCode(t);
 
 			switch (tc)
@@ -593,7 +594,7 @@ namespace OfficeOpenXml.Table.PivotTable
         private void AddItems(EPPlusReadOnlyList<Object> items, XmlNode itemsNode, Dictionary<object, int> cacheLookup)
         {
             cacheLookup = new Dictionary<object, int>(new CacheComparer());
-
+            _duplicateCacheItems = new Dictionary<int, int>();
             foreach (XmlElement c in itemsNode.ChildNodes)
             {
                 if (c.LocalName == "s")
@@ -650,9 +651,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 
                 var key = items[items.Count - 1];
-                if (cacheLookup.ContainsKey(key))
+                if (cacheLookup.TryGetValue(key, out int index))
                 {
-                    items._list.Remove(key);
+                    //items._list.Remove(key);
+                    _duplicateCacheItems.Add(items.Count - 1, index);
                 }
                 else
                 {
@@ -855,7 +857,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 if (!cacheLookup.ContainsKey(key)) cacheLookup.Add(key, i);
             }
         }
-
         private void AddTimeSerie(int count, XmlElement groupItems)
         {
             for (int i = 0; i < count; i++)
