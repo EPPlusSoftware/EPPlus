@@ -19,6 +19,7 @@ using System.Linq;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -426,13 +427,11 @@ namespace OfficeOpenXml.Drawing.Chart
                 //if (_chart.StyleManager.StylePart != null && _chart.StyleManager.ThemeOverridePart == null)
                 if (_chart.StyleManager.StylePart != null)
                 {
-                    if (_list.Count == 1 && _chart.ApplyThemeOverrideOnFirstSeries == false)
-                    {
-                    }
-                    else
-                    {
+                    //var nrOfSeries = _chart.ChartXml.GetElementsByTagName("c:ser").Count;
+                    //if (nrOfSeries < _list.Count)
+                    //{
                         _chart.StyleManager.ApplySeries();
-                    }
+                    //}
                 }
 
                 if (_chart._legend != null && _chart._legend._entries!=null)

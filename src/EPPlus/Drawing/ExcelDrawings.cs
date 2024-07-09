@@ -1204,11 +1204,14 @@ namespace OfficeOpenXml.Drawing
                 throw new InvalidDataException("Crtx file is corrupt.");
             }
             var chartXmlHelper = XmlHelperFactory.Create(NameSpaceManager, chartXml.DocumentElement);
-            var serNode = chartXmlHelper.GetNode("/c:chartSpace/c:chart/c:plotArea/*[substring(name(), string-length(name()) - 4) = 'Chart']/c:ser");
-            if (serNode != null)
+            var serNodes = chartXmlHelper.GetNodes("/c:chartSpace/c:chart/c:plotArea/*[substring(name(), string-length(name()) - 4) = 'Chart']/c:ser");
+            foreach(XmlNode serNode in serNodes)
             {
-                _seriesTemplateXml = serNode.InnerXml;
-                serNode.ParentNode.RemoveChild(serNode);
+                if (serNode != null)
+                {
+                    _seriesTemplateXml += serNode.InnerXml;
+                    serNode.ParentNode.RemoveChild(serNode);
+                }
             }
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell);
             var chartType = ExcelChart.GetChartTypeFromNodeName(GetChartNodeName(chartXmlHelper));

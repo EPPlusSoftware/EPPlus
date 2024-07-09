@@ -17,6 +17,7 @@ using System.Xml;
 using System.Linq;
 using OfficeOpenXml.Core.CellStore;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -645,6 +646,18 @@ namespace OfficeOpenXml.Drawing.Chart
             if (!string.IsNullOrEmpty(chart._drawings._seriesTemplateXml))
             {
                 ser.InnerXml = chart._drawings._seriesTemplateXml;
+                //XmlDocument doc = new XmlDocument();
+                //doc.LoadXml(chart._drawings._seriesTemplateXml);
+                //var chartXmlHelper = XmlHelperFactory.Create(chart.NameSpaceManager, doc.DocumentElement);
+                //bool first = false;
+                //foreach (XmlNode node in chartXmlHelper.GetNodes("c:ser"))
+                //{
+                //    if (first)
+                //    {
+                //        ser.InnerXml = node.InnerXml;
+                //    }
+                //}
+                //ser.InnerXml = chart._drawings._seriesTemplateXml;
                 return ser;
             }
 

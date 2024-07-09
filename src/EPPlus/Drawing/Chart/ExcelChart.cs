@@ -70,8 +70,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
         #endregion
         internal ExcelChartStyleManager _styleManager = null;
-
-        public bool ApplyThemeOverrideOnFirstSeries = false;
         /// <summary>
         /// Manage style settings for the chart
         /// </summary>

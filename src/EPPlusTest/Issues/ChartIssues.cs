@@ -212,22 +212,22 @@ namespace EPPlusTest.Issues
 				// Add a new worksheet to the empty workbook
 				var worksheet = p.Workbook.Worksheets.Add("Sheet1");
 
-				// Add some data for the pie chart
-				worksheet.Cells["A1"].Value = "Category";
-				worksheet.Cells["B1"].Value = "Value";
-				worksheet.Cells["A2"].Value = "Category 1";
-				worksheet.Cells["B2"].Value = 20;
-				worksheet.Cells["A3"].Value = "Category 2";
-				worksheet.Cells["B3"].Value = 30;
-				worksheet.Cells["A4"].Value = "Category 3";
-				worksheet.Cells["B4"].Value = 50;
-				worksheet.Cells["A5"].Value = "Category 4";
-				worksheet.Cells["B5"].Value = 34;
-				worksheet.Cells["A6"].Value = "Category 5";
-				worksheet.Cells["B6"].Value = 12;
+                // Add some data for the pie chart
+                worksheet.Cells["A1"].Value = "Cat";
+                worksheet.Cells["B1"].Value = "Value";
+                worksheet.Cells["A2"].Value = "Cat 1";
+                worksheet.Cells["B2"].Value = 15;
+                worksheet.Cells["A3"].Value = "Cat 2";
+                worksheet.Cells["B3"].Value = 24;
+                worksheet.Cells["A4"].Value = "Cat 3";
+                worksheet.Cells["B4"].Value = 40;
+                worksheet.Cells["A5"].Value = "Cat 4";
+                worksheet.Cells["B5"].Value = 23;
+                worksheet.Cells["A6"].Value = "Cat 5";
+                worksheet.Cells["B6"].Value = 4;
 
-				// Add a pie chart to the worksheet
-				var pieChart = worksheet.Drawings.AddChart("pieChart", eChartType.Pie) as ExcelPieChart;
+                // Add a pie chart to the worksheet
+                var pieChart = worksheet.Drawings.AddChart("pieChart", eChartType.Pie) as ExcelPieChart;
 				pieChart.Title.Text = "Pie Chart Example";
 				pieChart.SetPosition(1, 0, 3, 0);
 				pieChart.SetSize(600, 400);
@@ -245,39 +245,10 @@ namespace EPPlusTest.Issues
 				series.DataPoints[1].Fill.Color = Color.Blue;
 				series.DataPoints[2].Fill.Style = eFillStyle.SolidFill;
 				series.DataPoints[2].Fill.Color = Color.Green;
-				//            pieChart.Series.Add(worksheet.Cells["A2:B2"]);
-				//            pieChart.Series.Add(worksheet.Cells["A3:B3"]);
-				//            pieChart.Series.Add(worksheet.Cells["A4:B4"]);
-				//            pieChart.Series.Add(worksheet.Cells["A5:B5"]);
-				//            pieChart.Series.Add(worksheet.Cells["A6:B6"]);
 
-				//for(int i = 2; i < 7; i++)
-				//{
-				//                var series = pieChart.Series.Add(worksheet.Cells[$"A{i}:B{i}"]);
-				//	series.Fill.Style = eFillStyle.SolidFill;
-				//	series.Fill.Color = Color.BlueViolet;
-				//                //pieChart.Series[i].Fill.Style = eFillStyle.SolidFill;
-				//                //               pieChart.Series[i].Fill.Color = Co;
-				//            }
-
-				// Apply some styling to the chart
 				pieChart.DataLabel.ShowCategory = true;
 				pieChart.DataLabel.ShowPercent = true;
 				pieChart.DataLabel.ShowLeaderLines = true;
-				//pieChart.Style = eChartStyle.None;
-
-				//pieChart.Style = eChartStyle.Style18;
-
-				//pieChart.Series[0] = pieChart.
-
-
-				////pieChart.Series[0].Fill.Style = eFillStyle.SolidFill;
-				////pieChart.Series[0].Fill.Color = Color.Red;
-
-				////pieChart.Series[0].
-
-				//////pieChart.Series[1].Fill.Style = eFillStyle.SolidFill;
-				//////pieChart.Series[1].Fill.Color = Color.Blue;
 
 				SaveAndCleanup(p);
 			}
@@ -296,22 +267,23 @@ namespace EPPlusTest.Issues
 				ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");
 
 				// Add some data for the pie chart
-				worksheet.Cells["A1"].Value = "Category";
+				worksheet.Cells["A1"].Value = "Cat";
 				worksheet.Cells["B1"].Value = "Value";
-				worksheet.Cells["A2"].Value = "Category 1";
-				worksheet.Cells["B2"].Value = 20;
-				worksheet.Cells["A3"].Value = "Category 2";
-				worksheet.Cells["B3"].Value = 30;
-				worksheet.Cells["A4"].Value = "Category 3";
-				worksheet.Cells["B4"].Value = 50;
-				worksheet.Cells["A5"].Value = "Category 4";
-				worksheet.Cells["B5"].Value = 34;
-				worksheet.Cells["A6"].Value = "Category 5";
-				worksheet.Cells["B6"].Value = 12;
+				worksheet.Cells["A2"].Value = "Cat 1";
+				worksheet.Cells["B2"].Value = 15;
+				worksheet.Cells["A3"].Value = "Cat 2";
+				worksheet.Cells["B3"].Value = 24;
+				worksheet.Cells["A4"].Value = "Cat 3";
+				worksheet.Cells["B4"].Value = 40;
+				worksheet.Cells["A5"].Value = "Cat 4";
+				worksheet.Cells["B5"].Value = 23;
+				worksheet.Cells["A6"].Value = "Cat 5";
+				worksheet.Cells["B6"].Value = 4;
 
-				// Add a pie chart to the worksheet
-				//var pieChart = worksheet.Drawings.AddChart("pieChart", eChartType.Pie) as ExcelPieChart;
-				using (FileStream template = new FileStream(@"C:\epplusTest\Workbooks\Chart1.crtx", FileMode.Open, FileAccess.Read))
+				var currDir = Directory.GetCurrentDirectory();
+
+                // Add a pie chart to the worksheet
+                using (FileStream template = new FileStream($@"{currDir}\Resources\PieChartTemplate.crtx", FileMode.Open, FileAccess.Read))
 				{
 					var pieChart = worksheet.Drawings.AddChartFromTemplate(template, "pieChart").As.Chart.PieChart;
 
@@ -322,25 +294,17 @@ namespace EPPlusTest.Issues
 					pieChart.DataLabel.ShowCategory = false;
 					pieChart.DataLabel.ShowPercent = false;
 
-					//pieChart.Series[0].Series = "sheet1!$B$2:$B$6";
-
-					//pieChart.Series[0].Series = "$B$2:$B$6";
-					//pieChart.Series[0].XSeries = "$A$2:$A$6";
-					//// Define the data series for the pie chart
-					///
-
-					pieChart.ApplyThemeOverrideOnFirstSeries = true;
                     var series = pieChart.Series.Add(worksheet.Cells["B2:B6"], worksheet.Cells["A2:A6"]);
 
-					//series.xs
-					//series.
+                    // Apply some styling to the chart-/
+                    pieChart.DataLabel.ShowCategory = false;
+					pieChart.DataLabel.ShowPercent = false;
+					pieChart.DataLabel.ShowLeaderLines = false;
 
-                    // Apply some styling to the chart
-                    pieChart.DataLabel.ShowCategory = true;
-					pieChart.DataLabel.ShowPercent = true;
-					pieChart.DataLabel.ShowLeaderLines = true;
-					//pieChart.StyleManager.LoadTemplateStyles(template);
-				}
+					var testR = pieChart.Series[0].DataPoints[1].Fill.Color;
+
+					Assert.AreEqual(pieChart.Series[0].DataPoints[1].Fill.Color, Color.Blue);
+                }
 
 				SaveAndCleanup(package);
 			}

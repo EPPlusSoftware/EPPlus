@@ -715,8 +715,17 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                     if (serie is IDrawingChartDataPoints dps)
                     {
                         var items = serie.NumberOfItems;
+                        //dp.h
+                        //if (serie._chart._drawings._seriesTemplateXml != null)
+                        //{
+                        //    //dataPoint.HasFill
+                        //    serie.Fill
+                        //}
                         foreach (var dp in dps.DataPoints)
                         {
+                            dp.Fill.LoadFill();
+                            var test = dp.Fill;
+
                             applyBorder = !(chart.IsTypeStock() && dp.Border.Width == 0);
                             ApplyStyle(dp, dataPoint, dp.Index, items, applyFill, applyBorder);
                             if (dp.HasMarker())
