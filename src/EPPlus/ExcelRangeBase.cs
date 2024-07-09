@@ -806,13 +806,23 @@ namespace OfficeOpenXml
         {
             get
             {
+
+                object value;
                 if (IsSingleCell || IsName)
                 {
-                    return ValueToTextHandler.GetFormattedText(Value, _workbook, StyleID, false);
+                    value = Value;
                 }
                 else
                 {
-                    return ValueToTextHandler.GetFormattedText(_worksheet.GetValue(_fromRow, _fromCol), _workbook, StyleID, false);
+                    value = _worksheet.GetValue(_fromRow, _fromCol);
+                }
+                if (_workbook.NumberFormatToTextHandler == null)
+                {
+                    return ValueToTextHandler.GetFormattedText(value, _workbook, StyleID, false);
+                }
+                else
+                {
+                    return _workbook.NumberFormatToTextHandler(new NumberFormatToTextArgs(_worksheet, _fromRow, _fromCol, value, StyleID));
                 }
             }
         }

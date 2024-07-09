@@ -85,7 +85,10 @@ namespace OfficeOpenXml.Table.PivotTable
             var rel = pivotTable.Part.CreateRelationship(UriHelper.ResolvePartUri(pivotTable.PivotTableUri, _cacheReference.CacheDefinitionUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/pivotCacheDefinition");
         }
 
-        internal void Refresh()
+        /// <summary>
+        /// Refreshes the pivot tables cache.
+        /// </summary>
+        public void Refresh()
         {
             _cacheReference.RefreshFields();
         }

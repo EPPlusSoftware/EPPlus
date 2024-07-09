@@ -30,6 +30,7 @@ using OfficeOpenXml.Table.PivotTable.Filter;
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs;
+using System.Diagnostics.CodeAnalysis;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -38,12 +39,31 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public struct PivotNull : IEqualityComparer<PivotNull>
 	{
-		public bool Equals(PivotNull x, PivotNull y)
+        /// <summary>
+        /// Check equals. Always true
+        /// </summary>
+        /// <param name="x">The first object </param>
+        /// <param name="y">The second object </param>
+        /// <returns></returns>
+        public bool Equals(PivotNull x, PivotNull y)
 		{
             return true;
 		}
-
-		public int GetHashCode(PivotNull obj)
+        /// <summary>
+        /// Check equals with another object
+        /// </summary>
+        /// <param name="obj">The object</param>
+        /// <returns>True if the obj is null</returns>
+        public override bool Equals(object obj)
+        {
+            return obj==null || obj is PivotNull;
+        }
+        /// <summary>
+        /// The hash value for the object 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int GetHashCode(PivotNull obj)
 		{
 			return 0;
 		}
@@ -1734,7 +1754,6 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             foreach (var f in Fields)
             {
-                //if(f.IsColumnField || f.IsRowField || f.IsPageField || f.Slicer!=null)
                 if (f.Items.Count > 0)
                 {
                     f.Items.MatchValueToIndex();

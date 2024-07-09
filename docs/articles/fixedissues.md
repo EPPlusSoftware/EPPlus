@@ -1,4 +1,23 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.2.1
+### Fixed issues and minor features
+* Fixed several issues with the ExcelRangeBase.Text function.
+* Added new static property `ExcelPackageSettings.CultureSpecificBuildInNumberFormats` to specify culture specific number formats for individual cultures.
+* Added new call-back function `ExcelWorkbook.NumberFormatToTextHandler` to override the default Text value.
+* Pivot Table Calculation throwed an exception if a field was sorted and contained empty cells.
+* Using implicit intersection (@) between two ranges did not work correctly in the formula parser.
+* Added support for DateOnly and TimeOnly (supported from .NET 6 and later). 
+* Fixed some conditional formatting's not automatically extending when a row was inserted underneath them.
+* Fixed issue where conditional formatting on pivot tables would cause corrupt worksheet when read and saved in some cases.
+* Changed thread locking object in the cell store.
+* New functions supported in formula calculations.
+	* YIELDDISC
+	* LOGINV
+	* CHITEST
+	* TDIST
+	* GAMMAINV
+	* GAMMA.INV
+
 ## Version 7.2
 ### Features
 * Added support for calculating pivot tables - See https://github.com/EPPlusSoftware/EPPlus/wiki/Calculating-Pivot-tables

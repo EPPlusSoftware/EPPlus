@@ -8,11 +8,13 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/25/2020         EPPlus Software AB       Implemented function
+  01/07/2024         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
+
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,20 +23,11 @@ using System.Text;
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
-            Category = ExcelFunctionCategory.Statistical,
-            EPPlusVersion = "5.5",
-            Description = "Calculates the natural logarithm of the gamma function for a supplied value")]
-    internal class Gammaln : ExcelFunction
+    Category = ExcelFunctionCategory.Statistical,
+    EPPlusVersion = "7.2.1",
+    Description = "Returns the left-tailed Students t-distribution. The Students t-distribution is used for hypothesis testing with small samples.")]
+
+    internal class TDotDist:TDist
     {
-        public override string NamespacePrefix => "_xlfn.";
-        public override int ArgumentMinLength => 1;
-        public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
-        {
-            var n = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
-            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
-            if (n <= 0) return CompileResult.GetErrorResult(eErrorType.Num);
-            var result = GammaHelper.LogGamma(n);
-            return CreateResult(result, DataType.Decimal);
-        }
     }
 }

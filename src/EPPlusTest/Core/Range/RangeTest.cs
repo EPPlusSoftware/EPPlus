@@ -315,6 +315,56 @@ namespace EPPlusTest.Core.Range
                 ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
             }
         }
+#if NET6_0_OR_GREATER
+        [TestMethod]
+        public void ValidateDateOnlyConvertsion()
+        {
+            SwitchToCulture();
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("DateOnly");
+                ws.Cells["A1:A4"].Value = new DateOnly(2024,6,19);
+                ws.Cells["A1"].Style.Numberformat.Format = "yyyy-MM";
+                ws.Cells["A2"].Style.Numberformat.Format = "yyyy-MM-dd";
+                Assert.AreEqual("2024-06", ws.Cells["A1"].Text);
+                Assert.AreEqual("2024-06-19", ws.Cells["A2"].Text);
 
+                p1.Save();
+                using(var p2=new ExcelPackage(p1.Stream))
+                {
+                    var ws2 = p2.Workbook.Worksheets["DateOnly"];
+                    Assert.AreEqual("2024-06", ws2.Cells["A1"].Text);
+                    Assert.AreEqual("2024-06-19", ws2.Cells["A2"].Text);
+                }
+
+            }
+            SwitchBackToCurrentCulture();
+        }
+        [TestMethod]
+        public void ValidateTimeOnlyConvertsion()
+        {
+            SwitchToCulture();
+            using (var p1 = new ExcelPackage())
+            {
+                var ws = p1.Workbook.Worksheets.Add("TimeOnly");
+                ws.Cells["A1:A4"].Value = new TimeOnly(13, 15, 45);
+                ws.Cells["A1"].Style.Numberformat.Format = "HH:MM:ss";
+                ws.Cells["A2"].Style.Numberformat.Format = "HH:MM";
+                Assert.AreEqual("13:15:45", ws.Cells["A1"].Text);
+                Assert.AreEqual("13:15", ws.Cells["A2"].Text);
+
+                p1.Save();
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    var ws2 = p2.Workbook.Worksheets["TimeOnly"];
+                    Assert.AreEqual("13:15:45", ws2.Cells["A1"].Text);
+                    Assert.AreEqual("13:15", ws2.Cells["A2"].Text);
+                }
+            }
+
+            SwitchBackToCurrentCulture();
+        }
+
+#endif
     }
 }

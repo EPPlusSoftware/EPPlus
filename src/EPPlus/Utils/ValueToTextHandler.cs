@@ -13,6 +13,7 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Style.XmlAccess;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -28,23 +29,30 @@ namespace OfficeOpenXml.Utils
             object v = Value;
             if (v == null) return "";
             var styles = wb.Styles;
+            ExcelFormatTranslator nf = GetNumberFormat(styleId, styles).FormatTranslator;
+
+            return FormatValue(v, forWidthCalc, nf, cultureInfo);
+        }
+
+        internal static ExcelNumberFormatXml GetNumberFormat(int styleId, ExcelStyles styles)
+        {
             var nfID = styles.CellXfs[styleId].NumberFormatId;
             ExcelFormatTranslator nf = null;
             for (int i = 0; i < styles.NumberFormats.Count; i++)
             {
                 if (nfID == styles.NumberFormats[i].NumFmtId)
                 {
-                    nf = styles.NumberFormats[i].FormatTranslator;
-                    break;
+                    return styles.NumberFormats[i];
                 }
             }
             if (nf == null)
             {
-                nf = styles.NumberFormats[0].FormatTranslator;  //nf should never be null. If so set to General, Issue 173
+                return styles.NumberFormats[0];  //nf should never be null. If so set to General, Issue 173
             }
 
-            return FormatValue(v, forWidthCalc, nf, cultureInfo);
+            return null;
         }
+
         internal static string FormatValue(object v, bool forWidthCalc, ExcelFormatTranslator nf, CultureInfo overrideCultureInfo)
         {
             var f = nf.GetFormatPart(v);
@@ -57,8 +65,7 @@ namespace OfficeOpenXml.Utils
             {
                 format = f.NetFormat;
             }
-
-
+            var vr = new ValueWrapper(v);
             if (v is decimal || TypeCompat.IsPrimitive(v))
             {
                 if(v is bool)
@@ -108,7 +115,8 @@ namespace OfficeOpenXml.Utils
                 {
                     if(format.IndexOf("{0}")>=0)
                     {
-                        return string.Format(format, d);
+                        var fmt = ExcelFormatTranslator.GetGeneralFormatFromDoubleValue(d);
+                        return string.Format(format, d.ToString(fmt));
                     }
                     else
                     {
@@ -116,8 +124,9 @@ namespace OfficeOpenXml.Utils
                     }
                 }
             }
-            else if (v is DateTime dt)
+            else if (vr.IsDateTime)
             {
+                var dt = vr.ToDateTime();
                 if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
                 {
                     return GetDateText(dt, format, f, overrideCultureInfo ?? nf.Culture);
@@ -135,8 +144,9 @@ namespace OfficeOpenXml.Utils
                     }
                 }
             }
-            else if (v is TimeSpan ts)
+            else if (vr.IsTimeSpan)
             {
+                var ts = vr.ToTimeSpan();
                 if (nf.DataType == ExcelNumberFormatXml.eFormatType.DateTime)
                 {
                     return GetDateText(new DateTime(ts.Ticks), format,f, overrideCultureInfo);
@@ -217,7 +227,7 @@ namespace OfficeOpenXml.Utils
         }
 
         private static string GetDateText(DateTime d, string format, ExcelFormatTranslator.FormatPart f, CultureInfo cultureInfo)
-        {           
+        {
             if (f.SpecialDateFormat == ExcelFormatTranslator.eSystemDateFormat.SystemLongDate)
             {
                 return d.ToLongDateString();
@@ -229,6 +239,31 @@ namespace OfficeOpenXml.Utils
             else if (f.SpecialDateFormat == ExcelFormatTranslator.eSystemDateFormat.SystemShortDate)
             {
                 return d.ToShortDateString();
+            }
+            else if(f.SpecialDateFormat != ExcelFormatTranslator.eSystemDateFormat.None)
+            {
+                TimeSpan ts;
+                if (f.NetFormat.IndexOf("y") >= 0 || f.NetFormat.IndexOf("d")>=0)
+                {
+                    ts = new TimeSpan(d.Ticks - d.Date.Ticks);
+                }
+                else
+                {
+                    ts = new TimeSpan(d.Ticks - 599264352000000000);
+                }
+
+                if ((f.SpecialDateFormat & ExcelFormatTranslator.eSystemDateFormat.AllHours)== ExcelFormatTranslator.eSystemDateFormat.AllHours)
+                {
+                    format = format.Replace("[h]", ((int)ts.TotalHours).ToString(CultureInfo.InvariantCulture));
+                }
+                if ((f.SpecialDateFormat & ExcelFormatTranslator.eSystemDateFormat.AllMinutes) == ExcelFormatTranslator.eSystemDateFormat.AllMinutes)
+                {
+                    format = format.Replace("[m]", ((int)ts.TotalMinutes).ToString(CultureInfo.InvariantCulture));
+                }
+                if ((f.SpecialDateFormat & ExcelFormatTranslator.eSystemDateFormat.AllSeconds) == ExcelFormatTranslator.eSystemDateFormat.AllSeconds)
+                {
+                    format = format.Replace("[s]", ((int)ts.TotalSeconds).ToString(CultureInfo.InvariantCulture));
+                }
             }
             if (format == "d" || format == "D")
             {
