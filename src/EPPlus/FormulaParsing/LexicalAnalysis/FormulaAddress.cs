@@ -125,6 +125,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {
                 _formula = value;
                 _hasUpdatedNamespace = false;
+                _compiledExpressions = null;
                 SetFormula(_ws, value);
             }
         }
@@ -237,7 +238,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 //_compiler = _compiler,
             };
         }
-        //RpnCompiledFormula _compiledExpressions = null;
         private Dictionary<int, Expression> _compiledExpressions;
         internal RpnFormula GetRpnFormula(RpnOptimizedDependencyChain depChain, int row, int col)
         {

@@ -10,6 +10,7 @@ using OfficeOpenXml.FormulaParsing;
 using System.IO;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.Diagnostics;
 
 namespace EPPlusTest.Issues
 {
@@ -361,6 +362,41 @@ namespace EPPlusTest.Issues
             //Check if something in if is fixed wrong
             Assert.AreEqual(2d, ws.Cells["F11"].Value);
             Assert.AreEqual(1d, ws.Cells["F12"].Value);
+        }
+		[TestMethod]
+		public void s701()
+		{
+			using (var package = OpenTemplatePackage("s701.xlsx"))
+			{
+				var wk = package.Workbook.Worksheets[0];
+
+				Debug.WriteLine($"Open Cell B5 Value:{wk.Cells["B5"].Value}");
+
+                Debug.WriteLine($"Open Cell A5 Formula:{wk.Cells["A5"].Formula}");
+
+                Debug.WriteLine($"Open Cell A5 Value:{wk.Cells["A5"].Value}");
+
+				package.Workbook.Calculate();
+
+				wk.InsertRow(2, 4);                
+                wk.Cells["B5"].Value = "Error B5";
+
+                Debug.WriteLine($"Before recalculate Cell B9 Value:{wk.Cells["B9"].Value}");
+
+                Debug.WriteLine($"Before recalculate Cell A9 Formula:{wk.Cells["A9"].Formula}");
+
+                Debug.WriteLine($"Before recalculate Cell A9 Value:{wk.Cells["A9"].Value}");
+
+				package.Workbook.Calculate(x=>x.CacheExpressions=false); // get value to original row before insert row
+
+                Debug.WriteLine($"After Cell B9 Value:{wk.Cells["B9"].Value}");
+
+                Debug.WriteLine($"After Cell A9 Formula:{wk.Cells["A9"].Formula}");
+
+                Debug.WriteLine($"After Cell A9 Value:{wk.Cells["A9"].Value}");
+
+			}
+
         }
     }
 }
