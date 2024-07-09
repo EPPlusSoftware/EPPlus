@@ -214,6 +214,8 @@ namespace OfficeOpenXml.Table.PivotTable
 			{
                 if (x.Type == eItemType.Data && y.Type == eItemType.Data)
                 {
+                    if(x.Value == null) return 1;
+                    if(y.Value == null) return -1;
                     var xText = GetTextValue(x);
                     var yText = GetTextValue(y);
                     return xText.CompareTo(yText) * _mult;

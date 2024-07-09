@@ -485,10 +485,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         field.Items.Refresh();
                         if(field.IsPageField && field.PageFieldSettings.SelectedItem > -1)
                         {
-                            if (field.Items.Count <= field.PageFieldSettings.SelectedItem)
-                            {
-                                field.PageFieldSettings.SelectedItem = field.Items.GetIndexByValue(field.PageFieldSettings.SelectedValue);
-                            }
+                            field.PageFieldSettings.SelectedItem = field.Items.GetIndexByValue(field.PageFieldSettings.SelectedValue);
                         }
                     }
                 }
