@@ -424,14 +424,17 @@ namespace OfficeOpenXml.Drawing.Chart
             _list.Add((T)serie);
             if (_chart._isChartEx == false)
             {
-                //if (_chart.StyleManager.StylePart != null && _chart.StyleManager.ThemeOverridePart == null)
                 if (_chart.StyleManager.StylePart != null)
                 {
-                    //var nrOfSeries = _chart.ChartXml.GetElementsByTagName("c:ser").Count;
-                    //if (nrOfSeries < _list.Count)
-                    //{
+                    if(_chart._drawings._seriesTemplateXml.Count != 0)
+                    {
+                        //If we are here we've already applied the templateXML to the series.
+                        _chart._drawings._seriesTemplateXml.RemoveAt(0);
+                    }
+                    else
+                    {
                         _chart.StyleManager.ApplySeries();
-                    //}
+                    }
                 }
 
                 if (_chart._legend != null && _chart._legend._entries!=null)

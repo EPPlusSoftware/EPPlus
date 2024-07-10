@@ -294,16 +294,14 @@ namespace EPPlusTest.Issues
 					pieChart.DataLabel.ShowCategory = false;
 					pieChart.DataLabel.ShowPercent = false;
 
-                    var series = pieChart.Series.Add(worksheet.Cells["B2:B6"], worksheet.Cells["A2:A6"]);
+                    var series2 = pieChart.Series.Add(worksheet.Cells["B2:B6"], worksheet.Cells["A2:A6"]);
 
                     // Apply some styling to the chart-/
                     pieChart.DataLabel.ShowCategory = false;
 					pieChart.DataLabel.ShowPercent = false;
 					pieChart.DataLabel.ShowLeaderLines = false;
 
-					var testR = pieChart.Series[0].DataPoints[1].Fill.Color;
-
-					Assert.AreEqual(pieChart.Series[0].DataPoints[1].Fill.Color, Color.Blue);
+					Assert.AreEqual(pieChart.Series[0].DataPoints[1].Fill.Color, Color.FromArgb(255, 165, 234, 54));
                 }
 
 				SaveAndCleanup(package);

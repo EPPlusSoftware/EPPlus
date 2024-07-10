@@ -643,21 +643,9 @@ namespace OfficeOpenXml.Drawing.Chart
             var ser = (XmlElement)chart._chartXmlHelper.CreateNode("c:ser", false, true);
 
             //If the chart is added from a chart template, then use the chart templates series xml
-            if (!string.IsNullOrEmpty(chart._drawings._seriesTemplateXml))
+            if (chart._drawings._seriesTemplateXml.Count != 0)
             {
-                ser.InnerXml = chart._drawings._seriesTemplateXml;
-                //XmlDocument doc = new XmlDocument();
-                //doc.LoadXml(chart._drawings._seriesTemplateXml);
-                //var chartXmlHelper = XmlHelperFactory.Create(chart.NameSpaceManager, doc.DocumentElement);
-                //bool first = false;
-                //foreach (XmlNode node in chartXmlHelper.GetNodes("c:ser"))
-                //{
-                //    if (first)
-                //    {
-                //        ser.InnerXml = node.InnerXml;
-                //    }
-                //}
-                //ser.InnerXml = chart._drawings._seriesTemplateXml;
+                ser.InnerXml = chart._drawings._seriesTemplateXml[0];
                 return ser;
             }
 

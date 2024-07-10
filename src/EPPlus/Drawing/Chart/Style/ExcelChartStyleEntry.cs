@@ -25,38 +25,39 @@ namespace OfficeOpenXml.Drawing.Chart.Style
     /// </summary>
     public class ExcelChartStyleEntry : XmlHelper
     {
-        string _fillReferencePath = "{0}/cs:fillRef";
-        string _borderReferencePath = "{0}/cs:lnRef ";
-        string _effectReferencePath = "{0}/cs:effectRef";
-        string _fontReferencePath = "{0}/cs:fontRef";
+        string _fillReferencePath = "{0}/{1}:fillRef";
+        string _borderReferencePath = "{0}/{1}:lnRef ";
+        string _effectReferencePath = "{0}/{1}:effectRef";
+        string _fontReferencePath = "{0}/{1}:fontRef";
 
-        string _richTextPath = "{0}/cs:rich";
-        string _fillPath = "{0}/cs:spPr";
-        string _borderPath = "{0}/cs:spPr/a:ln";
-        string _effectPath = "{0}/cs:spPr/a:effectLst";
-        string _scene3DPath = "{0}/cs:spPr/a:scene3d";
-        string _sp3DPath = "{0}/cs:spPr/a:sp3d";
+        string _richTextPath = "{0}/{1}:rich";
+        string _fillPath = "{0}/{1}:spPr";
+        string _borderPath = "{0}/{1}:spPr/a:ln";
+        string _effectPath = "{0}/{1}:spPr/a:effectLst";
+        string _scene3DPath = "{0}/{1}:spPr/a:scene3d";
+        string _sp3DPath = "{0}/{1}:spPr/a:sp3d";
 
-        string _defaultTextRunPath = "{0}/cs:defRPr";
-        string _defaultTextBodyPath = "{0}/cs:bodyPr";
+        string _defaultTextRunPath = "{0}/{1}:defRPr";
+        string _defaultTextBodyPath = "{0}/{1}:bodyPr";
+
         private readonly IPictureRelationDocument _pictureRelationDocument;
         internal ExcelChartStyleEntry(XmlNamespaceManager nsm, XmlNode topNode, string path, IPictureRelationDocument pictureRelationDocument) : base(nsm, topNode)
         {
             SchemaNodeOrder = new string[] { "lnRef", "fillRef", "effectRef", "fontRef", "spPr", "noFill", "solidFill", "blipFill", "gradFill", "noFill", "pattFill","ln", "defRPr" };
-            _fillReferencePath = string.Format(_fillReferencePath, path);
-            _borderReferencePath = string.Format(_borderReferencePath, path);
-            _effectReferencePath = string.Format(_effectReferencePath, path);
-            _fontReferencePath = string.Format(_fontReferencePath, path);
+            _fillReferencePath = string.Format(_fillReferencePath, path, "cs");
+            _borderReferencePath = string.Format(_borderReferencePath, path, "cs");
+            _effectReferencePath = string.Format(_effectReferencePath, path, "cs");
+            _fontReferencePath = string.Format(_fontReferencePath, path, "cs");
 
-            _richTextPath = string.Format(_richTextPath, path);
-            _fillPath = string.Format(_fillPath, path);
-            _borderPath = string.Format(_borderPath, path);
-            _effectPath = string.Format(_effectPath, path);
-            _scene3DPath = string.Format(_scene3DPath, path);
-            _sp3DPath = string.Format(_sp3DPath, path);
+            _richTextPath = string.Format(_richTextPath, path, "cs");
+            _fillPath = string.Format(_fillPath, path, "cs");
+            _borderPath = string.Format(_borderPath, path, "cs");
+            _effectPath = string.Format(_effectPath, path, "cs");
+            _scene3DPath = string.Format(_scene3DPath, path, "cs");
+            _sp3DPath = string.Format(_sp3DPath, path, "cs");
 
-            _defaultTextRunPath = string.Format(_defaultTextRunPath, path);
-            _defaultTextBodyPath = string.Format(_defaultTextBodyPath, path);
+            _defaultTextRunPath = string.Format(_defaultTextRunPath, path, "cs");
+            _defaultTextBodyPath = string.Format(_defaultTextBodyPath, path, "cs");
             _pictureRelationDocument = pictureRelationDocument;
         }
         private ExcelChartStyleReference _borderReference = null;

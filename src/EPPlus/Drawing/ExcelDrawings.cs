@@ -68,7 +68,7 @@ namespace OfficeOpenXml.Drawing
         }
         internal ExcelPackage _package;
         internal Packaging.ZipPackageRelationship _drawingRelation = null;
-        internal string _seriesTemplateXml;
+        internal List<string> _seriesTemplateXml;
         internal ExcelDrawings(ExcelPackage xlPackage, ExcelWorksheet sheet)
         {
             xlPackage.Workbook.LoadAllDrawings(sheet.Name);
@@ -1205,11 +1205,14 @@ namespace OfficeOpenXml.Drawing
             }
             var chartXmlHelper = XmlHelperFactory.Create(NameSpaceManager, chartXml.DocumentElement);
             var serNodes = chartXmlHelper.GetNodes("/c:chartSpace/c:chart/c:plotArea/*[substring(name(), string-length(name()) - 4) = 'Chart']/c:ser");
+
+            _seriesTemplateXml = new List<string>();
+
             foreach(XmlNode serNode in serNodes)
             {
                 if (serNode != null)
                 {
-                    _seriesTemplateXml += serNode.InnerXml;
+                    _seriesTemplateXml.Add(serNode.InnerXml);
                     serNode.ParentNode.RemoveChild(serNode);
                 }
             }
