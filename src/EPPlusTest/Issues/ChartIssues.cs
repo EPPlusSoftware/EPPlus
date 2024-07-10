@@ -284,8 +284,8 @@ namespace EPPlusTest.Issues
 
                 // Add a pie chart to the worksheet
                 using (FileStream template = new FileStream($@"{currDir}\Resources\PieChartTemplate.crtx", FileMode.Open, FileAccess.Read))
-				{
-					var pieChart = worksheet.Drawings.AddChartFromTemplate(template, "pieChart").As.Chart.PieChart;
+                {
+                    var pieChart = worksheet.Drawings.AddChartFromTemplate(template, "pieChart").As.Chart.PieChart;
 
 					pieChart.Title.Text = "Pie Chart Example";
 					pieChart.SetPosition(1, 0, 3, 0);
@@ -307,5 +307,57 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(package);
 			}
 		}
-	}
+
+        [TestMethod]
+        public void s694_3()
+        {
+            // Ensure ExcelPackage works with non-commercial license
+            ExcelPackage.LicenseContext = LicenseContext.Commercial;
+
+            // Create a new Excel package
+            using (ExcelPackage package = OpenPackage("s694_3.xlsx", true))
+            {
+                // Add a new worksheet to the empty workbook
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+                // Add some data for the pie chart
+                worksheet.Cells["A1"].Value = "Cat";
+                worksheet.Cells["B1"].Value = "Value";
+                worksheet.Cells["A2"].Value = "Cat 1";
+                worksheet.Cells["B2"].Value = 15;
+                worksheet.Cells["C2"].Value = 25;
+                worksheet.Cells["A3"].Value = "Cat 2";
+                worksheet.Cells["B3"].Value = 24;
+                worksheet.Cells["C3"].Value = 33;
+                worksheet.Cells["A4"].Value = "Cat 3";
+                worksheet.Cells["B4"].Value = 40;
+                worksheet.Cells["C4"].Value = 47;
+                worksheet.Cells["A5"].Value = "Cat 4";
+                worksheet.Cells["B5"].Value = 23;
+                worksheet.Cells["C5"].Value = 13;
+                worksheet.Cells["A6"].Value = "Cat 5";
+                worksheet.Cells["B6"].Value = 4;
+                worksheet.Cells["C6"].Value = 12;
+
+                var currDir = Directory.GetCurrentDirectory();
+
+                // Add a pie chart to the worksheet
+                using (FileStream template = new FileStream($@"{currDir}\Resources\StackedColumnChart.crtx", FileMode.Open, FileAccess.Read))
+                {
+					var barChart = worksheet.Drawings.AddChartFromTemplate(template, "colChart").As.Chart.BarChart;
+
+                    barChart.Title.Text = "Stacked Column Example";
+                    barChart.SetPosition(0, 0, 6, 0);
+                    barChart.SetSize(1200, 400);
+					
+					var range = worksheet.Cells["A2:C6"];
+
+                    var series1 = barChart.Series.Add(range.TakeSingleColumn(1), range.TakeSingleColumn(0));
+                    var series2 = barChart.Series.Add(range.TakeSingleColumn(2), range.TakeSingleColumn(0));
+                }
+
+                SaveAndCleanup(package);
+            }
+        }
+    }
 }

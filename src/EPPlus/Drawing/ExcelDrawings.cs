@@ -1231,24 +1231,9 @@ namespace OfficeOpenXml.Drawing
             if (themePart != null)
             {
                 chart.StyleManager.LoadThemeOverrideXml(themePart);
-                //chart.StyleManager.LoadTemplateStyles();
             }
 
-            chart.StyleManager.LoadStyleXml(styleXml, chartStyle, colorsXml);
-
-
-            //if (!string.IsNullOrEmpty(_seriesTemplateXml))
-            //{
-            //    chart.Series.Add(new ExcelRangeBase(chart.WorkSheet, "A1"));
-            //    var chartXmlHelper2 = XmlHelperFactory.Create(NameSpaceManager, chart.ChartXml.DocumentElement);
-            //    var serNode2 = chartXmlHelper.GetNode("/c:chartSpace/c:chart/c:plotArea/*[substring(name(), string-length(name()) - 4) = 'Chart']/c:ser");
-            //    XmlElement aNode = chart.ChartXml.CreateElement("temp");
-            //    serNode2.AppendChild(aNode);
-            //    serNode2.InnerXml = "";
-            //    serNode2.InnerXml = _seriesTemplateXml;
-            //    //serNode2.AppendChild()
-            //    //serNode2.InnerXml = _seriesTemplateXml;
-            //}
+            chart.StyleManager.LoadStyleAndColorsXml(styleXml, chartStyle, colorsXml);
 
             return chart;
         }

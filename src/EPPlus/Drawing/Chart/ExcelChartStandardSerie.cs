@@ -643,10 +643,13 @@ namespace OfficeOpenXml.Drawing.Chart
             var ser = (XmlElement)chart._chartXmlHelper.CreateNode("c:ser", false, true);
 
             //If the chart is added from a chart template, then use the chart templates series xml
-            if (chart._drawings._seriesTemplateXml.Count != 0)
+            if (chart._drawings._seriesTemplateXml != null)
             {
-                ser.InnerXml = chart._drawings._seriesTemplateXml[0];
-                return ser;
+                if(chart._drawings._seriesTemplateXml.Count != 0)
+                {
+                    ser.InnerXml = chart._drawings._seriesTemplateXml[0];
+                    return ser;
+                }
             }
 
             int idx = FindIndex(chart._topChart??chart);

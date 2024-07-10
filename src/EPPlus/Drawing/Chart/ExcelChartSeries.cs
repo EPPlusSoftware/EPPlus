@@ -426,7 +426,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_chart.StyleManager.StylePart != null)
                 {
-                    if(_chart._drawings._seriesTemplateXml.Count != 0)
+                    if(_chart._drawings._seriesTemplateXml != null && _chart._drawings._seriesTemplateXml.Count != 0)
                     {
                         //If we are here we've already applied the templateXML to the series.
                         _chart._drawings._seriesTemplateXml.RemoveAt(0);
