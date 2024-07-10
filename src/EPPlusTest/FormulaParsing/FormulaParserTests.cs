@@ -34,19 +34,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing;
 using FakeItEasy;
 using OfficeOpenXml;
+using System.Diagnostics;
+using System.Drawing;
 
 namespace EPPlusTest.FormulaParsing
 {
     [TestClass]
     public class FormulaParserTests
     {
-        private FormulaParser _parser;
-
         [TestInitialize]
         public void Setup()
         {
-            var provider = A.Fake<ExcelDataProvider>();
-            _parser = new FormulaParser(provider);
 
         }
 
@@ -68,10 +66,46 @@ namespace EPPlusTest.FormulaParsing
             }
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentException))]
-        public void ParseAtShouldThrowIfAddressIsNull()
+        [TestMethod]
+        public void Validate_shared_formula_expressions_are_cleared_when_inserting_row()
         {
-            _parser.ParseAt(null);
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 1D;
+                ws.Cells["A2"].Value = 2D;
+                ws.Cells["B1:B2"].Formula = "A1";
+                package.Workbook.Calculate();
+                Assert.AreEqual(1D, ws.Cells["A1"].Value);
+                ws.InsertRow(1, 1);
+
+                Assert.AreEqual(1D, ws.Cells["B2"].Value);
+                ws.Cells["A2"].Value = 3D;
+                package.Workbook.Calculate();
+                Assert.AreEqual(3D, ws.Cells["B2"].Value);
+                Assert.AreEqual(2D, ws.Cells["B3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void Validate_shared_formula_expressions_are_cleared_when_inserting_column()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 1D;
+                ws.Cells["B1"].Value = 2D;
+                ws.Cells["A2:B2"].Formula = "A1";
+                package.Workbook.Calculate();
+                Assert.AreEqual(1D, ws.Cells["A1"].Value);
+                ws.InsertColumn(1, 1);
+
+                Assert.AreEqual(1D, ws.Cells["B2"].Value);
+                ws.Cells["B1"].Value = 3D;
+                package.Workbook.Calculate();
+                Assert.AreEqual(3D, ws.Cells["B1"].Value);
+                Assert.AreEqual(2D, ws.Cells["C1"].Value);
+            }
         }
     }
 }
