@@ -127,12 +127,12 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [EpplusTable(ShowTotal = true)]
-        public class BaseBillingReportExportModel
+        public class CamelCasedAttributesClass
         {
-            [EpplusTableColumn(Order = 0, TotalsRowLabel = "Totals", NumberFormat = "m/d/yyyy")]
-            public DateTime RegistrationDate { get; set; }
+            [EpplusTableColumn(Order = 0, TotalsRowLabel = "DateTotal", NumberFormat = "m/d/yyyy")]
+            public DateTime DateOfPurchase { get; set; }
             [EpplusTableColumn(Order = 1)]
-            public string RegistrantName { get; set; }
+            public string BuyerName { get; set; }
         }
 
         internal class UrlClass : BClass
@@ -503,9 +503,9 @@ namespace EPPlusTest.LoadFunctions
         [TestMethod]
         public void ShouldParseCamelCasedHeadersWhenColumned()
         {
-            var items = new List<BaseBillingReportExportModel>()
+            var items = new List<CamelCasedAttributesClass>()
             {
-                new BaseBillingReportExportModel(){ RegistrantName = "someName" }
+                new CamelCasedAttributesClass(){ BuyerName = "someName" }
             };
             using (var pck = new ExcelPackage(new MemoryStream()))
             {
@@ -515,8 +515,8 @@ namespace EPPlusTest.LoadFunctions
                     c.PrintHeaders = true;
                     c.HeaderParsingType = HeaderParsingTypes.CamelCaseToSpace;
                 });
-                Assert.AreEqual("Registration Date", sheet.Cells["C1"].Value);
-                Assert.AreEqual("Registrant Name", sheet.Cells["D1"].Value);
+                Assert.AreEqual("Date Of Purchase", sheet.Cells["C1"].Value);
+                Assert.AreEqual("Buyer Name", sheet.Cells["D1"].Value);
             }
         }
 
