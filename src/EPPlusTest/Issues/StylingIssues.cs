@@ -195,6 +195,23 @@ namespace EPPlusTest
             
             SwitchBackToCurrentCulture();
         }
+        [TestMethod]
+        public void i1523()
+        {
+            using (var package = new ExcelPackage())
+            {
+                SwitchToCulture();
+                var sheet = package.Workbook.Worksheets.Add("Sheet1");
+                sheet.Cells["A1"].Value = 123;
+                sheet.Cells["A1"].Style.Numberformat.Format = "General\\ \"mm\"";
+                Assert.AreEqual("123 mm", sheet.Cells[1, 1].Text);
+
+                sheet.Cells["A2"].Value = 123456789.1234;
+                sheet.Cells["A2"].Style.Numberformat.Format = "General\\ \"mm\"";
+                Assert.AreEqual("123456789.1 mm", sheet.Cells[2, 1].Text);
+                SwitchBackToCurrentCulture();
+            }
+        }
         public string TextHandler(NumberFormatToTextArgs options)
         {
             switch(options.NumberFormat.NumFmtId)

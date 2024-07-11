@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using static OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml;
 
 namespace OfficeOpenXml.Style.XmlAccess
@@ -61,9 +62,9 @@ namespace OfficeOpenXml.Style.XmlAccess
                 DataType = eFormatType.DateTime;
                 f.SpecialDateFormat = eSystemDateFormat.SystemShortDate;
             }
-            else if (format.Equals("general", StringComparison.OrdinalIgnoreCase))
+            else if (ContainsGeneral(ref format))
             {
-                f.NetFormat = f.NetFormatForWidth = "G10";
+                f.NetFormat = f.NetFormatForWidth = format;
                 DataType = eFormatType.Number;
                 f.SpecialDateFormat = eSystemDateFormat.General;
             }
@@ -72,6 +73,42 @@ namespace OfficeOpenXml.Style.XmlAccess
                 ToNetFormat(format, false);
                 ToNetFormat(format, true);
             }
+        }
+
+        private bool ContainsGeneral(ref string format)
+        {
+            if(format.IndexOf("general", StringComparison.OrdinalIgnoreCase) < 0) return false;
+            var ret = false;
+            var sb = new StringBuilder();
+            bool inString = false;
+            char pc='\0';
+            for (int i= 0;i<format.Length;i++)
+            {
+                var c = format[i];
+                if (c=='\"' && pc!='\\')
+                {
+                    inString=!inString;
+                    continue;
+                }
+                else if (i+1 < format.Length && c=='\\' && format[i+1]!='\\')
+                {
+                    continue;
+                }
+                else if(inString == false)
+                {
+                    if(i+7 <= format.Length && (c=='g' || c == 'G') && format.Substring(i,7).Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        ret = true;
+                        sb.Append("{0}");
+                        i += 6;
+                        continue;
+                    }
+                }
+                pc = c;
+                sb.Append(c);
+            }
+            format=sb.ToString(); 
+            return ret;
         }
 
         // escape ('\')  before these characters will be retained
@@ -577,8 +614,12 @@ namespace OfficeOpenXml.Style.XmlAccess
             else if (Formats[0].SpecialDateFormat==eSystemDateFormat.General)
             {
                 var d = ConvertUtil.GetValueDouble(value);
-                Formats[0].NetFormat = Formats[0].NetFormatForWidth = GetGeneralFormatFromDoubleValue(d);
-
+                var fmt = GetGeneralFormatFromDoubleValue(d);
+                foreach(var f in Formats)
+                {
+                    f.NetFormat = string.Format(f.NetFormat, "{0:" + fmt + "}");
+                    f.NetFormatForWidth = string.Format(f.NetFormatForWidth, "{0:" + fmt + "}");
+                }
             }
 
             return Formats[0];

@@ -215,7 +215,9 @@ namespace OfficeOpenXml
 			TopNode = WorkbookXml.DocumentElement;
 			SchemaNodeOrder = new string[] { "fileVersion", "fileSharing", "workbookPr", "workbookProtection", "bookViews", "sheets", "functionGroups", "functionPrototypes", "externalReferences", "definedNames", "calcPr", "oleSize", "customWorkbookViews", "pivotCaches", "smartTagPr", "smartTagTypes", "webPublishing", "fileRecoveryPr", "webPublishObjects", "extLst" };
 			FullCalcOnLoad = true;  //Full calculation on load by default, for both new workbooks and templates.
-			GetSharedStrings();
+			FullPrecision = GetXmlNodeBool("d:calcPr/@fullPrecision", false);
+
+            GetSharedStrings();
 		}
 
 		/// <summary>
@@ -1152,8 +1154,16 @@ namespace OfficeOpenXml
 			}
 			#endregion
 		}
-
-		private const string FULL_CALC_ON_LOAD_PATH = "d:calcPr/@fullCalcOnLoad";
+		/// <summary>
+		/// If false, EPPlus will round cell values to the number of decimals as displayed in the cell by using the cells number format when calculating the workbook. 
+		/// If true, full precision will be used on calculation.
+		/// </summary>
+		public bool FullPrecision 
+		{
+			get;
+			set; 
+		}
+        private const string FULL_CALC_ON_LOAD_PATH = "d:calcPr/@fullCalcOnLoad";
 		/// <summary>
 		/// Should Excel do a full calculation after the workbook has been loaded?
 		/// <remarks>This property is always true for both new workbooks and loaded templates(on load). If this is not the wanted behavior set this property to false.</remarks>
@@ -1222,7 +1232,9 @@ namespace OfficeOpenXml
 
 			DeleteCalcChain();
 
-			if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
+            SetXmlNodeBool("d:calcPr/@fullPrecision", FullPrecision, false);
+
+            if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
 			{
 				if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault &&
 					Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
