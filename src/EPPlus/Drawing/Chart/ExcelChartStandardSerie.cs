@@ -55,16 +55,16 @@ namespace OfficeOpenXml.Drawing.Chart
            _seriesPath = string.Format(_seriesPath, _seriesTopPath);
            _numCachePath = string.Format(_numCachePath, _seriesTopPath);
 
-            var np = string.Format(_xSeriesPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:numRef");
-            var sp = string.Format(_xSeriesPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:strRef");
+            var np = string.Format(_xSeriesParentPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:numRef");
+            var sp = string.Format(_xSeriesParentPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:strRef");
 
-            if (ExistsNode(sp) || ExistsNode(sp.Substring(0, sp.Length - 4)))
+            if (ExistsNode(sp))
             {
-                _xSeriesPath = sp;
+                _xSeriesPath = sp + "/c:f";
             }
             else
             {
-                _xSeriesPath = np;
+                _xSeriesPath = np + "/c:f";
             }
             _seriesStrLitPath = string.Format("{0}/c:strLit", _seriesTopPath);
             _seriesNumLitPath = string.Format("{0}/c:numLit", _seriesTopPath);
@@ -171,6 +171,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
        string _xSeries=null;
        string _xSeriesTopPath;
+       string _xSeriesParentPath = "{0}/{1}";
        string _xSeriesPath = "{0}/{1}/c:f";
        string _xSeriesStrLitPath, _xSeriesNumLitPath;
         /// <summary>

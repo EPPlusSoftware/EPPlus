@@ -99,7 +99,7 @@
 		<None Update="Resources\LineChart3.crtx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Resources\PieChartTemplate.crtx">
+		<None Update="Resources\PieChartTemplate2.crtx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\StackedColumnChart.crtx">

@@ -283,7 +283,7 @@ namespace EPPlusTest.Issues
 				var currDir = Directory.GetCurrentDirectory();
 
                 // Add a pie chart to the worksheet
-                using (FileStream template = new FileStream($@"{currDir}\Resources\PieChartTemplate.crtx", FileMode.Open, FileAccess.Read))
+                using (FileStream template = new FileStream($@"{currDir}\Resources\PieChartTemplate2.crtx", FileMode.Open, FileAccess.Read))
                 {
                     var pieChart = worksheet.Drawings.AddChartFromTemplate(template, "pieChart").As.Chart.PieChart;
 
