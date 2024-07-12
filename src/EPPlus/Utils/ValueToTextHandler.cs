@@ -89,7 +89,7 @@ namespace OfficeOpenXml.Utils
                     {
                         if (f.SpecialDateFormat == ExcelFormatTranslator.eSystemDateFormat.General)
                         {
-                            return string.Format(f.NetFormat, d);
+                            return string.Format(overrideCultureInfo ?? nf.Culture, f.NetFormat, d);
                         }
                         else
                         {
