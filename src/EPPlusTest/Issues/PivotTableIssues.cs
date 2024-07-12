@@ -41,13 +41,13 @@ namespace EPPlusTest.Issues
 
                 ws.Cells[2, 1, ws.Dimension.Rows, ws.Dimension.Columns].Clear();
                 ws.SetValue(2, 4, "OECD Sustainable consumption behaviour");
-                ws.SetValue(2, 9, 1);
-                ws.SetValue(2, 10, 2024);
-                ws.SetValue(2, 11, 4);
+                ws.SetValue(2, 9, 1D);
+                ws.SetValue(2, 10, 2024D);
+                ws.SetValue(2, 11, 4D);
                 foreach (ExcelWorksheet worksheet in p.Workbook.Worksheets)
                 {
                     foreach (var table in worksheet.PivotTables)
-                    {
+                    {                        
                         table.Calculate(refreshCache: true);
                     }
                 }
