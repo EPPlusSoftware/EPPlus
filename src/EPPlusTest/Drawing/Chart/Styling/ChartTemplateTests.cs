@@ -68,7 +68,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
         public void AddChartFromTemplate()
         {
             var ws = _pck.Workbook.Worksheets.Add("NewChartFromTemplate");
-            LoadTestdata(ws);            
+            LoadTestdata(ws);
             var chart = ws.Drawings.AddChartFromTemplate(Resources.TestLine3Crtx, "LineChart1", null);
             chart.Series.Add("D2:D100","A2:A100");
             chart.Series.Add("c2:c100", "A2:A100");

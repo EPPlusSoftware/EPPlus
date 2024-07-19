@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Drawing.Chart
             base(drawings, node, type, topChart, PivotTableSource, chartXml, parent)
         {
             SetChartNodeText("");
-            if(type.HasValue) SetTypeProperties(drawings, type.Value);
+            if(type.HasValue) SetTypeProperties(drawings, ChartType);
         }
 
         internal ExcelBarChart(ExcelDrawings drawings, XmlNode node, Uri uriChart, Packaging.ZipPackagePart part, XmlDocument chartXml, XmlNode chartNode, ExcelGroupShape parent = null) :
