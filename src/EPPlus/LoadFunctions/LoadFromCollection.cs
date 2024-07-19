@@ -329,7 +329,11 @@ namespace OfficeOpenXml.LoadFunctions
                             {
                                 header = epplusColumnAttribute.Header;
                             }
-                            else if(string.IsNullOrEmpty(colInfo.Header))
+                            else if(!string.IsNullOrEmpty(colInfo.Header))
+                            {
+                                header = ParseHeader(colInfo.Header);
+                            }
+                            else
                             {
                                 header = ParseHeader(member.Name);
                             }

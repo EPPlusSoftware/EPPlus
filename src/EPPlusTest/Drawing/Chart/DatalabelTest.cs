@@ -30,7 +30,6 @@ namespace EPPlusTest.Drawing.Chart
             dSheet.Cells["E2:E10"].Value = 1;
             dSheet.Cells["F2:F10"].Value = 0.5;
 
-
             var pTable = cSheet.PivotTables.Add(cSheet.Cells["A1"], range, "NewPivotTable");
 
             pTable.DataFields.Add(pTable.Fields["Column1"]);

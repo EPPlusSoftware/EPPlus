@@ -68,7 +68,7 @@ namespace OfficeOpenXml.Drawing
         }
         internal ExcelPackage _package;
         internal Packaging.ZipPackageRelationship _drawingRelation = null;
-        internal string _seriesTemplateXml;
+        internal List<string> _seriesTemplateXml;
         internal ExcelDrawings(ExcelPackage xlPackage, ExcelWorksheet sheet)
         {
             xlPackage.Workbook.LoadAllDrawings(sheet.Name);
@@ -1204,11 +1204,17 @@ namespace OfficeOpenXml.Drawing
                 throw new InvalidDataException("Crtx file is corrupt.");
             }
             var chartXmlHelper = XmlHelperFactory.Create(NameSpaceManager, chartXml.DocumentElement);
-            var serNode = chartXmlHelper.GetNode("/c:chartSpace/c:chart/c:plotArea/*[substring(name(), string-length(name()) - 4) = 'Chart']/c:ser");
-            if (serNode != null)
+            var serNodes = chartXmlHelper.GetNodes("/c:chartSpace/c:chart/c:plotArea/*[substring(name(), string-length(name()) - 4) = 'Chart']/c:ser");
+
+            _seriesTemplateXml = new List<string>();
+
+            foreach(XmlNode serNode in serNodes)
             {
-                _seriesTemplateXml = serNode.InnerXml;
-                serNode.ParentNode.RemoveChild(serNode);
+                if (serNode != null)
+                {
+                    _seriesTemplateXml.Add(serNode.InnerXml);
+                    serNode.ParentNode.RemoveChild(serNode);
+                }
             }
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell);
             var chartType = ExcelChart.GetChartTypeFromNodeName(GetChartNodeName(chartXmlHelper));
@@ -1226,7 +1232,8 @@ namespace OfficeOpenXml.Drawing
             {
                 chart.StyleManager.LoadThemeOverrideXml(themePart);
             }
-            chart.StyleManager.LoadStyleXml(styleXml, chartStyle, colorsXml);
+
+            chart.StyleManager.LoadStyleAndColorsXml(styleXml, chartStyle, colorsXml);
 
             return chart;
         }

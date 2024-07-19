@@ -17,6 +17,7 @@ using System.Xml;
 using System.Linq;
 using OfficeOpenXml.Core.CellStore;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -54,16 +55,16 @@ namespace OfficeOpenXml.Drawing.Chart
            _seriesPath = string.Format(_seriesPath, _seriesTopPath);
            _numCachePath = string.Format(_numCachePath, _seriesTopPath);
 
-            var np = string.Format(_xSeriesPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:numRef");
-            var sp= string.Format(_xSeriesPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:strRef");
+            var np = string.Format(_xSeriesParentPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:numRef");
+            var sp = string.Format(_xSeriesParentPath, _xSeriesTopPath, isPivot ? "c:multiLvlStrRef" : "c:strRef");
 
-            if(ExistsNode(sp))
+            if (ExistsNode(sp))
             {
-                _xSeriesPath = sp;
+                _xSeriesPath = sp + "/c:f";
             }
             else
             {
-                _xSeriesPath = np;
+                _xSeriesPath = np + "/c:f";
             }
             _seriesStrLitPath = string.Format("{0}/c:strLit", _seriesTopPath);
             _seriesNumLitPath = string.Format("{0}/c:numLit", _seriesTopPath);
@@ -170,6 +171,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
        string _xSeries=null;
        string _xSeriesTopPath;
+       string _xSeriesParentPath = "{0}/{1}";
        string _xSeriesPath = "{0}/{1}/c:f";
        string _xSeriesStrLitPath, _xSeriesNumLitPath;
         /// <summary>
@@ -642,9 +644,13 @@ namespace OfficeOpenXml.Drawing.Chart
             var ser = (XmlElement)chart._chartXmlHelper.CreateNode("c:ser", false, true);
 
             //If the chart is added from a chart template, then use the chart templates series xml
-            if (!string.IsNullOrEmpty(chart._drawings._seriesTemplateXml))
+            if (chart._drawings._seriesTemplateXml != null)
             {
-                ser.InnerXml = chart._drawings._seriesTemplateXml;
+                if(chart._drawings._seriesTemplateXml.Count != 0)
+                {
+                    ser.InnerXml = chart._drawings._seriesTemplateXml[0];
+                    return ser;
+                }
             }
 
             int idx = FindIndex(chart._topChart??chart);
