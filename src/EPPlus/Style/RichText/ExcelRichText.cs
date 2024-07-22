@@ -327,6 +327,7 @@ namespace OfficeOpenXml.Style
         /// <param name="xr"></param>
         internal void ReadrPr(XmlReader xr)
         {
+            if (xr.IsEmptyElement == true) return;
             while (xr.Read())
             {
                 if (xr.LocalName == "rPr") break;

@@ -28,6 +28,7 @@
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace EPPlusTest
 {
@@ -158,5 +159,22 @@ namespace EPPlusTest
                 Assert.AreEqual(3d, worksheet.Cells["A4"].Value);
             }
         }
+        [TestMethod]
+        public void CheckNaNOnSave()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+                worksheet.Cells["A1"].Value = double.NaN;
+                worksheet.Cells["A2"].Value = 0;
+                worksheet.Cells["B1:B2"].Formula = "A1+1";
+                object yourNanVariable = double.NaN;
+                worksheet.Cells["A1"].Value = yourNanVariable is double d && double.IsNaN(d) ? 0 :  yourNanVariable;
+
+                worksheet.Calculate();
+                SaveWorkbook("Nan.xlsx", package);
+            }
+        }
+
     }
 }

@@ -1,13 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OfficeOpenXml;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Chart;
-using System.IO;
 namespace EPPlusTest.Issues
 {
 	[TestClass]
@@ -50,6 +42,31 @@ namespace EPPlusTest.Issues
 				var ws = package.Workbook.Worksheets[0];
             }
         }
+        [TestMethod]
+        public void s703()
+        {
+			var fi = GetTemplateFile("errorfile.xlsx");
+			var formFile = fi.OpenRead();
+			//using MemoryStream ms = new MemoryStream();
+			//         await formFile.CopyToAsync(ms);
+			//ExcelPackage epp = new ExcelPackage(ms);
 
+			using (ExcelPackage package = new ExcelPackage(formFile))
+			{
+				var ws = package.Workbook.Worksheets[0];
+				SaveWorkbook("s703.xlsx",package);
+			}
+			formFile.Close();
+			formFile.Dispose();
+        }
+        [TestMethod]
+        public void i1530()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("i1530.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+				Assert.AreEqual("a", ws.Cells["A2"].Value);
+            }
+        }
     }
 }

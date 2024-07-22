@@ -1052,28 +1052,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
         internal static object AddSharedItemToHashSet(HashSet<object> hs, object o)
         {
-            if (o == null)
-            {
-                o = ExcelPivotTable.PivotNullValue;
-            }
-            else
-            {
-                var t = o.GetType();
-                if (t == typeof(TimeSpan))
-                {
-                    var ticks = ((TimeSpan)o).Ticks + (TimeSpan.TicksPerSecond) / 2;
-                    o = new DateTime(ticks - (ticks % TimeSpan.TicksPerSecond));
-                }
-                if (t == typeof(DateTime))
-                {
-                    var ticks = ((DateTime)o).Ticks;
-                    if ((ticks % TimeSpan.TicksPerSecond) != 0)
-                    {
-                        ticks += TimeSpan.TicksPerSecond / 2;
-                        o = new DateTime(ticks - (ticks % TimeSpan.TicksPerSecond));
-                    }
-                }
-            }
+            o = GetShareItemValue(o);
             if (!hs.Contains(o))
             {
                 hs.Add(o);
@@ -1081,8 +1060,40 @@ namespace OfficeOpenXml.Table.PivotTable
 
             return o;
         }
+        /// <summary>
+        /// Removes milliseconds from TimeSpan and DateTime values and set the value to <see cref="ExcelPivotTable.PivotNullValue" /> if the value is null
+        /// </summary>
+        /// <param name="v">The value</param>
+        /// <returns>The new value</returns>
+        internal static object GetShareItemValue(object v)
+        {
+            if (v == null)
+            {
+                v = ExcelPivotTable.PivotNullValue;
+            }
+            else
+            {
+                var t = v.GetType();
+                if (t == typeof(TimeSpan))
+                {
+                    var ticks = ((TimeSpan)v).Ticks + (TimeSpan.TicksPerSecond) / 2;
+                    v = new DateTime(ticks - (ticks % TimeSpan.TicksPerSecond));
+                }
+                if (t == typeof(DateTime))
+                {
+                    var ticks = ((DateTime)v).Ticks;
+                    if ((ticks % TimeSpan.TicksPerSecond) != 0)
+                    {
+                        ticks += TimeSpan.TicksPerSecond / 2;
+                        v = new DateTime(ticks - (ticks % TimeSpan.TicksPerSecond));
+                    }
+                }
+            }
 
-		internal Dictionary<object, int> GetCacheLookup()
+            return v;
+        }
+
+        internal Dictionary<object, int> GetCacheLookup()
 		{
 			if(Grouping == null)
             {

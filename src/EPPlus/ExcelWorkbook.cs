@@ -879,10 +879,37 @@ namespace OfficeOpenXml
 			_vba = new ExcelVbaProject(this);
 			_vba.Create();
 		}
-		/// <summary>
-		/// URI to the workbook inside the package
-		/// </summary>
-		internal Uri WorkbookUri { get; private set; }
+        /// <summary>
+        /// Calculate all pivot tables in the workbook. 
+        /// Also see <seealso cref="ExcelPivotTable.Calculate(bool)"/> and <seealso cref="ExcelPivotTableCollection.Calculate(bool)"/>
+        /// </summary>
+        /// <param name="refresh">If the cache should be refreshed.</param>
+        public void CalculateAllPivotTables(bool refresh = false)
+        {
+            var caches = new HashSet<PivotTableCacheInternal>();
+			foreach (var ws in Worksheets)
+			{
+				if (ws.IsChartSheet) continue;
+				foreach (var pt in ws.PivotTables)
+				{
+					var cache = pt.CacheDefinition._cacheReference;
+					if (cache == null) continue;
+					if (!caches.Contains(cache))
+					{
+						pt.Calculate(refresh);
+						caches.Add(cache);
+					}
+					else
+					{
+						pt.Calculate(false);
+					}
+				}
+			}
+        }
+        /// <summary>
+        /// URI to the workbook inside the package
+        /// </summary>
+        internal Uri WorkbookUri { get; private set; }
 		/// <summary>
 		/// URI to the styles inside the package
 		/// </summary>

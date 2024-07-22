@@ -1,8 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using System.IO;
-using OfficeOpenXml.FormulaParsing;
-
 namespace EPPlusTest.Issues
 {
     [TestClass]
