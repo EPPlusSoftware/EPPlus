@@ -86,8 +86,15 @@ namespace OfficeOpenXml.Utils
                 if (nf.DataType == ExcelNumberFormatXml.eFormatType.Number)
                 {
                     if (string.IsNullOrEmpty(f.FractionFormat))
-                    {                        
-                        return FormatNumber(d, format, overrideCultureInfo ?? nf.Culture);
+                    {
+                        if (f.SpecialDateFormat == ExcelFormatTranslator.eSystemDateFormat.General)
+                        {
+                            return string.Format(overrideCultureInfo ?? nf.Culture, f.NetFormat, d);
+                        }
+                        else
+                        {
+                            return FormatNumber(d, format, overrideCultureInfo ?? nf.Culture);
+                        }
                     }
                     else
                     {
