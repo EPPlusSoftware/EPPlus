@@ -46,18 +46,18 @@ namespace EPPlusTest.Issues
         public void s703()
         {
 			var fi = GetTemplateFile("errorfile.xlsx");
-			var formFile = fi.OpenRead();
-			//using MemoryStream ms = new MemoryStream();
-			//         await formFile.CopyToAsync(ms);
-			//ExcelPackage epp = new ExcelPackage(ms);
-
-			using (ExcelPackage package = new ExcelPackage(formFile))
+			if (fi != null)
 			{
-				var ws = package.Workbook.Worksheets[0];
-				SaveWorkbook("s703.xlsx",package);
-			}
-			formFile.Close();
-			formFile.Dispose();
+                var formFile = fi.OpenRead();
+
+                using (ExcelPackage package = new ExcelPackage(formFile))
+                {
+                    var ws = package.Workbook.Worksheets[0];
+                    SaveWorkbook("s703.xlsx", package);
+                }
+                formFile.Close();
+                formFile.Dispose();
+            }
         }
         [TestMethod]
         public void i1530()
