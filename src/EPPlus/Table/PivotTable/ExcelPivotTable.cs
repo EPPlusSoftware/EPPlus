@@ -1758,6 +1758,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 if (f.Items.Count > 0)
                 {
                     f.Items.MatchValueToIndex();
+                
                 }
             }
         }

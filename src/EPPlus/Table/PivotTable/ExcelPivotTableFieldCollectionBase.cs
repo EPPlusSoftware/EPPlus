@@ -23,12 +23,12 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableFieldItemsCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>
     {
         ExcelPivotTableField _field;
-        internal Dictionary<int, int> _cacheDictionary = null;
+        internal Lookup<int, int> _cacheLookup = null;
 
         List<int> _hiddenItemIndex=null;
         internal ExcelPivotTableFieldItemsCollection(ExcelPivotTableField field) : base()
         {
-            _field = field;
+            _field = field;            
         }
         internal void InitNewCalculation()
         {
@@ -78,9 +78,9 @@ namespace OfficeOpenXml.Table.PivotTable
             var cl = _field.Cache.GetCacheLookup();
             if (cl.TryGetValue(value, out int ix))
             {
-                if (_cacheDictionary.TryGetValue(ix, out int i))
+                if (_cacheLookup.Contains(ix))
                 {
-                    return _list[i];
+                    return _list[_cacheLookup[ix].First()];
                 }
             }
 			return null;
@@ -96,9 +96,9 @@ namespace OfficeOpenXml.Table.PivotTable
             var cl = _field.Cache.GetCacheLookup();
 			if (cl.TryGetValue(value, out int ix))
             {
-                if(_cacheDictionary.TryGetValue(ix, out int i))
+                if (_cacheLookup.Contains(ix))
                 {
-                    return i;
+                    return _cacheLookup[ix].First();
                 }
             }
             return -1;
@@ -120,7 +120,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     item.X = -1;
                 }
             }
-            _cacheDictionary = _list.Where(x=>x.X>=0).ToDictionary(x => x.X, y => _list.IndexOf(y));
+            _cacheLookup = (Lookup<int,int>)_list.Where(x=> x.X >= 0).ToLookup(x => x.X, y => _list.IndexOf(y));
         }
         /// <summary>
         /// Set Hidden to false for all items in the collection
@@ -186,15 +186,16 @@ namespace OfficeOpenXml.Table.PivotTable
 		{
             var comparer = new PivotItemComparer(sort, _field);
 			_list.Sort(comparer);
-            _cacheDictionary = _list.Where(x=>x.X > -1).ToDictionary(x => x.X, y=>_list.IndexOf(y));
+            _cacheLookup = (Lookup<int,int>)_list.Where(x=>x.X > -1).ToLookup(x => x.X, y=>_list.IndexOf(y));
 		}
 
         internal ExcelPivotTableFieldItem GetByCacheIndex(int index)
         {
-            if(_cacheDictionary.TryGetValue(index, out int i))
+            if (_cacheLookup.Contains(index))
             {
-                return _list[i];
+                return _list[_cacheLookup[index].First()];
             }
+
             return null;
         }
 
