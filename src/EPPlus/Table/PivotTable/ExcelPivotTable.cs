@@ -346,9 +346,10 @@ namespace OfficeOpenXml.Table.PivotTable
         internal HashSet<int[]> _rowItems = null;
         internal HashSet<int[]> _colItems = null;
         /// <summary>
-        /// Calculates the pivot table 
+        /// Calculates the pivot table.
+        /// Also see <seealso cref="ExcelPivotTableCollection.Calculate(bool)"/> and <seealso cref="ExcelWorkbook.CalculateAllPivotTables(bool)"/>
         /// </summary>
-        /// <param name="refreshCache"></param>
+        /// <param name="refreshCache">If the pivot cache should be refreshed from the source data, before calculating the pivot table.</param>
         public void Calculate(bool refreshCache = false)
         {
             if (refreshCache || CacheDefinition._cacheReference.Records.RecordCount == 0)

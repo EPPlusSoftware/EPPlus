@@ -1095,5 +1095,42 @@ namespace EPPlusTest.Table.PivotTable
                 SaveAndCleanup(pck);
             }
         }
+        [TestMethod]
+        public void VerifyPivotTableSaveWithDateGroupAndMilliseconds()
+        {
+
+            using (var pck = OpenPackage("PivotDateGrpMS.xlsx", true))
+            {
+                // get the handle to the existing worksheet
+                var ws = pck.Workbook.Worksheets.Add("Sheet1");
+
+                ws.Cells["A1"].Value = "Date";
+                ws.Cells["B1"].Value = "Value";
+
+                ws.Cells["A2"].Value = new DateTime(2024, 5, 1, 13, 30, 15, 999);
+                ws.Cells["B2"].Value = 150.95;
+
+                ws.Cells["A3"].Value = new DateTime(2024, 3, 1, 8, 30, 15, 1);
+                ws.Cells["B3"].Value = 300.5;
+
+
+                ws.Cells[2, 1, 3, 1].Style.Numberformat.Format = "mm-dd-yy";
+                ws.Cells[2, 2, 3, 2].Style.Numberformat.Format = "#,##0";
+
+                ws.Cells.AutoFitColumns();
+
+                var wsPivot = pck.Workbook.Worksheets.Add("PivotDateGrp");
+                var pt = wsPivot.PivotTables.Add(wsPivot.Cells["A3"], ws.Cells["A1:B3"], "PivotTable1");
+                var rowField = pt.RowFields.Add(pt.Fields["Date"]);
+
+                rowField.AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Quarters);
+                rowField.Name = "Quarters"; //We rename the field OrderDate to Quarters.
+                var dataField = pt.DataFields.Add(pt.Fields["Value"]);
+                dataField.Format = "#,##0";
+                pt.DataOnRows = false;
+                pt.Calculate(true);
+                SaveAndCleanup(pck);    //Make sure no exception happens when saving as Milliseconds should be stripped from any DateTime or TimeSpan value before comparing the shared item.
+            }
+        }
     }
 }
