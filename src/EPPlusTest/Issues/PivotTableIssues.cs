@@ -10,7 +10,7 @@ namespace EPPlusTest.Issues
         {
             using (ExcelPackage package = OpenTemplatePackage("s688.xlsx"))
             {
-                package.Workbook.Worksheets[0].PivotTables[0].Calculate(true);
+                package.Workbook.Worksheets[0].PivotTables[0].Calculate(false);
                 SaveAndCleanup(package);
             }
         }
