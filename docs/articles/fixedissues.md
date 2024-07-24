@@ -1,9 +1,23 @@
 # Features / Fixed issues - EPPlus 7
 ## Version 7.2.2
-### Fixed issues
-* Worksheet references in formulas preceeded by `-` now work as expected.
-* Theme templates now appropriately apply theme colours to charts.
-* LoadFromCollections with CamelCased attributes did not apply HeaderParsingTypes.CamelCaseToSpace in some cases
+### Fixed issues and minor features
+* Worksheet references in formulas proceeded by `-` now work as expected.
+* Theme templates now appropriately apply theme colors to charts.
+* LoadFromCollections with CamelCased attributes did not apply HeaderParsingTypes.CamelCaseToSpace in some cases.
+* Refreshing a pivot table could sometimes incorrectly clear the selected item in a page field.
+* The pivot table cache HashSet did not match numeric values, if they were of different data types (for example int and double).
+* The 'ExcelRangeBase.Text' property did not handle the General format if additional formatting was added. 
+* Pivot tables fail to save when having dates with milliseconds and date grouping on a field.
+* Calculated fields in Pivot tables did not always calculate depending fields, causing the calculation to throw an unhandled exception.
+* Having empty rPr-elements (rich text properties) in a shared string item, caused the reading of shared string to be ignored and get the shared string indexes to get out of sync.
+* Selected items in pivot table slicers was not always retained, it the field has a page field with a single selected item.
+* Add new functions to calculate multiple pivot tables. Using these methods will make sure any shared pivot cache is only refreshed once.
+	* ExcelWorkbook.CalculateAllPivotTables(refresh)
+	* ExcelPivotTableCollection.Calculate(refresh)
+* New functions supported in formula calculations.
+	* LINEST
+	* LOGEST
+	* TREND
 
 ## Version 7.2.1
 ### Fixed issues and minor features
