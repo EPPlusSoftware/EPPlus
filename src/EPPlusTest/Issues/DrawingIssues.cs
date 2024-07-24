@@ -33,5 +33,15 @@ namespace EPPlusTest.Issues
 				var pic=sheet.Drawings[0].As.Picture;
 			}
 		}
-	}
+        [TestMethod]
+        public void i1446()
+        {
+            using (var p = OpenTemplatePackage("Scrollbar.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                var sb = sheet.Drawings[0].As.Control.SpinButton;
+                var sbr = sheet.Drawings[1].As.Control.ScrollBar;
+            }
+        }
+    }
 }
