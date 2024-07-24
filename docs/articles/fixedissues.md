@@ -1,4 +1,10 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.2.2
+### Fixed issues
+* Worksheet references in formulas preceeded by `-` now work as expected.
+* Theme templates now appropriately apply theme colours to charts.
+* LoadFromCollections with CamelCased attributes did not apply HeaderParsingTypes.CamelCaseToSpace in some cases
+
 ## Version 7.2.1
 ### Fixed issues and minor features
 * Fixed several issues with the ExcelRangeBase.Text function.
