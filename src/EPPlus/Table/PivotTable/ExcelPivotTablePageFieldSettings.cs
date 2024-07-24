@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
-        /// The selected item. 
+        /// The selected item. A negative value means that no value is selected.
         /// See also <seealso cref="ExcelPivotTableFieldItemsCollection.SelectSingleItem(int)"/>
         /// </summary>
         public int SelectedItem
