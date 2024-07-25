@@ -74,7 +74,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nThe numeric index fror the format\n"
+  summary: "\nThe numeric index for the format\n"
   example: []
   syntax:
     content: public int NumFmtID { get; }
