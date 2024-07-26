@@ -3795,6 +3795,24 @@ namespace OfficeOpenXml
             }
             return null;
         }
+
+        internal void ReCalculateFullPrecision()
+        {
+            var cse = new CellStoreEnumerator<ExcelValue>(_values);
+            foreach(var c in cse)
+            {
+                if(ConvertUtil.IsExcelNumeric(c._value))
+                {
+                    c._value=GetDisplayedValue(c);
+                    _values.SetValue(cse.Row, cse.Column, cse.Value);
+                }                    
+            }
+        }
+
+        private object GetDisplayedValue(ExcelValue c)
+        {
+            return Workbook.Styles.RoundValueFromNumberFormat(c);
+        }
         #endregion
     }  // END class Worksheet
 }

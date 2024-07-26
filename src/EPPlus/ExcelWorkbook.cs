@@ -196,33 +196,34 @@ namespace OfficeOpenXml
 			}
 			return n;
 		}
-		#endregion
+        #endregion
 
-		#region ExcelWorkbook Constructor
-		/// <summary>
-		/// Creates a new instance of the ExcelWorkbook class.
-		/// </summary>
-		/// <param name="package">The parent package</param>
-		/// <param name="namespaceManager">NamespaceManager</param>
-		internal ExcelWorkbook(ExcelPackage package, XmlNamespaceManager namespaceManager) :
-			base(namespaceManager)
-		{
-			_package = package;
-			SetUris();
+        #region ExcelWorkbook Constructor
+        /// <summary>
+        /// Creates a new instance of the ExcelWorkbook class.
+        /// </summary>
+        /// <param name="package">The parent package</param>
+        /// <param name="namespaceManager">NamespaceManager</param>
+        internal ExcelWorkbook(ExcelPackage package, XmlNamespaceManager namespaceManager) :
+            base(namespaceManager)
+        {
+            _package = package;
+            SetUris();
 
-			_names = new ExcelNamedRangeCollection(this);
-			_namespaceManager = namespaceManager;
-			TopNode = WorkbookXml.DocumentElement;
-			SchemaNodeOrder = new string[] { "fileVersion", "fileSharing", "workbookPr", "workbookProtection", "bookViews", "sheets", "functionGroups", "functionPrototypes", "externalReferences", "definedNames", "calcPr", "oleSize", "customWorkbookViews", "pivotCaches", "smartTagPr", "smartTagTypes", "webPublishing", "fileRecoveryPr", "webPublishObjects", "extLst" };
-			FullCalcOnLoad = true;  //Full calculation on load by default, for both new workbooks and templates.
+            _names = new ExcelNamedRangeCollection(this);
+            _namespaceManager = namespaceManager;
+            TopNode = WorkbookXml.DocumentElement;
+            SchemaNodeOrder = new string[] { "fileVersion", "fileSharing", "workbookPr", "workbookProtection", "bookViews", "sheets", "functionGroups", "functionPrototypes", "externalReferences", "definedNames", "calcPr", "oleSize", "customWorkbookViews", "pivotCaches", "smartTagPr", "smartTagTypes", "webPublishing", "fileRecoveryPr", "webPublishObjects", "extLst" };
+            FullCalcOnLoad = true;  //Full calculation on load by default, for both new workbooks and templates.
+            FullPrecision = GetXmlNodeBool("d:calcPr/@fullPrecision", false);
 
             GetSharedStrings();
-		}
+        }
 
-		/// <summary>
-		/// Load all pivot cache ids and there uri's
-		/// </summary>
-		internal void LoadPivotTableCaches()
+        /// <summary>
+        /// Load all pivot cache ids and there uri's
+        /// </summary>
+        internal void LoadPivotTableCaches()
 		{
 			var pts = GetNodes("d:pivotCaches/d:pivotCache");
 			if (pts != null)
@@ -1234,22 +1235,50 @@ namespace OfficeOpenXml
 				}
 			}
 		}
-		#endregion
-		#region Workbook Private Methods
+		bool _fullPrecision;
+        /// <summary>
+        /// If false, EPPlus will round cell values to the number of decimals as displayed in the cell by using the cells number format when calculating the workbook. 
+        /// If true, full precision will be used on calculation.
+        /// </summary>
+        public bool FullPrecision
+		{
+			get
+			{
+				return _fullPrecision;
+			}
+			set
+			{
+				if (value && _fullPrecision == false)
+				{
+					ReCalculateFullPrecision();
+				}
+                _fullPrecision = value;
+            }
+		private void ReCalculateFullPrecision()
+        {
+            foreach(var ws in Worksheets)
+			{
+				ws.ReCalculateFullPrecision();
+            }
+        }
+        #endregion
+        #region Workbook Private Methods
 
-		#region Save // Workbook Save
-		/// <summary>
-		/// Saves the workbook and all its components to the package.
-		/// For internal use only!
-		/// </summary>
-		internal void Save()  // Workbook Save
+        #region Save // Workbook Save
+        /// <summary>
+        /// Saves the workbook and all its components to the package.
+        /// For internal use only!
+        /// </summary>
+        internal void Save()  // Workbook Save
 		{
 			if (Worksheets.Count == 0)
 				throw new InvalidOperationException("The workbook must contain at least one worksheet");
 
 			DeleteCalcChain();
 
-            if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
+            SetXmlNodeBool("d:calcPr/@fullPrecision", FullPrecision, false);
+            
+			if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
 			{
 				if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault &&
 					Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)

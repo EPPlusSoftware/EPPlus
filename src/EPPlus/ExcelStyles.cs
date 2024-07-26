@@ -1885,5 +1885,17 @@ namespace OfficeOpenXml
                 return new ExcelDxfSlicerStyle(NameSpaceManager, null, this, null);
             }
         }
-	}
+
+        internal object RoundValueFromNumberFormat(ExcelValue c)
+        {
+            if (c._styleId > 0 && c._styleId < CellXfs.Count)
+            {
+                return CellXfs[c._styleId].Numberformat.FormatTranslator.GetRoundedValue(c._value);
+            }
+            else
+            {
+                return c._value;
+            }
+        }
+    }
 }
