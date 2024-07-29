@@ -18,11 +18,7 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-<<<<<<< HEAD
-		EPPlus 7.1.3
-=======
 			EPPlus 7.2.2
->>>>>>> develop7
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
@@ -33,7 +29,6 @@
 			## Version 7.2.2
 			* Minor features and bug fixes. See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
 
-<<<<<<< HEAD
 			## Version 7.1.2
 			* Bug fixes
 
@@ -44,7 +39,7 @@
 			* The html export now supports most conditional formattings.
 			* Updated performance for rich text handling on ranges.
 			* Improvments in sort order and cell formatting of the ExcelRangeBase.LoadFromCollection method
-		* Bug fixes
+			* Bug fixes
 
 			## Version 7.0.10
 			* Bug fixes
@@ -201,193 +196,6 @@
 			## Version 5.8.6
 			* Bug fixes.
 
-=======
-			## Version 7.2.1
-			* Bug fixes 
-
-			## Version 7.2.0
-			* Pivot table calculation
-			* Fetch calculated data via the GetPivotData method or the CalculatedData property on the ExcelPivotData.
-			* Support for the GetPivotData function.
-			* Import/Export of fixed width text files.
-			* Html export now supports all conditional formattings (Added support for Icon sets and Data bars in 7.2).
-			* Copy of drawings.
-			* Transpose functionality added to many Copy, Import and Export function.
-			* Bug fixes - For more details see https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
-
-			## Version 7.1.3
-			* Bug fixes
-
-			## Version 7.1.2
-			* Bug fixes
-
-			## Version 7.1.1
-			* Bug fixes
-
-			## Version 7.1.0
-			* The html export now supports most conditional formattings.
-			* Updated performance for rich text handling on ranges.
-			* Improvments in sort order and cell formatting of the ExcelRangeBase.LoadFromCollection method
-			* Bug fixes
-
-			## Version 7.0.10
-			* Bug fixes
-
-			## Version 7.0.9
-			* Bug fixes
-
-			## Version 7.0.8
-			* Bug fixes
-
-			## Version 7.0.7
-			* Bug fixes
-
-			## Version 7.0.6
-			* Bug fixes
-
-			## Version 7.0.5
-			* Bug fixes
-
-			## Version 7.0.4
-			* Bug fixes
-
-			## Version 7.0.3
-			* Bug fixes
-
-			## Version 7.0.2
-			* Bug fixes
-
-			## Version 7.0.1
-			* Bug fixes
-
-			## Version 7.0.0
-			* Calculation engine update to support array formulas. https://epplussoftware.com/en/Developers/EPPlus7
-			* Support for calculating legacy / dynamic array formulas.
-			* Support for intersect operator.
-			* Support for implicit intersection.
-			* Support for array parameters in functions.
-			* Better support for using the colon operator with functions.
-			* Better handling of circular references
-			* 90 new functions
-			* Faster optimized calculation engine with configurable expression caching.
-			* Breaking changes: Updated calculation engine, See [Breaking Changes in EPPlus 7](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7) for more information.
-			* Conditional Formatting improvements
-			* Improved performance, xml is now read and written on load and save.
-			* Cross worksheet support formula support.
-			* Extended styling options for color scales, data bars and icon sets.
-
-			## Version 6.2.13
-			* Bug fixes.
-
-			## Version 6.2.12
-			* Bug fixes.
-
-			## Version 6.2.11
-			* Bug fixes.
-
-			## Version 6.2.10
-			* Bug fixes.
-
-			## Version 6.2.9
-			* Bug fixes.
-
-			## Version 6.2.8
-			* Bug fixes.
-
-			## Version 6.2.7
-			* Bug fixes.
-
-			## Version 6.2.6
-			* Updated System.Security.Cryptography.Pkcs for security vulnerability in .NET 6 and 7. See https://github.com/dotnet/runtime/issues/87498
-			* Bug fixes.
-
-			## Version 6.2.5
-			* Bug fixes.
-
-			## Version 6.2.4
-			* Bug fixes.
-
-			## Version 6.2.3
-			* Bug fixes.
-
-			## Version 6.2.2
-			* Bug fixes.
-
-			## Version 6.2.1
-			* Bug fixes.
-
-			## Version 6.2.0
-			* Improved performance and better support for cross-worksheet references in data validations.
-			* Bug fixes.
-
-			## Version 6.1.3
-			* Bug fixes.
-
-			## Version 6.1.2
-			* Bug fixes.
-
-			## Version 6.1.1
-			* Added Target framework .NET 7.
-			* Add support for linking a cell to a chart title text
-			* Bug fixes. https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-
-			## Version 6.1.0
-			* Support for the Agile and V3 VBA signing. - https://github.com/EPPlusSoftware/EPPlus/wiki/VBA
-			* ExcelRange.ToCollection method - to map ranges and tables to an collection of T - https://github.com/EPPlusSoftware/EPPlus/wiki/ToCollection
-			* New methods to group, ungroup, collapse and expand rows and columns - https://github.com/EPPlusSoftware/EPPlus/wiki/Grouping-and-Ungrouping-Rows-and-Columns
-			* New overloads of Drawings.AddPicture that reads the signature of the image from stream to identify the type of image.
-			* AddPicture(string, Stream)
-			* AddPicture(string, Stream, Uri)
-			These overloads has been has been deprecated
-			* AddPicture(string, Stream, ePictureType)
-			* AddPicture(string, Stream, ePictureType, Uri)
-			* Preserve the 'Table' formula properties (Created via the What-If analysis-Data Table).
-			* Target framework .NET 5.0 has been removed as it is out of support by Microsoft.
-			* Bug fixes.
-
-			## Version 6.0.8
-			* Bug fixes.
-
-			## Version 6.0.7
-			* Minor feature and Bug fixes.
-
-			## Version 6.0.6
-			* Bug fixes.
-
-			## Version 6.0.5
-			* Bug fixes.
-
-			## Version 6.0.4
-			* Bug fixes.
-
-			## Version 6.0.3
-			* Html Export - https://github.com/EPPlusSoftware/EPPlus/wiki/HTML-Export
-			* Json Export - https://github.com/EPPlusSoftware/EPPlus/wiki/JSON-Export
-			* 32 new functions.
-			* Support for new image types: Svg, WebP and Ico.
-			* Removed direct references to System.Drawing.Common, see https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-6
-			* Bug fixes.
-
-			To see the new export in action, visit our new Web Sample Site: https://samples.epplussoftware.com
-
-			See https://epplussoftware.com/Developers/EPPlus6 for more details.
-
-			## Version 5.8.10
-			* Bug fixes.
-
-			## Version 5.8.9
-			* Bug fixes.
-
-			## Version 5.8.8
-			* Bug fixes.
-
-			## Version 5.8.7
-			* Bug fixes.
-
-			## Version 5.8.6
-			* Bug fixes.
-
->>>>>>> develop7
 			## Version 5.8.5
 			* Bug fixes.
 
@@ -582,16 +390,12 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
-<<<<<<< HEAD
-		7.1.3			20240528 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues.
-		7.1.2			20240423 Minor bug fixes.
-=======
+
 			7.2.2			20240724 Minor features and bug fixes.
 			7.2.1			20240702 Minor bug fixes.
 			7.2.0           20240618 Pivot table calculation. Import/Export of fixed width text files. Improvment export of Conditional formatting. Copy of drawings. Transpose functionality.
 			7.1.3			20240528 Minor bug fixes. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues.
 			7.1.2			20240423 Minor bug fixes.
->>>>>>> develop7
 			7.1.1			20240408 Minor bug fixes.
 			7.1.0			20240328 Html export of Conditional formatting, Performance RichText, LoadFromCollection Enhancements.
 			7.0.10			20240311 Minor bug fixes.
@@ -787,9 +591,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="FormulaParsing\FormulaExpressions\Variables\" />
-<<<<<<< HEAD
-=======
 	  <Folder Include="Settings\" />
->>>>>>> develop7
 	</ItemGroup>
 </Project>
