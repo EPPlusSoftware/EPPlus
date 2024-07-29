@@ -68,10 +68,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateXml
     path: ../src/EPPlus/Drawing/ExcelDrawingSize.cs
-    startLine: 35
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
+  summary: "\nUpdate height and width via colOffPath and rowOffPath\n"
+  example: []
   syntax:
     content: public void UpdateXml()
     content.vb: Public Sub UpdateXml
@@ -98,7 +100,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Height
     path: ../src/EPPlus/Drawing/ExcelDrawingSize.cs
-    startLine: 49
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -135,7 +137,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/Drawing/ExcelDrawingSize.cs
-    startLine: 70
+    startLine: 73
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

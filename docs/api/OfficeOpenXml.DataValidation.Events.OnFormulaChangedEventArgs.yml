@@ -19,10 +19,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OnFormulaChangedEventArgs
     path: ../src/EPPlus/DataValidation/Events/OnFormulaChangedEventArgs.cs
-    startLine: 4
+    startLine: 7
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation.Events
+  summary: "\nSets isExtLst flag\n"
+  example: []
   syntax:
     content: 'public class OnFormulaChangedEventArgs : EventArgs'
     content.vb: >-

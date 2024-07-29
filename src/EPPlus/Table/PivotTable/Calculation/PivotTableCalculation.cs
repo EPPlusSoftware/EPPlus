@@ -191,7 +191,11 @@ namespace OfficeOpenXml.Table.PivotTable
 		{
 			var keys = new List<Dictionary<int[], HashSet<int[]>>>();
 			var calcFields = new Dictionary<string, PivotCalculationStore>(StringComparer.InvariantCultureIgnoreCase);
+<<<<<<< HEAD
 			foreach(var field in pivotTable.DataFields.Where(x=>string.IsNullOrEmpty(x.Field.Cache.Formula)==false).Select(x=>x.Field.Cache))
+=======
+			foreach(var field in pivotTable.Fields.Where(x=>string.IsNullOrEmpty(x.Cache.Formula)==false).Select(x=>x.Cache))
+>>>>>>> develop7
 			{ 
 				foreach(var token in field.FormulaTokens)
 				{

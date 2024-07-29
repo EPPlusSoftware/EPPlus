@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml.Table.PivotTable
   children:
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTableField)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Item(System.String)
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField)
   langs:
   - csharp
@@ -21,7 +22,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableDataFieldCollection
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldCollection.cs
-    startLine: 20
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -75,7 +76,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldCollection.cs
-    startLine: 34
+    startLine: 35
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -96,6 +97,50 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Item(System.String)
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Item(System.String)
+  id: Item(System.String)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[String]
+  nameWithType: ExcelPivotTableDataFieldCollection.Item[String]
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Item[System.String]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldCollection.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldCollection.cs
+    startLine: 80
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nReturns the data field with the name supplied.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableDataField this[string name] { get; }
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of the field or the cache field
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+      description: THe data field
+    content.vb: Public ReadOnly Property Item(name As String) As ExcelPivotTableDataField
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Item*
+  nameWithType.vb: ExcelPivotTableDataFieldCollection.Item(String)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Item(System.String)
+  name.vb: Item(String)
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField)
   commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField)
   id: Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField)
@@ -114,7 +159,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldCollection.cs
-    startLine: 91
+    startLine: 103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -844,6 +889,18 @@ references:
   name: ExcelPivotTableDataField
   nameWithType: ExcelPivotTableDataField
   fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Item*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Item
+  name: Item
+  nameWithType: ExcelPivotTableDataFieldCollection.Item
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Item
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Remove*
   commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection.Remove
   name: Remove

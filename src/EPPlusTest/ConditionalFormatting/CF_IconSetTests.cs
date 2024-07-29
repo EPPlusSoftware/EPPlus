@@ -169,7 +169,6 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void CustomIconsWriteRead()
         {
-
             using (var pck = OpenPackage("FlagTest.xlsx", true))
             {
                 var wks = pck.Workbook.Worksheets.Add("FormattingTest");

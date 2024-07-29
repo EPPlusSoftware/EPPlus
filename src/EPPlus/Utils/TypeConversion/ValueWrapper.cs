@@ -11,8 +11,6 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OfficeOpenXml.Utils.TypeConversion
 {
@@ -56,6 +54,9 @@ namespace OfficeOpenXml.Utils.TypeConversion
         {
             get
             {
+                #if NET6_0_OR_GREATER
+                    if (_object is DateOnly) return true;
+                #endif
                 return _object is DateTime;
             }
         }
@@ -64,22 +65,39 @@ namespace OfficeOpenXml.Utils.TypeConversion
         {
             get
             {
+                #if NET6_0_OR_GREATER
+                   if (_object is TimeOnly) return true;
+                #endif
                 return _object is TimeSpan;
             }
         }
 
         public DateTime ToDateTime()
         {
+            #if NET6_0_OR_GREATER
+                if (_object is DateOnly dt) return dt.ToDateTime(TimeOnly.MinValue);
+            #endif
             return (DateTime)_object;
         }
 
         public TimeSpan ToTimeSpan()
         {
+            #if NET6_0_OR_GREATER
+                if (_object is TimeOnly to) return to.ToTimeSpan();
+            #endif
             return (TimeSpan)_object;
         }
 
         public double ToDouble()
         {
+            if (IsDateTime)
+            {
+                return ToDateTime().ToOADate();
+            }
+            else if(IsTimeSpan)
+            {
+                return ToDateTime().ToOADate();
+            }
             return Convert.ToDouble(_object);
         }
 

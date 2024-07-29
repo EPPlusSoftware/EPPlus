@@ -65,7 +65,11 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             SchemaNodeOrder = ["sharedItems", "fieldGroup", "mpMap"];
             
+<<<<<<< HEAD
             if (Grouping == null || Grouping.BaseIndex==Index)
+=======
+            if (Grouping == null || Grouping.BaseIndex == Index)
+>>>>>>> develop7
             {
                 UpdateCacheLookupFromItems(SharedItems._list, ref _cacheLookup);
             }
@@ -116,7 +120,12 @@ namespace OfficeOpenXml.Table.PivotTable
             internal T MaxValue { get; set; }
         }
         internal Dictionary<object, int> _cacheLookup = null;
+<<<<<<< HEAD
 		internal Dictionary<object, int> _groupLookup = null;
+=======
+        internal Dictionary<int, int> _duplicateCacheItems = null;
+        internal Dictionary<object, int> _groupLookup = null;
+>>>>>>> develop7
 		internal Dictionary<int, List<int>> _fieldRecordIndex { get; set; }
 
         /// <summary>
@@ -405,7 +414,11 @@ namespace OfficeOpenXml.Table.PivotTable
 
 		internal static string GetSharedStringText(object si, out string dt)
 		{
+<<<<<<< HEAD
 			var t = si.GetType();
+=======
+			var t = si?.GetType();
+>>>>>>> develop7
 			var tc = Type.GetTypeCode(t);
 
 			switch (tc)
@@ -593,7 +606,11 @@ namespace OfficeOpenXml.Table.PivotTable
         private void AddItems(EPPlusReadOnlyList<Object> items, XmlNode itemsNode, Dictionary<object, int> cacheLookup)
         {
             cacheLookup = new Dictionary<object, int>(new CacheComparer());
+<<<<<<< HEAD
 
+=======
+            _duplicateCacheItems = new Dictionary<int, int>();
+>>>>>>> develop7
             foreach (XmlElement c in itemsNode.ChildNodes)
             {
                 if (c.LocalName == "s")
@@ -650,9 +667,16 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 
                 var key = items[items.Count - 1];
+<<<<<<< HEAD
                 if (cacheLookup.ContainsKey(key))
                 {
                     items._list.Remove(key);
+=======
+                if (cacheLookup.TryGetValue(key, out int index))
+                {
+                    //items._list.Remove(key);
+                    _duplicateCacheItems.Add(items.Count - 1, index);
+>>>>>>> develop7
                 }
                 else
                 {
@@ -855,7 +879,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 if (!cacheLookup.ContainsKey(key)) cacheLookup.Add(key, i);
             }
         }
-
         private void AddTimeSerie(int count, XmlElement groupItems)
         {
             for (int i = 0; i < count; i++)
@@ -1051,28 +1074,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
         internal static object AddSharedItemToHashSet(HashSet<object> hs, object o)
         {
-            if (o == null)
-            {
-                o = ExcelPivotTable.PivotNullValue;
-            }
-            else
-            {
-                var t = o.GetType();
-                if (t == typeof(TimeSpan))
-                {
-                    var ticks = ((TimeSpan)o).Ticks + (TimeSpan.TicksPerSecond) / 2;
-                    o = new DateTime(ticks - (ticks % TimeSpan.TicksPerSecond));
-                }
-                if (t == typeof(DateTime))
-                {
-                    var ticks = ((DateTime)o).Ticks;
-                    if ((ticks % TimeSpan.TicksPerSecond) != 0)
-                    {
-                        ticks += TimeSpan.TicksPerSecond / 2;
-                        o = new DateTime(ticks - (ticks % TimeSpan.TicksPerSecond));
-                    }
-                }
-            }
+            o = GetShareItemValue(o);
             if (!hs.Contains(o))
             {
                 hs.Add(o);
@@ -1080,8 +1082,44 @@ namespace OfficeOpenXml.Table.PivotTable
 
             return o;
         }
+        /// <summary>
+        /// Removes milliseconds from TimeSpan and DateTime values and set the value to <see cref="ExcelPivotTable.PivotNullValue" /> if the value is null
+        /// </summary>
+        /// <param name="v">The value</param>
+        /// <returns>The new value</returns>
+        internal static object GetShareItemValue(object v)
+        {
+            if (v == null)
+            {
+                v = ExcelPivotTable.PivotNullValue;
+            }
+            else
+            {
+                var t = v.GetType();
+                if (t == typeof(TimeSpan))
+                {
+                    var ticks = ((TimeSpan)v).Ticks + (TimeSpan.TicksPerSecond) / 2;
+                    v = new DateTime(ticks - (ticks % TimeSpan.TicksPerSecond));
+                }
+                if (t == typeof(DateTime))
+                {
+                    var ticks = ((DateTime)v).Ticks;
+                    if ((ticks % TimeSpan.TicksPerSecond) != 0)
+                    {
+                        ticks += TimeSpan.TicksPerSecond / 2;
+                        v = new DateTime(ticks - (ticks % TimeSpan.TicksPerSecond));
+                    }
+                }
+            }
 
+<<<<<<< HEAD
 		internal Dictionary<object, int> GetCacheLookup()
+=======
+            return v;
+        }
+
+        internal Dictionary<object, int> GetCacheLookup()
+>>>>>>> develop7
 		{
 			if(Grouping == null)
             {

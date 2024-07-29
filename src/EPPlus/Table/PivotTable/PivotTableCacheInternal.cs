@@ -233,6 +233,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
         internal void RefreshFields()
         {
+            UpdatePageFieldValues();
             var tableFields = GetTableFields();
             var fields = new List<ExcelPivotTableCacheField>();
             var r = SourceRange;
@@ -293,6 +294,23 @@ namespace OfficeOpenXml.Table.PivotTable
             RefreshPivotTableItems();
             Records.CreateRecords();
         }
+<<<<<<< HEAD
+=======
+
+        private void UpdatePageFieldValues()
+        {
+            foreach(var pt in _pivotTables)
+            {
+                foreach(var pf in pt.PageFields)
+                {
+                    if (pf.PageFieldSettings.SelectedItem>=0 && pf.PageFieldSettings.SelectedItem < pf.Items.Count)
+                    {
+                        pf.PageFieldSettings.SelectedValue = pf.Items[pf.PageFieldSettings.SelectedItem].Value;
+                    }
+                }
+            }
+        }
+>>>>>>> develop7
 
         private void RemoveDeletedFields(ExcelRangeBase r)
         {
@@ -466,7 +484,12 @@ namespace OfficeOpenXml.Table.PivotTable
 
                     for(int i=0;i < fieldCount;i++)
                     {
-                        pt.Fields[i].Items.Refresh();
+                        var field = pt.Fields[i];
+                        field.Items.Refresh();
+                        if(field.IsPageField && field.PageFieldSettings.SelectedItem > -1)
+                        {
+                            field.PageFieldSettings.SelectedItem = field.Items.GetIndexByValue(field.PageFieldSettings.SelectedValue);
+                        }
                     }
                 }
             }

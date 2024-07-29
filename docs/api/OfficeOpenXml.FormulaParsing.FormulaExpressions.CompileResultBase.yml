@@ -20,10 +20,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompileResultBase
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 44
+    startLine: 50
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nCompileResultBase\n"
+  example: []
   syntax:
     content: public abstract class CompileResultBase
     content.vb: Public MustInherit Class CompileResultBase
@@ -65,10 +67,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 46
+    startLine: 55
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nResult type\n"
+  example: []
   syntax:
     content: public abstract CompileResultType ResultType { get; }
     parameters: []

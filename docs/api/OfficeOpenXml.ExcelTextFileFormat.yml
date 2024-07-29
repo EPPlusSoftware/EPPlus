@@ -1,0 +1,1037 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelTextFileFormat
+  commentId: T:OfficeOpenXml.ExcelTextFileFormat
+  id: ExcelTextFileFormat
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelTextFileFormat.#ctor
+  - OfficeOpenXml.ExcelTextFileFormat.Culture
+  - OfficeOpenXml.ExcelTextFileFormat.Encoding
+  - OfficeOpenXml.ExcelTextFileFormat.EOL
+  - OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
+  - OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+  - OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+  - OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+  - OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  - OfficeOpenXml.ExcelTextFileFormat.Transpose
+  langs:
+  - csharp
+  - vb
+  name: ExcelTextFileFormat
+  nameWithType: ExcelTextFileFormat
+  fullName: OfficeOpenXml.ExcelTextFileFormat
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTextFileFormat
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDescribes how to split a text file. Used by the ExcelRange.LoadFromText method.\nBase class for ExcelTextFormatBase, ExcelTextFormatFixedWidthBase\n<xref href=\"OfficeOpenXml.ExcelTextFormatBase\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.ExcelTextFormatFixedWidthBase\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public abstract class ExcelTextFileFormat
+    content.vb: Public MustInherit Class ExcelTextFileFormat
+  inheritance:
+  - System.Object
+  derivedClasses:
+  - OfficeOpenXml.ExcelTextFormatBase
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - abstract
+  - class
+  modifiers.vb:
+  - Public
+  - MustInherit
+  - Class
+- uid: OfficeOpenXml.ExcelTextFileFormat.#ctor
+  commentId: M:OfficeOpenXml.ExcelTextFileFormat.#ctor
+  id: '#ctor'
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  langs:
+  - csharp
+  - vb
+  name: ExcelTextFileFormat()
+  nameWithType: ExcelTextFileFormat.ExcelTextFileFormat()
+  fullName: OfficeOpenXml.ExcelTextFileFormat.ExcelTextFileFormat()
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: public ExcelTextFileFormat()
+    content.vb: Public Sub New
+  overload: OfficeOpenXml.ExcelTextFileFormat.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFileFormat.EOL
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.EOL
+  id: EOL
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  langs:
+  - csharp
+  - vb
+  name: EOL
+  nameWithType: ExcelTextFileFormat.EOL
+  fullName: OfficeOpenXml.ExcelTextFileFormat.EOL
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EOL
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nEnd of line characters. Default is CRLF\n"
+  example: []
+  syntax:
+    content: public string EOL { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property EOL As String
+  overload: OfficeOpenXml.ExcelTextFileFormat.EOL*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFileFormat.Culture
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.Culture
+  id: Culture
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  langs:
+  - csharp
+  - vb
+  name: Culture
+  nameWithType: ExcelTextFileFormat.Culture
+  fullName: OfficeOpenXml.ExcelTextFileFormat.Culture
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Culture
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+    startLine: 41
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCulture used when parsing. Default CultureInfo.InvariantCulture\n"
+  example: []
+  syntax:
+    content: public CultureInfo Culture { get; set; }
+    parameters: []
+    return:
+      type: System.Globalization.CultureInfo
+    content.vb: Public Property Culture As CultureInfo
+  overload: OfficeOpenXml.ExcelTextFileFormat.Culture*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+  id: SkipLinesBeginning
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  langs:
+  - csharp
+  - vb
+  name: SkipLinesBeginning
+  nameWithType: ExcelTextFileFormat.SkipLinesBeginning
+  fullName: OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SkipLinesBeginning
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+    startLine: 45
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nNumber of lines skipped in the begining of the file. Default 0.\n"
+  example: []
+  syntax:
+    content: public int SkipLinesBeginning { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property SkipLinesBeginning As Integer
+  overload: OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+  id: SkipLinesEnd
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  langs:
+  - csharp
+  - vb
+  name: SkipLinesEnd
+  nameWithType: ExcelTextFileFormat.SkipLinesEnd
+  fullName: OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SkipLinesEnd
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nNumber of lines skipped at the end of the file. Default 0.\n"
+  example: []
+  syntax:
+    content: public int SkipLinesEnd { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property SkipLinesEnd As Integer
+  overload: OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFileFormat.Encoding
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.Encoding
+  id: Encoding
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  langs:
+  - csharp
+  - vb
+  name: Encoding
+  nameWithType: ExcelTextFileFormat.Encoding
+  fullName: OfficeOpenXml.ExcelTextFileFormat.Encoding
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Encoding
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+    startLine: 53
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nOnly used when reading/writing files from disk using a FileInfo object. Default AscII\n"
+  example: []
+  syntax:
+    content: public Encoding Encoding { get; set; }
+    parameters: []
+    return:
+      type: System.Text.Encoding
+    content.vb: Public Property Encoding As Encoding
+  overload: OfficeOpenXml.ExcelTextFileFormat.Encoding*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+  id: ShouldUseRow
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  langs:
+  - csharp
+  - vb
+  name: ShouldUseRow
+  nameWithType: ExcelTextFileFormat.ShouldUseRow
+  fullName: OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ShouldUseRow
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+    startLine: 57
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nWill be called for each row. Should return true if the row should be used in the export/import, otherwise false\n"
+  example: []
+  syntax:
+    content: public Func<string, bool> ShouldUseRow { get; set; }
+    parameters: []
+    return:
+      type: System.Func{System.String,System.Boolean}
+    content.vb: Public Property ShouldUseRow As Func(Of String, Boolean)
+  overload: OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFileFormat.Transpose
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.Transpose
+  id: Transpose
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  langs:
+  - csharp
+  - vb
+  name: Transpose
+  nameWithType: ExcelTextFileFormat.Transpose
+  fullName: OfficeOpenXml.ExcelTextFileFormat.Transpose
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Transpose
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSet if data should be transposed\n"
+  example: []
+  syntax:
+    content: public bool Transpose { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property Transpose As Boolean
+  overload: OfficeOpenXml.ExcelTextFileFormat.Transpose*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  id: TableStyle
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  langs:
+  - csharp
+  - vb
+  name: TableStyle
+  nameWithType: ExcelTextFileFormat.TableStyle
+  fullName: OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TableStyle
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf not null, create a table from the import with this style.\n"
+  example: []
+  syntax:
+    content: public TableStyles? TableStyle { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{OfficeOpenXml.Table.TableStyles}
+    content.vb: Public Property TableStyle As TableStyles?
+  overload: OfficeOpenXml.ExcelTextFileFormat.TableStyle*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
+  id: FirstRowIsHeader
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  langs:
+  - csharp
+  - vb
+  name: FirstRowIsHeader
+  nameWithType: ExcelTextFileFormat.FirstRowIsHeader
+  fullName: OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FirstRowIsHeader
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
+    startLine: 69
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe first row used contains the headers. Will be used if the import has a <xref href=\"OfficeOpenXml.ExcelTextFileFormat.TableStyle?text=TableStyle\" data-throw-if-not-resolved=\"false\"></xref> set.\n"
+  example: []
+  syntax:
+    content: public bool FirstRowIsHeader { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property FirstRowIsHeader As Boolean
+  overload: OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.ExcelTextFormatBase
+  commentId: T:OfficeOpenXml.ExcelTextFormatBase
+  parent: OfficeOpenXml
+  name: ExcelTextFormatBase
+  nameWithType: ExcelTextFormatBase
+  fullName: OfficeOpenXml.ExcelTextFormatBase
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  commentId: T:OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  parent: OfficeOpenXml
+  name: ExcelTextFormatFixedWidthBase
+  nameWithType: ExcelTextFormatFixedWidthBase
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelTextFileFormat.#ctor*
+  commentId: Overload:OfficeOpenXml.ExcelTextFileFormat.#ctor
+  name: ExcelTextFileFormat
+  nameWithType: ExcelTextFileFormat.ExcelTextFileFormat
+  fullName: OfficeOpenXml.ExcelTextFileFormat.ExcelTextFileFormat
+- uid: OfficeOpenXml.ExcelTextFileFormat.EOL*
+  commentId: Overload:OfficeOpenXml.ExcelTextFileFormat.EOL
+  name: EOL
+  nameWithType: ExcelTextFileFormat.EOL
+  fullName: OfficeOpenXml.ExcelTextFileFormat.EOL
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelTextFileFormat.Culture*
+  commentId: Overload:OfficeOpenXml.ExcelTextFileFormat.Culture
+  name: Culture
+  nameWithType: ExcelTextFileFormat.Culture
+  fullName: OfficeOpenXml.ExcelTextFileFormat.Culture
+- uid: System.Globalization.CultureInfo
+  commentId: T:System.Globalization.CultureInfo
+  parent: System.Globalization
+  isExternal: true
+  name: CultureInfo
+  nameWithType: CultureInfo
+  fullName: System.Globalization.CultureInfo
+- uid: System.Globalization
+  commentId: N:System.Globalization
+  isExternal: true
+  name: System.Globalization
+  nameWithType: System.Globalization
+  fullName: System.Globalization
+- uid: OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning*
+  commentId: Overload:OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+  name: SkipLinesBeginning
+  nameWithType: ExcelTextFileFormat.SkipLinesBeginning
+  fullName: OfficeOpenXml.ExcelTextFileFormat.SkipLinesBeginning
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd*
+  commentId: Overload:OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+  name: SkipLinesEnd
+  nameWithType: ExcelTextFileFormat.SkipLinesEnd
+  fullName: OfficeOpenXml.ExcelTextFileFormat.SkipLinesEnd
+- uid: OfficeOpenXml.ExcelTextFileFormat.Encoding*
+  commentId: Overload:OfficeOpenXml.ExcelTextFileFormat.Encoding
+  name: Encoding
+  nameWithType: ExcelTextFileFormat.Encoding
+  fullName: OfficeOpenXml.ExcelTextFileFormat.Encoding
+- uid: System.Text.Encoding
+  commentId: T:System.Text.Encoding
+  parent: System.Text
+  isExternal: true
+  name: Encoding
+  nameWithType: Encoding
+  fullName: System.Text.Encoding
+- uid: System.Text
+  commentId: N:System.Text
+  isExternal: true
+  name: System.Text
+  nameWithType: System.Text
+  fullName: System.Text
+- uid: OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow*
+  commentId: Overload:OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+  name: ShouldUseRow
+  nameWithType: ExcelTextFileFormat.ShouldUseRow
+  fullName: OfficeOpenXml.ExcelTextFileFormat.ShouldUseRow
+- uid: System.Func{System.String,System.Boolean}
+  commentId: T:System.Func{System.String,System.Boolean}
+  parent: System
+  definition: System.Func`2
+  name: Func<String, Boolean>
+  nameWithType: Func<String, Boolean>
+  fullName: System.Func<System.String, System.Boolean>
+  nameWithType.vb: Func(Of String, Boolean)
+  fullName.vb: System.Func(Of System.String, System.Boolean)
+  name.vb: Func(Of String, Boolean)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelTextFileFormat.Transpose*
+  commentId: Overload:OfficeOpenXml.ExcelTextFileFormat.Transpose
+  name: Transpose
+  nameWithType: ExcelTextFileFormat.Transpose
+  fullName: OfficeOpenXml.ExcelTextFileFormat.Transpose
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.ExcelTextFileFormat.TableStyle*
+  commentId: Overload:OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  name: TableStyle
+  nameWithType: ExcelTextFileFormat.TableStyle
+  fullName: OfficeOpenXml.ExcelTextFileFormat.TableStyle
+- uid: System.Nullable{OfficeOpenXml.Table.TableStyles}
+  commentId: T:System.Nullable{OfficeOpenXml.Table.TableStyles}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<TableStyles>
+  nameWithType: Nullable<TableStyles>
+  fullName: System.Nullable<OfficeOpenXml.Table.TableStyles>
+  nameWithType.vb: Nullable(Of TableStyles)
+  fullName.vb: System.Nullable(Of OfficeOpenXml.Table.TableStyles)
+  name.vb: Nullable(Of TableStyles)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.TableStyles
+    name: TableStyles
+    nameWithType: TableStyles
+    fullName: OfficeOpenXml.Table.TableStyles
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  commentId: P:OfficeOpenXml.ExcelTextFileFormat.TableStyle
+  parent: OfficeOpenXml.ExcelTextFileFormat
+  name: TableStyle
+  nameWithType: ExcelTextFileFormat.TableStyle
+  fullName: OfficeOpenXml.ExcelTextFileFormat.TableStyle
+- uid: OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader*
+  commentId: Overload:OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
+  name: FirstRowIsHeader
+  nameWithType: ExcelTextFileFormat.FirstRowIsHeader
+  fullName: OfficeOpenXml.ExcelTextFileFormat.FirstRowIsHeader
+- uid: OfficeOpenXml.ExcelTextFileFormat
+  commentId: T:OfficeOpenXml.ExcelTextFileFormat
+  parent: OfficeOpenXml
+  name: ExcelTextFileFormat
+  nameWithType: ExcelTextFileFormat
+  fullName: OfficeOpenXml.ExcelTextFileFormat

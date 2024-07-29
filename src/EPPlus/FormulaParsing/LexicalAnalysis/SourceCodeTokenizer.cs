@@ -191,7 +191,18 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         {
 							if (current.Length == 0)
 							{
+<<<<<<< HEAD
 								l.Add(_charTokens['\'']);
+=======
+                                if(flags == statFlags.isNegator && l.Count == 0)
+                                {
+                                    current.Append(c);
+                                }
+                                else
+                                {
+                                    l.Add(_charTokens['\'']);
+                                }
+>>>>>>> develop7
 							}
 							else
 							{

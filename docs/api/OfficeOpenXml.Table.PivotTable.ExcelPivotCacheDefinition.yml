@@ -25,7 +25,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotCacheDefinition
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-    startLine: 24
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -68,7 +68,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheDefinitionXml
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-    startLine: 96
+    startLine: 100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -105,7 +105,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheDefinitionUri
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-    startLine: 106
+    startLine: 110
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -142,7 +142,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTable
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-    startLine: 121
+    startLine: 125
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -179,7 +179,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SourceRange
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-    startLine: 143
+    startLine: 146
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -216,7 +216,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveData
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-    startLine: 218
+    startLine: 234
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -253,7 +253,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheSource
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-    startLine: 232
+    startLine: 248
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable

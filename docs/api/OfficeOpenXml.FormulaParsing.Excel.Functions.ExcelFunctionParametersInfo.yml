@@ -23,10 +23,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFunctionParametersInfo
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
-    startLine: 16
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nFunction parameters info\n"
+  example: []
   syntax:
     content: public class ExcelFunctionParametersInfo
     content.vb: Public Class ExcelFunctionParametersInfo
@@ -64,10 +66,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
-    startLine: 18
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nDefault\n"
+  example: []
   syntax:
     content: public static ExcelFunctionParametersInfo Default { get; }
     parameters: []
@@ -101,15 +105,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
-    startLine: 30
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nConstructor getParameter\n"
+  example: []
   syntax:
     content: public ExcelFunctionParametersInfo(Func<int, FunctionParameterInformation> getParameter)
     parameters:
     - id: getParameter
       type: System.Func{System.Int32,OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation}
+      description: ''
     content.vb: Public Sub New(getParameter As Func(Of Integer, FunctionParameterInformation))
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionParametersInfo.#ctor*
   nameWithType.vb: ExcelFunctionParametersInfo.ExcelFunctionParametersInfo(Func(Of Int32, FunctionParameterInformation))
@@ -137,10 +144,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasNormalArguments
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
-    startLine: 34
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nHas normal arguments\n"
+  example: []
   syntax:
     content: public bool HasNormalArguments { get; }
     parameters: []
@@ -172,17 +181,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetParameterInfo
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
-    startLine: 41
+    startLine: 59
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nGet information about the parameter at the position at <code data-dev-comment-type=\"paramref\" class=\"paramref\">argumentIndex</code>\n"
+  example: []
   syntax:
     content: public virtual FunctionParameterInformation GetParameterInfo(int argumentIndex)
     parameters:
     - id: argumentIndex
       type: System.Int32
+      description: The position of the parameter
     return:
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionParameterInformation
+      description: The parameter informations
     content.vb: Public Overridable Function GetParameterInfo(argumentIndex As Integer) As FunctionParameterInformation
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionParametersInfo.GetParameterInfo*
   modifiers.csharp:

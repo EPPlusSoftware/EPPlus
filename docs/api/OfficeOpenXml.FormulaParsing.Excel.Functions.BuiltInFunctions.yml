@@ -20,10 +20,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BuiltInFunctions
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/BuiltInFunctions.cs
-    startLine: 31
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nBuilt-in functions Epplus provides. As opposed to custom functions made by the user.\n"
+  example: []
   syntax:
     content: 'public class BuiltInFunctions : FunctionsModule, IFunctionModule'
     content.vb: >-
@@ -69,7 +71,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/BuiltInFunctions.cs
-    startLine: 36
+    startLine: 35
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions

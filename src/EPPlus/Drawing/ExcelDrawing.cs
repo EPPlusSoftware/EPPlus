@@ -16,11 +16,26 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+<<<<<<< HEAD
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Chart;
+=======
+using System.Xml.Linq;
+using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.Worksheet;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Drawing.Chart.Style;
+>>>>>>> develop7
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Slicer;
+<<<<<<< HEAD
 using OfficeOpenXml.Drawing.OleObject;
+=======
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+>>>>>>> develop7
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;

@@ -25,7 +25,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: JsonTableExportSettings
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 92
+    startLine: 97
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -48,6 +48,7 @@ items:
   - OfficeOpenXml.JsonExportSettings.WriteComments
   - OfficeOpenXml.JsonExportSettings.Encoding
   - OfficeOpenXml.JsonExportSettings.Culture
+  - OfficeOpenXml.JsonExportSettings.DataIsTransposed
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -79,7 +80,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RootElementName
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 97
+    startLine: 102
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -119,7 +120,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDataTypesOn
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 101
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -159,7 +160,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WriteColumnsElement
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 105
+    startLine: 110
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -196,7 +197,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WriteNameAttribute
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 109
+    startLine: 114
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -233,7 +234,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WriteShowHeaderAttribute
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 113
+    startLine: 118
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -270,7 +271,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WriteShowTotalsAttribute
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 117
+    startLine: 122
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -356,6 +357,12 @@ references:
   name: Culture
   nameWithType: JsonExportSettings.Culture
   fullName: OfficeOpenXml.JsonExportSettings.Culture
+- uid: OfficeOpenXml.JsonExportSettings.DataIsTransposed
+  commentId: P:OfficeOpenXml.JsonExportSettings.DataIsTransposed
+  parent: OfficeOpenXml.JsonExportSettings
+  name: DataIsTransposed
+  nameWithType: JsonExportSettings.DataIsTransposed
+  fullName: OfficeOpenXml.JsonExportSettings.DataIsTransposed
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object

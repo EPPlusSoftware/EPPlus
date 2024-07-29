@@ -14,13 +14,18 @@ namespace OfficeOpenXml.Style.XmlAccess
     /// </summary>
     internal class ExcelFormatTranslator
     {
+        [Flags]
         internal enum eSystemDateFormat
         {
-            None,
-            SystemLongDate,
-            SystemLongTime,
-            Conditional,
-            SystemShortDate,
+            None=0,
+            General=1,
+            SystemLongDate=2,
+            SystemLongTime=4,
+            Conditional=8,
+            SystemShortDate=0x10,
+            AllHours = 0x11,
+            AllMinutes=0x12,
+            AllSeconds = 0x14
         }
         internal class FormatPart
         {
@@ -56,16 +61,53 @@ namespace OfficeOpenXml.Style.XmlAccess
                 DataType = eFormatType.DateTime;
                 f.SpecialDateFormat = eSystemDateFormat.SystemShortDate;
             }
-            else if (format.Equals("general", StringComparison.OrdinalIgnoreCase))
+            else if (ContainsGeneral(ref format))
             {
-                f.NetFormat = f.NetFormatForWidth = "0.#########";
+                f.NetFormat = f.NetFormatForWidth = format;
                 DataType = eFormatType.Number;
+                f.SpecialDateFormat = eSystemDateFormat.General;
             }
             else
             {
                 ToNetFormat(format, false);
                 ToNetFormat(format, true);
             }
+        }
+
+        private bool ContainsGeneral(ref string format)
+        {
+            if(format.IndexOf("general", StringComparison.OrdinalIgnoreCase) < 0) return false;
+            var ret = false;
+            var sb = new StringBuilder();
+            bool inString = false;
+            char pc='\0';
+            for (int i= 0;i<format.Length;i++)
+            {
+                var c = format[i];
+                if (c=='\"' && pc!='\\')
+                {
+                    inString=!inString;
+                    continue;
+                }
+                else if (i+1 < format.Length && c=='\\' && format[i+1]!='\\')
+                {
+                    continue;
+                }
+                else if(inString == false)
+                {
+                    if(i+7 <= format.Length && (c=='g' || c == 'G') && format.Substring(i,7).Equals("general", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        ret = true;
+                        sb.Append("{0}");
+                        i += 6;
+                        continue;
+                    }
+                }
+                pc = c;
+                sb.Append(c);
+            }
+            format=sb.ToString(); 
+            return ret;
         }
 
         // escape ('\')  before these characters will be retained
@@ -77,7 +119,13 @@ namespace OfficeOpenXml.Style.XmlAccess
         {
             get
             {
-                return _ci ?? CultureInfo.CurrentCulture;
+                if(_ci == null )
+                {
+                    _ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+                    _ci.DateTimeFormat.AMDesignator = "AM";
+                    _ci.DateTimeFormat.PMDesignator = "PM";
+                }
+                return _ci;
             }
             set
             {
@@ -161,7 +209,9 @@ namespace OfficeOpenXml.Style.XmlAccess
                                     {
                                         try
                                         {
-                                            Culture = CultureInfo.GetCultureInfo(num & 0xFFFF);
+                                            Culture = (CultureInfo)CultureInfo.GetCultureInfo(num & 0xFFFF).Clone();
+                                            Culture.DateTimeFormat.AMDesignator = "AM";
+                                            Culture.DateTimeFormat.PMDesignator = "PM";
                                         }
                                         catch
                                         {
@@ -172,7 +222,9 @@ namespace OfficeOpenXml.Style.XmlAccess
                                     {
                                         try
                                         {
-                                            Culture = CultureInfo.GetCultureInfo(li[1]);
+                                            Culture = (CultureInfo)CultureInfo.GetCultureInfo(li[1]).Clone();
+                                            Culture.DateTimeFormat.AMDesignator = "AM";
+                                            Culture.DateTimeFormat.PMDesignator = "PM";
                                         }
                                         catch
                                         {
@@ -186,6 +238,21 @@ namespace OfficeOpenXml.Style.XmlAccess
                                     bracketText.StartsWith("=")) //Conditional
                             {
                                 f.SpecialDateFormat = eSystemDateFormat.Conditional;
+                            }
+                            else if (bracketText.ContainsOnlyCharacter('h'))
+                            {                                
+                                f.SpecialDateFormat = eSystemDateFormat.AllHours;
+                                sb.Append("[h]");
+                            }
+                            else if (bracketText.ContainsOnlyCharacter('m'))
+                            {
+                                f.SpecialDateFormat = eSystemDateFormat.AllMinutes;
+                                sb.Append("[m]");
+                            }
+                            else if (bracketText.ContainsOnlyCharacter('s'))
+                            {
+                                f.SpecialDateFormat = eSystemDateFormat.AllSeconds;
+                                sb.Append("[s]");
                             }
                             else
                             {
@@ -285,7 +352,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                             }
                             else if (clc == 'm')
                             {
-                                if (useMinute)
+                                if (useMinute || NextCharIsTimeOperator(ExcelFormat, pos)) //Excel uses m for both month and minutes, so we need to check if the previous operator is 
                                 {
                                     sb.Append('m');
                                 }
@@ -358,17 +425,28 @@ namespace OfficeOpenXml.Style.XmlAccess
                 }
             }
 
-            //Add qoutes
             if (DataType == eFormatType.DateTime) SetDecimal(lstDec, sb); //Remove?
-
-
-            //if (format == "")
-            //    format = sb.ToString();
-            //else
-            //    text = sb.ToString();
 
             // AM/PM format
             f.SetFormat(sb.ToString(), containsAmPm, forColWidth);
+        }
+
+        private bool NextCharIsTimeOperator(string excelFormat, int pos)
+        {
+            var i = pos + 1;
+            while (i < excelFormat.Length)
+            {
+                if (excelFormat[i] == ':'  || excelFormat[i] == 's')
+                {
+                    return true;
+                }
+                if(excelFormat[i] != 'm' && excelFormat[i] != 'M' && excelFormat[i] != '.')
+                {
+                    break;
+                }
+                i++;
+            }
+            return false;
         }
 
         private static void SetDecimal(List<int> lstDec, StringBuilder sb)
@@ -386,9 +464,6 @@ namespace OfficeOpenXml.Style.XmlAccess
         internal string FormatFraction(double d, FormatPart f)
         {
             int numerator, denomerator;
-
-            int intPart = (int)d;
-
             string[] fmt = f.FractionFormat.Split('/');
 
             int fixedDenominator;
@@ -409,8 +484,9 @@ namespace OfficeOpenXml.Style.XmlAccess
                 }
             }
 
-            int maxDigits = fmt[1].Length;
-            string sign = d < 0 ? "-" : "";
+            int maxDigits = fmt[1].Length;           
+            int intPart = (int)d;
+            int intPartAbs = Math.Abs(intPart);
             if (fixedDenominator == 0)
             {
                 List<double> numerators = new List<double>() { 1, 0 };
@@ -427,7 +503,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                     maxNum += 9 * (int)(Math.Pow((double)10, (double)i));
                 }
 
-                double divRes = 1 / ((double)Math.Abs(d) - intPart);
+                double divRes = 1 / ((double)Math.Abs(d) - intPartAbs);
                 double result, prevResult = double.NaN;
                 int listPos = 2, index = 1;
                 while (true)
@@ -469,15 +545,15 @@ namespace OfficeOpenXml.Style.XmlAccess
             if (numerator == denomerator || numerator == 0)
             {
                 if (numerator == denomerator) intPart++;
-                return sign + intPart.ToString(f.NetFormat).Replace("?", new string(' ', f.FractionFormat.Length));
+                return intPart.ToString(f.NetFormat).Replace("?", new string(' ', f.FractionFormat.Length));
             }
             else if (intPart == 0)
             {
-                return sign + FmtInt(numerator, fmt[0]) + "/" + FmtInt(denomerator, fmt[1]);
+                return FmtInt(numerator, fmt[0]) + "/" + FmtInt(denomerator, fmt[1]);
             }
             else
             {
-                return sign + intPart.ToString(f.NetFormat).Replace("?", FmtInt(numerator, fmt[0]) + "/" + FmtInt(denomerator, fmt[1]));
+                return intPart.ToString(f.NetFormat).Replace("?", FmtInt(numerator, fmt[0]) + "/" + FmtInt(denomerator, fmt[1]));
             }
         }
 
@@ -503,7 +579,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         }
 
         internal FormatPart GetFormatPart(object value)
-        {
+        {            
             if (Formats.Count > 1)
             {
                 if (ConvertUtil.IsNumericOrDate(value))
@@ -534,9 +610,33 @@ namespace OfficeOpenXml.Style.XmlAccess
                     }
                 }
             }
+            else if (Formats[0].SpecialDateFormat==eSystemDateFormat.General)
+            {
+                var d = ConvertUtil.GetValueDouble(value);
+                var fmt = GetGeneralFormatFromDoubleValue(d);
+                foreach(var f in Formats)
+                {
+                    f.NetFormat = string.Format(f.NetFormat, "{0:" + fmt + "}");
+                    f.NetFormatForWidth = string.Format(f.NetFormatForWidth, "{0:" + fmt + "}");
+                }
+            }
+
+            return Formats[0];
+        }
+
+        internal static string GetGeneralFormatFromDoubleValue(double d)
+        {
+            if (d > -999999999D || d < 999999999)
+            {
+                return "G10";
+            }
+            else if (d > -9999999999D || d < 9999999999)
+            {
+                return "G11";
+            }
             else
             {
-                return Formats[0];
+                return "G12";
             }
         }
     }

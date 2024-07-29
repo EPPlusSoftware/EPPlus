@@ -1,7 +1,52 @@
 # Features / Fixed issues - EPPlus 7
+<<<<<<< HEAD
 ## Version 7.2
 ### Features
 * Added support for calculating pivot tables:
+=======
+## Version 7.2.2
+### Fixed issues and minor features
+* Worksheet references in formulas proceeded by `-` now work as expected.
+* Theme templates now appropriately apply theme colors to charts.
+* LoadFromCollections with CamelCased attributes did not apply HeaderParsingTypes.CamelCaseToSpace in some cases.
+* Refreshing a pivot table could sometimes incorrectly clear the selected item in a page field.
+* The pivot table cache HashSet did not match numeric values, if they were of different data types (for example int and double).
+* The 'ExcelRangeBase.Text' property did not handle the General format if additional formatting was added. 
+* Pivot tables fail to save when having dates with milliseconds and date grouping on a field.
+* Calculated fields in Pivot tables did not always calculate depending fields, causing the calculation to throw an unhandled exception.
+* Having empty rPr-elements (rich text properties) in a shared string item, caused the reading of shared string to be ignored and get the shared string indexes to get out of sync.
+* Selected items in pivot table slicers was not always retained, it the field has a page field with a single selected item.
+* Add new functions to calculate multiple pivot tables. Using these methods will make sure any shared pivot cache is only refreshed once.
+	* ExcelWorkbook.CalculateAllPivotTables(refresh)
+	* ExcelPivotTableCollection.Calculate(refresh)
+* New functions supported in formula calculations.
+	* LINEST
+	* LOGEST
+	* TREND
+
+## Version 7.2.1
+### Fixed issues and minor features
+* Fixed several issues with the ExcelRangeBase.Text function.
+* Added new static property `ExcelPackageSettings.CultureSpecificBuildInNumberFormats` to specify culture specific number formats for individual cultures.
+* Added new call-back function `ExcelWorkbook.NumberFormatToTextHandler` to override the default Text value.
+* Pivot Table Calculation throwed an exception if a field was sorted and contained empty cells.
+* Using implicit intersection (@) between two ranges did not work correctly in the formula parser.
+* Added support for DateOnly and TimeOnly (supported from .NET 6 and later). 
+* Fixed some conditional formatting's not automatically extending when a row was inserted underneath them.
+* Fixed issue where conditional formatting on pivot tables would cause corrupt worksheet when read and saved in some cases.
+* Changed thread locking object in the cell store.
+* New functions supported in formula calculations.
+	* YIELDDISC
+	* LOGINV
+	* CHITEST
+	* TDIST
+	* GAMMAINV
+	* GAMMA.INV
+
+## Version 7.2
+### Features
+* Added support for calculating pivot tables - See https://github.com/EPPlusSoftware/EPPlus/wiki/Calculating-Pivot-tables
+>>>>>>> develop7
 	* Supports calculation of data fields on column and row fields. 
 		* Page field filtering
 		* Filters
@@ -24,7 +69,13 @@
 * Added support for importing and exporting Fixed Width text files.
 * Transpose
   	* Transpose ranges in import and export functions.
+<<<<<<< HEAD
 * New functions supported in formula calculations.
+=======
+        * Transpose i range Copy.
+* New functions supported in formula calculations.
+	* GETPIVOTDATA
+>>>>>>> develop7
 	* MMULT
   	* MINVERSE
   	* MDETERM
@@ -32,12 +83,31 @@
   	* TEXTSPLIT
 	* TEXTAFTER
   	* TEXTBEFORE
+<<<<<<< HEAD
 	* LET  
 
 ### Minor Features and fixed issues
 * Added all icons and iconset features to html export. Including custom iconsets.
 * Cell text/content now default to vertical-align bottom as data in excel cells are bottom-aligned by default.
 * Added new properties `FirstValueCell`, `LastValueCell` and `DimensionByValue` to ExcelWorksheet to manage cell value boundries for a worksheet.
+=======
+	* LET       
+* Added Full-fledged support for icon sets and databar conditional formattings in HTML-exporter, New features include:
+	* Exporting full visuals of positive and negative databars with borders and axis colors, position and bar direction
+	* Custom-made embedded .svgs similar to each icon excel supports.
+	* Custom icon sets displaying appropriately and in order.
+	* Icons moving with text when aligned top, middle or bottom as in excel.
+	* Theme colors for color scales now works correctly in the HTML exporter
+
+### Minor Features and fixed issues
+* Cell text/content now default to vertical-align bottom as data in excel cells are bottom-aligned by default.
+* Added new properties `FirstValueCell`, `LastValueCell` and `DimensionByValue` to ExcelWorksheet to manage cell value boundries for a worksheet.
+* Added ManualLayout property for data labels on charts. Labels can now be positioned, and their textbox resized directly. It is accessed via e.g `Chart.Series[0].DataLabel.DataLabels[0].Layout.ManualLayout`
+* Conditional formatting color scales now support theme color correctly.
+* Multiple data labels can now be added to the same series.
+* Formula calculation sometimes incorrectly returns #VALUE! if `IsWorksheets1Based = true`
+* Line breaks were not handled correctly on saving the workbook if multiple CR where used in combination with CRLF or LF.
+>>>>>>> develop7
 
 ## Version 7.1.3
 ### Fixed issues 
@@ -56,6 +126,10 @@
 	* ShowHeaders = True property on tables no longer causes crash in rare cases. It also no longer updates column names.
 	* Table.SyncColumnNames method added to ensures column names and cell-values in header are equal. Applying this method should cover any potential issues caused by above fix not updating column names.
 	* Adding a table column to a table no longer creates a column name that can conflict with existing names.
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop7
 ## Version 7.1.2
 ### Fixed issues 
 * Defined Names with `"` symbols no longer get extraneous `"` added when saving in EPPlus.

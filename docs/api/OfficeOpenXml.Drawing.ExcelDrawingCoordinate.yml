@@ -68,10 +68,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateXml
     path: ../src/EPPlus/Drawing/ExcelDrawingCoordinate.cs
-    startLine: 36
+    startLine: 39
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
+  summary: "\nSet xmlNodeStrings for xPath and yPath\n"
+  example: []
   syntax:
     content: public void UpdateXml()
     content.vb: Public Sub UpdateXml
@@ -98,7 +100,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: X
     path: ../src/EPPlus/Drawing/ExcelDrawingCoordinate.cs
-    startLine: 51
+    startLine: 54
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -135,7 +137,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Y
     path: ../src/EPPlus/Drawing/ExcelDrawingCoordinate.cs
-    startLine: 72
+    startLine: 75
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

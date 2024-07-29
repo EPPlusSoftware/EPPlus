@@ -73,7 +73,11 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
+<<<<<<< HEAD
         /// The selected item. 
+=======
+        /// The selected item. A negative value means that no value is selected.
+>>>>>>> develop7
         /// See also <seealso cref="ExcelPivotTableFieldItemsCollection.SelectSingleItem(int)"/>
         /// </summary>
         public int SelectedItem
@@ -94,6 +98,14 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
         }
+<<<<<<< HEAD
+=======
+        internal object SelectedValue
+        {
+            get;
+            set;
+        }
+>>>>>>> develop7
         /// <summary>
         /// The index of the OLAP hierarchy to which this page field belongs
         /// </summary>

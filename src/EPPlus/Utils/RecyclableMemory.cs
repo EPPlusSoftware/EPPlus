@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Utils
 			}
 			set
 			{
-				RecyclableMemory.UseRecyclableMemory = value; ;
+				RecyclableMemory.UseRecyclableMemory = value;
             } 
 		}
 	}

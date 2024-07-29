@@ -109,6 +109,8 @@
     name.vb: ExcelNamedStyleCollection(Of T)
   - uid: OfficeOpenXml.ExcelOutputTextFormat
     name: ExcelOutputTextFormat
+  - uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+    name: ExcelOutputTextFormatFixedWidth
   - uid: OfficeOpenXml.ExcelPackage
     name: ExcelPackage
   - uid: OfficeOpenXml.ExcelPackageSettings
@@ -146,10 +148,18 @@
     name: ExcelStyles
   - uid: OfficeOpenXml.ExcelTableAddress
     name: ExcelTableAddress
+  - uid: OfficeOpenXml.ExcelTextFileFormat
+    name: ExcelTextFileFormat
   - uid: OfficeOpenXml.ExcelTextFormat
     name: ExcelTextFormat
   - uid: OfficeOpenXml.ExcelTextFormatBase
     name: ExcelTextFormatBase
+  - uid: OfficeOpenXml.ExcelTextFormatColumn
+    name: ExcelTextFormatColumn
+  - uid: OfficeOpenXml.ExcelTextFormatFixedWidth
+    name: ExcelTextFormatFixedWidth
+  - uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+    name: ExcelTextFormatFixedWidthBase
   - uid: OfficeOpenXml.ExcelTextSettings
     name: ExcelTextSettings
   - uid: OfficeOpenXml.ExcelWorkbook
@@ -170,6 +180,8 @@
     name: ExcelWorksheetView.ExcelWorksheetViewPaneSettings
   - uid: OfficeOpenXml.ExcelWriteProtection
     name: ExcelWriteProtection
+  - uid: OfficeOpenXml.FixedWidthFormatErrorStrategy
+    name: FixedWidthFormatErrorStrategy
   - uid: OfficeOpenXml.FontSize
     name: FontSize
   - uid: OfficeOpenXml.JsonExportSettings
@@ -184,6 +196,8 @@
     name: LicenseException
   - uid: OfficeOpenXml.OfficeProperties
     name: OfficeProperties
+  - uid: OfficeOpenXml.PaddingAlignmentType
+    name: PaddingAlignmentType
   - uid: OfficeOpenXml.PictureAlignment
     name: PictureAlignment
   - uid: OfficeOpenXml.RangeExtensions
@@ -655,6 +669,10 @@
     name: eGrouping
   - uid: OfficeOpenXml.Drawing.Chart.eLabelPosition
     name: eLabelPosition
+  - uid: OfficeOpenXml.Drawing.Chart.eLayoutMode
+    name: eLayoutMode
+  - uid: OfficeOpenXml.Drawing.Chart.eLayoutTarget
+    name: eLayoutTarget
   - uid: OfficeOpenXml.Drawing.Chart.eLegendPosition
     name: eLegendPosition
   - uid: OfficeOpenXml.Drawing.Chart.eLineChartType
@@ -774,10 +792,14 @@
     name: ExcelDrawingTextSettings
   - uid: OfficeOpenXml.Drawing.Chart.ExcelHistogramChartSeries
     name: ExcelHistogramChartSeries
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelLayout
+    name: ExcelLayout
   - uid: OfficeOpenXml.Drawing.Chart.ExcelLineChart
     name: ExcelLineChart
   - uid: OfficeOpenXml.Drawing.Chart.ExcelLineChartSerie
     name: ExcelLineChartSerie
+  - uid: OfficeOpenXml.Drawing.Chart.ExcelManualLayout
+    name: ExcelManualLayout
   - uid: OfficeOpenXml.Drawing.Chart.ExcelOfPieChart
     name: ExcelOfPieChart
   - uid: OfficeOpenXml.Drawing.Chart.ExcelPieChart
@@ -1411,8 +1433,6 @@
     name: ExcelAddressCache
   - uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
     name: ExcelCalculationOption
-  - uid: OfficeOpenXml.FormulaParsing.ExcelCell
-    name: ExcelCell
   - uid: OfficeOpenXml.FormulaParsing.FormulaCellInfo
     name: FormulaCellInfo
   - uid: OfficeOpenXml.FormulaParsing.FormulaParser
@@ -1455,37 +1475,12 @@
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions
   name: OfficeOpenXml.FormulaParsing.Excel.Functions
   items:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentCollectionUtil
-    name: ArgumentCollectionUtil
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParser
-    name: ArgumentParser
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParserFactory
-    name: ArgumentParserFactory
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArgumentParsers
-    name: ArgumentParsers
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig
     name: ArrayBehaviourConfig
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.BoolArgumentParser
-    name: BoolArgumentParser
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.BuiltInFunctions
     name: BuiltInFunctions
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CollectionFlattener`1
-    name: CollectionFlattener<T>
-    name.vb: CollectionFlattener(Of T)
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidator
-    name: CompileResultValidator
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.CompileResultValidators
-    name: CompileResultValidators
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DecimalCompileResultValidator
-    name: DecimalCompileResultValidator
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleArgumentParser
-    name: DoubleArgumentParser
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableArgConverter
-    name: DoubleEnumerableArgConverter
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DoubleEnumerableParseOptions
     name: DoubleEnumerableParseOptions
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelDoubleCellValue
-    name: ExcelDoubleCellValue
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
     name: ExcelFunction
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunctionArrayBehaviour
@@ -1508,34 +1503,8 @@
     name: IFunctionModule
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IFunctionNameProvider
     name: IFunctionNameProvider
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.IntArgumentParser
-    name: IntArgumentParser
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ObjectEnumerableArgConverter
-    name: ObjectEnumerableArgConverter
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.RoundingMethod
     name: RoundingMethod
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Database
-  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Database
-  items:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Database.ExcelDatabaseCriteriaField
-    name: ExcelDatabaseCriteriaField
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Database.ExcelDatabaseField
-    name: ExcelDatabaseField
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Database.ExcelDatabaseRow
-    name: ExcelDatabaseRow
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
-  name: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays
-  items:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.AdditionalHolidayDays
-    name: AdditionalHolidayDays
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdays
-    name: HolidayWeekdays
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.HolidayWeekdaysFactory
-    name: HolidayWeekdaysFactory
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculationDirection
-    name: WorkdayCalculationDirection
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime.Workdays.WorkdayCalculatorResult
-    name: WorkdayCalculatorResult
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
   name: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
   items:
@@ -1543,19 +1512,6 @@
     name: ConvertFunction
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erf
     name: Erf
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations
-  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations
-  items:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations.BesselBase
-    name: BesselBase
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations.BesselIimpl
-    name: BesselIimpl
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations.BesselJImpl
-    name: BesselJImpl
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations.BesselKImpl
-    name: BesselKImpl
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Implementations.BesselYImpl
-    name: BesselYImpl
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
   name: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
   items:
@@ -1588,16 +1544,6 @@
     name: RateImpl
   - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.XirrImpl
     name: XirrImpl
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
-  name: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
-  items:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Logical.IfsWithMultipleMatchesBase
-    name: IfsWithMultipleMatchesBase
-- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
-  name: OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
-  items:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions.RangeOrValue
-    name: RangeOrValue
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
   name: OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata
   items:
@@ -1613,18 +1559,8 @@
 - uid: OfficeOpenXml.FormulaParsing.Excel.Operators
   name: OfficeOpenXml.FormulaParsing.Excel.Operators
   items:
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.IOperator
-    name: IOperator
   - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators
     name: LimitedOperators
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operator
-    name: Operator
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.Operators
-    name: Operators
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsDict
-    name: OperatorsDict
-  - uid: OfficeOpenXml.FormulaParsing.Excel.Operators.OperatorsEnumDict
-    name: OperatorsEnumDict
 - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities
   name: OfficeOpenXml.FormulaParsing.ExcelUtilities
   items:
@@ -1634,12 +1570,6 @@
     name: ExcelAddressUtil
   - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
     name: ExcelReferenceType
-  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependencies
-    name: FormulaDependencies
-  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency
-    name: FormulaDependency
-  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependencyFactory
-    name: FormulaDependencyFactory
   - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.LookupValueMatcher
     name: LookupValueMatcher
   - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
@@ -1676,8 +1606,6 @@
     name: DataType
   - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult
     name: DynamicArrayCompileResult
-  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression
-    name: Expression
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
   name: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
   items:
@@ -1736,8 +1664,6 @@
   - uid: OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
     name: ArgumentInfo<T>
     name.vb: ArgumentInfo(Of T)
-  - uid: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
-    name: RegexConstants
   - uid: OfficeOpenXml.FormulaParsing.Utilities.Require
     name: Require
 - uid: OfficeOpenXml.LoadFunctions
@@ -2018,6 +1944,8 @@
 - uid: OfficeOpenXml.Table
   name: OfficeOpenXml.Table
   items:
+  - uid: OfficeOpenXml.Table.ApplyDataFrom
+    name: ApplyDataFrom
   - uid: OfficeOpenXml.Table.ExcelTable
     name: ExcelTable
   - uid: OfficeOpenXml.Table.ExcelTableCollection
@@ -2097,6 +2025,8 @@
     name: ExcelPivotTableAreaStyleCollection
   - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
     name: ExcelPivotTableCacheField
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+    name: ExcelPivotTableCalculatedData
   - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
     name: ExcelPivotTableCollection
   - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
@@ -2130,6 +2060,11 @@
     name: PivotItemReference
   - uid: OfficeOpenXml.Table.PivotTable.PivotNull
     name: PivotNull
+- uid: OfficeOpenXml.Table.PivotTable.Calculation
+  name: OfficeOpenXml.Table.PivotTable.Calculation
+  items:
+  - uid: OfficeOpenXml.Table.PivotTable.Calculation.PivotDataFieldItemSelection
+    name: PivotDataFieldItemSelection
 - uid: OfficeOpenXml.Table.PivotTable.Filter
   name: OfficeOpenXml.Table.PivotTable.Filter
   items:

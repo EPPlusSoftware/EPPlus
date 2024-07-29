@@ -47,7 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             var wsIx = address.WorksheetIx >= 0 ? address.WorksheetIx : ctx.CurrentCell.WorksheetIx;
             if (wsIx >= 0 && wsIx < ctx.Package.Workbook.Worksheets.Count)
             {
-                _ws = ctx.Package.Workbook.Worksheets[wsIx];
+                _ws = ctx.Package.Workbook.GetWorksheetByIndexInList(wsIx);
                 _values = new CellStoreEnumerator<ExcelValue>(_ws._values, address.FromRow, address.FromCol, address.ToRow, address.ToCol);
                 _cell = new CellInfo(_ws, _values);
             }

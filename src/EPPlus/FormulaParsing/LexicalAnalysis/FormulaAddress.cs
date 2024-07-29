@@ -125,6 +125,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {
                 _formula = value;
                 _hasUpdatedNamespace = false;
+                _compiledExpressions = null;
                 SetFormula(_ws, value);
             }
         }
@@ -237,7 +238,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 //_compiler = _compiler,
             };
         }
-        //RpnCompiledFormula _compiledExpressions = null;
         private Dictionary<int, Expression> _compiledExpressions;
         internal RpnFormula GetRpnFormula(RpnOptimizedDependencyChain depChain, int row, int col)
         {
@@ -906,6 +906,35 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 return ri;
             }
         }
+<<<<<<< HEAD
+=======
+
+        internal FormulaRangeAddress GetIntersectingRowOrColumns(FormulaRangeAddress address)
+        {
+            if (address == null || WorksheetIx != address.WorksheetIx) return null;
+
+            var fromRow = FromRow > address.FromRow ? FromRow : address.FromRow;
+            var toRow = ToRow < address.ToRow ? ToRow : address.ToRow;
+            var fromCol = FromCol > address.FromCol ? FromCol : address.FromCol;
+            var toCol = ToCol < address.ToCol ? ToCol : address.ToCol;
+
+            if (fromCol > toCol)
+            {
+                return new FormulaRangeAddress(_context, WorksheetIx, fromRow, 0, toRow, 0); // return intersect on columns. Rows does not intersect so return 0 for the row 
+            }
+            else if (fromRow > toRow)
+            {
+                return new FormulaRangeAddress(_context, WorksheetIx, 0, fromCol, 0, toCol); // return intersect on rows. Columns does not intersect so return 0 for the row 
+            }
+            else if (fromCol > toCol && fromRow > toRow)
+            {
+                return null;
+            }
+
+            return new FormulaRangeAddress(_context, WorksheetIx, fromRow, fromCol, toRow, toCol);
+        }
+
+>>>>>>> develop7
         /// <summary>
         /// Address
         /// </summary>

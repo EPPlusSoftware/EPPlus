@@ -24,7 +24,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingIconDataBarValue
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-    startLine: 24
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -67,7 +67,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomIcon
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-    startLine: 59
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -178,7 +178,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-    startLine: 158
+    startLine: 160
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -215,7 +215,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-    startLine: 201
+    startLine: 203
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting

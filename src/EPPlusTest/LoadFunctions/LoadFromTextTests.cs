@@ -370,6 +370,22 @@ namespace EPPlusTest.LoadFunctions
         public void ReadFixedTextFileList()
         {
             var fileContent = Properties.Resources.GetTextFileContent("FixedWidth_FileList.txt", Encoding.GetEncoding(437));
+<<<<<<< HEAD
+=======
+            if (string.IsNullOrEmpty(fileContent))
+            {
+                var fi = Properties.Resources.GetTextFileInfo("FixedWidth_FileList.txt");
+                if(fi.Exists==false)
+                {
+                    Assert.Fail("File does not exist : " + fi.FullName);
+                }
+                else
+                {
+                    Assert.Fail("File Content is empty for file " + fi.FullName);
+                }
+            }
+
+>>>>>>> develop7
             //Do fixed width text stuff
             using (var p = new ExcelPackage())
             {
@@ -383,8 +399,18 @@ namespace EPPlusTest.LoadFunctions
                 format.Culture = CultureInfo.GetCultureInfo("sv-en");
                 format.TableStyle = TableStyles.Medium12;
                 format.SetColumnsNames("Date", "Time", "Type","Size", "Name");
+<<<<<<< HEAD
 
                 var range = ws.Cells["A1"].LoadFromText(fileContent, format);
+=======
+                format.EOL = "\n";
+                var range = ws.Cells["A1"].LoadFromText(fileContent, format);
+                if(range.Rows<101)
+                {
+                    Assert.Fail($"Load failed. LoadRange is {range.Address}, {range.Offset(0,0, 1, 1).Value}, {range.Offset(0, 1 ,1, 1).Value}, {range.Offset(0, 2, 1, 1).Value}, {range.Offset(0, 3, 1, 1).Value}, {range.Offset(0, 4).Value}");
+                }
+
+>>>>>>> develop7
                 range.TakeSingleColumn(0).Style.Numberformat.Format = "yyyy-MM-dd";
                 range.TakeSingleColumn(1).Style.Numberformat.Format = "hh:mm";
                 range.TakeSingleColumn(2).Style.Numberformat.Format = "#,##0";

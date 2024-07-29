@@ -19,11 +19,11 @@ items:
   type: Enum
   source:
     remote:
-      path: src/EPPlus/ExcelTextFormat.cs
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDataTypes
-    path: ../src/EPPlus/ExcelTextFormat.cs
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
     startLine: 22
   assemblies:
   - EPPlus
@@ -52,11 +52,11 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/ExcelTextFormat.cs
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Unknown
-    path: ../src/EPPlus/ExcelTextFormat.cs
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
     startLine: 27
   assemblies:
   - EPPlus
@@ -86,11 +86,11 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/ExcelTextFormat.cs
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: String
-    path: ../src/EPPlus/ExcelTextFormat.cs
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
     startLine: 31
   assemblies:
   - EPPlus
@@ -120,11 +120,11 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/ExcelTextFormat.cs
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Number
-    path: ../src/EPPlus/ExcelTextFormat.cs
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
     startLine: 35
   assemblies:
   - EPPlus
@@ -154,11 +154,11 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/ExcelTextFormat.cs
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateTime
-    path: ../src/EPPlus/ExcelTextFormat.cs
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
     startLine: 39
   assemblies:
   - EPPlus
@@ -188,11 +188,11 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/ExcelTextFormat.cs
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
       branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
-    path: ../src/EPPlus/ExcelTextFormat.cs
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
     startLine: 44
   assemblies:
   - EPPlus

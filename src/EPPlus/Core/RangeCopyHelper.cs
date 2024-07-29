@@ -22,6 +22,10 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+<<<<<<< HEAD
+=======
+using System.Text;
+>>>>>>> develop7
 using System.Xml;
 using static OfficeOpenXml.ExcelAddressBase;
 

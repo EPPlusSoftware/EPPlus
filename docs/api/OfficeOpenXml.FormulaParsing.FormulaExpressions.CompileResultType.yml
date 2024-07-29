@@ -22,10 +22,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompileResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 29
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nResult type\n"
+  example: []
   syntax:
     content: public enum CompileResultType
     content.vb: Public Enum CompileResultType
@@ -53,7 +55,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Normal
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 34
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -87,7 +89,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeAddress
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 38
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -121,7 +123,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DynamicArray
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 42
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions

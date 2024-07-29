@@ -152,6 +152,7 @@ namespace EPPlusTest.Issues
 			}
 		}
         [TestMethod]
+<<<<<<< HEAD
         public void s656()
         {
             using var testPackage = new ExcelPackage();
@@ -187,6 +188,8 @@ namespace EPPlusTest.Issues
             testPackage.SaveAs(@"c:\temp\s656.xlsx");
         }
         [TestMethod]
+=======
+>>>>>>> develop7
 		public void s616()
 		{
 			using (var package = OpenTemplatePackage("s616.xlsx"))

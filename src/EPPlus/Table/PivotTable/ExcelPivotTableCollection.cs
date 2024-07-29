@@ -263,5 +263,28 @@ namespace OfficeOpenXml.Table.PivotTable
             _pivotTables.Remove(PivotTable);
             _pivotTableNames.Remove(PivotTable.Name);
         }
+        /// <summary>
+        /// Calculate all pivot tables in the collection.
+        /// Also see <seealso cref="ExcelPivotTable.Calculate(bool)"/> and <seealso cref="ExcelWorkbook.CalculateAllPivotTables(bool)"/>
+        /// </summary>
+        /// <param name="refresh">If the cache should be refreshed.</param>
+        public void Calculate(bool refresh = false)
+        {
+            var caches = new HashSet<PivotTableCacheInternal>();
+            foreach (var pt in _pivotTables)
+            {
+                var cache = pt.CacheDefinition._cacheReference;
+                if (cache == null) continue;
+                if (!caches.Contains(cache))
+                {
+                    pt.Calculate(refresh);
+                    caches.Add(cache);
+                }
+                else
+                {
+                    pt.Calculate(false);
+                }
+            }
+        }
     }
 }

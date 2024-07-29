@@ -21,10 +21,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Erf
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
-    startLine: 22
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+  summary: "\nReturns error function\n"
+  example: []
   syntax:
     content: 'public class Erf : ExcelFunction'
     content.vb: >-
@@ -39,6 +41,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsErrorHandlingFunction
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ArrayBehaviour
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ConfigureArrayBehaviour(OfficeOpenXml.FormulaParsing.Excel.Functions.ArrayBehaviourConfig)
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HandlesVariables
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32,OfficeOpenXml.eErrorType)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ValidateArguments(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},System.Int32)
@@ -83,6 +86,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetResultByObject(System.Object)
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsVolatile
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ReturnsReference
+  - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsAllowedInCalculatedPivotTableField
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ParametersInfo
   - OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.NamespacePrefix
   - System.Object.Equals(System.Object)
@@ -116,10 +120,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgumentMinLength
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
-    startLine: 28
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+  summary: "\nMin arguments\n"
+  example: []
   syntax:
     content: public override int ArgumentMinLength { get; }
     parameters: []
@@ -154,19 +160,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Execute
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
-    startLine: 29
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
+  summary: "\nExecute Erf\n"
+  example: []
   syntax:
     content: public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
     parameters:
     - id: arguments
       type: System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument}
+      description: ''
     - id: context
       type: OfficeOpenXml.FormulaParsing.ParsingContext
+      description: ''
     return:
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResult
+      description: ''
     content.vb: Public Overrides Function Execute(arguments As IList(Of FunctionArgument), context As ParsingContext) As CompileResult
   overridden: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.Execute(System.Collections.Generic.IList{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument},OfficeOpenXml.FormulaParsing.ParsingContext)
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Erf.Execute*
@@ -366,6 +377,12 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HandlesVariables
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HandlesVariables
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: HandlesVariables
+  nameWithType: ExcelFunction.HandlesVariables
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.HandlesVariables
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
   commentId: M:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.GetFirstValue(System.Collections.Generic.IEnumerable{OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionArgument})
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
@@ -3320,6 +3337,12 @@ references:
   name: ReturnsReference
   nameWithType: ExcelFunction.ReturnsReference
   fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ReturnsReference
+- uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsAllowedInCalculatedPivotTableField
+  commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsAllowedInCalculatedPivotTableField
+  parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction
+  name: IsAllowedInCalculatedPivotTableField
+  nameWithType: ExcelFunction.IsAllowedInCalculatedPivotTableField
+  fullName: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.IsAllowedInCalculatedPivotTableField
 - uid: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ParametersInfo
   commentId: P:OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction.ParametersInfo
   parent: OfficeOpenXml.FormulaParsing.Excel.Functions.ExcelFunction

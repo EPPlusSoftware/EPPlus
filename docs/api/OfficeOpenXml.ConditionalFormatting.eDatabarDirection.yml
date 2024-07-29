@@ -22,7 +22,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDatabarDirection
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
-    startLine: 35
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -55,7 +55,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Context
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
-    startLine: 40
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -89,7 +89,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftToRight
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
-    startLine: 44
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -123,7 +123,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightToLeft
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingDataBar.cs
-    startLine: 48
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting

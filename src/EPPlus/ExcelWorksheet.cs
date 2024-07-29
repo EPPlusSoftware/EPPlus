@@ -44,8 +44,12 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
 using OfficeOpenXml.FormulaParsing;
+<<<<<<< HEAD
 using OfficeOpenXml.Drawing.OleObject;
 using System.Xml.Linq;
+=======
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
+>>>>>>> develop7
 
 namespace OfficeOpenXml
 {
@@ -2909,15 +2913,25 @@ namespace OfficeOpenXml
                     else
                     {
                         int r=fromRow, c=fc;
+<<<<<<< HEAD
                         while(_values.NextCellByColumn(ref r, ref c, fromRow, r, _values.ColumnCount-1))
+=======
+                        while(_values.NextCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount-1))
+>>>>>>> develop7
                         {
                             if(_values.GetValue(r, c)._value != null)
                             {
                                 break;
                             }
+<<<<<<< HEAD
                             //r++;
                         }
                         fromRow = r;
+=======
+                            r++;
+                        }
+                        //fromRow = r;
+>>>>>>> develop7
                         fromCol = c;
                     }
 
@@ -2928,14 +2942,24 @@ namespace OfficeOpenXml
                     else
                     {
                         int r = toRow, c = tc;
+<<<<<<< HEAD
                         while (_values.PrevCellByColumn(ref r, ref c, fromRow, 0, _values.ColumnCount - 1))
+=======
+                        while (_values.PrevCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount - 1))
+>>>>>>> develop7
                         {
                             if (_values.GetValue(r, c)._value != null)
                             {
                                 break;
                             }
+<<<<<<< HEAD
                         }
                         toRow = r;
+=======
+                            r--;
+                        }
+                        //toRow = r;
+>>>>>>> develop7
                         toCol = c;
                     }
 

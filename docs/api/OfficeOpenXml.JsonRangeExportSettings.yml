@@ -22,7 +22,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: JsonRangeExportSettings
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 73
+    startLine: 78
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -45,6 +45,7 @@ items:
   - OfficeOpenXml.JsonExportSettings.WriteComments
   - OfficeOpenXml.JsonExportSettings.Encoding
   - OfficeOpenXml.JsonExportSettings.Culture
+  - OfficeOpenXml.JsonExportSettings.DataIsTransposed
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -76,7 +77,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RootElementName
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 78
+    startLine: 83
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -116,7 +117,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstRowIsHeader
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 83
+    startLine: 88
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -153,7 +154,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDataTypesOn
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-    startLine: 87
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -242,6 +243,12 @@ references:
   name: Culture
   nameWithType: JsonExportSettings.Culture
   fullName: OfficeOpenXml.JsonExportSettings.Culture
+- uid: OfficeOpenXml.JsonExportSettings.DataIsTransposed
+  commentId: P:OfficeOpenXml.JsonExportSettings.DataIsTransposed
+  parent: OfficeOpenXml.JsonExportSettings
+  name: DataIsTransposed
+  nameWithType: JsonExportSettings.DataIsTransposed
+  fullName: OfficeOpenXml.JsonExportSettings.DataIsTransposed
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object

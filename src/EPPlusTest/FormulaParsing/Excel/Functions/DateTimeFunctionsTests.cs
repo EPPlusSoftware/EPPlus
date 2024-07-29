@@ -423,7 +423,6 @@ namespace EPPlusTest.Excel.Functions
 
             Assert.IsTrue(Math.Abs(0.0861 - roundedResult) < double.Epsilon);
         }
-
         [TestMethod]
         public void YearFracShouldReturnCorrectResultWithEuroBasis()
         {

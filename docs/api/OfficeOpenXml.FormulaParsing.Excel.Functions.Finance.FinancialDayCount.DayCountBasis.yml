@@ -24,10 +24,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DayCountBasis
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
-    startLine: 18
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  summary: "\nDay counting options unsed in the internal finance function implementations.\n"
+  example: []
   syntax:
     content: public enum DayCountBasis
     content.vb: Public Enum DayCountBasis
@@ -55,10 +57,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: US_30_360
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
-    startLine: 20
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  summary: "\nUS basis\n"
+  example: []
   syntax:
     content: US_30_360 = 0
     return:
@@ -87,10 +91,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Actual_Actual
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
-    startLine: 21
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  summary: "\nActual actual\n"
+  example: []
   syntax:
     content: Actual_Actual = 1
     return:
@@ -119,10 +125,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Actual_360
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
-    startLine: 22
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  summary: "\nActual 360\n"
+  example: []
   syntax:
     content: Actual_360 = 2
     return:
@@ -151,10 +159,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Actual_365
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
-    startLine: 23
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  summary: "\nActual 365\n"
+  example: []
   syntax:
     content: Actual_365 = 3
     return:
@@ -183,10 +193,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: European_30_360
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/FinancialDayCount/DayCountBasis.cs
-    startLine: 24
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.FinancialDayCount
+  summary: "\nEurope\n"
+  example: []
   syntax:
     content: European_30_360 = 4
     return:

@@ -17,7 +17,7 @@ namespace EPPlusTest.Drawing
             using var p = OpenTemplatePackage("OLE3.xlsx");
             var ws = p.Workbook.Worksheets[0];
 
-            var ole = ws.Drawings[0] as ExcelOleObject;
+            //var ole = ws.Drawings[0] as ExcelOleObject;
             ws.Drawings.AddOleObject("myFile", false);
         }
     }

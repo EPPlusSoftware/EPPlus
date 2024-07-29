@@ -224,7 +224,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bold
     path: ../src/EPPlus/Style/ExcelTextFont.cs
-    startLine: 118
+    startLine: 121
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -261,7 +261,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLine
     path: ../src/EPPlus/Style/ExcelTextFont.cs
-    startLine: 134
+    startLine: 137
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -298,7 +298,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLineColor
     path: ../src/EPPlus/Style/ExcelTextFont.cs
-    startLine: 164
+    startLine: 167
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -335,7 +335,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Italic
     path: ../src/EPPlus/Style/ExcelTextFont.cs
-    startLine: 188
+    startLine: 191
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -372,7 +372,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Strike
     path: ../src/EPPlus/Style/ExcelTextFont.cs
-    startLine: 204
+    startLine: 207
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -409,7 +409,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Style/ExcelTextFont.cs
-    startLine: 220
+    startLine: 223
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -446,7 +446,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Style/ExcelTextFont.cs
-    startLine: 236
+    startLine: 239
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -483,7 +483,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Style/ExcelTextFont.cs
-    startLine: 255
+    startLine: 258
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -532,7 +532,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Kerning
     path: ../src/EPPlus/Style/ExcelTextFont.cs
-    startLine: 280
+    startLine: 283
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -569,7 +569,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetFromFont
     path: ../src/EPPlus/Style/ExcelTextFont.cs
-    startLine: 302
+    startLine: 305
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style

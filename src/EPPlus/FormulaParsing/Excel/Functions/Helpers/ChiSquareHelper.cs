@@ -17,7 +17,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             {
                 return 0.5d;
             }
-            return System.Math.Exp((degreeOfFreedom / 2 - 1) * System.Math.Log(n) - n / 2 - (degreeOfFreedom / 2d) * System.Math.Log(2d) - GammaHelper.logGamma(degreeOfFreedom / 2));
+            return System.Math.Exp((degreeOfFreedom / 2 - 1) * System.Math.Log(n) - n / 2 - (degreeOfFreedom / 2d) * System.Math.Log(2d) - GammaHelper.LogGamma(degreeOfFreedom / 2));
 
         }
 
@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             {
                 return 0;
             }
-            return GammaHelper.regularizedGammaP(degreeOfFreedom / 2, n / 2, 1.0e-15, 10000);
+            return GammaHelper.RegularizedGammaP(degreeOfFreedom / 2, n / 2, 1.0e-15, 10000);
         }
 
         public static double Inverse(double n, double degreeOfFreedom)

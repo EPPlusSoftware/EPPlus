@@ -1839,7 +1839,7 @@ namespace EPPlusTest.ConditionalFormatting
             {
                 var sheet = pck.Workbook.Worksheets.Add("basicSheet");
 
-                for(int i = 1; i < 2100; i++)
+                for (int i = 1; i < 2100; i++)
                 {
                     sheet.Cells[1, i].ConditionalFormatting.AddContainsBlanks();
                     sheet.Cells[i, 1].ConditionalFormatting.AddBottomPercent();
@@ -1847,7 +1847,7 @@ namespace EPPlusTest.ConditionalFormatting
                 }
 
                 var dictCon = sheet.Cells["A1:E5"].ConditionalFormatting.GetConditionalFormattings();
-                Assert.AreEqual(sheet.Cells["A1"].ConditionalFormatting.GetConditionalFormattings()[0].Type, 
+                Assert.AreEqual(sheet.Cells["A1"].ConditionalFormatting.GetConditionalFormattings()[0].Type,
                     eExcelConditionalFormattingRuleType.ContainsBlanks);
             }
         }
@@ -2139,7 +2139,7 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void DoubleQuoteInNumfmtWriteReadExt()
         {
-            using(var package = OpenPackage("CF_NumFt_ReadWrite.xlsx", true))
+            using (var package = OpenPackage("CF_NumFt_ReadWrite.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("numfmt");
                 package.Workbook.Worksheets.Add("Sheet2");
@@ -2164,12 +2164,50 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void EnsureBgAndPatternColorAreCorrect()
         {
-            using(var p = OpenTemplatePackage("SavedDXF.xlsx"))
+            using (var p = OpenTemplatePackage("SavedDXF.xlsx"))
             {
                 var ws = p.Workbook.Worksheets[0];
                 var fill = ws.Cells["B1"].ConditionalFormatting.GetConditionalFormattings()[0].Style.Fill;
                 Assert.AreEqual(fill.BackgroundColor.Theme, eThemeSchemeColor.Text2);
-                Assert.AreEqual(fill.PatternColor.Color, Color.FromArgb(255,192,0,0));
+                Assert.AreEqual(fill.PatternColor.Color, Color.FromArgb(255, 192, 0, 0));
+            }
+        }
+
+        //s695
+        [TestMethod]
+        public void SingularRangeShouldExtendOnInsert()
+        {
+            using (var p = OpenTemplatePackage("s695.xlsx"))
+            {
+                var targetSheet = p.Workbook.Worksheets["Data Sheet"];
+
+                int lastRow = targetSheet.Dimension.End.Row;
+
+                targetSheet.InsertRow(lastRow + 1, 5);
+
+                Assert.AreEqual("C8:C17", targetSheet.ConditionalFormatting[1].Address.Address);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void SingularRangeShouldExtendOnInsertGenerated()
+        {
+            using (var p = OpenPackage("cf_SingularRangeExtendOnInsert.xlsx", true))
+            {
+                var targetSheet = p.Workbook.Worksheets.Add("Data Sheet");
+
+                var blanks = targetSheet.Cells["A2:A5"].ConditionalFormatting.AddContainsBlanks();
+
+                blanks.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                blanks.Style.Fill.BackgroundColor.SetColor(Color.BlueViolet);
+
+                targetSheet.InsertRow(6, 5);
+
+                Assert.AreEqual("A2:A10", targetSheet.ConditionalFormatting[0].Address.Address);
+
+                SaveAndCleanup(p);
             }
         }
     }

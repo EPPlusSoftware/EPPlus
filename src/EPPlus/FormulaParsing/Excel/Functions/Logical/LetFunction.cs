@@ -10,6 +10,10 @@
  *************************************************************************************************
   05/14/2024         EPPlus Software AB       Initial release EPPlus 7.3
  *************************************************************************************************/
+<<<<<<< HEAD
+=======
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+>>>>>>> develop7
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
@@ -18,6 +22,14 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
+<<<<<<< HEAD
+=======
+    [FunctionMetadata(
+        Category = ExcelFunctionCategory.Logical,
+        EPPlusVersion = "7.2",
+        Description = "Assigns names to calculation results, allowing storing intermediate calculations, values, or defining names inside a formula",
+        IntroducedInExcelVersion = "Office365")]
+>>>>>>> develop7
     internal class LetFunction : ExcelFunction
     {
         public override int ArgumentMinLength => 3;

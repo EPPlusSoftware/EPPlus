@@ -19,9 +19,17 @@ namespace OfficeOpenXml.Utils
     internal class InvariantObjectComparer : IEqualityComparer<object>
     {
 		internal static InvariantObjectComparer Instance=new InvariantObjectComparer();
+<<<<<<< HEAD
 
         static StringComparer sc = StringComparer.OrdinalIgnoreCase;
+=======
+>>>>>>> develop7
 
+        static StringComparer sc = StringComparer.OrdinalIgnoreCase;
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
         public new bool Equals(object x, object y)
         {            
             if (x is string s1 && y is string s2)
@@ -30,18 +38,32 @@ namespace OfficeOpenXml.Utils
             }
             else
             {
-                return object.Equals(x, y);
+                return object.Equals(GetValueToCompare(x), GetValueToCompare(y));
             }
         }
 
         public int GetHashCode(object obj)
         {
-            if (obj is string s)
+            return GetValueToCompare(obj).GetHashCode();
+        }
+
+        private static object GetValueToCompare(object obj)
+        {
+            var tc = Type.GetTypeCode(obj.GetType());
+            switch (tc)
             {
-                return s.ToLowerInvariant().GetHashCode();
+                case TypeCode.Empty:
+                case TypeCode.Object:
+                case TypeCode.Boolean:
+                    return obj;
+                case TypeCode.String:
+                case TypeCode.Char:
+                    return obj.ToString().ToLowerInvariant();
+                case TypeCode.DateTime:
+                    return ((DateTime)obj).ToOADate();
+                default:
+                    return Convert.ToDouble(obj);
             }
-            
-            return obj.GetHashCode();
         }
     }
 }

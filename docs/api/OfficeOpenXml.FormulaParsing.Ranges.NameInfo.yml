@@ -77,15 +77,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 26
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nNameinfo\n"
+  example: []
   syntax:
     content: public NameInfo(ExcelNamedRange nameItem)
     parameters:
     - id: nameItem
       type: OfficeOpenXml.ExcelNamedRange
+      description: ''
     content.vb: Public Sub New(nameItem As ExcelNamedRange)
   overload: OfficeOpenXml.FormulaParsing.Ranges.NameInfo.#ctor*
   modifiers.csharp:
@@ -110,7 +113,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 33
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -149,7 +152,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: wsIx
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 47
+    startLine: 51
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -188,7 +191,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 57
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -227,7 +230,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 67
+    startLine: 71
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -266,7 +269,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetRelativeFormula
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 80
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -310,7 +313,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetRelativeRange
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 90
+    startLine: 94
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -354,7 +357,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 100
+    startLine: 104
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -395,7 +398,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRelative
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 107
+    startLine: 111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -434,7 +437,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokens
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 117
+    startLine: 121
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -471,7 +474,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/Ranges/NameInfo.cs
-    startLine: 121
+    startLine: 125
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges

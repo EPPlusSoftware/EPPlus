@@ -126,6 +126,15 @@ namespace EPPlusTest.LoadFunctions
             public string CamelCased_And_Underscored { get; set; }
         }
 
+        [EpplusTable(ShowTotal = true)]
+        public class CamelCasedAttributesClass
+        {
+            [EpplusTableColumn(Order = 0, TotalsRowLabel = "DateTotal", NumberFormat = "m/d/yyyy")]
+            public DateTime DateOfPurchase { get; set; }
+            [EpplusTableColumn(Order = 1)]
+            public string BuyerName { get; set; }
+        }
+
         internal class UrlClass : BClass
         {
             [EpplusIgnore]
@@ -492,6 +501,26 @@ namespace EPPlusTest.LoadFunctions
         }
 
         [TestMethod]
+        public void ShouldParseCamelCasedHeadersWhenColumned()
+        {
+            var items = new List<CamelCasedAttributesClass>()
+            {
+                new CamelCasedAttributesClass(){ BuyerName = "someName" }
+            };
+            using (var pck = new ExcelPackage(new MemoryStream()))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("sheet");
+                sheet.Cells["C1"].LoadFromCollection(items, c =>
+                {
+                    c.PrintHeaders = true;
+                    c.HeaderParsingType = HeaderParsingTypes.CamelCaseToSpace;
+                });
+                Assert.AreEqual("Date Of Purchase", sheet.Cells["C1"].Value);
+                Assert.AreEqual("Buyer Name", sheet.Cells["D1"].Value);
+            }
+        }
+
+        [TestMethod]
         public void ShouldParseCamelCasedAndUnderscoredHeaders()
         {
             var items = new List<CamelCasedClass>()
@@ -582,7 +611,7 @@ namespace EPPlusTest.LoadFunctions
                 var ns = package.Workbook.Styles.CreateNamedStyle("Hyperlink");
                 ns.BuildInId = 8;
                 ns.Style.Font.UnderLine = true;
-                ns.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0x0563C1));
+                ns.Style.Font.Color.SetColor(System.Drawing.Color.FromArgb(0xFF,0x05 ,0x63, 0xC1));
 
                 var r = sheet.Cells["A1"].LoadFromCollection(items, true, TableStyles.Medium1);
                 sheet.Cells["E2:E5"].StyleName = "Hyperlink";

@@ -99,6 +99,15 @@
 		<None Update="Resources\LineChart3.crtx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+<<<<<<< HEAD
+=======
+		<None Update="Resources\PieChartTemplate2.crtx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Resources\StackedColumnChart.crtx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+>>>>>>> develop7
 		<None Update="Resources\marbles.pcx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

@@ -21,10 +21,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RoundingMethod
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
-    startLine: 15
+    startLine: 18
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nRounding method\n"
+  example: []
   syntax:
     content: public enum RoundingMethod
     content.vb: Public Enum RoundingMethod
@@ -52,7 +54,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Convert
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
-    startLine: 20
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
@@ -86,7 +88,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Floor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
-    startLine: 24
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions

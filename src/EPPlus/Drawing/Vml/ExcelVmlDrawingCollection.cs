@@ -74,6 +74,7 @@ namespace OfficeOpenXml.Drawing.Vml
                     case "Radio":
                     case "EditBox":
                     case "Dialog":
+                    case "Scroll":
                         vmlDrawing = new ExcelVmlDrawingControl(_ws, node, NameSpaceManager);
                         _drawings.Add(vmlDrawing);
                         break;

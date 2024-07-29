@@ -20,10 +20,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IPmtProvider
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPmtProvider.cs
-    startLine: 15
+    startLine: 18
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nIPmtProvider\n"
+  example: []
   syntax:
     content: public interface IPmtProvider
     content.vb: Public Interface IPmtProvider
@@ -51,25 +53,33 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetPmt
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPmtProvider.cs
-    startLine: 17
+    startLine: 29
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations
+  summary: "\nGetPmt\n"
+  example: []
   syntax:
     content: double GetPmt(double Rate, double NPer, double PV, double FV = 0, PmtDue Due = PmtDue.EndOfPeriod)
     parameters:
     - id: Rate
       type: System.Double
+      description: ''
     - id: NPer
       type: System.Double
+      description: ''
     - id: PV
       type: System.Double
+      description: ''
     - id: FV
       type: System.Double
+      description: ''
     - id: Due
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+      description: ''
     return:
       type: System.Double
+      description: ''
     content.vb: Function GetPmt(Rate As Double, NPer As Double, PV As Double, FV As Double = 0, Due As PmtDue = PmtDue.EndOfPeriod) As Double
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.IPmtProvider.GetPmt*
 references:

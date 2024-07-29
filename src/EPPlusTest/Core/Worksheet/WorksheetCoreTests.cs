@@ -196,6 +196,7 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.IsNull(ws.FirstValueCell);
                 Assert.IsNull(ws.LastValueCell);
 
+<<<<<<< HEAD
                 ws.Cells["C7"].Value = 1;
                 ws.Cells["D5"].Value = 1;
 
@@ -203,6 +204,17 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual("C7", ws.LastValueCell.Address);
 
                 Assert.AreEqual("C5:D7", ws.DimensionByValue.Address);
+=======
+                ws.Cells["D7"].Value = 1;
+                ws.Cells["C6"].Value = 1;
+                ws.Cells["G6"].Value = 1;
+                ws.Cells["D5"].Value = 1;
+
+                Assert.AreEqual("D5", ws.FirstValueCell.Address);
+                Assert.AreEqual("D7", ws.LastValueCell.Address);
+
+                Assert.AreEqual("C5:G7", ws.DimensionByValue.Address);
+>>>>>>> develop7
             }
         }
         [TestMethod]
@@ -218,5 +230,9 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual("B6:C7", ws.DimensionByValue.Address);
             }
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> develop7
     }
 }
