@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Style
             Index = index;
         }
         /// <summary>
-        /// The numeric index fror the format
+        /// The numeric index for the format
         /// </summary>
         public int NumFmtID 
         {
