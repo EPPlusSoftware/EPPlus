@@ -3795,6 +3795,16 @@ namespace OfficeOpenXml
             }
             return null;
         }
+
+        internal XmlNode CreateOleContainerNode()
+        {
+            var node = GetNode("d:oleObjects");
+            if (node == null)
+            {
+                node = CreateNode("d:oleObjects");
+            }
+            return node;
+        }
         #endregion
     }  // END class Worksheet
 }

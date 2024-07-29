@@ -1501,7 +1501,7 @@ namespace OfficeOpenXml.Drawing
         }
         #endregion
 
-        public ExcelOleObject AddOleObject(string filePath, bool link, string mediaFilePath = "")
+        public ExcelOleObject AddOleObject(string filePath, bool link = false, string mediaFilePath = "")
         {
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
             ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, filePath, link, mediaFilePath);

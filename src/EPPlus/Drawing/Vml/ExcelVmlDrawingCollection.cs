@@ -225,7 +225,7 @@ namespace OfficeOpenXml.Drawing.Vml
             vml += "<x:ClientData ObjectType=\"Pict\">";
             vml += "<x:MoveWithCells />";
             vml += "<x:SizeWithCells />";
-            vml += string.Format("<x:Anchor>{0}, 15, {1}, 2, {2}, 31, {3}, 1</x:Anchor>"); //fix this
+            vml += string.Format("<x:Anchor>{0}, 15, {1}, 2, {2}, 31, {3}, 1</x:Anchor>", 0,1,2,3); //fix this
             vml += "<x:AutoFill>False</x:AutoFill>";
             vml += "<x:CF>Pict</x:CF>";
             vml += "<x:DDE />";
