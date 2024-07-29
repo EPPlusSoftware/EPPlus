@@ -28,9 +28,9 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             SchemaNodeOrder = schemaNodeOrder;
             _list = new List<ExcelChartDataLabelItem>();
-            foreach (XmlNode pointNode in TopNode.SelectNodes(ExcelChartDataPoint.topNodePath, ns))
+            foreach (XmlNode dataLabelNode in TopNode.SelectNodes("c:dLbl", ns))
             {
-                _list.Add(new ExcelChartDataLabelItem(chart, ns, pointNode, "idx", schemaNodeOrder));
+                _list.Add(new ExcelChartDataLabelItem(chart, ns, dataLabelNode, "", schemaNodeOrder));
             }
             _chart = chart;
         }
@@ -52,13 +52,12 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     throw (new ArgumentException($"Data label with index {index} already exists"));
                 }
-                return CreateDataLabel(ix);
+                return CreateDataLabel(index);
             }
         }
 
         private ExcelChartDataLabelItem CreateDataLabel(int idx)
         {
-            var pos = GetItemAfter(idx);
             XmlElement element = CreateElement(idx);
             var dl = new ExcelChartDataLabelItem(_chart, NameSpaceManager, element, "dLbl", SchemaNodeOrder) { Index=idx };
 
@@ -79,12 +78,12 @@ namespace OfficeOpenXml.Drawing.Chart
             XmlElement pointNode;
             if (idx < _list.Count)
             {
-                pointNode = TopNode.OwnerDocument.CreateElement("c", "dLbl", ExcelPackage.schemaMain);
-                _list[idx].TopNode.InsertBefore(pointNode, _list[idx].TopNode);
+                pointNode = TopNode.OwnerDocument.CreateElement("c", "dLbl", @"http://schemas.openxmlformats.org/drawingml/2006/chart");
+                TopNode.InsertBefore(pointNode, _list[idx].TopNode);
             }
             else
             {
-                pointNode = (XmlElement)CreateNode("c:dLbl");
+                pointNode = (XmlElement)CreateNode("c:dLbl", false, true);
             }
             return pointNode;
         }

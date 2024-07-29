@@ -100,10 +100,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _workSheetName
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs
-    startLine: 29
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
+  summary: "\nName of worksheet this datavalidation belongs to\n"
+  example: []
   syntax:
     content: protected string _workSheetName
     return:
@@ -133,7 +135,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs
-    startLine: 125
+    startLine: 128
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation
@@ -174,7 +176,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs
-    startLine: 137
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DataValidation

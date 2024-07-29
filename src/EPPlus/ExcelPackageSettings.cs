@@ -11,6 +11,8 @@
   09/10/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Utils;
+using System.Collections.Generic;
+using System;
 
 namespace OfficeOpenXml
 {
@@ -19,6 +21,15 @@ namespace OfficeOpenXml
     /// </summary>
     public class ExcelPackageSettings
     {
+        /// <summary>
+        /// Culture specific number formats for the build-in number formats ranging from 14-47.
+        /// As some build-in number formats are culture specific, this collection adds the pi
+        /// </summary>
+        public static Dictionary<string, Dictionary<int, string>> CultureSpecificBuildInNumberFormats
+        {
+            get;
+        } = new Dictionary<string, Dictionary<int, string>>(StringComparer.InvariantCultureIgnoreCase);
+
         internal ExcelPackageSettings()
         {
 
@@ -58,7 +69,6 @@ namespace OfficeOpenXml
                 return _imageSettings;
             }
         }
-
         /// <summary>
         /// Any auto- or table- filters created will be applied on save.
         /// In the case you want to handle this manually, set this property to true.

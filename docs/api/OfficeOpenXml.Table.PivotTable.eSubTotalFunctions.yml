@@ -113,7 +113,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
-  summary: "\nCount\n"
+  summary: "\nCount cells that are numbers.\n"
   example: []
   syntax:
     content: Count = 2
@@ -147,7 +147,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
-  summary: "\nCount, numbers\n"
+  summary: "\nCount cells that are not empty.\n"
   example: []
   syntax:
     content: CountA = 4

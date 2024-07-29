@@ -22,10 +22,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAddressUtil
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
-    startLine: 20
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nUtilites tp verify addresses and reöated tokens\n"
+  example: []
   syntax:
     content: public static class ExcelAddressUtil
     content.vb: Public Module ExcelAddressUtil
@@ -64,17 +66,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValidAddress
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
-    startLine: 23
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nEnsure address and sheet has valid names \n"
+  example: []
   syntax:
     content: public static bool IsValidAddress(string token)
     parameters:
     - id: token
       type: System.String
+      description: ''
     return:
       type: System.Boolean
+      description: Wether or not the address is valid
     content.vb: Public Shared Function IsValidAddress(token As String) As Boolean
   overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidAddress*
   modifiers.csharp:
@@ -101,17 +107,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValidName
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
-    startLine: 53
+    startLine: 66
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nReturns true if a defined name is valid\n"
+  example: []
   syntax:
     content: public static bool IsValidName(string name)
     parameters:
     - id: name
       type: System.String
+      description: ''
     return:
       type: System.Boolean
+      description: ''
     content.vb: Public Shared Function IsValidName(name As String) As Boolean
   overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.IsValidName*
   modifiers.csharp:
@@ -138,17 +148,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValidName
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ExcelAddressUtil.cs
-    startLine: 78
+    startLine: 96
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nEnsures valid name by removing invalid chars and replacing them with &apos;_&apos;\n"
+  example: []
   syntax:
     content: public static string GetValidName(string name)
     parameters:
     - id: name
       type: System.String
+      description: ''
     return:
       type: System.String
+      description: ''
     content.vb: Public Shared Function GetValidName(name As String) As String
   overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil.GetValidName*
   modifiers.csharp:

@@ -11,9 +11,12 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
@@ -22,6 +25,7 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Xml;
 using static OfficeOpenXml.ExcelAddressBase;
 

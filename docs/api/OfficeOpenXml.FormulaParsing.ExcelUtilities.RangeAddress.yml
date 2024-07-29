@@ -28,10 +28,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeAddress
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/RangeAddress.cs
-    startLine: 20
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nAdress over a range\n"
+  example: []
   syntax:
     content: public class RangeAddress
     content.vb: Public Class RangeAddress
@@ -68,10 +70,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/RangeAddress.cs
-    startLine: 22
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nConstructor for empty address\n"
+  example: []
   syntax:
     content: public RangeAddress()
     content.vb: Public Sub New
@@ -98,10 +102,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/RangeAddress.cs
-    startLine: 29
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nWorksheet\n"
+  example: []
   syntax:
     content: public string Worksheet { get; }
     parameters: []
@@ -133,10 +139,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromCol
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/RangeAddress.cs
-    startLine: 31
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nFrom Column\n"
+  example: []
   syntax:
     content: public int FromCol { get; }
     parameters: []
@@ -168,10 +176,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCol
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/RangeAddress.cs
-    startLine: 33
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nTo Column\n"
+  example: []
   syntax:
     content: public int ToCol { get; }
     parameters: []
@@ -203,10 +213,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromRow
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/RangeAddress.cs
-    startLine: 35
+    startLine: 49
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nFrom row\n"
+  example: []
   syntax:
     content: public int FromRow { get; }
     parameters: []
@@ -238,10 +250,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToRow
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/RangeAddress.cs
-    startLine: 37
+    startLine: 53
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nTo row\n"
+  example: []
   syntax:
     content: public int ToRow { get; }
     parameters: []
@@ -273,14 +287,17 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/RangeAddress.cs
-    startLine: 39
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nTo string\n"
+  example: []
   syntax:
     content: public override string ToString()
     return:
       type: System.String
+      description: ''
     content.vb: Public Overrides Function ToString As String
   overridden: System.Object.ToString
   overload: OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress.ToString*
@@ -308,10 +325,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Empty
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/RangeAddress.cs
-    startLine: 45
+    startLine: 67
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities
+  summary: "\nEmpty\n"
+  example: []
   syntax:
     content: public static RangeAddress Empty { get; }
     parameters: []
@@ -345,7 +364,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CollidesWith
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/RangeAddress.cs
-    startLine: 55
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.ExcelUtilities

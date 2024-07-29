@@ -21,10 +21,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionNameProvider
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionNameProvider.cs
-    startLine: 20
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nFunction name provider\n"
+  example: []
   syntax:
     content: 'public class FunctionNameProvider : IFunctionNameProvider'
     content.vb: >-
@@ -66,10 +68,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Empty
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionNameProvider.cs
-    startLine: 27
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nEmpty\n"
+  example: []
   syntax:
     content: public static FunctionNameProvider Empty { get; }
     parameters: []
@@ -103,17 +107,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsFunctionName
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionNameProvider.cs
-    startLine: 32
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions
+  summary: "\nIs function name\n"
+  example: []
   syntax:
     content: public virtual bool IsFunctionName(string name)
     parameters:
     - id: name
       type: System.String
+      description: ''
     return:
       type: System.Boolean
+      description: ''
     content.vb: Public Overridable Function IsFunctionName(name As String) As Boolean
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.FunctionNameProvider.IsFunctionName*
   implements:

@@ -64,10 +64,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
-    startLine: 25
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nAddress\n"
+  example: []
   syntax:
     content: string Address { get; }
     parameters: []
@@ -97,10 +99,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetName
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
-    startLine: 27
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nWorksheetName\n"
+  example: []
   syntax:
     content: string WorksheetName { get; }
     parameters: []
@@ -130,10 +134,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
-    startLine: 28
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nRow\n"
+  example: []
   syntax:
     content: int Row { get; }
     parameters: []
@@ -163,10 +169,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
-    startLine: 29
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nColumn\n"
+  example: []
   syntax:
     content: int Column { get; }
     parameters: []
@@ -196,10 +204,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
-    startLine: 31
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nId\n"
+  example: []
   syntax:
     content: ulong Id { get; }
     parameters: []
@@ -229,10 +239,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
-    startLine: 32
+    startLine: 48
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nFormula\n"
+  example: []
   syntax:
     content: string Formula { get; }
     parameters: []
@@ -262,10 +274,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
-    startLine: 33
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nValue\n"
+  example: []
   syntax:
     content: object Value { get; }
     parameters: []
@@ -295,10 +309,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueDouble
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
-    startLine: 34
+    startLine: 56
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nValue double\n"
+  example: []
   syntax:
     content: double ValueDouble { get; }
     parameters: []
@@ -328,10 +344,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueDoubleLogical
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
-    startLine: 35
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nValue double logical\n"
+  example: []
   syntax:
     content: double ValueDoubleLogical { get; }
     parameters: []
@@ -361,10 +379,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHiddenRow
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
-    startLine: 36
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIs hidden row\n"
+  example: []
   syntax:
     content: bool IsHiddenRow { get; }
     parameters: []
@@ -394,10 +414,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsExcelError
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
-    startLine: 37
+    startLine: 68
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIs excel error\n"
+  example: []
   syntax:
     content: bool IsExcelError { get; }
     parameters: []
@@ -427,10 +449,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokens
     path: ../src/EPPlus/FormulaParsing/ICellInfo.cs
-    startLine: 38
+    startLine: 72
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nTokens\n"
+  example: []
   syntax:
     content: IList<Token> Tokens { get; }
     parameters: []

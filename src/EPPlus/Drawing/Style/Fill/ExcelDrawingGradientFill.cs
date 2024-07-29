@@ -94,7 +94,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
 
             if (ShadePath==eShadePath.Linear && LinearSettings.Angel!=0 && LinearSettings.Scaled==false)
             {
-                _xml.SetXmlNodeAngel("a:lin/@ang", LinearSettings.Angel);
+                _xml.SetXmlNodeAngle("a:lin/@ang", LinearSettings.Angel);
                 _xml.SetXmlNodeBool("a:lin/@scaled", LinearSettings.Scaled);
             }
             else if(ShadePath != eShadePath.Linear)

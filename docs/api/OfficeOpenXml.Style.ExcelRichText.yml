@@ -228,11 +228,11 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLine
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 65
+    startLine: 69
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
-  summary: "\nUnderlined text\n"
+  summary: "\nUnderlined text\n<p></p>\nTrue sets <xref href=\"OfficeOpenXml.Style.ExcelRichText.UnderLineType?text=UnderLineType\" data-throw-if-not-resolved=\"false\"></xref> to  <xref href=\"OfficeOpenXml.Style.ExcelUnderLineType.Single?text=Single\" data-throw-if-not-resolved=\"false\"></xref>\n<p></p>\nFalse sets <xref href=\"OfficeOpenXml.Style.ExcelRichText.UnderLineType?text=UnderLineType\" data-throw-if-not-resolved=\"false\"></xref> to <xref href=\"OfficeOpenXml.Style.ExcelUnderLineType.Single?text=None\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public bool UnderLine { get; set; }
@@ -265,7 +265,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalAlign
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 80
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -302,7 +302,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 85
+    startLine: 89
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -339,7 +339,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontName
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 90
+    startLine: 94
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -376,7 +376,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 97
+    startLine: 100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -413,7 +413,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorSettings
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 134
+    startLine: 137
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -450,7 +450,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Charset
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 139
+    startLine: 142
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -487,7 +487,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Family
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 144
+    startLine: 147
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -524,7 +524,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLineType
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 149
+    startLine: 152
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -561,7 +561,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 183
+    startLine: 186
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -598,7 +598,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetUnderlineType
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 247
+    startLine: 250
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -639,7 +639,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetUVerticalAlignmentFont
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 269
+    startLine: 274
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -680,7 +680,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HtmlText
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 299
+    startLine: 304
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -717,10 +717,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDefaultValue
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 522
+    startLine: 534
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
+  summary: "\nHas default value\n"
+  example: []
   syntax:
     content: public bool HasDefaultValue { get; }
     parameters: []
@@ -1059,6 +1061,12 @@ references:
   name: Strike
   nameWithType: ExcelRichText.Strike
   fullName: OfficeOpenXml.Style.ExcelRichText.Strike
+- uid: OfficeOpenXml.Style.ExcelRichText.UnderLineType
+  commentId: P:OfficeOpenXml.Style.ExcelRichText.UnderLineType
+  isExternal: true
+- uid: OfficeOpenXml.Style.ExcelUnderLineType.Single
+  commentId: F:OfficeOpenXml.Style.ExcelUnderLineType.Single
+  isExternal: true
 - uid: OfficeOpenXml.Style.ExcelRichText.UnderLine*
   commentId: Overload:OfficeOpenXml.Style.ExcelRichText.UnderLine
   name: UnderLine

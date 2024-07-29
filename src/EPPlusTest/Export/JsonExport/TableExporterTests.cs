@@ -32,6 +32,7 @@ namespace EPPlusTest.Export.JsonExport
         [TestMethod]
         public async Task ValidateJsonExportRange()
         {
+            SwitchToCulture();
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add($"Sheet1");
@@ -66,6 +67,7 @@ namespace EPPlusTest.Export.JsonExport
                 Assert.AreEqual("{\"range\":{\"columns\":[{\"name\":\"SEK\",\"dt\":\"number\"},{\"name\":\"EUR\",\"dt\":\"number\"},{\"name\":\"USD\",\"dt\":\"number\"}],\"rows\":[{\"cells\":[{\"v\":\"1\",\"t\":\"1\"},{\"v\":\"10.35\",\"t\":\"10,35\"},{\"v\":\"9.51\",\"t\":\"9,51\"}]},{\"cells\":[{\"v\":\"1\",\"t\":\"1\"},{\"v\":\"10.48\",\"t\":\"10,48\"},{\"v\":\"9.59\",\"t\":\"9,59\"}]}]}}",
                     json);
             }
+            SwitchBackToCurrentCulture();
         }
         [TestMethod]
         public void ValidateJsonEncoding()

@@ -135,7 +135,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             {
                 if (item.Type == eItemType.Data)
                 {
-                    if (item.Hidden)
+                    if (IsHidden(item))
                         sb.Append($"<i x=\"{x++}\" />");
                     else
                         sb.Append($"<i x=\"{x++}\" s=\"1\"/>");
@@ -149,6 +149,26 @@ namespace OfficeOpenXml.Drawing.Slicer
             var dataNode = (XmlElement)CreateNode(_topPath+"/x14:items");
             dataNode.SetAttribute("count", x.ToString());
             dataNode.InnerXml = sb.ToString();
+        }
+
+        private bool IsHidden(ExcelPivotTableFieldItem item)
+        {
+            if (item.Hidden)
+            {
+                return true;
+            }
+            else
+            {
+                var field = _cache._field;
+                if (field.IsPageField && field.MultipleItemSelectionAllowed == false)
+                {
+                    return field.PageFieldSettings.SelectedItem != item.X;
+                }
+                else
+                {
+                    return false;
+                }
+            }
         }
     }
 }

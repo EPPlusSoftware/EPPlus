@@ -83,7 +83,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
             }
             set
             {
-                SetXmlNodeAngel(_horizontalSkewAnglePath, value, "HorizontalSkewAngle", -90, 90);
+                SetXmlNodeAngle(_horizontalSkewAnglePath, value, "HorizontalSkewAngle", -90, 90);
             }
         }
         /// <summary>
@@ -98,7 +98,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
             }
             set
             {
-                SetXmlNodeAngel(_verticalSkewAnglePath, value, "HorizontalSkewAngle", -90, 90);
+                SetXmlNodeAngle(_verticalSkewAnglePath, value, "HorizontalSkewAngle", -90, 90);
             }
         }
         /// <summary>

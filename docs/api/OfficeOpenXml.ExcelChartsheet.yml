@@ -90,6 +90,9 @@ items:
   - OfficeOpenXml.ExcelWorksheet.SetValue(System.String,System.Object)
   - OfficeOpenXml.ExcelWorksheet.GetMergeCellId(System.Int32,System.Int32)
   - OfficeOpenXml.ExcelWorksheet.Dimension
+  - OfficeOpenXml.ExcelWorksheet.DimensionByValue
+  - OfficeOpenXml.ExcelWorksheet.FirstValueCell
+  - OfficeOpenXml.ExcelWorksheet.LastValueCell
   - OfficeOpenXml.ExcelWorksheet.Protection
   - OfficeOpenXml.ExcelWorksheet.ProtectedRanges
   - OfficeOpenXml.ExcelWorksheet.Drawings
@@ -1570,6 +1573,24 @@ references:
   name: Dimension
   nameWithType: ExcelWorksheet.Dimension
   fullName: OfficeOpenXml.ExcelWorksheet.Dimension
+- uid: OfficeOpenXml.ExcelWorksheet.DimensionByValue
+  commentId: P:OfficeOpenXml.ExcelWorksheet.DimensionByValue
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: DimensionByValue
+  nameWithType: ExcelWorksheet.DimensionByValue
+  fullName: OfficeOpenXml.ExcelWorksheet.DimensionByValue
+- uid: OfficeOpenXml.ExcelWorksheet.FirstValueCell
+  commentId: P:OfficeOpenXml.ExcelWorksheet.FirstValueCell
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: FirstValueCell
+  nameWithType: ExcelWorksheet.FirstValueCell
+  fullName: OfficeOpenXml.ExcelWorksheet.FirstValueCell
+- uid: OfficeOpenXml.ExcelWorksheet.LastValueCell
+  commentId: P:OfficeOpenXml.ExcelWorksheet.LastValueCell
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: LastValueCell
+  nameWithType: ExcelWorksheet.LastValueCell
+  fullName: OfficeOpenXml.ExcelWorksheet.LastValueCell
 - uid: OfficeOpenXml.ExcelWorksheet.Protection
   commentId: P:OfficeOpenXml.ExcelWorksheet.Protection
   parent: OfficeOpenXml.ExcelWorksheet

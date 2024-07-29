@@ -18,6 +18,7 @@ using System.Globalization;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using static OfficeOpenXml.Style.ExcelNumberFormat;
+using OfficeOpenXml.Style.XmlAccess;
 
 namespace OfficeOpenXml.Style
 {
@@ -32,7 +33,7 @@ namespace OfficeOpenXml.Style
             Index = index;
         }
         /// <summary>
-        /// The numeric index fror the format
+        /// The numeric index for the format
         /// </summary>
         public int NumFmtID 
         {
@@ -77,6 +78,15 @@ namespace OfficeOpenXml.Style
 
         internal static string GetFromBuildInFromID(int _numFmtId)
         {
+            //First check if we have custom formats.
+            if(ExcelPackageSettings.CultureSpecificBuildInNumberFormats.TryGetValue(CultureInfo.CurrentCulture.Name, out var customFormats))
+            {
+                if(customFormats.TryGetValue(_numFmtId, out var customFormat))
+                {
+                    return customFormat;
+                }
+            }
+
             switch (_numFmtId)
             {
                 case 0:
@@ -132,7 +142,7 @@ namespace OfficeOpenXml.Style
                 case 47:
                     return "mmss.0";
                 case 48:
-                    return "##0.0";
+                    return "##0.0E+0";
                 case 49:
                     return "@";
                 default:
@@ -141,6 +151,15 @@ namespace OfficeOpenXml.Style
         }
         internal static int GetFromBuildIdFromFormat(string format)
         {
+            if (ExcelPackageSettings.CultureSpecificBuildInNumberFormats.TryGetValue(CultureInfo.CurrentCulture.Name, out var customFormats))
+            {
+                var id = customFormats.Where(x => x.Value.Equals(format, StringComparison.OrdinalIgnoreCase)); //We scan the values here. Not the fastest way,but we avoid having two dictionaries.
+                if(id.Any())
+                {
+                    return id.First().Key;
+                }
+            }
+            
             switch (format)
             {
                 case "General":
@@ -196,7 +215,7 @@ namespace OfficeOpenXml.Style
                     return 46;
                 case "mmss.0":
                     return 47;
-                case "##0.0":
+                case "##0.0E+0":
                     return 48;
                 case "@":
                     return 49;

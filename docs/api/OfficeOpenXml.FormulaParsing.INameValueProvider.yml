@@ -23,10 +23,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: INameValueProvider
     path: ../src/EPPlus/FormulaParsing/INameValueProvider.cs
-    startLine: 19
+    startLine: 17
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nName value provider\n"
+  example: []
   syntax:
     content: public interface INameValueProvider
     content.vb: Public Interface INameValueProvider
@@ -54,19 +56,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNamedValue
     path: ../src/EPPlus/FormulaParsing/INameValueProvider.cs
-    startLine: 21
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIs named value\n"
+  example: []
   syntax:
     content: bool IsNamedValue(string key, string worksheet)
     parameters:
     - id: key
       type: System.String
+      description: ''
     - id: worksheet
       type: System.String
+      description: ''
     return:
       type: System.Boolean
+      description: ''
     content.vb: Function IsNamedValue(key As String, worksheet As String) As Boolean
   overload: OfficeOpenXml.FormulaParsing.INameValueProvider.IsNamedValue*
 - uid: OfficeOpenXml.FormulaParsing.INameValueProvider.GetNamedValue(System.String)
@@ -87,17 +94,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNamedValue
     path: ../src/EPPlus/FormulaParsing/INameValueProvider.cs
-    startLine: 23
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nGet named value\n"
+  example: []
   syntax:
     content: object GetNamedValue(string key)
     parameters:
     - id: key
       type: System.String
+      description: ''
     return:
       type: System.Object
+      description: ''
     content.vb: Function GetNamedValue(key As String) As Object
   overload: OfficeOpenXml.FormulaParsing.INameValueProvider.GetNamedValue*
 - uid: OfficeOpenXml.FormulaParsing.INameValueProvider.GetNamedValue(System.String,System.String)
@@ -118,19 +129,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNamedValue
     path: ../src/EPPlus/FormulaParsing/INameValueProvider.cs
-    startLine: 25
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nGetNamedValue\n"
+  example: []
   syntax:
     content: object GetNamedValue(string key, string worksheet)
     parameters:
     - id: key
       type: System.String
+      description: ''
     - id: worksheet
       type: System.String
+      description: ''
     return:
       type: System.Object
+      description: ''
     content.vb: Function GetNamedValue(key As String, worksheet As String) As Object
   overload: OfficeOpenXml.FormulaParsing.INameValueProvider.GetNamedValue*
 - uid: OfficeOpenXml.FormulaParsing.INameValueProvider.Reload
@@ -151,10 +167,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reload
     path: ../src/EPPlus/FormulaParsing/INameValueProvider.cs
-    startLine: 27
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nReload\n"
+  example: []
   syntax:
     content: void Reload()
     content.vb: Sub Reload

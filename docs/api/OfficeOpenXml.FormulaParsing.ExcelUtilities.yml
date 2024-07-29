@@ -7,9 +7,6 @@ items:
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressInfo
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelAddressUtil
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
-  - OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependencies
-  - OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency
-  - OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependencyFactory
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.LookupValueMatcher
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.RangeAddress
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
@@ -41,23 +38,6 @@ references:
   name: ExcelReferenceType
   nameWithType: ExcelReferenceType
   fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependencies
-  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependencies
-  name: FormulaDependencies
-  nameWithType: FormulaDependencies
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependencies
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency
-  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency
-  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities
-  name: FormulaDependency
-  nameWithType: FormulaDependency
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependency
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependencyFactory
-  commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependencyFactory
-  parent: OfficeOpenXml.FormulaParsing.ExcelUtilities
-  name: FormulaDependencyFactory
-  nameWithType: FormulaDependencyFactory
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.FormulaDependencyFactory
 - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.LookupValueMatcher
   commentId: T:OfficeOpenXml.FormulaParsing.ExcelUtilities.LookupValueMatcher
   name: LookupValueMatcher

@@ -35,7 +35,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
 
             if (n <= 0) return CompileResult.GetErrorResult(eErrorType.Num);
-            var result = GammaHelper.gamma(n);
+            var result = GammaHelper.Gamma(n);
             return CreateResult(result, DataType.Decimal);
         }
     }

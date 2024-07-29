@@ -5,7 +5,6 @@ items:
   id: OfficeOpenXml.FormulaParsing.Utilities
   children:
   - OfficeOpenXml.FormulaParsing.Utilities.ArgumentInfo`1
-  - OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
   - OfficeOpenXml.FormulaParsing.Utilities.Require
   langs:
   - csharp
@@ -54,11 +53,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
-  commentId: T:OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
-  name: RegexConstants
-  nameWithType: RegexConstants
-  fullName: OfficeOpenXml.FormulaParsing.Utilities.RegexConstants
 - uid: OfficeOpenXml.FormulaParsing.Utilities.Require
   commentId: T:OfficeOpenXml.FormulaParsing.Utilities.Require
   name: Require

@@ -674,10 +674,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasRichText
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 306
+    startLine: 309
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style
+  summary: "\nTrue if the entry has richtext\n"
+  example: []
   syntax:
     content: public bool HasRichText { get; }
     parameters: []
@@ -709,7 +711,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasTextRun
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-    startLine: 317
+    startLine: 320
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart.Style

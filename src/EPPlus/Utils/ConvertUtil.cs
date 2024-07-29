@@ -27,6 +27,7 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
+using OfficeOpenXml.ConditionalFormatting;
 namespace OfficeOpenXml.Utils
 {
     internal static class ConvertUtil
@@ -582,7 +583,7 @@ namespace OfficeOpenXml.Utils
             string s;
             try
             {
-                if (v is DateTime dt)
+                if (IsDate(v, out DateTime dt))
                 {
                     double sdv = dt.ToOADate();
 
@@ -593,20 +594,42 @@ namespace OfficeOpenXml.Utils
 
                     s = sdv.ToString(CultureInfo.InvariantCulture);
                 }
-                else if (v is TimeSpan ts)
+                else if (IsTimeSpan(v, out TimeSpan ts))
                 {
                     s = ((double)ts.Ticks / TimeSpan.TicksPerDay).ToString(CultureInfo.InvariantCulture);
                 }
                 else if (TypeCompat.IsPrimitive(v) || v is double || v is decimal)
                 {
-                    if ((v is double && double.IsNaN((double)v)) ||
-                        (v is float && float.IsNaN((float)v)))
+                    if (v is double d) 
                     {
-                        s = "";
+                        if(double.IsNaN(d))
+                        {
+                            s = "";
+                        }
+                        else if (double.IsInfinity(d))
+                        {
+                            s = "#NUM!";
+                        }
+                        else
+                        {
+                            s = d.ToString("R15", CultureInfo.InvariantCulture);
+                        }
                     }
-                    else if (v is double && double.IsInfinity((double)v))
+                    else if(v is float f)
                     {
-                        s = "#NUM!";
+                        if(float.IsNaN(f))
+                        {
+                            s = "";
+                        }
+                        else if (float.IsInfinity(f))
+                        {
+                            s = "#NUM!";
+
+                        }
+                        else
+                        {
+                            s = f.ToString("R15", CultureInfo.InvariantCulture);
+                        }
                     }
                     else
                     {
@@ -625,6 +648,42 @@ namespace OfficeOpenXml.Utils
             }
             return s;
         }
+        private static bool IsDate(object v, out DateTime date)
+        {
+            if(v is DateTime dt)
+            {
+                date = dt;
+                return true;
+            }
+            #if(NET6_0_OR_GREATER)
+            if(v is DateOnly dto)
+            {
+                date = dto.ToDateTime(TimeOnly.MinValue);
+                return true;
+            }
+#endif
+            date = default;
+            return false;
+        }
+        private static bool IsTimeSpan(object v, out TimeSpan timeSpan)
+        {
+            if (v is TimeSpan ts)
+            {
+                timeSpan = ts;
+                return true;
+            }
+#if (NET6_0_OR_GREATER)
+            if (v is TimeOnly to)
+            {
+                timeSpan = to.ToTimeSpan();
+                return true;
+            }
+#endif
+            timeSpan=default;
+            return false;
+        }
+
+
         internal static string CropString(string s, int maxLength)
         {
             if (s == null) return s;
@@ -703,7 +762,7 @@ namespace OfficeOpenXml.Utils
             {
                 return " t=\"e\"";
             }
-            else if (allowStr && v != null && !(TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan))
+            else if (allowStr && v != null && !IsNumericOrDateDatatype(v))
             {
                 return " t=\"str\"";
             }
@@ -711,6 +770,14 @@ namespace OfficeOpenXml.Utils
             {
                 return "";
             }
+        }
+        internal static bool IsNumericOrDateDatatype(object v)
+        {
+#if (NET6_0_OR_GREATER)
+            return (TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan || v is DateOnly || v is TimeOnly) && v is not char;
+#else
+                return (TypeCompat.IsPrimitive(v) || v is double || v is decimal || v is DateTime || v is TimeSpan) && !(v is char);
+#endif
         }
 
         internal static string ParseXmlString(this string xmlString)

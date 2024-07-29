@@ -22,7 +22,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCalcMode
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 55
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -55,7 +55,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Automatic
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 62
+    startLine: 54
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -89,7 +89,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutomaticNoTable
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 66
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -123,7 +123,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Manual
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 70
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

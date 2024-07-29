@@ -25,10 +25,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddressCompileResult
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 371
+    startLine: 417
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nAddress compile result\n"
+  example: []
   syntax:
     content: 'public class AddressCompileResult : CompileResult'
     content.vb: >-
@@ -89,19 +91,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 373
+    startLine: 425
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nAddress result\n"
+  example: []
   syntax:
     content: public AddressCompileResult(object result, DataType dataType, FormulaRangeAddress address)
     parameters:
     - id: result
       type: System.Object
+      description: ''
     - id: dataType
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+      description: ''
     - id: address
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+      description: ''
     content.vb: Public Sub New(result As Object, dataType As DataType, address As FormulaRangeAddress)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor*
   modifiers.csharp:
@@ -126,17 +133,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 377
+    startLine: 434
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nAddress result without address\n"
+  example: []
   syntax:
     content: public AddressCompileResult(object result, DataType dataType)
     parameters:
     - id: result
       type: System.Object
+      description: ''
     - id: dataType
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+      description: ''
     content.vb: Public Sub New(result As Object, dataType As DataType)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor*
   modifiers.csharp:
@@ -161,15 +172,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 381
+    startLine: 442
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\n\n"
+  example: []
   syntax:
     content: public AddressCompileResult(eErrorType error)
     parameters:
     - id: error
       type: OfficeOpenXml.eErrorType
+      description: ''
     content.vb: Public Sub New(error As eErrorType)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor*
   modifiers.csharp:
@@ -194,15 +208,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 385
+    startLine: 450
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nAddress compile result\n"
+  example: []
   syntax:
     content: public AddressCompileResult(ExcelErrorValue errorValue)
     parameters:
     - id: errorValue
       type: OfficeOpenXml.ExcelErrorValue
+      description: ''
     content.vb: Public Sub New(errorValue As ExcelErrorValue)
   overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.AddressCompileResult.#ctor*
   modifiers.csharp:
@@ -227,10 +244,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 389
+    startLine: 457
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nAddress\n"
+  example: []
   syntax:
     content: public override FormulaRangeAddress Address { get; }
     parameters: []
@@ -265,10 +284,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 393
+    startLine: 464
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nResultType\n"
+  example: []
   syntax:
     content: public override CompileResultType ResultType { get; }
     parameters: []

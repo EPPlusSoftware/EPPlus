@@ -504,17 +504,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreEqualTo
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 162
+    startLine: 166
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nAre equal to\n"
+  example: []
   syntax:
     content: public bool AreEqualTo(Token otherToken)
     parameters:
     - id: otherToken
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+      description: ''
     return:
       type: System.Boolean
+      description: ''
     content.vb: Public Function AreEqualTo(otherToken As Token) As Boolean
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token.AreEqualTo*
   modifiers.csharp:
@@ -539,7 +543,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/Token.cs
-    startLine: 215
+    startLine: 219
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis

@@ -26,6 +26,7 @@ items:
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Integer
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.InvalidReference
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.NAError
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.NameError
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.NameValue
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Negator
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Null
@@ -34,7 +35,10 @@ items:
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.OpeningEnumerable
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.OpeningParenthesis
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Operator
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ParameterVariable
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ParameterVariableDeclaration
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.Percent
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.PivotField
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.RangeOffset
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.SemiColon
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.SingleQuote
@@ -1534,10 +1538,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SingleQuote
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-    startLine: 193
+    startLine: 196
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nRepresents a single quote.\n"
+  example: []
   syntax:
     content: SingleQuote = 4398046511104UL
     return:
@@ -1566,12 +1572,150 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HashMark
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-    startLine: 194
+    startLine: 200
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nRepresents a hash mark\n"
+  example: []
   syntax:
     content: HashMark = 8796093022208UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.PivotField
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.PivotField
+  id: PivotField
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: PivotField
+  nameWithType: TokenType.PivotField
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.PivotField
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PivotField
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 204
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nRepresents a pivot field in a pivot field formula\n"
+  example: []
+  syntax:
+    content: PivotField = 17592186044416UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ParameterVariableDeclaration
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ParameterVariableDeclaration
+  id: ParameterVariableDeclaration
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: ParameterVariableDeclaration
+  nameWithType: TokenType.ParameterVariableDeclaration
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ParameterVariableDeclaration
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ParameterVariableDeclaration
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 208
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nRepresents a parameter variable declaration in functions such as LET or LAMBDA\n"
+  example: []
+  syntax:
+    content: ParameterVariableDeclaration = 35184372088832UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.NameError
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.NameError
+  id: NameError
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: NameError
+  nameWithType: TokenType.NameError
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.NameError
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NameError
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 212
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nRepresents a name error\n"
+  example: []
+  syntax:
+    content: NameError = 70368744177664UL
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ParameterVariable
+  commentId: F:OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ParameterVariable
+  id: ParameterVariable
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
+  langs:
+  - csharp
+  - vb
+  name: ParameterVariable
+  nameWithType: TokenType.ParameterVariable
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType.ParameterVariable
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ParameterVariable
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
+    startLine: 216
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nRepresents a parameter variable in functions such as LET or LAMBDA\n"
+  example: []
+  syntax:
+    content: ParameterVariable = 140737488355328UL
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.TokenType
   modifiers.csharp:

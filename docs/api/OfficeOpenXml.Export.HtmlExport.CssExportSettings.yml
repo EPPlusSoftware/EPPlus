@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml.Export.HtmlExport
   children:
   - OfficeOpenXml.Export.HtmlExport.CssExportSettings.AdditionalCssElements
+  - OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeCssReset
   - OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeNormalFont
   - OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeSharedClasses
   - OfficeOpenXml.Export.HtmlExport.CssExportSettings.IndentUnit
@@ -128,6 +129,43 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeCssReset
+  commentId: P:OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeCssReset
+  id: IncludeCssReset
+  parent: OfficeOpenXml.Export.HtmlExport.CssExportSettings
+  langs:
+  - csharp
+  - vb
+  name: IncludeCssReset
+  nameWithType: CssExportSettings.IncludeCssReset
+  fullName: OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeCssReset
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IncludeCssReset
+    path: ../src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nEnsure margin and padding consistent between browsers\n"
+  example: []
+  syntax:
+    content: public bool IncludeCssReset { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property IncludeCssReset As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeCssReset*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.Export.HtmlExport.CssExportSettings.AdditionalCssElements
   commentId: P:OfficeOpenXml.Export.HtmlExport.CssExportSettings.AdditionalCssElements
   id: AdditionalCssElements
@@ -146,7 +184,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdditionalCssElements
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
-    startLine: 35
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.HtmlExport
@@ -183,7 +221,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IndentValue
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
-    startLine: 43
+    startLine: 48
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.HtmlExport
@@ -220,7 +258,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IndentUnit
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
-    startLine: 47
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.HtmlExport
@@ -566,6 +604,11 @@ references:
   name: IncludeNormalFont
   nameWithType: CssExportSettings.IncludeNormalFont
   fullName: OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeNormalFont
+- uid: OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeCssReset*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeCssReset
+  name: IncludeCssReset
+  nameWithType: CssExportSettings.IncludeCssReset
+  fullName: OfficeOpenXml.Export.HtmlExport.CssExportSettings.IncludeCssReset
 - uid: OfficeOpenXml.Export.HtmlExport.CssExportSettings.AdditionalCssElements*
   commentId: Overload:OfficeOpenXml.Export.HtmlExport.CssExportSettings.AdditionalCssElements
   name: AdditionalCssElements

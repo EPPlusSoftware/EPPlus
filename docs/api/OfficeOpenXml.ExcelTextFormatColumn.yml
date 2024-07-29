@@ -1,0 +1,635 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ExcelTextFormatColumn
+  commentId: T:OfficeOpenXml.ExcelTextFormatColumn
+  id: ExcelTextFormatColumn
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.ExcelTextFormatColumn.DataType
+  - OfficeOpenXml.ExcelTextFormatColumn.Length
+  - OfficeOpenXml.ExcelTextFormatColumn.Name
+  - OfficeOpenXml.ExcelTextFormatColumn.PaddingType
+  - OfficeOpenXml.ExcelTextFormatColumn.Position
+  - OfficeOpenXml.ExcelTextFormatColumn.UseColumn
+  langs:
+  - csharp
+  - vb
+  name: ExcelTextFormatColumn
+  nameWithType: ExcelTextFormatColumn
+  fullName: OfficeOpenXml.ExcelTextFormatColumn
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTextFormatColumn
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\n\n"
+  example: []
+  syntax:
+    content: public class ExcelTextFormatColumn
+    content.vb: Public Class ExcelTextFormatColumn
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.ExcelTextFormatColumn.Name
+  commentId: P:OfficeOpenXml.ExcelTextFormatColumn.Name
+  id: Name
+  parent: OfficeOpenXml.ExcelTextFormatColumn
+  langs:
+  - csharp
+  - vb
+  name: Name
+  nameWithType: ExcelTextFormatColumn.Name
+  fullName: OfficeOpenXml.ExcelTextFormatColumn.Name
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Name
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+    startLine: 31
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe name of the column\n"
+  example: []
+  syntax:
+    content: public string Name { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property Name As String
+  overload: OfficeOpenXml.ExcelTextFormatColumn.Name*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFormatColumn.Position
+  commentId: P:OfficeOpenXml.ExcelTextFormatColumn.Position
+  id: Position
+  parent: OfficeOpenXml.ExcelTextFormatColumn
+  langs:
+  - csharp
+  - vb
+  name: Position
+  nameWithType: ExcelTextFormatColumn.Position
+  fullName: OfficeOpenXml.ExcelTextFormatColumn.Position
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Position
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+    startLine: 35
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe start position of the column, is equal to -1 if not set\n"
+  example: []
+  syntax:
+    content: public int Position { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Position As Integer
+  overload: OfficeOpenXml.ExcelTextFormatColumn.Position*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelTextFormatColumn.Length
+  commentId: P:OfficeOpenXml.ExcelTextFormatColumn.Length
+  id: Length
+  parent: OfficeOpenXml.ExcelTextFormatColumn
+  langs:
+  - csharp
+  - vb
+  name: Length
+  nameWithType: ExcelTextFormatColumn.Length
+  fullName: OfficeOpenXml.ExcelTextFormatColumn.Length
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Length
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe length of the column.\n"
+  example: []
+  syntax:
+    content: public int Length { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property Length As Integer
+  overload: OfficeOpenXml.ExcelTextFormatColumn.Length*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelTextFormatColumn.DataType
+  commentId: P:OfficeOpenXml.ExcelTextFormatColumn.DataType
+  id: DataType
+  parent: OfficeOpenXml.ExcelTextFormatColumn
+  langs:
+  - csharp
+  - vb
+  name: DataType
+  nameWithType: ExcelTextFormatColumn.DataType
+  fullName: OfficeOpenXml.ExcelTextFormatColumn.DataType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataType
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe data type of the column. Is set to Unknown by default\n"
+  example: []
+  syntax:
+    content: public eDataTypes DataType { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.eDataTypes
+    content.vb: Public Property DataType As eDataTypes
+  overload: OfficeOpenXml.ExcelTextFormatColumn.DataType*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFormatColumn.PaddingType
+  commentId: P:OfficeOpenXml.ExcelTextFormatColumn.PaddingType
+  id: PaddingType
+  parent: OfficeOpenXml.ExcelTextFormatColumn
+  langs:
+  - csharp
+  - vb
+  name: PaddingType
+  nameWithType: ExcelTextFormatColumn.PaddingType
+  fullName: OfficeOpenXml.ExcelTextFormatColumn.PaddingType
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PaddingType
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe padding type of the column. Is set to auto by default, which will try to pad numbers to the right and strings to the left.\n"
+  example: []
+  syntax:
+    content: public PaddingAlignmentType PaddingType { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.PaddingAlignmentType
+    content.vb: Public Property PaddingType As PaddingAlignmentType
+  overload: OfficeOpenXml.ExcelTextFormatColumn.PaddingType*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelTextFormatColumn.UseColumn
+  commentId: P:OfficeOpenXml.ExcelTextFormatColumn.UseColumn
+  id: UseColumn
+  parent: OfficeOpenXml.ExcelTextFormatColumn
+  langs:
+  - csharp
+  - vb
+  name: UseColumn
+  nameWithType: ExcelTextFormatColumn.UseColumn
+  fullName: OfficeOpenXml.ExcelTextFormatColumn.UseColumn
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: UseColumn
+    path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
+    startLine: 51
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nFlag to set if column should be used when reading and writing fixed width text.\n"
+  example: []
+  syntax:
+    content: public bool UseColumn { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property UseColumn As Boolean
+  overload: OfficeOpenXml.ExcelTextFormatColumn.UseColumn*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelTextFormatColumn.Name*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatColumn.Name
+  name: Name
+  nameWithType: ExcelTextFormatColumn.Name
+  fullName: OfficeOpenXml.ExcelTextFormatColumn.Name
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.ExcelTextFormatColumn.Position*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatColumn.Position
+  name: Position
+  nameWithType: ExcelTextFormatColumn.Position
+  fullName: OfficeOpenXml.ExcelTextFormatColumn.Position
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.ExcelTextFormatColumn.Length*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatColumn.Length
+  name: Length
+  nameWithType: ExcelTextFormatColumn.Length
+  fullName: OfficeOpenXml.ExcelTextFormatColumn.Length
+- uid: OfficeOpenXml.ExcelTextFormatColumn.DataType*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatColumn.DataType
+  name: DataType
+  nameWithType: ExcelTextFormatColumn.DataType
+  fullName: OfficeOpenXml.ExcelTextFormatColumn.DataType
+- uid: OfficeOpenXml.eDataTypes
+  commentId: T:OfficeOpenXml.eDataTypes
+  parent: OfficeOpenXml
+  name: eDataTypes
+  nameWithType: eDataTypes
+  fullName: OfficeOpenXml.eDataTypes
+- uid: OfficeOpenXml.ExcelTextFormatColumn.PaddingType*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatColumn.PaddingType
+  name: PaddingType
+  nameWithType: ExcelTextFormatColumn.PaddingType
+  fullName: OfficeOpenXml.ExcelTextFormatColumn.PaddingType
+- uid: OfficeOpenXml.PaddingAlignmentType
+  commentId: T:OfficeOpenXml.PaddingAlignmentType
+  parent: OfficeOpenXml
+  name: PaddingAlignmentType
+  nameWithType: PaddingAlignmentType
+  fullName: OfficeOpenXml.PaddingAlignmentType
+- uid: OfficeOpenXml.ExcelTextFormatColumn.UseColumn*
+  commentId: Overload:OfficeOpenXml.ExcelTextFormatColumn.UseColumn
+  name: UseColumn
+  nameWithType: ExcelTextFormatColumn.UseColumn
+  fullName: OfficeOpenXml.ExcelTextFormatColumn.UseColumn
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

@@ -21,10 +21,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InvalidFormulaException
     path: ../src/EPPlus/FormulaParsing/Exceptions/InvalidFormulaException.cs
-    startLine: 20
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Exceptions
+  summary: "\nInvalid formula exception\n"
+  example: []
   syntax:
     content: 'public class InvalidFormulaException : Exception, ISerializable'
     content.vb: >-
@@ -78,15 +80,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Exceptions/InvalidFormulaException.cs
-    startLine: 22
+    startLine: 29
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Exceptions
+  summary: "\nInvalid formula exception\n"
+  example: []
   syntax:
     content: public InvalidFormulaException(string msg)
     parameters:
     - id: msg
       type: System.String
+      description: ''
     content.vb: Public Sub New(msg As String)
   overload: OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException.#ctor*
   modifiers.csharp:
@@ -111,17 +116,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Exceptions/InvalidFormulaException.cs
-    startLine: 27
+    startLine: 39
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Exceptions
+  summary: "\nInvalid formula exception inner exception\n"
+  example: []
   syntax:
     content: public InvalidFormulaException(string msg, Exception innerException)
     parameters:
     - id: msg
       type: System.String
+      description: ''
     - id: innerException
       type: System.Exception
+      description: ''
     content.vb: Public Sub New(msg As String, innerException As Exception)
   overload: OfficeOpenXml.FormulaParsing.Exceptions.InvalidFormulaException.#ctor*
   modifiers.csharp:

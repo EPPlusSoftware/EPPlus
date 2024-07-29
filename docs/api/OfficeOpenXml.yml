@@ -57,6 +57,7 @@ items:
   - OfficeOpenXml.ExcelNamedRangeCollection
   - OfficeOpenXml.ExcelNamedStyleCollection`1
   - OfficeOpenXml.ExcelOutputTextFormat
+  - OfficeOpenXml.ExcelOutputTextFormatFixedWidth
   - OfficeOpenXml.ExcelPackage
   - OfficeOpenXml.ExcelPackageSettings
   - OfficeOpenXml.ExcelPrinterSettings
@@ -75,8 +76,12 @@ items:
   - OfficeOpenXml.ExcelStyleCollection`1
   - OfficeOpenXml.ExcelStyles
   - OfficeOpenXml.ExcelTableAddress
+  - OfficeOpenXml.ExcelTextFileFormat
   - OfficeOpenXml.ExcelTextFormat
   - OfficeOpenXml.ExcelTextFormatBase
+  - OfficeOpenXml.ExcelTextFormatColumn
+  - OfficeOpenXml.ExcelTextFormatFixedWidth
+  - OfficeOpenXml.ExcelTextFormatFixedWidthBase
   - OfficeOpenXml.ExcelTextSettings
   - OfficeOpenXml.ExcelWorkbook
   - OfficeOpenXml.ExcelWorkbookView
@@ -87,6 +92,7 @@ items:
   - OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetPanes
   - OfficeOpenXml.ExcelWorksheetView.ExcelWorksheetViewPaneSettings
   - OfficeOpenXml.ExcelWriteProtection
+  - OfficeOpenXml.FixedWidthFormatErrorStrategy
   - OfficeOpenXml.FontSize
   - OfficeOpenXml.JsonExportSettings
   - OfficeOpenXml.JsonRangeExportSettings
@@ -94,6 +100,7 @@ items:
   - OfficeOpenXml.LicenseContext
   - OfficeOpenXml.LicenseException
   - OfficeOpenXml.OfficeProperties
+  - OfficeOpenXml.PaddingAlignmentType
   - OfficeOpenXml.PictureAlignment
   - OfficeOpenXml.RangeExtensions
   - OfficeOpenXml.ToCollectionOptions
@@ -534,30 +541,71 @@ references:
   name: ExcelTableAddress
   nameWithType: ExcelTableAddress
   fullName: OfficeOpenXml.ExcelTableAddress
-- uid: OfficeOpenXml.eDataTypes
-  commentId: T:OfficeOpenXml.eDataTypes
-  parent: OfficeOpenXml
-  name: eDataTypes
-  nameWithType: eDataTypes
-  fullName: OfficeOpenXml.eDataTypes
-- uid: OfficeOpenXml.ExcelTextFormatBase
-  commentId: T:OfficeOpenXml.ExcelTextFormatBase
-  parent: OfficeOpenXml
-  name: ExcelTextFormatBase
-  nameWithType: ExcelTextFormatBase
-  fullName: OfficeOpenXml.ExcelTextFormatBase
-- uid: OfficeOpenXml.ExcelTextFormat
-  commentId: T:OfficeOpenXml.ExcelTextFormat
-  parent: OfficeOpenXml
-  name: ExcelTextFormat
-  nameWithType: ExcelTextFormat
-  fullName: OfficeOpenXml.ExcelTextFormat
 - uid: OfficeOpenXml.ExcelOutputTextFormat
   commentId: T:OfficeOpenXml.ExcelOutputTextFormat
   parent: OfficeOpenXml
   name: ExcelOutputTextFormat
   nameWithType: ExcelOutputTextFormat
   fullName: OfficeOpenXml.ExcelOutputTextFormat
+- uid: OfficeOpenXml.PaddingAlignmentType
+  commentId: T:OfficeOpenXml.PaddingAlignmentType
+  parent: OfficeOpenXml
+  name: PaddingAlignmentType
+  nameWithType: PaddingAlignmentType
+  fullName: OfficeOpenXml.PaddingAlignmentType
+- uid: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  commentId: T:OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+  parent: OfficeOpenXml
+  name: ExcelOutputTextFormatFixedWidth
+  nameWithType: ExcelOutputTextFormatFixedWidth
+  fullName: OfficeOpenXml.ExcelOutputTextFormatFixedWidth
+- uid: OfficeOpenXml.ExcelTextFileFormat
+  commentId: T:OfficeOpenXml.ExcelTextFileFormat
+  parent: OfficeOpenXml
+  name: ExcelTextFileFormat
+  nameWithType: ExcelTextFileFormat
+  fullName: OfficeOpenXml.ExcelTextFileFormat
+- uid: OfficeOpenXml.eDataTypes
+  commentId: T:OfficeOpenXml.eDataTypes
+  parent: OfficeOpenXml
+  name: eDataTypes
+  nameWithType: eDataTypes
+  fullName: OfficeOpenXml.eDataTypes
+- uid: OfficeOpenXml.ExcelTextFormat
+  commentId: T:OfficeOpenXml.ExcelTextFormat
+  parent: OfficeOpenXml
+  name: ExcelTextFormat
+  nameWithType: ExcelTextFormat
+  fullName: OfficeOpenXml.ExcelTextFormat
+- uid: OfficeOpenXml.ExcelTextFormatBase
+  commentId: T:OfficeOpenXml.ExcelTextFormatBase
+  parent: OfficeOpenXml
+  name: ExcelTextFormatBase
+  nameWithType: ExcelTextFormatBase
+  fullName: OfficeOpenXml.ExcelTextFormatBase
+- uid: OfficeOpenXml.ExcelTextFormatColumn
+  commentId: T:OfficeOpenXml.ExcelTextFormatColumn
+  name: ExcelTextFormatColumn
+  nameWithType: ExcelTextFormatColumn
+  fullName: OfficeOpenXml.ExcelTextFormatColumn
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidth
+  commentId: T:OfficeOpenXml.ExcelTextFormatFixedWidth
+  parent: OfficeOpenXml
+  name: ExcelTextFormatFixedWidth
+  nameWithType: ExcelTextFormatFixedWidth
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidth
+- uid: OfficeOpenXml.FixedWidthFormatErrorStrategy
+  commentId: T:OfficeOpenXml.FixedWidthFormatErrorStrategy
+  parent: OfficeOpenXml
+  name: FixedWidthFormatErrorStrategy
+  nameWithType: FixedWidthFormatErrorStrategy
+  fullName: OfficeOpenXml.FixedWidthFormatErrorStrategy
+- uid: OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  commentId: T:OfficeOpenXml.ExcelTextFormatFixedWidthBase
+  parent: OfficeOpenXml
+  name: ExcelTextFormatFixedWidthBase
+  nameWithType: ExcelTextFormatFixedWidthBase
+  fullName: OfficeOpenXml.ExcelTextFormatFixedWidthBase
 - uid: OfficeOpenXml.ExcelTextSettings
   commentId: T:OfficeOpenXml.ExcelTextSettings
   parent: OfficeOpenXml

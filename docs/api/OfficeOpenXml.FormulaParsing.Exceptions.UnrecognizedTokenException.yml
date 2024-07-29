@@ -24,6 +24,8 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Exceptions
+  summary: "\nUnrecognized token exception\n"
+  example: []
   syntax:
     content: 'public class UnrecognizedTokenException : Exception, ISerializable'
     content.vb: >-
@@ -77,15 +79,18 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Exceptions/UnrecognizedTokenException.cs
-    startLine: 22
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Exceptions
+  summary: "\nConstructor. Token exception\n"
+  example: []
   syntax:
     content: public UnrecognizedTokenException(Token token)
     parameters:
     - id: token
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.Token
+      description: Tje token that can not be recognized
     content.vb: Public Sub New(token As Token)
   overload: OfficeOpenXml.FormulaParsing.Exceptions.UnrecognizedTokenException.#ctor*
   modifiers.csharp:

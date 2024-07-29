@@ -107,7 +107,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParentIndex
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldGroup.cs
-    startLine: 39
+    startLine: 43
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable

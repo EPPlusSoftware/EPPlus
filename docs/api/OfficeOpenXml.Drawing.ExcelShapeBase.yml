@@ -11,9 +11,11 @@ items:
   - OfficeOpenXml.Drawing.ExcelShapeBase.Fill
   - OfficeOpenXml.Drawing.ExcelShapeBase.Font
   - OfficeOpenXml.Drawing.ExcelShapeBase.HeadEnd
+  - OfficeOpenXml.Drawing.ExcelShapeBase.HorizontalFlip
   - OfficeOpenXml.Drawing.ExcelShapeBase.Indent
   - OfficeOpenXml.Drawing.ExcelShapeBase.LockText
   - OfficeOpenXml.Drawing.ExcelShapeBase.RichText
+  - OfficeOpenXml.Drawing.ExcelShapeBase.Rotation
   - OfficeOpenXml.Drawing.ExcelShapeBase.Style
   - OfficeOpenXml.Drawing.ExcelShapeBase.TailEnd
   - OfficeOpenXml.Drawing.ExcelShapeBase.Text
@@ -23,6 +25,7 @@ items:
   - OfficeOpenXml.Drawing.ExcelShapeBase.TextBody
   - OfficeOpenXml.Drawing.ExcelShapeBase.TextVertical
   - OfficeOpenXml.Drawing.ExcelShapeBase.ThreeD
+  - OfficeOpenXml.Drawing.ExcelShapeBase.VerticalFlip
   langs:
   - csharp
   - vb
@@ -37,7 +40,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelShapeBase
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 28
+    startLine: 29
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -90,6 +93,7 @@ items:
   - OfficeOpenXml.Drawing.ExcelDrawing.ParentGroup
   - OfficeOpenXml.Drawing.ExcelDrawing.Dispose
   - OfficeOpenXml.Drawing.ExcelDrawing.AdjustPositionAndSize
+  - OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -121,7 +125,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 74
+    startLine: 82
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -161,7 +165,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 84
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -200,7 +204,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 109
+    startLine: 117
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -237,7 +241,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 124
+    startLine: 132
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -274,7 +278,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 139
+    startLine: 147
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -311,7 +315,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 154
+    startLine: 162
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -348,7 +352,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeadEnd
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 169
+    startLine: 177
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -385,7 +389,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TailEnd
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 184
+    startLine: 192
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -422,7 +426,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 199
+    startLine: 207
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -459,7 +463,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 233
+    startLine: 241
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -496,7 +500,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LockText
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 248
+    startLine: 256
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -533,7 +537,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RichText
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 265
+    startLine: 273
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -570,7 +574,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextAnchoring
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 279
+    startLine: 287
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -607,7 +611,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextAnchoringControl
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 293
+    startLine: 301
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -644,7 +648,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextAlignment
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 314
+    startLine: 322
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -681,7 +685,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indent
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 367
+    startLine: 375
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -694,6 +698,117 @@ items:
       type: System.Int32
     content.vb: Public Property Indent As Integer
   overload: OfficeOpenXml.Drawing.ExcelShapeBase.Indent*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelShapeBase.Rotation
+  commentId: P:OfficeOpenXml.Drawing.ExcelShapeBase.Rotation
+  id: Rotation
+  parent: OfficeOpenXml.Drawing.ExcelShapeBase
+  langs:
+  - csharp
+  - vb
+  name: Rotation
+  nameWithType: ExcelShapeBase.Rotation
+  fullName: OfficeOpenXml.Drawing.ExcelShapeBase.Rotation
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelShapeBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Rotation
+    path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
+    startLine: 393
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nRotation angle in degrees. Positive angles are clockwise. Negative angles are counter-clockwise.\n"
+  example: []
+  syntax:
+    content: public double Rotation { get; set; }
+    parameters: []
+    return:
+      type: System.Double
+    content.vb: Public Property Rotation As Double
+  overload: OfficeOpenXml.Drawing.ExcelShapeBase.Rotation*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelShapeBase.HorizontalFlip
+  commentId: P:OfficeOpenXml.Drawing.ExcelShapeBase.HorizontalFlip
+  id: HorizontalFlip
+  parent: OfficeOpenXml.Drawing.ExcelShapeBase
+  langs:
+  - csharp
+  - vb
+  name: HorizontalFlip
+  nameWithType: ExcelShapeBase.HorizontalFlip
+  fullName: OfficeOpenXml.Drawing.ExcelShapeBase.HorizontalFlip
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelShapeBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: HorizontalFlip
+    path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
+    startLine: 407
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIf true, flips the shape horizontal about the center of its bounding box.\n"
+  example: []
+  syntax:
+    content: public bool HorizontalFlip { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property HorizontalFlip As Boolean
+  overload: OfficeOpenXml.Drawing.ExcelShapeBase.HorizontalFlip*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.ExcelShapeBase.VerticalFlip
+  commentId: P:OfficeOpenXml.Drawing.ExcelShapeBase.VerticalFlip
+  id: VerticalFlip
+  parent: OfficeOpenXml.Drawing.ExcelShapeBase
+  langs:
+  - csharp
+  - vb
+  name: VerticalFlip
+  nameWithType: ExcelShapeBase.VerticalFlip
+  fullName: OfficeOpenXml.Drawing.ExcelShapeBase.VerticalFlip
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelShapeBase.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: VerticalFlip
+    path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
+    startLine: 421
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nIf true, flips the shape vertical about the center of its bounding box.\n"
+  example: []
+  syntax:
+    content: public bool VerticalFlip { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property VerticalFlip As Boolean
+  overload: OfficeOpenXml.Drawing.ExcelShapeBase.VerticalFlip*
   modifiers.csharp:
   - public
   - get
@@ -718,7 +833,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextVertical
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 385
+    startLine: 435
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -755,7 +870,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/ExcelShapeBase.cs
-    startLine: 400
+    startLine: 450
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1489,6 +1604,107 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
+  parent: OfficeOpenXml.Drawing.ExcelDrawing
+  isExternal: true
+  name: Copy(ExcelWorksheet, Int32, Int32, Int32, Int32)
+  nameWithType: ExcelDrawing.Copy(ExcelWorksheet, Int32, Int32, Int32, Int32)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet, System.Int32, System.Int32, System.Int32, System.Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
+    name: Copy
+    nameWithType: ExcelDrawing.Copy
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.Copy
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Drawing.ExcelDrawing.Copy(OfficeOpenXml.ExcelWorksheet,System.Int32,System.Int32,System.Int32,System.Int32)
+    name: Copy
+    nameWithType: ExcelDrawing.Copy
+    fullName: OfficeOpenXml.Drawing.ExcelDrawing.Copy
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -1967,6 +2183,28 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: OfficeOpenXml.Drawing.ExcelShapeBase.Rotation*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelShapeBase.Rotation
+  name: Rotation
+  nameWithType: ExcelShapeBase.Rotation
+  fullName: OfficeOpenXml.Drawing.ExcelShapeBase.Rotation
+- uid: System.Double
+  commentId: T:System.Double
+  parent: System
+  isExternal: true
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
+- uid: OfficeOpenXml.Drawing.ExcelShapeBase.HorizontalFlip*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelShapeBase.HorizontalFlip
+  name: HorizontalFlip
+  nameWithType: ExcelShapeBase.HorizontalFlip
+  fullName: OfficeOpenXml.Drawing.ExcelShapeBase.HorizontalFlip
+- uid: OfficeOpenXml.Drawing.ExcelShapeBase.VerticalFlip*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelShapeBase.VerticalFlip
+  name: VerticalFlip
+  nameWithType: ExcelShapeBase.VerticalFlip
+  fullName: OfficeOpenXml.Drawing.ExcelShapeBase.VerticalFlip
 - uid: OfficeOpenXml.Drawing.ExcelShapeBase.TextVertical*
   commentId: Overload:OfficeOpenXml.Drawing.ExcelShapeBase.TextVertical
   name: TextVertical

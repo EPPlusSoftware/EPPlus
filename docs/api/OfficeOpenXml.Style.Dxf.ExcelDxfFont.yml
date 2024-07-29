@@ -416,7 +416,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
-    startLine: 214
+    startLine: 210
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf
@@ -456,7 +456,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFont.cs
-    startLine: 234
+    startLine: 230
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.Dxf

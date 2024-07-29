@@ -376,7 +376,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
-  summary: "\nText settings like fills, text outlines and effects \n"
+  summary: "\nString settings like fills, text outlines and effects \n"
   example: []
   syntax:
     content: public ExcelDrawingTextSettings TextSettings { get; }

@@ -86,7 +86,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Anchor
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 34
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -123,7 +123,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AnchorCenter
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 48
+    startLine: 51
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -160,7 +160,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLine
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 62
+    startLine: 66
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -197,7 +197,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomInsert
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 83
+    startLine: 88
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -234,7 +234,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopInsert
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 97
+    startLine: 103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -271,7 +271,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightInsert
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 111
+    startLine: 118
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -308,7 +308,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftInsert
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 125
+    startLine: 133
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -345,7 +345,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rotation
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 139
+    startLine: 148
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -382,7 +382,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SpaceBetweenColumns
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 153
+    startLine: 163
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -419,7 +419,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParagraphSpacing
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 169
+    startLine: 180
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -456,7 +456,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextUpright
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 183
+    startLine: 195
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -493,7 +493,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompatibleLineSpacing
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 197
+    startLine: 210
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -530,7 +530,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ForceAntiAlias
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 211
+    startLine: 225
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -567,7 +567,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromWordArt
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 225
+    startLine: 240
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -604,7 +604,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalText
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 239
+    startLine: 255
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -641,7 +641,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalTextOverflow
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 253
+    startLine: 270
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -678,7 +678,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalTextOverflow
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 268
+    startLine: 286
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -715,7 +715,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WrapText
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 282
+    startLine: 301
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -752,7 +752,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextAutofit
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 296
+    startLine: 316
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -789,7 +789,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutofitNormalFontScale
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 340
+    startLine: 361
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -826,7 +826,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineSpaceReduction
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextBody.cs
-    startLine: 356
+    startLine: 378
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

@@ -1,25 +1,61 @@
-﻿/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
-
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 7.2
- *************************************************************************************************/
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
+using System.Xml.Xsl;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
 {
     internal static class MatrixHelper
     {
+
+        //Contains various functions for matrix operations.
+
+        internal static double[][] TransposeMatrix(double[][] matrix, int rows, int cols)
+        {
+            //This function takes a jagged matrix as input, and returns its transpose.
+            double[][] transposedMat = CreateMatrix(cols, rows);
+
+            for (int r = 0; r < rows; r++)
+            {
+                for (int c = 0; c < cols; c++)
+                {
+                    transposedMat[c][r] = matrix[r][c];
+                }
+            }
+            return transposedMat;
+        }
+
+        internal static double[][] MatrixMultDouble(double[][] matrix, double multiplier)
+        {
+            //Multiplies all elements in a matrix with a single number.
+            double[][] resultMat = CreateMatrix(matrix.Count(), matrix[0].Count());
+            for (int row = 0; row < matrix.Count(); row++)
+            {
+                for (int col = 0; col < matrix[0].Count(); col++)
+                {
+                    resultMat[row][col] = matrix[row][col] * multiplier;
+                }
+            }
+            return resultMat;
+        }
+        internal static double[] MatrixDiagonal(double[][] matrix)
+        {
+            //Returns the diagonal of a matrix.
+            double[] resultArray = new double[matrix.Count()];
+            for (int row = 0; row < matrix[0].Count(); row++)
+            {
+                for (int col = 0; col < matrix.Count(); col++)
+                {
+                    if (row == col) resultArray[row] = matrix[row][col];
+                }
+            }
+            return resultArray;
+        }
+
         internal static double[][] CreateMatrix(int rows, int cols)
         {
             double[][] matrix = new double[rows][];
@@ -243,6 +279,222 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
                 elements[i] = product / luMatrix[i][i];
             }
             return elements;
+        }
+
+        internal static int ArgMaxIndex(double[][] mat)
+        {
+            //This function finds the index of the largest absolute value in the input matrix
+
+            double maxAbsValue = double.MinValue;
+            int maxIndex = -1;
+            int flatIndex = 0;
+
+            for (int i = 0; i < mat.Count(); i++)
+            {
+                for (int j = 0; j < mat[0].Count(); j++)
+                {
+                    double absValue = Math.Abs(mat[i][j]);
+                    if (absValue > maxAbsValue)
+                    {
+                        maxAbsValue = absValue;
+                        maxIndex = flatIndex;
+                    }
+                    flatIndex += 1;
+                }
+            }
+
+            return maxIndex;
+        }
+
+        internal static double GetM2Norm(double[][] rr)
+        {
+
+            //Calculates the 2-norm (euclidean, L2 norm) of the matrix.
+
+            int m = rr.Count();
+            int n = rr[0].Count();
+
+            var m1norm = 0d;
+            for (int i = 0; i < n; i++)
+            {
+                //Sum of the max absolute values of all values in column i
+                var dd = 0d;
+                for (int r = 0; r < rr.Count(); r++)
+                {
+                    dd += Math.Abs(rr[r][i]);
+                    m1norm = Math.Max(m1norm, dd);
+                }
+            }
+
+            var m8norm = 0d;
+            for (int i = 0; i < m; i++)
+            {
+                //Sum of the max absolute values of all values in row i
+                var dd = 0d;
+                for (int c = 0; c < rr[0].Count(); c++)
+                {
+                    dd += Math.Abs(rr[i][c]);
+                    m8norm = Math.Max(m8norm, dd);
+                }
+            }
+
+            return Math.Sqrt(m1norm * m8norm);
+        }
+
+        internal static List<double> GaussRank(double[][] xRange, bool constVal)
+        {
+            //This function takes the input matrix and transforms it to echelon form (every leading coefficient is 1 and is to the right of the leading coefficient on the row above).
+            //This is done with complete pivoting to improve numerical stability and identify linearly dependent columns.
+            // 
+            var xTdotX = MatrixHelper.Multiply(MatrixHelper.TransposeMatrix(xRange, xRange.Count(), xRange[0].Count()), xRange);
+            List<double> drop = new List<double>();
+            int m = xTdotX.Length;
+            int n = xTdotX[0].Length;
+            var m2norm = GetM2Norm(xRange);
+            var eps = 2.220446049250313E-16;
+            var xeps = 1000 * eps;
+            int ixr;
+            int ixc;
+
+            double[] colOrder = new double[n];
+            int count = 0;
+            for (int i = 0; i < n; i++)
+            {
+                colOrder[i] = count;
+                count += 1;
+            }
+
+            for (int ix0 = 0; ix0 < n; ix0++)
+            {
+                if (ix0 == 0 && constVal)
+                {
+                    //If column with 1's has been added, this column is addressed first.
+                    ixr = 0;
+                    ixc = 0;
+                }
+                else
+                {
+                    //Complete pivoting is performed
+                    //Pivote element becomes the index with the largest absolute value in each sub matrix
+                    double[][] subMatrix = new double[m - ix0][];
+                    int rowCount = 0;
+                    for (int i = ix0; i < m; i++)
+                    {
+                        subMatrix[rowCount] = new double[n - ix0];
+                        int colCount = 0;
+                        for (int j = ix0; j < n; j++)
+                        {
+                            subMatrix[rowCount][colCount] = xTdotX[i][j];
+                            colCount += 1;
+                        }
+                        rowCount += 1;
+                    }
+                    int dd = ArgMaxIndex(subMatrix);
+
+                    ixr = dd / (n - ix0);
+                    ixc = dd % (n - ix0);
+                    ixr += ix0;
+                    ixc += ix0;
+
+                    List<double> ddArray = new List<double>();
+                    for (int i = 0; i < xTdotX[ixr].Count(); i++)
+                    {
+                        var tmp = Math.Abs(Math.Abs(xTdotX[ixr][i]) - Math.Abs(xTdotX[ixr][ixc]));
+                        if (tmp < 1000 * xeps) ddArray.Add(i);
+                    }
+                    ixc = (int)ddArray[0];
+                    if (ddArray.Count() > 1)
+                    {
+                        ixc = (int)ddArray[ddArray.Count() - 1];
+                    }
+                }
+
+                if (Math.Abs(xTdotX[ixr][ixc]) > eps)
+                {
+                    //row swap
+                    for (int i = 0; i < xTdotX[ixr].Count(); ++i)
+                    {
+                        var tmp = xTdotX[ix0][i];
+                        xTdotX[ix0][i] = xTdotX[ixr][i];
+                        xTdotX[ixr][i] = tmp;
+                    }
+                    //column swap
+                    for (int i = 0; i < xTdotX.Count(); i++)
+                    {
+                        var tmp = xTdotX[i][ix0];
+                        xTdotX[i][ix0] = xTdotX[i][ixc];
+                        xTdotX[i][ixc] = tmp;
+                    }
+
+                    var tmp1 = colOrder[ix0];
+                    colOrder[ix0] = colOrder[ixc];
+                    colOrder[ixc] = tmp1;
+
+                    //Elimination
+                    for (int ix2 = ix0 + 1; ix2 < m; ix2++)
+                    {
+                        var dd = xTdotX[ix2][ix0] / xTdotX[ix0][ix0];
+
+                        for (int j = 0; j < xTdotX[ix2].Count(); j++)
+                        {
+                            xTdotX[ix2][j] -= xTdotX[ix0][j] * dd;
+                        }
+                    }
+
+                }
+            }
+
+            //Deciding on collinear columns:
+            for (int i = 0; i < n; i++)
+            {
+                var v1 = xTdotX[i][i];
+                var v2 = m2norm;
+                var v3 = xeps;
+                var v4 = Math.Floor(Math.Abs(v1 / v2) / v3); //.Floor should be correct
+                if (v4 == 0)
+                {
+                    drop.Add(colOrder[i]);
+                }
+            }
+
+            //Contains column index on what variables should be dropped due to collinearity
+            return drop;
+        }
+
+        internal static double[][] RemoveColumns(double[][] xRangeList, List<double> dropCols)
+        {
+            //Removes column indexes in dropCols from the matrix xRangeList
+            int height = xRangeList.Length;
+            if (height == 0) return xRangeList;
+
+            int width = xRangeList[0].Length;
+            HashSet<double> dropColsSet = new HashSet<double>(dropCols);
+
+            double[][] newXRangeList = new double[height][];
+            for (int i = 0; i < height; i++)
+            {
+                List<double> newRow = new List<double>();
+                for (int j = 0; j < width; j++)
+                {
+                    if (!dropColsSet.Contains(j))
+                    {
+                        newRow.Add(xRangeList[i][j]);
+                    }
+                }
+                newXRangeList[i] = newRow.ToArray();
+            }
+
+            return newXRangeList;
+        }
+
+        internal static double[] ListToArray(List<double> list)
+        {
+            double[] arr = new double[list.Count];
+            for (var i = 0; i < list.Count; i++)
+            {
+                arr[i] = list[i];
+            }
+            return arr;
         }
     }
 }

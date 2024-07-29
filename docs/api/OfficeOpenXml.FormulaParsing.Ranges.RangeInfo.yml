@@ -577,10 +577,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dimension
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 207
+    startLine: 210
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nDimension\n"
+  example: []
   syntax:
     content: public FormulaRangeAddress Dimension { get; }
     parameters: []
@@ -614,7 +616,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 228
+    startLine: 231
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -649,7 +651,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 238
+    startLine: 241
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -688,7 +690,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 250
+    startLine: 253
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -725,7 +727,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 260
+    startLine: 263
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -759,7 +761,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextCell
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 271
+    startLine: 274
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -794,7 +796,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 282
+    startLine: 285
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -832,7 +834,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 292
+    startLine: 295
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -867,7 +869,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 306
+    startLine: 309
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -906,7 +908,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 314
+    startLine: 317
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -950,7 +952,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 325
+    startLine: 328
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -994,7 +996,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 339
+    startLine: 342
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1044,19 +1046,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 348
+    startLine: 356
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nIs hidden\n"
+  example: []
   syntax:
     content: public bool IsHidden(int rowOffset, int colOffset)
     parameters:
     - id: rowOffset
       type: System.Int32
+      description: ''
     - id: colOffset
       type: System.Int32
+      description: ''
     return:
       type: System.Boolean
+      description: ''
     content.vb: Public Function IsHidden(rowOffset As Integer, colOffset As Integer) As Boolean
   overload: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.IsHidden*
   implements:

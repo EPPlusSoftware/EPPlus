@@ -115,11 +115,11 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
                 }
                 else if(DataType == eColorTransformDataType.Angle)
                 {
-                    SetXmlNodeAngel("@val", value, Type.ToString(), int.MinValue/60000, int.MaxValue/60000);
+                    SetXmlNodeAngle("@val", value, Type.ToString(), int.MinValue/60000, int.MaxValue/60000);
                 }
                 else if (DataType == eColorTransformDataType.FixedAngle90)
                 {
-                    SetXmlNodeAngel("@val", value, Type.ToString(), -90, 90);
+                    SetXmlNodeAngle("@val", value, Type.ToString(), -90, 90);
                 }
             }
         }

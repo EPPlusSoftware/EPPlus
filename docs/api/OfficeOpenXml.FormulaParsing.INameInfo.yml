@@ -28,10 +28,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: INameInfo
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
-    startLine: 20
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nNameInfo\n"
+  example: []
   syntax:
     content: public interface INameInfo
     content.vb: Public Interface INameInfo
@@ -59,10 +61,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
-    startLine: 22
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nId\n"
+  example: []
   syntax:
     content: ulong Id { get; }
     parameters: []
@@ -92,10 +96,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: wsIx
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
-    startLine: 23
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nwsIx\n"
+  example: []
   syntax:
     content: int wsIx { get; }
     parameters: []
@@ -125,10 +131,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
-    startLine: 24
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nName\n"
+  example: []
   syntax:
     content: string Name { get; }
     parameters: []
@@ -158,10 +166,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
-    startLine: 25
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nFormula\n"
+  example: []
   syntax:
     content: string Formula { get; }
     parameters: []
@@ -191,10 +201,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
-    startLine: 26
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nValue\n"
+  example: []
   syntax:
     content: object Value { get; }
     parameters: []
@@ -224,10 +236,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRelative
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
-    startLine: 27
+    startLine: 48
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIsRelative\n"
+  example: []
   syntax:
     content: bool IsRelative { get; }
     parameters: []
@@ -257,19 +271,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetRelativeFormula
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
-    startLine: 28
+    startLine: 55
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nGet relative formula\n"
+  example: []
   syntax:
     content: string GetRelativeFormula(int row, int col)
     parameters:
     - id: row
       type: System.Int32
+      description: ''
     - id: col
       type: System.Int32
+      description: ''
     return:
       type: System.String
+      description: ''
     content.vb: Function GetRelativeFormula(row As Integer, col As Integer) As String
   overload: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeFormula*
 - uid: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeRange(OfficeOpenXml.FormulaParsing.IRangeInfo,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
@@ -290,19 +309,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetRelativeRange
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
-    startLine: 29
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nGet relative range\n"
+  example: []
   syntax:
     content: IRangeInfo GetRelativeRange(IRangeInfo ri, FormulaCellAddress currentCell)
     parameters:
     - id: ri
       type: OfficeOpenXml.FormulaParsing.IRangeInfo
+      description: ''
     - id: currentCell
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+      description: ''
     return:
       type: OfficeOpenXml.FormulaParsing.IRangeInfo
+      description: ''
     content.vb: Function GetRelativeRange(ri As IRangeInfo, currentCell As FormulaCellAddress) As IRangeInfo
   overload: OfficeOpenXml.FormulaParsing.INameInfo.GetRelativeRange*
 - uid: OfficeOpenXml.FormulaParsing.INameInfo.GetValue(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress)
@@ -323,17 +347,21 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
-    startLine: 30
+    startLine: 68
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nGet value\n"
+  example: []
   syntax:
     content: object GetValue(FormulaCellAddress currentCell)
     parameters:
     - id: currentCell
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaCellAddress
+      description: ''
     return:
       type: System.Object
+      description: ''
     content.vb: Function GetValue(currentCell As FormulaCellAddress) As Object
   overload: OfficeOpenXml.FormulaParsing.INameInfo.GetValue*
 references:

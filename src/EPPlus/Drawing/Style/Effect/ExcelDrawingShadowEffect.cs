@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
             set
             {
                 InitXml();
-                SetXmlNodeAngel(_directionPath, value, "Direction");
+                SetXmlNodeAngle(_directionPath, value, "Direction");
             }
         }
         /// <summary>

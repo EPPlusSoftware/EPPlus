@@ -124,6 +124,25 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             Assert.AreEqual(ErrorValues.RefError, ws.Cells["A6"].Value);
         }
 
+        [TestMethod]
+        public void VerifyCalculationAllPivotTables()
+        {
+            using (var p = OpenTemplatePackage("PivotTableCalculation.xlsx"))
+            {
+                p.Workbook.CalculateAllPivotTables(true);
+            }
+        }
+        [TestMethod]
+        public void VerifyCalculationPivotTablesCollectionCalculate()
+        {
+            using (var p = OpenTemplatePackage("PivotTableCalculation.xlsx"))
+            {
+                foreach (var ws in p.Workbook.Worksheets)
+                {
+                    ws.PivotTables.Calculate(true);
+                }
+            }
+        }
         private object GetPtData(ExcelPivotTable pt, int datafield, params object[] values)
 		{
 			var l = new List<PivotDataFieldItemSelection>();

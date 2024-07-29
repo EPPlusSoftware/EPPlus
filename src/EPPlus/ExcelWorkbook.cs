@@ -215,7 +215,8 @@ namespace OfficeOpenXml
 			TopNode = WorkbookXml.DocumentElement;
 			SchemaNodeOrder = new string[] { "fileVersion", "fileSharing", "workbookPr", "workbookProtection", "bookViews", "sheets", "functionGroups", "functionPrototypes", "externalReferences", "definedNames", "calcPr", "oleSize", "customWorkbookViews", "pivotCaches", "smartTagPr", "smartTagTypes", "webPublishing", "fileRecoveryPr", "webPublishObjects", "extLst" };
 			FullCalcOnLoad = true;  //Full calculation on load by default, for both new workbooks and templates.
-			GetSharedStrings();
+
+            GetSharedStrings();
 		}
 
 		/// <summary>
@@ -879,10 +880,37 @@ namespace OfficeOpenXml
 			_vba = new ExcelVbaProject(this);
 			_vba.Create();
 		}
-		/// <summary>
-		/// URI to the workbook inside the package
-		/// </summary>
-		internal Uri WorkbookUri { get; private set; }
+        /// <summary>
+        /// Calculate all pivot tables in the workbook. 
+        /// Also see <seealso cref="ExcelPivotTable.Calculate(bool)"/> and <seealso cref="ExcelPivotTableCollection.Calculate(bool)"/>
+        /// </summary>
+        /// <param name="refresh">If the cache should be refreshed.</param>
+        public void CalculateAllPivotTables(bool refresh = false)
+        {
+            var caches = new HashSet<PivotTableCacheInternal>();
+			foreach (var ws in Worksheets)
+			{
+				if (ws.IsChartSheet) continue;
+				foreach (var pt in ws.PivotTables)
+				{
+					var cache = pt.CacheDefinition._cacheReference;
+					if (cache == null) continue;
+					if (!caches.Contains(cache))
+					{
+						pt.Calculate(refresh);
+						caches.Add(cache);
+					}
+					else
+					{
+						pt.Calculate(false);
+					}
+				}
+			}
+        }
+        /// <summary>
+        /// URI to the workbook inside the package
+        /// </summary>
+        internal Uri WorkbookUri { get; private set; }
 		/// <summary>
 		/// URI to the styles inside the package
 		/// </summary>
@@ -1152,8 +1180,7 @@ namespace OfficeOpenXml
 			}
 			#endregion
 		}
-
-		private const string FULL_CALC_ON_LOAD_PATH = "d:calcPr/@fullCalcOnLoad";
+        private const string FULL_CALC_ON_LOAD_PATH = "d:calcPr/@fullCalcOnLoad";
 		/// <summary>
 		/// Should Excel do a full calculation after the workbook has been loaded?
 		/// <remarks>This property is always true for both new workbooks and loaded templates(on load). If this is not the wanted behavior set this property to false.</remarks>
@@ -1222,7 +1249,7 @@ namespace OfficeOpenXml
 
 			DeleteCalcChain();
 
-			if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
+            if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
 			{
 				if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault &&
 					Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
@@ -1969,5 +1996,7 @@ namespace OfficeOpenXml
 				return _richData;
 			}
 		}
-	} // end Workbook
+
+        public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; internal set; }
+    } // end Workbook
 }

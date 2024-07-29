@@ -20,10 +20,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IFvProvider
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IFvProvider.cs
-    startLine: 16
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  summary: "\nIFvProvider\n"
+  example: []
   syntax:
     content: public interface IFvProvider
     content.vb: Public Interface IFvProvider
@@ -51,25 +53,33 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFv
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IFvProvider.cs
-    startLine: 18
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance
+  summary: "\nGetFv\n"
+  example: []
   syntax:
     content: double GetFv(double Rate, double NPer, double Pmt, double PV = 0, PmtDue Due = PmtDue.EndOfPeriod)
     parameters:
     - id: Rate
       type: System.Double
+      description: ''
     - id: NPer
       type: System.Double
+      description: ''
     - id: Pmt
       type: System.Double
+      description: ''
     - id: PV
       type: System.Double
+      description: ''
     - id: Due
       type: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations.PmtDue
+      description: ''
     return:
       type: System.Double
+      description: ''
     content.vb: Function GetFv(Rate As Double, NPer As Double, Pmt As Double, PV As Double = 0, Due As PmtDue = PmtDue.EndOfPeriod) As Double
   overload: OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.IFvProvider.GetFv*
 references:

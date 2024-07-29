@@ -725,10 +725,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 171
+    startLine: 174
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nCurrent\n"
+  example: []
   syntax:
     content: public ICellInfo Current { get; }
     parameters: []
@@ -763,7 +765,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 179
+    startLine: 182
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -800,10 +802,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 187
+    startLine: 192
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nDispose\n"
+  example: []
   syntax:
     content: public void Dispose()
     content.vb: Public Sub Dispose
@@ -832,14 +836,17 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 192
+    startLine: 200
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nGet enumerator\n"
+  example: []
   syntax:
     content: public IEnumerator<ICellInfo> GetEnumerator()
     return:
       type: System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}
+      description: ''
     content.vb: Public Function GetEnumerator As IEnumerator(Of ICellInfo)
   overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetEnumerator*
   implements:
@@ -866,7 +873,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 203
+    startLine: 211
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -903,7 +910,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 213
+    startLine: 221
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -947,7 +954,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 231
+    startLine: 239
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -997,7 +1004,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 257
+    startLine: 265
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1041,7 +1048,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 267
+    startLine: 275
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1085,19 +1092,24 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCell
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 285
+    startLine: 298
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nGet cell\n"
+  example: []
   syntax:
     content: public ICellInfo GetCell(int row, int col)
     parameters:
     - id: row
       type: System.Int32
+      description: ''
     - id: col
       type: System.Int32
+      description: ''
     return:
       type: OfficeOpenXml.FormulaParsing.ICellInfo
+      description: ''
     content.vb: Public Function GetCell(row As Integer, col As Integer) As ICellInfo
   overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.GetCell*
   modifiers.csharp:
@@ -1122,14 +1134,17 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 292
+    startLine: 308
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nMove next\n"
+  example: []
   syntax:
     content: public bool MoveNext()
     return:
       type: System.Boolean
+      description: ''
     content.vb: Public Function MoveNext As Boolean
   overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.MoveNext*
   implements:
@@ -1156,10 +1171,12 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 305
+    startLine: 323
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nReset\n"
+  example: []
   syntax:
     content: public void Reset()
     content.vb: Public Sub Reset
@@ -1189,7 +1206,7 @@ items:
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 311
+    startLine: 329
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges

@@ -10,7 +10,6 @@ items:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult
-  - OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression
   langs:
   - csharp
   - vb
@@ -56,11 +55,6 @@ references:
   name: DataType
   nameWithType: DataType
   fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression
-  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression
-  name: Expression
-  nameWithType: Expression
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.Expression
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions
   commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions
   name: OfficeOpenXml.FormulaParsing.FormulaExpressions

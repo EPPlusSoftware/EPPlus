@@ -34,6 +34,7 @@ items:
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection
@@ -180,6 +181,12 @@ references:
   name: ExcelPivotTableCacheField
   nameWithType: ExcelPivotTableCacheField
   fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableCalculatedData
+  nameWithType: ExcelPivotTableCalculatedData
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
   commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
   parent: OfficeOpenXml.Table.PivotTable

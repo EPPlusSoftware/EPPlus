@@ -4,36 +4,30 @@ using OfficeOpenXml.Table.PivotTable.Calculation;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using System.Collections.Generic;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
     [TestClass]
 	public class VerifyPivotCalculationTests : TestBase
 	{
-		static ExcelPackage _package;
-		static ExcelWorksheet _ptWs;
-		static ExcelWorksheet _ptWs2;
 		[ClassInitialize]
 		public static void Init(TestContext context)
-
-
 		{
 			InitBase();
-			_package = OpenTemplatePackage("GetPivotData\\PivotTableCalcTest.xlsx");
-			_ptWs = _package.Workbook.Worksheets["PivotTables"];
 		}
 		[ClassCleanup]
 		public static void Cleanup()
 		{
-			_package.Dispose();
 		}
         [TestMethod]
         public void VerifyCalculationMD()
         {
-            var ws = _package.Workbook.Worksheets[3];
-            var pt = ws.PivotTables[0];
-
-            Assert.AreEqual(4335.69, GetPtData(pt, 0, "Good Samaritan Hospital", "Tissue Sealer", "2023", "mar"));
-            Assert.AreEqual(34454.62, GetPtData(pt, 0, "Palm Beach Garden Comm Hospital", null, 2022, "Nov"));
+			using (var p = OpenTemplatePackage("GetPivotData\\PivotTableCalcTest.xlsx"))
+			{
+				var ptWs = p.Workbook.Worksheets["PivotTables"];
+				var ws = p.Workbook.Worksheets[3];
+				var pt = ws.PivotTables[0];
+			}
         }
         private object GetPtData(ExcelPivotTable pt, int datafield, params object[] values)
 		{

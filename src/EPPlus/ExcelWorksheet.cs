@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Security;
 using System.Text;
 using System.Xml;
 using System.Linq;
@@ -30,10 +31,12 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using System.Text.RegularExpressions;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.ThreadedComments;
@@ -43,9 +46,12 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.Drawing.OleObject;
-using System.Xml.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 
 namespace OfficeOpenXml
 {
@@ -2909,15 +2915,15 @@ namespace OfficeOpenXml
                     else
                     {
                         int r=fromRow, c=fc;
-                        while(_values.NextCellByColumn(ref r, ref c, fromRow, r, _values.ColumnCount-1))
+                        while(_values.NextCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount-1))
                         {
                             if(_values.GetValue(r, c)._value != null)
                             {
                                 break;
                             }
-                            //r++;
+                            r++;
                         }
-                        fromRow = r;
+                        //fromRow = r;
                         fromCol = c;
                     }
 
@@ -2928,14 +2934,15 @@ namespace OfficeOpenXml
                     else
                     {
                         int r = toRow, c = tc;
-                        while (_values.PrevCellByColumn(ref r, ref c, fromRow, 0, _values.ColumnCount - 1))
+                        while (_values.PrevCellByColumn(ref r, ref c, fromRow, toRow, _values.ColumnCount - 1))
                         {
                             if (_values.GetValue(r, c)._value != null)
                             {
                                 break;
                             }
+                            r--;
                         }
-                        toRow = r;
+                        //toRow = r;
                         toCol = c;
                     }
 
@@ -3118,20 +3125,6 @@ namespace OfficeOpenXml
                 return _pivotTables != null;
             }
         }
-
-        internal OleObjectsCollectionInternal _oleObjects = null;
-        internal OleObjectsCollectionInternal OleObjects
-        {
-            get 
-            { 
-                if (_oleObjects == null)
-                {
-                    _oleObjects = new OleObjectsCollectionInternal(NameSpaceManager, TopNode);
-                }
-                return _oleObjects; 
-            } 
-        }
-
         private ExcelConditionalFormattingCollection _conditionalFormatting = null;
         /// <summary>
         /// ConditionalFormatting defined in the worksheet. Use the Add methods to create ConditionalFormatting and add them to the worksheet. Then
@@ -3744,16 +3737,6 @@ namespace OfficeOpenXml
             ctrlContainerNode.SetAttribute("Requires", "x14");
 
             return ctrlContainerNode;
-        }
-
-        internal XmlNode CreateOleContainerNode()
-        {
-            var node = GetNode("d:oleObjects");
-            if (node == null)
-            {
-                node  = CreateNode("d:oleObjects");
-            }
-            return node;
         }
 
         internal void NormalStyleChange()

@@ -22,7 +22,10 @@ namespace EPPlusTest.Table.PivotTable.Calculation
         [ClassCleanup]
         public static void Cleanup()
         {
-            _package.Dispose();
+            if (_package != null)
+            {
+                _package.Dispose();
+            }
         }
         [TestMethod]
         public void DemoTest()
