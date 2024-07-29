@@ -369,6 +369,7 @@ namespace OfficeOpenXml
             TopNode = _worksheetXml.DocumentElement;
             LoadComments();
             LoadThreadedComments();
+            FullPrecision = Workbook.FullPrecision;
         }
         internal void LoadComments()
         {
@@ -521,7 +522,7 @@ namespace OfficeOpenXml
                 return _sortState;
             }
         }
-        
+        public bool FullPrecision { get; set; }
         internal void CheckSheetTypeAndNotDisposed()
         {
             if (this is ExcelChartsheet)
@@ -3535,7 +3536,16 @@ namespace OfficeOpenXml
         /// <param name="value">value</param>
         internal void SetValueInner(int row, int col, object value)
         {
-            _values.SetValue_Value(row, col, value);
+            if (FullPrecision)
+            {
+                _values.SetValue_Value(row, col, value);
+            }
+            else
+            {
+                var v = _values.GetValue(row, col);
+                v._value = Workbook.Styles.RoundValueFromNumberFormat(value, v._styleId);
+                _values.SetValue(row, col, v);
+            }
         }
         internal void SetValueInner(int fromRow, int fromCol, int toRow, int toCol, object value)
         {
@@ -3543,7 +3553,7 @@ namespace OfficeOpenXml
             {
                 for (var r = fromRow; r <= toRow; r++)
                 {
-                    _values.SetValue_Value(r, c, value);
+                    SetValueInner(r, c, value);
                 }
             }
         }
@@ -3555,7 +3565,16 @@ namespace OfficeOpenXml
         /// <param name="styleId">styleId</param>
         internal void SetStyleInner(int row, int col, int styleId)
         {
-            _values.SetValue_Style(row, col, styleId);
+            if (FullPrecision)
+            {
+                _values.SetValue_Style(row, col, styleId);
+            }
+            else
+            {
+                var v = GetCoreValueInner(row, col);
+                v._value = Workbook.Styles.RoundValueFromNumberFormat(v._value, styleId);
+                _values.SetValue(row, col, v);
+            }
         }
         /// <summary>
         /// Set accessor of sheet styleId
@@ -3566,7 +3585,16 @@ namespace OfficeOpenXml
         /// <param name="styleId">styleId</param>
         internal void SetValueStyleIdInner(int row, int col, object value, int styleId)
         {
-            _values.SetValue(row, col, value, styleId);
+            if (FullPrecision)
+            {
+                _values.SetValue(row, col, value, styleId);
+            }
+            else
+            {
+                var v = new ExcelValue() { _styleId=styleId };
+                v._value = Workbook.Styles.RoundValueFromNumberFormat(value, styleId);
+                _values.SetValue(row, col, v);
+            }
         }
         /// <summary>
         /// Bulk(Range) set accessor of sheet value, for value array
@@ -3586,7 +3614,23 @@ namespace OfficeOpenXml
             }
             else
             {
-                _values.SetValueRange_Value(fromRow, fromColumn, values);
+                if (FullPrecision)
+                {
+                    _values.SetValueRange_Value(fromRow, fromColumn, values);
+                }
+                else
+                {
+                    var rowBound = values.GetUpperBound(0);
+                    var colBound = values.GetUpperBound(1);
+
+                    for (int r = 0; r <= rowBound; r++)
+                    {
+                        for (int c = 0; c <= colBound; c++)
+                        {
+                            SetValueInner(fromRow + r, fromColumn + c, values[r, c]);
+                        }
+                    }
+                }
             }
             //Clearout formulas and flags, for example the rich text flag.
             _formulas.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1) + 1); 
@@ -3802,9 +3846,9 @@ namespace OfficeOpenXml
             foreach(var c in cse)
             {
                 if(ConvertUtil.IsExcelNumeric(c._value))
-                {
-                    c._value=GetDisplayedValue(c);
-                    _values.SetValue(cse.Row, cse.Column, cse.Value);
+                {                    
+                    var v=GetDisplayedValue(c);
+                    _values.SetValue_Value(cse.Row, cse.Column, v);
                 }                    
             }
         }

@@ -651,9 +651,9 @@ namespace OfficeOpenXml.Style.XmlAccess
             else
             {
                 var f = GetFormatPart(value);
-                if (string.IsNullOrEmpty(f.FractionFormat))
+                if(!string.IsNullOrEmpty(f.FractionFormat))
                 {
-                    var q = Math.Round((double)_numerator / (double)_denomerator,6);
+                    var q = Math.Round((double)_numerator / (double)_denomerator, 6);
                     return ((int)d) + q;                    
                 }
                 else if(f.SpecialDateFormat == eSystemDateFormat.None) 
@@ -689,7 +689,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                 {
                     lastIsDecimal = true;
                 }
-                if (lastIsDecimal)
+                else if (lastIsDecimal)
                 {
                     if (c == '0' || c == '#')
                     {

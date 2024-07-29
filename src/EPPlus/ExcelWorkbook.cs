@@ -215,7 +215,7 @@ namespace OfficeOpenXml
             TopNode = WorkbookXml.DocumentElement;
             SchemaNodeOrder = new string[] { "fileVersion", "fileSharing", "workbookPr", "workbookProtection", "bookViews", "sheets", "functionGroups", "functionPrototypes", "externalReferences", "definedNames", "calcPr", "oleSize", "customWorkbookViews", "pivotCaches", "smartTagPr", "smartTagTypes", "webPublishing", "fileRecoveryPr", "webPublishObjects", "extLst" };
             FullCalcOnLoad = true;  //Full calculation on load by default, for both new workbooks and templates.
-            FullPrecision = GetXmlNodeBool("d:calcPr/@fullPrecision", false);
+            _fullPrecision = GetXmlNodeBool("d:calcPr/@fullPrecision", true);
 
             GetSharedStrings();
         }
@@ -1248,12 +1248,17 @@ namespace OfficeOpenXml
 			}
 			set
 			{
-				if (value && _fullPrecision == false)
+				if (value==false && _fullPrecision == true)
 				{
 					ReCalculateFullPrecision();
 				}
-                _fullPrecision = value;
-            }
+				_fullPrecision = value;
+				foreach(var ws in Worksheets)
+				{
+					ws.FullPrecision = value; //Set this property on the worksheet as well for faster access.
+				}
+			}
+		}
 		private void ReCalculateFullPrecision()
         {
             foreach(var ws in Worksheets)
