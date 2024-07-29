@@ -364,12 +364,12 @@ namespace OfficeOpenXml
             _names = new ExcelNamedRangeCollection(Workbook, this);
 
             _rangeSorter = new RangeSorter(this);
+            FullPrecision = Workbook.FullPrecision;
 
             CreateXml();
             TopNode = _worksheetXml.DocumentElement;
             LoadComments();
             LoadThreadedComments();
-            FullPrecision = Workbook.FullPrecision;
         }
         internal void LoadComments()
         {
