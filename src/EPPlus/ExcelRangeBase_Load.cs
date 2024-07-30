@@ -416,7 +416,7 @@ namespace OfficeOpenXml
             var row = _fromRow;
             foreach (object[] item in Data)
             {
-                _worksheet._values.SetValueRow_Value(row, _fromCol, item);
+                _worksheet.SetValueRow_Value(row, _fromCol, item);
                 if (maxColumn < item.Length) maxColumn = item.Length;
                 row++;
             }
@@ -438,7 +438,7 @@ namespace OfficeOpenXml
             var col = _fromCol;
             foreach (object[] item in Data)
             {
-                _worksheet._values.SetValueRow_ValueTransposed(_fromRow, col, item);
+                _worksheet.SetValueRow_ValueTransposed(_fromRow, col, item);
                 if (maxRow < item.Length) maxRow = item.Length;
                 col++;
             }

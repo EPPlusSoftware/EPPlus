@@ -52,6 +52,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
+using System.Collections;
 
 namespace OfficeOpenXml
 {
@@ -3576,6 +3577,53 @@ namespace OfficeOpenXml
                 _values.SetValue(row, col, v);
             }
         }
+        internal void SetValueRow_Value(int row, int col, object[] array)
+        {
+            for (int c = 0; c < array.Length; c++)
+            {
+                if (array[c] == DBNull.Value)
+                {
+                    _values.SetValue_Value(row, col + c, null);
+                }
+                else
+                {
+                    SetValueInner(row, col + c, array[c]);
+                }
+            }
+        }
+        internal void SetValueRow_ValueTransposed(int row, int col, object[] array)
+        {
+            for (int c = 0; c < array.Length; c++)
+            {
+                if (array[c] == DBNull.Value)
+                {
+                    _values.SetValue_Value(row + c, col, null);
+                }
+                else
+                {
+                    SetValueInner(row + c, col, array[c]);
+                }
+            }
+        }
+        internal void SetValueRow_Value(int row, int col, IEnumerable collection)
+        {
+            int offset = 0;
+            foreach (var v in collection)
+            {
+                SetValueInner(row, col + offset, v);
+                offset++;
+            }
+        }
+        internal void SetValueRow_ValueTranspose(int row, int col, IEnumerable collection)
+        {
+            int offset = 0;
+            foreach (var v in collection)
+            {
+                SetValueInner(row + offset, col, v);
+                offset++;
+            }
+        }
+
         /// <summary>
         /// Set accessor of sheet styleId
         /// </summary>
