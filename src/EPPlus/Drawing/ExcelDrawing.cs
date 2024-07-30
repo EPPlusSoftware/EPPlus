@@ -25,6 +25,7 @@ using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
@@ -88,7 +89,7 @@ namespace OfficeOpenXml.Drawing
             {
                 TopNode = node;
                 
-                if(DrawingType==eDrawingType.Control || drawings.Worksheet.Workbook._nextDrawingId >= 1025)
+                if(DrawingType==eDrawingType.Control || DrawingType==eDrawingType.OleObject || drawings.Worksheet.Workbook._nextDrawingId >= 1025)
                 {
                     _id = drawings.Worksheet._nextControlId++;
                 }
@@ -633,9 +634,14 @@ namespace OfficeOpenXml.Drawing
         {
             var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager);
             var control = drawings.Worksheet.Controls.GetControlByShapeId(shapeId);
+            var oleObject = control == null ? drawings.Worksheet.OleObjects.GetOleObjectByShapeId(shapeId) : null;
             if (control != null)
             {
                 return ControlFactory.GetControl(drawings, drawNode, control, parent);
+            }
+            else if(oleObject != null)
+            {
+                return OleObjectFactory.GetOleObject(drawings, drawNode, oleObject, parent);
             }
             else
             {

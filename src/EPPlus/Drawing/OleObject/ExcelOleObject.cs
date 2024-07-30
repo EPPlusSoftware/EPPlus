@@ -4,6 +4,7 @@ using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Utils.CompundDocument;
 using OfficeOpenXml.ExternalReferences;
+using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System.IO;
 using System.Text;
@@ -66,7 +67,25 @@ namespace OfficeOpenXml.Drawing.OleObject
             {
                 isExternalLink= false;
                 //create embedded object
+
+                //Create embeddingsfolder
+                int newID = 1;
+                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/oleObject{0}.xml", ref newID);
+                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
+                var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
+
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    byte[] data = File.ReadAllBytes(filepath);
+                    ms.Write(data, 0, data.Length);
+                    _document = new CompoundDocument();
+                    _document.Save(ms);
+                }
             }
+
+            //Create Media
+            //User supplied picture or our own placeholder
+            //Construct icon with rectable with txbody set to filename and an autorectangle. Somehow you can't see the txbody or autorectangle when icon is complete. only when you ungroup.
 
             //Create drawings xml
             XmlElement spElement = CreateShapeNode();
@@ -85,25 +104,22 @@ namespace OfficeOpenXml.Drawing.OleObject
             sb.Append("<mc:Choice Requires=\"x14\">");
 
             //Create object node
-            sb.Append("<oleObject progId=\"Acrobat.Document.DC\" shapeId=\"1026\" r:id=\"rId4\">"); //sätt shapeId och relId till embedded object/ sätt link för ExternalLink
-            sb.Append("<objectPr defaultSize=\"0\" autoPict=\"0\" r:id=\"rId5\">"); //sätt relId till media
+            sb.AppendFormat("<oleObject progId=\"Acrobat.Document.DC\" shapeId=\"{0}\" r:id=\"{1}\">", _id, "obj"); //SET relId TO EMBEDDED/LINKED OBJECT
+            sb.Append("<objectPr defaultSize=\"0\" autoPict=\"0\">"); //SET relId TO MEDIA HERE
             sb.Append("<anchor moveWithCells=\"1\">");
-            sb.Append("<from><xdr:col>1</xdr:col><xdr:colOff>28575</xdr:colOff><xdr:row>1</xdr:row><xdr:rowOff>19050</xdr:rowOff></from>"); //sätt rätt värden
-            sb.Append("<to><xdr:col>12</xdr:col><xdr:colOff>171450</xdr:colOff><xdr:row>47</xdr:row><xdr:rowOff>114300</xdr:rowOff></to>"); //sätt rätt värden
+            sb.Append("<from><xdr:col>1</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>0</xdr:row><xdr:rowOff>0</xdr:rowOff></from>");       //SET VALUE BASED ON MEDIA
+            sb.Append("<to><xdr:col>1</xdr:col><xdr:colOff>304800</xdr:colOff><xdr:row>3</xdr:row><xdr:rowOff>114300</xdr:rowOff></to>"); //SET VALUE BASED ON MEDIA
             sb.Append("</anchor></objectPr></oleObject>");
 
             sb.Append("</mc:Choice>");
             //fallback
-            sb.Append("<mc:Fallback><oleObject progId=\"Acrobat.Document.DC\" shapeId=\"1026\" r:id=\"rId4\" />"); //fix ids
+            sb.AppendFormat("<mc:Fallback><oleObject progId=\"Acrobat.Document.DC\" shapeId=\"{0}\" r:id=\"{1}\" />", _id, "obj"); //SET relId TO EMBEDDED/LINKED OBJECT
 
             sb.Append("</mc:Fallback></mc:AlternateContent>");
 
             wsNode.InnerXml = sb.ToString();
             var oleObjectNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0);
             _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectNode);
-
-            //Create Media
-            //?
         }
 
         private string CreateOleObjectDrawingNode()

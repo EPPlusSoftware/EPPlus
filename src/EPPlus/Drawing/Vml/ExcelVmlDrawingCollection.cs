@@ -213,7 +213,7 @@ namespace OfficeOpenXml.Drawing.Vml
 
             shapeElement.SetAttribute("id", ExcelPackage.schemaMicrosoftOffice, "_x0000_s" + oleObject.Id);
             shapeElement.SetAttribute("type", "#_x0000_t75");
-            shapeElement.SetAttribute("style", "position:absolute;z-index:1;"); //finnes mer saker som sätts här..
+            shapeElement.SetAttribute("style", "position:absolute;margin-left:0;margin-top:0;width:1in;height:54pt;z-index:1;mso-wrap-style:tight"); //SET VALUE BASED ON MEDIA
             shapeElement.SetAttribute("filled", "t");
             shapeElement.SetAttribute("fillcolor", "window [65]");
             shapeElement.SetAttribute("stroked", "t");
@@ -221,11 +221,11 @@ namespace OfficeOpenXml.Drawing.Vml
             shapeElement.SetAttribute("insetmode", ExcelPackage.schemaMicrosoftOffice, "auto");
 
             string vml = "<v:fill color2=\"window [65]\" />";
-            vml += "<v:imagedata o:relid=\"{}\" o:title=\"\" />"; //fix relid to media
+            //vml += "<v:imagedata o:relid=\"{}\" o:title=\"\" />"; //FIX relid FOR MEDIA
             vml += "<x:ClientData ObjectType=\"Pict\">";
             vml += "<x:MoveWithCells />";
             vml += "<x:SizeWithCells />";
-            vml += string.Format("<x:Anchor>{0}, 15, {1}, 2, {2}, 31, {3}, 1</x:Anchor>", 0,1,2,3); //fix this
+            vml += string.Format("<x:Anchor>0, 0, 0, 0, 1, 32, 3, 12</x:Anchor>"); //SET VALUE BASED ON MEDIA
             vml += "<x:AutoFill>False</x:AutoFill>";
             vml += "<x:CF>Pict</x:CF>";
             vml += "<x:DDE />";

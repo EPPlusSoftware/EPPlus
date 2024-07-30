@@ -18,7 +18,9 @@ namespace EPPlusTest.Drawing
             var ws = p.Workbook.Worksheets[0];
 
             //var ole = ws.Drawings[0] as ExcelOleObject;
-            ws.Drawings.AddOleObject("myFile", false);
+            ws.Drawings.AddOleObject("C:\\Users\\AdrianParnéus\\Downloads\\drukhari.pdf", false);
+
+            SaveAndCleanup(p);
         }
     }
 }

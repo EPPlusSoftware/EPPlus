@@ -3457,6 +3457,29 @@ namespace OfficeOpenXml
                 return _controls;
             }
         }
+
+        internal OleObjectsCollectionInternal _oleObjects = null;
+        internal OleObjectsCollectionInternal OleObjects
+        {
+            get
+            {
+                if(_oleObjects ==null)
+                {
+                    _oleObjects = new OleObjectsCollectionInternal(NameSpaceManager, TopNode);
+                }
+                return _oleObjects;
+            }
+        }
+        internal XmlNode CreateOleContainerNode()
+        {
+            var node = GetNode("d:oleObjects");
+            if (node == null)
+            {
+                node = CreateNode("d:oleObjects");
+            }
+            return node;
+        }
+
         /// <summary>
         /// A collection of row specific properties in the worksheet.
         /// </summary>
@@ -3796,15 +3819,6 @@ namespace OfficeOpenXml
             return null;
         }
 
-        internal XmlNode CreateOleContainerNode()
-        {
-            var node = GetNode("d:oleObjects");
-            if (node == null)
-            {
-                node = CreateNode("d:oleObjects");
-            }
-            return node;
-        }
         #endregion
     }  // END class Worksheet
 }
