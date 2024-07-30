@@ -91,6 +91,41 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             Assert.AreEqual(93d, _worksheet.Cells["F1"].Value);
         }
 
+
+
+        [TestMethod]
+        public void MaxIfsShouldReturnZeroForCriteriaErrorNum()
+        {
+            _worksheet.Cells["F1"].Formula = "MAXIFS(D3:D7, D3:D7,#NUM!)";
+            _worksheet.Calculate();
+            Assert.AreEqual(0d, _worksheet.Cells["F1"].Value);
+        }
+
+        [TestMethod]
+        public void MaxIfsShouldReturnZeroForCriteriaErrorValue()
+        {
+            _worksheet.Cells["F1"].Formula = "MAXIFS(D3:D7, D3:D7,#VALUE!)";
+            _worksheet.Calculate();
+            Assert.AreEqual(0d, _worksheet.Cells["F1"].Value);
+        }
+
+        [TestMethod]
+        public void MaxIfsShouldReturnZeroForCriteriaWithBadOperand()
+        {
+            _worksheet.Cells["F1"].Formula = "MAXIFS(D3:D7, D3:D7,\">L\")";
+            _worksheet.Calculate();
+            Assert.AreEqual(0d, _worksheet.Cells["F1"].Value);
+        }
+
+        [TestMethod]
+        public void MaxIfsShouldReturnZeroForCriteriaBlank()
+        {
+            _worksheet.Cells["F1"].Formula = "MAXIFS(D3:D7, D3:D7, F2)";
+            _worksheet.Calculate();
+            Assert.AreEqual(0d, _worksheet.Cells["F1"].Value);
+        }
+
+
         [TestMethod]
         public void MinIfsShouldHandleOneCriteria()
         {
@@ -129,6 +164,38 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             _worksheet.Cells["F1"].Formula = "MINIFS(D3:D7, D3:D7,\">0\")";
             _worksheet.Calculate();
             Assert.AreEqual(64d, _worksheet.Cells["F1"].Value);
+        }
+
+        [TestMethod]
+        public void MinIfsShouldReturnZeroForCriteriaErrorNum()
+        {
+            _worksheet.Cells["F1"].Formula = "MINIFS(D3:D7, D3:D7,#NUM!)";
+            _worksheet.Calculate();
+            Assert.AreEqual(0d, _worksheet.Cells["F1"].Value);
+        }
+
+        [TestMethod]
+        public void MinIfsShouldReturnZeroForCriteriaErrorValue()
+        {
+            _worksheet.Cells["F1"].Formula = "MINIFS(D3:D7, D3:D7,#VALUE!)";
+            _worksheet.Calculate();
+            Assert.AreEqual(0d, _worksheet.Cells["F1"].Value);
+        }
+
+        [TestMethod]
+        public void MinIfsShouldReturnZeroForCriteriaWithBadOperand()
+        {
+            _worksheet.Cells["F1"].Formula = "MINIFS(D3:D7, D3:D7,\">L\")";
+            _worksheet.Calculate();
+            Assert.AreEqual(0d, _worksheet.Cells["F1"].Value);
+        }
+
+        [TestMethod]
+        public void MinIfsShouldReturnZeroForCriteriaBlank()
+        {
+            _worksheet.Cells["F1"].Formula = "MINIFS(D3:D7, D3:D7, F2)";
+            _worksheet.Calculate();
+            Assert.AreEqual(0d, _worksheet.Cells["F1"].Value);
         }
     }
 }
