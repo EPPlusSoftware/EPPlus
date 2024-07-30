@@ -14,6 +14,7 @@ using EPPlusTest.Utils;
 using OfficeOpenXml.Utils;
 using System;
 using System.IO;
+using System.Text;
 
 namespace OfficeOpenXml
 {
@@ -21,9 +22,15 @@ namespace OfficeOpenXml
     {
         RollingBuffer _rollingBuffer = new RollingBuffer(8192*2);
         private Stream _stream;
+        private StreamReader _streamReader;
+        private Encoding _encoding;
         public WorksheetZipStream(Stream zip, bool writeToBuffer, long size = -1)
         {
             _stream = zip;
+            _streamReader = new StreamReader(zip);
+            _streamReader.Read();
+            _encoding = _streamReader.CurrentEncoding;
+            _stream.Position = 0;
             WriteToBuffer = writeToBuffer;
         }
         
@@ -91,7 +98,7 @@ namespace OfficeOpenXml
         {
             WriteToBuffer = writeToBufferAfter;
             Buffer.Flush();
-            return System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
+            return _encoding.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
         }
         internal string GetBufferAsStringRemovingElement(bool writeToBufferAfter, string element)
         {
@@ -99,11 +106,11 @@ namespace OfficeOpenXml
             if (WriteToBuffer)
             {
                 Buffer.Flush();
-                xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
+                xml = _encoding.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
             }
             else
             {
-                xml = System.Text.Encoding.UTF8.GetString(_rollingBuffer.GetBuffer());
+                xml = _encoding.GetString(_rollingBuffer.GetBuffer());
             }
             WriteToBuffer = writeToBufferAfter;
             GetElementPos(xml, element, out int startIx, out int endIx);
@@ -200,7 +207,7 @@ namespace OfficeOpenXml
             }
 
             Buffer.Flush();
-            var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
+            var xml = _encoding.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
 
             int endElementIx;
             if(endElement == "conditionalFormatting")
@@ -240,7 +247,7 @@ namespace OfficeOpenXml
         internal string ReadToEndFromAfterUri(string lastUri, string startXml)
         {
             Buffer.Flush();
-            var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
+            var xml = _encoding.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
 
             var ix = GetXmlIndex(xml, lastUri);
 
@@ -269,7 +276,7 @@ namespace OfficeOpenXml
         internal string ReadToExt(string startXml, string uriValue, ref string lastElement, string lastUri = "")
         {
             Buffer.Flush();
-            var xml = System.Text.Encoding.UTF8.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
+            var xml = _encoding.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
 
             if(lastElement != "ext")
             {
