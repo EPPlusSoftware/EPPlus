@@ -68,5 +68,15 @@ namespace EPPlusTest.Issues
 				Assert.AreEqual("a", ws.Cells["A2"].Value);
             }
         }
+        [TestMethod]
+        public void i1388()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("i1388.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }
