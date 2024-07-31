@@ -1125,15 +1125,16 @@ namespace OfficeOpenXml
             {
                 stream = new WorksheetZipStream(packPart.GetStream(), true);
             }
+            var sr = new StreamReader(stream);
 #if Core
-            var xr = XmlReader.Create(stream, new XmlReaderSettings()
+            var xr = XmlReader.Create(sr, new XmlReaderSettings()
             {
                 DtdProcessing = DtdProcessing.Prohibit,
                 IgnoreWhitespace = true,
             });
             
 #else
-            var xr = new XmlTextReader(stream);
+            var xr = new XmlTextReader(sr);
 #if NET35
             xr.ProhibitDtd = true;
 #else
