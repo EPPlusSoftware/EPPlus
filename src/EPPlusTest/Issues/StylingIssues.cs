@@ -24,7 +24,17 @@ namespace EPPlusTest
 		public void Initialize()
 		{
 		}
-		[TestMethod]
+        [TestMethod]
+        public void ReadRenderTest()
+        {
+            using var p1 = OpenTemplatePackage("pivottable_render.xlsx");
+            p1.Workbook.Worksheets[0].PivotTables.Delete(0);
+            p1.Workbook.Worksheets[0].PivotTables.Delete(0);
+            //p1.Workbook.Worksheets[0].PivotTables.Delete(0);
+            SaveAndCleanup(p1);
+        }
+
+        [TestMethod]
 		public void i1291()
 		{
 			using (var p = OpenPackage("i1291.xlsx", true))
