@@ -281,7 +281,8 @@ namespace OfficeOpenXml
         /// <param name="value">The  formula</param>
         /// <param name="address">The address of the formula</param>
         /// <param name="IsArray">If the forumla is an array formula.</param>
-        private static void Set_SharedFormula(ExcelRangeBase range, string value, ExcelAddressBase address, bool IsArray)
+        /// <param name="isDynamic">If the array formula is dynamic</param>
+        private static void Set_SharedFormula(ExcelRangeBase range, string value, ExcelAddressBase address, bool IsArray, bool isDynamic = false)
         {
             if (range._fromRow == 1 && range._fromCol == 1 && range._toRow == ExcelPackage.MaxRows && range._toCol == ExcelPackage.MaxColumns)  //Full sheet (ex ws.Cells.Value=0). Set value for A1 only to avoid hanging 
             {
@@ -300,16 +301,22 @@ namespace OfficeOpenXml
             f.Index = range._worksheet.GetMaxShareFunctionIndex(IsArray);
             f.Address = address.FirstAddress;
             f.FormulaType = IsArray ? FormulaType.Array : FormulaType.Shared;
-
-            range._worksheet._sharedFormulas.Add(f.Index, f);
-
+            var ws = range._worksheet;
+            ws._sharedFormulas.Add(f.Index, f);
+            ws.Workbook.Metadata.GetDynamicArrayIndex(out int diIx);
             for (int col = address.Start.Column; col <= address.End.Column; col++)
             {
                 for (int row = address.Start.Row; row <= address.End.Row; row++)
                 {
-                    range._worksheet._formulas.SetValue(row, col, f.Index);
-                    range._worksheet._flags.SetFlagValue(row, col, true, CellFlags.ArrayFormula);
-                    range._worksheet.SetValueInner(row, col, null);
+                    ws._formulas.SetValue(row, col, f.Index);
+                    ws._flags.SetFlagValue(row, col, true, CellFlags.ArrayFormula);
+                    ws.SetValueInner(row, col, null);
+                    if(isDynamic)
+                    {
+                        var md=ws._metadataStore.GetValue(row, col);
+                        md.cm = diIx;
+                        ws._metadataStore.SetValue(row, col, md);
+                    }
                 }
             }
         }
@@ -2033,13 +2040,14 @@ namespace OfficeOpenXml
         /// Creates an array-formula.
         /// </summary>
         /// <param name="ArrayFormula">The formula</param>
-        public void CreateArrayFormula(string ArrayFormula)
+        /// <param name="isDynamic">If the array formula is dynamic. In most cases this is determined by the calculation when calculating the formula, so it is not be necessary to set this flag if you calculate the range. Setting this argument to true will only add the dynamic array formula cell meta data flag to the range.</param>
+        public void CreateArrayFormula(string ArrayFormula, bool isDynamic=false)
         {
             if (Addresses != null)
             {
                 throw (new Exception("An array formula cannot have more than one address"));
             }
-            Set_SharedFormula(this, ArrayFormula, this, true);
+            Set_SharedFormula(this, ArrayFormula, this, true, isDynamic);
         }
         /// <summary>
         /// The output range of the formula in the top-left cell of the range.
