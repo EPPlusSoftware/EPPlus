@@ -17,6 +17,8 @@ using System.Text;
 using System.Xml;
 using System.Drawing;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.Style.XmlAccess
 {
@@ -160,6 +162,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         #endregion
         #region Public Properties
 
+        ExcelNumberFormatXml _numberformat = null;
         /// <summary>
         /// Numberformat properties
         /// </summary>
@@ -167,7 +170,29 @@ namespace OfficeOpenXml.Style.XmlAccess
         {
             get
             {
-                return _styles.NumberFormats[_numFmtId < 0 ? 0 : _numFmtId];
+                if (_numberformat == null)
+                {
+                    if (_numFmtId < 0)
+                    {
+                        _numberformat = _styles.NumberFormats[0];
+                    }
+                    else
+                    {
+                        for (int i = 0; i < _styles.NumberFormats.Count; i++)
+                        {
+                            if (_numFmtId == _styles.NumberFormats[i].NumFmtId)
+                            {
+                                _numberformat = _styles.NumberFormats[i];
+                                break;
+                            }
+                        }
+                        if (_numberformat == null)
+                        {
+                            _numberformat = _styles.NumberFormats[0];
+                        }
+                    }
+                }
+                return _numberformat;
             }
         }
         /// <summary>

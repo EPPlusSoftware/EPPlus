@@ -466,6 +466,20 @@ namespace OfficeOpenXml
             {
                 SetStyleCells(sender, e, address, ws, styleCashe);
             }
+            //If full precision is false, round values depending on the format.
+            if(e.StyleClass==eStyleClass.Numberformat && ws.FullPrecision==false)
+            {
+                FullPrecisionRoundRange(ws, address, e.Value);
+            }
+        }
+
+        private void FullPrecisionRoundRange(ExcelWorksheet ws, ExcelAddressBase address, object value)
+        {
+            var cse = new CellStoreEnumerator<ExcelValue>(ws._values, address._fromRow, address._fromCol, address._toRow, address._toCol);
+            foreach(var c in cse)
+            {
+                ws.SetStyleInner(cse.Row, cse.Column, c._styleId);
+            }
         }
 
         private void SetStyleCells(StyleBase sender, StyleChangeEventArgs e, ExcelAddressBase address, ExcelWorksheet ws, Dictionary<int, int> styleCache)
@@ -1885,5 +1899,29 @@ namespace OfficeOpenXml
                 return new ExcelDxfSlicerStyle(NameSpaceManager, null, this, null);
             }
         }
-	}
+
+        internal object RoundValueFromNumberFormat(ExcelValue c)
+        {
+            if (c._styleId > 0 && c._styleId < CellXfs.Count)
+            {
+                return CellXfs[c._styleId].Numberformat.FormatTranslator.GetRoundedValue(c._value);
+            }
+            else
+            {
+                return c._value;
+            }
+        }
+        internal object RoundValueFromNumberFormat(object value, int styleId)
+        {
+            if (styleId > 0 && styleId < CellXfs.Count)
+            {
+                return CellXfs[styleId].Numberformat.FormatTranslator.GetRoundedValue(value);
+            }
+            else
+            {
+                return value;
+            }
+        }
+
+    }
 }

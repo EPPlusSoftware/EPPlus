@@ -52,6 +52,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
+using System.Collections;
 
 namespace OfficeOpenXml
 {
@@ -364,6 +365,7 @@ namespace OfficeOpenXml
             _names = new ExcelNamedRangeCollection(Workbook, this);
 
             _rangeSorter = new RangeSorter(this);
+            FullPrecision = Workbook.FullPrecision;
 
             CreateXml();
             TopNode = _worksheetXml.DocumentElement;
@@ -521,7 +523,7 @@ namespace OfficeOpenXml
                 return _sortState;
             }
         }
-        
+        public bool FullPrecision { get; set; }
         internal void CheckSheetTypeAndNotDisposed()
         {
             if (this is ExcelChartsheet)
@@ -3535,7 +3537,16 @@ namespace OfficeOpenXml
         /// <param name="value">value</param>
         internal void SetValueInner(int row, int col, object value)
         {
-            _values.SetValue_Value(row, col, value);
+            if (FullPrecision)
+            {
+                _values.SetValue_Value(row, col, value);
+            }
+            else
+            {
+                var v = _values.GetValue(row, col);
+                v._value = Workbook.Styles.RoundValueFromNumberFormat(value, v._styleId);
+                _values.SetValue(row, col, v);
+            }
         }
         internal void SetValueInner(int fromRow, int fromCol, int toRow, int toCol, object value)
         {
@@ -3543,7 +3554,7 @@ namespace OfficeOpenXml
             {
                 for (var r = fromRow; r <= toRow; r++)
                 {
-                    _values.SetValue_Value(r, c, value);
+                    SetValueInner(r, c, value);
                 }
             }
         }
@@ -3555,8 +3566,64 @@ namespace OfficeOpenXml
         /// <param name="styleId">styleId</param>
         internal void SetStyleInner(int row, int col, int styleId)
         {
-            _values.SetValue_Style(row, col, styleId);
+            if (FullPrecision)
+            {
+                _values.SetValue_Style(row, col, styleId);
+            }
+            else
+            {
+                var v = GetCoreValueInner(row, col);
+                v._value = Workbook.Styles.RoundValueFromNumberFormat(v._value, styleId);
+                _values.SetValue(row, col, v);
+            }
         }
+        internal void SetValueRow_Value(int row, int col, object[] array)
+        {
+            for (int c = 0; c < array.Length; c++)
+            {
+                if (array[c] == DBNull.Value)
+                {
+                    _values.SetValue_Value(row, col + c, null);
+                }
+                else
+                {
+                    SetValueInner(row, col + c, array[c]);
+                }
+            }
+        }
+        internal void SetValueRow_ValueTransposed(int row, int col, object[] array)
+        {
+            for (int c = 0; c < array.Length; c++)
+            {
+                if (array[c] == DBNull.Value)
+                {
+                    _values.SetValue_Value(row + c, col, null);
+                }
+                else
+                {
+                    SetValueInner(row + c, col, array[c]);
+                }
+            }
+        }
+        internal void SetValueRow_Value(int row, int col, IEnumerable collection)
+        {
+            int offset = 0;
+            foreach (var v in collection)
+            {
+                SetValueInner(row, col + offset, v);
+                offset++;
+            }
+        }
+        internal void SetValueRow_ValueTranspose(int row, int col, IEnumerable collection)
+        {
+            int offset = 0;
+            foreach (var v in collection)
+            {
+                SetValueInner(row + offset, col, v);
+                offset++;
+            }
+        }
+
         /// <summary>
         /// Set accessor of sheet styleId
         /// </summary>
@@ -3566,7 +3633,16 @@ namespace OfficeOpenXml
         /// <param name="styleId">styleId</param>
         internal void SetValueStyleIdInner(int row, int col, object value, int styleId)
         {
-            _values.SetValue(row, col, value, styleId);
+            if (FullPrecision)
+            {
+                _values.SetValue(row, col, value, styleId);
+            }
+            else
+            {
+                var v = new ExcelValue() { _styleId=styleId };
+                v._value = Workbook.Styles.RoundValueFromNumberFormat(value, styleId);
+                _values.SetValue(row, col, v);
+            }
         }
         /// <summary>
         /// Bulk(Range) set accessor of sheet value, for value array
@@ -3586,7 +3662,23 @@ namespace OfficeOpenXml
             }
             else
             {
-                _values.SetValueRange_Value(fromRow, fromColumn, values);
+                if (FullPrecision)
+                {
+                    _values.SetValueRange_Value(fromRow, fromColumn, values);
+                }
+                else
+                {
+                    var rowBound = values.GetUpperBound(0);
+                    var colBound = values.GetUpperBound(1);
+
+                    for (int r = 0; r <= rowBound; r++)
+                    {
+                        for (int c = 0; c <= colBound; c++)
+                        {
+                            SetValueInner(fromRow + r, fromColumn + c, values[r, c]);
+                        }
+                    }
+                }
             }
             //Clearout formulas and flags, for example the rich text flag.
             _formulas.Clear(fromRow, fromColumn, values.GetUpperBound(0) + 1, values.GetUpperBound(1) + 1); 
@@ -3794,6 +3886,24 @@ namespace OfficeOpenXml
                 }
             }
             return null;
+        }
+
+        internal void ReCalculateFullPrecision()
+        {
+            var cse = new CellStoreEnumerator<ExcelValue>(_values);
+            foreach(var c in cse)
+            {
+                if(ConvertUtil.IsExcelNumeric(c._value))
+                {                    
+                    var v=GetDisplayedValue(c);
+                    _values.SetValue_Value(cse.Row, cse.Column, v);
+                }                    
+            }
+        }
+
+        private object GetDisplayedValue(ExcelValue c)
+        {
+            return Workbook.Styles.RoundValueFromNumberFormat(c);
         }
         #endregion
     }  // END class Worksheet

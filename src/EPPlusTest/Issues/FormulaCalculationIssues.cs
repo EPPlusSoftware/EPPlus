@@ -369,11 +369,8 @@ namespace EPPlusTest.Issues
 			using (var package = OpenTemplatePackage("s701.xlsx"))
 			{
 				var wk = package.Workbook.Worksheets[0];
-
 				Debug.WriteLine($"Open Cell B5 Value:{wk.Cells["B5"].Value}");
-
                 Debug.WriteLine($"Open Cell A5 Formula:{wk.Cells["A5"].Formula}");
-
                 Debug.WriteLine($"Open Cell A5 Value:{wk.Cells["A5"].Value}");
 
 				package.Workbook.Calculate();
