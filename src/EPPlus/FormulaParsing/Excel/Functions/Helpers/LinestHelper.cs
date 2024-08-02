@@ -385,6 +385,33 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers
             return result;
         }
 
+        internal static IRangeInfo GetDefaultKnownXsRange(IRangeInfo argY)
+        {
+            var range = new InMemoryRange(argY.Size);
+            
+            if (argY.Size.NumberOfRows == 1)
+            {
+                //iterating over the columns
+                int value = 1;
+                for (var i = 0; i < argY.Size.NumberOfCols; i++)
+                {
+                    range.SetValue(0, i, value);
+                    value++;
+                }
+            }
+            else
+            {
+                int value = 1;
+                for (var i = 0; i < argY.Size.NumberOfRows; i++)
+                {
+                    range.SetValue(i, 0, value);
+                    value++;
+                }
+            }
+            return range;
+            
+        }
+
         internal static double[] ReverseCoefficientOrder(double[] coefficients, List<double> dropCols, bool constVar, bool logest)
         {
             //This functions puts the coefficients in the same order as excel. The order is reversed (x_n, x_(n - 1), ..., x1)

@@ -287,6 +287,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["linest"] = new Linest();
             Functions["logest"] = new Logest();
             Functions["trend"] = new Trend();
+            Functions["growth"] = new Growth();
 
             // Information
             Functions["isblank"] = new IsBlank();
