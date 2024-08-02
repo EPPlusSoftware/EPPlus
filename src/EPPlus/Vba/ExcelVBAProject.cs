@@ -595,6 +595,19 @@ namespace OfficeOpenXml.VBA
                 }
             }
         }
+        private string GetString(BinaryReader br, uint size)
+        {
+            return GetString(br, size, System.Text.Encoding.GetEncoding(CodePage));
+        }
+        private string GetString(BinaryReader br, uint size, Encoding encoding)
+        {
+            return BinaryHelper.GetString(br, size, encoding);
+        }
+
+        private string GetStringAndUnicodeString(BinaryReader br, uint size)
+        {
+            return BinaryHelper.GetStringAndUnicodeString(br, size, System.Text.Encoding.GetEncoding(CodePage));
+        }
         #endregion
 
         #region Save Project
@@ -1094,31 +1107,7 @@ namespace OfficeOpenXml.VBA
             return Encrypt(new byte[] { (byte)(Protection.VisibilityState ? 0xFF : 0) }); 
         }
         #endregion
-        private string GetString(BinaryReader br, uint size)
-        {
-            return GetString(br, size, System.Text.Encoding.GetEncoding(CodePage));
-        }
-        private string GetString(BinaryReader br, uint size, Encoding enc)
-        {
-            if (size > 0)
-            {
-                byte[] byteTemp = new byte[size];
-                byteTemp = br.ReadBytes((int)size);
-                return enc.GetString(byteTemp);
-            }
-            else
-            {
-                return "";
-            }
-        }
-        private string GetStringAndUnicodeString(BinaryReader br, uint size)
-        {
-            string s = GetString(br, size);
-            int reserved = br.ReadUInt16();
-            uint sizeUC = br.ReadUInt32();
-            string sUC = GetString(br, sizeUC, System.Text.Encoding.Unicode);
-            return sUC.Length == 0 ? s : sUC;
-        }
+
 
         internal CompoundDocument Document { get; set; }
         internal Packaging.ZipPackagePart Part { get; set; }

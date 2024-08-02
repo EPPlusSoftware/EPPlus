@@ -8,9 +8,8 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System.IO;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using System.Xml.Linq;
 using OfficeOpenXml.Utils.Extensions;
+
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
@@ -49,7 +48,6 @@ namespace OfficeOpenXml.Drawing.OleObject
         {
             _worksheet = drawings.Worksheet;
 
-
             //Create this first and check if successful creation before creating xml for other parts
             //Create ExternalLink
             //       OR
@@ -69,18 +67,35 @@ namespace OfficeOpenXml.Drawing.OleObject
                 //create embedded object
 
                 //Create embeddingsfolder
+
+                /*
+                Skapa relation till .bin filen. Denna relation går från worksheet till embeddings/oleObjectX.bin.
+                detta gör vi genom att skapa en uri och en part som sedan ger oss relations id.
+                Vi använder GetNewUri
+                Sedan gör vi CreatePart? Vi måste nog uppdatera ContentTypes så den har en oleObject typ.
+                Sedan skapar vi relationen som vi sedan har när vi skriver xml.
+
+                Sedan måste vi skapa .bin filen. Detta görs genom att använda CompoundDokument på något vis. Problemet här är att
+                just nu har vi inget bra sätt att ge ett namn och placera vår compound dokument i embeddings mappen?
+
+                I save HandleSaveForIndividualDrawings måste vi uppdatera för support för oleObjet?
+                Är det något mer i save som måste göras?
+
+                */
+
+
                 int newID = 1;
-                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/oleObject{0}.xml", ref newID);
+                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/oleObject{0}.bin", ref newID);
                 var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
                 var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
 
-                using (MemoryStream ms = new MemoryStream())
-                {
-                    byte[] data = File.ReadAllBytes(filepath);
-                    ms.Write(data, 0, data.Length);
-                    _document = new CompoundDocument();
-                    _document.Save(ms);
-                }
+                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+                byte[] data = File.ReadAllBytes(filepath);
+                _document = new CompoundDocument();
+                _document.Storage.DataStreams.Add("\u0001Ole",CreateOleStream());
+                _document.Storage.DataStreams.Add("\u0001CompObj", CreateCompObjStream());
+                _document.Storage.DataStreams.Add("CONTENTS", data);
+                _document.Save(ms);
             }
 
             //Create Media
@@ -122,6 +137,344 @@ namespace OfficeOpenXml.Drawing.OleObject
             _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectNode);
         }
 
+        private byte[] CreateCompObjStream()
+        {
+            throw new NotImplementedException();
+        }
+
+        private byte[] CreateOleStream()
+        {
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                BinaryWriter bw = new BinaryWriter(ms);
+
+                /****** PROJECTINFORMATION Record ******/
+                bw.Write((uint)0x02000001);        //Version
+                bw.Write((uint)0x00000000);          //Flags
+
+                ms.Flush();
+                return ms.ToArray();
+            }
+        }
+
+        private byte[] ReadClipboardFormatOrAnsiString(BinaryReader br)
+        {
+            var MarkerOrLength = br.ReadUInt32();
+            byte[] FormatOrAnsiString = null;
+            if (MarkerOrLength > 0x00000190 || MarkerOrLength == 0x00000000)
+            {
+                return new byte[] { }; //error
+            }
+            else if (MarkerOrLength == 0xFFFFFFFF || MarkerOrLength == 0xFFFFFFFE)
+            {
+                FormatOrAnsiString = br.ReadBytes(4);
+            }
+            else
+            {
+                FormatOrAnsiString = br.ReadBytes((int)MarkerOrLength); //This is a string
+            }
+            return FormatOrAnsiString;
+        }
+
+        private byte[] ReadClipboardFormatOrUnicodeString(BinaryReader br)
+        {
+            var MarkerOrLength = br.ReadUInt32();
+            byte[] FormatOrUnicodeString = null;
+            if (MarkerOrLength > 0x00000190 || MarkerOrLength == 0x00000000)
+            {
+                return new byte[] { }; //error
+            }
+            else if (MarkerOrLength == 0xFFFFFFFF || MarkerOrLength == 0xFFFFFFFE)
+            {
+                FormatOrUnicodeString = br.ReadBytes(4);
+            }
+            else
+            {
+                FormatOrUnicodeString = br.ReadBytes((int)MarkerOrLength); //This is a string
+            }
+            return FormatOrUnicodeString;
+        }
+
+        private void ReadTOCENTRY(BinaryReader br)
+        {
+            ReadClipboardFormatOrAnsiString(br); //AnsiClipboardFormat
+            var TargetDeviceSize = br.ReadUInt32();
+            var Aspect = br.ReadUInt32();
+            var Lindex = br.ReadUInt32();
+            var Tymed = br.ReadUInt32();
+            var Reserved1 = br.ReadBytes(12);
+            var Advf = br.ReadUInt32();
+            var Reserved2 = br.ReadUInt32();
+            ReadDVTARGETDEVICE(br); //TargetDevice
+        }
+
+        private void ReadDEVMODEA(BinaryReader br)
+        {
+            var dmDeviceName = br.ReadBytes(32);
+            var dmFormName = br.ReadBytes(32);
+            var dmSpecVersion = br.ReadUInt16();
+            var dmDriverVersion = br.ReadUInt16();
+            var dmSize = br.ReadUInt16();
+            var dmDriverExtra = br.ReadUInt16();
+            var dmFields = br.ReadUInt32();
+            var dmOrientation = br.ReadUInt16();
+            var dmPaperSize = br.ReadUInt16();
+            var dmPaperLength = br.ReadUInt16();
+            var dmPaperWidth = br.ReadUInt16();
+            var dmScale = br.ReadUInt16();
+            var dmCopies = br.ReadUInt16();
+            var dmDefaultSource = br.ReadUInt16();
+            var dmPrintQuality = br.ReadUInt16();
+            var dmColor = br.ReadUInt16();
+            var dmDuplex = br.ReadUInt16();
+            var dmYResolution = br.ReadUInt16();
+            var dmTTOption = br.ReadUInt16();
+            var dmCollate = br.ReadUInt16();
+            var reserved0 = br.ReadUInt32();
+            var reserved1 = br.ReadUInt32();
+            var reserved2 = br.ReadUInt32();
+            var reserved3 = br.ReadUInt32();
+            var dmNup = br.ReadUInt32();
+            var reserved4 = br.ReadUInt32();
+            var dmICMMethod = br.ReadUInt32();
+            var dmICMIntent = br.ReadUInt32();
+            var dmMediaType = br.ReadUInt32();
+            var dmDitherType = br.ReadUInt32();
+            var reserved5 = br.ReadUInt32();
+            var reserved6 = br.ReadUInt32();
+            var reserved7 = br.ReadUInt32();
+            var reserved8 = br.ReadUInt32();
+        }
+
+        private void ReadDVTARGETDEVICE(BinaryReader br)
+        {
+            var DriverNameOffSet = br.ReadUInt16();
+            var DeviceNameOffSet = br.ReadUInt16();
+            var PortNameOffSet = br.ReadUInt16();
+            var ExtDevModeOffSet = br.ReadUInt16();
+
+            string DriverName = "";
+            var DriverNameLength = ExtDevModeOffSet - PortNameOffSet - DeviceNameOffSet - DriverNameOffSet;
+            if (DriverNameOffSet != 0)
+                DriverName = BinaryHelper.GetString(br, (uint)DriverNameLength, Encoding.ASCII);
+
+            string DeviceName = "";
+            var DeviceNameLength = ExtDevModeOffSet - PortNameOffSet - DeviceNameOffSet;
+            if (DeviceNameOffSet != 0)
+                DeviceName = BinaryHelper.GetString(br, (uint)DeviceNameLength, Encoding.ASCII);
+
+            string PortName = "";
+            var PortNameLength = ExtDevModeOffSet - PortNameOffSet;
+            if (PortNameOffSet != 0)
+                PortName = BinaryHelper.GetString(br, (uint)PortNameLength, Encoding.ASCII);
+
+            if (ExtDevModeOffSet != 0)
+                ReadDEVMODEA(br); //ExtDevMode
+        }
+        private void ReadMONIKERSTREAM(BinaryReader br, uint size)
+        {
+            var ClsId = br.ReadBytes(16);
+            var StreamData1 = br.ReadUInt32();
+            var StreamData2 = br.ReadUInt16();
+            var StreamData3 = br.ReadUInt32();
+            var StreamData4 = BinaryHelper.GetString(br, StreamData3, Encoding.ASCII);
+        }
+
+        private void ReadCLSID(BinaryReader br)
+        {
+            var Data1 = br.ReadUInt32();
+            var Data2 = br.ReadUInt16();
+            var Data3 = br.ReadUInt16();
+            var Data4 = br.ReadUInt64();
+        }
+
+        private void ReadLengthPrefixedUnicodeString(BinaryReader br)
+        {
+            var Length = br.ReadUInt32();
+            var uString = BinaryHelper.GetString(br, Length, Encoding.Unicode);
+        }
+
+        private void ReadLengthPrefixedAnsiString(BinaryReader br)
+        {
+            var Length = br.ReadUInt32();
+            var aString = BinaryHelper.GetString(br, Length, Encoding.ASCII);
+        }
+
+        private void ReadFILETIME(BinaryReader br)
+        {
+            var dwLowDateTime = br.ReadUInt32();
+            var dwHighDateTime = br.ReadUInt32();
+        }
+
+        private void ReadCompObjHeader(BinaryReader br)
+        {
+            var Reserved1 = br.ReadUInt32();
+            var Version = br.ReadUInt32();
+            var Reserved2 = br.ReadBytes(20);
+        }
+
+        private void ReadCompObjStream(byte[] oleBytes)
+        {
+            using (var ms = RecyclableMemory.GetStream(oleBytes))
+            {
+                BinaryReader br = new BinaryReader(ms);
+
+                ReadCompObjHeader(br); //Header
+
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                ReadLengthPrefixedAnsiString(br); //AnsiUserType
+
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                ReadClipboardFormatOrAnsiString(br); //AnsiClipboardFormat 
+
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                //Reserved1 should be a LengthPrefixedUnicodeString
+                var Reserved1Length = br.ReadUInt32();
+                if (Reserved1Length == 0 || Reserved1Length > 0x00000028)
+                {
+                    return;
+                }
+                var Reserved1String = BinaryHelper.GetString(br, Reserved1Length, Encoding.ASCII);
+                if (string.IsNullOrEmpty(Reserved1String))
+                {
+                    return;
+                }
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                var UnicodeMarker = br.ReadUInt32();
+                if(UnicodeMarker != 0x71B239F4)
+                {
+                    return;
+                }
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                ReadLengthPrefixedUnicodeString(br); //UnicodeUserType
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                ReadClipboardFormatOrUnicodeString(br);
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                ReadLengthPrefixedUnicodeString(br); //Reserved2
+            }
+        }
+
+        private void ReadOleStream(byte[] oleBytes)
+        {
+            using (var ms = RecyclableMemory.GetStream(oleBytes))
+            {
+                BinaryReader br = new BinaryReader(ms);
+                var Version = br.ReadUInt32();
+                var Flags = br.ReadUInt32();
+                var LinkUpdateOption = br.ReadUInt32();
+                var Reserved1 = br.ReadUInt32();
+                var ReservedMonikerStreamSize = br.ReadUInt32() - 4;
+                if (ReservedMonikerStreamSize != 0)
+                {
+                    ReadMONIKERSTREAM(br, ReservedMonikerStreamSize);
+                }
+
+                if( br.BaseStream.Position >= br.BaseStream.Length )
+                    return;
+
+                var RelativeSourceMonikerStreamSize = br.ReadUInt32() -4;
+                if (RelativeSourceMonikerStreamSize != 0)
+                {
+                    ReadMONIKERSTREAM(br, RelativeSourceMonikerStreamSize);
+                }
+
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                var AbsoluteSourceMonikerStreamSize = br.ReadUInt32() - 4;
+                if (AbsoluteSourceMonikerStreamSize != 0)
+                {
+                    ReadMONIKERSTREAM(br, AbsoluteSourceMonikerStreamSize);
+                }
+
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                var ClsidIndicator = br.ReadUInt32();
+
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                ReadCLSID(br); //Clsid
+
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                ReadLengthPrefixedUnicodeString(br); //ReservedDisplayName
+
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                var Reserved2 = br.ReadUInt32();
+
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+
+                ReadFILETIME(br); //LocalUpdateTime
+                ReadFILETIME(br); //LocalCheckUpdateTime
+                ReadFILETIME(br); //RemoteUpdateTime
+            }
+        }
+
+        private void ReadOleNative(byte[] oleBytes)
+        {
+            using (var ms = RecyclableMemory.GetStream(oleBytes))
+            {
+                BinaryReader br = new BinaryReader(ms);
+                var NativeDataSize = br.ReadUInt32();
+                var NativeData = br.ReadBytes((int)NativeDataSize);
+            }
+        }
+
+        private void ReadOlePres(byte[] oleBytes)
+        {
+            using (var ms = new MemoryStream(oleBytes))
+            {
+                BinaryReader br = new BinaryReader(ms);
+                var AnsiClipboardFormatFormatOrAnsiString = ReadClipboardFormatOrAnsiString(br);
+                if (br.BaseStream.Position >= br.BaseStream.Length)
+                    return;
+                var TargetDeviceSize = br.ReadUInt32();
+                if (TargetDeviceSize >= 0x00000004)
+                {
+                    ReadDVTARGETDEVICE(br); //TargetDevice
+                }
+                var Aspect = br.ReadUInt32();
+                var Lindex = br.ReadUInt32();
+                var Advf = br.ReadUInt32();
+                var Reserved1 = br.ReadUInt32();
+                var Width = br.ReadUInt32();
+                var Height = br.ReadUInt32();
+                var Size = br.ReadUInt32();
+                var Data = br.ReadBytes((int)Size);
+                byte[] Reserved2;
+                if (BitConverter.ToInt32( AnsiClipboardFormatFormatOrAnsiString, 0 ) == 0x00000003)
+                    Reserved2 = br.ReadBytes(18);
+                var TocSignature = br.ReadUInt32();
+                var TocCount = br.ReadUInt32();
+                if (TocSignature == 0x494E414 || TocCount == 0)
+                    return;
+                for (int i = 0; i < TocCount; i++)
+                {
+                    ReadTOCENTRY(br);
+                }
+            }
+        }
+
         private string CreateOleObjectDrawingNode()
         {
             StringBuilder xml = new StringBuilder();
@@ -141,6 +494,18 @@ namespace OfficeOpenXml.Drawing.OleObject
             var olePart = _worksheet._package.ZipPackage.GetPart(oleObj);
             var oleStream = (MemoryStream)olePart.GetStream(FileMode.Open, FileAccess.Read);
             _document = new CompoundDocument(oleStream);
+            if (_document.Storage.DataStreams.ContainsKey("\u0001Ole10Native"))
+                ReadOleNative(_document.Storage.DataStreams["\u0001Ole10Native"]);
+            if (_document.Storage.DataStreams.ContainsKey("\u0001Ole"))
+                ReadOleStream(_document.Storage.DataStreams["\u0001Ole"]);
+            if (_document.Storage.DataStreams.ContainsKey("\u0001CompObj"))
+                ReadCompObjStream(_document.Storage.DataStreams["\u0001CompObj"]);
+            for(int i = 0; i <= 999; i++)
+            {
+                string olePres = "\u0010OlePres" + i.ToString("D3");
+                if (_document.Storage.DataStreams.ContainsKey(olePres))
+                    ReadCompObjStream(_document.Storage.DataStreams[olePres]);
+            }
         }
 
         internal void LoadExternalLink()
