@@ -18,6 +18,8 @@ namespace EPPlusTest.Core.Worksheet
     {
         [DataTestMethod]
         [DataRow("Calibri")]
+        [DataRow("Aptos Narrow")]
+        [DataRow("Aptos Display")]
         [DataRow("Arial")]
         [DataRow("Arial Black")]
         [DataRow("Times New Roman")]
@@ -91,8 +93,8 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-        [DataTestMethod, Ignore]
-        //[DataRow("Calibri", 1)]
+        [DataTestMethod]
+        [DataRow("Calibri", 1)]
         //[DataRow("Calibri Light", 2)]
         //[DataRow("Arial", 3)]
         //[DataRow("Arial Black", 4)]
@@ -100,7 +102,7 @@ namespace EPPlusTest.Core.Worksheet
         //[DataRow("Bookman Old Style", 6)]
         //[DataRow("Calisto MT", 7)]
         //[DataRow("Times New Roman", 8)]
-        [DataRow("Courier New", 9)]
+        //[DataRow("Courier New", 9)]
         //[DataRow("Liberation Serif", 10)]
         //[DataRow("Verdana", 11)]
         //[DataRow("Cambria", 12)]
@@ -116,6 +118,8 @@ namespace EPPlusTest.Core.Worksheet
         //[DataRow("Trebuchet MS", 22)]
         //[DataRow("Tw Cen MT", 23)]
         //[DataRow("Tw Cen MT Condensed", 24)]
+        [DataRow("Aptos Narrow", 25)]
+        [DataRow("Aptos Display", 26)]
         public void AutofitWithSerializedFonts2(string fontFamily, int run)
         {
             var report = new ExcelPackage(@"c:\Temp\fontreport2.xlsx");
