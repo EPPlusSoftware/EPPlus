@@ -12,6 +12,9 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 using System.Collections;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml.Core.CellStore
 {
@@ -20,6 +23,7 @@ namespace OfficeOpenXml.Core.CellStore
         CellStore<T> _cellStore;
         int row, colPos;
         internal int _startRow, _startCol, _endRow, _endCol;
+        Queue<SimpleAddress> _ranges=null;
         int minRow, minColPos, maxRow, maxColPos;
         int lastColCount;
         public CellStoreEnumerator(CellStore<T> cellStore) :
@@ -29,11 +33,31 @@ namespace OfficeOpenXml.Core.CellStore
         public CellStoreEnumerator(CellStore<T> cellStore, int StartRow, int StartCol, int EndRow, int EndCol)
         {
             _cellStore = cellStore;
-
+            //_ranges.Add(new SimpleAddress(StartRow, StartCol, EndRow, EndCol));
             _startRow = StartRow;
             _startCol = StartCol;
             _endRow = EndRow;
             _endCol = EndCol;
+
+            Init();
+        }
+        public CellStoreEnumerator(CellStore<T> cellStore, ExcelAddressBase address)
+        {
+            _cellStore = cellStore;
+
+            _startRow = address._fromRow;
+            _startCol = address._fromCol;
+            _endRow = address._toRow;
+            _endCol = address._toCol;
+            if(address.Addresses != null && address.Addresses.Count>1)
+            {
+                _ranges = new Queue<SimpleAddress>();
+                for(int i=1;i<address.Addresses.Count; i++)
+                {
+                    var a = address._addresses[i];
+                    _ranges.Enqueue(new SimpleAddress(a._fromRow, a._fromCol, a._toRow, a._toCol));
+                }
+            }
 
             Init();
         }
@@ -96,16 +120,28 @@ namespace OfficeOpenXml.Core.CellStore
         internal bool Next()
         {
             if (lastColCount != _cellStore.ColumnCount) UpdateMinMaxColPos();
-            return _cellStore.GetNextCell(ref row, ref colPos, minColPos, maxRow, maxColPos);
-        }
-        internal bool Previous()
-        {
-            lock (_cellStore)
+            var ret = _cellStore.GetNextCell(ref row, ref colPos, minColPos, maxRow, maxColPos);
+            if (ret == false && _ranges!=null && _ranges.Count > 0)
             {
-                if (lastColCount != _cellStore.ColumnCount) UpdateMinMaxColPos();
-                return _cellStore.GetPrevCell(ref row, ref colPos, minRow, minColPos, maxColPos);
+                var a=_ranges.Dequeue();
+
+                _startRow = a.FromRow;
+                _startCol = a.FromCol;
+                _endRow = a.ToRow;
+                _endCol = a.ToCol;
+
+                Init();
             }
+            return ret;
         }
+        //internal bool Previous()
+        //{
+        //    lock (_cellStore)
+        //    {
+        //        if (lastColCount != _cellStore.ColumnCount) UpdateMinMaxColPos();
+        //        return _cellStore.GetPrevCell(ref row, ref colPos, minRow, minColPos, maxColPos);
+        //    }
+        //}
 
         public string CellAddress
         {

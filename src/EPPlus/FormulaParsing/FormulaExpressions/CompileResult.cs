@@ -43,7 +43,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         /// <summary>
         /// The result is a dynamic array formula.
         /// </summary>
-        DynamicArray = 2
+        DynamicArray = 2,
+        /// <summary>
+        /// The result is a dynamic array formula. Even if the result is nested in another function that the cell should be marked as dynamic.
+        /// </summary>
+        DynamicArray_AlwaysSetCellAsDynamic = 3
     }
     /// <summary>
     /// CompileResultBase
@@ -479,13 +483,26 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     /// </summary>
     public class DynamicArrayCompileResult : AddressCompileResult
     {
+        CompileResultType _resultType = CompileResultType.DynamicArray;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="result"></param>
         /// <param name="dataType"></param>
         /// <param name="address"></param>
-        public DynamicArrayCompileResult(object result, DataType dataType, FormulaRangeAddress address) : base(result, dataType)
+        /// <param name="resultType"></param>
+        public DynamicArrayCompileResult(object result, DataType dataType, FormulaRangeAddress address, CompileResultType resultType) : base(result, dataType, address)
+        {
+            _resultType = resultType;
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="dataType"></param>
+        /// <param name="address"></param>
+        public DynamicArrayCompileResult(object result, DataType dataType, FormulaRangeAddress address) : base(result, dataType, address)
         {
             
         }
@@ -521,7 +538,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             get
             {
-                return CompileResultType.DynamicArray;
+                return _resultType;
             }
         }
     }

@@ -271,7 +271,7 @@ namespace OfficeOpenXml.FormulaParsing
                     if (isDynamic)
                     {
                         f = ws._sharedFormulas[ix].GetRpnFormula(depChain, sf.StartRow, sf.StartCol);
-                        f._isDynamic = true;
+                        f._flags |= FormulaFlags.IsDynamic;
                     }
                     else
                     {
@@ -346,7 +346,7 @@ namespace OfficeOpenXml.FormulaParsing
                 SetCurrentCell(depChain, f);
                 var ws = f._ws;
 
-                if (f._tokenIndex < f._tokens.Count)
+                if(f._tokenIndex < f._tokens.Count)
                 {                    
                     address = ExecuteNextToken(depChain, f, followChain);
                     if (f._tokenIndex < f._tokens.Count)
@@ -569,7 +569,7 @@ namespace OfficeOpenXml.FormulaParsing
                         if ((cr.DataType == DataType.ExcelRange && ((IRangeInfo)cr.Result).Address.IsSingleCell==false)) //A range. When we add support for dynamic array formulas we will alter this.
                         {
                             var ri = (IRangeInfo)cr.Result;
-                            if (f._arrayIndex >= 0 && f._isDynamic == false) //A legacy array formula, Fill the referenced range.
+                            if (f._arrayIndex >= 0 && (f._flags & FormulaFlags.IsDynamic) == 0) //A legacy array formula, Fill the referenced range.
                             {
                                 ArrayFormulaOutput.FillArrayFromRangeInfo(f, ri, rd, depChain);
                             }
@@ -592,7 +592,10 @@ namespace OfficeOpenXml.FormulaParsing
                                 }
                             }
                         }
-                        else if (cr.ResultType == CompileResultType.DynamicArray)
+                        else if ((cr.ResultType == CompileResultType.DynamicArray || 
+                                 cr.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic || 
+                                 (f._flags & FormulaFlags.IsAllwaysDynamic) == FormulaFlags.IsAllwaysDynamic) &&
+                                 f.CanBeDynamicArray)
                         {
                             var dirtyRange = ArrayFormulaOutput.FillDynamicArraySingleValue(f, cr, rd, depChain);
                             if (dirtyRange != null && dirtyRange.Length > 0)
@@ -906,6 +909,10 @@ namespace OfficeOpenXml.FormulaParsing
                             }
 
                             var r = ExecFunc(depChain, f, funcExp);
+                            if (r.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
+                            {
+                                f._flags |= FormulaFlags.IsAllwaysDynamic;
+                            }
                             if (r.Address!=null && returnAddresses)
                             {
                                 if ((f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false) && r.Address != null)

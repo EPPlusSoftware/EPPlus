@@ -2030,7 +2030,10 @@ namespace OfficeOpenXml
 				return _richData;
 			}
 		}
-
-        public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; internal set; }
+		/// <summary>
+		/// If set, this method is called from the <see cref="ExcelRangeBase.Text"/> to override the value of a specific number format. 
+		/// This can be used for localized number formats not handled by EPPlus.
+		/// </summary>
+        public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; set; }
     } // end Workbook
 }

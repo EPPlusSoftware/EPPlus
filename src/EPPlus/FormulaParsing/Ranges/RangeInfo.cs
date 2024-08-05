@@ -99,20 +99,21 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             { 
                 WorksheetIx = (short)ws.PositionId,
             };
+
             if (_ws != null && _ws.IsDisposed == false)
             {
-                _values = new CellStoreEnumerator<ExcelValue>(_ws._values, address._fromRow, address._fromCol, address._toRow, address._toCol);
+                _values = new CellStoreEnumerator<ExcelValue>(_ws._values, address);
                 _cell = new CellInfo(_ws, _values);
             }
+
             _size = new RangeDefinition(address._toRow - address._fromRow + 1, (short)(address._toCol - address._fromCol + 1));
         }
-
         /// <summary>
         /// The total number of cells (including empty) of the range
         /// </summary>
         /// <returns></returns>
         public int GetNCells()
-        {
+        {            
             return ((_address.ToRow - _address.FromRow) + 1) * ((_address.ToCol - _address.FromCol) + 1);
         }
 
