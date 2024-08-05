@@ -221,7 +221,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <param name="ClearRange">Clear the table range</param>
         public void Delete(int Index, bool ClearRange = false)
         {
-            if(Index >=0 && Index <_pivotTables.Count)
+            if(Index < 0 && Index >= _pivotTables.Count)
             {
                 throw new IndexOutOfRangeException();
             }
@@ -255,6 +255,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     _ws.Workbook._pivotTableIds.Remove(cacheReference.CacheDefinitionUri);
                     _ws.Workbook._pivotTableCaches.Remove(cacheAddress);
+                    _ws.Workbook.DeleteNode("d:pivotCaches");
                 }
             }
 
