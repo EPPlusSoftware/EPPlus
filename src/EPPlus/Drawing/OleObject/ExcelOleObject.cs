@@ -9,6 +9,7 @@ using OfficeOpenXml.Utils;
 using System.IO;
 using System.Text;
 using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 
 namespace OfficeOpenXml.Drawing.OleObject
@@ -157,12 +158,14 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
-        private byte[] ReadClipboardFormatOrAnsiString(BinaryReader br)
+        private byte[] ReadClipboardFormatOrAnsiString(BinaryReader br, ExcelWorksheet ws, ref int ci)
         {
             var MarkerOrLength = br.ReadUInt32();
+            ws.Cells[2, ci++].Value = MarkerOrLength;
             byte[] FormatOrAnsiString = null;
             if (MarkerOrLength > 0x00000190 || MarkerOrLength == 0x00000000)
             {
+                ws.Cells[2, ci++].Value = "";
                 return new byte[] { }; //error
             }
             else if (MarkerOrLength == 0xFFFFFFFF || MarkerOrLength == 0xFFFFFFFE)
@@ -173,15 +176,18 @@ namespace OfficeOpenXml.Drawing.OleObject
             {
                 FormatOrAnsiString = br.ReadBytes((int)MarkerOrLength); //This is a string
             }
+            ws.Cells[2, ci++].Value = FormatOrAnsiString;
             return FormatOrAnsiString;
         }
 
-        private byte[] ReadClipboardFormatOrUnicodeString(BinaryReader br)
+        private byte[] ReadClipboardFormatOrUnicodeString(BinaryReader br, ExcelWorksheet ws, ref int ci)
         {
             var MarkerOrLength = br.ReadUInt32();
+            ws.Cells[2, ci++].Value = MarkerOrLength;
             byte[] FormatOrUnicodeString = null;
             if (MarkerOrLength > 0x00000190 || MarkerOrLength == 0x00000000)
             {
+                ws.Cells[2, ci++].Value = "";
                 return new byte[] { }; //error
             }
             else if (MarkerOrLength == 0xFFFFFFFF || MarkerOrLength == 0xFFFFFFFE)
@@ -192,12 +198,13 @@ namespace OfficeOpenXml.Drawing.OleObject
             {
                 FormatOrUnicodeString = br.ReadBytes((int)MarkerOrLength); //This is a string
             }
+            ws.Cells[2, ci++].Value = FormatOrUnicodeString;
             return FormatOrUnicodeString;
         }
 
-        private void ReadTOCENTRY(BinaryReader br)
+        private void ReadTOCENTRY(BinaryReader br, ExcelWorksheet ws, ref int ci)
         {
-            ReadClipboardFormatOrAnsiString(br); //AnsiClipboardFormat
+            ReadClipboardFormatOrAnsiString(br, ws, ref ci); //AnsiClipboardFormat
             var TargetDeviceSize = br.ReadUInt32();
             var Aspect = br.ReadUInt32();
             var Lindex = br.ReadUInt32();
@@ -205,10 +212,19 @@ namespace OfficeOpenXml.Drawing.OleObject
             var Reserved1 = br.ReadBytes(12);
             var Advf = br.ReadUInt32();
             var Reserved2 = br.ReadUInt32();
-            ReadDVTARGETDEVICE(br); //TargetDevice
+
+            ws.Cells[2, ci++].Value = TargetDeviceSize;
+            ws.Cells[2, ci++].Value = Aspect;
+            ws.Cells[2, ci++].Value = Lindex;
+            ws.Cells[2, ci++].Value = Tymed;
+            ws.Cells[2, ci++].Value = Reserved1;
+            ws.Cells[2, ci++].Value = Advf;
+            ws.Cells[2, ci++].Value = Reserved2;
+
+            ReadDVTARGETDEVICE(br, TargetDeviceSize, ws, ref ci); //TargetDevice
         }
 
-        private void ReadDEVMODEA(BinaryReader br)
+        private void ReadDEVMODEA(BinaryReader br, ExcelWorksheet ws, ref int ci)
         {
             var dmDeviceName = br.ReadBytes(32);
             var dmFormName = br.ReadBytes(32);
@@ -244,131 +260,237 @@ namespace OfficeOpenXml.Drawing.OleObject
             var reserved6 = br.ReadUInt32();
             var reserved7 = br.ReadUInt32();
             var reserved8 = br.ReadUInt32();
+
+            ws.Cells[2, ci++].Value = dmDeviceName;
+            ws.Cells[2, ci++].Value = dmFormName;
+            ws.Cells[2, ci++].Value = dmSpecVersion;
+            ws.Cells[2, ci++].Value = dmDriverVersion;
+            ws.Cells[2, ci++].Value = dmSize;
+            ws.Cells[2, ci++].Value = dmDriverExtra;
+            ws.Cells[2, ci++].Value = dmFields;
+            ws.Cells[2, ci++].Value = dmOrientation;
+            ws.Cells[2, ci++].Value = dmPaperSize;
+            ws.Cells[2, ci++].Value = dmPaperLength;
+            ws.Cells[2, ci++].Value = dmPaperWidth;
+            ws.Cells[2, ci++].Value = dmScale;
+            ws.Cells[2, ci++].Value = dmCopies;
+            ws.Cells[2, ci++].Value = dmDefaultSource;
+            ws.Cells[2, ci++].Value = dmPrintQuality;
+            ws.Cells[2, ci++].Value = dmColor;
+            ws.Cells[2, ci++].Value = dmDuplex;
+            ws.Cells[2, ci++].Value = dmYResolution;
+            ws.Cells[2, ci++].Value = dmTTOption;
+            ws.Cells[2, ci++].Value = dmCollate;
+            ws.Cells[2, ci++].Value = reserved0;
+            ws.Cells[2, ci++].Value = reserved1;
+            ws.Cells[2, ci++].Value = reserved2;
+            ws.Cells[2, ci++].Value = reserved3;
+            ws.Cells[2, ci++].Value = dmNup;
+            ws.Cells[2, ci++].Value = reserved4;
+            ws.Cells[2, ci++].Value = dmICMMethod;
+            ws.Cells[2, ci++].Value = dmICMIntent;
+            ws.Cells[2, ci++].Value = dmMediaType;
+            ws.Cells[2, ci++].Value = dmDitherType;
+            ws.Cells[2, ci++].Value = reserved5;
+            ws.Cells[2, ci++].Value = reserved6;
+            ws.Cells[2, ci++].Value = reserved7;
+            ws.Cells[2, ci++].Value = reserved8;
         }
 
-        private void ReadDVTARGETDEVICE(BinaryReader br)
+
+        static ushort MinOffset(ushort[] offsets, ushort currentOffset)
+        {
+            ushort minOffset = ushort.MaxValue;
+            foreach (ushort offset in offsets)
+            {
+                if (offset > currentOffset && offset < minOffset)
+                {
+                    minOffset = offset;
+                }
+            }
+            return minOffset;
+        }
+
+        private void ReadDVTARGETDEVICE(BinaryReader br, uint size, ExcelWorksheet ws, ref int ci)
         {
             var DriverNameOffSet = br.ReadUInt16();
             var DeviceNameOffSet = br.ReadUInt16();
             var PortNameOffSet = br.ReadUInt16();
             var ExtDevModeOffSet = br.ReadUInt16();
 
+            ws.Cells[2, ci++].Value = DriverNameOffSet;
+            ws.Cells[2, ci++].Value = DeviceNameOffSet;
+            ws.Cells[2, ci++].Value = PortNameOffSet;
+            ws.Cells[2, ci++].Value = ExtDevModeOffSet;
+
             string DriverName = "";
-            var DriverNameLength = ExtDevModeOffSet - PortNameOffSet - DeviceNameOffSet - DriverNameOffSet;
             if (DriverNameOffSet != 0)
+            {
+                ushort nextOffset = MinOffset(new ushort[] { DeviceNameOffSet, PortNameOffSet, ExtDevModeOffSet, (ushort)size }, DriverNameOffSet);
+                var DriverNameLength = nextOffset - DriverNameOffSet;
                 DriverName = BinaryHelper.GetString(br, (uint)DriverNameLength, Encoding.ASCII);
+            }
+
+            ws.Cells[2, ci++].Value = DriverName;
 
             string DeviceName = "";
-            var DeviceNameLength = ExtDevModeOffSet - PortNameOffSet - DeviceNameOffSet;
+            
             if (DeviceNameOffSet != 0)
+            {
+                ushort nextOffset = MinOffset(new ushort[] { DriverNameOffSet, PortNameOffSet, ExtDevModeOffSet, (ushort)size }, DeviceNameOffSet);
+                var DeviceNameLength = nextOffset - DeviceNameOffSet;
                 DeviceName = BinaryHelper.GetString(br, (uint)DeviceNameLength, Encoding.ASCII);
+            }
+
+            ws.Cells[2, ci++].Value = DeviceName;
 
             string PortName = "";
-            var PortNameLength = ExtDevModeOffSet - PortNameOffSet;
             if (PortNameOffSet != 0)
+            {
+                ushort nextOffset = MinOffset(new ushort[] { DriverNameOffSet, DeviceNameOffSet, ExtDevModeOffSet, (ushort)size }, PortNameOffSet);
+                var PortNameLength = nextOffset - PortNameOffSet;
                 PortName = BinaryHelper.GetString(br, (uint)PortNameLength, Encoding.ASCII);
+            }
+
+            ws.Cells[2, ci++].Value = PortName;
 
             if (ExtDevModeOffSet != 0)
-                ReadDEVMODEA(br); //ExtDevMode
+                ReadDEVMODEA(br, ws, ref ci); //ExtDevMode
+            else
+                ci += 33;
         }
-        private void ReadMONIKERSTREAM(BinaryReader br, uint size)
+        private void ReadMONIKERSTREAM(BinaryReader br, uint size, ExcelWorksheet ws, ref int ci)
         {
             var ClsId = br.ReadBytes(16);
             var StreamData1 = br.ReadUInt32();
             var StreamData2 = br.ReadUInt16();
             var StreamData3 = br.ReadUInt32();
             var StreamData4 = BinaryHelper.GetString(br, StreamData3, Encoding.ASCII);
+
+            ws.Cells[2, ci++].Value = ClsId;
+            ws.Cells[2, ci++].Value = StreamData1;
+            ws.Cells[2, ci++].Value = StreamData2;
+            ws.Cells[2, ci++].Value = StreamData3;
+            ws.Cells[2, ci++].Value = StreamData4;
+
         }
 
-        private void ReadCLSID(BinaryReader br)
+        private void ReadCLSID(BinaryReader br, ExcelWorksheet ws, ref int ci)
         {
             var Data1 = br.ReadUInt32();
             var Data2 = br.ReadUInt16();
             var Data3 = br.ReadUInt16();
             var Data4 = br.ReadUInt64();
+
+            ws.Cells[2, ci++].Value = Data1;
+            ws.Cells[2, ci++].Value = Data2;
+            ws.Cells[2, ci++].Value = Data3;
+            ws.Cells[2, ci++].Value = Data4;
         }
 
-        private void ReadLengthPrefixedUnicodeString(BinaryReader br)
+        private void ReadLengthPrefixedUnicodeString(BinaryReader br, ExcelWorksheet ws, ref int ci)
         {
             var Length = br.ReadUInt32();
             var uString = BinaryHelper.GetString(br, Length, Encoding.Unicode);
+
+            ws.Cells[2, ci++].Value = Length;
+            ws.Cells[2, ci++].Value = uString;
         }
 
-        private void ReadLengthPrefixedAnsiString(BinaryReader br)
+        private void ReadLengthPrefixedAnsiString(BinaryReader br, ExcelWorksheet ws, ref int ci)
         {
             var Length = br.ReadUInt32();
             var aString = BinaryHelper.GetString(br, Length, Encoding.ASCII);
+
+            ws.Cells[2, ci++].Value = Length;
+            ws.Cells[2, ci++].Value = aString;
         }
 
-        private void ReadFILETIME(BinaryReader br)
+        private void ReadFILETIME(BinaryReader br, ExcelWorksheet ws, ref int ci)
         {
             var dwLowDateTime = br.ReadUInt32();
             var dwHighDateTime = br.ReadUInt32();
+
+            ws.Cells[2, ci++].Value = dwLowDateTime;
+            ws.Cells[2, ci++].Value = dwHighDateTime;
         }
 
-        private void ReadCompObjHeader(BinaryReader br)
+        private void ReadCompObjHeader(BinaryReader br, ExcelWorksheet ws, ref int ci)
         {
             var Reserved1 = br.ReadUInt32();
             var Version = br.ReadUInt32();
             var Reserved2 = br.ReadBytes(20);
+
+            ws.Cells[2, ci++].Value = Reserved1;
+            ws.Cells[2, ci++].Value = Version;
+            ws.Cells[2, ci++].Value = Reserved2;
         }
 
-        private void ReadCompObjStream(byte[] oleBytes)
+        private void ReadCompObjStream(byte[] oleBytes, ExcelWorksheet ws, ref int ci)
         {
             using (var ms = RecyclableMemory.GetStream(oleBytes))
             {
                 BinaryReader br = new BinaryReader(ms);
 
-                ReadCompObjHeader(br); //Header
+                ReadCompObjHeader(br, ws, ref ci); //Header
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                ReadLengthPrefixedAnsiString(br); //AnsiUserType
+                ReadLengthPrefixedAnsiString(br, ws, ref ci); //AnsiUserType
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                ReadClipboardFormatOrAnsiString(br); //AnsiClipboardFormat 
+                ReadClipboardFormatOrAnsiString(br, ws, ref ci); //AnsiClipboardFormat 
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
                 //Reserved1 should be a LengthPrefixedUnicodeString
                 var Reserved1Length = br.ReadUInt32();
+                string Reserved1String = "";
                 if (Reserved1Length == 0 || Reserved1Length > 0x00000028)
                 {
-                    return;
+                    //return;
                 }
-                var Reserved1String = BinaryHelper.GetString(br, Reserved1Length, Encoding.ASCII);
+                else
+                {
+                    Reserved1String = BinaryHelper.GetString(br, Reserved1Length, Encoding.ASCII);
+                }
+
+                ws.Cells[2, ci++].Value = Reserved1Length;
+                ws.Cells[2, ci++].Value = Reserved1String;
+
                 if (string.IsNullOrEmpty(Reserved1String))
                 {
-                    return;
+                    //return;
                 }
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
                 var UnicodeMarker = br.ReadUInt32();
-                if(UnicodeMarker != 0x71B239F4)
+                ws.Cells[2, ci++].Value = UnicodeMarker;
+                if (UnicodeMarker != 0x71B239F4)
                 {
                     return;
                 }
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                ReadLengthPrefixedUnicodeString(br); //UnicodeUserType
+                ReadLengthPrefixedUnicodeString(br, ws, ref ci); //UnicodeUserType
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                ReadClipboardFormatOrUnicodeString(br);
+                ReadClipboardFormatOrUnicodeString(br, ws, ref ci);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                ReadLengthPrefixedUnicodeString(br); //Reserved2
+                ReadLengthPrefixedUnicodeString(br, ws, ref ci); //Reserved2
             }
         }
 
-        private void ReadOleStream(byte[] oleBytes)
+        private void ReadOleStream(byte[] oleBytes, ExcelWorksheet ws, ref int ci)
         {
             using (var ms = RecyclableMemory.GetStream(oleBytes))
             {
@@ -378,80 +500,109 @@ namespace OfficeOpenXml.Drawing.OleObject
                 var LinkUpdateOption = br.ReadUInt32();
                 var Reserved1 = br.ReadUInt32();
                 var ReservedMonikerStreamSize = br.ReadUInt32() - 4;
+                ws.Cells[2, ci++].Value = Version;
+                ws.Cells[2, ci++].Value = Flags;
+                ws.Cells[2, ci++].Value = LinkUpdateOption;
+                ws.Cells[2, ci++].Value = Reserved1;
+                ws.Cells[2, ci++].Value = ReservedMonikerStreamSize;
+                ws.Cells[2, ci].Value = "";
+
                 if (ReservedMonikerStreamSize != 0)
                 {
-                    ReadMONIKERSTREAM(br, ReservedMonikerStreamSize);
+                    ReadMONIKERSTREAM(br, ReservedMonikerStreamSize, ws, ref ci);
+                }
+                else
+                {
+                    ci += 5;
                 }
 
-                if( br.BaseStream.Position >= br.BaseStream.Length )
+                if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                var RelativeSourceMonikerStreamSize = br.ReadUInt32() -4;
+                var RelativeSourceMonikerStreamSize = br.ReadUInt32() - 4;
+                ws.Cells[2, ci++].Value = RelativeSourceMonikerStreamSize;
+                ws.Cells[2, ci].Value = "";
                 if (RelativeSourceMonikerStreamSize != 0)
                 {
-                    ReadMONIKERSTREAM(br, RelativeSourceMonikerStreamSize);
+                    ReadMONIKERSTREAM(br, RelativeSourceMonikerStreamSize, ws, ref ci);
+                }
+                else
+                {
+                    ci += 5;
                 }
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
                 var AbsoluteSourceMonikerStreamSize = br.ReadUInt32() - 4;
+                ws.Cells[2, ci++].Value = AbsoluteSourceMonikerStreamSize;
+                ws.Cells[2, ci].Value = "";
                 if (AbsoluteSourceMonikerStreamSize != 0)
                 {
-                    ReadMONIKERSTREAM(br, AbsoluteSourceMonikerStreamSize);
+                    ReadMONIKERSTREAM(br, AbsoluteSourceMonikerStreamSize, ws, ref ci);
+                }
+                else
+                {
+                    ci += 5;
                 }
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
                 var ClsidIndicator = br.ReadUInt32();
+                ws.Cells[2, ci++].Value = ClsidIndicator;
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                ReadCLSID(br); //Clsid
+                ReadCLSID(br, ws, ref ci); //Clsid
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                ReadLengthPrefixedUnicodeString(br); //ReservedDisplayName
+                ReadLengthPrefixedUnicodeString(br, ws, ref ci); //ReservedDisplayName
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
                 var Reserved2 = br.ReadUInt32();
+                ws.Cells[2, ci++].Value = Reserved2;
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                ReadFILETIME(br); //LocalUpdateTime
-                ReadFILETIME(br); //LocalCheckUpdateTime
-                ReadFILETIME(br); //RemoteUpdateTime
+                ReadFILETIME(br, ws, ref ci); //LocalUpdateTime
+                ReadFILETIME(br, ws, ref ci); //LocalCheckUpdateTime
+                ReadFILETIME(br, ws, ref ci); //RemoteUpdateTime
             }
         }
 
-        private void ReadOleNative(byte[] oleBytes)
+        private void ReadOleNative(byte[] oleBytes, ExcelWorksheet ws, ref int ci)
         {
             using (var ms = RecyclableMemory.GetStream(oleBytes))
             {
                 BinaryReader br = new BinaryReader(ms);
                 var NativeDataSize = br.ReadUInt32();
                 var NativeData = br.ReadBytes((int)NativeDataSize);
+
+                ws.Cells[2, ci++].Value = NativeDataSize;
+                ws.Cells[2, ci++].Value = NativeData;
             }
         }
 
-        private void ReadOlePres(byte[] oleBytes)
+        private void ReadOlePres(byte[] oleBytes, ExcelWorksheet ws, ref int ci)
         {
             using (var ms = new MemoryStream(oleBytes))
             {
                 BinaryReader br = new BinaryReader(ms);
-                var AnsiClipboardFormatFormatOrAnsiString = ReadClipboardFormatOrAnsiString(br);
+                var AnsiClipboardFormatFormatOrAnsiString = ReadClipboardFormatOrAnsiString(br, ws, ref ci);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
                 var TargetDeviceSize = br.ReadUInt32();
+                ws.Cells[2, ci++].Value = TargetDeviceSize;
                 if (TargetDeviceSize >= 0x00000004)
                 {
-                    ReadDVTARGETDEVICE(br); //TargetDevice
+                    ReadDVTARGETDEVICE(br, TargetDeviceSize, ws, ref ci); //TargetDevice
                 }
                 var Aspect = br.ReadUInt32();
                 var Lindex = br.ReadUInt32();
@@ -461,16 +612,33 @@ namespace OfficeOpenXml.Drawing.OleObject
                 var Height = br.ReadUInt32();
                 var Size = br.ReadUInt32();
                 var Data = br.ReadBytes((int)Size);
-                byte[] Reserved2;
-                if (BitConverter.ToInt32( AnsiClipboardFormatFormatOrAnsiString, 0 ) == 0x00000003)
+
+                ws.Cells[2, ci++].Value = Aspect;
+                ws.Cells[2, ci++].Value = Lindex;
+                ws.Cells[2, ci++].Value = Advf;
+                ws.Cells[2, ci++].Value = Reserved1;
+                ws.Cells[2, ci++].Value = Width;
+                ws.Cells[2, ci++].Value = Height;
+                ws.Cells[2, ci++].Value = Size;
+                ws.Cells[2, ci++].Value = Data;
+
+                byte[] Reserved2 = new byte[] { };
+                if ( AnsiClipboardFormatFormatOrAnsiString.Length > 0 && BitConverter.ToUInt32(AnsiClipboardFormatFormatOrAnsiString, 0) == 0x00000003)
                     Reserved2 = br.ReadBytes(18);
+
+                ws.Cells[2, ci++].Value = Reserved2;
+
                 var TocSignature = br.ReadUInt32();
                 var TocCount = br.ReadUInt32();
+
+                ws.Cells[2, ci++].Value = TocSignature;
+                ws.Cells[2, ci++].Value = TocCount;
+
                 if (TocSignature == 0x494E414 || TocCount == 0)
                     return;
                 for (int i = 0; i < TocCount; i++)
                 {
-                    ReadTOCENTRY(br);
+                    ReadTOCENTRY(br, ws, ref ci);
                 }
             }
         }
@@ -486,26 +654,53 @@ namespace OfficeOpenXml.Drawing.OleObject
 
         internal void LoadDocument()
         {
-            //TODO:
-            //check if file in .bin or other format
+            using var p = new ExcelPackage(@"C:\epplusTest\RESULTS.xlsx");
 
             var oleRel = _worksheet.Part.GetRelationship(_oleObject.RelationshipId);
-            var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
-            var olePart = _worksheet._package.ZipPackage.GetPart(oleObj);
-            var oleStream = (MemoryStream)olePart.GetStream(FileMode.Open, FileAccess.Read);
-            _document = new CompoundDocument(oleStream);
-            if (_document.Storage.DataStreams.ContainsKey("\u0001Ole10Native"))
-                ReadOleNative(_document.Storage.DataStreams["\u0001Ole10Native"]);
-            if (_document.Storage.DataStreams.ContainsKey("\u0001Ole"))
-                ReadOleStream(_document.Storage.DataStreams["\u0001Ole"]);
-            if (_document.Storage.DataStreams.ContainsKey("\u0001CompObj"))
-                ReadCompObjStream(_document.Storage.DataStreams["\u0001CompObj"]);
-            for(int i = 0; i <= 999; i++)
+            if (oleRel != null && oleRel.TargetUri.ToString().Contains(".bin"))
             {
-                string olePres = "\u0010OlePres" + i.ToString("D3");
-                if (_document.Storage.DataStreams.ContainsKey(olePres))
-                    ReadCompObjStream(_document.Storage.DataStreams[olePres]);
+                var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
+                var olePart = _worksheet._package.ZipPackage.GetPart(oleObj);
+                var oleStream = (MemoryStream)olePart.GetStream(FileMode.Open, FileAccess.Read);
+                _document = new CompoundDocument(oleStream);
+                if (_document.Storage.DataStreams.ContainsKey("\u0001Ole10Native"))
+                {
+                    var ws = p.Workbook.Worksheets["OleNative"];
+                    ws.InsertRow(2, 1);
+                    ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
+                    int colIndex = 2;
+                    ReadOleNative(_document.Storage.DataStreams["\u0001Ole10Native"], ws, ref colIndex);
+                }
+                if (_document.Storage.DataStreams.ContainsKey("\u0001Ole"))
+                {
+                    var ws = p.Workbook.Worksheets["Ole"];
+                    ws.InsertRow(2, 1);
+                    ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
+                    int colIndex = 2;
+                    ReadOleStream(_document.Storage.DataStreams["\u0001Ole"], ws, ref colIndex);
+                }
+                if (_document.Storage.DataStreams.ContainsKey("\u0001CompObj"))
+                {
+                    var ws = p.Workbook.Worksheets["CompObj"];
+                    ws.InsertRow(2, 1);
+                    ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
+                    int colIndex = 2;
+                    ReadCompObjStream(_document.Storage.DataStreams["\u0001CompObj"], ws, ref colIndex);
+                }
+                for (int i = 0; i <= 999; i++)
+                {
+                    string olePres = "\u0002OlePres" + i.ToString("D3");
+                    if (_document.Storage.DataStreams.ContainsKey(olePres))
+                    {
+                        var ws = p.Workbook.Worksheets["OlePres"];
+                        ws.InsertRow(2, 1);
+                        ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
+                        int colIndex = 2;
+                        ReadOlePres(_document.Storage.DataStreams[olePres], ws, ref colIndex);
+                    }
+                }
             }
+            p.Save();
         }
 
         internal void LoadExternalLink()
