@@ -77,6 +77,15 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s711()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("s711.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+        }
 
     }
 }
