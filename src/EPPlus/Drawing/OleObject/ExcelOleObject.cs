@@ -10,6 +10,7 @@ using System.IO;
 using System.Text;
 using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.Core;
 
 
 namespace OfficeOpenXml.Drawing.OleObject
@@ -136,6 +137,15 @@ namespace OfficeOpenXml.Drawing.OleObject
             wsNode.InnerXml = sb.ToString();
             var oleObjectNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0);
             _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectNode);
+        }
+
+        private string CreateOleObjectDrawingNode()
+        {
+            StringBuilder xml = new StringBuilder();
+            xml.Append($"<xdr:nvSpPr><xdr:cNvPr hidden=\"1\" name=\"\" id=\"{_id}\"><a:extLst><a:ext uri=\"{{63B3BB69-23CF-44E3-9099-C40C66FF867C}}\"><a14:compatExt spid=\"_x0000_s{_id}\"/></a:ext><a:ext uri=\"{{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}}\"><a16:creationId id=\"{{00000000-0008-0000-0000-000001040000}}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvSpPr/></xdr:nvSpPr>");
+            xml.Append($"<xdr:spPr bwMode=\"auto\"><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>");
+            xml.Append($"<a:solidFill><a:srgbClr val=\"FFFFFF\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"65\"/></a:solidFill><a:ln w=\"9525\"><a:solidFill><a:srgbClr val=\"000000\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"64\"/></a:solidFill><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a:ln></xdr:spPr>");
+            return xml.ToString();
         }
 
         private byte[] CreateCompObjStream()
@@ -334,7 +344,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             ws.Cells[2, ci++].Value = DriverName;
 
             string DeviceName = "";
-            
+
             if (DeviceNameOffSet != 0)
             {
                 ushort nextOffset = MinOffset(new ushort[] { DriverNameOffSet, PortNameOffSet, ExtDevModeOffSet, (ushort)size }, DeviceNameOffSet);
@@ -357,7 +367,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             if (ExtDevModeOffSet != 0)
                 ReadDEVMODEA(br, ws, ref ci); //ExtDevMode
             else
-                ci += 33;
+                ci += 34;
         }
         private void ReadMONIKERSTREAM(BinaryReader br, uint size, ExcelWorksheet ws, ref int ci)
         {
@@ -499,13 +509,18 @@ namespace OfficeOpenXml.Drawing.OleObject
                 var Flags = br.ReadUInt32();
                 var LinkUpdateOption = br.ReadUInt32();
                 var Reserved1 = br.ReadUInt32();
-                var ReservedMonikerStreamSize = br.ReadUInt32() - 4;
+                var ReservedMonikerStreamSize = br.ReadUInt32();
+
                 ws.Cells[2, ci++].Value = Version;
                 ws.Cells[2, ci++].Value = Flags;
                 ws.Cells[2, ci++].Value = LinkUpdateOption;
                 ws.Cells[2, ci++].Value = Reserved1;
                 ws.Cells[2, ci++].Value = ReservedMonikerStreamSize;
                 ws.Cells[2, ci].Value = "";
+
+                if (ReservedMonikerStreamSize == 0)
+                    return;
+                ReservedMonikerStreamSize -= 4;
 
                 if (ReservedMonikerStreamSize != 0)
                 {
@@ -519,9 +534,14 @@ namespace OfficeOpenXml.Drawing.OleObject
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                var RelativeSourceMonikerStreamSize = br.ReadUInt32() - 4;
+                var RelativeSourceMonikerStreamSize = br.ReadUInt32();
                 ws.Cells[2, ci++].Value = RelativeSourceMonikerStreamSize;
                 ws.Cells[2, ci].Value = "";
+
+                if (RelativeSourceMonikerStreamSize == 0)
+                    return;
+                RelativeSourceMonikerStreamSize -= 4;
+
                 if (RelativeSourceMonikerStreamSize != 0)
                 {
                     ReadMONIKERSTREAM(br, RelativeSourceMonikerStreamSize, ws, ref ci);
@@ -537,6 +557,11 @@ namespace OfficeOpenXml.Drawing.OleObject
                 var AbsoluteSourceMonikerStreamSize = br.ReadUInt32() - 4;
                 ws.Cells[2, ci++].Value = AbsoluteSourceMonikerStreamSize;
                 ws.Cells[2, ci].Value = "";
+
+                if (AbsoluteSourceMonikerStreamSize == 0)
+                    return;
+                AbsoluteSourceMonikerStreamSize -= 4;
+
                 if (AbsoluteSourceMonikerStreamSize != 0)
                 {
                     ReadMONIKERSTREAM(br, AbsoluteSourceMonikerStreamSize, ws, ref ci);
@@ -623,7 +648,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 ws.Cells[2, ci++].Value = Data;
 
                 byte[] Reserved2 = new byte[] { };
-                if ( AnsiClipboardFormatFormatOrAnsiString.Length > 0 && BitConverter.ToUInt32(AnsiClipboardFormatFormatOrAnsiString, 0) == 0x00000003)
+                if (AnsiClipboardFormatFormatOrAnsiString.Length > 0 && BitConverter.ToUInt32(AnsiClipboardFormatFormatOrAnsiString, 0) == 0x00000003)
                     Reserved2 = br.ReadBytes(18);
 
                 ws.Cells[2, ci++].Value = Reserved2;
@@ -636,20 +661,18 @@ namespace OfficeOpenXml.Drawing.OleObject
 
                 if (TocSignature == 0x494E414 || TocCount == 0)
                     return;
+
+                int c2 = ci;
                 for (int i = 0; i < TocCount; i++)
                 {
-                    ReadTOCENTRY(br, ws, ref ci);
+                    ReadTOCENTRY(br, ws, ref c2);
+                    ws.InsertRow(2, 1);
+                    c2 = ci;
+                    br.BaseStream.Position = br.BaseStream.Length;
+                    if (br.BaseStream.Position >= br.BaseStream.Length)
+                        return;
                 }
             }
-        }
-
-        private string CreateOleObjectDrawingNode()
-        {
-            StringBuilder xml = new StringBuilder();
-            xml.Append($"<xdr:nvSpPr><xdr:cNvPr hidden=\"1\" name=\"\" id=\"{_id}\"><a:extLst><a:ext uri=\"{{63B3BB69-23CF-44E3-9099-C40C66FF867C}}\"><a14:compatExt spid=\"_x0000_s{_id}\"/></a:ext><a:ext uri=\"{{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}}\"><a16:creationId id=\"{{00000000-0008-0000-0000-000001040000}}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvSpPr/></xdr:nvSpPr>");
-            xml.Append($"<xdr:spPr bwMode=\"auto\"><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>");
-            xml.Append($"<a:solidFill><a:srgbClr val=\"FFFFFF\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"65\"/></a:solidFill><a:ln w=\"9525\"><a:solidFill><a:srgbClr val=\"000000\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"64\"/></a:solidFill><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a:ln></xdr:spPr>");
-            return xml.ToString();
         }
 
         internal void LoadDocument()
@@ -687,18 +710,18 @@ namespace OfficeOpenXml.Drawing.OleObject
                     int colIndex = 2;
                     ReadCompObjStream(_document.Storage.DataStreams["\u0001CompObj"], ws, ref colIndex);
                 }
-                for (int i = 0; i <= 999; i++)
-                {
-                    string olePres = "\u0002OlePres" + i.ToString("D3");
-                    if (_document.Storage.DataStreams.ContainsKey(olePres))
-                    {
-                        var ws = p.Workbook.Worksheets["OlePres"];
-                        ws.InsertRow(2, 1);
-                        ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
-                        int colIndex = 2;
-                        ReadOlePres(_document.Storage.DataStreams[olePres], ws, ref colIndex);
-                    }
-                }
+                //for (int i = 0; i <= 999; i++)
+                //{
+                //    string olePres = "\u0002OlePres" + i.ToString("D3");
+                //    if (_document.Storage.DataStreams.ContainsKey(olePres))
+                //    {
+                //        var ws = p.Workbook.Worksheets["OlePres"];
+                //        ws.InsertRow(2, 1);
+                //        ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
+                //        int colIndex = 2;
+                //        ReadOlePres(_document.Storage.DataStreams[olePres], ws, ref colIndex);
+                //    }
+                //}
             }
             p.Save();
         }
@@ -773,7 +796,24 @@ namespace OfficeOpenXml.Drawing.OleObject
  *
  * Embeddings:
  *  bin fil -> compound document
- *      har 3 filer, CONTENT (själva dokumentet, video, exe eller whatever), ole, CompObj
+ *      Olika mängd filer, de viktiga är Ole, OleNative, CompObj, samt potentiellt en fil som är själva filen(CONTENT för t ex en pdf), och OlePresXXX
+ *      Ole
+ *          Existerar -> Skriv ny data till filen
+ *          Existerar inte -> Skapa filen om vi inte ska skapa en OleNative
+ *      CompObj är de vi ska skriva data till. När vi sparar. Dessa får vi skapa när vi embeddar ett objekt som har dessa filer.
+ *          Exsisterar -> Skriv data till filen
+ *          Existerar inte -> Skapa filen
+ *      OleNative
+ *          Existerar -> Ingen skrivning till filen
+ *          Existerar inte -> Skapa filen om den behövs om det inte ska skapas någon Ole-fil
+ *      OlePres
+ *          Existerar -> Ingen skrivning till filen
+ *          Existerar inte -> Skapa aldrig filen.
+ *      CONTENT
+ *          Själva PDF filen i ett compound objekt. Måste exsistera
+ *      EmbeddedOdf
+ *          så kallas själva filen för de öppna office typerna
+ *      
  *  doc filer och liknande ligger löst
  *      Microsoft_Word_Document, Microsoft_Word_Document1
  *
