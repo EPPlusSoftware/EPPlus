@@ -4,6 +4,7 @@ using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Database;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
@@ -382,7 +383,11 @@ namespace OfficeOpenXml.FormulaParsing
 
                         if (address == null)
                         {
-                            address = f._expressions[f._tokenIndex].GetAddress();
+                            var queue = f._expressions[f._tokenIndex].GetAddress();
+                            if (queue.Count > 0)
+                            {
+                                address = queue.Dequeue();
+                            }
                         }
                         if (address.ExternalReferenceIx > 0) //We don't follow dep chain into external references.
                         {
@@ -450,14 +455,7 @@ namespace OfficeOpenXml.FormulaParsing
                         f._tokenIndex++;
                         goto ExecuteFormula;
                     }
-                    if (f._expressions.ContainsKey(f._tokenIndex))
-                    {
-                        address = f._expressions[f._tokenIndex].GetAddress();
-                    }
-                    else
-                    {
-                        address = f._expressionStack.Peek().GetAddress();
-                    }                    
+                    address = GetNextAddress(f, address);
                     rd = AddAddressToRD(depChain, f._enumeratorWorksheetIx);
                     goto NextFormula;
                 }
@@ -549,6 +547,25 @@ namespace OfficeOpenXml.FormulaParsing
 
         }
 
+        private static FormulaRangeAddress GetNextAddress(RpnFormula f, FormulaRangeAddress address)
+        {
+            Queue<FormulaRangeAddress> queue;
+            if (f._expressions.ContainsKey(f._tokenIndex))
+            {
+                queue = f._expressions[f._tokenIndex].GetAddress();
+            }
+            else
+            {
+                queue = f._expressionStack.Peek().GetAddress();
+            }
+            if (queue.Count > 0)
+            {
+                return queue.Dequeue();
+            }
+
+            return address;
+        }
+
         private static void SetValueToWorkbook(RpnOptimizedDependencyChain depChain, RpnFormula f, RangeHashset rd, CompileResult cr)
         {
             //Set the value.
@@ -629,11 +646,15 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     if(e.Status==ExpressionStatus.IsAddress)
                     {
-                        var a=e.GetAddress();                        
-                        if(a.DoCollide(dirtyCells))
+                        var queue=e.GetAddress();
+                        while(queue.Count>0)
                         {
-                            ReCalculateFormula(f, depChain, rd);
-                            dirtyCells.Add(new SimpleAddress(a.FromRow, a.FromCol, a.ToRow, a.ToCol));
+                            var a=queue.Dequeue();
+                            if (a.DoCollide(dirtyCells))
+                            {
+                                ReCalculateFormula(f, depChain, rd);
+                                dirtyCells.Add(new SimpleAddress(a.FromRow, a.FromCol, a.ToRow, a.ToCol));
+                            }
                         }
                     }
                 }
@@ -808,7 +829,11 @@ namespace OfficeOpenXml.FormulaParsing
                         s.Push(e);
                         if(returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek())==false))
                         {
-                           return e.GetAddress();
+                           var queue = e.GetAddress();
+                            if(queue.Count>0)
+                            {
+                                return queue.Dequeue();
+                            }
                         }
                         break;
 					case TokenType.FullColumnAddress:
@@ -821,17 +846,21 @@ namespace OfficeOpenXml.FormulaParsing
                         s.Push(ne);
                         if (ne._name != null)
                         {
-                            var address = ne.GetAddress();
-                            if(address == null)
+                            var queue = ne.GetAddress();                            
+                            if (queue.Count > 0)
                             {
-                                if (string.IsNullOrEmpty(ne._name?.Formula) == false)
+                                var address = queue.Dequeue();
+                                if (address == null)
                                 {
-                                    return null;
+                                    if (string.IsNullOrEmpty(ne._name?.Formula) == false)
+                                    {
+                                        return null;
+                                    }
                                 }
-                            }
-                            else if (returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
-                            {
-                                return address;
+                                else if (returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
+                                {
+                                    return address;
+                                }
                             }
                         }
                         break;

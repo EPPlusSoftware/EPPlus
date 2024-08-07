@@ -934,6 +934,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// Address
         /// </summary>
         public FormulaRangeAddress Address => this;
+
+        public FormulaRangeAddress[] Addresses => [this];
     }
     /// <summary>
     /// Formula table address

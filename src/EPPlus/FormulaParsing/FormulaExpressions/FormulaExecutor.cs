@@ -216,7 +216,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             tokens.RemoveAt(i - 1);
                             tokens.RemoveAt(i);
                             i--;
-                            tokens[i] = new Token(e.GetAddress().WorksheetAddress, TokenType.ExcelAddress);
+                            tokens[i] = new Token(e.GetAddress().Peek().WorksheetAddress, TokenType.ExcelAddress);
                         }
                         else
                         {

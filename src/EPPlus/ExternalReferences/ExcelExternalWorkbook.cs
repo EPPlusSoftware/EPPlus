@@ -575,14 +575,18 @@ namespace OfficeOpenXml.ExternalReferences
             {
                 if(e.ExpressionType == ExpressionType.CellAddress)
                 {
-                    var adr = e.GetAddress();
-                    if(adr.ExternalReferenceIx>0)
+                    var queue = e.GetAddress();
+                    while(queue.Count>0)
                     {
-                        //ExcelAddressBase a = new ExcelAddressBase(t.Value);
-                        //var ix = _wb.ExternalLinks.GetExternalLink(a._wb);
-                        if (_wb.ExternalLinks[adr.ExternalReferenceIx-1] == this)
+                        var adr = queue.Dequeue();
+                        if (adr.ExternalReferenceIx > 0)
                         {
-                            UpdateCacheForAddress(adr.ToExcelAddressBase(), address);
+                            //ExcelAddressBase a = new ExcelAddressBase(t.Value);
+                            //var ix = _wb.ExternalLinks.GetExternalLink(a._wb);
+                            if (_wb.ExternalLinks[adr.ExternalReferenceIx - 1] == this)
+                            {
+                                UpdateCacheForAddress(adr.ToExcelAddressBase(), address);
+                            }
                         }
                     }
                 }

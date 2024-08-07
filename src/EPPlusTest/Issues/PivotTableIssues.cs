@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using System.IO;
+using System.Xml;
 namespace EPPlusTest.Issues
 {
     [TestClass]
@@ -50,6 +52,26 @@ namespace EPPlusTest.Issues
                 }
 
                 SaveWorkbook("s692-2.xlsx",p);
+            }
+        }
+        [TestMethod]
+        public void s713()
+        {
+            using (ExcelPackage p = OpenTemplatePackage("s713.xlsx"))
+            {
+               ExcelWorkbook workbook = p.Workbook;
+               workbook.Worksheets.Delete("pivot");
+
+                var ns = new XmlNamespaceManager(new NameTable());
+                ns.AddNamespace("d", @"http://schemas.openxmlformats.org/spreadsheetml/2006/main");
+
+                var node = workbook.WorkbookXml.SelectSingleNode("//d:pivotCaches", ns); 
+                if (node != null && node.ChildNodes.Count == 0)
+                {
+                    node.ParentNode.RemoveChild(node);
+                }
+
+               SaveAndCleanup(p);
             }
         }
     }

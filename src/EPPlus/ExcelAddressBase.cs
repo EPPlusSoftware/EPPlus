@@ -17,6 +17,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml
@@ -1943,6 +1944,18 @@ namespace OfficeOpenXml
                     x.Value.Equals(worksheetName, StringComparison.OrdinalIgnoreCase) == false);
             }
             return false;
+        }
+
+        internal FormulaRangeAddress AsFormulaRangeAddress(ParsingContext ctx=null)
+        {
+            return new FormulaRangeAddress(ctx)
+            {
+                FromRow = _fromRow == 0 ? 1 : _fromRow,
+                ToRow = _toRow == 0 ? ExcelPackage.MaxRows : _toRow,
+                FromCol = _fromCol == 0 ? 1 : _fromCol,
+                ToCol = _toCol == 0 ? ExcelPackage.MaxColumns : _toCol,
+                FixedFlag = (_fromRowFixed ? FixedFlag.FromRowFixed : 0) | (_toRowFixed ? FixedFlag.ToRowFixed : 0) | (_fromColFixed ? FixedFlag.FromColFixed : 0) | (_toColFixed ? FixedFlag.ToColFixed : 0)
+            };
         }
     }
 }

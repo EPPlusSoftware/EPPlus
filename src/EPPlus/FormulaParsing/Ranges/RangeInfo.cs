@@ -331,6 +331,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// The first address of the range
         /// </summary>
         public FormulaRangeAddress Address { get { return _addresses[0]; } }
+        ///
         /// <summary>
         /// If the address contains more the one address (i.e A1:A2,A4), this array contains all addresses
         /// </summary>

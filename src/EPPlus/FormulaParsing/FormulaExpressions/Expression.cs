@@ -65,7 +65,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         }
 
         internal abstract ExpressionStatus Status { get; set; }
-        public virtual FormulaRangeAddress GetAddress() { return null; }
+        public virtual Queue<FormulaRangeAddress> GetAddress() { return null; }
         internal virtual void MergeAddress(string address)
         {
 

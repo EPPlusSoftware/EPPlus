@@ -17,6 +17,7 @@ using System;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -144,20 +145,25 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             return new NamedValueExpression(_name, Context, _externalReferenceIx, _worksheetIx, n);
         }
-        public override FormulaRangeAddress GetAddress()
+        public override Queue<FormulaRangeAddress> GetAddress()
         {
+
+            var queue=new Queue<FormulaRangeAddress>();
             if(_name?.Value is IRangeInfo ri) 
             {
                 if(_name.IsRelative)
                 {
-                    return _name.GetRelativeRange(ri, Context.CurrentCell).Address;
+                    queue.Enqueue(_name.GetRelativeRange(ri, Context.CurrentCell).Address);
                 }
                 else
                 {
-                    return ri.Address.Clone();
+                    foreach (var a in ri.Addresses)
+                    {
+                        queue.Enqueue(a);
+                    }
                 }
             }
-            return null;
+            return queue;
         }
         internal override ExpressionStatus Status
         {
