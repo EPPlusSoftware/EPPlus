@@ -20,6 +20,13 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             _addressInfo = address;
         }
+        internal RangeExpression(ExcelAddressBase address, ParsingContext ctx, short externalReferenceIx, int worksheetIx) : base(ctx)
+        {
+            if(address.Addresses == null || address.Addresses.Count==1)
+            {
+                _addressInfo = new ;
+            }
+        }
         public RangeExpression(string address, ParsingContext ctx, short externalReferenceIx, int worksheetIx) : base(ctx)
         {
             _addressInfo = new FormulaRangeAddress(ctx) { ExternalReferenceIx= externalReferenceIx, WorksheetIx = worksheetIx == int.MinValue ? ctx.CurrentCell.WorksheetIx : worksheetIx };

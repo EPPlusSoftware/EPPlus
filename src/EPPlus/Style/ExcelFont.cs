@@ -172,7 +172,7 @@ namespace OfficeOpenXml.Style
                 {
                     UnderLineType = ExcelUnderLineType.None;
                 }
-                //_ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.UnderlineType, value, _positionID, _address));
+                //_ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Font, eStyleProperty.UnderlineType, value, _positionID, _addresses));
             }
         }
         /// <summary>

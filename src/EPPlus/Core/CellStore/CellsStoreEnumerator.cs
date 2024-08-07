@@ -23,7 +23,8 @@ namespace OfficeOpenXml.Core.CellStore
         CellStore<T> _cellStore;
         int row, colPos;
         internal int _startRow, _startCol, _endRow, _endCol;
-        Queue<SimpleAddress> _ranges=null;
+        List<SimpleAddress> _ranges=null;
+        int rangePos = 0;
         int minRow, minColPos, maxRow, maxColPos;
         int lastColCount;
         public CellStoreEnumerator(CellStore<T> cellStore) :
@@ -49,13 +50,13 @@ namespace OfficeOpenXml.Core.CellStore
             _startCol = address._fromCol;
             _endRow = address._toRow;
             _endCol = address._toCol;
-            if(address.Addresses != null && address.Addresses.Count>1)
+            if (address.Addresses != null && address.Addresses.Count>1)
             {
-                _ranges = new Queue<SimpleAddress>();
-                for(int i=1;i<address.Addresses.Count; i++)
+                _ranges = new List<SimpleAddress>();
+                for (int i=0;i<address.Addresses.Count; i++)
                 {
                     var a = address._addresses[i];
-                    _ranges.Enqueue(new SimpleAddress(a._fromRow, a._fromCol, a._toRow, a._toCol));
+                    _ranges.Add(new SimpleAddress(a._fromRow, a._fromCol, a._toRow, a._toCol));
                 }
             }
 
@@ -64,9 +65,14 @@ namespace OfficeOpenXml.Core.CellStore
 
         internal void Init()
         {
+            rangePos = 0;
+            InitNewRange();
+        }
+
+        private void InitNewRange()
+        {
             minRow = _startRow;
             maxRow = _endRow;
-
             UpdateMinMaxColPos();
             lastColCount = _cellStore.ColumnCount;
             row = minRow;
@@ -121,16 +127,17 @@ namespace OfficeOpenXml.Core.CellStore
         {
             if (lastColCount != _cellStore.ColumnCount) UpdateMinMaxColPos();
             var ret = _cellStore.GetNextCell(ref row, ref colPos, minColPos, maxRow, maxColPos);
-            if (ret == false && _ranges!=null && _ranges.Count > 0)
+            if (ret == false && _ranges!=null && _ranges.Count > ++rangePos)
             {
-                var a=_ranges.Dequeue();
+                var a=_ranges[rangePos];
 
                 _startRow = a.FromRow;
                 _startCol = a.FromCol;
                 _endRow = a.ToRow;
                 _endCol = a.ToCol;
 
-                Init();
+                InitNewRange();
+                return Next();
             }
             return ret;
         }

@@ -121,7 +121,7 @@ namespace EPPlusTest.FormulaParsing
             }
         }
         [TestMethod]
-        public void VerifyDefinedNameWithMultipleAddresses()
+        public void VerifyDefinedNameWithMultipleAddresses_Sum()
         {
             using (var p = OpenPackage("NameMultipleAddresses.xlsx"))
             {
@@ -133,6 +133,40 @@ namespace EPPlusTest.FormulaParsing
                 ws.Calculate();
 
                 Assert.AreEqual(3D, ws.Cells["A3"].Value);
+            }
+        }
+        [TestMethod]
+        public void VerifyWithMultipleAddresses_Sum()
+        {
+            using (var p = OpenPackage("NameMultipleAddresses.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 1;
+                ws.Cells["A2"].Value = 2;
+                ws.Cells["A3"].Value = 3;
+                ws.Cells["A4"].Formula = "Sum((A1,A2),A3)";
+                ws.Calculate();
+
+                Assert.AreEqual(6D, ws.Cells["A3"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void VerifyDefinedNameWithMultipleAddresses_Avg()
+        {
+            using (var p = OpenPackage("NameMultipleAddresses.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 1;
+                ws.Cells["A2"].Value = 2;
+                ws.Cells["A3"].Value = 3;
+                ws.Cells["A4"].Value = 4;
+                ws.Cells["A5"].Value = 5;
+                ws.Names.Add("MultAddr", ws.Cells["A1,A2,A4:A5"]);
+                ws.Cells["A6"].Formula = "Average(MultAddr)";
+                ws.Calculate();
+
+                Assert.AreEqual(3D, ws.Cells["A6"].Value);
             }
         }
         [TestMethod]

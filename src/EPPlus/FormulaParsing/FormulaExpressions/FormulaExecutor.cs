@@ -37,6 +37,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal static List<Token> CreateRPNTokens(IList<Token> tokens)
         {
             var bracketCount = 0;
+            var lastOpeningParanthesesPos = -1;
+            var lastCommaPos=-1;
             var operators = OperatorsDict.Instance;
             Stack<Token> operatorStack = new Stack<Token>();
             var expressions = new List<Token>();
@@ -46,23 +48,72 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 switch (token.TokenType)
                 {
                     case TokenType.OpeningParenthesis:
+                        lastOpeningParanthesesPos = expressions.Count;
                         operatorStack.Push(token);
                         break;
                     case TokenType.ClosingParenthesis:
                         if (operatorStack.Count > 0)
-                        {
-                            
+                        {                            
                             var o = operatorStack.Pop();
+                            var noOperator = true;
                             while (o.TokenType != TokenType.OpeningParenthesis)
                             {
                                 expressions.Add(o);
                                 if (operatorStack.Count == 0) throw new InvalidOperationException("No closing parenthesis");
                                 o = operatorStack.Pop();
+                                noOperator = false;
                             }
+
                             if (operatorStack.Count > 0 && operatorStack.Peek().TokenType == TokenType.Function)
                             {
                                 expressions.Add(operatorStack.Pop());
+                                noOperator = false;
                             }
+
+                            if (noOperator && lastOpeningParanthesesPos > -1 && lastCommaPos > -1 && expressions.Count - lastOpeningParanthesesPos > 1)
+                            {
+                                var sb = new StringBuilder();
+                                //for (int j = lastOpeningParanthesesPos;j < expressions.Count;j++)
+                                while(expressions.Count > lastOpeningParanthesesPos)
+                                {
+                                    sb.Append(expressions[lastOpeningParanthesesPos].Value);
+                                    expressions.RemoveAt(lastOpeningParanthesesPos);
+                                }
+                                expressions.Add(new Token(sb.ToString(), TokenType.ExcelAddress));
+                                //var sb=new StringBuilder();
+                                //int j;
+                                //for(j = lastOpeningParanthesesPos+1;j < i ; j++)
+                                //{
+                                //    var t = tokens[j];
+                                //    if (t.TokenType == TokenType.CellAddress || 
+                                //       t.TokenType == TokenType.Colon ||
+                                //       t.TokenType == TokenType.Comma ||
+                                //       t.TokenType == TokenType.NameValue ||
+                                //       t.TokenType == TokenType.WorksheetName ||
+                                //       t.TokenType == TokenType.WorksheetNameContent || 
+                                //       t.TokenType == TokenType.InvalidReference)
+                                //    {
+                                //        sb.Append(t.Value);
+                                //    }
+                                //    else
+                                //    {
+                                //        break;
+                                //    }
+                                //}
+                                //if(j==i)
+                                //{
+                                //    for (j = lastOpeningParanthesesPos+1; j < i; j++)
+                                //    {
+                                //        tokens.RemoveAt(lastOpeningParanthesesPos+1);
+                                //    }
+                                //    var t = new Token(sb.ToString(), TokenType.ExcelAddress);
+                                //    //tokens.Insert(lastOpeningParanthesesPos + 1, t);
+                                //    expressions.Add(t);
+                                //    i = lastOpeningParanthesesPos + 2;
+                                //}
+                            }
+                            lastOpeningParanthesesPos = -1;
+                            lastCommaPos = -1;
                         }
                         break;
                     case TokenType.Operator:
@@ -106,6 +157,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 op = operatorStack.Peek().TokenType;
                             }
                         }
+                        lastCommaPos = i;
                         expressions.Add(token);
                         break;
                     case TokenType.OpeningBracket:
@@ -173,8 +225,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         extRefIx = short.MinValue;
                         wsIx = int.MinValue;
                         break;
-                    case TokenType.NameValue:
-                        
+                    case TokenType.ExcelAddress:
+                        expressions.Add(i, new RangeExpression(new ExcelAddressBase(t.Value), parsingContext, extRefIx, wsIx));
+                        extRefIx = short.MinValue;
+                        wsIx = int.MinValue;
+                        break;
+                    case TokenType.NameValue:                        
                         expressions.Add(i, new NamedValueExpression(t.Value, parsingContext, extRefIx, wsIx));
                         break;
                     case TokenType.ExternalReference:

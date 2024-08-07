@@ -70,6 +70,5 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
 
         }
-
     }
 }
