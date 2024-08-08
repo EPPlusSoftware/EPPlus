@@ -230,14 +230,11 @@ namespace OfficeOpenXml
             var xml = _encoding.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
 
             int endElementIx;
-            if(endElement == "conditionalFormatting")
+            if(endElement == "conditionalFormatting" && !string.IsNullOrEmpty(xmlPrefix))
             {
-               endElementIx = FindLastElementPosWithoutPrefix(xml, endElement, false);
+                endElement = xmlPrefix + ":" + endElement;
             }
-            else
-            {
-                endElementIx = FindElementPos(xml, endElement, false);
-            }
+            endElementIx = FindElementPos(xml, endElement, false);
 
             if (endElementIx < 0) return startXml;
             if (string.IsNullOrEmpty(readToElement))

@@ -1146,6 +1146,7 @@ namespace OfficeOpenXml
             LoadColumns(xr);    //columnXml
             var lastXmlElement = "sheetData";
             xr.ReadUntil(1, lastXmlElement);
+            var mainPrefix = xr.Prefix;
             xml = stream.GetBufferAsStringRemovingElement(false, lastXmlElement);
             long start = stream.Position;
             LoadCells(xr);
@@ -1160,7 +1161,7 @@ namespace OfficeOpenXml
 
                 LoadConditionalFormatting(xr);
                 stream.SetWriteToBuffer();
-                lastXmlElement = nextElement;    
+                lastXmlElement = nextElement;
             }
 
             nextElement = "dataValidations";
@@ -1182,7 +1183,7 @@ namespace OfficeOpenXml
             
             if(!string.IsNullOrEmpty(lastXmlElement))
             {
-                xml = stream.ReadFromEndElement(lastXmlElement, xml);
+                xml = stream.ReadFromEndElement(lastXmlElement, xml, null, true, mainPrefix);
             }
 
             // now release stream buffer (already converted whole Xml into XmlDocument Object and String)

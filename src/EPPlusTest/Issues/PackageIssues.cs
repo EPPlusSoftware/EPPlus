@@ -77,6 +77,15 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s711()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("s711.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+        }
         [TestMethod, Ignore] //This test is set to be ignored as it test creates a workbook with the worksheet xml exceeding 2GB. This causes the the stream and the rolling buffer to read directly from the zip stream.
         public void s699() 
         {
