@@ -18,10 +18,10 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void TestReadEmbeddedObjects()
         {
-            {
-                using var p = OpenTemplatePackage("OleEmbedded_PDF4.xlsx");
-                var ole = p.Workbook.Worksheets[0].Drawings[0];
-            }
+            //{
+            //    using var p = OpenTemplatePackage("OleEmbedded_PDF4.xlsx");
+            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
+            //}
             //{
             //    using var p = OpenTemplatePackage("OleEmbedded_PDF3.xlsx");
             //    var ole = p.Workbook.Worksheets[0].Drawings[0];

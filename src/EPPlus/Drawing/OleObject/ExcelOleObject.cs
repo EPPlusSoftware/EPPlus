@@ -38,7 +38,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             if (string.IsNullOrEmpty(_oleObject.Link))
             {
                 isExternalLink = false;
-                LoadDocument();
+                LoadEmbeddedDocument();
             }
             else
             {
@@ -67,39 +67,8 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
             else
             {
-                isExternalLink= false;
-                //create embedded object
-
-                //Create embeddingsfolder
-
-                /*
-                Skapa relation till .bin filen. Denna relation går från worksheet till embeddings/oleObjectX.bin.
-                detta gör vi genom att skapa en uri och en part som sedan ger oss relations id.
-                Vi använder GetNewUri
-                Sedan gör vi CreatePart? Vi måste nog uppdatera ContentTypes så den har en oleObject typ.
-                Sedan skapar vi relationen som vi sedan har när vi skriver xml.
-
-                Sedan måste vi skapa .bin filen. Detta görs genom att använda CompoundDokument på något vis. Problemet här är att
-                just nu har vi inget bra sätt att ge ett namn och placera vår compound dokument i embeddings mappen?
-
-                I save HandleSaveForIndividualDrawings måste vi uppdatera för support för oleObjet?
-                Är det något mer i save som måste göras?
-
-                */
-
-
-                int newID = 1;
-                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/oleObject{0}.bin", ref newID);
-                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
-                var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
-
-                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-                byte[] data = File.ReadAllBytes(filepath);
-                _document = new CompoundDocument();
-                _document.Storage.DataStreams.Add("\u0001Ole",CreateOleStream());
-                _document.Storage.DataStreams.Add("\u0001CompObj", CreateCompObjStream());
-                _document.Storage.DataStreams.Add("CONTENTS", data);
-                _document.Save(ms);
+                isExternalLink = false;
+                EmbedDocument(filepath);
             }
 
             //Create Media
@@ -170,35 +139,164 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
-        private void ExportClipboardFormatOrAnsiString(ExcelWorksheet ws, ref int ci, OleObjectDataStreams.ClipboardFormatOrAnsiString CFOAS)
+        #region Export
+
+        private void ExportLengthPrefixedUnicodeString(ExcelWorksheet ws, ref int ci, OleObjectDataStreams.LengthPrefixedUnicodeString LPUniS)
         {
-            ws.Cells[2, ci++].Value = CFOAS.MarkerOrLength;
-            ws.Cells[2, ci++].Value = CFOAS.FormatOrAnsiString;
+            if (LPUniS == null)
+            {
+                ci += 2;
+                return;
+            }
+            ws.Cells[2, ci++].Value = LPUniS.Length;
+            ws.Cells[2, ci++].Value = LPUniS.String;
         }
 
-        private OleObjectDataStreams.ClipboardFormatOrAnsiString ReadClipboardFormatOrAnsiString(BinaryReader br)
+        private void ExportLengthPrefixedAnsiString(ExcelWorksheet ws, ref int ci, OleObjectDataStreams.LengthPrefixedAnsiString LPAnsiS)
         {
-            OleObjectDataStreams.ClipboardFormatOrAnsiString CFOAS = new OleObjectDataStreams.ClipboardFormatOrAnsiString();
-            CFOAS.MarkerOrLength = br.ReadUInt32();
-            if (CFOAS.MarkerOrLength > 0x00000190 || CFOAS.MarkerOrLength == 0x00000000)
+            if (LPAnsiS == null)
             {
-                CFOAS.FormatOrAnsiString = null;
+                ci += 2;
+                return;
             }
-            else if ( CFOAS.MarkerOrLength == 0xFFFFFFFF || CFOAS.MarkerOrLength == 0xFFFFFFFE)
-            {
-                CFOAS.FormatOrAnsiString = br.ReadBytes(4);
-            }
-            else
-            {
-                CFOAS.FormatOrAnsiString = br.ReadBytes((int)CFOAS.MarkerOrLength); //This is a string
-            }
-            return CFOAS;
+            ws.Cells[2, ci++].Value = LPAnsiS.Length;
+            ws.Cells[2, ci++].Value = LPAnsiS.String;
         }
 
         private void ExportClipboardFormatOrUnicodeString(ExcelWorksheet ws, ref int ci, OleObjectDataStreams.ClipboardFormatOrUnicodeString CFOUS)
         {
+            if (CFOUS == null)
+            {
+                ci += 2;
+                return;
+            }
             ws.Cells[2, ci++].Value = CFOUS.MarkerOrLength;
             ws.Cells[2, ci++].Value = CFOUS.FormatOrUnicodeString;
+        }
+
+        private void ExportClipboardFormatOrAnsiString(ExcelWorksheet ws, ref int ci, OleObjectDataStreams.ClipboardFormatOrAnsiString CFOAS)
+        {
+            if (CFOAS == null)
+            {
+                ci += 2;
+                return;
+            }
+            ws.Cells[2, ci++].Value = CFOAS.MarkerOrLength;
+            ws.Cells[2, ci++].Value = CFOAS.FormatOrAnsiString;
+        }
+
+        private void ExportCLSID(ExcelWorksheet ws, ref int ci, CLSID ClsId)
+        {
+            if (ClsId == null)
+            {
+                ci += 4;
+                return;
+            }
+            ws.Cells[2, ci++].Value = ClsId.Data1;
+            ws.Cells[2, ci++].Value = ClsId.Data2;
+            ws.Cells[2, ci++].Value = ClsId.Data3;
+            ws.Cells[2, ci++].Value = ClsId.Data4;
+        }
+
+        private void ExportMonikerStream(ExcelWorksheet ws, ref int ci, MonikerStream MonikerStream)
+        {
+            if (MonikerStream == null)
+            {
+                ci += 8;
+                return;
+            }
+            ExportCLSID(ws, ref ci, MonikerStream.ClsId);
+            ws.Cells[2, ci++].Value = MonikerStream.StreamData1;
+            ws.Cells[2, ci++].Value = MonikerStream.StreamData2;
+            ws.Cells[2, ci++].Value = MonikerStream.StreamData3;
+            ws.Cells[2, ci++].Value = MonikerStream.StreamData4;
+        }
+
+        private void ExportFILETIME(ExcelWorksheet ws, ref int ci, OleObjectDataStreams.FILETIME FILETIME)
+        {
+            if (FILETIME == null)
+            {
+                ci += 2;
+                return;
+            }
+            ws.Cells[2, ci++].Value = FILETIME.dwLowDateTime;
+            ws.Cells[2, ci++].Value = FILETIME.dwHighDateTime;
+        }
+
+        private void ExportCompObjHeader(ExcelWorksheet ws, ref int ci, CompObjHeader header)
+        {
+            if (header == null)
+            {
+                ci += 3;
+                return;
+            }
+            ws.Cells[2, ci++].Value = header.Reserved1;
+            ws.Cells[2, ci++].Value = header.Version;
+            ws.Cells[2, ci++].Value = header.Reserved2;
+        }
+
+        private void ExportCompObj(ExcelWorksheet ws, ref int ci)
+        {
+            if (_oleDataStreams.CompObj == null)
+                return;
+            ExportCompObjHeader(ws, ref ci, _oleDataStreams.CompObj.Header);
+            ExportLengthPrefixedAnsiString(ws, ref ci, _oleDataStreams.CompObj.AnsiUserType);
+            ExportClipboardFormatOrAnsiString(ws, ref ci, _oleDataStreams.CompObj.AnsiClipboardFormat);
+            ExportLengthPrefixedAnsiString(ws, ref ci, _oleDataStreams.CompObj.Reserved1);
+            ws.Cells[2, ci++].Value = _oleDataStreams.CompObj.UnicodeMarker;
+            ExportLengthPrefixedUnicodeString(ws, ref ci, _oleDataStreams.CompObj.UnicodeUserType);
+            ExportClipboardFormatOrUnicodeString(ws, ref ci, _oleDataStreams.CompObj.UnicodeClipboardFormat);
+            ExportLengthPrefixedUnicodeString(ws, ref ci, _oleDataStreams.CompObj.Reserved2);
+        }
+
+        private void ExportOle(ExcelWorksheet ws, ref int ci)
+        {
+            if (_oleDataStreams.Ole == null)
+                return;
+            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.Version;
+            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.Flags;
+            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.LinkUpdateOption;
+            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.Reserved1;
+            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.ReservedMonikerStreamSize;
+            ExportMonikerStream(ws, ref ci, _oleDataStreams.Ole.ReservedMonikerStream);
+            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.RelativeSourceMonikerStreamSize;
+            ExportMonikerStream(ws, ref ci, _oleDataStreams.Ole.RelativeSourceMonikerStream);
+            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize;
+            ExportMonikerStream(ws, ref ci, _oleDataStreams.Ole.AbsoluteSourceMonikerStream);
+            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.ClsidIndicator;
+            ExportCLSID(ws, ref ci, _oleDataStreams.Ole.Clsid);
+            ExportLengthPrefixedUnicodeString(ws, ref ci, _oleDataStreams.Ole.ReservedDisplayName);
+            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.Reserved2;
+            ExportFILETIME(ws, ref ci, _oleDataStreams.Ole.LocalUpdateTime);
+            ExportFILETIME(ws, ref ci, _oleDataStreams.Ole.LocalCheckUpdateTime);
+            ExportFILETIME(ws, ref ci, _oleDataStreams.Ole.RemoteUpdateTime);
+        }
+
+        private void ExportOleNative(ExcelWorksheet ws, ref int ci)
+        {
+            if (_oleDataStreams.OleNative == null)
+                return;
+            ws.Cells[2, ci++].Value = _oleDataStreams.OleNative.NativeDataSize;
+            ws.Cells[2, ci++].Value = _oleDataStreams.OleNative.NativeData;
+        }
+        #endregion
+
+        #region ReadBinaries
+
+        private OleObjectDataStreams.LengthPrefixedUnicodeString ReadLengthPrefixedUnicodeString(BinaryReader br)
+        {
+            OleObjectDataStreams.LengthPrefixedUnicodeString LPUniS = new LengthPrefixedUnicodeString();
+            LPUniS.Length = br.ReadUInt32();
+            LPUniS.String = BinaryHelper.GetString(br, LPUniS.Length, LPUniS.Encoding);
+            return LPUniS;
+        }
+
+        private OleObjectDataStreams.LengthPrefixedAnsiString ReadLengthPrefixedAnsiString(BinaryReader br)
+        {
+            OleObjectDataStreams.LengthPrefixedAnsiString LPAnsiS = new LengthPrefixedAnsiString();
+            LPAnsiS.Length = br.ReadUInt32();
+            LPAnsiS.String = BinaryHelper.GetString(br, LPAnsiS.Length, LPAnsiS.Encoding);
+            return LPAnsiS;
         }
 
         private OleObjectDataStreams.ClipboardFormatOrUnicodeString ReadClipboardFormatOrUnicodeString(BinaryReader br)
@@ -220,172 +318,23 @@ namespace OfficeOpenXml.Drawing.OleObject
             return CFOUS;
         }
 
-        //private void ReadTOCENTRY(BinaryReader br, ExcelWorksheet ws, ref int ci)
-        //{
-        //    ReadClipboardFormatOrAnsiString(br, ws, ref ci); //AnsiClipboardFormat
-        //    var TargetDeviceSize = br.ReadUInt32();
-        //    var Aspect = br.ReadUInt32();
-        //    var Lindex = br.ReadUInt32();
-        //    var Tymed = br.ReadUInt32();
-        //    var Reserved1 = br.ReadBytes(12);
-        //    var Advf = br.ReadUInt32();
-        //    var Reserved2 = br.ReadUInt32();
-
-        //    ws.Cells[2, ci++].Value = TargetDeviceSize;
-        //    ws.Cells[2, ci++].Value = Aspect;
-        //    ws.Cells[2, ci++].Value = Lindex;
-        //    ws.Cells[2, ci++].Value = Tymed;
-        //    ws.Cells[2, ci++].Value = Reserved1;
-        //    ws.Cells[2, ci++].Value = Advf;
-        //    ws.Cells[2, ci++].Value = Reserved2;
-
-        //    ReadDVTARGETDEVICE(br, TargetDeviceSize, ws, ref ci); //TargetDevice
-        //}
-
-        private void ReadDEVMODEA(BinaryReader br, ExcelWorksheet ws, ref int ci)
+        private OleObjectDataStreams.ClipboardFormatOrAnsiString ReadClipboardFormatOrAnsiString(BinaryReader br)
         {
-            var dmDeviceName = br.ReadBytes(32);
-            var dmFormName = br.ReadBytes(32);
-            var dmSpecVersion = br.ReadUInt16();
-            var dmDriverVersion = br.ReadUInt16();
-            var dmSize = br.ReadUInt16();
-            var dmDriverExtra = br.ReadUInt16();
-            var dmFields = br.ReadUInt32();
-            var dmOrientation = br.ReadUInt16();
-            var dmPaperSize = br.ReadUInt16();
-            var dmPaperLength = br.ReadUInt16();
-            var dmPaperWidth = br.ReadUInt16();
-            var dmScale = br.ReadUInt16();
-            var dmCopies = br.ReadUInt16();
-            var dmDefaultSource = br.ReadUInt16();
-            var dmPrintQuality = br.ReadUInt16();
-            var dmColor = br.ReadUInt16();
-            var dmDuplex = br.ReadUInt16();
-            var dmYResolution = br.ReadUInt16();
-            var dmTTOption = br.ReadUInt16();
-            var dmCollate = br.ReadUInt16();
-            var reserved0 = br.ReadUInt32();
-            var reserved1 = br.ReadUInt32();
-            var reserved2 = br.ReadUInt32();
-            var reserved3 = br.ReadUInt32();
-            var dmNup = br.ReadUInt32();
-            var reserved4 = br.ReadUInt32();
-            var dmICMMethod = br.ReadUInt32();
-            var dmICMIntent = br.ReadUInt32();
-            var dmMediaType = br.ReadUInt32();
-            var dmDitherType = br.ReadUInt32();
-            var reserved5 = br.ReadUInt32();
-            var reserved6 = br.ReadUInt32();
-            var reserved7 = br.ReadUInt32();
-            var reserved8 = br.ReadUInt32();
-
-            ws.Cells[2, ci++].Value = dmDeviceName;
-            ws.Cells[2, ci++].Value = dmFormName;
-            ws.Cells[2, ci++].Value = dmSpecVersion;
-            ws.Cells[2, ci++].Value = dmDriverVersion;
-            ws.Cells[2, ci++].Value = dmSize;
-            ws.Cells[2, ci++].Value = dmDriverExtra;
-            ws.Cells[2, ci++].Value = dmFields;
-            ws.Cells[2, ci++].Value = dmOrientation;
-            ws.Cells[2, ci++].Value = dmPaperSize;
-            ws.Cells[2, ci++].Value = dmPaperLength;
-            ws.Cells[2, ci++].Value = dmPaperWidth;
-            ws.Cells[2, ci++].Value = dmScale;
-            ws.Cells[2, ci++].Value = dmCopies;
-            ws.Cells[2, ci++].Value = dmDefaultSource;
-            ws.Cells[2, ci++].Value = dmPrintQuality;
-            ws.Cells[2, ci++].Value = dmColor;
-            ws.Cells[2, ci++].Value = dmDuplex;
-            ws.Cells[2, ci++].Value = dmYResolution;
-            ws.Cells[2, ci++].Value = dmTTOption;
-            ws.Cells[2, ci++].Value = dmCollate;
-            ws.Cells[2, ci++].Value = reserved0;
-            ws.Cells[2, ci++].Value = reserved1;
-            ws.Cells[2, ci++].Value = reserved2;
-            ws.Cells[2, ci++].Value = reserved3;
-            ws.Cells[2, ci++].Value = dmNup;
-            ws.Cells[2, ci++].Value = reserved4;
-            ws.Cells[2, ci++].Value = dmICMMethod;
-            ws.Cells[2, ci++].Value = dmICMIntent;
-            ws.Cells[2, ci++].Value = dmMediaType;
-            ws.Cells[2, ci++].Value = dmDitherType;
-            ws.Cells[2, ci++].Value = reserved5;
-            ws.Cells[2, ci++].Value = reserved6;
-            ws.Cells[2, ci++].Value = reserved7;
-            ws.Cells[2, ci++].Value = reserved8;
-        }
-
-
-        static ushort MinOffset(ushort[] offsets, ushort currentOffset)
-        {
-            ushort minOffset = ushort.MaxValue;
-            foreach (ushort offset in offsets)
+            OleObjectDataStreams.ClipboardFormatOrAnsiString CFOAS = new OleObjectDataStreams.ClipboardFormatOrAnsiString();
+            CFOAS.MarkerOrLength = br.ReadUInt32();
+            if (CFOAS.MarkerOrLength > 0x00000190 || CFOAS.MarkerOrLength == 0x00000000)
             {
-                if (offset > currentOffset && offset < minOffset)
-                {
-                    minOffset = offset;
-                }
+                CFOAS.FormatOrAnsiString = null;
             }
-            return minOffset;
-        }
-
-        private void ReadDVTARGETDEVICE(BinaryReader br, uint size, ExcelWorksheet ws, ref int ci)
-        {
-            var DriverNameOffSet = br.ReadUInt16();
-            var DeviceNameOffSet = br.ReadUInt16();
-            var PortNameOffSet = br.ReadUInt16();
-            var ExtDevModeOffSet = br.ReadUInt16();
-
-            ws.Cells[2, ci++].Value = DriverNameOffSet;
-            ws.Cells[2, ci++].Value = DeviceNameOffSet;
-            ws.Cells[2, ci++].Value = PortNameOffSet;
-            ws.Cells[2, ci++].Value = ExtDevModeOffSet;
-
-            string DriverName = "";
-            if (DriverNameOffSet != 0)
+            else if (CFOAS.MarkerOrLength == 0xFFFFFFFF || CFOAS.MarkerOrLength == 0xFFFFFFFE)
             {
-                ushort nextOffset = MinOffset(new ushort[] { DeviceNameOffSet, PortNameOffSet, ExtDevModeOffSet, (ushort)size }, DriverNameOffSet);
-                var DriverNameLength = nextOffset - DriverNameOffSet;
-                DriverName = BinaryHelper.GetString(br, (uint)DriverNameLength, Encoding.ASCII);
+                CFOAS.FormatOrAnsiString = br.ReadBytes(4);
             }
-
-            ws.Cells[2, ci++].Value = DriverName;
-
-            string DeviceName = "";
-
-            if (DeviceNameOffSet != 0)
-            {
-                ushort nextOffset = MinOffset(new ushort[] { DriverNameOffSet, PortNameOffSet, ExtDevModeOffSet, (ushort)size }, DeviceNameOffSet);
-                var DeviceNameLength = nextOffset - DeviceNameOffSet;
-                DeviceName = BinaryHelper.GetString(br, (uint)DeviceNameLength, Encoding.ASCII);
-            }
-
-            ws.Cells[2, ci++].Value = DeviceName;
-
-            string PortName = "";
-            if (PortNameOffSet != 0)
-            {
-                ushort nextOffset = MinOffset(new ushort[] { DriverNameOffSet, DeviceNameOffSet, ExtDevModeOffSet, (ushort)size }, PortNameOffSet);
-                var PortNameLength = nextOffset - PortNameOffSet;
-                PortName = BinaryHelper.GetString(br, (uint)PortNameLength, Encoding.ASCII);
-            }
-
-            ws.Cells[2, ci++].Value = PortName;
-
-            if (ExtDevModeOffSet != 0)
-                ReadDEVMODEA(br, ws, ref ci); //ExtDevMode
             else
-                ci += 34;
-        }
-        private OleObjectDataStreams.MonikerStream ReadMONIKERSTREAM(BinaryReader br, uint size)
-        {
-            OleObjectDataStreams.MonikerStream monikerStream = new OleObjectDataStreams.MonikerStream();
-            monikerStream.ClsId = ReadCLSID(br);
-            monikerStream.StreamData1 = br.ReadUInt32();
-            monikerStream.StreamData2 = br.ReadUInt16();
-            monikerStream.StreamData3 = br.ReadUInt32();
-            monikerStream.StreamData4 = BinaryHelper.GetString(br, monikerStream.StreamData3, Encoding.Unicode);
-            return monikerStream;
+            {
+                CFOAS.FormatOrAnsiString = br.ReadBytes((int)CFOAS.MarkerOrLength); //This is a string
+            }
+            return CFOAS;
         }
 
         private OleObjectDataStreams.CLSID ReadCLSID(BinaryReader br)
@@ -398,20 +347,15 @@ namespace OfficeOpenXml.Drawing.OleObject
             return CLSID;
         }
 
-        private OleObjectDataStreams.LengthPrefixedUnicodeString ReadLengthPrefixedUnicodeString(BinaryReader br)
+        private OleObjectDataStreams.MonikerStream ReadMONIKERSTREAM(BinaryReader br, uint size)
         {
-            OleObjectDataStreams.LengthPrefixedUnicodeString LPUniS = new LengthPrefixedUnicodeString();
-            LPUniS.Length = br.ReadUInt32();
-            LPUniS.String = BinaryHelper.GetString(br, LPUniS.Length, LPUniS.Encoding);
-            return LPUniS;
-        }
-
-        private OleObjectDataStreams.LengthPrefixedAnsiString ReadLengthPrefixedAnsiString(BinaryReader br)
-        {
-            OleObjectDataStreams.LengthPrefixedAnsiString LPAnsiS = new LengthPrefixedAnsiString();
-            LPAnsiS.Length = br.ReadUInt32();
-            LPAnsiS.String = BinaryHelper.GetString(br, LPAnsiS.Length, LPAnsiS.Encoding);
-            return LPAnsiS;
+            OleObjectDataStreams.MonikerStream monikerStream = new OleObjectDataStreams.MonikerStream();
+            monikerStream.ClsId = ReadCLSID(br);
+            monikerStream.StreamData1 = br.ReadUInt32();
+            monikerStream.StreamData2 = br.ReadUInt16();
+            monikerStream.StreamData3 = br.ReadUInt32();
+            monikerStream.StreamData4 = BinaryHelper.GetString(br, monikerStream.StreamData3, Encoding.ASCII);
+            return monikerStream;
         }
 
         private OleObjectDataStreams.FILETIME ReadFILETIME(BinaryReader br)
@@ -420,25 +364,6 @@ namespace OfficeOpenXml.Drawing.OleObject
             FILETIME.dwLowDateTime = br.ReadUInt32();
             FILETIME.dwHighDateTime = br.ReadUInt32();
             return FILETIME;
-        }
-
-        private void ExportCompObjHeader(ExcelWorksheet ws, ref int ci, CompObjHeader header)
-        {
-            ws.Cells[2, ci++].Value = header.Reserved1;
-            ws.Cells[2, ci++].Value = header.Version;
-            ws.Cells[2, ci++].Value = header.Reserved2;
-        }
-
-        private void ExportCompObj(ExcelWorksheet ws, ref int ci)
-        {
-            ExportCompObjHeader(ws, ref ci, _oleDataStreams.CompObj.Header);
-            ExportLengthPrefixedAnsiString(ws, ref ci, _oleDataStreams.CompObj.AnsiUserType);
-            ExportClipboardFormatOrAnsiString(ws, ref ci, _oleDataStreams.CompObj.AnsiClipboardFormat);
-            ExportLengthPrefixedAnsiString(ws, ref ci, _oleDataStreams.CompObj.Reserved1);
-            ws.Cells[2, ci++].Value = _oleDataStreams.CompObj.UnicodeMarker;
-            ExportLengthPrefixedUnicodeString(ws, ref ci, _oleDataStreams.CompObj.UnicodeUserType);
-            ExportClipboardFormatOrUnicodeString(ws, ref ci, _oleDataStreams.CompObj.UnicodeClipboardFormat);
-            ExportLengthPrefixedUnicodeString(ws, ref ci, _oleDataStreams.CompObj.Reserved2);
         }
 
         private OleObjectDataStreams.CompObjHeader ReadCompObjHeader(BinaryReader br)
@@ -470,8 +395,8 @@ namespace OfficeOpenXml.Drawing.OleObject
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                LengthPrefixedAnsiString Reserved1 = ReadLengthPrefixedAnsiString(br);
-                if (Reserved1.Length == 0 || Reserved1.Length > 0x00000028 || string.IsNullOrEmpty(Reserved1.String))
+                _oleDataStreams.CompObj.Reserved1 = ReadLengthPrefixedAnsiString(br);
+                if (_oleDataStreams.CompObj.Reserved1.Length == 0 || _oleDataStreams.CompObj.Reserved1.Length > 0x00000028 || string.IsNullOrEmpty(_oleDataStreams.CompObj.Reserved1.String))
                 {
                     //return;
                 }
@@ -502,83 +427,6 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
-        private void ExportMonikerStream(ExcelWorksheet ws, ref int ci, MonikerStream MonikerStream)
-        {
-            ExportCLSID(ws, ref ci, MonikerStream.ClsId);
-            ws.Cells[2, ci++].Value = MonikerStream.StreamData1;
-            ws.Cells[2, ci++].Value = MonikerStream.StreamData2;
-            ws.Cells[2, ci++].Value = MonikerStream.StreamData3;
-            ws.Cells[2, ci++].Value = MonikerStream.StreamData4;
-        }
-
-        private void ExportCLSID(ExcelWorksheet ws, ref int ci, CLSID ClsId)
-        {
-            ws.Cells[2, ci++].Value = ClsId.Data1;
-            ws.Cells[2, ci++].Value = ClsId.Data2;
-            ws.Cells[2, ci++].Value = ClsId.Data3;
-            ws.Cells[2, ci++].Value = ClsId.Data4;
-        }
-
-        private void ExportLengthPrefixedUnicodeString(ExcelWorksheet ws, ref int ci, OleObjectDataStreams.LengthPrefixedUnicodeString LPUniS)
-        {
-            ws.Cells[2, ci++].Value = LPUniS.Length;
-            ws.Cells[2, ci++].Value = LPUniS.String;
-        }
-
-        private void ExportLengthPrefixedAnsiString(ExcelWorksheet ws, ref int ci, OleObjectDataStreams.LengthPrefixedAnsiString LPAnsiS)
-        {
-            ws.Cells[2, ci++].Value = LPAnsiS.Length;
-            ws.Cells[2, ci++].Value = LPAnsiS.String;
-        }
-
-        private void ExportFILETIME(ExcelWorksheet ws, ref int ci, OleObjectDataStreams.FILETIME FILETIME)
-        {
-            ws.Cells[2, ci++].Value = FILETIME.dwLowDateTime;
-            ws.Cells[2, ci++].Value = FILETIME.dwHighDateTime;
-        }
-
-        private void ExportOle(ExcelWorksheet ws, ref int ci)
-        {
-            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.Version;
-            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.Flags;
-            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.LinkUpdateOption;
-            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.Reserved1;
-            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.ReservedMonikerStreamSize;
-            if (_oleDataStreams.Ole.ReservedMonikerStreamSize != 0)
-            {
-                ExportMonikerStream(ws, ref ci, _oleDataStreams.Ole.ReservedMonikerStream);
-            }
-            else
-            {
-                ci += 5;
-            }
-            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.RelativeSourceMonikerStreamSize;
-            if (_oleDataStreams.Ole.RelativeSourceMonikerStreamSize != 0)
-            {
-                ExportMonikerStream(ws, ref ci, _oleDataStreams.Ole.RelativeSourceMonikerStream);
-            }
-            else
-            {
-                ci += 5;
-            }
-            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize;
-            if (_oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize != 0)
-            {
-                ExportMonikerStream(ws, ref ci, _oleDataStreams.Ole.AbsoluteSourceMonikerStream);
-            }
-            else
-            {
-                ci += 5;
-            }
-            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.ClsidIndicator;
-            ExportCLSID(ws, ref ci, _oleDataStreams.Ole.Clsid);
-            ExportLengthPrefixedUnicodeString(ws, ref ci, _oleDataStreams.Ole.ReservedDisplayName);
-            ws.Cells[2, ci++].Value = _oleDataStreams.Ole.Reserved2;
-            ExportFILETIME(ws, ref ci, _oleDataStreams.Ole.LocalUpdateTime);
-            ExportFILETIME(ws, ref ci, _oleDataStreams.Ole.LocalCheckUpdateTime);
-            ExportFILETIME(ws, ref ci, _oleDataStreams.Ole.RemoteUpdateTime);
-        }
-
         private void ReadOleStream(byte[] oleBytes)
         {
             using (var ms = RecyclableMemory.GetStream(oleBytes))
@@ -590,21 +438,21 @@ namespace OfficeOpenXml.Drawing.OleObject
                 _oleDataStreams.Ole.Reserved1 = br.ReadUInt32();
                 _oleDataStreams.Ole.ReservedMonikerStreamSize = br.ReadUInt32();
                 if (_oleDataStreams.Ole.ReservedMonikerStreamSize != 0)
-                    ReadMONIKERSTREAM(br, _oleDataStreams.Ole.ReservedMonikerStreamSize - 4);
+                    _oleDataStreams.Ole.ReservedMonikerStream = ReadMONIKERSTREAM(br, _oleDataStreams.Ole.ReservedMonikerStreamSize - 4);
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
                 _oleDataStreams.Ole.RelativeSourceMonikerStreamSize = br.ReadUInt32();
                 if (_oleDataStreams.Ole.RelativeSourceMonikerStreamSize != 0)
-                    ReadMONIKERSTREAM(br, _oleDataStreams.Ole.RelativeSourceMonikerStreamSize - 4);
+                    _oleDataStreams.Ole.RelativeSourceMonikerStream = ReadMONIKERSTREAM(br, _oleDataStreams.Ole.RelativeSourceMonikerStreamSize - 4);
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
                 _oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize = br.ReadUInt32();
                 if (_oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize != 0)
-                    ReadMONIKERSTREAM(br, _oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize - 4);
+                    _oleDataStreams.Ole.AbsoluteSourceMonikerStream = ReadMONIKERSTREAM(br, _oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize - 4);
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
@@ -635,12 +483,6 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
-        private void ExportOleNative(ExcelWorksheet ws, ref int ci)
-        {
-            ws.Cells[2, ci++].Value = _oleDataStreams.OleNative.NativeDataSize;
-            ws.Cells[2, ci++].Value = _oleDataStreams.OleNative.NativeData;
-        }
-
         private void ReadOleNative(byte[] oleBytes)
         {
             using (var ms = RecyclableMemory.GetStream(oleBytes))
@@ -650,7 +492,174 @@ namespace OfficeOpenXml.Drawing.OleObject
                 _oleDataStreams.OleNative.NativeData = br.ReadBytes((int)_oleDataStreams.OleNative.NativeDataSize);
             }
         }
+        #endregion
 
+        internal void LoadEmbeddedDocument()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\RESULTS.xlsx");
+
+            var oleRel = _worksheet.Part.GetRelationship(_oleObject.RelationshipId);
+            if (oleRel != null && oleRel.TargetUri.ToString().Contains(".bin"))
+            {
+                var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
+                var olePart = _worksheet._package.ZipPackage.GetPart(oleObj);
+                var oleStream = (MemoryStream)olePart.GetStream(FileMode.Open, FileAccess.Read);
+                _document = new CompoundDocument(oleStream);
+                _oleDataStreams = new OleObjectDataStreams();
+                if (_document.Storage.DataStreams.ContainsKey("\u0001Ole10Native"))
+                {
+                    _oleDataStreams.OleNative = new OleObjectDataStreams.OleNativeStream();
+                    ReadOleNative(_document.Storage.DataStreams["\u0001Ole10Native"]);
+
+                    var ws = p.Workbook.Worksheets["OleNative"];
+                    ws.InsertRow(2, 1);
+                    ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
+                    int colIndex = 2;
+                    ExportOleNative(ws, ref colIndex);
+                }
+                if (_document.Storage.DataStreams.ContainsKey("\u0001Ole"))
+                {
+                    _oleDataStreams.Ole = new OleObjectDataStreams.OleObjectStream();
+                    ReadOleStream(_document.Storage.DataStreams["\u0001Ole"]);
+
+                    var ws = p.Workbook.Worksheets["Ole"];
+                    ws.InsertRow(2, 1);
+                    ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
+                    int colIndex = 2;
+                    ExportOle(ws, ref colIndex);
+                }
+                if (_document.Storage.DataStreams.ContainsKey("\u0001CompObj"))
+                {
+                    _oleDataStreams.CompObj = new OleObjectDataStreams.CompObjStream();
+                    ReadCompObjStream(_document.Storage.DataStreams["\u0001CompObj"]);
+
+                    var ws = p.Workbook.Worksheets["CompObj"];
+                    ws.InsertRow(2, 1);
+                    ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
+                    int colIndex = 2;
+                    ExportCompObj(ws, ref colIndex);
+                }
+                //for (int i = 0; i <= 999; i++)
+                //{
+                //    string olePres = "\u0002OlePres" + i.ToString("D3");
+                //    if (_document.Storage.DataStreams.ContainsKey(olePres))
+                //    {
+                //        var ws = p.Workbook.Worksheets["OlePres"];
+                //        ws.InsertRow(2, 1);
+                //        ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
+                //        int colIndex = 2;
+                //        ReadOlePres(_document.Storage.DataStreams[olePres], ws, ref colIndex);
+                //    }
+                //}
+            }
+            p.Save();
+        }
+
+        internal void LoadExternalLink()
+        {
+            var els = _worksheet.Workbook.ExternalLinks;
+            foreach (var el in els)
+            {
+                if (el.ExternalLinkType == eExternalLinkType.OleLink)
+                {
+                    var filename = el.Part.Entry.ToString();
+                    var splitFilename = filename.Split("ZipEntry::xl/externalLinks/externalLink.xml".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    var splitLink = _oleObject.Link.Split("[]".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    if (splitLink[0].Contains(splitFilename[0]))
+                    {
+                        _externalLink = el as ExcelExternalOleLink;
+                        break;
+                    }
+                }
+            }
+        }
+
+        #region WriteBinaries
+
+
+        private byte[] WriteOleNative(byte[] oleBytes)
+        {
+            using (var ms = RecyclableMemory.GetStream(oleBytes)
+            {
+                BinaryWriter bw = new BinaryWriter(ms);
+                bw.Write(_oleDataStreams.OleNative.NativeDataSize);
+                bw.Write(_oleDataStreams.OleNative.NativeData);
+            }
+        }
+
+        private void EmbedDocument(string filepath)
+        {
+            //create embedded object
+
+            //Create embeddingsfolder
+
+            /*
+            Skapa relation till .bin filen. Denna relation går från worksheet till embeddings/oleObjectX.bin.
+            detta gör vi genom att skapa en uri och en part som sedan ger oss relations id.
+            Vi använder GetNewUri
+            Sedan gör vi CreatePart? Vi måste nog uppdatera ContentTypes så den har en oleObject typ.
+            Sedan skapar vi relationen som vi sedan har när vi skriver xml.
+
+            Sedan måste vi skapa .bin filen. Detta görs genom att använda CompoundDokument på något vis. Problemet här är att
+            just nu har vi inget bra sätt att ge ett namn och placera vår compound dokument i embeddings mappen?
+
+            I save HandleSaveForIndividualDrawings måste vi uppdatera för support för oleObjet?
+            Är det något mer i save som måste göras?
+
+            */
+
+            int newID = 1;
+            var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/oleObject{0}.bin", ref newID);
+            var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
+            var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
+
+            MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+            byte[] data = File.ReadAllBytes(filepath);
+
+            //Detect file type..
+
+            //Create OleNative object
+            _oleDataStreams = new OleObjectDataStreams();
+            _oleDataStreams.OleNative = new OleNativeStream();
+            _oleDataStreams.OleNative.NativeData = data;
+            _oleDataStreams.OleNative.NativeDataSize = (uint)data.Length;
+
+
+
+            _document = new CompoundDocument();
+            _document.Storage.DataStreams.Add("CONTENTS", );
+
+            //_document.Storage.DataStreams.Add("\u0001Ole", CreateOleStream());
+            //_document.Storage.DataStreams.Add("\u0001CompObj", CreateCompObjStream());
+            //_document.Storage.DataStreams.Add("CONTENTS", data);
+            _document.Save(ms);
+        }
+        #endregion
+
+
+        //internal void SaveEmbeddedDocument()
+        //{
+        //    //create filestream from the thing in zippackage part
+
+        //    //var oleRel = _worksheet.Part.GetRelationship(_oleObject.RelationshipId);
+        //    //var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
+        //    //var olePart = _worksheet._package.ZipPackage.GetPart(oleObj);
+
+        //    _document = new CompoundDocument();
+        //    _oleDataStreams = new OleObjectDataStreams();
+        //    var oleStream = (MemoryStream)olePart.GetStream(FileMode.Create, FileAccess.Write);
+        //    _document.Storage.DataStreams.ContainsKey("\u0001Ole10Native");
+
+        //    _document.Storage.DataStreams.Add("\u0001Ole10Native", )
+
+        //    if (_oleDataStreams.OleNative != null)
+        //    {
+        //        WriteOleNative(oleStream);
+        //    }
+        //}
+
+
+        #region OlePres
         //private void ReadOlePres(byte[] oleBytes, ExcelWorksheet ws, ref int ci)
         //{
         //    using (var ms = new MemoryStream(oleBytes))
@@ -711,84 +720,165 @@ namespace OfficeOpenXml.Drawing.OleObject
         //    }
         //}
 
-        internal void LoadDocument()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\RESULTS.xlsx");
+        //private void ReadTOCENTRY(BinaryReader br, ExcelWorksheet ws, ref int ci)
+        //{
+        //    ReadClipboardFormatOrAnsiString(br, ws, ref ci); //AnsiClipboardFormat
+        //    var TargetDeviceSize = br.ReadUInt32();
+        //    var Aspect = br.ReadUInt32();
+        //    var Lindex = br.ReadUInt32();
+        //    var Tymed = br.ReadUInt32();
+        //    var Reserved1 = br.ReadBytes(12);
+        //    var Advf = br.ReadUInt32();
+        //    var Reserved2 = br.ReadUInt32();
 
-            var oleRel = _worksheet.Part.GetRelationship(_oleObject.RelationshipId);
-            if (oleRel != null && oleRel.TargetUri.ToString().Contains(".bin"))
-            {
-                var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
-                var olePart = _worksheet._package.ZipPackage.GetPart(oleObj);
-                var oleStream = (MemoryStream)olePart.GetStream(FileMode.Open, FileAccess.Read);
-                _document = new CompoundDocument(oleStream);
-                _oleDataStreams = new OleObjectDataStreams();
-                if (_document.Storage.DataStreams.ContainsKey("\u0001Ole10Native"))
-                {
-                    _oleDataStreams.OleNative = new OleObjectDataStreams.OleNativeStream();
-                    ReadOleNative(_document.Storage.DataStreams["\u0001Ole10Native"]);
+        //    ws.Cells[2, ci++].Value = TargetDeviceSize;
+        //    ws.Cells[2, ci++].Value = Aspect;
+        //    ws.Cells[2, ci++].Value = Lindex;
+        //    ws.Cells[2, ci++].Value = Tymed;
+        //    ws.Cells[2, ci++].Value = Reserved1;
+        //    ws.Cells[2, ci++].Value = Advf;
+        //    ws.Cells[2, ci++].Value = Reserved2;
 
-                    var ws = p.Workbook.Worksheets["OleNative"];
-                    ws.InsertRow(2, 1);
-                    ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
-                    int colIndex = 2;
-                    ExportOleNative(ws, ref colIndex);
-                }
-                if (_document.Storage.DataStreams.ContainsKey("\u0001Ole"))
-                {
-                    _oleDataStreams.Ole = new OleObjectDataStreams.OleObjectStream();
-                    ReadOleStream(_document.Storage.DataStreams["\u0001Ole"]);
+        //    ReadDVTARGETDEVICE(br, TargetDeviceSize, ws, ref ci); //TargetDevice
+        //}
 
-                    var ws = p.Workbook.Worksheets["Ole"];
-                    ws.InsertRow(2, 1);
-                    ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
-                    int colIndex = 2;
-                    ExportOle(ws, ref colIndex);
-                }
-                if (_document.Storage.DataStreams.ContainsKey("\u0001CompObj"))
-                {
-                    _oleDataStreams.CompObj = new OleObjectDataStreams.CompObjStream();
-                    ReadCompObjStream(_document.Storage.DataStreams["\u0001CompObj"]);
+        //private void ReadDEVMODEA(BinaryReader br, ExcelWorksheet ws, ref int ci)
+        //{
+        //    var dmDeviceName = br.ReadBytes(32);
+        //    var dmFormName = br.ReadBytes(32);
+        //    var dmSpecVersion = br.ReadUInt16();
+        //    var dmDriverVersion = br.ReadUInt16();
+        //    var dmSize = br.ReadUInt16();
+        //    var dmDriverExtra = br.ReadUInt16();
+        //    var dmFields = br.ReadUInt32();
+        //    var dmOrientation = br.ReadUInt16();
+        //    var dmPaperSize = br.ReadUInt16();
+        //    var dmPaperLength = br.ReadUInt16();
+        //    var dmPaperWidth = br.ReadUInt16();
+        //    var dmScale = br.ReadUInt16();
+        //    var dmCopies = br.ReadUInt16();
+        //    var dmDefaultSource = br.ReadUInt16();
+        //    var dmPrintQuality = br.ReadUInt16();
+        //    var dmColor = br.ReadUInt16();
+        //    var dmDuplex = br.ReadUInt16();
+        //    var dmYResolution = br.ReadUInt16();
+        //    var dmTTOption = br.ReadUInt16();
+        //    var dmCollate = br.ReadUInt16();
+        //    var reserved0 = br.ReadUInt32();
+        //    var reserved1 = br.ReadUInt32();
+        //    var reserved2 = br.ReadUInt32();
+        //    var reserved3 = br.ReadUInt32();
+        //    var dmNup = br.ReadUInt32();
+        //    var reserved4 = br.ReadUInt32();
+        //    var dmICMMethod = br.ReadUInt32();
+        //    var dmICMIntent = br.ReadUInt32();
+        //    var dmMediaType = br.ReadUInt32();
+        //    var dmDitherType = br.ReadUInt32();
+        //    var reserved5 = br.ReadUInt32();
+        //    var reserved6 = br.ReadUInt32();
+        //    var reserved7 = br.ReadUInt32();
+        //    var reserved8 = br.ReadUInt32();
 
-                    var ws = p.Workbook.Worksheets["CompObj"];
-                    ws.InsertRow(2, 1);
-                    ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
-                    int colIndex = 2;
-                }
-                //for (int i = 0; i <= 999; i++)
-                //{
-                //    string olePres = "\u0002OlePres" + i.ToString("D3");
-                //    if (_document.Storage.DataStreams.ContainsKey(olePres))
-                //    {
-                //        var ws = p.Workbook.Worksheets["OlePres"];
-                //        ws.InsertRow(2, 1);
-                //        ws.Cells["A2"].Value = this._worksheet.Workbook._package.File.Name;
-                //        int colIndex = 2;
-                //        ReadOlePres(_document.Storage.DataStreams[olePres], ws, ref colIndex);
-                //    }
-                //}
-            }
-            p.Save();
-        }
+        //    ws.Cells[2, ci++].Value = dmDeviceName;
+        //    ws.Cells[2, ci++].Value = dmFormName;
+        //    ws.Cells[2, ci++].Value = dmSpecVersion;
+        //    ws.Cells[2, ci++].Value = dmDriverVersion;
+        //    ws.Cells[2, ci++].Value = dmSize;
+        //    ws.Cells[2, ci++].Value = dmDriverExtra;
+        //    ws.Cells[2, ci++].Value = dmFields;
+        //    ws.Cells[2, ci++].Value = dmOrientation;
+        //    ws.Cells[2, ci++].Value = dmPaperSize;
+        //    ws.Cells[2, ci++].Value = dmPaperLength;
+        //    ws.Cells[2, ci++].Value = dmPaperWidth;
+        //    ws.Cells[2, ci++].Value = dmScale;
+        //    ws.Cells[2, ci++].Value = dmCopies;
+        //    ws.Cells[2, ci++].Value = dmDefaultSource;
+        //    ws.Cells[2, ci++].Value = dmPrintQuality;
+        //    ws.Cells[2, ci++].Value = dmColor;
+        //    ws.Cells[2, ci++].Value = dmDuplex;
+        //    ws.Cells[2, ci++].Value = dmYResolution;
+        //    ws.Cells[2, ci++].Value = dmTTOption;
+        //    ws.Cells[2, ci++].Value = dmCollate;
+        //    ws.Cells[2, ci++].Value = reserved0;
+        //    ws.Cells[2, ci++].Value = reserved1;
+        //    ws.Cells[2, ci++].Value = reserved2;
+        //    ws.Cells[2, ci++].Value = reserved3;
+        //    ws.Cells[2, ci++].Value = dmNup;
+        //    ws.Cells[2, ci++].Value = reserved4;
+        //    ws.Cells[2, ci++].Value = dmICMMethod;
+        //    ws.Cells[2, ci++].Value = dmICMIntent;
+        //    ws.Cells[2, ci++].Value = dmMediaType;
+        //    ws.Cells[2, ci++].Value = dmDitherType;
+        //    ws.Cells[2, ci++].Value = reserved5;
+        //    ws.Cells[2, ci++].Value = reserved6;
+        //    ws.Cells[2, ci++].Value = reserved7;
+        //    ws.Cells[2, ci++].Value = reserved8;
+        //}
 
-        internal void LoadExternalLink()
-        {
-            var els = _worksheet.Workbook.ExternalLinks;
-            foreach (var el in els)
-            {
-                if (el.ExternalLinkType == eExternalLinkType.OleLink)
-                {
-                    var filename = el.Part.Entry.ToString();
-                    var splitFilename = filename.Split("ZipEntry::xl/externalLinks/externalLink.xml".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                    var splitLink = _oleObject.Link.Split("[]".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                    if (splitLink[0].Contains(splitFilename[0]))
-                    {
-                        _externalLink = el as ExcelExternalOleLink;
-                        break;
-                    }
-                }
-            }
-        }
+
+        //static ushort MinOffset(ushort[] offsets, ushort currentOffset)
+        //{
+        //    ushort minOffset = ushort.MaxValue;
+        //    foreach (ushort offset in offsets)
+        //    {
+        //        if (offset > currentOffset && offset < minOffset)
+        //        {
+        //            minOffset = offset;
+        //        }
+        //    }
+        //    return minOffset;
+        //}
+
+        //private void ReadDVTARGETDEVICE(BinaryReader br, uint size, ExcelWorksheet ws, ref int ci)
+        //{
+        //    var DriverNameOffSet = br.ReadUInt16();
+        //    var DeviceNameOffSet = br.ReadUInt16();
+        //    var PortNameOffSet = br.ReadUInt16();
+        //    var ExtDevModeOffSet = br.ReadUInt16();
+
+        //    ws.Cells[2, ci++].Value = DriverNameOffSet;
+        //    ws.Cells[2, ci++].Value = DeviceNameOffSet;
+        //    ws.Cells[2, ci++].Value = PortNameOffSet;
+        //    ws.Cells[2, ci++].Value = ExtDevModeOffSet;
+
+        //    string DriverName = "";
+        //    if (DriverNameOffSet != 0)
+        //    {
+        //        ushort nextOffset = MinOffset(new ushort[] { DeviceNameOffSet, PortNameOffSet, ExtDevModeOffSet, (ushort)size }, DriverNameOffSet);
+        //        var DriverNameLength = nextOffset - DriverNameOffSet;
+        //        DriverName = BinaryHelper.GetString(br, (uint)DriverNameLength, Encoding.ASCII);
+        //    }
+
+        //    ws.Cells[2, ci++].Value = DriverName;
+
+        //    string DeviceName = "";
+
+        //    if (DeviceNameOffSet != 0)
+        //    {
+        //        ushort nextOffset = MinOffset(new ushort[] { DriverNameOffSet, PortNameOffSet, ExtDevModeOffSet, (ushort)size }, DeviceNameOffSet);
+        //        var DeviceNameLength = nextOffset - DeviceNameOffSet;
+        //        DeviceName = BinaryHelper.GetString(br, (uint)DeviceNameLength, Encoding.ASCII);
+        //    }
+
+        //    ws.Cells[2, ci++].Value = DeviceName;
+
+        //    string PortName = "";
+        //    if (PortNameOffSet != 0)
+        //    {
+        //        ushort nextOffset = MinOffset(new ushort[] { DriverNameOffSet, DeviceNameOffSet, ExtDevModeOffSet, (ushort)size }, PortNameOffSet);
+        //        var PortNameLength = nextOffset - PortNameOffSet;
+        //        PortName = BinaryHelper.GetString(br, (uint)PortNameLength, Encoding.ASCII);
+        //    }
+
+        //    ws.Cells[2, ci++].Value = PortName;
+
+        //    if (ExtDevModeOffSet != 0)
+        //        ReadDEVMODEA(br, ws, ref ci); //ExtDevMode
+        //    else
+        //        ci += 34;
+        //}
+        #endregion
+
 
         public override eDrawingType DrawingType
         {
