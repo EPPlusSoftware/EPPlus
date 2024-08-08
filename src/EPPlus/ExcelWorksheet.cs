@@ -1221,6 +1221,7 @@ namespace OfficeOpenXml
                 e = zip.GetNextEntry();
             }
             while (e.FileDataPosition != entry.FileDataPosition);
+            zip.Position = entry.FileDataPosition;
         }
 
         /// <summary>
