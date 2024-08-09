@@ -16,6 +16,14 @@ namespace EPPlusTest.Drawing
         }
 
         [TestMethod]
+        public void TestWriteEmbeddedObjectBin()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("MyFirstSheet");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\sample.mp3");
+        }
+
+        [TestMethod]
         public void TestReadEmbeddedObjects()
         {
             //{

@@ -9,10 +9,7 @@ using OfficeOpenXml.Utils;
 using System.IO;
 using System.Text;
 using OfficeOpenXml.Utils.Extensions;
-using OfficeOpenXml.Encryption;
 using static OfficeOpenXml.Drawing.OleObject.OleObjectDataStreams;
-using OfficeOpenXml.Core.Worksheet.XmlWriter;
-using System.Buffers.Binary;
 
 
 namespace OfficeOpenXml.Drawing.OleObject
@@ -580,12 +577,13 @@ namespace OfficeOpenXml.Drawing.OleObject
 
         private byte[] WriteOleNative(byte[] oleBytes)
         {
-            using (var ms = RecyclableMemory.GetStream(oleBytes)
+            using (var ms = RecyclableMemory.GetStream(oleBytes))
             {
                 BinaryWriter bw = new BinaryWriter(ms);
                 bw.Write(_oleDataStreams.OleNative.NativeDataSize);
                 bw.Write(_oleDataStreams.OleNative.NativeData);
             }
+            return null;
         }
 
         private void EmbedDocument(string filepath)
@@ -625,9 +623,14 @@ namespace OfficeOpenXml.Drawing.OleObject
             _oleDataStreams.OleNative.NativeData = data;
             _oleDataStreams.OleNative.NativeDataSize = (uint)data.Length;
 
+            byte[] oleNativeByteSize = BitConverter.GetBytes(_oleDataStreams.OleNative.NativeDataSize);
+            byte[] oleNativeBytes = new byte[oleNativeByteSize.Length + _oleDataStreams.OleNative.NativeData.Length];
+
+            Array.Copy(oleNativeByteSize, 0, oleNativeBytes, 0,oleNativeByteSize.Length);
+            Array.Copy(_oleDataStreams.OleNative.NativeData, 0, oleNativeBytes, oleNativeByteSize.Length, _oleDataStreams.OleNative.NativeData.Length);
 
             _document = new CompoundDocument();
-            _document.Storage.DataStreams.Add("\u0001Ole10Native", );
+            _document.Storage.DataStreams.Add("\u0001Ole10Native", oleNativeBytes);
 
             //_document.Storage.DataStreams.Add("\u0001Ole", CreateOleStream());
             //_document.Storage.DataStreams.Add("\u0001CompObj", CreateCompObjStream());
