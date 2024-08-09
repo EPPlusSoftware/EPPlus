@@ -12,6 +12,7 @@ using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Encryption;
 using static OfficeOpenXml.Drawing.OleObject.OleObjectDataStreams;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
+using System.Buffers.Binary;
 
 
 namespace OfficeOpenXml.Drawing.OleObject
@@ -625,9 +626,8 @@ namespace OfficeOpenXml.Drawing.OleObject
             _oleDataStreams.OleNative.NativeDataSize = (uint)data.Length;
 
 
-
             _document = new CompoundDocument();
-            _document.Storage.DataStreams.Add("CONTENTS", );
+            _document.Storage.DataStreams.Add("\u0001Ole10Native", );
 
             //_document.Storage.DataStreams.Add("\u0001Ole", CreateOleStream());
             //_document.Storage.DataStreams.Add("\u0001CompObj", CreateCompObjStream());
