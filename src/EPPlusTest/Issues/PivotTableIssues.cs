@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using System.Linq;
+using System;
 namespace EPPlusTest.Issues
 {
     [TestClass]
@@ -51,6 +53,41 @@ namespace EPPlusTest.Issues
 
                 SaveWorkbook("s692-2.xlsx",p);
             }
+        }
+        [TestMethod]
+        public void i1554()
+        {
+            ExcelPackage.LicenseContext = LicenseContext.Commercial;
+            using (var package = OpenTemplatePackage("i1554.xlsx"))
+            {
+                AddTableRow(package, 0);
+                SaveAndCleanup(package);
+            }
+            using (var package = OpenPackage("i1554.xlsx"))
+            {
+                AddTableRow(package, 1);
+                var pt = package.Workbook.Worksheets[1].PivotTables[0];
+                var cf = pt.Fields[0].Cache;
+                cf.Refresh();
+                Assert.IsTrue(cf.SharedItems[0] is DateTime);
+                Assert.IsTrue(cf.SharedItems[1] is DateTime);
+                SaveWorkbook("i1554-SecondDate.xlsx",package);
+            }
+        }
+
+        private static void AddTableRow(ExcelPackage package, int days)
+        {
+            var workbook = package.Workbook;
+            var worksheet = workbook.Worksheets["Data"];
+            var table = worksheet.Tables.Single(t => t.Name == "DataTable");
+            var column = table.Columns["StartTime"];
+            var newRow = table.InsertRow(0);
+
+            newRow.TakeSingleCell(0, column.Position).Value = DateTime.Now.AddDays(days);
+            column.DataStyle.NumberFormat.Format = "yyyy-mmmm-dd hh:mm";
+
+            worksheet.Cells[table.Address.Start.Row, table.Address.Start.Column, table.Address.End.Row, table.Address.End.Column].AutoFitColumns();
+            //workbook.CalculateAllPivotTables(refresh: true);
         }
     }
 }
