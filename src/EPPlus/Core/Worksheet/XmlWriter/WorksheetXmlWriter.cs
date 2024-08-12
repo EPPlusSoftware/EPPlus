@@ -113,11 +113,11 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 extLst.InsertExt(ExtLstUris.DataValidationsUri, UpdateExtLstDataValidations(prefix), "");
             }
 
-            extLst.InsertExt(ExtLstUris.ConditionalFormattingUri, UpdateExtLstConditionalFormatting(), "");
+            extLst.InsertExt(ExtLstUris.ConditionalFormattingUri, UpdateExtLstConditionalFormatting(prefix), "");
 
             if (extLst.extCount != 0)
             {
-                sw.Write(extLst.GetWholeExtLst());
+                sw.Write(extLst.GetWholeExtLst(prefix));
             }
 
             sw.Write(xml.Substring(endOfNode, xml.Length - endOfNode));
@@ -1523,7 +1523,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             return cache.ToString();
         }
 
-        private string UpdateExtLstConditionalFormatting()
+        private string UpdateExtLstConditionalFormatting(string mainPrefix)
         {
             var cache = new StringBuilder();
 
@@ -1559,7 +1559,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             if (addressDict.Count > 0 || pivotCFs.Count > 0)
             {
                 string prefix = "x14:";
-                cache.Append($"<ext xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.ConditionalFormattingUri}\">");
+                cache.Append($"<{mainPrefix}ext xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.ConditionalFormattingUri}\">");
 
                 cache.Append($"<{prefix}conditionalFormattings>");
 
@@ -1578,7 +1578,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 }
 
                 cache.Append($"</{prefix}conditionalFormattings>");
-                cache.Append("</ext>");
+                cache.Append($"</{mainPrefix}ext>");
             }
             return cache.ToString();
         }
@@ -1806,7 +1806,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     cache.Append("/>");
 
-                    WriteDxfColor("", cache, dataBar.FillColor);
+                    WriteDxfColor(prefix, cache, dataBar.FillColor);
 
                     cache.Append($"</{prefix}dataBar>");
 
