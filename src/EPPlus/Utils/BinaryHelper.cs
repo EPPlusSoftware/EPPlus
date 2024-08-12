@@ -27,5 +27,11 @@ namespace OfficeOpenXml.Utils
                 return "";
             }
         }
+
+        static internal byte[] GetByteArray(string str, Encoding enc)
+        {
+            return enc.GetBytes(str);
+        }
+
     }
 }

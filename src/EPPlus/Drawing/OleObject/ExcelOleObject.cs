@@ -10,6 +10,7 @@ using System.IO;
 using System.Text;
 using OfficeOpenXml.Utils.Extensions;
 using static OfficeOpenXml.Drawing.OleObject.OleObjectDataStreams;
+using System.Collections.Generic;
 
 
 namespace OfficeOpenXml.Drawing.OleObject
@@ -45,7 +46,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string filepath, bool link, string mediaFilePath = "", ExcelGroupShape parent = null)
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string filePath, bool link, string mediaFilePath = "", ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             _worksheet = drawings.Worksheet;
@@ -66,7 +67,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             else
             {
                 isExternalLink = false;
-                EmbedDocument(filepath);
+                EmbedDocument(filePath);
             }
 
             //Create Media
@@ -574,63 +575,139 @@ namespace OfficeOpenXml.Drawing.OleObject
 
         #region WriteBinaries
 
-
-        private byte[] WriteOleNative(byte[] oleBytes)
+        private byte[] ConcatenateByteArrays(params byte[][] arrays)
         {
-            using (var ms = RecyclableMemory.GetStream(oleBytes))
+            int dataLength = 0;
+            foreach(var arr in arrays)
             {
-                BinaryWriter bw = new BinaryWriter(ms);
-                bw.Write(_oleDataStreams.OleNative.NativeDataSize);
-                bw.Write(_oleDataStreams.OleNative.NativeData);
+                dataLength += arr.Length;
             }
-            return null;
+            byte[] dataArray = new byte[dataLength];
+            int offset = 0;
+            foreach (var arr in arrays)
+            {
+                Buffer.BlockCopy(arr, 0, dataArray, offset, arr.Length);
+                offset += arr.Length;
+            }
+            return dataArray;
         }
 
-        private void EmbedDocument(string filepath)
+        private void CreateCompObjObject(string AnsiUserTypeString, string Reserved1String)
         {
-            //create embedded object
+            _oleDataStreams.CompObj = new CompObjStream();
+            _oleDataStreams.CompObj.Header = new CompObjHeader();
+            _oleDataStreams.CompObj.AnsiUserType = new LengthPrefixedAnsiString(AnsiUserTypeString);
+            _oleDataStreams.CompObj.AnsiClipboardFormat = new ClipboardFormatOrAnsiString();
+            _oleDataStreams.CompObj.Reserved1 = new LengthPrefixedAnsiString(Reserved1String);
+            _oleDataStreams.CompObj.UnicodeMarker = 0;
+            _oleDataStreams.CompObj.UnicodeUserType = new LengthPrefixedUnicodeString();
+            _oleDataStreams.CompObj.UnicodeClipboardFormat = new ClipboardFormatOrUnicodeString();
+            _oleDataStreams.CompObj.Reserved2 = new LengthPrefixedUnicodeString();
+        }
 
-            //Create embeddingsfolder
+        private void CreateCompObjDataStream()
+        {
+            byte[] compObjBytes = ConcatenateByteArrays(BitConverter.GetBytes(_oleDataStreams.CompObj.Header.Reserved1),
+                                                        BitConverter.GetBytes(_oleDataStreams.CompObj.Header.Version),
+                                                        _oleDataStreams.CompObj.Header.Reserved2,
+                                                        BitConverter.GetBytes(_oleDataStreams.CompObj.AnsiUserType.Length),
+                                                        BinaryHelper.GetByteArray(_oleDataStreams.CompObj.AnsiUserType.String, _oleDataStreams.CompObj.AnsiUserType.Encoding),
+                                                        BitConverter.GetBytes(_oleDataStreams.CompObj.AnsiClipboardFormat.MarkerOrLength),
+                                                        _oleDataStreams.CompObj.AnsiClipboardFormat.FormatOrAnsiString,
+                                                         BitConverter.GetBytes(_oleDataStreams.CompObj.Reserved1.Length),
+                                                        BinaryHelper.GetByteArray(_oleDataStreams.CompObj.Reserved1.String, _oleDataStreams.CompObj.Reserved1.Encoding),
+                                                        new byte [_oleDataStreams.CompObj.UnicodeMarker],
+                                                        BitConverter.GetBytes(_oleDataStreams.CompObj.UnicodeUserType.Length),
+                                                        BinaryHelper.GetByteArray(_oleDataStreams.CompObj.UnicodeUserType.String, _oleDataStreams.CompObj.UnicodeUserType.Encoding),
+                                                        BitConverter.GetBytes(_oleDataStreams.CompObj.UnicodeClipboardFormat.MarkerOrLength),
+                                                        _oleDataStreams.CompObj.UnicodeClipboardFormat.FormatOrUnicodeString,
+                                                         BitConverter.GetBytes(_oleDataStreams.CompObj.Reserved2.Length),
+                                                        BinaryHelper.GetByteArray(_oleDataStreams.CompObj.Reserved2.String, _oleDataStreams.CompObj.Reserved2.Encoding) );
+            _document.Storage.DataStreams.Add("\u0001CompObj", compObjBytes);
+        }
 
-            /*
-            Skapa relation till .bin filen. Denna relation går från worksheet till embeddings/oleObjectX.bin.
-            detta gör vi genom att skapa en uri och en part som sedan ger oss relations id.
-            Vi använder GetNewUri
-            Sedan gör vi CreatePart? Vi måste nog uppdatera ContentTypes så den har en oleObject typ.
-            Sedan skapar vi relationen som vi sedan har när vi skriver xml.
 
-            Sedan måste vi skapa .bin filen. Detta görs genom att använda CompoundDokument på något vis. Problemet här är att
-            just nu har vi inget bra sätt att ge ett namn och placera vår compound dokument i embeddings mappen?
+        private void CreateOleNativeDataStream()
+        {
+            byte[] oleNativeByteSize = BitConverter.GetBytes(_oleDataStreams.OleNative.NativeDataSize);
+            byte[] oleNativeBytes = ConcatenateByteArrays(oleNativeByteSize, _oleDataStreams.OleNative.NativeData); //new byte[oleNativeByteSize.Length + _oleDataStreams.OleNative.NativeData.Length];
+            //Array.Copy(oleNativeByteSize, 0, oleNativeBytes, 0, oleNativeByteSize.Length);
+            //Array.Copy(_oleDataStreams.OleNative.NativeData, 0, oleNativeBytes, oleNativeByteSize.Length, _oleDataStreams.OleNative.NativeData.Length);
+            _document.Storage.DataStreams.Add("\u0001Ole10Native", oleNativeBytes);
+        }
 
-            I save HandleSaveForIndividualDrawings måste vi uppdatera för support för oleObjet?
-            Är det något mer i save som måste göras?
+        private void CreateOleNativeObject(byte[] fileData)
+        {
+            _oleDataStreams.OleNative = new OleNativeStream();
+            _oleDataStreams.OleNative.NativeData = fileData;
+            _oleDataStreams.OleNative.NativeDataSize = (uint)fileData.Length;
+        }
 
-            */
+        private string GetFileType(string filepath)
+        {
+            return Path.GetExtension(filepath).ToLower();
+        }
 
+        private void EmbedDocument(string filePath)
+        {
             int newID = 1;
             var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/oleObject{0}.bin", ref newID);
             var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
             var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
 
             MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-            byte[] data = File.ReadAllBytes(filepath);
+            byte[] fileData = File.ReadAllBytes(filePath);
 
             //Detect file type..
-
-            //Create OleNative object
+            string fileType = GetFileType(filePath);
             _oleDataStreams = new OleObjectDataStreams();
-            _oleDataStreams.OleNative = new OleNativeStream();
-            _oleDataStreams.OleNative.NativeData = data;
-            _oleDataStreams.OleNative.NativeDataSize = (uint)data.Length;
-
-            byte[] oleNativeByteSize = BitConverter.GetBytes(_oleDataStreams.OleNative.NativeDataSize);
-            byte[] oleNativeBytes = new byte[oleNativeByteSize.Length + _oleDataStreams.OleNative.NativeData.Length];
-
-            Array.Copy(oleNativeByteSize, 0, oleNativeBytes, 0,oleNativeByteSize.Length);
-            Array.Copy(_oleDataStreams.OleNative.NativeData, 0, oleNativeBytes, oleNativeByteSize.Length, _oleDataStreams.OleNative.NativeData.Length);
-
             _document = new CompoundDocument();
-            _document.Storage.DataStreams.Add("\u0001Ole10Native", oleNativeBytes);
+
+            if (fileType ==".pdf")
+            {
+                //Create Ole structure and add data
+
+                //Create Ole Data Stream and add to Compound object
+
+                //Create CompObj structure and add data
+                CreateCompObjObject("Acrobat Document\0", "Acrobat.Document.DC\0");
+                //Create CompObj Data Stream and add to Compound object
+                CreateCompObjDataStream();
+                //Add CONTENT Data Stream
+                _document.Storage.DataStreams.Add("CONTENTS", fileData);
+            }
+            else if(fileType == "") //open office formats
+            {
+                //Create CompObj structure and add data
+                CreateCompObjObject("OpenDocument Text\0", "Word.OpenDocumentText.12\0");
+                //Create CompObj Data Stream and add to Compound object
+                CreateCompObjDataStream();
+                //Add EmbeddedOdf
+                _document.Storage.DataStreams.Add("EmbeddedOdf", fileData);
+            }
+            else if(fileType == ".zip") //compressed format
+            {
+                //Create CompObj structure and add data
+                CreateCompObjObject("OLE Package\0", "Package\0");
+                //Create CompObj Data Stream and add to Compound object
+                CreateCompObjDataStream();
+                //Create OleNative structure and add data
+                CreateOleNativeObject(fileData);
+                //Create OleNative Data Stream and add to Compound object
+                CreateOleNativeDataStream();
+            }
+            else if(fileType == "") //ms office format
+            {
+                //Embedd as is
+            }
+            else
+            {
+                //Create OleNative structure and add data
+                CreateOleNativeObject(fileData);
+                //Create OleNative Data Stream and add to Compound object
+                CreateOleNativeDataStream();
+            }
+
 
             //_document.Storage.DataStreams.Add("\u0001Ole", CreateOleStream());
             //_document.Storage.DataStreams.Add("\u0001CompObj", CreateCompObjStream());
@@ -638,29 +715,6 @@ namespace OfficeOpenXml.Drawing.OleObject
             _document.Save(ms);
         }
         #endregion
-
-
-        //internal void SaveEmbeddedDocument()
-        //{
-        //    //create filestream from the thing in zippackage part
-
-        //    //var oleRel = _worksheet.Part.GetRelationship(_oleObject.RelationshipId);
-        //    //var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
-        //    //var olePart = _worksheet._package.ZipPackage.GetPart(oleObj);
-
-        //    _document = new CompoundDocument();
-        //    _oleDataStreams = new OleObjectDataStreams();
-        //    var oleStream = (MemoryStream)olePart.GetStream(FileMode.Create, FileAccess.Write);
-        //    _document.Storage.DataStreams.ContainsKey("\u0001Ole10Native");
-
-        //    _document.Storage.DataStreams.Add("\u0001Ole10Native", )
-
-        //    if (_oleDataStreams.OleNative != null)
-        //    {
-        //        WriteOleNative(oleStream);
-        //    }
-        //}
-
 
         #region OlePres
         //private void ReadOlePres(byte[] oleBytes, ExcelWorksheet ws, ref int ci)
@@ -914,139 +968,19 @@ namespace OfficeOpenXml.Drawing.OleObject
             return $"{(_topPath == "" ? "" : _topPath + "/")}xdr:nvSpPr/xdr:cNvPr";
         }
     }
-
-    internal class OleObjectDataStreams
-    {
-
-        internal OleNativeStream OleNative;
-        internal OleObjectStream Ole;
-        internal CompObjStream CompObj;
-
-        internal class MonikerStream
-        {
-            internal CLSID ClsId;
-            internal UInt32 StreamData1;
-            internal UInt16 StreamData2;
-            internal UInt32 StreamData3; //Size of StreamData4
-            internal string StreamData4;
-            internal Encoding encoding = Encoding.Unicode;
-        }
-
-        internal class CLSID
-        {
-            internal UInt32 Data1;
-            internal UInt16 Data2;
-            internal UInt16 Data3;
-            internal UInt64 Data4;
-        }
-
-        internal class LengthPrefixedUnicodeString
-        {
-            internal UInt32 Length;
-            internal string String;
-            internal Encoding Encoding = Encoding.Unicode;
-        }
-
-        internal class LengthPrefixedAnsiString
-        {
-            internal UInt32 Length;
-            internal string String;
-            internal Encoding Encoding = Encoding.ASCII;
-        }
-
-        internal class ClipboardFormatOrUnicodeString
-        {
-            //If this is set to 0x00000000, the FormatOrUnicodeString field MUST
-            //NOT be present.If this is set to 0xffffffff or 0xfffffffe, the FormatOrUnicodeString field MUST be
-            //4 bytes in size and MUST contain a standard clipboard format identifier
-            //Otherwise, the FormatOrUnicodeString field MUST be set to a Unicode string containing the name of a registered clipboard format
-            //and the MarkerOrLength field MUST be set to the number of Unicode characters in the FormatOrUnicodeString field, including the
-            //terminating null character.
-            internal UInt32 MarkerOrLength;
-            internal Byte[] FormatOrUnicodeString;
-        }
-
-        internal class ClipboardFormatOrAnsiString
-        {
-            //If this field is set to 0xFFFFFFFF or 0xFFFFFFFE,
-            //the FormatOrAnsiString field MUST be 4 bytes in size and MUST contain a standard clipboard format identifier.
-            //If this set to a value other than 0x00000000,
-            //the FormatOrAnsiString field MUST be set to a null-terminated ANSI string containing the name of a registered clipboard format
-            internal UInt32 MarkerOrLength;
-            internal Byte[] FormatOrAnsiString;
-        }
-
-        internal class FILETIME
-        {
-            internal UInt32 dwLowDateTime;
-            internal UInt32 dwHighDateTime;
-        }
-
-        internal class OleObjectStream
-        {
-            internal UInt32 Version;
-            internal UInt32 Flags;
-            internal UInt32 LinkUpdateOption;
-            internal UInt32 Reserved1;
-            internal UInt32 ReservedMonikerStreamSize; //Subtract by 4 when reading if not 0
-            internal MonikerStream ReservedMonikerStream;
-
-            internal UInt32 RelativeSourceMonikerStreamSize; //Subtract by 4 when reading if not 0
-            internal MonikerStream RelativeSourceMonikerStream;
-
-            internal UInt32 AbsoluteSourceMonikerStreamSize; //Subtract by 4 when reading if not 0
-            internal MonikerStream AbsoluteSourceMonikerStream;
-
-            internal UInt32 ClsidIndicator;
-            internal CLSID Clsid;
-
-            internal LengthPrefixedUnicodeString ReservedDisplayName;
-
-            internal UInt32 Reserved2;
-
-            internal FILETIME LocalUpdateTime;
-            internal FILETIME LocalCheckUpdateTime;
-            internal FILETIME RemoteUpdateTime;
-        }
-
-        internal class CompObjHeader
-        {
-            internal UInt32 Reserved1;
-            internal UInt32 Version;
-            internal byte[] Reserved2 = new byte[20];
-        }
-
-        internal class CompObjStream
-        {
-            internal CompObjHeader Header;
-            internal LengthPrefixedAnsiString AnsiUserType;
-            internal ClipboardFormatOrAnsiString AnsiClipboardFormat; //MarkerOrLength field of the ClipboardFormatOrAnsiString structure contains a value other than 0x00000000, 0xffffffff, or 0xfffffffe, the value MUST NOT be greater than 0x00000190. Otherwise the CompObjStream structure is invalid.
-            internal LengthPrefixedAnsiString Reserved1;
-            //      Reserved1 (variable): If present, this MUST be a LengthPrefixedAnsiString structure.
-            //      If the Length field of the LengthPrefixedAnsiString contains a value of 0 or a value that is greater than 0x00000028,
-            //      the remaining fields of the structure starting with the String field of the LengthPrefixedAnsiString MUST be ignored on processing.
-            //      If the String field of the LengthPrefixedAnsiString is not present, the remaining fields of the
-            //      structure starting with the UnicodeMarker field MUST be ignored on processing.
-            //      Otherwise, the String field of the LengthPrefixedAnsiString MUST be ignored on processing.
-            internal UInt32 UnicodeMarker; //If this field is present and is NOT set to 0x71B239F4, the remaining fields of the structure MUST be ignored on processing.
-            internal LengthPrefixedUnicodeString UnicodeUserType;
-            internal ClipboardFormatOrUnicodeString UnicodeClipboardFormat; //MarkerOrLength field of the ClipboardFormatOrUnicodeString structure contains a value other than 0x00000000, 0xffffffff, or 0xfffffffe, the value MUST NOT be more than 0x00000190. Otherwise, the CompObjStream structure is invalid.
-            internal LengthPrefixedUnicodeString Reserved2;
-        }
-
-        internal class OleNativeStream
-        {
-            internal UInt32 NativeDataSize;
-            internal byte[] NativeData;
-        }
-    }
-
 }
+
+//spara i byte[] och sätt default värden
+// saker som vi vet ändras kan vi använda data typer till string eller int eller vad.
+//bestäm baserat på vår data kring den struktur vi vill ha.
+
+
+
+//Granska och notera formaten
+//skapa några från fil istället för förvalda valen i excel
 
 /*
  * TODO:
- * Skapa struktur med klasser för Ole, CompObj och OleNative
- * Läs till dessa
  * Skapa default värden för aString och Resereved1String i CompObj
  * Funktion för att sätta StreamData4 i Ole som är worksheetName!ObjectName
  * 
@@ -1106,4 +1040,11 @@ namespace OfficeOpenXml.Drawing.OleObject
  * PrinterSettings:
  *  bin file
  *  not supported
+ * 
+ * I Excel
+ *  I Create New fliken så vill excel skapa nytt dokument och göra editering direkt.
+ *  Skapar man ett package så blir det en oleNative oavsett verkar det som.
+ *  Create from file kikar på filändelsen verkar det som och skapar filen baserat på det.
+ *  
+ * 
  */
