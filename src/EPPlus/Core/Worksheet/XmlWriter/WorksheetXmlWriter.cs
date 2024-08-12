@@ -1054,21 +1054,21 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
         /// <summary>
         /// ExtLst updater for DataValidations
         /// </summary>
-        /// <param name="prefix"></param>
+        /// <param name="mainPrefix"></param>
         /// <returns></returns>
-        private string UpdateExtLstDataValidations(string prefix)
+        private string UpdateExtLstDataValidations(string mainPrefix)
         {
             var cache = new StringBuilder();
 
-            cache.Append($"<ext xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.DataValidationsUri}\">");
+            cache.Append($"<{mainPrefix}ext xmlns:x14=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.DataValidationsUri}\">");
 
-            prefix = "x14:";
+            string prefix = "x14:";
             cache.Append
             (
             UpdateDataValidation(prefix, $"xmlns:xm=\"{ExcelPackage.schemaMainXm}\"")
 
             );
-            cache.Append("</ext>");
+            cache.Append($"</{mainPrefix}ext>");
 
             return cache.ToString();
         }
