@@ -24,6 +24,7 @@ using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using System.Net.NetworkInformation;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -224,6 +225,8 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
+        internal string Prefix = "";
+
         #region Constructors
         /// <summary> 
         /// Initalize <see cref="ExcelConditionalFormattingRule"/> from file
@@ -234,6 +237,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="ws"></param>
         internal ExcelConditionalFormattingRule(eExcelConditionalFormattingRuleType type, ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
         {
+            Prefix = xr.Prefix;
+
             _ws = ws;
 
             Address = address;

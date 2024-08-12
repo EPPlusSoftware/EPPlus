@@ -1655,7 +1655,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
             if (i == 0)
             {
-                cache.Append($"<conditionalFormatting");
+                cache.Append($"<{prefix}conditionalFormatting");
                 if (conditionalFormat.Address != null)
                 {
                     cache.Append($" sqref=\"{conditionalFormat.Address.AddressSpaceSeparated}\"");
@@ -1667,24 +1667,24 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 cache.Append($">");
             }
 
-            cache.Append($"<cfRule type=\"{conditionalFormat.GetAttributeType()}\" ");
+            cache.Append($"<{prefix}cfRule type=\"{conditionalFormat.GetAttributeType()}\" ");
 
             cache.Append(UpdateConditionalFormattingAttributes(conditionalFormat));
             cache.Append($">");
 
             if (string.IsNullOrEmpty(conditionalFormat._formula) == false)
             {
-                cache.Append("<formula>" + ConvertUtil.ExcelEscapeAndEncodeString(conditionalFormat._formula) + "</formula>");
+                cache.Append($"<{prefix}formula>" + ConvertUtil.ExcelEscapeAndEncodeString(conditionalFormat._formula) + $"</{prefix}formula>");
                 if (string.IsNullOrEmpty(conditionalFormat._formula2) == false)
                 {
-                    cache.Append("<formula>" + ConvertUtil.ExcelEscapeAndEncodeString(conditionalFormat._formula2) + "</formula>");
+                    cache.Append($"<{prefix}formula>" + ConvertUtil.ExcelEscapeAndEncodeString(conditionalFormat._formula2) + $"</{prefix}formula>");
                 }
             }
 
             if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.TwoColorScale ||
                 conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
             {
-                cache.Append("<colorScale>");
+                cache.Append($"<{prefix}colorScale>");
 
                 var colorScaleValues = new List<ExcelConditionalFormattingColorScaleValue>()
                         {
@@ -1701,7 +1701,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 {
                     var cSValue = colorScaleValues[j];
 
-                    cache.Append($"<cfvo type=\"{cSValue.Type.ToString().UnCapitalizeFirstLetter()}\" ");
+                    cache.Append($"<{prefix}cfvo type=\"{cSValue.Type.ToString().UnCapitalizeFirstLetter()}\" ");
 
                     if (!double.IsNaN(cSValue.Value))
                     {
@@ -1721,7 +1721,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 {
                     var cSValue = colorScaleValues[j];
 
-                    cache.Append($"<color");
+                    cache.Append($"<{prefix}color");
 
                     if (cSValue.ColorSettings.Auto != null && cSValue.ColorSettings.Auto != false)
                     {
@@ -1751,7 +1751,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     cache.Append($"/>");
                 }
 
-                cache.Append("</colorScale>");
+                cache.Append($"</{prefix}colorScale>");
             }
 
             if (conditionalFormat.IsExtLst)
@@ -1759,7 +1759,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.DataBar)
                 {
                     var dataBar = (ExcelConditionalFormattingDataBar)conditionalFormat;
-                    cache.Append($"<dataBar>");
+                    cache.Append($"<{prefix}dataBar>");
 
                     string typeLow = dataBar.LowValue.Type.ToString().UnCapitalizeFirstLetter();
                     string typeHigh = dataBar.HighValue.Type.ToString().UnCapitalizeFirstLetter();
@@ -1774,7 +1774,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         typeHigh = typeHigh.Remove(0, "auto".Length);
                     }
 
-                    cache.Append($"<cfvo type=\"{typeLow.UnCapitalizeFirstLetter()}\"");
+                    cache.Append($"<{prefix}cfvo type=\"{typeLow.UnCapitalizeFirstLetter()}\"");
 
                     if (dataBar.LowValue.HasValueOrFormula)
                     {
@@ -1790,7 +1790,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     cache.Append("/>");
 
-                    cache.Append($"<cfvo type=\"{typeHigh.UnCapitalizeFirstLetter()}\"");
+                    cache.Append($"<{prefix}cfvo type=\"{typeHigh.UnCapitalizeFirstLetter()}\"");
 
                     if (dataBar.HighValue.HasValueOrFormula)
                     {
@@ -1808,16 +1808,16 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     WriteDxfColor("", cache, dataBar.FillColor);
 
-                    cache.Append($"</dataBar>");
+                    cache.Append($"</{prefix}dataBar>");
 
-                    cache.Append($"<extLst>");
+                    cache.Append($"<{prefix}extLst>");
 
-                    prefix = "x14";
-                    cache.Append($"<ext xmlns:{prefix}=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.ExtChildUri}\">");
-                    cache.Append($"<{prefix}:id>{dataBar.Uid}</{prefix}:id>");
-                    cache.Append($"</ext>");
+                    string AltPrefix = "x14";
+                    cache.Append($"<{prefix}ext xmlns:{AltPrefix}=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.ExtChildUri}\">");
+                    cache.Append($"<{AltPrefix}:id>{dataBar.Uid}</{AltPrefix}:id>");
+                    cache.Append($"</{prefix}ext>");
 
-                    cache.Append($"</extLst>");
+                    cache.Append($"</{prefix}extLst>");
                 }
             }
             else if (conditionalFormat.Type == eExcelConditionalFormattingRuleType.ThreeIconSet ||
@@ -1877,7 +1877,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         break;
                 }
 
-                cache.Append($"<iconSet iconSet=\"{iconSetString}\"");
+                cache.Append($"<{prefix}iconSet iconSet=\"{iconSetString}\"");
 
                 if (showValue == false)
                 {
@@ -1909,9 +1909,9 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     }
                 }
 
-                cache.Append($"</iconSet>");
+                cache.Append($"</{prefix}iconSet>");
             }
-            cache.Append($"</cfRule>");
+            cache.Append($"</{prefix}cfRule>");
 
             return cache.ToString();
         }
@@ -1952,7 +1952,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             foreach (var cf in pivotCFs)
             {
                 cache.Append(GetCFXML(prefix, cf, 0));
-                cache.Append($"</conditionalFormatting>");
+                cache.Append($"</{prefix}conditionalFormatting>");
             }
 
             //Iterate cfRules for each address
@@ -1962,7 +1962,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 {
                     cache.Append(GetCFXML(prefix, formatList.Value[i], i));
                 }
-                cache.Append($"</conditionalFormatting>");
+                cache.Append($"</{prefix}conditionalFormatting>");
             }
 
             return cache.ToString();
