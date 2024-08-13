@@ -19,6 +19,10 @@
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0'">
     <DefineConstants>Core;NET80</DefineConstants>
   </PropertyGroup>
+	
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net9.0'">
+    <DefineConstants>Core;NET90</DefineConstants>
+  </PropertyGroup>	
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net481'">
     <DefineConstants>NET481;NETFULL</DefineConstants>

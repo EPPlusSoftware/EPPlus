@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 {
@@ -24,7 +25,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
     {
         private FontScaleFactors _fontScaleFactors = new FontScaleFactors();
         private static Dictionary<uint, SerializedFontMetrics> _fonts;
-        private static object _syncRoot = new object();
+        private static Lock _syncRoot = new Lock();
 
         public GenericFontMetricsTextMeasurerBase()
         {

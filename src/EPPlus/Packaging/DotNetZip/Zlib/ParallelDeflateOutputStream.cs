@@ -112,7 +112,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         private AutoResetEvent              _newlyCompressedBlob;
         //private ManualResetEvent            _writingDone;
         //private ManualResetEvent            _sessionReset;
-        private object                      _outputLock = new object();
+        private Lock                        _outputLock = new Lock();
         private bool                        _isClosed;
         private bool                        _firstWriteDone;
         private int                         _currentlyFilling;
@@ -121,14 +121,14 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
         private int                         _latestCompressed;
         private int                         _Crc32;
         private Ionic.Crc.CRC32             _runningCrc;
-        private object                      _latestLock = new object();
+        private Lock                        _latestLock = new Lock();
         private System.Collections.Generic.Queue<int>     _toWrite;
         private System.Collections.Generic.Queue<int>     _toFill;
         private Int64                       _totalBytesProcessed;
         private Ionic.Zlib.CompressionLevel _compressLevel;
         private volatile Exception          _pendingException;
         private bool                        _handlingException;
-        private object                      _eLock = new Object();  // protects _pendingException
+        private Lock                        _eLock = new Lock();  // protects _pendingException
 
         // This bitfield is used only when Trace is defined.
         //private TraceBits _DesiredTrace = TraceBits.Write | TraceBits.WriteBegin |

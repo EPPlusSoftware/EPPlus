@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Utils
 {
     internal class StreamUtil
     {
-        static object _lock = new object();
+        static Lock _lock = new Lock();
         /// <summary>
         /// Copies the input stream to the output stream.
         /// </summary>

@@ -44,6 +44,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Interop = System.Runtime.InteropServices;
 using OfficeOpenXml.Packaging.Ionic.Zlib;
+using System.Threading;
 namespace OfficeOpenXml.Packaging.Ionic.Zip
 {
     /// <summary>
@@ -3622,7 +3623,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         private bool _hasBeenSaved;
         private String _TempFileFolder;
         private bool _ReadStreamIsOurs = true;
-        private object LOCK = new object();
+        private Lock LOCK = new Lock();
         private bool _saveOperationCanceled;
         private bool _extractOperationCanceled;
         private bool _addOperationCanceled;

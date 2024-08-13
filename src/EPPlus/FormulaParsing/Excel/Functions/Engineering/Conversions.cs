@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using MathObj = System.Math;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
@@ -80,7 +81,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
         private static List<Prefix> _metricPrefixes = null;
         private static List<Prefix> _binaryPrefixes = null;
         private static bool _initialized = false;
-        private static object _syncRoot = new object();
+        private static Lock _syncRoot = new Lock();
 
         #region Initialization methods
 

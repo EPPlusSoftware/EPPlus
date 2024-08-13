@@ -32,6 +32,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Threading;
 
 #if AESCRYPTO
 namespace OfficeOpenXml.Packaging.Ionic.Zip
@@ -310,7 +311,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
     }
 
 #endif
-    #endregion
+#endregion
 
 
 
@@ -935,7 +936,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             }
         }
 
-        private object _outputLock = new Object();
+        private Lock _outputLock = new Lock();
     }
 }
 #endif

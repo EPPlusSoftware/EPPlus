@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Utils
 	{
 #if !NET35
 		private static RecyclableMemoryStreamManager _memoryManager;
-		private static object _dataLock = new object();
+		private static Lock _dataLock = new Lock();
 
 		public static bool UseRecyclableMemory { get; set; } = true;
 		internal static bool HasMemoryManager

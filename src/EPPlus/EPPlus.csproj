@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
+		<TargetFrameworks>net9.0;net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
 		<AssemblyVersion>7.2.2.0</AssemblyVersion>
 		<FileVersion>7.2.2.0</FileVersion>
 		<Version>7.2.2</Version>
@@ -505,7 +505,7 @@
 		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>OpenOfficeXml.snk</AssemblyOriginatorKeyFile>
 		<NeutralLanguage />
-		<LangVersion>latest</LangVersion>
+		<LangVersion>preview</LangVersion>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>EPPlusLogo.png</PackageIcon>
@@ -563,6 +563,10 @@
 		<PackageReference Include="System.Security.Cryptography.Pkcs" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
 		<PackageReference Include="System.Text.Encoding.CodePages" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net35' or '$(TargetFramework)' == 'net462' or '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1' or '$(TargetFramework)' == 'net6.0' or '$(TargetFramework)' == 'net7.0' or '$(TargetFramework)' == 'net8.0'">
+		<PackageReference Include="Backport.System.Threading.Lock" />
 	</ItemGroup>
 
 	<ItemGroup>

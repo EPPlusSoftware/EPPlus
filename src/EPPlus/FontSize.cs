@@ -17,6 +17,7 @@ using System.Reflection;
 using System.IO;
 using System.Text;
 using OfficeOpenXml.Utils;
+using System.Threading;
 
 namespace OfficeOpenXml
 {
@@ -35,7 +36,7 @@ namespace OfficeOpenXml
         /// </summary>
         public const string NonExistingFont = "Arial";
         internal static bool _isLoaded = false;
-        internal static object _lockObj=new object();
+        internal static Lock _lockObj = new Lock();
         internal static MemoryStream _fontStream=null;
         /// <summary>
         /// Dictionary containing Font Width in pixels.

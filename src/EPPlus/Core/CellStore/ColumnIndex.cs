@@ -12,12 +12,13 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace OfficeOpenXml.Core.CellStore
 {
     internal class ColumnIndex<T> : IndexBase, IDisposable
     {
-        private readonly static object _syncRoot = new object();
+        private readonly static Lock _syncRoot = new Lock();
         internal List<T> _values = new List<T>();
         internal PageIndex[] _pages;
         internal int PageCount;

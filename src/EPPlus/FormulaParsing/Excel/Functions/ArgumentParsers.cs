@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System.Collections.Generic;
+using System.Threading;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Utilities;
 
@@ -21,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// </summary>
     internal class ArgumentParsers
     {
-        private static object _syncRoot = new object();
+        private static Lock _syncRoot = new Lock();
         private readonly Dictionary<DataType, ArgumentParser> _parsers = new Dictionary<DataType, ArgumentParser>();
         private readonly ArgumentParserFactory _parserFactory;
 

@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Core.CellStore
     /// </summary>
     internal class CellStore<T> : IDisposable
     {
-        private readonly static object _syncRoot = new object();
+        private readonly static Lock _syncRoot = new Lock();
         internal ColumnIndex<T>[] _columnIndex;
         internal int ColumnCount;
         public bool IsReadonly { get; set; }

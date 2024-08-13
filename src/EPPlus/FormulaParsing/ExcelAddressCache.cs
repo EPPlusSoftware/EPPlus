@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -21,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing
     /// </summary>
     public class ExcelAddressCache
     {
-        private readonly object _myLock = new object();
+        private readonly Lock _myLock = new Lock();
         private readonly Dictionary<int, string> _addressCache = new Dictionary<int, string>();
         private readonly Dictionary<string, int> _lookupCache = new Dictionary<string, int>();
         private int _nextId = 1;

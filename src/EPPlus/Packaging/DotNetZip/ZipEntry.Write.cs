@@ -29,6 +29,7 @@
 using OfficeOpenXml.Packaging.Ionic.Zlib;
 using System;
 using System.IO;
+using System.Threading;
 using RE = System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.Packaging.Ionic.Zip
@@ -2559,6 +2560,6 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             }
         }
 
-        private object _outputLock = new Object();
+        private Lock _outputLock = new Lock();
     }
 }
