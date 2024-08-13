@@ -147,7 +147,7 @@ namespace EPPlusTest.FormulaParsing
                 ws.Cells["A4"].Formula = "Sum((A1,A2),A3)";
                 ws.Calculate();
 
-                Assert.AreEqual(6D, ws.Cells["A3"].Value);
+                Assert.AreEqual(6D, ws.Cells["A4"].Value);
             }
         }
 

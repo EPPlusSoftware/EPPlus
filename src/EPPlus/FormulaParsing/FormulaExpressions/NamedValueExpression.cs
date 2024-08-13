@@ -55,7 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             if (value is IRangeInfo)
             {
                 var range = (IRangeInfo)value;
-                if (range.GetNCells()>1)
+                if (range.GetNCells() > 1)
                 {
                     if(_negate == -1)
                     {
@@ -69,7 +69,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     {
                         return new AddressCompileResult(null, DataType.Empty, range.Address);
                     }
-                    var v = range.GetOffset(0,0);
+                    var v = range.GetOffset(0, 0);
                     return GetNegatedValue(v, range.Address);
                 }
             }
@@ -145,25 +145,21 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             return new NamedValueExpression(_name, Context, _externalReferenceIx, _worksheetIx, n);
         }
-        public override Queue<FormulaRangeAddress> GetAddress()
+        public override FormulaRangeAddress[] GetAddress()
         {
 
-            var queue=new Queue<FormulaRangeAddress>();
             if(_name?.Value is IRangeInfo ri) 
             {
                 if(_name.IsRelative)
                 {
-                    queue.Enqueue(_name.GetRelativeRange(ri, Context.CurrentCell).Address);
+                    return _name.GetRelativeRange(ri, Context.CurrentCell).Addresses;
                 }
                 else
                 {
-                    foreach (var a in ri.Addresses)
-                    {
-                        queue.Enqueue(a);
-                    }
+                    return ri.Addresses;
                 }
             }
-            return queue;
+            return null;
         }
         internal override ExpressionStatus Status
         {

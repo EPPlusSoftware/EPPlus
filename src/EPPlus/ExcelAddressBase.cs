@@ -1950,12 +1950,49 @@ namespace OfficeOpenXml
         {
             return new FormulaRangeAddress(ctx)
             {
+                ExternalReferenceIx = ExternalReferenceIndex,
+                WorksheetIx = string.IsNullOrEmpty(WorkSheetName) ? ctx.CurrentWorksheet.IndexInList : ctx.GetWorksheetIndex(WorkSheetName),
                 FromRow = _fromRow == 0 ? 1 : _fromRow,
                 ToRow = _toRow == 0 ? ExcelPackage.MaxRows : _toRow,
                 FromCol = _fromCol == 0 ? 1 : _fromCol,
                 ToCol = _toCol == 0 ? ExcelPackage.MaxColumns : _toCol,
                 FixedFlag = (_fromRowFixed ? FixedFlag.FromRowFixed : 0) | (_toRowFixed ? FixedFlag.ToRowFixed : 0) | (_fromColFixed ? FixedFlag.FromColFixed : 0) | (_toColFixed ? FixedFlag.ToColFixed : 0)
             };
+        }
+
+        internal ExcelAddressBase CloneWithOffset(int row, int col)
+        {
+            var ret = new ExcelAddressBase();
+            if (_addresses == null || _addresses.Count <= 1)
+            {
+                ret = new ExcelAddressBase()
+                {
+                    _wb = _wb,
+                    _ws = _ws,
+                    _fromRow = _fromRowFixed ? _fromRow : _fromRow + row,
+                    _toRow = _toRowFixed ? _toRow : _toRow + row,
+                    _fromCol = _fromColFixed ? _fromCol : _fromCol + col,
+                    _toCol = _toColFixed ? _toCol : _toCol + col,
+                    _fromRowFixed = _fromRowFixed,
+                    _toRowFixed = _toRowFixed,
+                    _fromColFixed = _fromColFixed,
+                    _toColFixed = _toRowFixed,
+                };
+                ret.ResetAddress(null);
+            }
+            else
+            {
+                var sb = new StringBuilder();
+                foreach (var a in _addresses)
+                {
+                    var ca = a.CloneWithOffset(row, col);
+                    ret.Addresses.Add(ca);
+                    if(sb.Length>0) sb.Append(",");
+                    sb.Append(ca.Address);
+                }
+                ret._address= sb.ToString();
+            }
+            return ret;
         }
     }
 }

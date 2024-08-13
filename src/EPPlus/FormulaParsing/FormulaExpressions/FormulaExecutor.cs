@@ -216,7 +216,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             tokens.RemoveAt(i - 1);
                             tokens.RemoveAt(i);
                             i--;
-                            tokens[i] = new Token(e.GetAddress().Peek().WorksheetAddress, TokenType.ExcelAddress);
+                            tokens[i] = new Token(e.GetAddress()[0].WorksheetAddress, TokenType.ExcelAddress);
                         }
                         else
                         {
@@ -226,7 +226,15 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         wsIx = int.MinValue;
                         break;
                     case TokenType.ExcelAddress:
-                        expressions.Add(i, new RangeExpression(new ExcelAddressBase(t.Value), parsingContext, extRefIx, wsIx));
+                        var a = new ExcelAddressBase(t.Value);
+                        if(a.Addresses?.Count>1)
+                        {
+                            expressions.Add(i, new MultiRangeExpression(a, parsingContext));
+                        }
+                        else
+                        {
+                            expressions.Add(i, new RangeExpression(a.AsFormulaRangeAddress(parsingContext)));
+                        }
                         extRefIx = short.MinValue;
                         wsIx = int.MinValue;
                         break;

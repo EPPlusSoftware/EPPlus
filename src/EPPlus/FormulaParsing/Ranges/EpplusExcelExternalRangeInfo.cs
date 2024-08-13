@@ -284,6 +284,8 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
 
         public FormulaRangeAddress Address { get { return _address; } }
 
+        public FormulaRangeAddress[] Addresses => throw new NotImplementedException();
+
         /// <summary>
         /// Gets the value 
         /// </summary>

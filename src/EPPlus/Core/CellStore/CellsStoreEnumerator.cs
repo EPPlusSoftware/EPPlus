@@ -15,6 +15,7 @@ using System.Collections;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.Core.CellStore
 {
@@ -50,13 +51,29 @@ namespace OfficeOpenXml.Core.CellStore
             _startCol = address._fromCol;
             _endRow = address._toRow;
             _endCol = address._toCol;
-            if (address.Addresses != null && address.Addresses.Count>1)
+            if (address.Addresses != null && address.Addresses.Count > 1)
             {
                 _ranges = new List<SimpleAddress>();
-                for (int i=0;i<address.Addresses.Count; i++)
+                for (int i=0;i < address.Addresses.Count; i++)
                 {
                     var a = address._addresses[i];
                     _ranges.Add(new SimpleAddress(a._fromRow, a._fromCol, a._toRow, a._toCol));
+                }
+            }
+
+            Init();
+        }
+        public CellStoreEnumerator(CellStore<T> cellStore, FormulaRangeAddress[] addresses)
+        {
+            _cellStore = cellStore;
+
+            _ranges = new List<SimpleAddress>();
+            for(int i=0;i<addresses.Length;i++)
+            {
+                var a = addresses[i];
+                if (a != null)
+                {
+                    _ranges.Add(new SimpleAddress(a.FromRow, a.FromCol, a.ToRow, a.ToCol));
                 }
             }
 
