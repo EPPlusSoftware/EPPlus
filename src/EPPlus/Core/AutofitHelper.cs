@@ -27,6 +27,7 @@ namespace OfficeOpenXml.Core
         MeasurementFont _nonExistingFont = new MeasurementFont() { FontFamily = FontSize.NonExistingFont };
         Dictionary<float, short> _fontWidthDefault=null;
         Dictionary<int, MeasurementFont> _fontCache;
+
         public AutofitHelper(ExcelRangeBase range)
         {
             _range = range;            

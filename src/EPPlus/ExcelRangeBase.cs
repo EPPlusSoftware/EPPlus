@@ -45,6 +45,11 @@ using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.Core.CellMeasurements;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+#if(Core)
+using System.Threading.Tasks;
+#endif
 
 namespace OfficeOpenXml
 {
@@ -832,6 +837,83 @@ namespace OfficeOpenXml
                     return _workbook.NumberFormatToTextHandler(new NumberFormatToTextArgs(_worksheet, _fromRow, _fromCol, value, StyleID));
                 }
             }
+        }
+
+        private IEnumerable<CellWidthMeasurer> GetMeasurers(bool multiThreading)
+        {
+            if(multiThreading)
+            {
+                var result = new List<CellWidthMeasurer>();
+                var nTaken = 0;
+                var total = _toCol - _fromCol;
+                var chunkSize = total / 5;
+                var nRows = _toRow - _fromRow;
+                for (var i = 0; i < 5; i++)
+                {
+                    var startCol = _fromCol + i * (chunkSize);
+                    var endCol = startCol + chunkSize;
+                    result.Add(new CellWidthMeasurer(Worksheet, _fromRow, startCol, _toRow, endCol));
+                }
+                return result;
+            }
+            return new List<CellWidthMeasurer> { new CellWidthMeasurer(this.Worksheet, _fromRow, _fromCol, _toRow, _toCol) };
+        }
+
+        internal void Measure(CellWidthMeasurer measurer)
+        {
+            var result = measurer.Measure();
+            var styles = _workbook.Styles; ;
+            var ns = styles.GetNormalStyle();
+            var normalXfId = ns?.StyleXfId ?? 0;
+            if (normalXfId < 0 || normalXfId >= styles.CellStyleXfs.Count) normalXfId = 0;
+            var nf = styles.Fonts[styles.CellStyleXfs[normalXfId].FontId];
+            var fs = MeasurementFontStyles.Regular;
+            if (nf.Bold) fs |= MeasurementFontStyles.Bold;
+            if (nf.UnderLine) fs |= MeasurementFontStyles.Underline;
+            if (nf.Italic) fs |= MeasurementFontStyles.Italic;
+            if (nf.Strike) fs |= MeasurementFontStyles.Strikeout;
+            var nfont = new MeasurementFont
+            {
+                FontFamily = nf.Name,
+                Style = fs,
+                Size = nf.Size
+            };
+            var normalSize = Convert.ToSingle(FontSize.GetWidthPixels(nf.Name, nf.Size));
+            foreach (var col in result.Keys)
+            {
+                this.Worksheet.Column(col).Width = result[col].MaxWidth / normalSize;
+            }
+        }
+
+        public void AutoFitColumns2(bool multiThreading = false)
+        {
+            var measurers = GetMeasurers(multiThreading);
+#if (Core)
+
+            if (multiThreading)
+            {
+                var tasks = new List<Task>();
+                foreach(var measurer in measurers)
+                {
+                    tasks.Add(new Task(() => Measure(measurer)));
+                }
+                Parallel.ForEach(tasks, task => task.Start());
+                Task.WhenAll(tasks).ContinueWith(done =>
+                {
+                    int i = 0;
+                });
+            }
+            else
+            {
+#endif
+                foreach (var measurer in measurers)
+                {
+                    Measure(measurer);
+                }
+#if(Core)
+            }
+#endif           
+
         }
         /// <summary>
         /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.

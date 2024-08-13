@@ -1107,6 +1107,8 @@ namespace OfficeOpenXml
 				_stylesXml = value;
 			}
 		}
+
+		private object _syncRoot = new object();
 		/// <summary>
 		/// Package styles collection. Used internally to access style data.
 		/// </summary>
@@ -1114,10 +1116,13 @@ namespace OfficeOpenXml
 		{
 			get
 			{
-				if (_styles == null)
+				lock(_syncRoot)
 				{
-					_styles = new ExcelStyles(NameSpaceManager, StylesXml, this);
-				}
+                    if (_styles == null)
+                    {
+                        _styles = new ExcelStyles(NameSpaceManager, StylesXml, this);
+                    }
+                }
 				return _styles;
 			}
 		}
