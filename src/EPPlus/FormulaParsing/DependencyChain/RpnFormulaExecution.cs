@@ -515,11 +515,11 @@ namespace OfficeOpenXml.FormulaParsing
             var hasAddress = false;
             for (int i = 0; i < addresses.Length;i++)
             {
-                var address = addresses[i];
+                var address = addresses[i].Clone();
                 if (address.ExternalReferenceIx > 0) //We don't follow dep chain into external references.
                 {
-                    f._tokenIndex++;
                     addresses = null;
+                    return false;
                 }
 
                 if (ws == null)
@@ -547,6 +547,7 @@ namespace OfficeOpenXml.FormulaParsing
 
                 if (rd.ExistsGetSpill(ref address))
                 {
+                    addresses[i] = address;
                     hasAddress = true;
                 }
                 else
@@ -833,7 +834,7 @@ namespace OfficeOpenXml.FormulaParsing
                         s.Push(ne);
                         if (ne._name != null)
                         {
-                            var nameAddress = ne.GetAddress();                            
+                            var nameAddress = ne.GetAddress();
                             if (nameAddress == null)
                             {
                                 if (string.IsNullOrEmpty(ne._name?.Formula) == false)
@@ -906,7 +907,9 @@ namespace OfficeOpenXml.FormulaParsing
                                 {
                                     f._currentFunction = funcExp;
                                     f._tokenIndex--; //We should stay on this token when we continue on this formula.
-                                    return funcExp._dependencyAddresses.ToArray();
+                                    var a = funcExp._dependencyAddresses.ToArray();
+                                    funcExp._dependencyAddresses.Clear();
+                                    return a;
                                 }
                             }
                             else
@@ -915,7 +918,9 @@ namespace OfficeOpenXml.FormulaParsing
                                 if (funcExp._dependencyAddresses.Count > 0)
                                 {
                                     f._tokenIndex--; //We should stay on this token when we continue on this formula.
-                                    return funcExp._dependencyAddresses.ToArray();
+                                    var a=funcExp._dependencyAddresses.ToArray();
+                                    funcExp._dependencyAddresses.Clear();
+                                    return a;
                                 }
                                 f._currentFunction = null;
                             }

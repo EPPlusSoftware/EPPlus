@@ -152,11 +152,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             {
                 if(_name.IsRelative)
                 {
-                    return _name.GetRelativeRange(ri, Context.CurrentCell).Addresses;
+                    return _name.GetRelativeRange(ri, Context.CurrentCell).Addresses.Select(x => x.Clone()).ToArray();
                 }
                 else
                 {
-                    return ri.Addresses;
+                    return ri.Addresses.Select(x=>x.Clone()).ToArray();
                 }
             }
             return null;

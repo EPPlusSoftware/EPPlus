@@ -67,8 +67,14 @@ namespace OfficeOpenXml.Core.CellStore
         {
             _cellStore = cellStore;
 
+            var address = addresses[0];
+            _startRow = address.FromRow;
+            _startCol = address.FromCol;
+            _endRow = address.ToRow;
+            _endCol = address.ToCol;
+
             _ranges = new List<SimpleAddress>();
-            for(int i=0;i<addresses.Length;i++)
+            for(int i=1;i<addresses.Length;i++)
             {
                 var a = addresses[i];
                 if (a != null)
