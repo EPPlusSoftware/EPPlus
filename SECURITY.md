@@ -18,6 +18,9 @@ Security patches will be provided via new revisions released in our public Nuget
 
 Create an issue in our [issue tracker](https://github.com/EPPlusSoftware/EPPlus/issues), describe the vulnerability (including relevant links) and what version of EPPlus that is affected.
 
+## See also
+- [EPPlus versioning](https://github.com/EPPlusSoftware/EPPlus/wiki/Releases-versioning)
+
 ## Vulnerabilities
 |Detected|Resolved|Affected EPPlus versions|CVE|Our comment|Resolution|
 |--------|--------| ----------------------|---|----------|----------|
