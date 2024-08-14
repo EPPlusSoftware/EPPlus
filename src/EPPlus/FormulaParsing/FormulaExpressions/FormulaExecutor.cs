@@ -70,47 +70,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 noOperator = false;
                             }
 
-                            if (noOperator && lastOpeningParanthesesPos > -1 && lastCommaPos > -1 && expressions.Count - lastOpeningParanthesesPos > 1)
+                            if (noOperator && lastOpeningParanthesesPos > -1 && lastCommaPos > -1 && expressions.Count - lastOpeningParanthesesPos > 1) // Handle comma separated addresses to become one expression. For Example SUM( (A1,A3) ,A5) where A1,A3 should become one argument to the SUM function.
                             {
                                 var sb = new StringBuilder();
-                                //for (int j = lastOpeningParanthesesPos;j < expressions.Count;j++)
                                 while(expressions.Count > lastOpeningParanthesesPos)
                                 {
                                     sb.Append(expressions[lastOpeningParanthesesPos].Value);
                                     expressions.RemoveAt(lastOpeningParanthesesPos);
                                 }
                                 expressions.Add(new Token(sb.ToString(), TokenType.ExcelAddress));
-                                //var sb=new StringBuilder();
-                                //int j;
-                                //for(j = lastOpeningParanthesesPos+1;j < i ; j++)
-                                //{
-                                //    var t = tokens[j];
-                                //    if (t.TokenType == TokenType.CellAddress || 
-                                //       t.TokenType == TokenType.Colon ||
-                                //       t.TokenType == TokenType.Comma ||
-                                //       t.TokenType == TokenType.NameValue ||
-                                //       t.TokenType == TokenType.WorksheetName ||
-                                //       t.TokenType == TokenType.WorksheetNameContent || 
-                                //       t.TokenType == TokenType.InvalidReference)
-                                //    {
-                                //        sb.Append(t.Value);
-                                //    }
-                                //    else
-                                //    {
-                                //        break;
-                                //    }
-                                //}
-                                //if(j==i)
-                                //{
-                                //    for (j = lastOpeningParanthesesPos+1; j < i; j++)
-                                //    {
-                                //        tokens.RemoveAt(lastOpeningParanthesesPos+1);
-                                //    }
-                                //    var t = new Token(sb.ToString(), TokenType.ExcelAddress);
-                                //    //tokens.Insert(lastOpeningParanthesesPos + 1, t);
-                                //    expressions.Add(t);
-                                //    i = lastOpeningParanthesesPos + 2;
-                                //}
+
                             }
                             lastOpeningParanthesesPos = -1;
                             lastCommaPos = -1;
@@ -322,7 +291,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         private static void ExtractTableAddress(int extRef, int wsIx, IList<Token> exps, int i, out FormulaTableAddress tableAddress, ParsingContext parsingContext)
         {
-            //var adr = exps[i].Value;
             tableAddress = new FormulaTableAddress(parsingContext) {ExternalReferenceIx = extRef, WorksheetIx=wsIx, TableName = exps[i].Value };
             exps.RemoveAt(i);
             int bracketCount=0;

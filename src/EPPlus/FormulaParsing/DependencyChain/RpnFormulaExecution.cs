@@ -329,7 +329,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             FormulaRangeAddress[] addresses;
             //FormulaRangeAddress address = null;
-            RangeHashset rd = AddAddressToRD(depChain, f._ws == null ? -1 : f._ws.IndexInList);
+            RangeHashset rd = AddOrGetRDFromWsIx(depChain, f._ws == null ? -1 : f._ws.IndexInList);
             object v = null;
             bool hasLogger = depChain._parsingContext.Parser.Logger != null;
             rd?.Merge(f._row, f._column);
@@ -351,7 +351,7 @@ namespace OfficeOpenXml.FormulaParsing
                             var ne = f._expressions[f._tokenIndex] as NamedValueExpression;
                             if (ne._externalReferenceIx < 1)
                             {
-                                rd = AddAddressToRD(depChain, ne._worksheetIx);
+                                rd = AddOrGetRDFromWsIx(depChain, ne._worksheetIx);
 
                                 if (ne.IsRelative || rd.Merge(ExcelCellBase.GetRowFromCellId(ne._name.Id), 0))
                                 {
@@ -417,8 +417,7 @@ namespace OfficeOpenXml.FormulaParsing
                         f._tokenIndex++;
                         goto ExecuteFormula;
                     }
-                    //addresses = f.GetAddress();
-                    rd = AddAddressToRD(depChain, f._enumeratorWorksheetIx);
+                    rd = AddOrGetRDFromWsIx(depChain, f._enumeratorWorksheetIx);
                     goto NextFormula;
                 }
                 return cr.ResultValue;
@@ -538,7 +537,7 @@ namespace OfficeOpenXml.FormulaParsing
                     ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(address.WorksheetIx);
                 }
 
-                rd = AddAddressToRD(depChain, ws.IndexInList);
+                rd = AddOrGetRDFromWsIx(depChain, ws.IndexInList);
 
                 if (rd.Exists(address) || address.CollidesWith(ws.IndexInList, f._row, f._column))
                 {
@@ -721,7 +720,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
         }
 
-        private static RangeHashset AddAddressToRD(RpnOptimizedDependencyChain depChain, int wsIx)
+        private static RangeHashset AddOrGetRDFromWsIx(RpnOptimizedDependencyChain depChain, int wsIx)
         {
             if (wsIx < 0) wsIx=-1; //Workboook names
             if (depChain.accessedRanges.TryGetValue(wsIx, out RangeHashset rd) == false)
