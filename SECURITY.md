@@ -2,18 +2,24 @@
 
 ## Supported Versions
 
-EPPlus 5, 6 and 7 are automatically scanned for vulnerabilities and static code analysis is performed as part of the CI. Security patches will be provided via new revisions released in our public Nuget feed.
+EPPlus 5, 6 and 7 are automatically scanned for vulnerabilities and static code analysis is performed as part of the CI. 
 
-| Version | Supported          | Comment            |
-| ------- | ------------------ | ------------------ |
-| 7.x.x   | :white_check_mark: |                    |
-| 6.x.x   | :white_check_mark: |                    |
-| 5.x.x   | :white_check_mark: |                    |
-| < 4.3   | :x:                |Deprecated/unsupported versions|
+| Version | Supported          | Comment            | Deprecation date |
+| ------- | ------------------ | ------------------ |----|
+| 7.x.x   | :white_check_mark: |                    ||
+| 6.x.x   | :white_check_mark: |                    |2025-12-31|
+| 5.x.x   | :white_check_mark: |                    |2024-12-31|
+| < 4.3   | :x:                |Deprecated/unsupported versions|2020-12-31|
+
+## Security update policy
+Security patches will be provided via new revisions released in our public Nuget feed. One patch for each supported major version/the two latest minor versions will be provided.
 
 ## Reporting a Vulnerability
 
 Create an issue in our [issue tracker](https://github.com/EPPlusSoftware/EPPlus/issues), describe the vulnerability (including relevant links) and what version of EPPlus that is affected.
+
+## See also
+- [EPPlus versioning](https://github.com/EPPlusSoftware/EPPlus/wiki/Releases-versioning)
 
 ## Vulnerabilities
 |Detected|Resolved|Affected EPPlus versions|CVE|Our comment|Resolution|
