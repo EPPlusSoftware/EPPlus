@@ -4,7 +4,7 @@
 
 EPPlus 5 and 7 are automatically scanned for vulnerabilities and static code analysis is performed as part of the CI. 
 
-| Version | Supported          | Comment            | Deprecate date   |
+| Version | Supported          | Comment            | Deprecation date   |
 | ------- | ------------------ | ------------------ |--------|
 | 7.x.x   | :white_check_mark: |                    ||
 | 6.x.x   | :white_check_mark: |                    |2025-12-31|
