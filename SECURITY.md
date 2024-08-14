@@ -7,7 +7,7 @@ EPPlus 5 and 7 are automatically scanned for vulnerabilities and static code ana
 | Version | Supported          | Comment            | Deprecate date   |
 | ------- | ------------------ | ------------------ |--------|
 | 7.x.x   | :white_check_mark: |                    ||
-| 6.x.x   | :white_check_mark: |                    ||
+| 6.x.x   | :white_check_mark: |                    |2025-12-31|
 | 5.x.x   | :white_check_mark: |                    |2024-12-31|
 | < 4.3   | :x:                |Deprecated/unsupported versions|2020-12-01|
 
