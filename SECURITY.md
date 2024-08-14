@@ -12,7 +12,7 @@ EPPlus 5, 6 and 7 are automatically scanned for vulnerabilities and static code 
 | < 4.3   | :x:                |Deprecated/unsupported versions|2020-12-31|
 
 ## Security update policy
-Security patches will be provided via new revisions released in our public Nuget feed. One patch for each supported major version/the two latest minor versions will be provided.
+Security patches will be provided via new revisions released in our public Nuget feed. One patch for each supported major version/the two latest minor versions will be provided. [Subscribe to our newsletter](https://epplussoftware.com/en/Home/Newsletter) to get updates from EPPlus Software.
 
 ## Reporting a Vulnerability
 
