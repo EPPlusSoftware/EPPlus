@@ -1,5 +1,7 @@
 # Security Policy
 
+_Last updated: 2024-08-14_
+
 ## Supported Versions
 
 EPPlus 5, 6 and 7 are automatically scanned for vulnerabilities and static code analysis is performed as part of the CI. 
