@@ -30,6 +30,8 @@ namespace OfficeOpenXml.Utils
 
         static internal byte[] GetByteArray(string str, Encoding enc)
         {
+            if(str == null)
+                return new byte[0];
             return enc.GetBytes(str);
         }
 

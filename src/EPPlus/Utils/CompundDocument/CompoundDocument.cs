@@ -101,7 +101,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
         internal void Save(MemoryStream ms)
         {
             var doc = new CompoundDocumentFile();
-            WriteStorageAndStreams(Storage, doc.RootItem);            
+            WriteStorageAndStreams(Storage, doc.RootItem);
             Directories = doc.Directories;
             doc.Write(ms);
         }

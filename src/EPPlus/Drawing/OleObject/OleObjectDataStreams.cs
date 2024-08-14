@@ -18,7 +18,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             internal UInt16 StreamData2 = 33;
             internal UInt32 StreamData3 = 0; //Size of StreamData4
             internal string StreamData4 = "";
-            internal Encoding encoding = Encoding.Unicode;
+            internal Encoding Encoding = Encoding.Unicode;
         }
 
         internal class CLSID
@@ -65,12 +65,16 @@ namespace OfficeOpenXml.Drawing.OleObject
             //terminating null character.
             internal UInt32 MarkerOrLength = 0;
             internal Byte[] FormatOrUnicodeString;
-            internal ClipboardFormatOrUnicodeString() { }
+            internal ClipboardFormatOrUnicodeString()
+            {
+                FormatOrUnicodeString = new byte[0];
+            }
             internal ClipboardFormatOrUnicodeString(UInt32 MarkerOrLength, Byte[] FormatOrUnicodeString)
             {
                 this.MarkerOrLength = MarkerOrLength;
                 if (MarkerOrLength == 0)
                 {
+                    FormatOrUnicodeString = new byte[0];
                     return;
                 }
                 else
@@ -88,12 +92,16 @@ namespace OfficeOpenXml.Drawing.OleObject
             //the FormatOrAnsiString field MUST be set to a null-terminated ANSI string containing the name of a registered clipboard format
             internal UInt32 MarkerOrLength = 0;
             internal Byte[] FormatOrAnsiString;
-            internal ClipboardFormatOrAnsiString() { }
+            internal ClipboardFormatOrAnsiString()
+            {
+                FormatOrAnsiString = new byte[0];
+            }
             internal ClipboardFormatOrAnsiString(UInt32 MarkerOrLength, Byte[] FormatOrAnsiString)
             {
                 this.MarkerOrLength = MarkerOrLength;
                 if (MarkerOrLength == 0)
                 {
+                    FormatOrAnsiString = new byte[0];
                     return;
                 }
                 else
@@ -115,17 +123,17 @@ namespace OfficeOpenXml.Drawing.OleObject
             internal UInt32 Flags = 0;
             internal UInt32 LinkUpdateOption = 0;
             internal UInt32 Reserved1 = 0;
-            internal UInt32 ReservedMonikerStreamSize; //Subtract by 4 when reading if not 0
+            internal UInt32 ReservedMonikerStreamSize = 0; //Subtract by 4 when reading if not 0
             internal MonikerStream ReservedMonikerStream;
 
-            internal UInt32 RelativeSourceMonikerStreamSize; //Subtract by 4 when reading if not 0
+            internal UInt32 RelativeSourceMonikerStreamSize = 0; //Subtract by 4 when reading if not 0
             internal MonikerStream RelativeSourceMonikerStream;
 
-            internal UInt32 AbsoluteSourceMonikerStreamSize; //Subtract by 4 when reading if not 0
+            internal UInt32 AbsoluteSourceMonikerStreamSize = 0; //Subtract by 4 when reading if not 0
             internal MonikerStream AbsoluteSourceMonikerStream;
 
-            internal UInt32 ClsidIndicator = 0;
-            internal CLSID Clsid;
+            internal UInt32 ClsIdIndicator = 0;
+            internal CLSID ClsId;
 
             internal LengthPrefixedUnicodeString ReservedDisplayName;
 

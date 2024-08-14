@@ -202,6 +202,14 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             XmlNode node = AddOleObjectDrawing(oleObject, name);
             var draw = new ExcelVmlDrawingPicture(node, NameSpaceManager, _ws);
+
+            //This is what needs to be tested I think?
+            _drawings.Add(draw);
+            if (_drawingsDict.ContainsKey(draw.Id) == false)
+            {
+                _drawingsDict.Add(draw.Id, _drawings.Count - 1);
+            }
+
             return draw;
         }
 
@@ -211,7 +219,7 @@ namespace OfficeOpenXml.Drawing.Vml
             var shapeElement = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
             VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
 
-            shapeElement.SetAttribute("id", ExcelPackage.schemaMicrosoftOffice, "_x0000_s" + oleObject.Id);
+            shapeElement.SetAttribute("id", "_x0000_s" + oleObject.Id);
             shapeElement.SetAttribute("type", "#_x0000_t75");
             shapeElement.SetAttribute("style", "position:absolute;margin-left:0;margin-top:0;width:1in;height:54pt;z-index:1;mso-wrap-style:tight"); //SET VALUE BASED ON MEDIA
             shapeElement.SetAttribute("filled", "t");
