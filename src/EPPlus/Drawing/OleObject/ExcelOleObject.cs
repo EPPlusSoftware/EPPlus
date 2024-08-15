@@ -63,12 +63,17 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
 
             //Create Media
-                //User supplied picture or our own placeholder
-                //Construct icon with rectable with txbody set to filename and an autorectangle. Somehow you can't see the txbody or autorectangle when icon is complete. only when you ungroup.
+            //User supplied picture or our own placeholder
+            //Construct icon with rectable with txbody set to filename and an autorectangle. Somehow you can't see the txbody or autorectangle when icon is complete. only when you ungroup.
             //create Uri
             //Create relationship
             //read bytes from filepath
             //same as bin files?
+            //int newID = 1;
+            //var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/media/image{0}.png", ref newID);
+            //var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
+            //var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/media");
+            //var imgRelId = rel.Id;
 
 
             //Create drawings xml
@@ -84,9 +89,8 @@ namespace OfficeOpenXml.Drawing.OleObject
             //Create collection container node
             var wsNode = _worksheet.CreateOleContainerNode();
             StringBuilder sb = new StringBuilder();
-            sb.Append("<mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\">");
+            sb.Append("<mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
             sb.Append("<mc:Choice Requires=\"x14\">");
-
             //Create object node
             sb.AppendFormat("<oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", "Package"/*_oleDataStreams.CompObj.Reserved1.String*/,  _id, relId);
             sb.Append("<objectPr defaultSize=\"0\" autoPict=\"0\">"); //SET relId TO MEDIA HERE
@@ -94,11 +98,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             sb.Append("<from><xdr:col>1</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>0</xdr:row><xdr:rowOff>0</xdr:rowOff></from>");       //SET VALUE BASED ON MEDIA
             sb.Append("<to><xdr:col>1</xdr:col><xdr:colOff>304800</xdr:colOff><xdr:row>3</xdr:row><xdr:rowOff>114300</xdr:rowOff></to>"); //SET VALUE BASED ON MEDIA
             sb.Append("</anchor></objectPr></oleObject>");
-
             sb.Append("</mc:Choice>");
             //fallback
             sb.AppendFormat("<mc:Fallback><oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\" />", "Package" /*_oleDataStreams.CompObj.Reserved1.String*/, _id, relId);
-
             sb.Append("</mc:Fallback></mc:AlternateContent>");
             wsNode.InnerXml = sb.ToString();
             var oleObjectNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0);
@@ -1042,14 +1044,17 @@ namespace OfficeOpenXml.Drawing.OleObject
     }
 }
 
-//spara i byte[] och sätt default värden
-// saker som vi vet ändras kan vi använda data typer till string eller int eller vad.
-//bestäm baserat på vår data kring den struktur vi vill ha.
+/*2024-08-15
+ * 
+ * När vi öppnar result filen i excel så blir resultatet att worksheet.xnl är trasig.
+ * Den tar bort properties från oleObject taggen
+ * progId och r:id tas bort
+ * shapeId blir något helt annat. I vår version är shapeId 1025, medan excel gör om den till 2
+ * Den tar även helt bort fallback
+ * 
+ * 
+ */
 
-
-
-//Granska och notera formaten
-//skapa några från fil istället för förvalda valen i excel
 
 /*
  * TODO:
@@ -1057,10 +1062,8 @@ namespace OfficeOpenXml.Drawing.OleObject
  * Funktion för att sätta StreamData4 i Ole som är worksheetName!ObjectName
  *
  *
- * Skapa egen EmbeddedObject
  * user specidified aString och Reserved1String
  * user specified Image
- * user specified file
  *
  *
  * OLE objekt 
