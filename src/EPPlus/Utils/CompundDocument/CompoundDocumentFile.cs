@@ -433,6 +433,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
             FillDIFAT(bw);
             //Finally write the header information in the top of the file
             WriteHeader(bw);
+            bw.Flush();
         }
 
         private List<CompoundDocumentItem> FlattenDirs()
@@ -644,7 +645,16 @@ namespace OfficeOpenXml.Utils.CompundDocument
             }
 
             bw.Seek(0, SeekOrigin.End);
-            var start = (int)bw.BaseStream.Position / _sectorSize - 1;
+            int start;
+            if (dirs.Count > 4)
+            {
+                start = (int)bw.BaseStream.Position / _sectorSize - 1;
+            }
+            else
+            {
+                start = END_OF_CHAIN;
+            }
+            //var start = (int)bw.BaseStream.Position / _sectorSize - 1;
             var pos = _sectorSize + 4;
             WritePosition(bw, start, ref pos, false);
             var streamLength = 0;
@@ -764,13 +774,15 @@ namespace OfficeOpenXml.Utils.CompundDocument
 
             //Directory Size
             var dirsPerSector = _sectorSize / 128;
-            int dirSectors = 0;
+            int dirSectors = 1;
             int firstFATSectorPos = _currentFATSectorPos;
             if (dirs.Count > dirsPerSector)
             {
                 dirSectors = GetSectors(dirs.Count, dirsPerSector);
-                noOfSectors += dirSectors - 1; //Four items per sector. Sector two is fixed for directories
+                //noOfSectors += dirSectors - 1; //Four items per sector. Sector two is fixed for directories
             }
+            noOfSectors += dirSectors - 1; //Four items per sector. Sector two is fixed for directories
+
 
             //First calc fat no sectors and difat sectors from full size
             var numberOfFATSectors = GetSectors((int)noOfSectors, _sectorSizeInt);       //Sector 0 is already allocated

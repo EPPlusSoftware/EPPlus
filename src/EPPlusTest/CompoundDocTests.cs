@@ -22,6 +22,7 @@ using OfficeOpenXml.Utils.CompundDocument;
 using OfficeOpenXml.Style;
 using System.Drawing;
 using System.Linq;
+using OfficeOpenXml.Drawing.OleObject;
 
 namespace EPPlusTest
 {
@@ -29,7 +30,7 @@ namespace EPPlusTest
     /// Summary description for CompoundDocTests
     /// </summary>
     [TestClass]
-    public class CompoundDocTests
+    public class CompoundDocTests : TestBase
     {
         public CompoundDocTests()
         {
@@ -292,6 +293,39 @@ namespace EPPlusTest
             var p = new ExcelPackage(new FileInfo(@"c:\temp\bug\sample7.xlsx"),"");
             var vba = p.Workbook.VbaProject;
         }
-        
+        [TestMethod]
+        public void CompoundDocumentSmallValidate()
+        {            
+            var cd = new CompoundDocument();
+
+            cd.Storage.DataStreams.Add("test1", new byte[] { 1, 2, 3, 4 });
+            var ms = new MemoryStream();
+            cd.Save(ms);
+            var fi = GetOutputFile("CompoundDocument", "small.bin");
+            File.WriteAllBytes(fi.FullName, ms.ToArray());
+
+            //Read
+            var cdRead = new CompoundDocument(fi);
+            Assert.AreEqual(1, cdRead.Storage.DataStreams.Count);
+        }
+        [TestMethod]
+        public void CompoundDocumentFiveStreamsValidate()
+        {
+            var cd = new CompoundDocument();
+
+            cd.Storage.DataStreams.Add("test1", new byte[] { 1, 2, 3, 4 });
+            cd.Storage.DataStreams.Add("test2", new byte[] { 1, 2, 3, 4 });
+            cd.Storage.DataStreams.Add("test3", new byte[] { 1, 2, 3, 4 });
+            cd.Storage.DataStreams.Add("test4", new byte[] { 1, 2, 3, 4 });
+            cd.Storage.DataStreams.Add("test5", new byte[] { 1, 2, 3, 4 });
+            var ms = new MemoryStream();
+            cd.Save(ms);
+            var fi = GetOutputFile("CompoundDocument", "small.bin");
+            File.WriteAllBytes(fi.FullName, ms.ToArray());
+
+            //Read
+            var cdRead = new CompoundDocument(fi);
+            Assert.AreEqual(5, cdRead.Storage.DataStreams.Count);
+        }
     }
 }
