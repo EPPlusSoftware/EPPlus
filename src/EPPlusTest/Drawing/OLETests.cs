@@ -16,6 +16,14 @@ namespace EPPlusTest.Drawing
         }
 
         [TestMethod]
+        public void TestRead2EmbeddedObjectBin()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\MSSample.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+        }
+
+        [TestMethod]
         public void TestWriteEmbeddedObjectBin()
         {
             using var p = new ExcelPackage();

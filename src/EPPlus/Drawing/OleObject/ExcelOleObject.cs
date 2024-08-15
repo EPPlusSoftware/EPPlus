@@ -92,15 +92,15 @@ namespace OfficeOpenXml.Drawing.OleObject
             sb.Append("<mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
             sb.Append("<mc:Choice Requires=\"x14\">");
             //Create object node
-            sb.AppendFormat("<oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", "Package"/*_oleDataStreams.CompObj.Reserved1.String*/,  _id, relId);
-            sb.Append("<objectPr defaultSize=\"0\" autoPict=\"0\">"); //SET relId TO MEDIA HERE
+            sb.AppendFormat("<oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", "Packager Shell Object"/*_oleDataStreams.CompObj.Reserved1.String*/,  _id, relId);
+            sb.Append("<objectPr>"); // defaultSize=\"0\" autoPict=\"0\">"); //SET relId TO MEDIA HERE
             sb.Append("<anchor moveWithCells=\"1\">");
             sb.Append("<from><xdr:col>1</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>0</xdr:row><xdr:rowOff>0</xdr:rowOff></from>");       //SET VALUE BASED ON MEDIA
             sb.Append("<to><xdr:col>1</xdr:col><xdr:colOff>304800</xdr:colOff><xdr:row>3</xdr:row><xdr:rowOff>114300</xdr:rowOff></to>"); //SET VALUE BASED ON MEDIA
             sb.Append("</anchor></objectPr></oleObject>");
             sb.Append("</mc:Choice>");
             //fallback
-            sb.AppendFormat("<mc:Fallback><oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\" />", "Package" /*_oleDataStreams.CompObj.Reserved1.String*/, _id, relId);
+            sb.AppendFormat("<mc:Fallback><oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\" />", "Packager Shell Object" /*_oleDataStreams.CompObj.Reserved1.String*/, _id, relId);
             sb.Append("</mc:Fallback></mc:AlternateContent>");
             wsNode.InnerXml = sb.ToString();
             var oleObjectNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0);
@@ -780,8 +780,8 @@ namespace OfficeOpenXml.Drawing.OleObject
             {
                 int newID = 1;
                 var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/oleObject{0}.bin", ref newID);
-                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
-                var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
+                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeOleObject);
+                var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/oleObject");
                 relId = rel.Id;
                 MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
                 _document.Save(ms);
