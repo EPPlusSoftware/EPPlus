@@ -11,6 +11,7 @@ using System.Text;
 using OfficeOpenXml.Utils.Extensions;
 using static OfficeOpenXml.Drawing.OleObject.OleObjectDataStreams;
 using System.Collections.Generic;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 
 namespace OfficeOpenXml.Drawing.OleObject
@@ -69,20 +70,27 @@ namespace OfficeOpenXml.Drawing.OleObject
             //Create relationship
             //read bytes from filepath
             //same as bin files?
-            //int newID = 1;
-            //var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/media/image{0}.png", ref newID);
-            //var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
-            //var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/media");
-            //var imgRelId = rel.Id;
-
+            int newID = 1;
+            var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
+            var part = _worksheet._package.ZipPackage.CreatePart(Uri, "image/x-emf", CompressionLevel.None, "emf");
+            var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+            byte[] image = File.ReadAllBytes(mediaFilePath);
+            MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+            ms.Write(image, 0, image.Length);
+            var imgRelId = rel.Id;
 
             //Create drawings xml
+            string name = _drawings.GetUniqueDrawingName("Object 1");
             XmlElement spElement = CreateShapeNode();
-            spElement.InnerXml = CreateOleObjectDrawingNode();
+            spElement.InnerXml = CreateOleObjectDrawingNode(name);
             CreateClientData();
+            From.Column = 0; From.ColumnOff = 0;
+            From.Row = 0; From.RowOff = 0;
+            To.Column = 1; To.ColumnOff = 171450;
+            To.Row = 2; To.RowOff = 133350;
 
             //Create vml
-            _vml = drawings.Worksheet.VmlDrawings.AddPicture(this, _drawings.GetUniqueDrawingName("Object 1"));
+            _vml = drawings.Worksheet.VmlDrawings.AddPicture(this, name, rel.TargetUri);
             _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
 
             //Create worksheet xml
@@ -93,10 +101,10 @@ namespace OfficeOpenXml.Drawing.OleObject
             sb.Append("<mc:Choice Requires=\"x14\">");
             //Create object node
             sb.AppendFormat("<oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", "Packager Shell Object"/*_oleDataStreams.CompObj.Reserved1.String*/,  _id, relId);
-            sb.Append("<objectPr>"); // defaultSize=\"0\" autoPict=\"0\">"); //SET relId TO MEDIA HERE
+            sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\">", imgRelId); //SET relId TO MEDIA HERE autoPict=\"0\"
             sb.Append("<anchor moveWithCells=\"1\">");
-            sb.Append("<from><xdr:col>1</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>0</xdr:row><xdr:rowOff>0</xdr:rowOff></from>");       //SET VALUE BASED ON MEDIA
-            sb.Append("<to><xdr:col>1</xdr:col><xdr:colOff>304800</xdr:colOff><xdr:row>3</xdr:row><xdr:rowOff>114300</xdr:rowOff></to>"); //SET VALUE BASED ON MEDIA
+            sb.Append("<from><xdr:col>0</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>0</xdr:row><xdr:rowOff>0</xdr:rowOff></from>");       //SET VALUE BASED ON MEDIA
+            sb.Append("<to><xdr:col>1</xdr:col><xdr:colOff>171450</xdr:colOff><xdr:row>2</xdr:row><xdr:rowOff>133350</xdr:rowOff></to>"); //SET VALUE BASED ON MEDIA
             sb.Append("</anchor></objectPr></oleObject>");
             sb.Append("</mc:Choice>");
             //fallback
@@ -107,12 +115,49 @@ namespace OfficeOpenXml.Drawing.OleObject
             _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectNode);
         }
 
-        private string CreateOleObjectDrawingNode()
+        private string CreateOleObjectDrawingNode(string name)
         {
             StringBuilder xml = new StringBuilder();
-            xml.Append($"<xdr:nvSpPr><xdr:cNvPr hidden=\"1\" name=\"\" id=\"{_id}\"><a:extLst><a:ext uri=\"{{63B3BB69-23CF-44E3-9099-C40C66FF867C}}\"><a14:compatExt spid=\"_x0000_s{_id}\"/></a:ext><a:ext uri=\"{{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}}\"><a16:creationId id=\"{{00000000-0008-0000-0000-000001040000}}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvSpPr/></xdr:nvSpPr>");
-            xml.Append($"<xdr:spPr bwMode=\"auto\"><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/></a:xfrm><a:prstGeom prst=\"rect\"><a:avLst/></a:prstGeom>");
-            xml.Append($"<a:solidFill><a:srgbClr val=\"FFFFFF\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"65\"/></a:solidFill><a:ln w=\"9525\"><a:solidFill><a:srgbClr val=\"000000\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"64\"/></a:solidFill><a:miter lim=\"800000\"/><a:headEnd/><a:tailEnd/></a:ln></xdr:spPr>");
+            xml.Append($"<xdr:nvSpPr>" +
+                $"<xdr:cNvPr hidden=\"1\" name=\"{name}\" id=\"{_id}\">" +
+                $"<a:extLst>" +
+                $"<a:ext uri=\"{{63B3BB69-23CF-44E3-9099-C40C66FF867C}}\">" +
+                $"<a14:compatExt spid=\"_x0000_s{_id}\"/>" +
+                $"</a:ext>" +
+                $"<a:ext uri=\"{{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}}\">" +
+                $"<a16:creationId id=\"{{C4F0F4B0-B1B7-3F07-7766-FB369B01C1A5}}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/>" +
+                $"</a:ext></a:extLst></xdr:cNvPr><xdr:cNvSpPr/></xdr:nvSpPr>");
+
+            xml.Append($"<xdr:spPr bwMode=\"auto\">" +
+                $"<a:xfrm>" +
+                $"<a:off y=\"0\" x=\"0\"/>" +
+                $"<a:ext cy=\"0\" cx=\"0\"/>" +
+                $"</a:xfrm>" +
+                $"<a:prstGeom prst=\"rect\">" +
+                $"<a:avLst/></a:prstGeom>");
+
+
+            xml.Append($"<a:solidFill>" +
+                $"<a:srgbClr val=\"FFFFFF\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"65\"/>" +
+                $"</a:solidFill><a:ln w=\"9525\">" +
+                $"<a:solidFill>" +
+                $"<a:srgbClr val=\"000000\" mc:Ignorable=\"a14\" a14:legacySpreadsheetColorIndex=\"64\"/>" +
+                $"</a:solidFill>" +
+                $"<a:prstDash val=\"solid\"/>" +
+                $"<a:miter lim=\"800000\"/>" +
+                $"<a:headEnd/>" +
+                $"<a:tailEnd type=\"none\" w=\"med\" len=\"med\"/>" +
+                $"</a:ln>");
+
+            xml.Append($"<a:effectLst/><a:extLst>" +
+                $"<a:ext uri=\"{{AF507438-7753-43E0-B8FC-AC1667EBCBE1}}\">" +
+                $"<a14:hiddenEffects>" +
+                $"<a:effectLst>" +
+                $"<a:outerShdw dist=\"35921\" dir=\"2700000\" algn=\"ctr\" rotWithShape=\"0\">" +
+                $"<a:srgbClr val=\"808080\" />" +
+                $"</a:outerShdw></a:effectLst></a14:hiddenEffects></a:ext></a:extLst></xdr:spPr>");
+
+
             return xml.ToString();
         }
 
@@ -272,7 +317,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         {
             OleObjectDataStreams.LengthPrefixedAnsiString LPAnsiS = new LengthPrefixedAnsiString();
             LPAnsiS.Length = br.ReadUInt32();
-            LPAnsiS.String = BinaryHelper.GetString(br, LPAnsiS.Length, LPAnsiS.Encoding);
+            LPAnsiS.String = BinaryHelper.GetString(br, LPAnsiS.Length, LPAnsiS.Encoding).Trim('\0');
             return LPAnsiS;
         }
 
@@ -375,18 +420,18 @@ namespace OfficeOpenXml.Drawing.OleObject
                 _oleDataStreams.CompObj.Reserved1 = ReadLengthPrefixedAnsiString(br);
                 if (_oleDataStreams.CompObj.Reserved1.Length == 0 || _oleDataStreams.CompObj.Reserved1.Length > 0x00000028 || string.IsNullOrEmpty(_oleDataStreams.CompObj.Reserved1.String))
                 {
-                    //return;
+                    //throw error, invaldi comp obj file
                 }
 
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                var UnicodeMarker = br.ReadUInt32();
+                _oleDataStreams.CompObj.UnicodeMarker = br.ReadUInt32();
 
-                if (UnicodeMarker != 0x71B239F4)
-                {
-                    return;
-                }
+                //if (_oleDataStreams.CompObj.UnicodeMarker != 0x71B239F4)
+                //{
+                //    return;
+                //}
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
@@ -681,18 +726,25 @@ namespace OfficeOpenXml.Drawing.OleObject
             byte[] compObjBytes = ConcatenateByteArrays(BitConverter.GetBytes(_oleDataStreams.CompObj.Header.Reserved1),
                                                         BitConverter.GetBytes(_oleDataStreams.CompObj.Header.Version),
                                                         _oleDataStreams.CompObj.Header.Reserved2,
+                                                        
                                                         BitConverter.GetBytes(_oleDataStreams.CompObj.AnsiUserType.Length),
-                                                        BinaryHelper.GetByteArray(_oleDataStreams.CompObj.AnsiUserType.String+"\0", _oleDataStreams.CompObj.AnsiUserType.Encoding),
+                                                        BinaryHelper.GetByteArray(_oleDataStreams.CompObj.AnsiUserType.String+ "\0", _oleDataStreams.CompObj.AnsiUserType.Encoding),
+                                                        
                                                         BitConverter.GetBytes(_oleDataStreams.CompObj.AnsiClipboardFormat.MarkerOrLength),
                                                         _oleDataStreams.CompObj.AnsiClipboardFormat.FormatOrAnsiString,
-                                                         BitConverter.GetBytes(_oleDataStreams.CompObj.Reserved1.Length),
+                                                        
+                                                        BitConverter.GetBytes(_oleDataStreams.CompObj.Reserved1.Length),
                                                         BinaryHelper.GetByteArray(_oleDataStreams.CompObj.Reserved1.String + "\0", _oleDataStreams.CompObj.Reserved1.Encoding),
-                                                        new byte [_oleDataStreams.CompObj.UnicodeMarker],
+                                                        
+                                                         BitConverter.GetBytes(_oleDataStreams.CompObj.UnicodeMarker),
+                                                        
                                                         BitConverter.GetBytes(_oleDataStreams.CompObj.UnicodeUserType.Length),
                                                         BinaryHelper.GetByteArray(_oleDataStreams.CompObj.UnicodeUserType.String, _oleDataStreams.CompObj.UnicodeUserType.Encoding),
+                                                        
                                                         BitConverter.GetBytes(_oleDataStreams.CompObj.UnicodeClipboardFormat.MarkerOrLength),
                                                         _oleDataStreams.CompObj.UnicodeClipboardFormat.FormatOrUnicodeString,
-                                                         BitConverter.GetBytes(_oleDataStreams.CompObj.Reserved2.Length),
+
+                                                        BitConverter.GetBytes(_oleDataStreams.CompObj.Reserved2.Length),
                                                         BinaryHelper.GetByteArray(_oleDataStreams.CompObj.Reserved2.String, _oleDataStreams.CompObj.Reserved2.Encoding));
             _document.Storage.DataStreams.Add("\u0001CompObj", compObjBytes);
         }

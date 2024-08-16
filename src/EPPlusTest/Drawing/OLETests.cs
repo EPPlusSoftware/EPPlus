@@ -24,12 +24,20 @@ namespace EPPlusTest.Drawing
         }
 
         [TestMethod]
+        public void TestRead3EmbeddedObjectBin()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\sample1.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+        }
+
+        [TestMethod]
         public void TestWriteEmbeddedObjectBin()
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("MyFirstSheet");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\sample.mp3", false, @"C:\epplusTest\epplusobject.png");
-            p.SaveAs(@"C:\epplusTest\sample.xlsx");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\sample.mp3", false, @"C:\epplusTest\epplusobject(1).emf");
+            p.SaveAs(@"C:\epplusTest\sample1.xlsx");
         }
 
         [TestMethod]

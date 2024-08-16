@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             internal LengthPrefixedAnsiString(string String)
             {
                 this.String = String;
-                Length = (UInt32)String.Length;
+                Length = (UInt32)String.Length + 1;
             }
         }
 
@@ -148,7 +148,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         {
             internal UInt32 Reserved1 = 4294836225;
             internal UInt32 Version = 2563;
-            internal byte[] Reserved2 = new byte[20];
+            internal byte[] Reserved2 = new byte[20] {255,255,255,255,12,0,3,0,0,0,0,0,192,0,0,0,0,0,0,70 };
         }
 
         internal class CompObjStream
@@ -163,7 +163,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             //      If the String field of the LengthPrefixedAnsiString is not present, the remaining fields of the
             //      structure starting with the UnicodeMarker field MUST be ignored on processing.
             //      Otherwise, the String field of the LengthPrefixedAnsiString MUST be ignored on processing.
-            internal UInt32 UnicodeMarker = 0; //If this field is present and is NOT set to 0x71B239F4, the remaining fields of the structure MUST be ignored on processing.
+            internal UInt32 UnicodeMarker = 1907505652; //If this field is present and is NOT set to 0x71B239F4, the remaining fields of the structure MUST be ignored on processing.
             internal LengthPrefixedUnicodeString UnicodeUserType;
             internal ClipboardFormatOrUnicodeString UnicodeClipboardFormat; //MarkerOrLength field of the ClipboardFormatOrUnicodeString structure contains a value other than 0x00000000, 0xffffffff, or 0xfffffffe, the value MUST NOT be more than 0x00000190. Otherwise, the CompObjStream structure is invalid.
             internal LengthPrefixedUnicodeString Reserved2;

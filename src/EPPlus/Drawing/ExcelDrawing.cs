@@ -1336,7 +1336,7 @@ namespace OfficeOpenXml.Drawing
         internal XmlElement CreateClientData()
         {
             XmlElement clientDataNode = TopNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings);
-            clientDataNode.SetAttribute("fPrintsWithSheet", "0");
+            //clientDataNode.SetAttribute("fPrintsWithSheet", "0");
             TopNode.GetChildAtPosition(2).GetChildAtPosition(0).GetChildAtPosition(0).AppendChild(clientDataNode);
             TopNode.AppendChild(clientDataNode);
             return clientDataNode;
