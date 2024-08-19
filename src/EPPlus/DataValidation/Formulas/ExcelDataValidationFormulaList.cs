@@ -187,6 +187,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
                 State = FormulaState.Value;
             }
             var valuesAsString = GetValueAsString();
+            valuesAsString = valuesAsString?.Trim('\"');
             // Excel supports max 255 characters in this field.
             if (valuesAsString?.Length > 255)
             {
