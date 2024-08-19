@@ -1155,6 +1155,7 @@ namespace OfficeOpenXml
             LoadMergeCells(xr);
 
             var nextElement = "conditionalFormatting";
+
             if (xr.ReadUntil(1, NodeOrders.WorksheetTopElementOrder, nextElement))
             {
                 xml = stream.ReadFromEndElement(lastXmlElement, xml, nextElement, false, xr.Prefix);
@@ -1183,6 +1184,7 @@ namespace OfficeOpenXml
             
             if(!string.IsNullOrEmpty(lastXmlElement))
             {
+                //xml = stream.ReadFromEndElement(lastXmlElement, xml);
                 xml = stream.ReadFromEndElement(lastXmlElement, xml, null, true, mainPrefix);
             }
 
