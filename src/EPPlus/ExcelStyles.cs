@@ -1922,6 +1922,16 @@ namespace OfficeOpenXml
                 return value;
             }
         }
-
+        internal object GetValueForPivotCache(object value, int styleId)
+        {
+            if (styleId > 0 && styleId < CellXfs.Count)
+            {
+                return CellXfs[styleId].Numberformat.FormatTranslator.GetPivotTableValue(value);
+            }
+            else
+            {
+                return value;
+            }
+        }
     }
 }

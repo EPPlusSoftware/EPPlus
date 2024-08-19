@@ -144,7 +144,7 @@ namespace EPPlusTest.Table.PivotTable
                     f._fieldRecordIndex = new Dictionary<int, List<int>>();
 					for (int r = sr._fromRow + 1; r <= toRow; r++) //Skip first row as it contains the headers.
 					{
-						var v = ExcelPivotTableCacheField.GetShareItemValue(ws.GetValue(r, c));
+						var v = ExcelPivotTableCacheField.GetShareItemValue(ws.GetValueForPivotTable(r, c));
                         var ix = lookup[v];
 						l.Add(ix);
 						var ciIx = r - (sr._fromRow + 1);
