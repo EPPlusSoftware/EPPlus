@@ -126,6 +126,8 @@ namespace OfficeOpenXml.Drawing.OleObject
             internal UInt32 ReservedMonikerStreamSize = 0; //Subtract by 4 when reading if not 0
             internal MonikerStream ReservedMonikerStream;
 
+            //Anything below will be ignored if embedded
+
             internal UInt32 RelativeSourceMonikerStreamSize = 0; //Subtract by 4 when reading if not 0
             internal MonikerStream RelativeSourceMonikerStream;
 
@@ -169,10 +171,46 @@ namespace OfficeOpenXml.Drawing.OleObject
             internal LengthPrefixedUnicodeString Reserved2;
         }
 
+        internal class OleNativeHeader
+        {
+            internal OleNativeHeader()
+            {
+                FileName = new LengthPrefixedAnsiString();
+                FilePath = new LengthPrefixedAnsiString();
+                TempPath = new LengthPrefixedAnsiString(@"C:\Users\ADRIAN~1\AppData\Local\Temp\{46A1BA1E-14C8-4448-A5F1-DC946E943320}\{967555A0-D4E1-445D-83B0-95826D4CC5BA}\sample.mp3");
+            }
+            internal UInt32 Size;
+            internal UInt16 Type = 2;
+            internal LengthPrefixedAnsiString FileName;
+            internal LengthPrefixedAnsiString FilePath;
+            internal UInt32 Reserved1 = 196608;
+            internal LengthPrefixedAnsiString TempPath;
+        }
+
+        internal class OleNativeFooter
+        {
+            internal OleNativeFooter()
+            {
+                TempPath = new LengthPrefixedUnicodeString(@"C:\Users\ADRIAN~1\AppData\Local\Temp\{46A1BA1E-14C8-4448-A5F1-DC946E943320}\{967555A0-D4E1-445D-83B0-95826D4CC5BA}\sample.mp3");
+                FileName = new LengthPrefixedUnicodeString();
+                FilePath = new LengthPrefixedUnicodeString();
+            }
+            internal LengthPrefixedUnicodeString TempPath;
+            internal LengthPrefixedUnicodeString FileName;
+            internal LengthPrefixedUnicodeString FilePath;
+        }
+
         internal class OleNativeStream
         {
+            internal OleNativeStream()
+            {
+                Header = new OleNativeHeader();
+                Footer = new OleNativeFooter();
+            }
+            internal OleNativeHeader Header;
             internal UInt32 NativeDataSize = 0;
             internal byte[] NativeData;
+            internal OleNativeFooter Footer;
         }
     }
 }

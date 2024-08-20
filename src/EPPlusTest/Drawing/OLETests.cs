@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml;
 
 namespace EPPlusTest.Drawing
@@ -7,146 +6,174 @@ namespace EPPlusTest.Drawing
     [TestClass]
     public class OLETests : TestBase
     {
-        [TestMethod]
-        public void TestReadEmbeddedObjectBin()
-        {
-            using var p = OpenTemplatePackage("OleEmbeddedFilesTest.xlsx");
-            var ws = p.Workbook.Worksheets[0];
-            var ole = ws.Drawings[0] as ExcelOleObject;
-        }
+        //WRITE FILES
 
         [TestMethod]
-        public void TestRead2EmbeddedObjectBin()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\MSSample.xlsx");
-            var ws = p.Workbook.Worksheets[0];
-            var ole = ws.Drawings[0] as ExcelOleObject;
-        }
-
-        [TestMethod]
-        public void TestRead3EmbeddedObjectBin()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\sample1.xlsx");
-            var ws = p.Workbook.Worksheets[0];
-            var ole = ws.Drawings[0] as ExcelOleObject;
-        }
-
-        [TestMethod]
-        public void TestWriteEmbeddedObjectBin()
+        public void WriteEmbedded_MP3()
         {
             using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("MyFirstSheet");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\sample.mp3", false, @"C:\epplusTest\epplusobject(1).emf");
-            p.SaveAs(@"C:\epplusTest\sample1.xlsx");
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_MP3.xlsx");
+        }
+        [TestMethod]
+        public void WriteEmbedded_MP4()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_MP4.xlsx");
+        }
+        [TestMethod]
+        public void WriteEmbedded_ODS()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_ODS.xlsx");
+        }
+        [TestMethod]
+        public void WriteEmbedded_ODT()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_ODT.xlsx");
+        }
+        [TestMethod]
+        public void WriteEmbedded_PDF()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_PDF.xlsx");
+        }
+        [TestMethod]
+        public void WriteEmbedded_TXT()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_TXT.xlsx");
+        }
+        [TestMethod]
+        public void WriteEmbedded_WAV()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_WAV.xlsx");
+        }
+        [TestMethod]
+        public void WriteEmbedded_ZIP()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_ZIP.xlsx");
         }
 
-        [TestMethod]
-        public void TestReadEmbeddedObjectBin2()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\sample.xlsx");
-            var ws = p.Workbook.Worksheets[0];
-            var ole = ws.Drawings[0] as ExcelOleObject;
-        }
+
+        //READ EXCEL FILES
 
         [TestMethod]
-        public void TestReadEmbeddedObjects()
+        public void ReadExcelEmbedded_MP3()
         {
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PDF4.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PDF3.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PDF2.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_GraphChart.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_OpenDocumentPresent1.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_OpenDocumentText1.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_OrgChart.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_Package1.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_Package2.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PaintbrushPic.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PDF.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PDFSSD.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PDFXML.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PowerPoint97-Present.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PowerPoint97-Slide.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PowerPointMacro-Present.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PowerPointMacro-Slide.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PowerPointPresentation.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_PowerPointSlide.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_Word.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_Word97.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_WordMacro.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbedded_WordPad.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
-            //{
-            //    using var p = OpenTemplatePackage("OleEmbeddedFilesTest.xlsx");
-            //    var ole = p.Workbook.Worksheets[0].Drawings[0];
-            //}
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\MP3.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadExcelEmbedded_MP4()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\MP4.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadExcelEmbedded_ODS()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\ODS.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadExcelEmbedded_ODT()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\ODT.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadExcelEmbedded_PDF()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\PDF.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadExcelEmbedded_TXT()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\TXT.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadExcelEmbedded_WAV()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\WAV.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadExcelEmbedded_ZIP()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\ZIP.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+
+        //READ EPPLUS FILES
+
+        [TestMethod]
+        public void ReadEPPlusEmbedded_MP3()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_MP3.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadEPPlusEmbedded_MP4()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\MP4.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadEPPlusEmbedded_ODS()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\ODS.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadEPPlusEmbedded_ODT()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\ODT.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadEPPlusEmbedded_PDF()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\PDF.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadEPPlusEmbedded_TXT()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\TXT.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadEPPlusEmbedded_WAV()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\WAV.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
+        }
+        [TestMethod]
+        public void ReadEPPlusEmbedded_ZIP()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\ZIP.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0];
         }
     }
 }

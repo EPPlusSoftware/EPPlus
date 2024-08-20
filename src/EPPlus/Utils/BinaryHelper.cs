@@ -35,5 +35,12 @@ namespace OfficeOpenXml.Utils
             return enc.GetBytes(str);
         }
 
+        static internal string GetString(byte[] bytes, Encoding enc)
+        {
+            if (bytes == null || bytes.Length <= 0)
+                return "";
+            return enc.GetString(bytes);
+        }
+
     }
 }
