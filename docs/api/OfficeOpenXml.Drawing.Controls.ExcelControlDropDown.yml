@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlDropDown.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelControlDropDown
     path: ../src/EPPlus/Drawing/Controls/ExcelControlDropDown.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlDropDown.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ControlType
     path: ../src/EPPlus/Drawing/Controls/ExcelControlDropDown.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlDropDown.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Colored
     path: ../src/EPPlus/Drawing/Controls/ExcelControlDropDown.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlDropDown.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DropLines
     path: ../src/EPPlus/Drawing/Controls/ExcelControlDropDown.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlDropDown.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DropStyle
     path: ../src/EPPlus/Drawing/Controls/ExcelControlDropDown.cs
@@ -267,7 +267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlDropDown.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinimumWidth
     path: ../src/EPPlus/Drawing/Controls/ExcelControlDropDown.cs

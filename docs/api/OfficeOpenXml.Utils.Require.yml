@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/Require.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Require
     path: ../src/EPPlus/Utils/Require.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/Require.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Argument
     path: ../src/EPPlus/Utils/Require.cs

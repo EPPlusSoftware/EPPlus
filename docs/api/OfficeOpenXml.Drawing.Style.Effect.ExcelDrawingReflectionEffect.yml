@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingReflectionEffect
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -78,7 +78,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartPosition
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartOpacity
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndPosition
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndOpacity
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FadeDirection
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Alignment
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -300,7 +300,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RotateWithShape
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -337,7 +337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalSkewAngle
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -374,7 +374,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalSkewAngle
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -411,7 +411,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalScalingFactor
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -448,7 +448,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalScalingFactor
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -485,7 +485,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Direction
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
@@ -522,7 +522,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BlurRadius
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingReflectionEffect.cs

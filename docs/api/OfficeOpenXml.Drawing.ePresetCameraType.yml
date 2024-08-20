@@ -78,7 +78,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePresetCameraType
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -111,7 +111,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricBottomDown
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricBottomUp
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricLeftDown
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -247,7 +247,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricLeftUp
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -281,7 +281,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricOffAxis1Left
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -315,7 +315,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricOffAxis1Right
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -349,7 +349,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricOffAxis1Top
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -383,7 +383,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricOffAxis2Left
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -417,7 +417,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricOffAxis2Right
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -451,7 +451,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricOffAxis2Top
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -485,7 +485,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricOffAxis3Bottom
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -519,7 +519,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricOffAxis3Left
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -553,7 +553,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricOffAxis3Right
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -587,7 +587,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricOffAxis4Bottom
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -621,7 +621,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricOffAxis4Left
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -655,7 +655,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricOffAxis4Right
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -689,7 +689,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricRightDown
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -723,7 +723,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricRightUp
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -757,7 +757,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricTopDown
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -791,7 +791,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsometricTopUp
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -825,7 +825,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyObliqueBottom
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -859,7 +859,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyObliqueBottomLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -893,7 +893,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyObliqueBottomRight
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -927,7 +927,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyObliqueFront
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -961,7 +961,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyObliqueLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -995,7 +995,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyObliqueRight
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1029,7 +1029,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyObliqueTop
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1063,7 +1063,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyObliqueTopLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1097,7 +1097,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyObliqueTopRight
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1131,7 +1131,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyPerspectiveBottom
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1165,7 +1165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyPerspectiveBottomLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1199,7 +1199,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyPerspectiveBottomRight
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1233,7 +1233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyPerspectiveFront
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1267,7 +1267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyPerspectiveLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1301,7 +1301,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyPerspectiveRight
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1335,7 +1335,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyPerspectiveTop
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1369,7 +1369,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyPerspectiveTopLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1403,7 +1403,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyPerspectiveTopRight
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1437,7 +1437,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ObliqueBottom
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1471,7 +1471,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ObliqueBottomLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1505,7 +1505,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ObliqueBottomRight
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1539,7 +1539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ObliqueLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1573,7 +1573,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ObliqueRight
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1607,7 +1607,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ObliqueTop
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1641,7 +1641,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ObliqueTopLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1675,7 +1675,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ObliqueTopRight
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1709,7 +1709,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OrthographicFront
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1743,7 +1743,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveAbove
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1777,7 +1777,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveAboveLeftFacing
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1811,7 +1811,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveAboveRightFacing
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1845,7 +1845,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveBelow
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1879,7 +1879,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveContrastingLeftFacing
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1913,7 +1913,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveContrastingRightFacing
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1947,7 +1947,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveFront
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -1981,7 +1981,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveHeroicExtremeLeftFacing
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -2015,7 +2015,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveHeroicExtremeRightFacing
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -2049,7 +2049,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveHeroicLeftFacing
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -2083,7 +2083,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveHeroicRightFacing
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -2117,7 +2117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -2151,7 +2151,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveRelaxed
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -2185,7 +2185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveRelaxedModerately
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs
@@ -2219,7 +2219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetCameraType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveRight
     path: ../src/EPPlus/Drawing/Enums/ePresetCameraType.cs

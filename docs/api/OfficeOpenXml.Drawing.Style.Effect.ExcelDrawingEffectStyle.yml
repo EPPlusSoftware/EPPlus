@@ -33,7 +33,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingEffectStyle
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -79,7 +79,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Blur
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillOverlay
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -153,7 +153,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Glow
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InnerShadow
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -227,7 +227,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OuterShadow
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -264,7 +264,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PresetShadow
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -301,7 +301,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reflection
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -338,7 +338,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SoftEdgeRadius
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -375,7 +375,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasInnerShadow
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -412,7 +412,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasOuterShadow
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -449,7 +449,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasPresetShadow
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -486,7 +486,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasBlur
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -523,7 +523,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasGlow
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -560,7 +560,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasFillOverlay
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -597,7 +597,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPresetSoftEdges
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -633,7 +633,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPresetGlow
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -669,7 +669,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPresetShadow
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
@@ -705,7 +705,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPresetReflection
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingEffectStyle.cs

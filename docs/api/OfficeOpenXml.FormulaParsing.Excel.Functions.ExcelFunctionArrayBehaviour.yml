@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFunctionArrayBehaviour
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Custom
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstArgCouldBeARange
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionArrayBehaviour.cs

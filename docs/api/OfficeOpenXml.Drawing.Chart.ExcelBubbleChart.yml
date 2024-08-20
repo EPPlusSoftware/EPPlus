@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelBubbleChart
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleScale
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
@@ -198,7 +198,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowNegativeBubbles
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble3D
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
@@ -272,7 +272,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SizeRepresents
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
@@ -309,7 +309,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
@@ -348,7 +348,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
@@ -387,7 +387,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChart.cs

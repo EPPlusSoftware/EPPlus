@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartSerie
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -79,7 +79,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Header
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -118,7 +118,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberLiteralsY
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberLiteralsX
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StringLiteralsX
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderAddress
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -274,7 +274,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -313,7 +313,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XSeries
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -352,7 +352,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -389,7 +389,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -426,7 +426,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -463,7 +463,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -500,7 +500,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfItems
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
@@ -539,7 +539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TrendLines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerie.cs

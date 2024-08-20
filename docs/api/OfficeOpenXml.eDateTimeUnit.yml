@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDateTimeUnit
     path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Year
     path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Month
     path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Week
     path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Day
     path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hour
     path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Minute
     path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Second
     path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ticks
     path: ../src/EPPlus/Core/Worksheet/Fill/eDateUnit.cs

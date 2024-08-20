@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBASignature.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaSignature
     path: ../src/EPPlus/Vba/ExcelVBASignature.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBASignature.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Certificate
     path: ../src/EPPlus/Vba/ExcelVBASignature.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBASignature.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Verifier
     path: ../src/EPPlus/Vba/ExcelVBASignature.cs
@@ -137,7 +137,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBASignature.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacySignature
     path: ../src/EPPlus/Vba/ExcelVBASignature.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBASignature.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AgileSignature
     path: ../src/EPPlus/Vba/ExcelVBASignature.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBASignature.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: V3Signature
     path: ../src/EPPlus/Vba/ExcelVBASignature.cs

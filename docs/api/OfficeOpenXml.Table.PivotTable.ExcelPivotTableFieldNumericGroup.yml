@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldNumericGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableFieldNumericGroup
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldNumericGroup.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldNumericGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Start
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldNumericGroup.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldNumericGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: End
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldNumericGroup.cs
@@ -141,7 +141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldNumericGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Interval
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldNumericGroup.cs

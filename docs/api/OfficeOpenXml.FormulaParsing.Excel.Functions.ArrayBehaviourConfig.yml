@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ArrayBehaviourConfig.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArrayBehaviourConfig
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ArrayBehaviourConfig.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ArrayBehaviourConfig.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetArrayParameterIndexes
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ArrayBehaviourConfig.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ArrayBehaviourConfig.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IgnoreNumberOfArgsFromStart
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ArrayBehaviourConfig.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ArrayBehaviourConfig.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArrayArgInterval
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ArrayBehaviourConfig.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ArrayBehaviourConfig.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CanBeArrayArg
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ArrayBehaviourConfig.cs

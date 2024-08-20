@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionRangeOptions
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRow
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
@@ -137,7 +137,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataStartRow
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToCollection/ToCollectionOptions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataIsTransposed
     path: ../src/EPPlus/Export/ToCollection/ToCollectionOptions.cs

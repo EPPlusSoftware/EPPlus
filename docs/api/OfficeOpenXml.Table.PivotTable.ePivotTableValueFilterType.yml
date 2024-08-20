@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePivotTableValueFilterType
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueBetween
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueGreaterThan
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueGreaterThanOrEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueLessThan
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueLessThanOrEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueNotBetween
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueNotEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableValueFilterType.cs

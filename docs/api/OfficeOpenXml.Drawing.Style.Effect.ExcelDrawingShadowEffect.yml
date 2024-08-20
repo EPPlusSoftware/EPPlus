@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingShadowEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingShadowEffect
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingShadowEffect.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingShadowEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingShadowEffect.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingShadowEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Direction
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingShadowEffect.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingShadowEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitXml
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingShadowEffect.cs

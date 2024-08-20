@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTileFlipMode.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eTileFlipMode
     path: ../src/EPPlus/Drawing/Enums/eTileFlipMode.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTileFlipMode.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Enums/eTileFlipMode.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTileFlipMode.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: X
     path: ../src/EPPlus/Drawing/Enums/eTileFlipMode.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTileFlipMode.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XY
     path: ../src/EPPlus/Drawing/Enums/eTileFlipMode.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTileFlipMode.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Y
     path: ../src/EPPlus/Drawing/Enums/eTileFlipMode.cs

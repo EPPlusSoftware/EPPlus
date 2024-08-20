@@ -49,7 +49,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eBarChartType
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -82,7 +82,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarClustered3D
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarStacked3D
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarStacked1003D
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -184,7 +184,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3D
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -218,7 +218,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnClustered3D
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -252,7 +252,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnStacked3D
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -286,7 +286,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnStacked1003D
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -320,7 +320,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -354,7 +354,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -388,7 +388,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -422,7 +422,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -456,7 +456,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -490,7 +490,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -524,7 +524,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeBarClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -558,7 +558,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeBarStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -592,7 +592,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeBarStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -626,7 +626,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeCol
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -660,7 +660,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeColClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -694,7 +694,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeColStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -728,7 +728,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeColStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -762,7 +762,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderBarClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -796,7 +796,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderBarStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -830,7 +830,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderBarStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -864,7 +864,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderCol
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -898,7 +898,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderColClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -932,7 +932,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderColStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -966,7 +966,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderColStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -1000,7 +1000,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidBarClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -1034,7 +1034,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidBarStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -1068,7 +1068,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidBarStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -1102,7 +1102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidCol
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -1136,7 +1136,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidColClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -1170,7 +1170,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidColStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
@@ -1204,7 +1204,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidColStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eBarChartType.cs

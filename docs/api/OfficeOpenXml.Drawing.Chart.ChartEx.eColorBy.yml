@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eColorBy.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eColorBy
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eColorBy.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eColorBy.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eColorBy.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eColorBy.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CategoryNames
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eColorBy.cs

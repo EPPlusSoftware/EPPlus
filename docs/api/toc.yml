@@ -194,6 +194,8 @@
     name: LicenseContext
   - uid: OfficeOpenXml.LicenseException
     name: LicenseException
+  - uid: OfficeOpenXml.NumberFormatToTextArgs
+    name: NumberFormatToTextArgs
   - uid: OfficeOpenXml.OfficeProperties
     name: OfficeProperties
   - uid: OfficeOpenXml.PaddingAlignmentType

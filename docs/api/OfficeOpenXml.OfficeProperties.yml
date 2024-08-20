@@ -42,7 +42,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfficeProperties
     path: ../src/EPPlus/OfficeProperties.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CorePropertiesXml
     path: ../src/EPPlus/OfficeProperties.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Title
     path: ../src/EPPlus/OfficeProperties.cs
@@ -164,7 +164,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Subject
     path: ../src/EPPlus/OfficeProperties.cs
@@ -201,7 +201,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Author
     path: ../src/EPPlus/OfficeProperties.cs
@@ -238,7 +238,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Comments
     path: ../src/EPPlus/OfficeProperties.cs
@@ -275,7 +275,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Keywords
     path: ../src/EPPlus/OfficeProperties.cs
@@ -312,7 +312,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastModifiedBy
     path: ../src/EPPlus/OfficeProperties.cs
@@ -349,7 +349,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastPrinted
     path: ../src/EPPlus/OfficeProperties.cs
@@ -386,7 +386,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Created
     path: ../src/EPPlus/OfficeProperties.cs
@@ -423,7 +423,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Category
     path: ../src/EPPlus/OfficeProperties.cs
@@ -460,7 +460,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Status
     path: ../src/EPPlus/OfficeProperties.cs
@@ -497,7 +497,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExtendedPropertiesXml
     path: ../src/EPPlus/OfficeProperties.cs
@@ -534,7 +534,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Application
     path: ../src/EPPlus/OfficeProperties.cs
@@ -571,7 +571,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HyperlinkBase
     path: ../src/EPPlus/OfficeProperties.cs
@@ -608,7 +608,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AppVersion
     path: ../src/EPPlus/OfficeProperties.cs
@@ -645,7 +645,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Company
     path: ../src/EPPlus/OfficeProperties.cs
@@ -682,7 +682,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Manager
     path: ../src/EPPlus/OfficeProperties.cs
@@ -719,7 +719,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Modified
     path: ../src/EPPlus/OfficeProperties.cs
@@ -756,7 +756,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LinksUpToDate
     path: ../src/EPPlus/OfficeProperties.cs
@@ -793,7 +793,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HyperlinksChanged
     path: ../src/EPPlus/OfficeProperties.cs
@@ -830,7 +830,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScaleCrop
     path: ../src/EPPlus/OfficeProperties.cs
@@ -867,7 +867,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SharedDoc
     path: ../src/EPPlus/OfficeProperties.cs
@@ -904,7 +904,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetExtendedPropertyValue
     path: ../src/EPPlus/OfficeProperties.cs
@@ -943,7 +943,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetExtendedPropertyValue
     path: ../src/EPPlus/OfficeProperties.cs
@@ -982,7 +982,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomPropertiesXml
     path: ../src/EPPlus/OfficeProperties.cs
@@ -1019,7 +1019,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCustomPropertyValue
     path: ../src/EPPlus/OfficeProperties.cs
@@ -1058,7 +1058,7 @@ items:
   source:
     remote:
       path: src/EPPlus/OfficeProperties.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCustomPropertyValue
     path: ../src/EPPlus/OfficeProperties.cs

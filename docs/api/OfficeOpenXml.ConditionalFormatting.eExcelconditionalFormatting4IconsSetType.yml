@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eExcelconditionalFormatting4IconsSetType
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -53,7 +53,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Arrows
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArrowsGray
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rating
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RedToBlack
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TrafficLights
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs

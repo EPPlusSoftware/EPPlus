@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingConnectionPoint.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingConnectionPoint
     path: ../src/EPPlus/Drawing/ExcelDrawingConnectionPoint.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingConnectionPoint.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/Drawing/ExcelDrawingConnectionPoint.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingConnectionPoint.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Shape
     path: ../src/EPPlus/Drawing/ExcelDrawingConnectionPoint.cs
