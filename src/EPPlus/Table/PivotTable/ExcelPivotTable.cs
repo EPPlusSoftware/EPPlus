@@ -10,27 +10,19 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Table.PivotTable.Calculation;
+using OfficeOpenXml.Table.PivotTable.Filter;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Text.RegularExpressions;
-using OfficeOpenXml.Table;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Packaging;
-using System.Linq;
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.Filter;
-using OfficeOpenXml.Packaging.Ionic;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.Style.Dxf;
-using System.IO;
 using System.Globalization;
-using OfficeOpenXml.Table.PivotTable.Filter;
-using OfficeOpenXml.Table.PivotTable.Calculation;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs;
-using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -167,6 +159,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             Styles = new ExcelPivotTableAreaStyleCollection(this);
+            ConditionalFormattings = new ExcelPivotTableAreaConditionalFormatsCollection(this);
         }
         /// <summary>
         /// Add a new pivottable
@@ -186,6 +179,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             LoadFields();
             Styles = new ExcelPivotTableAreaStyleCollection(this);
+            ConditionalFormattings = new ExcelPivotTableAreaConditionalFormatsCollection(this);
         }
         /// <summary>
         /// Add a new pivottable
@@ -205,6 +199,8 @@ namespace OfficeOpenXml.Table.PivotTable
 
             LoadFields();
             Styles = new ExcelPivotTableAreaStyleCollection(this);
+            ConditionalFormattings = new ExcelPivotTableAreaConditionalFormatsCollection(this);
+
         }
 
         private void CreatePivotTable(ExcelWorksheet sheet, ExcelAddressBase address, int fields, string name, int tblId)
@@ -1624,6 +1620,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
+        public ExcelPivotTableAreaConditionalFormatsCollection ConditionalFormattings { get; private set; } 
 
         internal int ChangeCacheId(int oldCacheId)
         {
@@ -1725,6 +1722,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             UpdatePivotTableStyles();
+            UpdatePivotTableConditionalFormats();
             PivotTableXml.Save(Part.GetStream(FileMode.Create));
         }
         private void UpdatePivotTableStyles()
@@ -1732,6 +1730,16 @@ namespace OfficeOpenXml.Table.PivotTable
             foreach (ExcelPivotTableAreaStyle a in Styles)
             {
                 a.Conditions.UpdateXml();
+            }
+        }
+        private void UpdatePivotTableConditionalFormats()
+        {
+            foreach (var cf in ConditionalFormattings)
+            {
+                foreach (ExcelPivotTableAreaStyle a in cf.Areas)
+                {
+                    a.Conditions.UpdateXml();
+                }
             }
         }
 

@@ -1876,5 +1876,17 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             return dataBar;
         }
+
+        internal IExcelConditionalFormattingRule GetByPriority(int priority)
+        {
+            foreach (var rule in _rules)
+            {
+                if(rule.Priority == priority)
+                {
+                    return rule;
+                }
+            }
+            return null;
+        }
     }
 }

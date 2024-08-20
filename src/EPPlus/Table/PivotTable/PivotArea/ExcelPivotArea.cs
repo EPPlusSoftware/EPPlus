@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public class ExcelPivotArea : XmlHelper
     {
-        ExcelPivotTable _pt;
+        internal ExcelPivotTable _pt;
         internal ExcelPivotArea(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) : 
             base(nsm, topNode)
         {
@@ -123,7 +123,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (value && (PivotAreaType == ePivotAreaType.Data || PivotAreaType == ePivotAreaType.Normal || PivotAreaType == ePivotAreaType.Origin || PivotAreaType == ePivotAreaType.TopEnd))
                 {
-                    throw (new InvalidOperationException("Can't set LabelOnly to True for the PivotAreaType"));
+                    throw (new InvalidOperationException("Can't set DataOnly to True for the PivotAreaType"));
                 }
                 if (value && LabelOnly)
                 {
