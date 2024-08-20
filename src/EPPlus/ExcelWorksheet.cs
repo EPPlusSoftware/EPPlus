@@ -1155,6 +1155,7 @@ namespace OfficeOpenXml
             LoadMergeCells(xr);
 
             var nextElement = "conditionalFormatting";
+
             if (xr.ReadUntil(1, NodeOrders.WorksheetTopElementOrder, nextElement))
             {
                 xml = stream.ReadFromEndElement(lastXmlElement, xml, nextElement, false, xr.Prefix);
@@ -1183,6 +1184,7 @@ namespace OfficeOpenXml
             
             if(!string.IsNullOrEmpty(lastXmlElement))
             {
+                //xml = stream.ReadFromEndElement(lastXmlElement, xml);
                 xml = stream.ReadFromEndElement(lastXmlElement, xml, null, true, mainPrefix);
             }
 
@@ -2244,6 +2246,32 @@ namespace OfficeOpenXml
                 else
                 {
                     return v;
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
+        /// <summary>
+        /// Fetches the value adapted for the pivot cache. 
+        /// The value is converted depending on the data type. 
+        /// </summary>
+        /// <param name="Row">The row number</param>
+        /// <param name="Column">The row number</param>
+        /// <returns>The value</returns>
+        internal object GetValueForPivotTable(int Row, int Column)
+        {
+            var v = GetCoreValueInner(Row, Column);
+            if (v._value != null)
+            {
+                if (_flags.GetFlagValue(Row, Column, CellFlags.RichText))
+                {
+                    return (object)Cells[Row, Column].RichText.Text;
+                }
+                else
+                {
+                    return Workbook.Styles.GetValueForPivotCache(v._value, v._styleId);
                 }
             }
             else

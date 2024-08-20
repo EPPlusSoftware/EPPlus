@@ -29,6 +29,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.DataValidation;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -126,6 +127,30 @@ namespace EPPlusTest.DataValidation.Formulas
             Assert.AreEqual(((ExcelDataValidationList)validations[1]).Formula.Values[0], "HulaBal00");
             Assert.AreEqual(((ExcelDataValidationList)validations[1]).Formula.Values[1], "-?53&<>/\\'#¤$%||");
             Assert.AreEqual(((ExcelDataValidationList)validations[1]).Formula.Values[2], "123456789");
+        }
+
+        [TestMethod]
+        public void LengthTest()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var dvList = ws.DataValidations.AddListValidation("A1");
+            //Add a string that is exactly 255 characters after trimming leading and ending " characters
+            dvList.Formula.Values.Add("\"123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345\"");
+            var Trimmed =dvList.Formula.Values[0].Trim('\"');
+            Assert.AreEqual(257, dvList.Formula.Values[0].Length);
+            Assert.AreEqual(255, Trimmed.Length);
+        }
+
+        [TestMethod]
+        public void LengthTest_InvalidOperationException()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var dvList = ws.DataValidations.AddListValidation("A1");
+            //Add a string that is longer than 255 characters
+            Assert.ThrowsException<InvalidOperationException>(() => dvList.Formula.Values.Add("\"12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890\""));
+            
         }
     }
 }

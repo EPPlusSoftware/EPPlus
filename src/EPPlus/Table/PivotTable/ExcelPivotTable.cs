@@ -329,6 +329,9 @@ namespace OfficeOpenXml.Table.PivotTable
             get;
             private set;
         }
+        /// <summary>
+        /// True if the pivot table has been calculated. 
+        /// </summary>
         public bool IsCalculated
         {
             get;
