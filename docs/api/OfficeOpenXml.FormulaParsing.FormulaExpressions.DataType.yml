@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -59,7 +59,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Integer
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Decimal
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: String
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Boolean
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Date
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Time
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRange
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -297,7 +297,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelError
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -331,7 +331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Empty
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -365,7 +365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Unknown
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -399,7 +399,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Variable
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs

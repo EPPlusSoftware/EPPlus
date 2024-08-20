@@ -81,7 +81,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelIndexedColor
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -114,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed0
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed1
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed2
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed3
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -250,7 +250,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed4
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -284,7 +284,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed5
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -318,7 +318,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed6
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -352,7 +352,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed7
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -386,7 +386,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed8
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -420,7 +420,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed9
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -454,7 +454,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed10
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -488,7 +488,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed11
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -522,7 +522,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed12
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -556,7 +556,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed13
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -590,7 +590,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed14
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -624,7 +624,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed15
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -658,7 +658,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed16
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -692,7 +692,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed17
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -726,7 +726,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed18
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -760,7 +760,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed19
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -794,7 +794,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed20
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -828,7 +828,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed21
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -862,7 +862,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed22
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -896,7 +896,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed23
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -930,7 +930,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed24
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -964,7 +964,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed25
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -998,7 +998,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed26
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1032,7 +1032,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed27
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1066,7 +1066,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed28
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1100,7 +1100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed29
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1134,7 +1134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed30
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1168,7 +1168,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed31
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1202,7 +1202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed32
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1236,7 +1236,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed33
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1270,7 +1270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed34
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1304,7 +1304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed35
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1338,7 +1338,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed36
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1372,7 +1372,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed37
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1406,7 +1406,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed38
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1440,7 +1440,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed39
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1474,7 +1474,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed40
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1508,7 +1508,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed41
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1542,7 +1542,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed42
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1576,7 +1576,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed43
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1610,7 +1610,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed44
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1644,7 +1644,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed45
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1678,7 +1678,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed46
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1712,7 +1712,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed47
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1746,7 +1746,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed48
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1780,7 +1780,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed49
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1814,7 +1814,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed50
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1848,7 +1848,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed51
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1882,7 +1882,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed52
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1916,7 +1916,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed53
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1950,7 +1950,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed54
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -1984,7 +1984,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed55
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -2018,7 +2018,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed56
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -2052,7 +2052,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed57
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -2086,7 +2086,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed58
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -2120,7 +2120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed59
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -2154,7 +2154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed60
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -2188,7 +2188,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed61
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -2222,7 +2222,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed62
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -2256,7 +2256,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed63
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -2290,7 +2290,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed64SystemForeground
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs
@@ -2324,7 +2324,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelIndexedColor.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed65SystemBackground
     path: ../src/EPPlus/Style/enums/ExcelIndexedColor.cs

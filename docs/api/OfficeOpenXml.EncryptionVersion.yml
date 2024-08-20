@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EncryptionVersion
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Standard
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Agile
     path: ../src/EPPlus/ExcelEncryption.cs

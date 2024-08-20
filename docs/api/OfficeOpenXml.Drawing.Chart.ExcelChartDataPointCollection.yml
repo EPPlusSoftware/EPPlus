@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartDataPointCollection
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ContainsKey
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
@@ -149,7 +149,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
@@ -268,7 +268,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataPointCollection.cs

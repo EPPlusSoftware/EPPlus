@@ -255,7 +255,8 @@ namespace OfficeOpenXml.FormulaParsing
         }
         private static bool GetFormula(RpnOptimizedDependencyChain depChain,  ExcelWorksheet ws, int row, int column, object value, ref RpnFormula f)
         {
-            
+
+            if (value==null) return false;
             if (value is int ix)
             {
                 var sf = ws._sharedFormulas[ix];

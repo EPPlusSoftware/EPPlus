@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eFilterOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eFilterOperator
     path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
@@ -54,7 +54,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eFilterOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equal
     path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
@@ -88,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eFilterOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThan
     path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
@@ -122,7 +122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eFilterOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThanOrEqual
     path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eFilterOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThan
     path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eFilterOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThanOrEqual
     path: ../src/EPPlus/Filter/enums/eFilterOperator.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eFilterOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NotEqual
     path: ../src/EPPlus/Filter/enums/eFilterOperator.cs

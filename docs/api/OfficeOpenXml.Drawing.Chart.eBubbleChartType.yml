@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBubbleChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eBubbleChartType
     path: ../src/EPPlus/Drawing/Chart/enums/eBubbleChartType.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBubbleChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble
     path: ../src/EPPlus/Drawing/Chart/enums/eBubbleChartType.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBubbleChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble3DEffect
     path: ../src/EPPlus/Drawing/Chart/enums/eBubbleChartType.cs

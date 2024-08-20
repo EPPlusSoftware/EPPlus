@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlWithText.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelControlWithText
     path: ../src/EPPlus/Drawing/Controls/ExcelControlWithText.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlWithText.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Drawing/Controls/ExcelControlWithText.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlWithText.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RichText
     path: ../src/EPPlus/Drawing/Controls/ExcelControlWithText.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlWithText.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LockedText
     path: ../src/EPPlus/Drawing/Controls/ExcelControlWithText.cs
@@ -232,7 +232,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlWithText.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/Controls/ExcelControlWithText.cs

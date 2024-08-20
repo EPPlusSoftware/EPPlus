@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaReferenceControl
     path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LibIdExternal
     path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
@@ -151,7 +151,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LibIdExtended
     path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
@@ -188,7 +188,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LibIdTwiddled
     path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceControl.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OriginalTypeLib
     path: ../src/EPPlus/Vba/ExcelVbaReferenceControl.cs

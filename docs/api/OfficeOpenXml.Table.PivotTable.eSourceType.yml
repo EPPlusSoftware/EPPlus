@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSourceType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eSourceType
     path: ../src/EPPlus/Table/PivotTable/enums/eSourceType.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSourceType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Consolidation
     path: ../src/EPPlus/Table/PivotTable/enums/eSourceType.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSourceType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: External
     path: ../src/EPPlus/Table/PivotTable/enums/eSourceType.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSourceType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Scenario
     path: ../src/EPPlus/Table/PivotTable/enums/eSourceType.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSourceType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/Table/PivotTable/enums/eSourceType.cs

@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaModuleAttributesCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaModuleAttributesCollection
     path: ../src/EPPlus/Vba/ExcelVbaModuleAttributesCollection.cs

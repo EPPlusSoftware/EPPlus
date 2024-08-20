@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleMarkerLayout.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartStyleMarkerLayout
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleMarkerLayout.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleMarkerLayout.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleMarkerLayout.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleMarkerLayout.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleMarkerLayout.cs

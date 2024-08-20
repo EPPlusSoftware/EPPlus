@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eGrouping.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eGrouping
     path: ../src/EPPlus/Drawing/Chart/enums/eGrouping.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eGrouping.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Standard
     path: ../src/EPPlus/Drawing/Chart/enums/eGrouping.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eGrouping.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clustered
     path: ../src/EPPlus/Drawing/Chart/enums/eGrouping.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eGrouping.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Stacked
     path: ../src/EPPlus/Drawing/Chart/enums/eGrouping.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eGrouping.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PercentStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eGrouping.cs

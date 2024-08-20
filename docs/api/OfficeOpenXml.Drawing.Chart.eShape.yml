@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eShape.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eShape
     path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
@@ -54,7 +54,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eShape.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Box
     path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
@@ -88,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eShape.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cone
     path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
@@ -122,7 +122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eShape.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeToMax
     path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eShape.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cylinder
     path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eShape.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pyramid
     path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eShape.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidToMax
     path: ../src/EPPlus/Drawing/Chart/enums/eShape.cs

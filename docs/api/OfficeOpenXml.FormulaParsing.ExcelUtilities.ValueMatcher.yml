@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueMatcher
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncompatibleOperands
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMatch
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareStringToString
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareStringToObject
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareObjectToString
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/ValueMatcher.cs

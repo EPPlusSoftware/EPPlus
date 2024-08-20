@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelHtmlTableExporter
     path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
@@ -59,7 +59,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Settings
     path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
@@ -94,7 +94,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHtmlString
     path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
@@ -125,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RenderHtml
     path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetSinglePage
     path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCssString
     path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
@@ -223,7 +223,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RenderCss
     path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
@@ -258,7 +258,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHtmlStringAsync
     path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
@@ -289,7 +289,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RenderHtmlAsync
     path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
@@ -324,7 +324,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetSinglePageAsync
     path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
@@ -359,7 +359,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCssStringAsync
     path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
@@ -390,7 +390,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RenderCssAsync
     path: ../src/EPPlus/Export/HtmlExport/Interfaces/IExcelHtmlTableExporter.cs

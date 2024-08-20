@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelColorFilterColumn.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelColorFilterColumn
     path: ../src/EPPlus/Filter/ExcelColorFilterColumn.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelColorFilterColumn.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellColor
     path: ../src/EPPlus/Filter/ExcelColorFilterColumn.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelColorFilterColumn.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DxfId
     path: ../src/EPPlus/Filter/ExcelColorFilterColumn.cs

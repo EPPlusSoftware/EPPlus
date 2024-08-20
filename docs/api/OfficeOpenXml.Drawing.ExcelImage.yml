@@ -32,7 +32,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -75,7 +75,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -218,7 +218,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -297,7 +297,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -334,7 +334,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ImageBytes
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -371,7 +371,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bounds
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -408,7 +408,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -444,7 +444,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -480,7 +480,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -524,7 +524,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -565,7 +565,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -606,7 +606,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImageAsync
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -648,7 +648,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImageAsync
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -687,7 +687,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImageAsync
     path: ../src/EPPlus/Drawing/ExcelImage.cs

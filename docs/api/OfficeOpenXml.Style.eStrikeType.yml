@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eStrikeType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eStrikeType
     path: ../src/EPPlus/Style/enums/eStrikeType.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eStrikeType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Double
     path: ../src/EPPlus/Style/enums/eStrikeType.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eStrikeType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: No
     path: ../src/EPPlus/Style/enums/eStrikeType.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eStrikeType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Single
     path: ../src/EPPlus/Style/enums/eStrikeType.cs

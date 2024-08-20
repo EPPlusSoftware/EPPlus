@@ -12,19 +12,16 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
-using OfficeOpenXml.FormulaParsing.Utilities;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Style.Dxf;
-using System;
-using System.Xml;
-using OfficeOpenXml.Utils.Extensions;
-using OfficeOpenXml.Style;
-using System.Globalization;
-using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Extensions;
+using System;
 using System.Collections.Generic;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using System.Net.NetworkInformation;
+using System.Globalization;
+using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {

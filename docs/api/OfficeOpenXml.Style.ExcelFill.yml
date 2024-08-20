@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFill
     path: ../src/EPPlus/Style/ExcelFill.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PatternType
     path: ../src/EPPlus/Style/ExcelFill.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PatternColor
     path: ../src/EPPlus/Style/ExcelFill.cs
@@ -142,7 +142,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BackgroundColor
     path: ../src/EPPlus/Style/ExcelFill.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gradient
     path: ../src/EPPlus/Style/ExcelFill.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetBackground
     path: ../src/EPPlus/Style/ExcelFill.cs
@@ -255,7 +255,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetBackground
     path: ../src/EPPlus/Style/ExcelFill.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetBackground
     path: ../src/EPPlus/Style/ExcelFill.cs

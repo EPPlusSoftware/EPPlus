@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: INameInfo
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -92,7 +92,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: wsIx
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -162,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -232,7 +232,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRelative
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -267,7 +267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetRelativeFormula
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -305,7 +305,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetRelativeRange
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs
@@ -343,7 +343,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameInfo.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/INameInfo.cs

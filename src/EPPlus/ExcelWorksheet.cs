@@ -523,7 +523,7 @@ namespace OfficeOpenXml
                 return _sortState;
             }
         }
-        public bool FullPrecision { get; set; }
+        internal bool FullPrecision { get; set; }
         internal void CheckSheetTypeAndNotDisposed()
         {
             if (this is ExcelChartsheet)

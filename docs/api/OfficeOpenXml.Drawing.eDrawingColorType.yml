@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingColorType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDrawingColorType
     path: ../src/EPPlus/Drawing/Enums/eDrawingColorType.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingColorType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Enums/eDrawingColorType.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingColorType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RgbPercentage
     path: ../src/EPPlus/Drawing/Enums/eDrawingColorType.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingColorType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rgb
     path: ../src/EPPlus/Drawing/Enums/eDrawingColorType.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingColorType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hsl
     path: ../src/EPPlus/Drawing/Enums/eDrawingColorType.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingColorType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System
     path: ../src/EPPlus/Drawing/Enums/eDrawingColorType.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingColorType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Scheme
     path: ../src/EPPlus/Drawing/Enums/eDrawingColorType.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingColorType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Preset
     path: ../src/EPPlus/Drawing/Enums/eDrawingColorType.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingColorType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChartStyleColor
     path: ../src/EPPlus/Drawing/Enums/eDrawingColorType.cs

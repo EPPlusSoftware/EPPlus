@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWorksheetPanes
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActiveCell
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActiveCellId
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -176,7 +176,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SelectedRange
     path: ../src/EPPlus/ExcelWorksheetView.cs

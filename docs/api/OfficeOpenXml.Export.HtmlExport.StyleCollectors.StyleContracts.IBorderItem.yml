@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/StyleCollectors/StyleContracts/IBorderItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IBorderItem
     path: ../src/EPPlus/Export/HtmlExport/StyleCollectors/StyleContracts/IBorderItem.cs

@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTextFormat
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
@@ -75,7 +75,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs

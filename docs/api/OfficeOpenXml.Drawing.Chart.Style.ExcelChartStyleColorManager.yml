@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleColorManager.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartStyleColorManager
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleColorManager.cs
@@ -88,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleColorManager.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetStyleColor
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleColorManager.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleColorManager.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetStyleColor
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleColorManager.cs
@@ -163,7 +163,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleColorManager.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleColor
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleColorManager.cs
@@ -200,7 +200,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleColorManager.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResetColors
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleColorManager.cs

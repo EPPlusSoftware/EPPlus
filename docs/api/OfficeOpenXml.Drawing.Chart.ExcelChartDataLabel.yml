@@ -35,7 +35,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartDataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -125,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowValue
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -164,7 +164,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowCategory
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -203,7 +203,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowSeriesName
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -242,7 +242,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowPercent
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -281,7 +281,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLeaderLines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -320,7 +320,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowBubbleSize
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -359,7 +359,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLegendKey
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -398,7 +398,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Separator
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -437,7 +437,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Format
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -474,7 +474,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SourceLinked
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -511,7 +511,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -548,7 +548,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -585,7 +585,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -622,7 +622,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -659,7 +659,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -696,7 +696,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextSettings
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -733,7 +733,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -770,7 +770,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetPosText
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
@@ -809,7 +809,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetPosEnum
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabel.cs

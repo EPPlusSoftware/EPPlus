@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelControlScrollBar
     path: ../src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ControlType
     path: ../src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Horizontal
     path: ../src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Increment
     path: ../src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Page
     path: ../src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
@@ -266,7 +266,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinValue
     path: ../src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxValue
     path: ../src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
@@ -340,7 +340,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/Drawing/Controls/ExcelControlScrollBar.cs

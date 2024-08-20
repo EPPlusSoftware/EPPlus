@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelControlButton
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ControlType
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
@@ -160,7 +160,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Margin
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LayoutFlow
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
@@ -234,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Orientation
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
@@ -271,7 +271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReadingOrder
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
@@ -308,7 +308,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutomaticSize
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
@@ -345,7 +345,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextAlignment
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs

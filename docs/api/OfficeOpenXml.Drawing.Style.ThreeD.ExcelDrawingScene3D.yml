@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingScene3D
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _path
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Camera
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightRig
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
@@ -172,7 +172,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BackDropPlane
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3D.cs

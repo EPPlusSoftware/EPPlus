@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eVmlDashStyle
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Solid
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
@@ -94,7 +94,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShortDash
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShortDot
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
@@ -162,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShortDashDot
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShortDashDotDot
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dot
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
@@ -264,7 +264,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dash
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LongDash
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
@@ -332,7 +332,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DashDot
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
@@ -366,7 +366,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LongDashDot
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
@@ -400,7 +400,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LongDashDotDot
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
@@ -434,7 +434,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Custom
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlDashStyle.cs

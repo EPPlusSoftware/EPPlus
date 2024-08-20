@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAReference.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaReference
     path: ../src/EPPlus/Vba/ExcelVBAReference.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAReference.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Vba/ExcelVBAReference.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAReference.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReferenceRecordID
     path: ../src/EPPlus/Vba/ExcelVBAReference.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAReference.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondaryReferenceRecordID
     path: ../src/EPPlus/Vba/ExcelVBAReference.cs
@@ -172,7 +172,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAReference.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Vba/ExcelVBAReference.cs
@@ -209,7 +209,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAReference.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Libid
     path: ../src/EPPlus/Vba/ExcelVBAReference.cs
@@ -246,7 +246,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAReference.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/Vba/ExcelVBAReference.cs

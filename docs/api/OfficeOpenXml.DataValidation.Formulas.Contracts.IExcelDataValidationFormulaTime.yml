@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaTime.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelDataValidationFormulaTime
     path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaTime.cs

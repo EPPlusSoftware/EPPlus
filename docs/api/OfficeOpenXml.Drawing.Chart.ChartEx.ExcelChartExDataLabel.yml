@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartExDataLabel
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
@@ -126,7 +126,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowValue
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
@@ -166,7 +166,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowCategory
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
@@ -206,7 +206,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowSeriesName
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
@@ -246,7 +246,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowPercent
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
@@ -286,7 +286,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLeaderLines
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
@@ -326,7 +326,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowBubbleSize
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
@@ -366,7 +366,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLegendKey
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
@@ -406,7 +406,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Separator
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExDataLabel.cs

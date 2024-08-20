@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVerticalAlignment
     path: ../src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
@@ -53,7 +53,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Top
     path: ../src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Center
     path: ../src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bottom
     path: ../src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Distributed
     path: ../src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelVerticalAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Justify
     path: ../src/EPPlus/Style/enums/ExcelVerticalAlignment.cs

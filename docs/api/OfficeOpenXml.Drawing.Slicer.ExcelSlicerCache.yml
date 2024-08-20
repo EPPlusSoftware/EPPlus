@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSlicerCache
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SlicerCacheXml
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SourceName
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
@@ -187,7 +187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SourceType
     path: ../src/EPPlus/Drawing/Slicer/ExcelSlicerCache.cs

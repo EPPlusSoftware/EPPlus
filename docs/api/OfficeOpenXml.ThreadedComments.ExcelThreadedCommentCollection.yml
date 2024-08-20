@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelThreadedCommentCollection
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
@@ -204,7 +204,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
@@ -242,7 +242,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
@@ -277,7 +277,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
@@ -314,7 +314,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentCollection.cs

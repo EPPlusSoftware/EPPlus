@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScope.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParsingScope
     path: ../src/EPPlus/FormulaParsing/ParsingScope.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScope.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/ParsingScope.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScope.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/ParsingScope.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScope.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScopeId
     path: ../src/EPPlus/FormulaParsing/ParsingScope.cs
@@ -187,7 +187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScope.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parent
     path: ../src/EPPlus/FormulaParsing/ParsingScope.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScope.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/ParsingScope.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScope.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsSubtotal
     path: ../src/EPPlus/FormulaParsing/ParsingScope.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingScope.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/ParsingScope.cs

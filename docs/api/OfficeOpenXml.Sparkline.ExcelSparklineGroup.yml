@@ -43,7 +43,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSparklineGroup
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateAxisRange
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -126,7 +126,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataRange
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -163,7 +163,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LocationRange
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -200,7 +200,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sparklines
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -237,7 +237,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Markers
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -274,7 +274,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: High
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -311,7 +311,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Low
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -348,7 +348,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: First
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -385,7 +385,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Last
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -422,7 +422,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Negative
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -459,7 +459,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayXAxis
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -496,7 +496,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayHidden
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -533,7 +533,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineWidth
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -570,7 +570,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayEmptyCellsAs
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -607,7 +607,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -644,7 +644,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorSeries
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -681,7 +681,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorNegative
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -718,7 +718,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorAxis
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -755,7 +755,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorMarkers
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -792,7 +792,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorFirst
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -829,7 +829,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorLast
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -866,7 +866,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorHigh
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -903,7 +903,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorLow
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -940,7 +940,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ManualMin
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -977,7 +977,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ManualMax
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -1014,7 +1014,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinAxisType
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -1051,7 +1051,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxAxisType
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
@@ -1088,7 +1088,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightToLeft
     path: ../src/EPPlus/Sparkline/ExcelSparklineGroup.cs
