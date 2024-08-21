@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableSlicerCacheTabularData
     path: ../src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CrossFilter
     path: ../src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SortOrder
     path: ../src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomListSort
     path: ../src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
@@ -177,7 +177,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Items
     path: ../src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
@@ -214,7 +214,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotCacheId
     path: ../src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs

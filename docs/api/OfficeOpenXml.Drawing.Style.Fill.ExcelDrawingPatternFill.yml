@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingPatternFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingPatternFill
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingPatternFill.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingPatternFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingPatternFill.cs
@@ -112,7 +112,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingPatternFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PatternType
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingPatternFill.cs
@@ -149,7 +149,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingPatternFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ForegroundColor
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingPatternFill.cs
@@ -186,7 +186,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingPatternFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BackgroundColor
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingPatternFill.cs

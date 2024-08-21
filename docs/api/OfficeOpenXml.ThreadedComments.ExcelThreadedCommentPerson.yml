@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelThreadedCommentPerson
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayName
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UserId
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
@@ -181,7 +181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ProviderId
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
@@ -218,7 +218,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
@@ -262,7 +262,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPerson.cs

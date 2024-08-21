@@ -616,5 +616,25 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(pck);
             }
         }
+
+        [TestMethod]
+        public void WritingNormalAndExtLstCFsShouldNotCrash()
+        {
+            using (var p = OpenTemplatePackage("CF_NormalAndExt.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void ExtLstWithPrefixShouldNotCrash()
+        {
+            using (var p = OpenTemplatePackage("s711Edited.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

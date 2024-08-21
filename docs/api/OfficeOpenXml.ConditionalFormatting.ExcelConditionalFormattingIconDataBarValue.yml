@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingIconDataBarValue
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomIcon
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
@@ -137,7 +137,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThanOrEqualTo
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingIconDatabarValue.cs

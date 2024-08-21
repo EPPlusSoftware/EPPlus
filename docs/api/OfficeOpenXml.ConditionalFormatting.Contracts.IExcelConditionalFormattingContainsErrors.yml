@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingContainsErrors.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingContainsErrors
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingContainsErrors.cs

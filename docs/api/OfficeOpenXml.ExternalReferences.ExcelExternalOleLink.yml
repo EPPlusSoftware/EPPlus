@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalOleLink
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalLinkType
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OleItems
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ProgId
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs

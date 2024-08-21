@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eFontExclude
     path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: All
     path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
@@ -134,7 +134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
@@ -168,7 +168,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
@@ -202,7 +202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bold
     path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
@@ -236,7 +236,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Italic
     path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
@@ -270,7 +270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Strike
     path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
@@ -304,7 +304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Underline
     path: ../src/EPPlus/Export/HtmlExport/Enums/eFontExclude.cs

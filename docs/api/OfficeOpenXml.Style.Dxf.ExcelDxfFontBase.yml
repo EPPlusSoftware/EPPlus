@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDxfFontBase
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bold
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Italic
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Strike
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
@@ -219,7 +219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Underline
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
@@ -256,7 +256,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
@@ -296,7 +296,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfFontBase.cs

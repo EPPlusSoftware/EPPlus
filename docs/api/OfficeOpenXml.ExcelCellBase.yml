@@ -34,7 +34,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCellBase
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -81,7 +81,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TranslateFromR1C1
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TranslateToR1C1
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetColumnLetter
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetColumnLetter
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddressRow
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -304,7 +304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddressCol
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -348,7 +348,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -392,7 +392,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -442,7 +442,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -489,7 +489,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -539,7 +539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -592,7 +592,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddress
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -654,7 +654,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFullAddress
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -698,7 +698,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFullAddress
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -745,7 +745,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsSimpleAddress
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -786,7 +786,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValidAddress
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -827,7 +827,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValidTableAddress
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -868,7 +868,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValidRangeAddress
     path: ../src/EPPlus/ExcelCellBase.cs
@@ -909,7 +909,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelCellBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValidCellAddress
     path: ../src/EPPlus/ExcelCellBase.cs

@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/NameValueProvider.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameValueProvider
     path: ../src/EPPlus/FormulaParsing/NameValueProvider.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/NameValueProvider.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Empty
     path: ../src/EPPlus/FormulaParsing/NameValueProvider.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/NameValueProvider.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNamedValue
     path: ../src/EPPlus/FormulaParsing/NameValueProvider.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/NameValueProvider.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNamedValue
     path: ../src/EPPlus/FormulaParsing/NameValueProvider.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/NameValueProvider.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reload
     path: ../src/EPPlus/FormulaParsing/NameValueProvider.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/NameValueProvider.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNamedValue
     path: ../src/EPPlus/FormulaParsing/NameValueProvider.cs

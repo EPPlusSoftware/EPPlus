@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelThemeBase
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeBase.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThemeXml
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeBase.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorScheme
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeBase.cs
@@ -142,7 +142,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontScheme
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeBase.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormatScheme
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeBase.cs

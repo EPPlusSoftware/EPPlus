@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PictureCssExclude
     path: ../src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Alignment
     path: ../src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
@@ -136,7 +136,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResetToDefault
     path: ../src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
@@ -168,7 +168,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/Export/HtmlExport/Settings/PictureCssExclude.cs

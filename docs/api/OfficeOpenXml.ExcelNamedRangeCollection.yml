@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRangeCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelNamedRangeCollection
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRangeCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRangeCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
@@ -160,7 +160,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRangeCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddValue
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
@@ -202,7 +202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRangeCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddFormula
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
@@ -244,7 +244,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRangeCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
@@ -280,7 +280,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRangeCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ContainsKey
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
@@ -319,7 +319,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRangeCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
@@ -356,7 +356,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRangeCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
@@ -401,7 +401,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRangeCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
@@ -445,7 +445,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRangeCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs
@@ -483,7 +483,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRangeCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelNamedRangeCollection.cs

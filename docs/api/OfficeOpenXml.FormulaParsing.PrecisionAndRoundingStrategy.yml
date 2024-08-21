@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/PrecisionAndRoundingStrategy.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrecisionAndRoundingStrategy
     path: ../src/EPPlus/FormulaParsing/PrecisionAndRoundingStrategy.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/PrecisionAndRoundingStrategy.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DotNet
     path: ../src/EPPlus/FormulaParsing/PrecisionAndRoundingStrategy.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/PrecisionAndRoundingStrategy.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Excel
     path: ../src/EPPlus/FormulaParsing/PrecisionAndRoundingStrategy.cs

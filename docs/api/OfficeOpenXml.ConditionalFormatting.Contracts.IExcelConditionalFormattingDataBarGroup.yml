@@ -30,7 +30,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingDataBarGroup
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowValue
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gradient
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -141,7 +141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NegativeBarColorSameAsPositive
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -209,7 +209,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NegativeBarBorderColorSameAsPositive
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -243,7 +243,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AxisPosition
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -277,7 +277,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LowValue
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -312,7 +312,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HighValue
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -347,7 +347,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -381,7 +381,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillColor
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -416,7 +416,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BorderColor
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -451,7 +451,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NegativeFillColor
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -486,7 +486,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NegativeBorderColor
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -521,7 +521,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AxisColor
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
@@ -556,7 +556,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Direction
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingDataBarGroup.cs

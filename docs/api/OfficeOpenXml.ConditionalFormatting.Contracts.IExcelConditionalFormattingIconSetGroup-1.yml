@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingIconSetGroup
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reverse
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowValue
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IconSetPercent
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
@@ -176,7 +176,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Custom
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IconSet
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingIconSetGroup.cs

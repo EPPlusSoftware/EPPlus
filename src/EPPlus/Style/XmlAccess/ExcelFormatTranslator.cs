@@ -141,6 +141,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             }
         }
         internal eFormatType DataType { get; private set; }
+
         private void ToNetFormat(string ExcelFormat, bool forColWidth)
         {
             DataType = eFormatType.Unknown;
@@ -162,6 +163,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             if (containsAmPm)
             {
                 ExcelFormat = Regex.Replace(ExcelFormat, "AM/PM", "", RegexOptions.IgnoreCase);
+                DataType = eFormatType.DateTime;
             }
 
             for (int pos = 0; pos < ExcelFormat.Length; pos++)
@@ -201,10 +203,12 @@ namespace OfficeOpenXml.Style.XmlAccess
                                     if (li[1].Equals("f800", StringComparison.OrdinalIgnoreCase))
                                     {
                                         f.SpecialDateFormat = eSystemDateFormat.SystemLongDate;
+                                        DataType = eFormatType.DateTime;
                                     }
                                     else if (li[1].Equals("f400", StringComparison.OrdinalIgnoreCase))
                                     {
                                         f.SpecialDateFormat = eSystemDateFormat.SystemLongTime;
+                                        DataType = eFormatType.DateTime;
                                     }
                                     else if (int.TryParse(li[1], NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int num))
                                     {
@@ -244,16 +248,19 @@ namespace OfficeOpenXml.Style.XmlAccess
                             {                                
                                 f.SpecialDateFormat = eSystemDateFormat.AllHours;
                                 sb.Append("[h]");
+                                DataType = eFormatType.DateTime;
                             }
                             else if (bracketText.ContainsOnlyCharacter('m'))
                             {
                                 f.SpecialDateFormat = eSystemDateFormat.AllMinutes;
                                 sb.Append("[m]");
+                                DataType = eFormatType.DateTime;
                             }
                             else if (bracketText.ContainsOnlyCharacter('s'))
                             {
                                 f.SpecialDateFormat = eSystemDateFormat.AllSeconds;
                                 sb.Append("[s]");
+                                DataType = eFormatType.DateTime;
                             }
                             else
                             {
@@ -667,6 +674,16 @@ namespace OfficeOpenXml.Style.XmlAccess
                 return value;
             }
 
+        }
+        internal object GetPivotTableValue(object value)
+        {
+            var tc = Type.GetTypeCode(value?.GetType());
+            if(tc == TypeCode.Double || tc == TypeCode.Single || tc ==TypeCode.Decimal && DataType==eFormatType.DateTime)
+            {
+                var d = Convert.ToDouble(value);
+                return DateTime.FromOADate(d);
+            }
+            return value;
         }
 
         private int GetDecimalsFromFormat(string netFormat)

@@ -136,16 +136,16 @@ namespace OfficeOpenXml.ExcelXMLWriter
             }
         }
 
-        internal string GetWholeExtLst()
+        internal string GetWholeExtLst(string prefix)
         {
-            string extLstString = "<extLst>";
+            string extLstString = $"<{prefix}extLst>";
 
             for (int i = 0; i < _listOfExts.Count; i++)
             {
                 extLstString += _listOfExts[i];
             }
 
-            extLstString += "</extLst>";
+            extLstString += $"</{prefix}extLst>";
             return extLstString;
         }
     }

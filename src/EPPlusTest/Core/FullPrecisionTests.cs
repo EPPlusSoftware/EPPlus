@@ -242,6 +242,7 @@ namespace EPPlusTest.Core
                 Assert.AreEqual(-123.457D, ws.Cells["B3"].Value);
             }
         }
+
         private static DataTable CreateDataTable()
         {
             DataTable dt = new DataTable();

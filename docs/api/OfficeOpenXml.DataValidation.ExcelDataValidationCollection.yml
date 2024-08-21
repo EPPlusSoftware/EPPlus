@@ -35,7 +35,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationCollection
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -83,7 +83,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReadDataValidations
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -118,7 +118,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAnyValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddIntegerValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTextLengthValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDecimalValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -271,7 +271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddListValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -309,7 +309,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDateTimeValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -347,7 +347,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTimeValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -385,7 +385,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddCustomValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -423,7 +423,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -460,7 +460,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InternalValidationEnabled
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -497,7 +497,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -541,7 +541,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -585,7 +585,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FindAll
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -627,7 +627,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -670,7 +670,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Find
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -712,7 +712,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -744,7 +744,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAll
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -784,7 +784,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation>.GetEnumerator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
@@ -817,7 +817,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationCollection.cs

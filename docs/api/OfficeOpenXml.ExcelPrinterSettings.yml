@@ -37,7 +37,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPrinterSettings
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftMargin
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -122,7 +122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightMargin
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopMargin
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomMargin
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderMargin
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -270,7 +270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FooterMargin
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -307,7 +307,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Orientation
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -344,7 +344,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FitToWidth
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -381,7 +381,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FitToHeight
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -418,7 +418,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Scale
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -455,7 +455,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FitToPage
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -492,7 +492,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowHeaders
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -529,7 +529,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RepeatRows
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -566,7 +566,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RepeatColumns
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -603,7 +603,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrintArea
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -640,7 +640,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowGridLines
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -677,7 +677,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalCentered
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -714,7 +714,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalCentered
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -751,7 +751,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageOrder
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -788,7 +788,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BlackAndWhite
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -825,7 +825,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Draft
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -862,7 +862,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PaperSize
     path: ../src/EPPlus/ExcelPrinterSettings.cs

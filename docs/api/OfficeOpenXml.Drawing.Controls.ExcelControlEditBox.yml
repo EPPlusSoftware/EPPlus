@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlEditBox.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelControlEditBox
     path: ../src/EPPlus/Drawing/Controls/ExcelControlEditBox.cs
@@ -114,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlEditBox.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ControlType
     path: ../src/EPPlus/Drawing/Controls/ExcelControlEditBox.cs

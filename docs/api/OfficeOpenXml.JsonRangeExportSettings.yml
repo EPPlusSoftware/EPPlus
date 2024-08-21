@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: JsonRangeExportSettings
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RootElementName
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstRowIsHeader
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDataTypesOn
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs

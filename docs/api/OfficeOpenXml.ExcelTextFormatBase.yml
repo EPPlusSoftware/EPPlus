@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTextFormatBase
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatBase.cs
@@ -78,7 +78,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delimiter
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatBase.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextQualifier
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatBase.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatBase.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataTypes
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatBase.cs

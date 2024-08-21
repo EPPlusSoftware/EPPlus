@@ -32,7 +32,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSheetProtection
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -80,7 +80,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsProtected
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowSelectLockedCells
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowSelectUnlockedCells
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowEditObject
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -228,7 +228,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowEditScenarios
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -265,7 +265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowFormatCells
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -302,7 +302,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowFormatColumns
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -339,7 +339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowFormatRows
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -376,7 +376,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowInsertColumns
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -413,7 +413,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowInsertRows
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -450,7 +450,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowInsertHyperlinks
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -487,7 +487,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowDeleteColumns
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -524,7 +524,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowDeleteRows
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -561,7 +561,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowSort
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -598,7 +598,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowAutoFilter
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -635,7 +635,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowPivotTables
     path: ../src/EPPlus/ExcelSheetProtection.cs
@@ -672,7 +672,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelSheetProtection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPassword
     path: ../src/EPPlus/ExcelSheetProtection.cs

@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eStyleEntryModifier.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eStyleEntryModifier
     path: ../src/EPPlus/Drawing/Enums/eStyleEntryModifier.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eStyleEntryModifier.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowNoFillOverride
     path: ../src/EPPlus/Drawing/Enums/eStyleEntryModifier.cs
@@ -94,7 +94,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eStyleEntryModifier.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowNoLineOverride
     path: ../src/EPPlus/Drawing/Enums/eStyleEntryModifier.cs

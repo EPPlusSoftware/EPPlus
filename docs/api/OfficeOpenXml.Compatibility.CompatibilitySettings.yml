@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Compatibility/CompatibilitySettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompatibilitySettings
     path: ../src/EPPlus/Compatibility/CompatibilitySettings.cs
@@ -59,7 +59,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Compatibility/CompatibilitySettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsWorksheets1Based
     path: ../src/EPPlus/Compatibility/CompatibilitySettings.cs

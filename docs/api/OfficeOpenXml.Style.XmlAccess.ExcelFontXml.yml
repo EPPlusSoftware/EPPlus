@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFontXml
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -77,7 +77,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -114,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -151,7 +151,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Family
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -188,7 +188,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Scheme
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -262,7 +262,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bold
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -299,7 +299,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Italic
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -336,7 +336,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Strike
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -373,7 +373,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLine
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -410,7 +410,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLineType
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -447,7 +447,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalAlign
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -484,7 +484,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Charset
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
@@ -522,7 +522,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetFromFont
     path: ../src/EPPlus/Style/XmlAccess/ExcelFontXml.cs
