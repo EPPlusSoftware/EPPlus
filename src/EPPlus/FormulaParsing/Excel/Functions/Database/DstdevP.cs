@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Database,
-        EPPlusVersion = "7",
+        EPPlusVersion = "7.3",
         Description = "Calculates the standard deviation of values in a field of a list or database, that satisfy specified conditions (for the whole population)")]
     internal class DstdevP : DatabaseFunction
     {

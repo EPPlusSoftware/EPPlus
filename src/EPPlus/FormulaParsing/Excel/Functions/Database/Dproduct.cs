@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Database,
-        EPPlusVersion = "7",
+        EPPlusVersion = "7.3",
         Description = "Multiplies the values in a field of a list or database, that satisfy specified conditions")]
     internal class Dproduct : DatabaseFunction
     {
