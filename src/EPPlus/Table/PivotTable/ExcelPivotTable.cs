@@ -355,7 +355,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <param name="refreshCache">If the pivot cache should be refreshed from the source data, before calculating the pivot table.</param>
         public void Calculate(bool refreshCache = false)
         {
-            if (refreshCache || CacheDefinition._cacheReference.Records.RecordCount == 0)
+            if (refreshCache || CacheDefinition._cacheReference.Records == null  || CacheDefinition._cacheReference.Records.RecordCount == 0)
             {
                 CacheDefinition.Refresh();
             }
