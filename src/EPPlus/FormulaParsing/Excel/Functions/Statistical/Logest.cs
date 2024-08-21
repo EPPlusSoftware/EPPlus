@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
        Category = ExcelFunctionCategory.Statistical,
-       EPPlusVersion = "7.0",
+       EPPlusVersion = "7.2",
        Description = "The LOGEST function calculates an exponential curve that best fits the input data. It can also provide multiple curves if there are multiple " +
                      "x-variables.")]
     internal class Logest : ExcelFunction

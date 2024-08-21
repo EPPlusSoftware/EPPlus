@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 {
     [FunctionMetadata(
        Category = ExcelFunctionCategory.Statistical,
-       EPPlusVersion = "7.0",
+       EPPlusVersion = "7.2",
        Description = "The LINEST function calculates a regressional line that fits your data. It also calculates additional statistics." +
                      "It can handle several x-variables and perform multiple regression analysis.")]
     internal class Linest : ExcelFunction
