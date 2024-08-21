@@ -1739,6 +1739,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             foreach (var cf in ConditionalFormattings)
             {
+                cf.Priority = cf.ConditionalFormatting.Priority;
                 foreach (ExcelPivotTableAreaStyle a in cf.Areas)
                 {
                     a.Conditions.UpdateXml();

@@ -19,16 +19,16 @@ namespace OfficeOpenXml.Table.PivotTable
             _conditionalFormatting = pt.WorkSheet.ConditionalFormatting;
             foreach (XmlNode node in pt.GetNodes("d:conditionalFormats/d:conditionalFormat"))
             {
-                var s = new ExcelPivotTableAreaConditionalFormat(_pt.NameSpaceManager, node, _pt);
-                _list.Add(s);
+                var cf = new ExcelPivotTableAreaConditionalFormat(_pt.NameSpaceManager, node, _pt);
+                _list.Add(cf);
             }
         }
         /// <summary>
-        /// Adds a conditional formatting pivot area for the pivot tables data field(s).
+        /// Adds a conditional formatting pivot area for the pivot tables data field(cf).
         /// Note that only conditional formattings for data is support. Conditional formattings for Lables, data buttons and other pivot areas must be added using the <see cref="ExcelWorksheet.ConditionalFormatting" /> collection.
         /// </summary>
         /// <param name="ruleType">The type of conditional formatting rule</param>
-        /// <param name="fields">The data field(s) in the pivot table to apply the rule. If no data field is provided, all data field in the collection will be added to the area.The area will be added to the <see cref="ExcelPivotTableAreaConditionalFormat.Areas" collection/></param>
+        /// <param name="fields">The data field(cf) in the pivot table to apply the rule. If no data field is provided, all data field in the collection will be added to the area.The area will be added to the <see cref="ExcelPivotTableAreaConditionalFormat.Areas" collection/></param>
         /// <returns>The rule</returns>
         /// <exception cref="InvalidOperationException">If no data fields exist in the data fields collection.</exception>
         public ExcelPivotTableAreaConditionalFormat Add(eExcelPivotTableConditionalFormattingRuleType ruleType, params ExcelPivotTableDataField[] fields)

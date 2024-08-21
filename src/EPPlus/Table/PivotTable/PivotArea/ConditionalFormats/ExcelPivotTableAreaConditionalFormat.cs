@@ -13,6 +13,7 @@
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Utils.Extensions;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
@@ -78,21 +79,24 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         /// <summary>
         /// The priority of the pivot table conditional formatting rule that should be matched in the worksheet.
+        /// If this value differs from the <see cref="ConditionalFormatting"/> priority, the later will be used when saved.
         /// </summary>
         internal int Priority 
         { 
             get
             {
-                return GetXmlNodeInt("@priority");                
+                return GetXmlNodeInt("@priority");
             }
-            private set
+            set
             {
                 SetXmlNodeInt("@priority", value);
             }
         }
         /// <summary>
-        /// The condition type of the pivot table conditional formatting rule. Default is None
+        /// The condition type of the pivot table conditional formatting rule. Default is None.
+        /// This property only apply to condional formattings for above/below -average, -stdev amd top or bottom.
         /// </summary>
+        /// <exception cref="InvalidOperationException">If setting this property to Row or Column when having an unsupported conditional formatting rule.</exception>
         public ePivotTableConditionalFormattingConditionType Type
         {
             get
@@ -101,6 +105,21 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             set
             {
+                if((value == ePivotTableConditionalFormattingConditionType.Row || value == ePivotTableConditionalFormattingConditionType.Column) && 
+                  !(_conditionalFormatting.Type == eExcelConditionalFormattingRuleType.AboveAverage ||
+                   _conditionalFormatting.Type == eExcelConditionalFormattingRuleType.AboveOrEqualAverage ||
+                   _conditionalFormatting.Type == eExcelConditionalFormattingRuleType.AboveStdDev ||
+                   _conditionalFormatting.Type == eExcelConditionalFormattingRuleType.BelowAverage ||
+                   _conditionalFormatting.Type == eExcelConditionalFormattingRuleType.BelowOrEqualAverage ||
+                   _conditionalFormatting.Type == eExcelConditionalFormattingRuleType.BelowStdDev ||
+                   _conditionalFormatting.Type == eExcelConditionalFormattingRuleType.Top ||
+                   _conditionalFormatting.Type == eExcelConditionalFormattingRuleType.Bottom ||
+                   _conditionalFormatting.Type == eExcelConditionalFormattingRuleType.TopPercent ||
+                   _conditionalFormatting.Type == eExcelConditionalFormattingRuleType.BottomPercent))
+                {
+                    throw new InvalidOperationException($"Can't set 'Type' to '{value}' when the conditional formatting type is '{_conditionalFormatting.Type}'.");
+                }
+
                 SetXmlNodeString("@type", value.ToEnumString());
             }
         }

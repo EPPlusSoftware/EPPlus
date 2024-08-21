@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using OfficeOpenXml.ConditionalFormatting;
 using System.Data;
+using FakeItEasy;
 namespace EPPlusTest.Table.PivotTable
 {
     [TestClass]
@@ -41,7 +42,7 @@ namespace EPPlusTest.Table.PivotTable
             return pt;
         }
         [TestMethod]
-        public void AddPivotCF_TowDataField()
+        public void AddPivotCF_TwoDataField()
         {
             var ws = _pck.Workbook.Worksheets.Add("FirstDataFieldGreaterThan");
             var pt = CreatePivotTable(ws);
@@ -61,11 +62,10 @@ namespace EPPlusTest.Table.PivotTable
         [TestMethod]
         public void AddPivotCF_AddTwoPivotAreas()
         {
-            var ws = _pck.Workbook.Worksheets.Add("FirstDataFieldGreaterThan");
+            var ws = _pck.Workbook.Worksheets.Add("PivotCfGreaterThanTwoArea");
             var pt = CreatePivotTable(ws);
             var rule = pt.ConditionalFormattings.Add(eExcelPivotTableConditionalFormattingRuleType.GreaterThan);
 
-            //rule.Type = ePivotTableConditionalFormattingConditionType.Row; //row and column causes the workbook to become corrupt.
             rule.Scope = ePivotTableConditionalFormattingConditionScope.Field;
             var area = rule.Areas.Add();
             area.Conditions.DataFields.Add(pt.DataFields[0]);
@@ -79,9 +79,19 @@ namespace EPPlusTest.Table.PivotTable
             area2.Conditions.Fields[0].Items.Add(0);
         }
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddPivotCF_ShouldThrowExceptionWhenSettingTypeOnUnsupportedCFRule()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotCfRowColException");
+            var pt = CreatePivotTable(ws);
+            var rule = pt.ConditionalFormattings.Add(eExcelPivotTableConditionalFormattingRuleType.GreaterThan);
+
+            rule.Type = ePivotTableConditionalFormattingConditionType.Row; //row and column causes the workbook to become corrupt.
+        }
+        [TestMethod]
         public void AddPivotCF_AddExtLstPivotFormattingData()
         {
-            var ws = _pck.Workbook.Worksheets.Add("FirstDataFieldGreaterThan");
+            var ws = _pck.Workbook.Worksheets.Add("PivotCfDataBar");
             var pt = CreatePivotTable(ws);
             var rule = pt.ConditionalFormattings.Add(eExcelPivotTableConditionalFormattingRuleType.DataBar);
             rule.Scope = ePivotTableConditionalFormattingConditionScope.Data;
@@ -94,7 +104,7 @@ namespace EPPlusTest.Table.PivotTable
         [TestMethod]
         public void AddPivotCF_AddExtLstPivotFormatting()
         {
-            var ws = _pck.Workbook.Worksheets.Add("FirstDataFieldBottomPercent");
+            var ws = _pck.Workbook.Worksheets.Add("PivotCFBottomPercent");
             var pt = CreatePivotTable(ws);
             var rule = pt.ConditionalFormattings.Add(eExcelPivotTableConditionalFormattingRuleType.BottomPercent, pt.DataFields[0]);
             var area = rule.Areas[0];
@@ -111,7 +121,7 @@ namespace EPPlusTest.Table.PivotTable
         [TestMethod]
         public void AddPivotCF_AddIconset()
         {
-            var ws = _pck.Workbook.Worksheets.Add("FirstDataFieldBottomPercent");
+            var ws = _pck.Workbook.Worksheets.Add("PivotCFIconSet");
             var pt = CreatePivotTable(ws);
             var rule = pt.ConditionalFormattings.Add(eExcelPivotTableConditionalFormattingRuleType.ThreeIconSet, pt.DataFields[0]);
             var area = rule.Areas[0];

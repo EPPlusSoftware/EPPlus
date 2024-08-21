@@ -582,8 +582,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 Remove(RulesByPriority(priority));
             }
-            catch
+            catch(Exception ex)
             {
+                throw new InvalidOperationException($"Could not remove item with priority {priority}", ex);
             }
         }
 
