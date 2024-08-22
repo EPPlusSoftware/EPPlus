@@ -17,6 +17,12 @@ namespace OfficeOpenXml.Drawing.OleObject
 {
     public class ExcelOleObject : ExcelDrawing
     {
+        const string OLE_STREAM_NAME = "\u0001Ole";
+        const string COMPOBJ_STREAM_NAME = "\u0001CompObj";
+        const string OLE10NATIVE_STREAM_NAME = "\u0001Ole10Native";
+        const string CONTENTS_STREAM_NAME = "CONTENTS";
+        const string EMBEDDEDODF_STREAM_NAME = "EmbeddedOdf";
+
         internal ExcelVmlDrawingBase _vml;
         internal XmlHelper _vmlProp;
         internal OleObjectInternal _oleObject;
@@ -582,7 +588,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 if (_document.Storage.DataStreams.ContainsKey("\u0001Ole10Native"))
                 {
                     _oleDataStreams.OleNative = new OleObjectDataStreams.OleNativeStream();
-                    ReadOleNative(_document.Storage.DataStreams["\u0001Ole10Native"]);
+                    ReadOleNative(_document.Storage.DataStreams["\u0001Ole10Native"].Stream);
 
                     var ws = p.Workbook.Worksheets["OleNative"];
                     ws.InsertRow(2, 1);
@@ -593,7 +599,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 if (_document.Storage.DataStreams.ContainsKey("\u0001Ole"))
                 {
                     _oleDataStreams.Ole = new OleObjectDataStreams.OleObjectStream();
-                    ReadOleStream(_document.Storage.DataStreams["\u0001Ole"]);
+                    ReadOleStream(_document.Storage.DataStreams["\u0001Ole"].Stream);
 
                     var ws = p.Workbook.Worksheets["Ole"];
                     ws.InsertRow(2, 1);
@@ -604,7 +610,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 if (_document.Storage.DataStreams.ContainsKey("\u0001CompObj"))
                 {
                     _oleDataStreams.CompObj = new OleObjectDataStreams.CompObjStream();
-                    ReadCompObjStream(_document.Storage.DataStreams["\u0001CompObj"]);
+                    ReadCompObjStream(_document.Storage.DataStreams["\u0001CompObj"].Stream);
 
                     var ws = p.Workbook.Worksheets["CompObj"];
                     ws.InsertRow(2, 1);
@@ -614,6 +620,15 @@ namespace OfficeOpenXml.Drawing.OleObject
                 }
             }
             p.Save();
+        }
+
+        private void WriteCD(CompoundDocument compoundDocument)
+        {
+            var ts = DateTime.Now.Ticks.ToString();
+            foreach(var ds in compoundDocument.Storage.DataStreams)
+            {
+                File.WriteAllBytes($"c:\\temp\\ole\\ts{ds.Key.Replace("\u0001","1")}", ds.Value.Stream);
+            }
         }
 
         internal void LoadExternalLink()
@@ -765,7 +780,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                                                  BitConverter.GetBytes(_oleDataStreams.Ole.RemoteUpdateTime.dwLowDateTime),
                                                  BitConverter.GetBytes(_oleDataStreams.Ole.RemoteUpdateTime.dwHighDateTime));
             }
-            _document.Storage.DataStreams.Add("\u0001Ole", oleBytes);
+            _document.Storage.DataStreams.Add(OLE_STREAM_NAME, new CompoundDocumentItem(OLE_STREAM_NAME, oleBytes));
         }
 
         private void CreateCompObjObject(string AnsiUserTypeString, string Reserved1String)
@@ -805,7 +820,7 @@ namespace OfficeOpenXml.Drawing.OleObject
 
                                                         BitConverter.GetBytes(_oleDataStreams.CompObj.Reserved2.Length),
                                                         BinaryHelper.GetByteArray(_oleDataStreams.CompObj.Reserved2.String, _oleDataStreams.CompObj.Reserved2.Encoding));
-            _document.Storage.DataStreams.Add("\u0001CompObj", compObjBytes);
+            _document.Storage.DataStreams.Add(COMPOBJ_STREAM_NAME, new CompoundDocumentItem(COMPOBJ_STREAM_NAME, compObjBytes));
         }
 
         private void CreateOleNativeObject(byte[] fileData, string filePath)
@@ -844,7 +859,8 @@ namespace OfficeOpenXml.Drawing.OleObject
             oleNativeBytes[1] = totalsize[1];
             oleNativeBytes[2] = totalsize[2];
             oleNativeBytes[3] = totalsize[3];
-            _document.Storage.DataStreams.Add("\u0001Ole10Native", oleNativeBytes);
+            //_document.Storage.DataStreams.Add("\u0001Ole10Native", oleNativeBytes);
+            _document.Storage.DataStreams.Add(OLE10NATIVE_STREAM_NAME, new CompoundDocumentItem(OLE10NATIVE_STREAM_NAME, oleNativeBytes));
         }
 
         private string GetFileType(string filepath)
@@ -859,6 +875,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             string fileType = GetFileType(filePath);
             _oleDataStreams = new OleObjectDataStreams();
             _document = new CompoundDocument();
+            
             if (fileType ==".pdf")
             {
                 //Create Ole structure and add data
@@ -871,7 +888,9 @@ namespace OfficeOpenXml.Drawing.OleObject
                 CreateCompObjDataStream();
                 //Add CONTENT Data Stream
                 _oleDataStreams.DataFile = fileData;
-                _document.Storage.DataStreams.Add("CONTENTS", fileData);
+
+                //_document.Storage.DataStreams.Add("CONTENTS", fileData);
+                _document.Storage.DataStreams.Add(CONTENTS_STREAM_NAME, new CompoundDocumentItem(CONTENTS_STREAM_NAME, fileData));                
             }
             else if(fileType == ".odt" || fileType == ".ods" || fileType == ".odp") //open office formats
             {
@@ -885,7 +904,8 @@ namespace OfficeOpenXml.Drawing.OleObject
                 CreateCompObjDataStream();
                 //Add EmbeddedOdf
                 _oleDataStreams.DataFile = fileData;
-                _document.Storage.DataStreams.Add("EmbeddedOdf", fileData);
+                //_document.Storage.DataStreams.Add("EmbeddedOdf", fileData);
+                _document.Storage.DataStreams.Add(EMBEDDEDODF_STREAM_NAME, new CompoundDocumentItem(EMBEDDEDODF_STREAM_NAME, fileData));
             }
             else if(fileType == ".docx" || fileType == ".xlsx" || fileType == ".pptx") //ms office format
             {
@@ -920,6 +940,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/oleObject");
                 relId = rel.Id;
                 MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+                _document.RootItem.ClsID = new Guid(new byte[] { 0x0C, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x00, 0x00, 0x000, 0x00, 0x00, 0x00, 0x46 });
                 _document.Save(ms);
             }
             return relId;

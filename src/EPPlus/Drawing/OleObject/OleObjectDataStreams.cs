@@ -174,11 +174,12 @@ namespace OfficeOpenXml.Drawing.OleObject
 
         internal class OleNativeHeader
         {
+            string constTempName = "C:\\Users\\Janne\\AppData\\Local\\Temp\\{8E9AF72C-32FD-4E9E-A60F-82048E613658}\\{6222D4D5-D9D3-469A-AC3B-0D33C49B96FC}\\MyTextDocument.txt";
             internal OleNativeHeader()
             {
                 FileName = new LengthPrefixedAnsiString();
                 FilePath = new LengthPrefixedAnsiString();
-                TempPath = new LengthPrefixedAnsiString(@"C:\Users\ADRIAN~1\AppData\Local\Temp\{46A1BA1E-14C8-4448-A5F1-DC946E943320}\{967555A0-D4E1-445D-83B0-95826D4CC5BA}\sample.mp3");
+                TempPath = new LengthPrefixedAnsiString(constTempName);
             }
             internal UInt32 Size;
             internal UInt16 Type = 2;
@@ -190,9 +191,10 @@ namespace OfficeOpenXml.Drawing.OleObject
 
         internal class OleNativeFooter
         {
+            string constTempName = "C:\\Users\\Janne\\AppData\\Local\\Temp\\{8E9AF72C-32FD-4E9E-A60F-82048E613658}\\{6222D4D5-D9D3-469A-AC3B-0D33C49B96FC}\\MyTextDocument.txt";
             internal OleNativeFooter()
             {
-                TempPath = new LengthPrefixedUnicodeString(@"C:\Users\ADRIAN~1\AppData\Local\Temp\{46A1BA1E-14C8-4448-A5F1-DC946E943320}\{967555A0-D4E1-445D-83B0-95826D4CC5BA}\sample.mp3");
+                TempPath = new LengthPrefixedUnicodeString(constTempName);
                 FileName = new LengthPrefixedUnicodeString();
                 FilePath = new LengthPrefixedUnicodeString();
             }

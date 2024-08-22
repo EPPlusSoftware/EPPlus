@@ -3752,7 +3752,7 @@ namespace EPPlusTest
             foreach (var key in storage.DataStreams.Keys)
             {
                 sb.WriteLine($"{path}{dir}\\" + key);
-                System.IO.File.WriteAllBytes($"{path}{dir}\\" + GetFileName(key) + ".bin", storage.DataStreams[key]);
+                System.IO.File.WriteAllBytes($"{path}{dir}\\" + GetFileName(key) + ".bin", storage.DataStreams[key].Stream);
             }
         }
 

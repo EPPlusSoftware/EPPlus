@@ -24,12 +24,16 @@ namespace OfficeOpenXml.Utils.CompundDocument
 
             }
             internal Dictionary<string, StoragePart> SubStorage = new Dictionary<string, StoragePart>();
-            internal Dictionary<string, byte[]> DataStreams = new Dictionary<string, byte[]>();
+            internal Dictionary<string, CompoundDocumentItem> DataStreams = new Dictionary<string, CompoundDocumentItem>();
         }
         /// <summary>
         /// The root storage part of the compound document.
         /// </summary>
         internal StoragePart Storage = null;
+
+        
+        internal CompoundDocumentItem RootItem { get; private set; }
+
         /// <summary>
         /// Directories in the order they are saved.
         /// </summary>
@@ -37,6 +41,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
         internal CompoundDocument()
         {
             Storage = new StoragePart();
+            RootItem = new CompoundDocumentItem("Root Entry", null, 5);
         }
         internal CompoundDocument(MemoryStream ms)
         {
@@ -94,14 +99,14 @@ namespace OfficeOpenXml.Utils.CompundDocument
                 }
                 else if(item.ObjectType==2) //Stream
                 {
-                    storage.DataStreams.Add(item.Name, item.Stream);
+                    storage.DataStreams.Add(item.Name, item);
                 }
             }
         }
         internal void Save(MemoryStream ms)
         {
-            var doc = new CompoundDocumentFile();
-            WriteStorageAndStreams(Storage, doc.RootItem);
+            var doc = new CompoundDocumentFile(RootItem);
+            WriteStorageAndStreams(Storage, RootItem);
             Directories = doc.Directories;
             doc.Write(ms);
         }
@@ -109,16 +114,15 @@ namespace OfficeOpenXml.Utils.CompundDocument
         {
             foreach(var item in storage.SubStorage)
             {
-                var c = new CompoundDocumentItem() { Name = item.Key, ObjectType = 1, Stream = null, StreamSize = 0, Parent = parent };
+                var c = new CompoundDocumentItem(item.Key,null, 1, parent);
                 parent.Children.Add(c);
                 WriteStorageAndStreams(item.Value, c);
             }
+
             foreach (var item in storage.DataStreams)
             {
-                var c = new CompoundDocumentItem() { Name = item.Key, ObjectType = 2, Stream = item.Value, StreamSize = (item.Value == null ? 0 : item.Value.Length), Parent = parent };
-                parent.Children.Add(c);
-            }
-            
+                parent.Children.Add(item.Value);
+            }            
         }
     }
 }

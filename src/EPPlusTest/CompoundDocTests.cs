@@ -298,7 +298,7 @@ namespace EPPlusTest
         {            
             var cd = new CompoundDocument();
 
-            cd.Storage.DataStreams.Add("test1", new byte[] { 1, 2, 3, 4 });
+            cd.Storage.DataStreams.Add("test1", new CompoundDocumentItem("test1", new byte[] { 1, 2, 3, 4 }));
             var ms = new MemoryStream();
             cd.Save(ms);
             var fi = GetOutputFile("CompoundDocument", "small.bin");
@@ -313,11 +313,11 @@ namespace EPPlusTest
         {
             var cd = new CompoundDocument();
 
-            cd.Storage.DataStreams.Add("test1", new byte[] { 1, 2, 3, 4 });
-            cd.Storage.DataStreams.Add("test2", new byte[] { 1, 2, 3, 4 });
-            cd.Storage.DataStreams.Add("test3", new byte[] { 1, 2, 3, 4 });
-            cd.Storage.DataStreams.Add("test4", new byte[] { 1, 2, 3, 4 });
-            cd.Storage.DataStreams.Add("test5", new byte[] { 1, 2, 3, 4 });
+            cd.Storage.DataStreams.Add("test1", new CompoundDocumentItem("test1", new byte[] { 1, 2, 3, 4 }));
+            cd.Storage.DataStreams.Add("test2", new CompoundDocumentItem("test2", new byte[] { 1, 2, 3, 4 }));
+            cd.Storage.DataStreams.Add("test3", new CompoundDocumentItem("test3", new byte[] { 1, 2, 3, 4 }));
+            cd.Storage.DataStreams.Add("test4", new CompoundDocumentItem("test4", new byte[] { 1, 2, 3, 4 }));
+            cd.Storage.DataStreams.Add("test5", new CompoundDocumentItem("test5", new byte[] { 1, 2, 3, 4 }));
             var ms = new MemoryStream();
             cd.Save(ms);
             var fi = GetOutputFile("CompoundDocument", "small.bin");

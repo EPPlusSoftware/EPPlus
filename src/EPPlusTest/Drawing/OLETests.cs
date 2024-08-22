@@ -53,7 +53,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyTextDocument.txt", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_TXT.xlsx");
         }
         [TestMethod]
@@ -110,7 +110,9 @@ namespace EPPlusTest.Drawing
         public void ReadExcelEmbedded_TXT()
         {
             using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\TXT.xlsx");
+            //using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_TXT.xlsx"); 
             var ole = p.Workbook.Worksheets[0].Drawings[0];
+           // p.SaveAs(@"c:\temp\ole.xlsx");
         }
         [TestMethod]
         public void ReadExcelEmbedded_WAV()

@@ -21,9 +21,9 @@ namespace OfficeOpenXml.Utils.CompundDocument
     /// </summary>
     internal partial class CompoundDocumentFile : IDisposable
     {
-        internal CompoundDocumentFile()
+        internal CompoundDocumentFile(CompoundDocumentItem rootItem)
         {
-            RootItem = new CompoundDocumentItem() { Name = "<Root>", Children=new List<CompoundDocumentItem>(), ObjectType=5 };
+            RootItem = rootItem;
             minorVersion = 0x3E;
             majorVersion = 3;
             sectorShif = 9;
@@ -335,8 +335,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
 
                 while (ms.Position < ms.Length)
                 {
-                    var e = new CompoundDocumentItem();
-                    e.Read(br);
+                    var e = CompoundDocumentItem.Read(br);
                     if (e.ObjectType != 0)
                     {
                         l.Add(e);
@@ -630,11 +629,11 @@ namespace OfficeOpenXml.Utils.CompundDocument
 
         private int WriteDirStream(BinaryWriter bw, List<CompoundDocumentItem> dirs)
         {
-            if (dirs.Count>0)
+            if (dirs.Count > 0)
             {
                 //First directory sector goes into sector 2
                 bw.Seek((_firstDirectorySectorLocation + 1) * _sectorSize, SeekOrigin.Begin);
-                for(int i=0;i<Math.Min(_sectorSize/128,dirs.Count);i++)
+                for (int i = 0; i < Math.Min(_sectorSize / 128, dirs.Count); i++)
                 {
                     dirs[i].Write(bw);
                 }
@@ -658,14 +657,17 @@ namespace OfficeOpenXml.Utils.CompundDocument
             var pos = _sectorSize + 4;
             WritePosition(bw, start, ref pos, false);
             var streamLength = 0;
-            for(int i=4;i<dirs.Count;i++)
+            for (int i = 4; i < dirs.Count; i++)
             {
                 dirs[i].Write(bw);
                 streamLength += 128;
             }
 
-            WriteStreamFullSector(bw, _sectorSize);
-            WriteFAT(bw, start, streamLength);
+            if (streamLength > 0)
+            {
+                WriteStreamFullSector(bw, _sectorSize);
+                WriteFAT(bw, start, streamLength);
+            }
             return start;
 
         }
@@ -774,31 +776,29 @@ namespace OfficeOpenXml.Utils.CompundDocument
 
             //Directory Size
             var dirsPerSector = _sectorSize / 128;
-            int dirSectors = 1;
             int firstFATSectorPos = _currentFATSectorPos;
+            int numberOfFATSectors = 0;
             if (dirs.Count > dirsPerSector)
             {
-                dirSectors = GetSectors(dirs.Count, dirsPerSector);
-                //noOfSectors += dirSectors - 1; //Four items per sector. Sector two is fixed for directories
+                var dirSectors = GetSectors(dirs.Count, dirsPerSector);
+                noOfSectors += dirSectors - 1; //Four items per sector. Sector two is fixed for directories
             }
-            noOfSectors += dirSectors - 1; //Four items per sector. Sector two is fixed for directories
 
-
-            //First calc fat no sectors and difat sectors from full size
-            var numberOfFATSectors = GetSectors((int)noOfSectors, _sectorSizeInt);       //Sector 0 is already allocated
+            numberOfFATSectors = GetSectors((int)noOfSectors, _sectorSizeInt);       //Sector 0 is already allocated
             _numberofDIFATSectors = GetDIFatSectors(numberOfFATSectors);
             noOfSectors += numberOfFATSectors + _numberofDIFATSectors;
 
             //Calc fat sectors again with the added fat and di fat sectors.
             numberOfFATSectors = GetSectors((int)noOfSectors, _sectorSizeInt) + _numberofDIFATSectors;
-             _numberofDIFATSectors = GetDIFatSectors(numberOfFATSectors);
+            _numberofDIFATSectors = GetDIFatSectors(numberOfFATSectors);
 
             //Allocate FAT and DIFAT Sectors
             bw.Write(new byte[(numberOfFATSectors + (_numberofDIFATSectors > 0 ? _numberofDIFATSectors - 1 : 0)) * _sectorSize]);
 
             //Move to FAT Second sector (4).
             bw.Seek(_currentFATSectorPos, SeekOrigin.Begin);
-            int sectorPos = 1;
+            int sectorPos = 0;
+            sectorPos = 1;
             for (int i = 1; i < 109; i++)     //We have 1 FAT sector to start with at sector 0
             {
                 if (i < numberOfFATSectors + _numberofDIFATSectors)
@@ -813,6 +813,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
                 }
             }
             if (_numberofDIFATSectors > 0) _firstDIFATSectorLocation = sectorPos + 1;
+
             for (int j = 0; j < _numberofDIFATSectors; j++)
             {
                 WriteFATItem(bw, DIFAT_SECTOR);
