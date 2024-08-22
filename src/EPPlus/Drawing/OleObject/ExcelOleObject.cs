@@ -706,36 +706,50 @@ namespace OfficeOpenXml.Drawing.OleObject
                                                     BitConverter.GetBytes(_oleDataStreams.Ole.Flags),
                                                     BitConverter.GetBytes(_oleDataStreams.Ole.LinkUpdateOption),
                                                     BitConverter.GetBytes(_oleDataStreams.Ole.Reserved1),
-                                                    BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStreamSize),
-                                                    BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data1),
-                                                    BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data2),
-                                                    BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data3),
-                                                    BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data4),
-                                                    BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData1),
-                                                    BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData2),
-                                                    BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData3),
-                                                    BinaryHelper.GetByteArray(_oleDataStreams.Ole.ReservedMonikerStream.StreamData4, _oleDataStreams.Ole.ReservedMonikerStream.Encoding));
+                                                    BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStreamSize));
+            if (_oleDataStreams.Ole.ReservedMonikerStreamSize > 0)
+            {
+                oleBytes = ConcatenateByteArrays(oleBytes,
+                                                 BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data1),
+                                                 BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data2),
+                                                 BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data3),
+                                                 BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data4),
+                                                 BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData1),
+                                                 BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData2),
+                                                 BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData3),
+                                                 BinaryHelper.GetByteArray(_oleDataStreams.Ole.ReservedMonikerStream.StreamData4, _oleDataStreams.Ole.ReservedMonikerStream.Encoding));
+            }
             if (isExternalLink)
             {
                 oleBytes = ConcatenateByteArrays(oleBytes,
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStreamSize),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data1),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data2),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data3),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data4),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData1),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData2),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData3),
-                                                 BinaryHelper.GetByteArray(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData4, _oleDataStreams.Ole.RelativeSourceMonikerStream.Encoding),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data1),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data2),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data3),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data4),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData1),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData2),
-                                                 BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData3),
-                                                 BinaryHelper.GetByteArray(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData4, _oleDataStreams.Ole.AbsoluteSourceMonikerStream.Encoding),
+                                                 BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStreamSize));
+                if (_oleDataStreams.Ole.RelativeSourceMonikerStreamSize > 0)
+                {
+                    oleBytes = ConcatenateByteArrays(oleBytes,
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data1),
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data2),
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data3),
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data4),
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData1),
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData2),
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData3),
+                                                     BinaryHelper.GetByteArray(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData4, _oleDataStreams.Ole.RelativeSourceMonikerStream.Encoding));
+                }
+                oleBytes = ConcatenateByteArrays(oleBytes,
+                                                 BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize));
+                if (_oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize > 0)
+                {
+                    oleBytes = ConcatenateByteArrays(oleBytes,
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data1),
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data2),
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data3),
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data4),
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData1),
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData2),
+                                                     BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData3),
+                                                     BinaryHelper.GetByteArray(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData4, _oleDataStreams.Ole.AbsoluteSourceMonikerStream.Encoding));
+                }
+                oleBytes = ConcatenateByteArrays(oleBytes,
                                                  new byte[_oleDataStreams.Ole.ClsIdIndicator],
                                                  BitConverter.GetBytes(_oleDataStreams.Ole.ClsId.Data1),
                                                  BitConverter.GetBytes(_oleDataStreams.Ole.ClsId.Data2),

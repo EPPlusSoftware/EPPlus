@@ -150,7 +150,8 @@ namespace OfficeOpenXml.Drawing.OleObject
         {
             internal UInt32 Reserved1 = 4294836225;
             internal UInt32 Version = 2563;
-            internal byte[] Reserved2 = new byte[20] {255,255,255,255,12,0,3,0,0,0,0,0,192,0,0,0,0,0,0,70 };
+            internal byte[] Reserved2 = new byte[20] {255,255,255,255,12,0,3,0,0,0,0,0,192,0,0,0,0,0,0,70 }; //Kan variera beroende på typ av paketering. DEnna är för OlePackage. //Bör förslagsvis bara sättast till 0:or.
+                                                        //de sista 16 bytes här är viktiga för att kunna öppna filen från excel sen. dessa ska skrivar till clsid i directory strukturen!
         }
 
         internal class CompObjStream

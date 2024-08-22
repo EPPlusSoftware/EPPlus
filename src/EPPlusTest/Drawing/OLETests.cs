@@ -45,7 +45,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\aeldari.pdf", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_PDF.xlsx");
         }
         [TestMethod]
@@ -136,43 +136,43 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void ReadEPPlusEmbedded_MP4()
         {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\MP4.xlsx");
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_MP4.xlsx");
             var ole = p.Workbook.Worksheets[0].Drawings[0];
         }
         [TestMethod]
         public void ReadEPPlusEmbedded_ODS()
         {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\ODS.xlsx");
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_ODS.xlsx");
             var ole = p.Workbook.Worksheets[0].Drawings[0];
         }
         [TestMethod]
         public void ReadEPPlusEmbedded_ODT()
         {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\ODT.xlsx");
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_ODT.xlsx");
             var ole = p.Workbook.Worksheets[0].Drawings[0];
         }
         [TestMethod]
         public void ReadEPPlusEmbedded_PDF()
         {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\PDF.xlsx");
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_PDF.xlsx");
             var ole = p.Workbook.Worksheets[0].Drawings[0];
         }
         [TestMethod]
         public void ReadEPPlusEmbedded_TXT()
         {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\TXT.xlsx");
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_TXT.xlsx");
             var ole = p.Workbook.Worksheets[0].Drawings[0];
         }
         [TestMethod]
         public void ReadEPPlusEmbedded_WAV()
         {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\WAV.xlsx");
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_WAV.xlsx");
             var ole = p.Workbook.Worksheets[0].Drawings[0];
         }
         [TestMethod]
         public void ReadEPPlusEmbedded_ZIP()
         {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\ZIP.xlsx");
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_\ZIP.xlsx");
             var ole = p.Workbook.Worksheets[0].Drawings[0];
         }
     }

@@ -910,9 +910,9 @@ namespace OfficeOpenXml.Utils.CompundDocument
             bw.Seek(0, SeekOrigin.Begin);
             bw.Write(header);
             bw.Write(new byte[16]);             //ClsID all zero's
-            bw.Write((short)0x3E);              //This field SHOULD be set to 0x003E if the major version field is either 0x0003 or 0x0004.                 
+            bw.Write((short)0x3E);              //This field SHOULD be set to 0x003E if the major version field is either 0x0003 or 0x0004.
             bw.Write((short)0x3);               //Version 3
-            bw.Write((ushort)0xFFFE);           // This field MUST be set to 0xFFFE. This field is a byte order mark for all integer fields, specifying little-endian byte order. 
+            bw.Write((ushort)0xFFFE);           // This field MUST be set to 0xFFFE. This field is a byte order mark for all integer fields, specifying little-endian byte order.
             bw.Write((short)9);                 //Sector Shift
             bw.Write((short)6);                 //Mini Sector Shift
             bw.Write(new byte[6]);              //reserved
@@ -988,7 +988,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
         public void Dispose()
         {
             _miniSectors = null;
-            _sectors = null;            
+            _sectors = null;
         }
 #endregion
     }
