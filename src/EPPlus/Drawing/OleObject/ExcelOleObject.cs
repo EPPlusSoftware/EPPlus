@@ -622,15 +622,6 @@ namespace OfficeOpenXml.Drawing.OleObject
             p.Save();
         }
 
-        private void WriteCD(CompoundDocument compoundDocument)
-        {
-            var ts = DateTime.Now.Ticks.ToString();
-            foreach(var ds in compoundDocument.Storage.DataStreams)
-            {
-                File.WriteAllBytes($"c:\\temp\\ole\\ts{ds.Key.Replace("\u0001","1")}", ds.Value.Stream);
-            }
-        }
-
         internal void LoadExternalLink()
         {
             var els = _worksheet.Workbook.ExternalLinks;
