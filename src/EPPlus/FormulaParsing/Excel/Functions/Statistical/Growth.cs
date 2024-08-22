@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
     [FunctionMetadata(
     Category = ExcelFunctionCategory.Statistical,
-    EPPlusVersion = "7.0",
+    EPPlusVersion = "7.3",
     Description = "Returns the y-values along an exponential curve that best fits the inputted data. If new_x's is given, it returns the y-values" +
                   "along those x-values. Growth can also find best fitting curve for a model with multiple predictor variables.")]
     internal class Growth : ExcelFunction
