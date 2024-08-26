@@ -46,9 +46,6 @@ namespace OfficeOpenXml.Drawing.OleObject
         const string CONTENTS_STREAM_NAME = "CONTENTS";
         const string EMBEDDEDODF_STREAM_NAME = "EmbeddedOdf";
 
-        private string ExportFilePath = @"C:\epplusTest\oleTest\OleObjectDataStreamsContent.xlsx";
-        private bool ExportOleObjectDataStreams = true;
-
         internal ExcelVmlDrawingBase _vml;
         internal XmlHelper _vmlProp;
         internal OleObjectInternal _oleObject;
@@ -56,67 +53,47 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal OleObjectDataStreams _oleDataStreams;
         internal ExcelExternalOleLink _externalLink;
         internal ExcelWorksheet _worksheet;
-
-        public bool isExternalLink = false;
+        internal ZipPackagePart oleObjectPart;
+        /// <summary>
+        /// 
+        /// </summary>
+        public readonly bool IsExternalLink;
 
         internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, OleObjectInternal oleObject, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             _oleObject = oleObject;
             _worksheet = drawings.Worksheet;
+            IsExternalLink = string.IsNullOrEmpty(_oleObject.Link);
 
             _vml = drawings.Worksheet.VmlDrawings[LegacySpId];
             _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
 
-            if (string.IsNullOrEmpty(_oleObject.Link))
+            if (IsExternalLink)
             {
-                isExternalLink = false;
+                IsExternalLink = false;
                 LoadEmbeddedDocument();
             }
             else
             {
-                isExternalLink = true;
+                IsExternalLink = true;
                 LoadExternalLink();
             }
         }
 
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, OleObjectInternal oleObject, bool ExportOleObjectDataStreams, string ExportFilePath, ExcelGroupShape parent = null)
-    : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
-        {
-            _oleObject = oleObject;
-            _worksheet = drawings.Worksheet;
-
-            this.ExportOleObjectDataStreams = ExportOleObjectDataStreams;
-            this.ExportFilePath = ExportFilePath;
-
-            _vml = drawings.Worksheet.VmlDrawings[LegacySpId];
-            _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
-
-            if (string.IsNullOrEmpty(_oleObject.Link))
-            {
-                isExternalLink = false;
-                LoadEmbeddedDocument();
-            }
-            else
-            {
-                isExternalLink = true;
-                LoadExternalLink();
-            }
-        }
-
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string filePath, bool link, OleObjectType type = OleObjectType.Default, string mediaFilePath = "", ExcelGroupShape parent = null)
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string filePath, bool link, OleObjectType type = OleObjectType.Default, bool displayAsIcon = false, string mediaFilePath = "", ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             _worksheet = drawings.Worksheet;
             string relId = "";
             if (link)
             {
-                isExternalLink = true;
-                //create ExternalLink
+                IsExternalLink = true;
+                LinkDocument(filePath, type);
             }
             else
             {
-                isExternalLink = false;
+                IsExternalLink = false;
                 relId = EmbedDocument(filePath, type);
             }
 
@@ -151,7 +128,10 @@ namespace OfficeOpenXml.Drawing.OleObject
             sb.Append("<mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
             sb.Append("<mc:Choice Requires=\"x14\">");
             //Create object node
-            sb.AppendFormat("<oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", /*"Packager Shell Object"*/_oleDataStreams.CompObj.Reserved1.String, _id, relId);
+            if (displayAsIcon)
+                sb.AppendFormat("<oleObject dvAspect=\"DVASPECT_ICON\" progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", /*"Packager Shell Object"*/_oleDataStreams.CompObj.Reserved1.String, _id, relId);
+            else
+                sb.AppendFormat("<oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", /*"Packager Shell Object"*/_oleDataStreams.CompObj.Reserved1.String, _id, relId);
             sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\">", imgRelId);
             sb.Append("<anchor moveWithCells=\"1\">");
             sb.AppendFormat("<from><xdr:col>{0}</xdr:col><xdr:colOff>{1}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></from>", From.Column, From.ColumnOff, From.Row, From.RowOff);
@@ -159,7 +139,10 @@ namespace OfficeOpenXml.Drawing.OleObject
             sb.Append("</anchor></objectPr></oleObject>");
             sb.Append("</mc:Choice>");
             //fallback
-            sb.AppendFormat("<mc:Fallback><oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\" />", /*"Packager Shell Object"*/_oleDataStreams.CompObj.Reserved1.String, _id, relId);
+            if(displayAsIcon)
+                sb.AppendFormat("<mc:Fallback><oleObject dvAspect=\"DVASPECT_ICON\" progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\" />", /*"Packager Shell Object"*/_oleDataStreams.CompObj.Reserved1.String, _id, relId);
+            else
+                sb.AppendFormat("<mc:Fallback><oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\" />", /*"Packager Shell Object"*/_oleDataStreams.CompObj.Reserved1.String, _id, relId);
             sb.Append("</mc:Fallback></mc:AlternateContent>");
             wsNode.InnerXml = sb.ToString();
             var oleObjectNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0);
@@ -418,11 +401,27 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
-        private void ExportOleObjectData(string ExportPath, ZipPackagePart oleObjectPart)
+        internal void ExportOleObjectData(string ExportPath)
         {
+            _oleDataStreams = new OleObjectDataStreams();
+            if (_document.Storage.DataStreams.ContainsKey(OLE10NATIVE_STREAM_NAME))
+            {
+                _oleDataStreams.OleNative = new OleObjectDataStreams.OleNativeStream();
+                ReadOleNative(_document.Storage.DataStreams[OLE10NATIVE_STREAM_NAME].Stream);
+            }
+            if (_document.Storage.DataStreams.ContainsKey(OLE_STREAM_NAME))
+            {
+                _oleDataStreams.Ole = new OleObjectDataStreams.OleObjectStream();
+                ReadOleStream(_document.Storage.DataStreams[OLE_STREAM_NAME].Stream);
+            }
+            if (_document.Storage.DataStreams.ContainsKey(COMPOBJ_STREAM_NAME))
+            {
+                _oleDataStreams.CompObj = new OleObjectDataStreams.CompObjStream();
+                ReadCompObjStream(_document.Storage.DataStreams[COMPOBJ_STREAM_NAME].Stream);
+            }
             using var p = new ExcelPackage(ExportPath);
             OleObjectDataStreamsExport.ExportOleNative(_worksheet._package.File.Name, oleObjectPart.Entry.FileName, p, _oleDataStreams);
-            OleObjectDataStreamsExport.ExportOle(_worksheet._package.File.Name, oleObjectPart.Entry.FileName, p, _oleDataStreams, isExternalLink);
+            OleObjectDataStreamsExport.ExportOle(_worksheet._package.File.Name, oleObjectPart.Entry.FileName, p, _oleDataStreams, IsExternalLink);
             OleObjectDataStreamsExport.ExportCompObj(_worksheet._package.File.Name, oleObjectPart.Entry.FileName, p, _oleDataStreams);
             p.Save();
         }
@@ -434,29 +433,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             if (oleRel != null && oleRel.TargetUri.ToString().Contains(".bin"))
             {
                 var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
-                var olePart = _worksheet._package.ZipPackage.GetPart(oleObj);
-                var oleStream = (MemoryStream)olePart.GetStream(FileMode.Open, FileAccess.Read);
+                oleObjectPart = _worksheet._package.ZipPackage.GetPart(oleObj);
+                var oleStream = (MemoryStream)oleObjectPart.GetStream(FileMode.Open, FileAccess.Read);
                 _document = new CompoundDocument(oleStream);
-                if (ExportOleObjectDataStreams == true)
-                {
-                    _oleDataStreams = new OleObjectDataStreams();
-                    if (_document.Storage.DataStreams.ContainsKey("\u0001Ole10Native"))
-                    {
-                        _oleDataStreams.OleNative = new OleObjectDataStreams.OleNativeStream();
-                        ReadOleNative(_document.Storage.DataStreams["\u0001Ole10Native"].Stream);
-                    }
-                    if (_document.Storage.DataStreams.ContainsKey("\u0001Ole"))
-                    {
-                        _oleDataStreams.Ole = new OleObjectDataStreams.OleObjectStream();
-                        ReadOleStream(_document.Storage.DataStreams["\u0001Ole"].Stream);
-                    }
-                    if (_document.Storage.DataStreams.ContainsKey("\u0001CompObj"))
-                    {
-                        _oleDataStreams.CompObj = new OleObjectDataStreams.CompObjStream();
-                        ReadCompObjStream(_document.Storage.DataStreams["\u0001CompObj"].Stream);
-                    }
-                    ExportOleObjectData(ExportFilePath, olePart);
-                }
             }
         }
 
@@ -500,7 +479,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                                         BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData3),
                                         BinaryHelper.GetByteArray(_oleDataStreams.Ole.ReservedMonikerStream.StreamData4, _oleDataStreams.Ole.ReservedMonikerStream.Encoding) );
             }
-            if (isExternalLink)
+            if (IsExternalLink)
             {
                 oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
                                         BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStreamSize) );
@@ -610,7 +589,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                                        BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData2),
                                        BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData3),
                                        BinaryHelper.GetByteArray(_oleDataStreams.Ole.ReservedMonikerStream.StreamData4, _oleDataStreams.Ole.ReservedMonikerStream.Encoding) );
-            if (isExternalLink)
+            if (IsExternalLink)
             {
                 _oleDataStreams.Ole.ReservedMonikerStreamSize = (UInt32)size.Length;
                 _oleDataStreams.Ole.RelativeSourceMonikerStream = new MonikerStream();
@@ -680,51 +659,51 @@ namespace OfficeOpenXml.Drawing.OleObject
             _oleDataStreams = new OleObjectDataStreams();
             _document = new CompoundDocument();
             Guid ClsId = OleObjectGUIDCollection.keyValuePairs["Package"];
-            if (type == OleObjectType.PDF) //Only if Acrobat Reader is installed
-            {
-                //Create Ole structure and add data
-                CreateOleObject();
-                //Create Ole Data Stream and add to Compound object
-                CreateOleDataStream();
-                //Create CompObj structure and add data
-                CreateCompObjObject("Acrobat Document", "Acrobat.Document.DC");
-                //Create CompObj Data Stream and add to Compound object
-                CreateCompObjDataStream();
-                //Add CONTENT Data Stream
-                _oleDataStreams.DataFile = fileData;
-                _document.Storage.DataStreams.Add(CONTENTS_STREAM_NAME, new CompoundDocumentItem(CONTENTS_STREAM_NAME, fileData));
-                ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO PDF GUID?
-            }
-            else if (type == OleObjectType.ODF) //open office formats if libre office installed
-            {
-                //Create Ole structure and add data
-                CreateOleObject();
-                //Create Ole Data Stream and add to Compound object
-                CreateOleDataStream();
-                //Create CompObj structure and add data
-                CreateCompObjObject("OpenDocument Text", "Word.OpenDocumentText.12"); //This has different values depending on if is spreadsheet, presentation or text
-                //Create CompObj Data Stream and add to Compound object
-                CreateCompObjDataStream();
-                //Add EmbeddedOdf
-                _oleDataStreams.DataFile = fileData;
-                _document.Storage.DataStreams.Add(EMBEDDEDODF_STREAM_NAME, new CompoundDocumentItem(EMBEDDEDODF_STREAM_NAME, fileData));
-                ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO ODF GUID?
-            }
-            else if (type == OleObjectType.DOC) //ms office format
-            {
-                //Embedd as is
-                string name = fileType == ".docx" ? "Microsoft_Word_Document" : "";
-                name = fileType == ".xlsx" ? "Microsoft_Word_Document" : "";
-                name = fileType == ".pptx" ? "Microsoft_Excel_Worksheet" : "";
-                int newID = 1;
-                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
-                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
-                var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
-                relId = rel.Id;
-                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-                ms.Write(fileData, 0, fileData.Length);
-                return relId;
-            }
+                if (type == OleObjectType.PDF) //Only if Acrobat Reader is installed
+                {
+                    //Create Ole structure and add data
+                    CreateOleObject();
+                    //Create Ole Data Stream and add to Compound object
+                    CreateOleDataStream();
+                    //Create CompObj structure and add data
+                    CreateCompObjObject("Acrobat Document", "Acrobat.Document.DC");
+                    //Create CompObj Data Stream and add to Compound object
+                    CreateCompObjDataStream();
+                    //Add CONTENT Data Stream
+                    _oleDataStreams.DataFile = fileData;
+                    _document.Storage.DataStreams.Add(CONTENTS_STREAM_NAME, new CompoundDocumentItem(CONTENTS_STREAM_NAME, fileData));
+                    ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO PDF GUID?
+                }
+                else if (type == OleObjectType.ODF) //open office formats if libre office installed
+                {
+                    //Create Ole structure and add data
+                    CreateOleObject();
+                    //Create Ole Data Stream and add to Compound object
+                    CreateOleDataStream();
+                    //Create CompObj structure and add data
+                    CreateCompObjObject("OpenDocument Text", "Word.OpenDocumentText.12"); //This has different values depending on if is spreadsheet, presentation or text
+                    //Create CompObj Data Stream and add to Compound object
+                    CreateCompObjDataStream();
+                    //Add EmbeddedOdf
+                    _oleDataStreams.DataFile = fileData;
+                    _document.Storage.DataStreams.Add(EMBEDDEDODF_STREAM_NAME, new CompoundDocumentItem(EMBEDDEDODF_STREAM_NAME, fileData));
+                    ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO ODF GUID?
+                }
+                else if (type == OleObjectType.DOC) //ms office format
+                {
+                    //Embedd as is
+                    string name = fileType == ".docx" ? "Microsoft_Word_Document" : "";
+                    name = fileType == ".xlsx" ? "Microsoft_Word_Document" : "";
+                    name = fileType == ".pptx" ? "Microsoft_Excel_Worksheet" : "";
+                    int newID = 1;
+                    var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
+                    var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
+                    var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
+                    relId = rel.Id;
+                    MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+                    ms.Write(fileData, 0, fileData.Length);
+                    return relId;
+                }
             else if (type == OleObjectType.Default)
             {
                 CreateCompObjObject("OLE Package", "Package");
@@ -861,4 +840,9 @@ namespace OfficeOpenXml.Drawing.OleObject
  * We insert a path to the file
  * We can add guid for application to open?   //Högst otroligt att vi använder denna. Lär nog använda package, men att kunna specifiera pdf eller odf format som optionals kan vara en lösning, notera att för pdf så tar adobe reader över helt även om filen är ett package.
  * we check what file type it is.
+ */
+
+
+/*
+ * För Ikoner så har vi dvAspect="DVASPECT_ICON" i oleObject i worksheet xml
  */

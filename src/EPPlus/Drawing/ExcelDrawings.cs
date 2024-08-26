@@ -1509,7 +1509,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="OleObjectType">The type of object</param>
         /// <param name="ImageFilePath">Path to image for drawing. Note that this is only a temporary image and Excel will overwrite it when saved or opened with its own image.</param>
         /// <returns></returns>
-        public ExcelOleObject AddOleObject(string FilePath, bool Link = false, OleObjectType OleObjectType = OleObjectType.Default, string ImageFilePath = "")
+        public ExcelOleObject AddOleObject(string FilePath, bool Link = false, OleObjectType OleObjectType = OleObjectType.Default, bool DisplayAsIcon = false, string ImageFilePath = "")
         {
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
             ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, FilePath, Link, OleObjectType, ImageFilePath);
