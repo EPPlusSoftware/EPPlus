@@ -1134,16 +1134,12 @@ namespace EPPlusTest.Table.PivotTable
         [TestMethod]
         public void Issue1571()
         {
+            SwitchToCulture();
             var ms = new MemoryStream();
             using (var p = new ExcelPackage())
             {
                 var sheet1 = p.Workbook.Worksheets.Add("Sheet1");
-                sheet1.Cells["A1"].LoadFromText("""
-            Column1,Column2,Column3
-            1,2,3
-            4,5,6
-            7,8,9
-            """, new ExcelTextFormat(), OfficeOpenXml.Table.TableStyles.Medium1, FirstRowIsHeader: true);
+                sheet1.Cells["A1"].LoadFromText("Column1,Column2,Column3\r\n1,2,3\r\n4,5,6\r\n7,8,9\r\n", new ExcelTextFormat(), OfficeOpenXml.Table.TableStyles.Medium1, FirstRowIsHeader: true);
                 var table1 = sheet1.Tables[0];
 
                 // add pivot table
@@ -1171,6 +1167,7 @@ namespace EPPlusTest.Table.PivotTable
 
                 SaveWorkbook("PivotTableNoRecords.xlsx", p);
             }
+            SwitchBackToCurrentCulture();
         }
     }
 }
