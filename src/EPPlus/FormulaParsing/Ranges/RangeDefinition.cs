@@ -30,8 +30,8 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <param name="toRow">To row</param>
         public RangeDefinition(short fromCol, int fromRow, short toCol, int toRow)
         {
-            NumberOfCols = (short)(toCol - fromCol);
-            NumberOfRows = toRow - fromRow;
+            NumberOfCols = (short)(toCol - fromCol + 1);
+            NumberOfRows = toRow - fromRow + 1;
         }
 
         /// <summary>

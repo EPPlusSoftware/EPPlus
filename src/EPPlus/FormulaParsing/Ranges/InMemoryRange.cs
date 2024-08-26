@@ -152,6 +152,10 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// </summary>
         public RangeDefinition Size { get; private set; }
         /// <summary>
+        /// The size of the range adjusted to the borders of the worksheet.
+        /// </summary>
+        public RangeDefinition SizeByDimension => Size;
+        /// <summary>
         /// The address of the inmemory range.
         /// </summary>
         public FormulaRangeAddress Address => _address;

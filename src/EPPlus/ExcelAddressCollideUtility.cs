@@ -25,7 +25,10 @@ namespace OfficeOpenXml
             _toRow = address.ToRow;
             _fromCol = address.FromCol;
             _toCol = address.ToCol;
-            _worksheetName = GetWsName(address, ctx);
+            if (ctx != null)
+            {
+                _worksheetName = GetWsName(address, ctx);
+            }
         }
 
         private readonly int _fromRow, _toRow, _fromCol, _toCol;
@@ -33,7 +36,7 @@ namespace OfficeOpenXml
 
         private static string GetWsName(FormulaRangeAddress address, ParsingContext ctx)
         {
-            if (ctx.Package == null) return "";
+            if (ctx?.Package == null) return "";
             var wsIx = address.WorksheetIx == int.MinValue ? ctx.CurrentWorksheet.IndexInList : address.WorksheetIx;
             if (ctx.Package != null && wsIx>=0 && ctx.Package.Workbook.Worksheets[wsIx] != null)
             {

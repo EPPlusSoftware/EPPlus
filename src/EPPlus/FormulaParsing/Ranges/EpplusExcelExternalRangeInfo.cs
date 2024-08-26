@@ -184,6 +184,10 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// Size of the range
         /// </summary>
         public RangeDefinition Size => _size;
+        /// <summary>
+        /// The size of the range adjusted to the borders of the worksheet.
+        /// </summary>
+        public RangeDefinition SizeByDimension => _size;
 
         /// <summary>
         /// True if this is a range that doesn't is connected to a worksheet.

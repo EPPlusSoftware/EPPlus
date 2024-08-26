@@ -51,6 +51,10 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         RangeDefinition Size { get; }
         /// <summary>
+        /// Size adjusted to the dimension of the worksheet.
+        /// </summary>
+        RangeDefinition SizeByDimension { get; }
+        /// <summary>
         /// Get the value from a cell
         /// </summary>
         /// <param name="row">The Row</param>

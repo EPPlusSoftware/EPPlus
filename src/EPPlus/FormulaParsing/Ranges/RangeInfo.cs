@@ -183,7 +183,20 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// Size of the range
         /// </summary>
         public RangeDefinition Size => _size;
-
+        public RangeDefinition SizeByDimension
+        {
+            get
+            {
+                if (Dimension.CollidesWith(_address) == ExcelAddressBase.eAddressCollition.Inside)
+                {
+                    return _size;
+                }
+                else
+                {
+                    return new RangeDefinition((short)Math.Max(Dimension.FromCol, _address.FromCol), Math.Max(Dimension.FromRow, _address.FromRow), (short)Math.Min(Dimension.ToCol, _address.ToCol), Math.Min(Dimension.ToRow, _address.ToRow));
+                }
+            }
+        }
         /// <summary>
         /// Returns true if the range is an <see cref="InMemoryRange"/>
         /// </summary>

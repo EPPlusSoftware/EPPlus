@@ -37,7 +37,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             
             var range = arg0.ValueAsRangeInfo;
-            var newRange = new InMemoryRange(new RangeDefinition(0, 0, (short)range.Size.NumberOfRows, range.Size.NumberOfCols));
+            var newRange = new InMemoryRange(range.Size.NumberOfCols, (short)range.Size.NumberOfRows);
             for(var r=0;r<range.Size.NumberOfRows;r++)
             {
                 for (var c = 0; c < range.Size.NumberOfCols; c++)

@@ -445,5 +445,13 @@ namespace EPPlusTest.Issues
 
             }
         }
+		[TestMethod]
+		public void Issue1573()
+		{
+			using (var p = OpenTemplatePackage("i1573.xlsm"))
+			{
+				p.Workbook.Calculate();
+			}
+        }
     }
 }

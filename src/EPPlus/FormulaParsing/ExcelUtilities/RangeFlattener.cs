@@ -31,9 +31,9 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         {
             var result = new List<double?>();
 
-            for (var row = 0; row < r1.Size.NumberOfRows; row++)
+            for (var row = 0; row < r1.SizeByDimension.NumberOfRows; row++)
             {
-                for (var column = 0; column < r1.Size.NumberOfCols; column++)
+                for (var column = 0; column < r1.SizeByDimension.NumberOfCols; column++)
                 {
                     var val = r1.GetOffset(row, column);
 
@@ -55,10 +55,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         {
             var result = new List<object>();
 
-            for (var row = 0; row < r1.Size.NumberOfRows; row++)
+            for (var row = 0; row < r1.SizeByDimension.NumberOfRows; row++)
             {
-                for (var column = 0; column < r1.Size.NumberOfCols; column++)
-                {
+                for (var column = 0; column < r1.SizeByDimension.NumberOfCols; column++)
+                {                    
                     result.Add(r1.GetOffset(row, column));
                 }
             }
