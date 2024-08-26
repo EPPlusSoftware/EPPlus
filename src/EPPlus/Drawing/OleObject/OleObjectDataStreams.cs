@@ -1,8 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
+
+    static internal class OleObjectGUIDCollection
+    {
+        static internal Dictionary<string, Guid> keyValuePairs = new Dictionary<string, Guid>()
+        {
+            {"Package", new Guid(new byte[] { 0x0C, 0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC0, 0x00, 0x00, 0x000, 0x00, 0x00, 0x00, 0x46 }) },
+        };
+    }
+
     internal class OleObjectDataStreams
     {
 
@@ -174,12 +185,11 @@ namespace OfficeOpenXml.Drawing.OleObject
 
         internal class OleNativeHeader
         {
-            string constTempName = "C:\\Users\\Janne\\AppData\\Local\\Temp\\{8E9AF72C-32FD-4E9E-A60F-82048E613658}\\{6222D4D5-D9D3-469A-AC3B-0D33C49B96FC}\\MyTextDocument.txt";
             internal OleNativeHeader()
             {
                 FileName = new LengthPrefixedAnsiString();
                 FilePath = new LengthPrefixedAnsiString();
-                TempPath = new LengthPrefixedAnsiString(constTempName);
+                TempPath = new LengthPrefixedAnsiString();
             }
             internal UInt32 Size;
             internal UInt16 Type = 2;
@@ -191,10 +201,9 @@ namespace OfficeOpenXml.Drawing.OleObject
 
         internal class OleNativeFooter
         {
-            string constTempName = "C:\\Users\\Janne\\AppData\\Local\\Temp\\{8E9AF72C-32FD-4E9E-A60F-82048E613658}\\{6222D4D5-D9D3-469A-AC3B-0D33C49B96FC}\\MyTextDocument.txt";
             internal OleNativeFooter()
             {
-                TempPath = new LengthPrefixedUnicodeString(constTempName);
+                TempPath = new LengthPrefixedUnicodeString();
                 FileName = new LengthPrefixedUnicodeString();
                 FilePath = new LengthPrefixedUnicodeString();
             }
@@ -215,5 +224,11 @@ namespace OfficeOpenXml.Drawing.OleObject
             internal byte[] NativeData;
             internal OleNativeFooter Footer;
         }
+
+        static internal string GetTempFile(string FileName)
+        {
+            return Path.GetTempPath() + "{" + Guid.NewGuid() + "}\\{" + Guid.NewGuid() + "}\\" + FileName;
+        }
+
     }
 }

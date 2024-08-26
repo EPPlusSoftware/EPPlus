@@ -13,7 +13,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_MP3.xlsx");
         }
         [TestMethod]
@@ -21,7 +21,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_MP4.xlsx");
         }
         [TestMethod]
@@ -29,7 +29,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_ODS.xlsx");
         }
         [TestMethod]
@@ -37,7 +37,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_ODT.xlsx");
         }
         [TestMethod]
@@ -45,7 +45,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\aeldari.pdf", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\aeldari.pdf");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_PDF.xlsx");
         }
         [TestMethod]
@@ -53,7 +53,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyTextDocument.txt", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyTextDocument.txt");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_TXT.xlsx");
         }
         [TestMethod]
@@ -61,7 +61,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_WAV.xlsx");
         }
         [TestMethod]
@@ -69,7 +69,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", false, @"C:\epplusTest\EPPlusObjectIcon.emf");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_ZIP.xlsx");
         }
 

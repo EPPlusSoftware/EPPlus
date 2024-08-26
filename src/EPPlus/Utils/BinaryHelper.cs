@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 
 namespace OfficeOpenXml.Utils
@@ -42,5 +43,21 @@ namespace OfficeOpenXml.Utils
             return enc.GetString(bytes);
         }
 
+        static internal byte[] ConcatenateByteArrays(params byte[][] arrays)
+        {
+            int dataLength = 0;
+            foreach (var arr in arrays)
+            {
+                dataLength += arr.Length;
+            }
+            byte[] dataArray = new byte[dataLength];
+            int offset = 0;
+            foreach (var arr in arrays)
+            {
+                Buffer.BlockCopy(arr, 0, dataArray, offset, arr.Length);
+                offset += arr.Length;
+            }
+            return dataArray;
+        }
     }
 }

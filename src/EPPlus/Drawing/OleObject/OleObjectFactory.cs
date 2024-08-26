@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
@@ -18,9 +19,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             return new ExcelOleObject(drawings, node, oleObject, parent);
         }
 
-        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string filepath, bool link, string mediaFilePath = "")
+        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string filepath, bool link, OleObjectType type, string mediaFilePath)
         {
-            return new ExcelOleObject(drawings, drawNode, filepath, link, mediaFilePath);
+            return new ExcelOleObject(drawings, drawNode, filepath, link, type, mediaFilePath);
         }
     }
 }
