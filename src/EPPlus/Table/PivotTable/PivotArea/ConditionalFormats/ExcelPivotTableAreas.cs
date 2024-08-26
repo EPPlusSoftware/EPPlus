@@ -55,5 +55,16 @@ namespace OfficeOpenXml.Table.PivotTable
             _list.Add(area);
             return area;
         }
+        internal void Remove(ExcelPivotTableAreaStyle x)
+        {
+            x.TopNode.ParentNode.RemoveChild(x.TopNode);
+            _list.Remove(x);
+        }
+        internal void RemoveAt(int index)
+        {
+            var x = _list[index];
+            Remove(x);
+        }
+
     }
 }

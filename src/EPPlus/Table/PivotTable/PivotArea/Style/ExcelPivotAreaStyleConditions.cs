@@ -55,14 +55,24 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             get;
         }
-
-        internal void UpdateXml()
+        /// <summary>
+        /// Updates the xml. Returns false if all conditions are deleted and the items should be removed.
+        /// </summary>
+        /// <returns>Returns false if the items should be deleted.</returns>
+        internal bool UpdateXml()
         {
-            DataFields.UpdateXml();
+            if(DataFields.UpdateXml()==false)
+            {
+                return false;
+            }
             foreach (ExcelPivotAreaReference r in Fields)
             {
-                r.UpdateXml();
+                if(r.UpdateXml()==false)
+                {
+                    return false;
+                }
             }
+            return true;
         }
     }
 }

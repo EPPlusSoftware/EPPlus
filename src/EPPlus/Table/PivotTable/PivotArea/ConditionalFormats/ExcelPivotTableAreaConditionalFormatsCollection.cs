@@ -39,6 +39,19 @@ namespace OfficeOpenXml.Table.PivotTable
             _list.Add(ct);
             return ct;
         }
+
+        internal void Remove(ExcelPivotTableAreaConditionalFormat x)
+        {
+            x.TopNode.ParentNode.RemoveChild(x.TopNode);
+            _pt.WorkSheet.ConditionalFormatting.Remove(x.ConditionalFormatting);
+            _list.Remove(x);
+        }
+        internal void RemoveAt(int index)
+        {
+            var x = _list[index];
+            Remove(x);
+        }
+
         private XmlNode GetTopNode()
         {
             if (_xmlHelper == null)

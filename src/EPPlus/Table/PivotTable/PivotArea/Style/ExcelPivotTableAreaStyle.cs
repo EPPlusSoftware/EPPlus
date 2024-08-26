@@ -11,6 +11,7 @@
   12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
  *************************************************************************************************/
 using OfficeOpenXml.Style.Dxf;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
@@ -67,5 +68,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeInt("../@dxfId", value);
             }
         }
+
     }
 }

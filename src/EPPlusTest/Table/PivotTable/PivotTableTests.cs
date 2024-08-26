@@ -383,7 +383,6 @@ namespace EPPlusTest.Table.PivotTable
             rf.SubTotalFunctions = eSubTotalFunctions.None;
             pt.DataOnRows = true;
             pt.CacheDefinition.SaveData = false;    //Remove the record xml
-            pt.CacheDefinition.SaveData = true;     //Add the record xml
         }
         [TestMethod]
         public void Pivot_ManyPageFields()

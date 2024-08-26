@@ -23,7 +23,6 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
-
 namespace OfficeOpenXml.Table.PivotTable
 {
     /// <summary>
@@ -1730,23 +1729,41 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         private void UpdatePivotTableStyles()
         {
+            var deletedItems = new List<ExcelPivotTableAreaStyle>();
             foreach (ExcelPivotTableAreaStyle a in Styles)
             {
-                a.Conditions.UpdateXml();
+                if(a.Conditions.UpdateXml()==false)
+                {
+                    deletedItems.Add(a);
+                }
             }
+            deletedItems.ForEach(x => Styles.Remove(x));
         }
         private void UpdatePivotTableConditionalFormats()
         {
+            var cfToDelete = new List<ExcelPivotTableAreaConditionalFormat>();
             foreach (var cf in ConditionalFormattings)
             {
                 cf.Priority = cf.ConditionalFormatting.Priority;
+                var areasToDelete = new List<ExcelPivotTableAreaStyle>();
                 foreach (ExcelPivotTableAreaStyle a in cf.Areas)
                 {
-                    a.Conditions.UpdateXml();
+                    if(a.Conditions.UpdateXml()==false)
+                    {
+                        areasToDelete.Add(a);
+                    }
+                }
+                if(cf.Areas.Count==areasToDelete.Count)
+                {
+                    cfToDelete.Add(cf);
+                }
+                else
+                {
+                    areasToDelete.ForEach(x => cf.Areas.Remove(x));
                 }
             }
+            cfToDelete.ForEach(x => ConditionalFormattings.Remove(x));
         }
-
         internal void Sort()
         {
             foreach (var field in RowFields.Union(ColumnFields))
