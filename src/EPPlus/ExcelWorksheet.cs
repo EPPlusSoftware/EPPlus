@@ -2956,13 +2956,12 @@ namespace OfficeOpenXml
                             }
                             r++;
                         }
-                        //fromRow = r;
                         fromCol = c;
                     }
 
-                    if (fvc._toCol == tc)
+                    if (lvc._toCol == tc)
                     {
-                        toCol = fvc._toCol;
+                        toCol = lvc._toCol;
                     }
                     else
                     {
@@ -2975,7 +2974,6 @@ namespace OfficeOpenXml
                             }
                             r--;
                         }
-                        //toRow = r;
                         toCol = c;
                     }
 

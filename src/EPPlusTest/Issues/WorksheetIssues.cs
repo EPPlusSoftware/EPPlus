@@ -360,6 +360,7 @@ namespace EPPlusTest.Issues
 			{
                 SwitchBackToCurrentCulture();
             }
+
         }
         [TestMethod]
         public void ShareFormulaIDNotFoundError()
@@ -379,6 +380,17 @@ namespace EPPlusTest.Issues
                     //Assert.Fail("Expected no exception, but got: " + ex.Message);
                 }
             }
+        }
+		[TestMethod]
+		public void DimensionValueIssue()
+		{
+			using (var excelPackage = OpenTemplatePackage(@"s719-DimensionByValue.xlsx"))
+			{
+				ExcelWorksheet excelWorksheet = excelPackage.Workbook.Worksheets["1"];
+
+				Console.WriteLine(excelWorksheet.Dimension.Columns);
+				Console.WriteLine(excelWorksheet.DimensionByValue.Columns);
+			}
         }
     }
 }
