@@ -187,11 +187,21 @@ namespace OfficeOpenXml
         /// </summary>
         /// <param name="Name">The name of the workbook</param>
         /// <param name="Copy">The worksheet to be copied</param>
-        public ExcelWorksheet Add(string Name, ExcelWorksheet Copy)
+        /// <param name="setAsSelected">Will select the new worksheet, removing selection from the current selected worksheet.</param>
+        public ExcelWorksheet Add(string Name, ExcelWorksheet Copy, bool setAsSelected=false)
         {
             lock (_worksheets)
             {
-                return WorksheetCopyHelper.Copy(this, Name, Copy);
+                var addedWs = WorksheetCopyHelper.Copy(this, Name, Copy);
+                if(setAsSelected)
+                {
+                    addedWs.Select();
+                }
+                else
+                {
+                    addedWs.View.SetTabSelected(false);
+                }
+                return addedWs;
             }
         }
         /// <summary>

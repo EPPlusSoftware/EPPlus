@@ -216,7 +216,6 @@ namespace EPPlusTest.Core.Worksheet
                 ws.Cells["A4:H10"].Style.Numberformat.Format = "0";
                 ws.Cells["B6:C7"].Value = 1;
 
-
                 Assert.AreEqual("B6:C7", ws.DimensionByValue.Address);
             }
         }

@@ -505,14 +505,14 @@ namespace OfficeOpenXml
         {
             if (isSelected)
             {
-                SheetViewElement.SetAttribute("tabSelected", "1");
                 if (!allowMultiple)
                 {
-                    //    // ensure no other worksheet has its tabSelected attribute set to 1
+                    // ensure no other worksheet has its tabSelected attribute set to 1
                     foreach (ExcelWorksheet sheet in _worksheet._package.Workbook.Worksheets)
                         sheet.View.TabSelected = false;
 
                 }
+                SheetViewElement.SetAttribute("tabSelected", "1");
                 XmlElement bookView = _worksheet.Workbook.WorkbookXml.SelectSingleNode("//d:workbookView", _worksheet.NameSpaceManager) as XmlElement;
                 if (bookView != null)
                 {

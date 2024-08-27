@@ -26,25 +26,22 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using System.IO;
 using OfficeOpenXml.Drawing;
-using System.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Style;
-using System.Data;
-using OfficeOpenXml.Table.PivotTable;
-using System.Reflection;
 using OfficeOpenXml.Table;
-using System.Threading;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices;
 
 namespace EPPlusTest
 {
@@ -868,6 +865,22 @@ namespace EPPlusTest
                 Assert.AreEqual(6, ws.Comments.Count);
             }
         }
+        [TestMethod]
+        public void WorksheetCopyNoSelect()
+        {
+            using (var pck = OpenPackage("WorksheetCopy.xlsx", true))
+            {
+                var ws = pck.Workbook.Worksheets.Add("Sheet1");
+                ws.View.TabSelected = true;
+                var wsCopy = pck.Workbook.Worksheets.Add("Copied Address", ws);
+
+                Assert.IsFalse(ws.View.TabSelected);
+                Assert.IsTrue(wsCopy.View.TabSelected);
+                Assert.AreEqual(1, pck.Workbook.View.ActiveTab);
+                SaveAndCleanup(pck);
+            }
+        }
+
         [TestMethod]
         public void LoadFromCollectionTest()
         {
