@@ -266,11 +266,20 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             {
                                 l.Add(new Token("#NULL!", TokenType.Null));
                             }
-                            else
+                            else if(currentString.Equals("#REF", StringComparison.OrdinalIgnoreCase))
                             {
                                 l.Add(new Token("#REF!", TokenType.InvalidReference));
                             }
-                            flags &= statFlags.isTableRef;
+                            else
+                            {
+                                flags &= statFlags.isTableRef;
+                            }
+
+                            if ((flags & (statFlags.isNegator | statFlags.isTableRef)) == statFlags.isNegator) //Negator flag is set, add a minus oprator before the error.
+                            {
+                                l.Insert(l.Count-1, _charTokens['-']);
+                            }
+
                             current = new StringBuilder();
                         }
                         else if (c == '/' && current.Length == 2 && current[0] == '#' && (current[1] == 'n' || current[1] == 'N'))

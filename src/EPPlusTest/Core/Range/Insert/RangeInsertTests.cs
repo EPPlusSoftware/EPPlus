@@ -1392,5 +1392,44 @@ namespace EPPlusTest.Core.Range.Insert
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void InsertShiftRightShouldShiftFormulasOnOtherSheets()
+        {
+            using (var p = OpenPackage("InsertSecondSheetRight.xlsx", true))
+            {
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+                ws1.Cells["A1"].Value = 1;
+                ws1.Cells["A5"].Value = 2;
+                var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+                ws2.Cells["A1"].Formula = "Sheet1!A1";
+                ws2.Cells["A2"].Formula = "Sheet1!$A1";
+                ws1.Cells["A1:A3"].Insert(eShiftTypeInsert.Right);
+                Assert.AreEqual(2, ws1.Cells["A5"].Value);
+                Assert.AreEqual("Sheet1!B1", ws2.Cells["A1"].Formula);
+                Assert.AreEqual("Sheet1!$B1", ws2.Cells["A2"].Formula);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void InsertShiftDownShouldShiftFormulasOnOtherSheets()
+        {
+            using (var p = OpenPackage("InsertSecondSheetDown.xlsx", true))
+            {
+                var ws1 = p.Workbook.Worksheets.Add("Sheet1");
+                ws1.Cells["A1"].Value = 1;
+                ws1.Cells["E1"].Value = 2;
+                var ws2 = p.Workbook.Worksheets.Add("Sheet2");
+                ws2.Cells["A1"].Formula = "Sheet1!A1";
+                ws2.Cells["A2"].Formula = "Sheet1!$A1";
+                ws1.Cells["A1:C1"].Insert(eShiftTypeInsert.Down);
+                Assert.AreEqual(2, ws1.Cells["E1"].Value);
+                Assert.AreEqual("Sheet1!A2", ws2.Cells["A1"].Formula);
+                Assert.AreEqual("Sheet1!$A2", ws2.Cells["A2"].Formula);
+
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }
