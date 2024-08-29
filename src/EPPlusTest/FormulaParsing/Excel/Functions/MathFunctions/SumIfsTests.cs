@@ -71,7 +71,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
         }
 
         [TestMethod]
-        public void CountIfsShouldNotCountMatchingQuotedZeroAsFalseValue()
+        public void SumIfsShouldNotCountMatchingQuotedZeroAsFalseValue()
         {
             using (var package = new ExcelPackage())
             {
@@ -86,7 +86,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
         }
 
         [TestMethod]
-        public void CountIfsShouldNotCountMatchingRawZeroAsFalseValue()
+        public void SumIfsShouldNotCountMatchingRawZeroAsFalseValue()
         {
             using (var package = new ExcelPackage())
             {
