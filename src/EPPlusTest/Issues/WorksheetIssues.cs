@@ -6,6 +6,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using System.Globalization;
 using System.Threading;
+using System.IO;
 namespace EPPlusTest.Issues
 {
 	[TestClass]
@@ -378,6 +379,45 @@ namespace EPPlusTest.Issues
                     Console.WriteLine(ex.StackTrace);
                     //Assert.Fail("Expected no exception, but got: " + ex.Message);
                 }
+            }
+        }
+		[TestMethod]
+		public void s720()
+		{
+            using(var p = OpenTemplatePackage("s720.xlsx"))
+            {
+                ExcelWorksheet worksheet = p.Workbook.Worksheets[0];
+
+                try
+                {
+                    worksheet.Cells["A1:A3"].Insert(eShiftTypeInsert.Right);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("error");
+                }
+
+				SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s721()
+        {
+            using (var p = OpenTemplatePackage("s721.xlsx"))
+            {
+                ExcelWorksheet worksheet = p.Workbook.Worksheets["sheet1"];
+				Assert.AreEqual(ePhoneticType.NoConversion, worksheet.PhoneticProperties.PhoneticType);
+                Assert.AreEqual(ePhoneticAlignment.Left, worksheet.PhoneticProperties.Alignment);
+                Assert.AreEqual(1, worksheet.PhoneticProperties.FontId);
+
+				var formulaD2 = p.Workbook.Worksheets["Sheet2"].Cells["D2"].Formula;
+
+				p.Save();
+
+				using(var p2=new ExcelPackage(p.Stream))
+				{
+					Assert.AreEqual(formulaD2,p2.Workbook.Worksheets["Sheet2"].Cells["D2"].Formula);
+				}
             }
         }
     }

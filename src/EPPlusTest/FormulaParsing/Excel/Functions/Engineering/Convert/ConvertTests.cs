@@ -154,6 +154,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering.Convert
             _worksheet.Cells["A2"].Formula = "DEC2BIN(A1)";
             _worksheet.Cells["A2"].Calculate();
             Assert.AreEqual("110", _worksheet.Cells["A2"].Value, "6 was not 110");
+
+            _worksheet.Cells["A1"].Value = 6.99;
+            _worksheet.Cells["A2"].Formula = "DEC2BIN(A1, 4.99)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("0110", _worksheet.Cells["A2"].Value, "6.99 was not 0110");
         }
 
         [TestMethod]
@@ -183,6 +188,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering.Convert
             _worksheet.Cells["A2"].Formula = "DEC2HEX(A1)";
             _worksheet.Cells["A2"].Calculate();
             Assert.AreEqual("111", _worksheet.Cells["A2"].Value, "273 was not 111");
+
+            _worksheet.Cells["A1"].Value = 30.99;
+            _worksheet.Cells["A2"].Formula = "DEC2HEX(A1,3.99)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("01E", _worksheet.Cells["A2"].Value, "30.99 was not 01E");
         }
 
         [TestMethod]
@@ -212,6 +222,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering.Convert
             _worksheet.Cells["A2"].Formula = "DEC2OCT(A1)";
             _worksheet.Cells["A2"].Calculate();
             Assert.AreEqual("355", _worksheet.Cells["A2"].Value, "237 was not 355");
+
+            _worksheet.Cells["A1"].Value = 18.99;
+            _worksheet.Cells["A2"].Formula = "DEC2OCT(A1,3.99)";
+            _worksheet.Cells["A2"].Calculate();
+            Assert.AreEqual("022", _worksheet.Cells["A2"].Value, "18.99 was not 022");
         }
 
         [TestMethod]
