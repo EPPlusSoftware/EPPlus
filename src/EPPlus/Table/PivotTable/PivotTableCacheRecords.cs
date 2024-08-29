@@ -33,7 +33,7 @@ namespace EPPlusTest.Table.PivotTable
             Cache = cache;
 
 			var zp = cache._wb._package.ZipPackage;
-            if (zp.PartExists(cache.CacheRecordUri))
+            if (cache.SaveData && cache.CacheRecordUri != null && zp.PartExists(cache.CacheRecordUri))
             {
                 var part = zp.GetPart(cache.CacheRecordUri);
                 LoadRecords(part);
