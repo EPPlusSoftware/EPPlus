@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
         SupportsArrays = true,
         Category = ExcelFunctionCategory.Statistical,
         EPPlusVersion = "7.2.1",
-        Description = "Returns the inverse of the lognormal cumulative distribution function of x, where ln(x) is normally distributed with parameters mean and standard_dev. If p = LOGNORMDIST(x,...) then LOGINV(p,...) = x.\r\n\r\nUse the lognormal distribution to analyze logarithmically transformed data.")]
+        Description = "Returns the inverse of the lognormal cumulative distribution function of x, where ln(x) is normally distributed with parameters mean and standard_dev. If p = LOGNORMDIST(x,...) then LOGINV(p,...) = x. Use the lognormal distribution to analyze logarithmically transformed data.")]
 
 
     internal class LogInv : LognormDotInv
