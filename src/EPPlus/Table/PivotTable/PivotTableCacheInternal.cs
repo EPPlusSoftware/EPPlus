@@ -228,7 +228,14 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 _fields.Add(new ExcelPivotTableCacheField(NameSpaceManager, node, this, index++));
             }
-            Records = new PivotTableCacheRecords(this);
+            if(SaveData)
+            {
+                Records = new PivotTableCacheRecords(this);
+            }
+            else
+            {
+                Records = null;
+            }
         }
 
         internal void RefreshFields()
@@ -292,6 +299,7 @@ namespace OfficeOpenXml.Table.PivotTable
             if (cacheUpdated) UpdateRowColumnPageFields(tableFields);
             
             RefreshPivotTableItems();
+            if (Records == null) Records = new PivotTableCacheRecords(this);
             Records.CreateRecords();
         }
 
