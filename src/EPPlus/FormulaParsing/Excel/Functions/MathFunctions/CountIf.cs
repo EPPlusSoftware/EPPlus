@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             if (IsNumeric(obj))
             {                
-                return _expressionEvaluator.Evaluate(ConvertUtil.GetValueDouble(obj), expression, false);
+                return _expressionEvaluator.Evaluate(ConvertUtil.GetValueDouble(obj), expression, true);
             }
             return _expressionEvaluator.Evaluate(obj, expression, false);
         }

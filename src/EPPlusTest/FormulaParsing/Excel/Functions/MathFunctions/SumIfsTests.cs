@@ -24,5 +24,80 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
                 Assert.AreEqual(1d, sheet.Cells["A1"].Value);
             }
         }
+
+        [TestMethod]
+        public void SumIfsShouldNotCountNumericStringsAsNumbers()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 1;
+                sheet.Cells["A2"].Value = "123";
+                sheet.Cells[2, 1].Formula = "SUMIFS(A1,B1,\">0\")";
+                sheet.Calculate();
+                var val = sheet.Cells[2, 1].Value;
+                Assert.AreEqual(0d, val);
+            }
+        }
+
+        [TestMethod]
+        public void SumIfsShouldCountMatchingQuotedFalseValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 123;
+                sheet.Cells["B1"].Value = false;
+                sheet.Cells[2, 1].Formula = "SUMIFS(A1,B1,\"FALSE\")";
+                sheet.Calculate();
+                var val = sheet.Cells[2, 1].Value;
+                Assert.AreEqual(123d, val);
+            }
+        }
+
+        [TestMethod]
+        public void SumIfsShouldCountMatchingRawFalseValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 123;
+                sheet.Cells["B1"].Value = false;
+                sheet.Cells[2, 1].Formula = "SUMIFS(A1,B1,FALSE)";
+                sheet.Calculate();
+                var val = sheet.Cells[2, 1].Value;
+                Assert.AreEqual(123d, val);
+            }
+        }
+
+        [TestMethod]
+        public void CountIfsShouldNotCountMatchingQuotedZeroAsFalseValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 123;
+                sheet.Cells["B1"].Value = false;
+                sheet.Cells[2, 1].Formula = "SUMIFS(A1,B1,\"0\")";
+                sheet.Calculate();
+                var val = sheet.Cells[2, 1].Value;
+                Assert.AreEqual(0d, val);
+            }
+        }
+
+        [TestMethod]
+        public void CountIfsShouldNotCountMatchingRawZeroAsFalseValue()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var sheet = package.Workbook.Worksheets.Add("test");
+                sheet.Cells["A1"].Value = 123;
+                sheet.Cells["B1"].Value = false;
+                sheet.Cells[2, 1].Formula = "SUMIFS(A1,B1, 0)";
+                sheet.Calculate();
+                var val = sheet.Cells[2, 1].Value;
+                Assert.AreEqual(0d, val);
+            }
+        }
     }
 }
