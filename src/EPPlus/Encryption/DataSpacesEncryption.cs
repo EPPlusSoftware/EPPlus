@@ -10,13 +10,17 @@
  *************************************************************************************************
   08/29/2024         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Utils.CompundDocument;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Text;
 using System.Xml;
-
+using System.Linq;
+using System.Threading;
+using System.Security.Cryptography;
 namespace OfficeOpenXml.Encryption
 {
     internal class DataSpacesEncryption
@@ -33,15 +37,163 @@ namespace OfficeOpenXml.Encryption
             var labelXml = ReadLabelXml(tsInfo);
 
             //Root Streams
-            ReadEncryptedPropertyStreamInfo(doc);
+            var summaryInfoProperties = ReadEncryptedPropertyStreamInfo(doc.Storage.DataStreams["\u0005SummaryInformation"]);
+
+            var summaryDocumentInfoProperties = ReadEncryptedPropertyStreamInfo(doc.Storage.DataStreams["\u0005DocumentSummaryInformation"]);
 
             return ms;
         }
 
-        private static void ReadEncryptedPropertyStreamInfo(CompoundDocument doc)
+        private static List<object> ReadEncryptedPropertyStreamInfo(byte[] streamBytes)
         {
-            var ds = doc.Storage.DataStreams["\u0005SummaryInformation"];
-            
+            using (var ms = new MemoryStream(streamBytes))
+            {
+                var br = new BinaryReader(ms);
+                //See MS-OLEPS section 2.21 & 2.23
+                var byteOrder = br.ReadUInt16(); //Always 0xFFFE
+                var version = br.ReadUInt16(); //Property version - 0 or 1
+                var systemIdentifier = br.ReadUInt32();
+                var clsid = new Guid(br.ReadBytes(16));
+                var numPropertySets = br.ReadInt32();
+                var fMTID0GUID = new Guid(br.ReadBytes(16));
+                var offset0 = br.ReadUInt32();
+                if (numPropertySets == 2)
+                {
+                    var fMTID1GUID = new Guid(br.ReadBytes(16));
+                    var offset1 = br.ReadUInt32();
+                }
+                ms.Position = offset0;
+                var ps1 = ReadPropertySet(br);
+                return ps1;
+                //if(numPropertySets==2)
+                //{
+                //    var ps2 = ReadPropertySet(br);
+                //}
+            }
+
+        }
+        private class PropertyOffset
+        {
+            public PropertyOffset(int identifyer, int offset)
+            {                    
+                Identifier = identifyer;
+                Offset = offset;
+            }
+            public int Identifier { get; set; }
+            public int Offset { get; set; }
+        }
+        private static List<object> ReadPropertySet(BinaryReader br)
+        {
+            var startPos = br.BaseStream.Position;
+            var size = br.ReadInt32();
+            var numberOfProperties = br.ReadInt32();
+            var offsets = new List<PropertyOffset>();
+            for(var i = 0;i < numberOfProperties;i++)
+            {
+                var propertyIdentifier = br.ReadInt32();
+                var offset = br.ReadInt32();
+                offsets.Add(new PropertyOffset(propertyIdentifier, offset));
+
+            }
+
+            var properties = new List<object>();
+            Encoding encoding = null;
+            foreach(var propertyOffset in offsets)
+            {
+                if(propertyOffset.Identifier==1)
+                {
+                    encoding = GetEncoding(br);
+                }
+                if (propertyOffset.Identifier > 1 && propertyOffset.Identifier < 0x7FFFFFFF)
+                {
+                    properties.Add(GetProperty(propertyOffset, br, encoding));
+                }
+                else
+                {
+                    //Directory, Codepage, Local or Behavior
+                }
+            }
+
+            return properties;
+        }
+
+        private static Encoding GetEncoding(BinaryReader br)
+        {
+            var id = br.ReadInt32(); // Should be 2
+            var cp = br.ReadInt32();
+            return Encoding.GetEncoding(cp);
+        }
+
+        private static object GetProperty(PropertyOffset propertyOffset, BinaryReader br, Encoding encoding)
+        {
+            var type = br.ReadUInt16();
+            br.ReadBytes(2); //Padding
+            object value = null;
+            switch (type) 
+            {
+                case 0x2:
+                    value = br.ReadInt16();
+                    br.ReadBytes(2); //Padding
+                    break;
+                case 0x3: 
+                    value = br.ReadInt32();
+                    break;
+                case 0x4:
+                    value = BitConverter.ToSingle(br.ReadBytes(4),0);
+                    break;
+                case 0x5:
+                    value = BitConverter.ToDouble(br.ReadBytes(8), 0);
+                    break;
+                case 0xb:
+                    value = br.ReadInt32() != 0;
+                    break;
+                case 0x1e:
+                    value = ReadString(br, encoding);
+                    break;
+                case 0x40:
+                    var lowDT = br.ReadUInt32();
+                    var highDT = br.ReadUInt32();
+                    long ns = (long)lowDT | (long)highDT<<32;
+                    value = new DateTime(1601, 1, 1).AddTicks(ns);
+                    break;
+                case 0x100C:
+                    var count = br.ReadUInt32();
+                    count /= 2;
+                    var array = new string[count];
+                    for (int i = 0; i < count; i++)
+                    {
+                        var st=br.ReadUInt16();
+                        br.ReadUInt16();
+                        if (st==0x1E)
+                        {
+                            array[i] = ReadString(br, encoding);
+                        }
+                        else
+                        {
+                            array[i] = ReadString(br, Encoding.Unicode);
+                        }
+                    }
+                    value = array;
+                    break;
+                case 0x101E:
+                    var elements = br.ReadUInt32();
+                    array = new string[elements];
+                    for(int i= 0; i < elements;i++)
+                    {
+                        array[i]=ReadString(br, encoding);
+                    }
+                    value = array;
+                    break;
+            }
+            return value;
+        }
+
+        private static string ReadString(BinaryReader br, Encoding encoding)
+        {
+            var size = br.ReadInt32();
+            var bytes = br.ReadBytes(size);
+            size = Array.FindIndex(bytes, x => x == 0);
+            return encoding.GetString(bytes, 0, size);
         }
 
         /*
@@ -177,7 +329,7 @@ XrMLLicense (variable)
                     {
                         var r=new DataSpaceReference();
                         r.ReferenceType = (DataSpaceReference.eReferenceType)br.ReadInt32();
-                        r.Name = GetLPP4String(br, Encoding.UTF8);
+                        r.Name = GetLPP4String(br, Encoding.Unicode);
                         l.Add(r);
                     }
                 }
