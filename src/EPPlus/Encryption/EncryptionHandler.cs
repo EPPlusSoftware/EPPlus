@@ -517,12 +517,15 @@ namespace OfficeOpenXml.Encryption
                 
                 return DecryptDocument(doc.Storage.DataStreams["EncryptedPackage"], encryptionInfo, encryption.Password);
             }
+            if(doc.Directories.Exists(x=>x.Name == "\u0006DataSpaces"))
+            {
+               return DataSpacesEncryption.HandleDataSpaceEnryption(doc);
+            }
             else
             {
                 throw (new InvalidDataException("Invalid or unsupported encryption. EncryptionInfo or EncryptedPackage stream is missing"));
             }
         }
-
         /// <summary>
         /// Decrypt a document
         /// </summary>
