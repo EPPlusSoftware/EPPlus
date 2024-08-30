@@ -1,4 +1,4 @@
-/*******************************************************************************
+﻿/*******************************************************************************
  * You may amend and distribute as you like, but don't remove this header!
  *
  * Required Notice: Copyright (C) EPPlus Software AB. 
@@ -31,6 +31,8 @@ using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using System;
+using System.IO;
+using System.Linq;
 using System.Xml;
 
 namespace EPPlusTest.Table.PivotTable
@@ -276,10 +278,10 @@ namespace EPPlusTest.Table.PivotTable
             pt.RowFields.Add(pt.Fields[1]);
             pt.RowFields.Add(pt.Fields[4]);
             pt.Fields[4].AddDateGrouping(eDateGroupBy.Years | eDateGroupBy.Months | eDateGroupBy.Days | eDateGroupBy.Quarters, new DateTime(2010, 01, 31), new DateTime(2010, 11, 30));
-            pt.RowHeaderCaption = "�r";
+            pt.RowHeaderCaption = "År";
             pt.Fields[4].Name = "Dag";
             pt.Fields[4].Items[0].Hidden = true;
-            pt.Fields[5].Name = "M�nad";
+            pt.Fields[5].Name = "Månad";
             pt.Fields[5].Items[0].Hidden = true;
             pt.Fields[6].Name = "Kvartal";
             pt.Fields[6].Items[0].Hidden = true;
@@ -1106,13 +1108,10 @@ namespace EPPlusTest.Table.PivotTable
 
                 ws.Cells["A1"].Value = "Date";
                 ws.Cells["B1"].Value = "Value";
-
                 ws.Cells["A2"].Value = new DateTime(2024, 5, 1, 13, 30, 15, 999);
                 ws.Cells["B2"].Value = 150.95;
-
                 ws.Cells["A3"].Value = new DateTime(2024, 3, 1, 8, 30, 15, 1);
                 ws.Cells["B3"].Value = 300.5;
-
 
                 ws.Cells[2, 1, 3, 1].Style.Numberformat.Format = "mm-dd-yy";
                 ws.Cells[2, 2, 3, 2].Style.Numberformat.Format = "#,##0";
@@ -1131,6 +1130,44 @@ namespace EPPlusTest.Table.PivotTable
                 pt.Calculate(true);
                 SaveAndCleanup(pck);    //Make sure no exception happens when saving as Milliseconds should be stripped from any DateTime or TimeSpan value before comparing the shared item.
             }
+        }
+        [TestMethod]
+        public void Issue1571()
+        {
+            SwitchToCulture();
+            var ms = new MemoryStream();
+            using (var p = new ExcelPackage())
+            {
+                var sheet1 = p.Workbook.Worksheets.Add("Sheet1");
+                sheet1.Cells["A1"].LoadFromText("Column1,Column2,Column3\r\n1,2,3\r\n4,5,6\r\n7,8,9\r\n", new ExcelTextFormat(), OfficeOpenXml.Table.TableStyles.Medium1, FirstRowIsHeader: true);
+                var table1 = sheet1.Tables[0];
+
+                // add pivot table
+                var sheet2 = p.Workbook.Worksheets.Add("Sheet2");
+                var pivotTable = sheet2.PivotTables.Add(sheet2.Cells["A1"], table1, "PivotTable1");
+
+                pivotTable.RowFields.Add(pivotTable.Fields[0]);
+                pivotTable.ColumnFields.Add(pivotTable.Fields[1]);
+                pivotTable.DataFields.Add(pivotTable.Fields[2]);
+
+                // 👇 Equivalent to "Save source data with file" in PivotTable Options
+                pivotTable.CacheDefinition.SaveData = false;
+
+                p.SaveAs(ms);
+            }
+
+            // re-open
+            using (var p = new ExcelPackage(ms))
+            {
+                var sheet1 = p.Workbook.Worksheets.First();
+
+                // 🚨fails in EPPlus 7.3
+                var pivotTable = p.Workbook.Worksheets[1].PivotTables[0];
+                pivotTable.Calculate();
+
+                SaveWorkbook("PivotTableNoRecords.xlsx", p);
+            }
+            SwitchBackToCurrentCulture();
         }
     }
 }

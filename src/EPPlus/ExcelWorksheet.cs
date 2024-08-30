@@ -3830,7 +3830,18 @@ namespace OfficeOpenXml
             }
             SlicerXmlSources.Remove(xmlSource);
         }
-
+        ExcelPhoneticProperties _phoneticProperties = null;
+        internal ExcelPhoneticProperties PhoneticProperties
+        {
+            get
+            {
+                if(_phoneticProperties == null)
+                {
+                    _phoneticProperties = new ExcelPhoneticProperties(NameSpaceManager, TopNode);
+                }
+                return _phoneticProperties;
+            }
+        }
         internal XmlNode CreateControlContainerNode()
         {
             var node = GetNode("mc:AlternateContent/mc:Choice[@Requires='x14']");
