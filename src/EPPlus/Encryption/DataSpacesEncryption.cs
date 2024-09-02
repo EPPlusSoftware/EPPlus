@@ -32,22 +32,23 @@ namespace OfficeOpenXml.Encryption
             var dataSpacemap = ReadDataSpaceMap(dsStorage);
             var dataSpaceInfo = ReadDataSpaceInfo(dsStorage.SubStorage["DataSpaceInfo"]);
             var tsInfo = dsStorage.SubStorage["TransformInfo"];
-            ReadTransformReferences(tsInfo.SubStorage["DRMEncryptedTransform"]);
+            var transformInfo = ReadTransformReferences(tsInfo.SubStorage["DRMEncryptedTransform"]);
             var labelXml = ReadLabelXml(tsInfo);
 
             //Root Streams
             var summaryInfoProperties = ReadEncryptedPropertyStreamInfo(doc.Storage.DataStreams["\u0005SummaryInformation"]);
 
             var summaryDocumentInfoProperties = ReadEncryptedPropertyStreamInfo(doc.Storage.DataStreams["\u0005DocumentSummaryInformation"]);
-            return DecryptPackage(doc);
+            return DecryptPackage(doc, transformInfo);
         }
 
-        private static MemoryStream DecryptPackage(CompoundDocument doc)
+        private static MemoryStream DecryptPackage(CompoundDocument doc, TransformInfoHeader transformInfo)
         {
             var ms = new MemoryStream();
             var stream = doc.Storage.DataStreams["EncryptedPackage"];
             var br = new BinaryReader(new MemoryStream(stream));
             var size = br.ReadUInt64();
+            
             ms.Write(br.ReadBytes((int)size), 0, (int)size);
             ms.Flush();
             return ms;
@@ -211,28 +212,38 @@ TransformInfoHeader (variable)
 ExtensibilityHeader
 XrMLLicense (variable)         
          */
-        private static void ReadTransformReferences(CompoundDocument.StoragePart dsStorage)
+        internal class TransformInfoHeader
+        {
+            public int TransformType { get; set; }
+            public string TransformId { get; set; }
+            public string TransformName { get; set; }
+            public string ReaderVersion { get; set; }
+            public string UpdaterVersion { get; set; }
+            public string WriterVersion { get; set; }
+            public string LicenseXrML { get; set; }
+        }
+        private static TransformInfoHeader ReadTransformReferences(CompoundDocument.StoragePart dsStorage)
         {
             var streamBytes = dsStorage.DataStreams["\u0006Primary"];
+            var ih=new TransformInfoHeader();
             using (var ms = new MemoryStream(streamBytes))
             {
                 var br = new BinaryReader(ms);
                 var transformLength = br.ReadInt32(); //Always 0x08
-                var transformType = br.ReadInt32();
-                var transformId = GetLPP4String(br, Encoding.Unicode);
-                var transformName = GetLPP4String(br, Encoding.Unicode);
-                var readerVersion = ReadVersion(br);
-                var updateVersion = ReadVersion(br);
-                var writerVersion = ReadVersion(br);
+                ih.TransformType = br.ReadInt32();
+                ih.TransformId = GetLPP4String(br, Encoding.Unicode);
+                ih.TransformName = GetLPP4String(br, Encoding.Unicode);
+                ih.ReaderVersion = ReadVersion(br);
+                ih.UpdaterVersion = ReadVersion(br);
+                ih.WriterVersion = ReadVersion(br);
 
                 //ExtensibilityHeader
-                var el = br.ReadInt32();
+                var el = br.ReadInt32(); //Currently not used. Should always be 4.
 
-                var licenseXml = GetLPP4String(br, Encoding.UTF8);
-                File.WriteAllText("c:\\temp\\t.xml", licenseXml);
+                ih.LicenseXrML = GetLPP4String(br, Encoding.UTF8);
             }
+            return ih;
         }
-
         /*
         <xsd:schema elementFormDefault = "qualified"
     xmlns:clbl="http://schemas.microsoft.com/office/2020/mipLabelMetadata"
