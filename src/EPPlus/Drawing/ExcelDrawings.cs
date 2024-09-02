@@ -1512,7 +1512,7 @@ namespace OfficeOpenXml.Drawing
         public ExcelOleObject AddOleObject(string FilePath, bool Link = false, OleObjectType OleObjectType = OleObjectType.Default, bool DisplayAsIcon = false, string ImageFilePath = "")
         {
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
-            ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, FilePath, Link, OleObjectType, ImageFilePath);
+            ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, FilePath, Link, OleObjectType, DisplayAsIcon, ImageFilePath);
             _drawingsList.Add(oleObj);
             _drawingNames.Add(oleObj.Name, _drawingsList.Count - 1);
 

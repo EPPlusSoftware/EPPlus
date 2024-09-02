@@ -841,8 +841,3 @@ namespace OfficeOpenXml.Drawing.OleObject
  * We can add guid for application to open?   //Högst otroligt att vi använder denna. Lär nog använda package, men att kunna specifiera pdf eller odf format som optionals kan vara en lösning, notera att för pdf så tar adobe reader över helt även om filen är ett package.
  * we check what file type it is.
  */
-
-
-/*
- * För Ikoner så har vi dvAspect="DVASPECT_ICON" i oleObject i worksheet xml
- */
