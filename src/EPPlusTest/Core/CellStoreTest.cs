@@ -524,6 +524,27 @@ namespace EPPlusTest.Core
 			Assert.AreEqual(29, cellStore.GetValue(29, 1));
 			Assert.AreEqual(15030, cellStore.GetValue(30, 1));
 		}
+        [TestMethod]
+        public void VerifyPreviousRowOverPage()
+        {
+            //Setup
+            var cellStore = new CellStore<int>();
 
-	}
+            var incr = 33;
+            var max = 33000;
+            LoadCellStore(cellStore, incr, max, incr);
+
+            for(int r= incr; r < max; r+= incr)
+            {
+                var row = r;
+                int c = 1;
+                
+                if(cellStore.PrevCellByColumn(ref row, ref c, 1, 0, 0))
+                {
+                    Assert.AreEqual(r - incr, row);
+                }
+            }
+        }
+
+    }
 }
