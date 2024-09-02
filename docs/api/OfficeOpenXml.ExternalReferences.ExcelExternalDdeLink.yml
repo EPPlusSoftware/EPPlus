@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalDdeLink
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeLink.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalLinkType
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeLink.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DdeService
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeLink.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DdeTopic
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeLink.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DdeItems
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeLink.cs

@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eControlType
     path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
@@ -59,7 +59,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Button
     path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CheckBox
     path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DropDown
     path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GroupBox
     path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Label
     path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ListBox
     path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadioButton
     path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
@@ -297,7 +297,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScrollBar
     path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
@@ -331,7 +331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SpinButton
     path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
@@ -365,7 +365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EditBox
     path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs
@@ -399,7 +399,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eControlType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dialog
     path: ../src/EPPlus/Drawing/Controls/enums/eControlType.cs

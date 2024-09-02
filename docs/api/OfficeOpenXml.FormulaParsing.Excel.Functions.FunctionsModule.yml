@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionsModule.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionsModule
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionsModule.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionsModule.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Functions
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionsModule.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionsModule.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomCompilers
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionsModule.cs

@@ -1,4 +1,24 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.3.0
+### Features
+* Add support for Precision As Displayed when calculating formulas, via the 'ExcelWorkbook.FullPrecision' property.
+* Added new functions 
+	* GROWTH 
+	* DPRODUCT
+	* DSTDEV
+	* DSTDEVP
+
+### Fixed issues
+* EPPlus now supports reading workbooks encoded with other encodings than UTF8.
+* Added new parameter to ExcelRangeBase.CreateArrayFormula for dynamic array formulas, to set meta data for the cell. 
+* Deleting all pivot tables in a workbook caused the workbook to become corrupt as the pivotCache element was not deleted.
+* MinIfs and MaxIfs returned an incorrect value if the criteria's was an error like #NUM! or #REF!.
+* EPPlus failed to load a workbook containing a worksheet with a space as name.
+* Loading a workbook with a part exceeding 2GB failed to load.
+* EPPlus failed to load a workbook when the worksheet xml had a xml prefix for the default namespace and had conditional formatting's or data validations.
+* Loading pivot tables with date grouping sometimes did not convert the grouped values to dates.
+* Fixed issue were EPPlus only allowed 253 characters in Data Validation List, We now allow 255 characters.
+ 
 ## Version 7.2.2
 ### Fixed issues and minor features
 * Worksheet references in formulas proceeded by `-` now work as expected.

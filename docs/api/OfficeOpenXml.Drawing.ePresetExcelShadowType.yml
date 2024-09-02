@@ -39,7 +39,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePresetExcelShadowType
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InnerTopLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InnerTop
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InnerTopRight
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -208,7 +208,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InnerLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -242,7 +242,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InnerCenter
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -276,7 +276,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InnerRight
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -310,7 +310,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InnerBottomLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -344,7 +344,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InnerBottom
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -378,7 +378,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InnerBottomRight
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -412,7 +412,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OuterTopLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -446,7 +446,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OuterTop
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -480,7 +480,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OuterTopRight
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -514,7 +514,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OuterLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -548,7 +548,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OuterCenter
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -582,7 +582,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OuterRight
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -616,7 +616,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OuterBottomLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -650,7 +650,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OuterBottom
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -684,7 +684,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OuterBottomRight
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -718,7 +718,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveUpperLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -752,7 +752,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveUpperRight
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -786,7 +786,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveBelow
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -820,7 +820,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveLowerLeft
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
@@ -854,7 +854,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PerspectiveLowerRight
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelShadowType.cs

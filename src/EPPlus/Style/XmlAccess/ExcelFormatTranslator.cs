@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.Utils;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -140,6 +141,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             }
         }
         internal eFormatType DataType { get; private set; }
+
         private void ToNetFormat(string ExcelFormat, bool forColWidth)
         {
             DataType = eFormatType.Unknown;
@@ -161,6 +163,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             if (containsAmPm)
             {
                 ExcelFormat = Regex.Replace(ExcelFormat, "AM/PM", "", RegexOptions.IgnoreCase);
+                DataType = eFormatType.DateTime;
             }
 
             for (int pos = 0; pos < ExcelFormat.Length; pos++)
@@ -200,10 +203,12 @@ namespace OfficeOpenXml.Style.XmlAccess
                                     if (li[1].Equals("f800", StringComparison.OrdinalIgnoreCase))
                                     {
                                         f.SpecialDateFormat = eSystemDateFormat.SystemLongDate;
+                                        DataType = eFormatType.DateTime;
                                     }
                                     else if (li[1].Equals("f400", StringComparison.OrdinalIgnoreCase))
                                     {
                                         f.SpecialDateFormat = eSystemDateFormat.SystemLongTime;
+                                        DataType = eFormatType.DateTime;
                                     }
                                     else if (int.TryParse(li[1], NumberStyles.HexNumber, CultureInfo.InvariantCulture, out int num))
                                     {
@@ -243,16 +248,19 @@ namespace OfficeOpenXml.Style.XmlAccess
                             {                                
                                 f.SpecialDateFormat = eSystemDateFormat.AllHours;
                                 sb.Append("[h]");
+                                DataType = eFormatType.DateTime;
                             }
                             else if (bracketText.ContainsOnlyCharacter('m'))
                             {
                                 f.SpecialDateFormat = eSystemDateFormat.AllMinutes;
                                 sb.Append("[m]");
+                                DataType = eFormatType.DateTime;
                             }
                             else if (bracketText.ContainsOnlyCharacter('s'))
                             {
                                 f.SpecialDateFormat = eSystemDateFormat.AllSeconds;
                                 sb.Append("[s]");
+                                DataType = eFormatType.DateTime;
                             }
                             else
                             {
@@ -460,10 +468,9 @@ namespace OfficeOpenXml.Style.XmlAccess
                 }
             }
         }
-
+        int _numerator = -1, _denomerator = -1;
         internal string FormatFraction(double d, FormatPart f)
         {
-            int numerator, denomerator;
             string[] fmt = f.FractionFormat.Split('/');
 
             int fixedDenominator;
@@ -474,6 +481,7 @@ namespace OfficeOpenXml.Style.XmlAccess
 
             if (d == 0 || double.IsNaN(d))
             {
+                _numerator = _denomerator = 0;
                 if (fmt[0].Trim() == "" && fmt[1].Trim() == "")
                 {
                     return new string(' ', f.FractionFormat.Length);
@@ -534,26 +542,26 @@ namespace OfficeOpenXml.Style.XmlAccess
                     divRes = 1 / (divRes - intDivRes);  //Rest
                 }
 
-                numerator = (int)numerators[listPos];
-                denomerator = (int)denominators[listPos];
+                _numerator = (int)numerators[listPos];
+                _denomerator = (int)denominators[listPos];
             }
             else
             {
-                numerator = (int)Math.Round((d - intPart) / (1D / fixedDenominator), 0);
-                denomerator = fixedDenominator;
+                _numerator = (int)Math.Round((d - intPart) / (1D / fixedDenominator), 0);
+                _denomerator = fixedDenominator;
             }
-            if (numerator == denomerator || numerator == 0)
+            if (_numerator == _denomerator || _numerator == 0)
             {
-                if (numerator == denomerator) intPart++;
+                if (_numerator == _denomerator) intPart++;
                 return intPart.ToString(f.NetFormat).Replace("?", new string(' ', f.FractionFormat.Length));
             }
             else if (intPart == 0)
             {
-                return FmtInt(numerator, fmt[0]) + "/" + FmtInt(denomerator, fmt[1]);
+                return FmtInt(_numerator, fmt[0]) + "/" + FmtInt(_denomerator, fmt[1]);
             }
             else
             {
-                return intPart.ToString(f.NetFormat).Replace("?", FmtInt(numerator, fmt[0]) + "/" + FmtInt(denomerator, fmt[1]));
+                return intPart.ToString(f.NetFormat).Replace("?", FmtInt(_numerator, fmt[0]) + "/" + FmtInt(_denomerator, fmt[1]));
             }
         }
 
@@ -637,6 +645,91 @@ namespace OfficeOpenXml.Style.XmlAccess
             else
             {
                 return "G12";
+            }
+        }
+
+        internal object GetRoundedValue(object value)
+        {
+            var d = ConvertUtil.GetValueDouble(value,true,true);
+            if(double.IsNaN(d))
+            {
+                return value;
+            }
+            else
+            {
+                var f = GetFormatPart(value);
+                if(!string.IsNullOrEmpty(f.FractionFormat))
+                {
+                    var q = Math.Round((double)_numerator / (double)_denomerator, 6);
+                    return ((int)d) + q;                    
+                }
+                else if(f.SpecialDateFormat == eSystemDateFormat.None) 
+                {
+                    var decimals = GetDecimalsFromFormat(f.NetFormat);
+                    if (decimals >= 0)
+                    {
+                        return Math.Round(d, decimals);
+                    }
+                }
+                return value;
+            }
+
+        }
+        internal object GetPivotTableValue(object value)
+        {
+            var tc = Type.GetTypeCode(value?.GetType());
+            if(tc == TypeCode.Double || tc == TypeCode.Single || tc ==TypeCode.Decimal && DataType==eFormatType.DateTime)
+            {
+                var d = Convert.ToDouble(value);
+                return DateTime.FromOADate(d);
+            }
+            return value;
+        }
+
+        private int GetDecimalsFromFormat(string netFormat)
+        {
+            var isInString = false;
+            var lastIsDecimal = false;
+            var decimals = 0;
+            var isNumericFormat = false;
+            foreach (var c in netFormat)
+            {
+                if (c == '\"')
+                {
+                    isInString = !isInString;
+                }
+                if (isInString == false && c == '0' || c == '#')
+                {
+                    isNumericFormat = true;
+                }
+                if (isInString == false && c == '.')
+                {
+                    lastIsDecimal = true;
+                }
+                else if (lastIsDecimal)
+                {
+                    if (c == '0' || c == '#')
+                    {
+                        decimals++;
+                    }
+                    else if (c == '%')
+                    {
+                        return decimals + 2;
+                    }
+                    else
+                    {
+                        return decimals;
+                    }
+                }
+                var pc = c;
+            }
+            if (isNumericFormat)
+            { 
+                return decimals;
+            }
+            else
+            {
+                return -1;
             }
         }
     }

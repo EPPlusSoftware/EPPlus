@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableCalculatedData
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SelectField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SelectField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCalculatedData.cs

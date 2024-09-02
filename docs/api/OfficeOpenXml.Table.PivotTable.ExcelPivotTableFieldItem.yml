@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableFieldItem
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItem.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItem.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItem.cs
@@ -136,7 +136,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItem.cs
@@ -173,7 +173,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDetails
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItem.cs

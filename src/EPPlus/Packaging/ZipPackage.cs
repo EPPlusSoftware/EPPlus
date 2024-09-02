@@ -79,18 +79,18 @@ namespace OfficeOpenXml.Packaging
                     {
                         if (e.FileName.Equals("[content_types].xml", StringComparison.OrdinalIgnoreCase))
                         {
-                            AddContentTypes(Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)));
+                            AddContentTypes(GetZipEntryAsString(_zip, e));
                             hasContentTypeXml = true;
                         }
 
                         else if (e.FileName.Equals($"_rels{_dirSeparator}.rels", StringComparison.OrdinalIgnoreCase))
                         {
-                            ReadRelation(Encoding.UTF8.GetString(GetZipEntryAsByteArray(_zip, e)), "");
+                            ReadRelation(GetZipEntryAsString(_zip, e), "");
                         }
                         else if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
                         {
-                            var ba = GetZipEntryAsByteArray(_zip, e);
-                            rels.Add(GetUriKey(e.FileName), Encoding.UTF8.GetString(ba));
+                            var relXml = GetZipEntryAsString(_zip, e);
+                            rels.Add(GetUriKey(e.FileName), relXml);
                         }
                         else
                         {
@@ -129,6 +129,13 @@ namespace OfficeOpenXml.Packaging
             }
         }
 
+        private static string GetZipEntryAsString(ZipInputStream zip, ZipEntry e)
+        {
+            //var b = GetZipEntryAsByteArray(zip, e);
+            //var ms = new MemoryStream(b);
+            var sr = new StreamReader(zip);
+            return sr.ReadToEnd();
+        }
         private static byte[] GetZipEntryAsByteArray(ZipInputStream zip, ZipEntry e)
         {
             var b = new byte[e.UncompressedSize];

@@ -15,11 +15,11 @@ items:
   source:
     remote:
       path: src/EPPlus/XmlHelper.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XmlHelper
     path: ../src/EPPlus/XmlHelper.cs
-    startLine: 30
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

@@ -22,6 +22,7 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System.Threading;
 using System.Runtime.InteropServices;
+using OfficeOpenXml.Packaging.Ionic.Zip;
 
 namespace OfficeOpenXml
 {
@@ -1315,7 +1316,10 @@ namespace OfficeOpenXml
 #else
             settings.DtdProcessing = DtdProcessing.Prohibit;
 #endif
-            XmlReader reader = XmlReader.Create(stream, settings);
+            var sr = new StreamReader(stream);
+            //var b=sr.ReadToEnd();
+            //var xml = sr.ReadToEnd();
+            XmlReader reader = XmlReader.Create(sr, settings);
             xmlDoc.Load(reader);
         }
         internal static void LoadXmlSafe(XmlDocument xmlDoc, string xml, Encoding encoding)

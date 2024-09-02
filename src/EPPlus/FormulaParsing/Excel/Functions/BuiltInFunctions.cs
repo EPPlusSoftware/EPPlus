@@ -287,6 +287,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["linest"] = new Linest();
             Functions["logest"] = new Logest();
             Functions["trend"] = new Trend();
+            Functions["growth"] = new Growth();
 
             // Information
             Functions["isblank"] = new IsBlank();
@@ -389,6 +390,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["daverage"] = new Daverage();
             Functions["dvar"] = new Dvar();
             Functions["dvarp"] = new Dvarp();
+            Functions["dproduct"] = new Dproduct();
+            Functions["dstdev"] = new Dstdev();
+            Functions["dstdevp"] = new DstdevP();
             //Finance
             Functions["accrint"] = new Accrint();
             Functions["accrintm"] = new AccrintM();

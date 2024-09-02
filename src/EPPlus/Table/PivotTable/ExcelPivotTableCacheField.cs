@@ -935,7 +935,7 @@ namespace OfficeOpenXml.Table.PivotTable
 			//Get unique values.
 			for (int row = range._fromRow + 1; row <= toRow; row++)
 			{
-				AddSharedItemToHashSet(siHs, ws.GetValue(row, column));
+				AddSharedItemToHashSet(siHs, ws.GetValueForPivotTable(row, column));
 			}
 
             if (Grouping == null)

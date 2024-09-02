@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTextFileFormat
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EOL
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
@@ -142,7 +142,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Culture
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SkipLinesBeginning
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SkipLinesEnd
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
@@ -253,7 +253,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Encoding
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
@@ -290,7 +290,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShouldUseRow
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
@@ -327,7 +327,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Transpose
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
@@ -364,7 +364,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
@@ -401,7 +401,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstRowIsHeader
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFileFormat.cs

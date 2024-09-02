@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Exceptions/CircularReferenceException.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CircularReferenceException
     path: ../src/EPPlus/FormulaParsing/Exceptions/CircularReferenceException.cs
@@ -75,7 +75,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Exceptions/CircularReferenceException.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Exceptions/CircularReferenceException.cs

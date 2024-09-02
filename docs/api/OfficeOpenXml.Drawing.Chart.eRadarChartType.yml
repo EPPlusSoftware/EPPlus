@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eRadarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eRadarChartType
     path: ../src/EPPlus/Drawing/Chart/enums/eRadarChartType.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eRadarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Radar
     path: ../src/EPPlus/Drawing/Chart/enums/eRadarChartType.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eRadarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarFilled
     path: ../src/EPPlus/Drawing/Chart/enums/eRadarChartType.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eRadarChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarMarkers
     path: ../src/EPPlus/Drawing/Chart/enums/eRadarChartType.cs

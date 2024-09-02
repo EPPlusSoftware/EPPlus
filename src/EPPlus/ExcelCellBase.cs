@@ -1018,7 +1018,7 @@ namespace OfficeOpenXml
                     if (t.TokenTypeIsAddressToken)
                     {
                         var address = GetFullAddressFromToken(tokens, ref i);
-                        if ((address.IsExternal || (!IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed)
+                        if ((address.IsExternal || (!IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address.WorkSheetName)) && !setFixed)
                             || address.Table != null)
                         {
                             f += address.Address;
@@ -1205,10 +1205,10 @@ namespace OfficeOpenXml
                 {
                     if (t.TokenTypeIsAddress && 
                         string.IsNullOrEmpty(extRef) && 
-                        (string.IsNullOrEmpty(adrWs) || adrWs.Equals(currentSheet, StringComparison.InvariantCultureIgnoreCase)))
+                        (string.IsNullOrEmpty(adrWs) || adrWs.Equals(modifiedSheet, StringComparison.InvariantCultureIgnoreCase)))
                     {
                         var address = new ExcelAddressBase(t.Value);
-                        if (((!string.IsNullOrEmpty(address._wb) || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, address)) && !setFixed) ||
+                        if (((!string.IsNullOrEmpty(address._wb) || !IsReferencesModifiedWorksheet(currentSheet, modifiedSheet, adrWs)) && !setFixed) ||
                                 address.Collide(effectedRange) == ExcelAddressBase.eAddressCollition.No)
                         {
                             f += address.Address;
@@ -1244,6 +1244,7 @@ namespace OfficeOpenXml
                                 }
                             }
                         }
+
                         if (address != null && !address.IsFullRow)
                         {
                             if (colIncrement > 0)
@@ -1307,10 +1308,10 @@ namespace OfficeOpenXml
             }
         }
 
-        private static bool IsReferencesModifiedWorksheet(string currentSheet, string modifiedSheet, ExcelAddressBase a)
+        private static bool IsReferencesModifiedWorksheet(string currentSheet, string modifiedSheet, string addressSheet)
         {
-            return (string.IsNullOrEmpty(a._ws) && currentSheet.Equals(modifiedSheet, StringComparison.CurrentCultureIgnoreCase)) ||
-                                         modifiedSheet.Equals(a._ws, StringComparison.CurrentCultureIgnoreCase);
+            return (string.IsNullOrEmpty(addressSheet) && currentSheet.Equals(modifiedSheet, StringComparison.CurrentCultureIgnoreCase)) ||
+                                         modifiedSheet.Equals(addressSheet, StringComparison.CurrentCultureIgnoreCase);
         }
 
         /// <summary>

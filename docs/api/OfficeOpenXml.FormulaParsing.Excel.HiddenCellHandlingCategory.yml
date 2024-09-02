@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HiddenCellHandlingCategory
     path: ../src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default
     path: ../src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Subtotal
     path: ../src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Aggregate
     path: ../src/EPPlus/FormulaParsing/Excel/HiddenCellHandlingCategory.cs

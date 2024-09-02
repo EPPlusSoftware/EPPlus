@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPicture
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -149,7 +149,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Image
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -186,7 +186,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSize
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -262,7 +262,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -299,7 +299,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -336,7 +336,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PreferRelativeResize
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -373,7 +373,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LockAspectRatio
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -410,7 +410,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -445,7 +445,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rotation
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -482,7 +482,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalFlip
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -519,7 +519,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalFlip
     path: ../src/EPPlus/Drawing/ExcelPicture.cs

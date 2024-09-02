@@ -39,7 +39,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParallelDeflateOutputStream
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -173,7 +173,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -253,7 +253,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -296,7 +296,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -342,7 +342,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Strategy
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -379,7 +379,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxBufferPairs
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -417,7 +417,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BufferSize
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -455,7 +455,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Crc32
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -493,7 +493,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BytesProcessed
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -531,7 +531,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Write
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -580,7 +580,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Flush
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -615,7 +615,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Close
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -651,7 +651,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -684,7 +684,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -723,7 +723,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -761,7 +761,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CanSeek
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -802,7 +802,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CanRead
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -843,7 +843,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CanWrite
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -884,7 +884,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Length
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -924,7 +924,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -965,7 +965,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Read
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -1016,7 +1016,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Seek
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
@@ -1061,7 +1061,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetLength
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ParallelDeflateOutputStream.cs

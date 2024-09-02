@@ -18,11 +18,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelNumberFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelNumberFormat
     path: ../src/EPPlus/Style/ExcelNumberFormat.cs
-    startLine: 26
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -66,11 +66,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelNumberFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumFmtID
     path: ../src/EPPlus/Style/ExcelNumberFormat.cs
-    startLine: 36
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -103,11 +103,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelNumberFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Format
     path: ../src/EPPlus/Style/ExcelNumberFormat.cs
-    startLine: 46
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -140,11 +140,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelNumberFormat.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BuildIn
     path: ../src/EPPlus/Style/ExcelNumberFormat.cs
-    startLine: 75
+    startLine: 76
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style

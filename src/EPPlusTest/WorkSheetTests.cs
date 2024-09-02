@@ -2196,5 +2196,16 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void AddWorksheetWithSpaceName()
+        {
+            using (var p = OpenPackage("SpaceName.xlsx", true))
+            {
+                var spaceName = " ";
+                var ws = p.Workbook.Worksheets.Add(spaceName);
+                Assert.AreEqual(" ", ws.Name);
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

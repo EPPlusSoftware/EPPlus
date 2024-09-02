@@ -56,11 +56,11 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 if (_transpose)
                 {
-                    _worksheet._values.SetValueRow_ValueTransposed(_range._fromRow, _range._fromCol, _dataTable.Columns.Cast<DataColumn>().Select((dc) => { return dc.Caption; }).ToArray());
+                    _worksheet.SetValueRow_ValueTransposed(_range._fromRow, _range._fromCol, _dataTable.Columns.Cast<DataColumn>().Select((dc) => { return dc.Caption; }).ToArray());
                 }
                 else
                 {
-                    _worksheet._values.SetValueRow_Value(_range._fromRow, _range._fromCol, _dataTable.Columns.Cast<DataColumn>().Select((dc) => { return dc.Caption; }).ToArray());
+                    _worksheet.SetValueRow_Value(_range._fromRow, _range._fromCol, _dataTable.Columns.Cast<DataColumn>().Select((dc) => { return dc.Caption; }).ToArray());
                 }
                 row++;
             }
@@ -68,11 +68,11 @@ namespace OfficeOpenXml.LoadFunctions
             {
                 if (_transpose)
                 {
-                    _range.Worksheet._values.SetValueRow_ValueTransposed(_range._fromCol, row++, dr.ItemArray);
+                    _range.Worksheet.SetValueRow_ValueTransposed(_range._fromCol, row++, dr.ItemArray);
                 }
                 else
                 {
-                    _range.Worksheet._values.SetValueRow_Value(row++, _range._fromCol, dr.ItemArray);
+                    _range.Worksheet.SetValueRow_Value(row++, _range._fromCol, dr.ItemArray);
                 }                
             }
             if (row != _range._fromRow) row--;

@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalDdeItem
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeItem.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeItem.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Advise
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeItem.cs
@@ -137,7 +137,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PreferPicture
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeItem.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ole
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeItem.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Values
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeItem.cs

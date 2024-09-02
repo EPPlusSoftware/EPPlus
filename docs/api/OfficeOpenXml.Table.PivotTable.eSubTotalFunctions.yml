@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eSubTotalFunctions
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CountA
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -173,7 +173,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Avg
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -207,7 +207,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -241,7 +241,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Min
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -275,7 +275,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Max
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -309,7 +309,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Product
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -343,7 +343,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StdDev
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -377,7 +377,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StdDevP
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -411,7 +411,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sum
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -445,7 +445,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Var
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
@@ -479,7 +479,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VarP
     path: ../src/EPPlus/Table/PivotTable/enums/eSubTotalFunctions.cs

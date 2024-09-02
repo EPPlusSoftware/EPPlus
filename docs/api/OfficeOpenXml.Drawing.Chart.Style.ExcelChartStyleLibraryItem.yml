@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartStyleLibraryItem
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XmlString
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XmlDocument
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleLibraryItem.cs

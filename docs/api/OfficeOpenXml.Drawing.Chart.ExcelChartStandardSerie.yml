@@ -22,11 +22,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartStandardSerie
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -81,11 +81,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Header
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 82
+    startLine: 83
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -121,11 +121,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderAddress
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 107
+    startLine: 108
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -161,11 +161,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 140
+    startLine: 141
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -201,11 +201,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XSeries
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 177
+    startLine: 179
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -241,11 +241,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TrendLines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 387
+    startLine: 389
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -281,11 +281,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfItems
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 401
+    startLine: 403
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -321,11 +321,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateCache
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 421
+    startLine: 423
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
