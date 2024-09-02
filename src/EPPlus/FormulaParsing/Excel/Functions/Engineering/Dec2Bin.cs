@@ -28,13 +28,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering
     {
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var number = ArgToInt(arguments, 0, out ExcelErrorValue e1);
+            var d1 = ArgToDecimal(arguments, 0, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var number = (int)d1;
             var padding = default(int?);
             if (arguments.Count() > 1)
             {
-                padding = ArgToInt(arguments, 1, out ExcelErrorValue e2);
+                var d2 = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
                 if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+                padding = (int)d2;
                 if (padding.Value < 0 ^ padding.Value > 10) return CreateResult(eErrorType.Num);
             }
             var result = Convert.ToString(number, 2);
