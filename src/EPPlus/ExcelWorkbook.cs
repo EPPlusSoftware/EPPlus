@@ -2030,7 +2030,10 @@ namespace OfficeOpenXml
 				return _richData;
 			}
 		}
-
-        public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; set; }
-    } // end Workbook
+        /// <summary>
+		/// Handler for the <see cref="ExcelRangeBase.Text" /> property to override the default behaviour.
+		/// This can be used to handle localized number formats or formats where EPPlus differs from the spread sheet application.
+		/// </summary>
+		public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; set; }
+    }
 }
