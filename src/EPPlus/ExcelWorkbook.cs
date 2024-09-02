@@ -2031,6 +2031,6 @@ namespace OfficeOpenXml
 			}
 		}
 
-        public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; internal set; }
+        public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; set; }
     } // end Workbook
 }
