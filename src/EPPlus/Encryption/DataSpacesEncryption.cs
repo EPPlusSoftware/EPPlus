@@ -27,7 +27,6 @@ namespace OfficeOpenXml.Encryption
     {
         internal static MemoryStream HandleDataSpaceEnryption(CompoundDocument doc)
         {
-            var ms=new MemoryStream();
             var dsStorage = doc.Storage.SubStorage["\u0006DataSpaces"];
             var version = ReadVersionStream(dsStorage);
             var dataSpacemap = ReadDataSpaceMap(dsStorage);
@@ -40,7 +39,17 @@ namespace OfficeOpenXml.Encryption
             var summaryInfoProperties = ReadEncryptedPropertyStreamInfo(doc.Storage.DataStreams["\u0005SummaryInformation"]);
 
             var summaryDocumentInfoProperties = ReadEncryptedPropertyStreamInfo(doc.Storage.DataStreams["\u0005DocumentSummaryInformation"]);
+            return DecryptPackage(doc);
+        }
 
+        private static MemoryStream DecryptPackage(CompoundDocument doc)
+        {
+            var ms = new MemoryStream();
+            var stream = doc.Storage.DataStreams["EncryptedPackage"];
+            var br = new BinaryReader(new MemoryStream(stream));
+            var size = br.ReadUInt64();
+            ms.Write(br.ReadBytes((int)size), 0, (int)size);
+            ms.Flush();
             return ms;
         }
 
@@ -266,16 +275,21 @@ XrMLLicense (variable)
                 return Encoding.UTF8.GetString(ms.ToArray());
             }
         }
-        private static object ReadDataSpaceInfo(CompoundDocument.StoragePart dsStorage)
+        private static List<string> ReadDataSpaceInfo(CompoundDocument.StoragePart dsStorage)
         {
+            var l = new List<string>();
             var streamBytes = dsStorage.DataStreams["DRMEncryptedDataSpace"];
             using (var ms = new MemoryStream(streamBytes))
             {
                 var br = new BinaryReader(ms);
                 var headerLength = br.ReadInt32(); //Always 0x08
                 var entryCount = br.ReadInt32();
+                for (int i = 0; i < entryCount; i++)
+                {
+                    l.Add(GetLPP4String(br, Encoding.Unicode));
+                }
             }
-            return null;
+            return l;
         }
         private static string ReadVersionStream(CompoundDocument.StoragePart dsStorage)
         {
