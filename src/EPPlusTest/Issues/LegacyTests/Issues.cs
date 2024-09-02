@@ -6226,5 +6226,30 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+        //[TestMethod]
+        //public void s725()
+        //{
+        //    using (var package = OpenTemplatePackage("SavedWithExcel725.xlsx"))
+        //    {
+        //        var sheet = package.Workbook.Worksheets[0];
+        //        //var cellValue = sheet.Cells["J15"];
+
+        //        //Assert.AreEqual("    10.01", cellValue.Value);
+
+        //        SaveAndCleanup(package);
+        //    }
+
+        //    using (var package2 = OpenPackage("C:\\epplusTest\\Testoutput\\SavedWithExcel725.xlsx"))
+        //    {
+        //        var wb = package2.Workbook;
+        //        var sheet = wb.Worksheets[0];
+        //        //var cellValue = sheet.Cells["J15"];
+
+        //        //Assert.AreEqual("    10.01", cellValue.Value);
+
+        //        package2.SaveAs("DoubleSave.xlsx");
+        //    }
+        //}
+
     }
 }
