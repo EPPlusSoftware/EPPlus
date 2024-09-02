@@ -130,14 +130,6 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 {
                     return cb.CompareTo(bsv);
                 }
-                //else if(candidate is double dsv)
-                //{
-                //    if(dsv != 0 && dsv != 1)
-                //    {
-                //        return IncompatibleOperands;
-                //    }
-                //    return bsv.CompareTo(Convert.ToBoolean(dsv));
-                //}
             }
 
             if (DateTime.TryParse(searchedValue, out DateTime dtsv))
