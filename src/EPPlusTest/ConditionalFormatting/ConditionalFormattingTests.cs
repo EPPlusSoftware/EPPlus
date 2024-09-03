@@ -1647,7 +1647,6 @@ namespace EPPlusTest.ConditionalFormatting
                 var sheet = pck.Workbook.Worksheets.Add("formulas");
                 var sheet2 = pck.Workbook.Worksheets.Add("formulasRef");
 
-
                 var range = new ExcelAddress("B1:B5");
 
                 var cf = sheet.ConditionalFormatting.AddBeginsWith(range);
@@ -2252,25 +2251,16 @@ namespace EPPlusTest.ConditionalFormatting
         }
 
         protected static void SaveAndCleanup(ExcelPackage pck, bool disposePackage = true)
-
         {
-
             if (pck.Workbook.Worksheets.Count > 0)
-
             {
-
                 pck.Save();
-
             }
 
             if (disposePackage)
-
             {
-
                 pck.Dispose();
-
             }
-
         }
     }
 }
