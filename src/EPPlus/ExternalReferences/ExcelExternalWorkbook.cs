@@ -19,12 +19,7 @@ using System.IO;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Xml;
-using System.Text;
-using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System.Xml.Linq;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
 namespace OfficeOpenXml.ExternalReferences

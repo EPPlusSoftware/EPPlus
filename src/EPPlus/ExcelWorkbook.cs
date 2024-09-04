@@ -685,7 +685,6 @@ namespace OfficeOpenXml
 
 				}
 				return _externalLinks;
-
 			}
 		}
 		#region Workbook Properties

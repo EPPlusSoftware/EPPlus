@@ -710,7 +710,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 }
                 int newID = 1;
                 var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
-                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
+                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties); //Change content type or add content type for the doc type?
                 var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
                 relId = rel.Id;
                 MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
@@ -739,9 +739,49 @@ namespace OfficeOpenXml.Drawing.OleObject
             return relId;
         }
 
-        private void LinkDocument(string filePath, OleObjectType type)
+        private int LinkDocument(string filePath, OleObjectType type)
         {
+            var wb = _worksheet.Workbook;
 
+            //create externalLink xml part
+            int newID = 1;
+            Uri uri = GetNewUri(wb._package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml", ref newID);
+            var part = wb._package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
+            var rel = wb.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
+
+            //Create relation to external file
+            int relId = 1;
+            var fileRel = part.CreateRelationship(filePath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
+
+            //Create externalLink xml
+            MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+            var xml = new StringBuilder();
+            xml.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+            xml.Append("<externalLink xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"");
+            xml.Append("xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14 xxl21\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\"");
+            xml.Append("xmlns:xxl21=\"http://schemas.microsoft.com/office/spreadsheetml/2021/extlinks2021\">");
+            xml.Append("<oleLink xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"");
+            xml.AppendFormat("r:id=\"{0}\" progId=\"{1}\">", "rId1", "Package");
+            //xml.AppendFormat("<oleItem name=\"{0}\" icon=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1"); //If Display As Icon...
+            xml.AppendFormat("<oleItems><oleItem name=\"{0}\" advise=\"{1}\" preferPic=\"{2}\"/></oleItems></oleLink></externalLink>", "\'", "1", "1" );
+            using StreamWriter sw = new StreamWriter(ms);
+            sw.Write(xml.ToString());
+            sw.Flush();
+
+            //create/write wb xml external link node
+            var ers = wb.WorkbookXml.SelectSingleNode("//d:externalReferences", wb.NameSpaceManager);
+            if(ers == null)
+            {
+               ers = wb.WorkbookXml.CreateNode("d", "externalReferences", wb.NameSpaceManager.ToString());
+            }
+            var er = "<externalReference r:id=\"" + rel.Id + "\"/>";
+            ers.InnerXml = ers.InnerXml.ToString() + er;
+
+            //Add the externalLink to externalLink collection
+            var els = _worksheet.Workbook.ExternalLinks;
+            var el = new ExcelExternalLink();
+            els.AddInternal(el);
+            return newID;
         }
 
         /// <summary>

@@ -10,6 +10,34 @@ namespace EPPlusTest.Drawing
     [TestClass]
     public class OLETests : TestBase
     {
+        // <summary>
+        // LINKED FILES
+        // </summary>
+
+        [TestMethod]
+        public void ReadExcelExternal_MP3()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\MP3_LINK.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
+        }
+
+        [TestMethod]
+        public void WriteExcelExternal_MP3()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", true);
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusExternal_MP3.xlsx");
+        }
+
+
+
+
+        // <summary>
+        // EMBEDDED FILES
+        // </summary>
+
+
 
         [TestMethod]
         public void ReadXlsx()
