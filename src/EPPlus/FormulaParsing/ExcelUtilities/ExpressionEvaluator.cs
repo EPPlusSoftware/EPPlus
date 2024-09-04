@@ -193,7 +193,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 }
             }
             
-            return _wildCardValueMatcher.IsMatch(expression, left) == 0;
+            return _wildCardValueMatcher.IsMatch(expression, left, convertNumericString) == 0;
         }
 
         private bool TryConvertStringToDouble(string right, out double result)

@@ -34,8 +34,9 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// </summary>
         /// <param name="searchedValue">original value</param>
         /// <param name="candidate">potential match</param>
+        /// <param name="convertNumericString">If true a numeric string will be convered to a number in the comparison. Default value is true.</param>
         /// <returns></returns>
-        public virtual int IsMatch(object searchedValue, object candidate)
+        public virtual int IsMatch(object searchedValue, object candidate, bool convertNumericString = true)
         {
             if (searchedValue != null && candidate == null) return -1;
             if (searchedValue == null && candidate != null) return 1;
@@ -51,7 +52,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             }
             else if(searchedValue.GetType() == typeof(string))
             {
-                return CompareStringToObject(searchedValue.ToString(), candidate);
+                return CompareStringToObject(searchedValue.ToString(), candidate, convertNumericString);
             }
             else if (candidate.GetType() == typeof(string))
             {
@@ -112,20 +113,25 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// </summary>
         /// <param name="searchedValue"></param>
         /// <param name="candidate"></param>
+        /// <param name="convertNumericString"></param>
         /// <returns></returns>
-        protected virtual int CompareStringToObject(string searchedValue, object candidate)
+        protected virtual int CompareStringToObject(string searchedValue, object candidate, bool convertNumericString = true)
         {
-            if (double.TryParse(searchedValue, out double dsv))
+            if(convertNumericString)
             {
-                return ConvertUtil.GetValueDouble(candidate).CompareTo(dsv);
+                if (double.TryParse(searchedValue, out double dsv))
+                {
+                    return ConvertUtil.GetValueDouble(candidate).CompareTo(dsv);
+                }
             }
             if (bool.TryParse(searchedValue, out bool bsv))
             {
-                if(candidate is bool cb)
+                if (candidate is bool cb)
                 {
                     return cb.CompareTo(bsv);
-                }                
+                }
             }
+
             if (DateTime.TryParse(searchedValue, out DateTime dtsv))
             {
                 DateTime? date = ConvertUtil.GetValueDate(candidate);
