@@ -32,5 +32,38 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+
+        /// <summary>
+        /// Saves and disposes a package
+        /// </summary>
+        /// <param name="pck"></param>
+
+        protected static void SaveAndCleanup(ExcelPackage pck, bool disposePackage = true)
+        {
+            if (pck.Workbook.Worksheets.Count > 0)
+            {
+                pck.Save();
+            }
+
+            if (disposePackage)
+            {
+                pck.Dispose();
+            }
+        }
+
+        [TestMethod]
+        public void s725()
+        {
+            using (var p1 = OpenTemplatePackage("s725.xlsx"))
+            {
+                var sheet = p1.Workbook.Worksheets[6];
+                SaveAndCleanup(p1, false);
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    var sheet2 = p2.Workbook.Worksheets[6];
+                    SaveWorkbook("s725-secondsaveorig.xlsx", p2);
+                }
+            }
+        }
     }
 }

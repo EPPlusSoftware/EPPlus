@@ -400,5 +400,65 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void ColourScaleIdRead()
+        {
+            string id = "";
+            using (var p = OpenTemplatePackage("colourscaleIdTest.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var format = ws.ConditionalFormatting;
+                id = format[0].Uid;
+                SaveAndCleanup(p);
+            }
+
+            using (var p = new ExcelPackage("C:\\epplusTest\\Testoutput\\colourscaleIdTest.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var format = ws.ConditionalFormatting;
+
+                var id2 = format[0].Uid;
+                Assert.AreEqual(id, id2);
+                Assert.AreNotEqual(id2[0], '{');
+                Assert.AreNotEqual(id2[id2.Length - 1], '}');
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void CF_ColourScaleIdGenerated()
+        {
+            string id = "";
+            using (var p = OpenPackage("colorScaleGenerated.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("TestIdSheet");
+                var ws2 = p.Workbook.Worksheets.Add("TestIdSheetFormulaTarget");
+
+                ws.Cells["A1:C5"].Formula = "ROW() + COLUMN()";
+                var colorScale = ws.ConditionalFormatting.AddThreeColorScale(ws.Cells["A1:C5"]);
+                colorScale.LowValue.Formula = "sheet2!A1";
+                var format = ws.ConditionalFormatting;
+
+                id = format[0].Uid;
+                Assert.AreNotEqual(id[0], '{');
+                Assert.AreNotEqual(id[id.Length - 1], '}');
+                SaveAndCleanup(p);
+            }
+
+            using (var p = new ExcelPackage("C:\\epplusTest\\Testoutput\\colorScaleGenerated.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var format = ws.ConditionalFormatting;
+
+                var id2 = format[0].Uid;
+                Assert.AreEqual(id, id2);
+                Assert.AreNotEqual(id2[0], '{');
+                Assert.AreNotEqual(id2[id2.Length - 1], '}');
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

@@ -1,4 +1,9 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.3.1
+### Fixed issues
+* Fixed duplication of conditionalformattings which could occur on repeated saves in some cases.
+* Some ConditionalFormattings would in some cases read or write `{``}` wrong around ids/Uid. Uid property are now always held without `{``}` internally.
+
 ## Version 7.3.0
 ### Features
 * Add support for Precision As Displayed when calculating formulas, via the 'ExcelWorkbook.FullPrecision' property.

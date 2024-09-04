@@ -197,8 +197,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 _uid = value;
             }
-
-
         }
 
         bool _isExtLst = false;
@@ -254,10 +252,9 @@ namespace OfficeOpenXml.ConditionalFormatting
                 StopIfTrue = int.Parse(xr.GetAttribute("stopIfTrue")) == 1;
             }
 
-
             if (!string.IsNullOrEmpty(xr.GetAttribute("id")))
             {
-                Uid = xr.GetAttribute("id");
+                Uid = xr.GetAttribute("id").Trim('{','}');
             }
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("dxfId")))
