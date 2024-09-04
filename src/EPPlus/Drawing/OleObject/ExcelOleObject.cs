@@ -689,21 +689,34 @@ namespace OfficeOpenXml.Drawing.OleObject
                     _document.Storage.DataStreams.Add(EMBEDDEDODF_STREAM_NAME, new CompoundDocumentItem(EMBEDDEDODF_STREAM_NAME, fileData));
                     ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO ODF GUID?
                 }
-                else if (type == OleObjectType.DOC) //ms office format
+            else if (type == OleObjectType.DOC) //ms office format
+            {
+                //Embedd as is
+                string name = "";
+                if (fileType == ".docx")
                 {
-                    //Embedd as is
-                    string name = fileType == ".docx" ? "Microsoft_Word_Document" : "";
-                    name = fileType == ".xlsx" ? "Microsoft_Word_Document" : "";
-                    name = fileType == ".pptx" ? "Microsoft_Excel_Worksheet" : "";
-                    int newID = 1;
-                    var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
-                    var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
-                    var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
-                    relId = rel.Id;
-                    MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-                    ms.Write(fileData, 0, fileData.Length);
-                    return relId;
+                    name = "Microsoft_Word_Document";
+                    CreateCompObjObject("Document", "Document");
                 }
+                else if (fileType == ".xlsx")
+                {
+                    name = "Microsoft_Excel_Worksheet";
+                    CreateCompObjObject("Worksheet", "Worksheet");
+                }
+                else if (fileType == ".pptx")
+                {
+                    name = "Microsoft_PowerPoint_Presentation";
+                    CreateCompObjObject("Presentation", "Presentation");
+                }
+                int newID = 1;
+                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
+                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties);
+                var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
+                relId = rel.Id;
+                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+                ms.Write(fileData, 0, fileData.Length);
+                return relId;
+            }
             else if (type == OleObjectType.Default)
             {
                 CreateCompObjObject("OLE Package", "Package");

@@ -1,12 +1,61 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.OleObject;
+using OfficeOpenXml.LoadFunctions.Params;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace EPPlusTest.Drawing
 {
     [TestClass]
     public class OLETests : TestBase
     {
+
+        [TestMethod]
+        public void ReadXlsx()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_XLSX.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
+        }
+        [TestMethod]
+        public void ReadDocx()
+        {
+            using var p = new ExcelPackage();
+            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
+        }
+        [TestMethod]
+        public void ReadPptx()
+        {
+            using var p = new ExcelPackage();
+            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
+        }
+        [TestMethod]
+        public void WriteXlsx()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MySheet.xlsx", false, OleObjectType.DOC);
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_XLSX.xlsx");
+        }
+        [TestMethod]
+        public void WriteDocx()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyWord.docx", false, OleObjectType.DOC);
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_DOCX.xlsx");
+        }
+        [TestMethod]
+        public void WritePptx()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyPresent.pptx", false, OleObjectType.DOC);
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_PPTX.xlsx");
+        }
+
+
+
         //WRITE FILES
 
         [TestMethod]
@@ -22,7 +71,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\Bathory - One Rode To Asa Bay -Official Music Video-.mp4");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_MP4.xlsx");
         }
         [TestMethod]
@@ -30,7 +79,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MySheets.ods");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_ODS.xlsx");
         }
         [TestMethod]
@@ -38,7 +87,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyTextDoc.odt");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_ODT.xlsx");
         }
         [TestMethod]
@@ -62,7 +111,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.wav");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_WAV.xlsx");
         }
         [TestMethod]
@@ -70,7 +119,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\Audio-Sample-files-master.zip");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_ZIP.xlsx");
         }
 
