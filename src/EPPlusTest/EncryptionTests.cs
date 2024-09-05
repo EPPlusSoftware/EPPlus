@@ -9,7 +9,7 @@ namespace EPPlusTest
         [TestMethod]
         public void SensitivityLableRead()
         {
-            var fi = GetTemplateFile("SensitivityLabel.xlsx");
+            var fi = GetTemplateFile("SensitivityLableEPPlus.xlsx");
             using(var p=new ExcelPackage(fi,""))
             {
                 Assert.AreEqual(1, p.Workbook.Worksheets.Count);

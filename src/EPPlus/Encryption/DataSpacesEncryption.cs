@@ -21,6 +21,8 @@ using System.Xml;
 using System.Linq;
 using System.Threading;
 using System.Security.Cryptography;
+using OfficeOpenXml.Utils;
+using System.Security.Cryptography.X509Certificates;
 namespace OfficeOpenXml.Encryption
 {
     internal class DataSpacesEncryption
@@ -48,12 +50,115 @@ namespace OfficeOpenXml.Encryption
             var stream = doc.Storage.DataStreams["EncryptedPackage"];
             var br = new BinaryReader(new MemoryStream(stream));
             var size = br.ReadUInt64();
-            
+            var er = GetEI(transformInfo);
             ms.Write(br.ReadBytes((int)size), 0, (int)size);
             ms.Flush();
             return ms;
         }
 
+        private static EncryptionInfo GetEI(TransformInfoHeader transformInfo)
+        {
+            var settings = new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Fragment }; //This XrML has multiple root elements.
+#if (NET35)
+            settings.ProhibitDtd = true;
+#else
+            settings.DtdProcessing = DtdProcessing.Prohibit;
+#endif
+            var xr = XmlReader.Create(new StringReader(transformInfo.LicenseXrML), settings);
+            while (xr.Read())
+            {
+                if(xr.LocalName== "XrML" && xr.NodeType==XmlNodeType.Element && xr.IsEmptyElement==false)
+                {                    
+                    var data = ReadXrMLLicense(xr);
+                }
+            }
+            return new EncryptionInfoBinary();
+        }
+
+        private static object ReadXrMLLicense(XmlReader xr)
+        {
+            while (xr.Read())
+            {                 
+                if(xr.LocalName == "XrML" && xr.NodeType==XmlNodeType.Element)
+                {
+                    break;
+                }
+                switch (xr.LocalName)
+                {
+                    case "PUBLICKEY":
+                        //var pr = GetPublicKey(xr);
+                        break;
+                    case "AUTHENTICATEDDATA":
+                        var decryptedData = GetDecryptAuthData(xr);
+                        break;
+                }
+            }
+            return null;
+        }
+
+        private static object GetDecryptAuthData(XmlReader xr)
+        {
+            if(xr.GetAttribute("id") == "Encrypted-Rights-Data")
+            {
+                var key = Convert.FromBase64String("cffQtZqwEfY+PtHy8jH14FPGDz2phwzbqGYqn/GDaezTAmBHL4N61AAHmKKPY7tejtU/a7RiuNvPs5GayUjhfpGyJBUrX23rfWImnenCfa1oaqZAnfxZ/DoML4jTdrlF+59XTLsVmgkVB66jpquz9KX9WmDAFqqCc00N5TcBBanu9i+gotBNlyZ/pxSV/+tEMZSzefa+kJauYF/2kidNV4yLGD7PCMH4E1LqOkM0t7+jgdC73ymFFFRI14GT2pc/G4sYKawnrX22lX3s/9Gx1EHnJZRluitLObUpwzAoN12D9th44zgGjRMmzJP2K4Ov2mG+gVtF/qs2l93H713+nw==");
+                var content = xr.ReadElementContentAsString();
+                var data = Convert.FromBase64String(content);
+
+                //using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(2048))
+                //{
+                //    rsa.ImportRSAPrivateKey(key, out _);
+                //    return rsa.Decrypt(data, false); // Use false for PKCS#1 v1.5 padding
+                //}
+
+                //var s= DecryptAES(data, key);
+                using (var rsaDecryptor = new RSACryptoServiceProvider(2048))
+                {
+                    //rsaDecryptor.PersistKeyInCsp = false;
+
+                    // Import the private key (use the same private key that was used for encryption)
+
+                    var keyInfo = new RSAParameters
+                    {
+                        Modulus = key,
+                        Exponent = [(byte)0x1, (byte)0x0, (byte)0x1]
+                    };
+                    rsaDecryptor.ImportParameters(keyInfo);
+
+                    // Decrypt the data
+                    var decryptedData = rsaDecryptor.Decrypt(data, false); // Use false for PKCS#1 v1.5 padding
+                }
+                //var rsa = new RSACryptoServiceProvider(keyInfo);
+                //rsa.KeySize = 256;
+
+                //rsa.Decrypt(data)
+            }
+            return null;
+        }
+        static string DecryptAES(byte[] data, byte[] key)
+        {
+            using (Aes aes = Aes.Create())
+            {
+                aes.KeySize = 2048;
+                aes.Key = key;
+                aes.Mode = CipherMode.CBC;
+                aes.Padding = PaddingMode.PKCS7;
+
+                // Assume the IV is prepended to the data. Otherwise, you would need to know how the IV is handled.
+                byte[] iv = new byte[aes.BlockSize / 8];
+                byte[] cipherText = new byte[data.Length - iv.Length];
+
+                Array.Copy(data, iv, iv.Length);
+                Array.Copy(data, iv.Length, cipherText, 0, cipherText.Length);
+
+                aes.IV = iv;
+
+                using (var decryptor = aes.CreateDecryptor(aes.Key, aes.IV))
+                {
+                    byte[] decryptedData = decryptor.TransformFinalBlock(cipherText, 0, cipherText.Length);
+                    return Encoding.UTF8.GetString(decryptedData);
+                }
+            }
+        }
         private static List<object> ReadEncryptedPropertyStreamInfo(byte[] streamBytes)
         {
             using (var ms = new MemoryStream(streamBytes))
