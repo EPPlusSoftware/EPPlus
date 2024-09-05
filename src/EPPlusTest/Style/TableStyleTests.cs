@@ -74,7 +74,7 @@ namespace EPPlusTest.Style
             s.SecondRowStripe.Style.Fill.BackgroundColor.SetColor(Color.LightYellow);
 
             LoadTestdata(ws);
-            var tbl=ws.Tables.Add(ws.Cells["A1:D101"], "Table1");            
+            var tbl=ws.Tables.Add(ws.Cells["A1:D101"], "TableStyle");            
             tbl.StyleName = "CustomTableStyle1";            
             //Assert
             Assert.AreEqual(ExcelFillStyle.Solid, s.FirstRowStripe.Style.Fill.PatternType);

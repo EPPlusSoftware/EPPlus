@@ -1,8 +1,13 @@
 # Features / Fixed issues - EPPlus 7
-## Version 7.3.1
 ### Fixed issues
-* Fixed duplication of conditionalformattings which could occur on repeated saves in some cases.
-* Some ConditionalFormattings would in some cases read or write `{``}` wrong around ids/Uid. Uid property are now always held without `{``}` internally.
+* Fixed duplication of conditional formatting’s which could occur on repeated saves in some cases.
+* Fixed issues with Boolean values in functions COUNTIFS, SUMIFS and AVERAGEIFS.
+* ExcelWorksheet.DimensionByValue sometimes gave an incorrect address.
+* EPPlus crashed on loading a workbook, if style Fills contained less than 2 items.
+* ExcelRange.Insert did not shift formula address on other worksheets.
+* The formula tokenizer failed when having a minus before an Error value (i.e. #REF!) in some cases.
+* Accessing PivotTables when "Save source data with file" was off caused a NullReferenceException.
+* The Dec2Hex, Dec2Oct and Dec2Bin functions rounded values instead of truncating them.
 
 ## Version 7.3.0
 ### Features
