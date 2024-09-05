@@ -220,6 +220,18 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual("B6:C7", ws.DimensionByValue.Address);
             }
         }
+        [TestMethod]
+        public void ValidateDimensionValue2Test()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A4:H10"].Style.Numberformat.Format = "0";
+                ws.Cells["B6:D10"].Value = 1;
+                ws.Cells["B11:C13"].Value = 1;
 
+                Assert.AreEqual("B6:D13", ws.DimensionByValue.Address);
+            }
+        }
     }
 }

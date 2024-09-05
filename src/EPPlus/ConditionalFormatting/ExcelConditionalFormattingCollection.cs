@@ -12,7 +12,6 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
-using OfficeOpenXml.Drawing.Style.Fill;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
@@ -21,7 +20,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
-using System.Net.NetworkInformation;
 using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
@@ -86,7 +84,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 						//If cf exists in both local and ExtLst spaces
 						if (cf.IsExtLst && cf._uid != null)
 						{
-							localAndExtDict.Add(cf._uid, cf);
+							localAndExtDict.Add(cf._uid.Trim('{','}'), cf);
 						}
 						else
 						{
@@ -121,7 +119,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                     var addresslessCFs = new List<ExcelConditionalFormattingRule>();  
                     do
                     {
-                        string id = xr.GetAttribute("id");
+                        string id = xr.GetAttribute("id").Trim('{','}');
 
                         if (string.IsNullOrEmpty(id))
                         {
@@ -239,6 +237,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                             }
 
                             _rules.Add(dataBar);
+                            dataBar.Uid = id;
                         }
                         else if (xr.GetAttribute("type") == "iconSet")
                         {
@@ -385,6 +384,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                             }
 
                             rule.Priority = priority;
+                            rule.Uid = id;
 
                             if (iconAddress == null && rule != null)
                             {
@@ -394,6 +394,7 @@ namespace OfficeOpenXml.ConditionalFormatting
                         else
                         {
                             var cf = ExcelConditionalFormattingRuleFactory.Create(null, _ws, xr);
+                            cf.Uid = id;
                             _rules.Add(cf);
 
                             if (cf.Address == null)
