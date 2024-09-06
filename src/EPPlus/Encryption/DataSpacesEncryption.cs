@@ -23,25 +23,36 @@ using System.Threading;
 using System.Security.Cryptography;
 using OfficeOpenXml.Utils;
 using System.Security.Cryptography.X509Certificates;
+using OfficeOpenXml.Interfaces;
+using OfficeOpenXml.SensitivityLabels;
 namespace OfficeOpenXml.Encryption
 {
     internal class DataSpacesEncryption
     {
-        internal static MemoryStream HandleDataSpaceEnryption(CompoundDocument doc)
+        internal static SensibilityLabelInfo ReadDataSpaceEnrcyptionInfo(CompoundDocument doc)
         {
-            var dsStorage = doc.Storage.SubStorage["\u0006DataSpaces"];
-            var version = ReadVersionStream(dsStorage);
-            var dataSpacemap = ReadDataSpaceMap(dsStorage);
-            var dataSpaceInfo = ReadDataSpaceInfo(dsStorage.SubStorage["DataSpaceInfo"]);
-            var tsInfo = dsStorage.SubStorage["TransformInfo"];
-            var transformInfo = ReadTransformReferences(tsInfo.SubStorage["DRMEncryptedTransform"]);
-            var labelXml = ReadLabelXml(tsInfo);
+            try
+            {
+                var si = new SensibilityLabelInfo();
+                var dsStorage = doc.Storage.SubStorage["\u0006DataSpaces"];
+                si.Version = ReadVersionStream(dsStorage);
+                si.DataSpaceMap = ReadDataSpaceMap(dsStorage);
+                si.DataSpaceInfo = ReadDataSpaceInfo(dsStorage.SubStorage["DataSpaceInfo"]);
+                var tsInfo = dsStorage.SubStorage["TransformInfo"];
+                si.Transformation = ReadTransformReferences(tsInfo.SubStorage["DRMEncryptedTransform"]);
+                si.LabelXml = ReadLabelXml(tsInfo);
 
-            //Root Streams
-            var summaryInfoProperties = ReadEncryptedPropertyStreamInfo(doc.Storage.DataStreams["\u0005SummaryInformation"]);
+                //Root Streams
+                si.SummaryInfoProperties = ReadEncryptedPropertyStreamInfo(doc.Storage.DataStreams["\u0005SummaryInformation"]);
 
-            var summaryDocumentInfoProperties = ReadEncryptedPropertyStreamInfo(doc.Storage.DataStreams["\u0005DocumentSummaryInformation"]);
-            return DecryptPackage(doc, transformInfo);
+                si.SummaryDocumentInfoProperties = ReadEncryptedPropertyStreamInfo(doc.Storage.DataStreams["\u0005DocumentSummaryInformation"]);
+
+                return si;
+            }
+            catch (Exception ex)
+            {
+                throw(new InvalidDataException("EPPlus can not read this package.", ex));
+            }
         }
 
         private static MemoryStream DecryptPackage(CompoundDocument doc, TransformInfoHeader transformInfo)

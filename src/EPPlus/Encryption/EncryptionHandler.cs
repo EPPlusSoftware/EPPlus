@@ -10,12 +10,15 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.DataValidation.Events;
+using OfficeOpenXml.SensitivityLabels;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.CompundDocument;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
@@ -38,9 +41,11 @@ namespace OfficeOpenXml.Encryption
         {
             if (CompoundDocument.IsCompoundDocument(fi))
             {
-                CompoundDocument doc = new CompoundDocument(fi);
-                
-                return GetStreamFromPackage(doc, encryption);
+                var b=File.ReadAllBytes(fi.FullName);
+                using (var ms = RecyclableMemory.GetStream(b))
+                {
+                    return GetStreamFromPackage(ms, encryption);
+                }
             }
             else
             {
@@ -64,7 +69,7 @@ namespace OfficeOpenXml.Encryption
         /// <summary>
         /// Read the package from the OLE document and decrypt it using the supplied password
         /// </summary>
-        /// <param name="stream">The memory stream. </param>
+        /// <param name="stream">The memory ms. </param>
         /// <param name="encryption">The encryption object from the Package</param>
         /// <returns></returns>
         internal MemoryStream DecryptPackage(MemoryStream stream, ExcelEncryption encryption)
@@ -73,8 +78,7 @@ namespace OfficeOpenXml.Encryption
             {
                 if (CompoundDocument.IsCompoundDocument(stream))
                 {
-                    var doc = new CompoundDocument(stream);
-                    return GetStreamFromPackage(doc, encryption);
+                    return GetStreamFromPackage(stream, encryption);
                 }
                 else
                 {
@@ -508,9 +512,10 @@ namespace OfficeOpenXml.Encryption
                 }
             }
         }
-        private MemoryStream GetStreamFromPackage(CompoundDocument doc, ExcelEncryption encryption)
+        private MemoryStream GetStreamFromPackage(MemoryStream ms, ExcelEncryption encryption)
         {
-            if(doc.Storage.DataStreams.ContainsKey("EncryptionInfo") &&
+            var doc = new CompoundDocument(ms);
+            if (doc.Storage.DataStreams.ContainsKey("EncryptionInfo") &&
                doc.Storage.DataStreams.ContainsKey("EncryptedPackage"))
             {
                 var encryptionInfo = EncryptionInfo.ReadBinary(doc.Storage.DataStreams["EncryptionInfo"]);
@@ -519,7 +524,14 @@ namespace OfficeOpenXml.Encryption
             }
             if(doc.Directories.Exists(x=>x.Name == "\u0006DataSpaces"))
             {
-               return DataSpacesEncryption.HandleDataSpaceEnryption(doc);
+                var handler = ExcelSensibilityLabels.SensibilityLabelHandler;
+                var si = DataSpacesEncryption.ReadDataSpaceEnrcyptionInfo(doc);
+                _pck.SensibilityLabels = new ExcelSensibilityLabels(_pck, si);
+                if(handler == null)
+                {
+                    throw new MissingSensibilityHandlerException($"Can not decrypt package protected by sensitivity label with id : {_pck.SensibilityLabels.Labels.FirstOrDefault(x=>x.Enabled)?.Id}. Please attach a Sensibility Label handler using the ExcelSensibilityLabels.SensibilityLabelHandler property.");
+                }
+                return handler.DecryptPackage(ms);
             }
             else
             {
@@ -556,7 +568,13 @@ namespace OfficeOpenXml.Encryption
         readonly byte[] BlockKey_KeyValue = new byte[] { 0x14, 0x6e, 0x0b, 0xe7, 0xab, 0xac, 0xd0, 0xd6 };
         readonly byte[] BlockKey_HmacKey = new byte[] { 0x5f, 0xb2, 0xad, 0x01, 0x0c, 0xb9, 0xe1, 0xf6 };//MSOFFCRYPTO 2.3.4.14 section 3
         readonly byte[] BlockKey_HmacValue = new byte[] { 0xa0, 0x67, 0x7f, 0x02, 0xb2, 0x2c, 0x84, 0x33 };//MSOFFCRYPTO 2.3.4.14 section 5
-        
+
+        ExcelPackage _pck;
+        public EncryptedPackageHandler(ExcelPackage pck)
+        {
+            _pck = pck;
+        }
+
         private MemoryStream DecryptAgile(EncryptionInfoAgile encryptionInfo, string password, long size, byte[] encryptedData, byte[] data)
         { 
             if (encryptionInfo.KeyData.CipherAlgorithm == eCipherAlgorithm.AES)
@@ -719,7 +737,7 @@ namespace OfficeOpenXml.Encryption
         /// Validate the password
         /// </summary>
         /// <param name="key">The encryption key</param>
-        /// <param name="encryptionInfo">The encryption info extracted from the ENCRYPTIOINFO stream inside the OLE document</param>
+        /// <param name="encryptionInfo">The encryption info extracted from the ENCRYPTIOINFO ms inside the OLE document</param>
         /// <returns></returns>
         private bool IsPasswordValid(byte[] key, EncryptionInfoBinary encryptionInfo)
         {
@@ -780,7 +798,7 @@ namespace OfficeOpenXml.Encryption
         /// Validate the password
         /// </summary>
         /// <param name="sha">The hash algorithm</param>
-        /// <param name="encr">The encryption info extracted from the ENCRYPTIOINFO stream inside the OLE document</param>
+        /// <param name="encr">The encryption info extracted from the ENCRYPTIOINFO ms inside the OLE document</param>
         /// <returns></returns>
         private bool IsPasswordValid(HashAlgorithm sha, EncryptionInfoAgile.EncryptionKeyEncryptor encr)
         {
@@ -924,7 +942,7 @@ namespace OfficeOpenXml.Encryption
         /// This method is written with the help of Lyquidity library, many thanks for this nice sample
         /// </summary>
         /// <param name="password">The password</param>
-        /// <param name="encryptionInfo">The encryption info extracted from the ENCRYPTIOINFO stream inside the OLE document</param>
+        /// <param name="encryptionInfo">The encryption info extracted from the ENCRYPTIOINFO ms inside the OLE document</param>
         /// <returns>The hash to encrypt the document</returns>
         private byte[] GetPasswordHashBinary(string password, EncryptionInfoBinary encryptionInfo)
         {
@@ -998,7 +1016,7 @@ namespace OfficeOpenXml.Encryption
         /// This method is written with the help of Lyquidity library, many thanks for this nice sample
         /// </summary>
         /// <param name="password">The password</param>
-        /// <param name="encr">The encryption info extracted from the ENCRYPTIOINFO stream inside the OLE document</param>
+        /// <param name="encr">The encryption info extracted from the ENCRYPTIOINFO ms inside the OLE document</param>
         /// <param name="blockKey">The block key appended to the hash to obtain the final hash</param>
         /// <returns>The hash to encrypt the document</returns>
         private byte[] GetPasswordHashAgile(string password, EncryptionInfoAgile.EncryptionKeyEncryptor encr, byte[] blockKey)
@@ -1111,6 +1129,22 @@ namespace OfficeOpenXml.Encryption
             hash ^= (ushort)Password.Length;
 
             return hash;
+        }
+    }
+
+    [Serializable]
+    internal class MissingSensibilityHandlerException : Exception
+    {
+        public MissingSensibilityHandlerException()
+        {
+        }
+
+        public MissingSensibilityHandlerException(string message) : base(message)
+        {
+        }
+
+        public MissingSensibilityHandlerException(string message, Exception innerException) : base(message, innerException)
+        {
         }
     }
 }

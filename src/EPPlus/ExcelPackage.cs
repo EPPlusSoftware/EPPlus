@@ -27,6 +27,10 @@ using OfficeOpenXml.Packaging;
 using System.Diagnostics;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Configuration;
+using OfficeOpenXml.Interfaces;
+using OfficeOpenXml.SensitivityLabels;
+
+
 #if (Core)
 using Microsoft.Extensions.Configuration;
 #endif
@@ -222,6 +226,7 @@ namespace OfficeOpenXml
         // Richdata (used in worksheet.sortstate)
         internal const string schemaRichData2 = "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata2";
         internal const string schemaDynamicArrays = "http://schemas.microsoft.com/office/spreadsheetml/2017/dynamicarray";
+        internal const string schemaMipLabelMetadata = "http://schemas.microsoft.com/office/2020/mipLabelMetadata";
 
         //Package reference
         private Packaging.ZipPackage _zipPackage;
@@ -477,7 +482,7 @@ namespace OfficeOpenXml
                 {
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password;
-                    var encrHandler = new EncryptedPackageHandler();
+                    var encrHandler = new EncryptedPackageHandler(this);
                     ms.Dispose();
                     ms = encrHandler.DecryptPackage(template, Encryption);
                     encrHandler = null;
@@ -519,7 +524,7 @@ namespace OfficeOpenXml
                 var ms = RecyclableMemory.GetStream();
                 if (password != null)
                 {
-                    var encrHandler = new EncryptedPackageHandler();
+                    var encrHandler = new EncryptedPackageHandler(this);
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password;
                     ms.Dispose();
@@ -780,6 +785,7 @@ namespace OfficeOpenXml
             ns.AddNamespace("a14", schemaDrawings2010);
             ns.AddNamespace("xdr", schemaSheetDrawings);
             ns.AddNamespace("xda", schemaDynamicArrays);
+            ns.AddNamespace("clbl", schemaMipLabelMetadata);
             return ns;
         }
 
@@ -908,7 +914,7 @@ namespace OfficeOpenXml
                             _zipPackage.Save(ms);
                             file = ms.ToArray();
                         }
-                        EncryptedPackageHandler eph = new EncryptedPackageHandler();
+                        EncryptedPackageHandler eph = new EncryptedPackageHandler(this);
                         using (var msEnc = eph.EncryptPackage(file, Encryption))
                         {
                             StreamUtil.CopyStream(msEnc, ref _stream);
@@ -945,7 +951,7 @@ namespace OfficeOpenXml
                             if (Encryption.IsEncrypted)
                             {
                                 byte[] file = ((MemoryStream)Stream).ToArray();
-                                EncryptedPackageHandler eph = new EncryptedPackageHandler();
+                                EncryptedPackageHandler eph = new EncryptedPackageHandler(this);
 
                                 using (var ms = eph.EncryptPackage(file, Encryption))
                                 {
@@ -1226,7 +1232,7 @@ namespace OfficeOpenXml
             //Encrypt Workbook?
             if (Encryption.IsEncrypted)
             {
-                EncryptedPackageHandler eph=new EncryptedPackageHandler();
+                EncryptedPackageHandler eph=new EncryptedPackageHandler(this);
                 using (var ms = eph.EncryptPackage(byRet, Encryption))
                 {
                     byRet = ms.ToArray();
@@ -1284,7 +1290,7 @@ namespace OfficeOpenXml
                 {
                     Stream encrStream = RecyclableMemory.GetStream();
                     StreamUtil.CopyStream(input, ref encrStream);
-                    EncryptedPackageHandler eph = new EncryptedPackageHandler();
+                    EncryptedPackageHandler eph = new EncryptedPackageHandler(this);
                     Encryption.Password = Password;
                     ms = eph.DecryptPackage((MemoryStream)encrStream, Encryption);
                     encrStream.Dispose();
@@ -1302,7 +1308,7 @@ namespace OfficeOpenXml
                 }
                 catch (Exception ex)
                 {
-                    EncryptedPackageHandler eph = new EncryptedPackageHandler();
+                    EncryptedPackageHandler eph = new EncryptedPackageHandler(this);
                     if (Password == null && CompoundDocument.IsCompoundDocument((MemoryStream)_stream))
                     {
                         throw new Exception("Cannot open the package. The package is an OLE compound document. If this is an encrypted package, please supply the password", ex);
@@ -1337,7 +1343,27 @@ namespace OfficeOpenXml
             _isExternalStream = true;
             _isDisposed = false;
         }
+        ExcelSensibilityLabels _sensibilityLabels = null;
+        /// <summary>
+        /// Sensibility labels meta data.
+        /// <seealso cref="SensibilityLabelHandler"/>
+        /// </summary>
+        public ExcelSensibilityLabels SensibilityLabels
+        {
+            get
+            {
 
+                if (_sensibilityLabels == null)
+                {
+                    _sensibilityLabels = new ExcelSensibilityLabels(this);
+                }
+                return _sensibilityLabels;
+            }
+            internal set
+            {
+                _sensibilityLabels = value;
+            }
+        }
         internal int _worksheetAdd=0;
     }
 }

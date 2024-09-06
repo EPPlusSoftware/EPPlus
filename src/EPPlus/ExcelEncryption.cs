@@ -156,7 +156,7 @@ namespace OfficeOpenXml
         /// <returns>A MemoryStream containing the encypted package</returns>
         public static MemoryStream EncryptPackage(Stream stream, string password, EncryptionVersion encryptionVersion=EncryptionVersion.Agile, EncryptionAlgorithm algorithm = EncryptionAlgorithm.AES256)
         {
-            var e = new Encryption.EncryptedPackageHandler();
+            var e = new Encryption.EncryptedPackageHandler(null);
             if(stream.CanRead==false)
             {
                 throw new InvalidOperationException("Stream must be readable");
@@ -178,7 +178,7 @@ namespace OfficeOpenXml
         /// <returns>A memorystream with the encypted package</returns>
         public static MemoryStream DecryptPackage(Stream stream, string password)
         {
-            var e = new Encryption.EncryptedPackageHandler();
+            var e = new Encryption.EncryptedPackageHandler(null);
             if(stream==null)
             {
                 throw new ArgumentNullException("Stream must not be null");

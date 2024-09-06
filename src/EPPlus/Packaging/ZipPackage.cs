@@ -262,7 +262,10 @@ namespace OfficeOpenXml.Packaging
                 throw (new InvalidOperationException("Part does not exist."));
             }
         }
-
+        internal ZipPackagePart GetPartByContentType(string contentType)
+        {
+            return Parts.FirstOrDefault(x => x.Value.ContentType==contentType).Value;
+        }
         internal string GetUriKey(string uri)
         {
             string ret = uri.Replace('\\', '/');

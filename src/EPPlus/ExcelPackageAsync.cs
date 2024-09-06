@@ -145,7 +145,7 @@ namespace OfficeOpenXml
                     using (var encrStream = RecyclableMemory.GetStream())
                     {
                         await StreamUtil.CopyStreamAsync(input, encrStream, cancellationToken).ConfigureAwait(false);
-                        var eph = new EncryptedPackageHandler();
+                        var eph = new EncryptedPackageHandler(null);
                         Encryption.Password = Password;
                         ms = eph.DecryptPackage(encrStream, Encryption);
                     }
@@ -216,7 +216,7 @@ namespace OfficeOpenXml
                         {
                             _zipPackage.Save(ms);
                             var file = ms.ToArray();
-                            var eph = new EncryptedPackageHandler();
+                            var eph = new EncryptedPackageHandler(null);
                             using (var msEnc = eph.EncryptPackage(file, Encryption))
                             {
                                 await StreamUtil.CopyStreamAsync(msEnc, _stream, cancellationToken).ConfigureAwait(false);
@@ -258,7 +258,7 @@ namespace OfficeOpenXml
                             if (Encryption.IsEncrypted)
                             {
                                 var file = stream.ToArray();
-                                var eph = new EncryptedPackageHandler();
+                                var eph = new EncryptedPackageHandler(null);
                                 using (var ms = eph.EncryptPackage(file, Encryption))
                                 {
                                     await fi.WriteAsync(ms.ToArray(), 0, (int)ms.Length, cancellationToken).ConfigureAwait(false);
@@ -424,7 +424,7 @@ namespace OfficeOpenXml
             //Encrypt Workbook?
             if (Encryption.IsEncrypted)
             {
-                var eph = new EncryptedPackageHandler();
+                var eph = new EncryptedPackageHandler(null);
                 using (var ms = eph.EncryptPackage(byRet, Encryption))
                 {
                     byRet = ms.ToArray();
@@ -495,7 +495,7 @@ namespace OfficeOpenXml
             {
                 if (password != null)
                 {
-                    var encrHandler = new EncryptedPackageHandler();
+                    var encrHandler = new EncryptedPackageHandler(null);
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password;
                     ms.Dispose();
