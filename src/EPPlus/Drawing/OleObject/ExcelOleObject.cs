@@ -54,6 +54,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal ExcelExternalOleLink _externalLink;
         internal ExcelWorksheet _worksheet;
         internal ZipPackagePart oleObjectPart;
+        internal bool DisplayAsIcon;
         /// <summary>
         /// 
         /// </summary>
@@ -86,15 +87,35 @@ namespace OfficeOpenXml.Drawing.OleObject
         {
             _worksheet = drawings.Worksheet;
             string relId = "";
+            string oleObjectNode = "";
+            DisplayAsIcon = displayAsIcon;
             if (link)
             {
                 IsExternalLink = true;
-                LinkDocument(filePath, type);
+                var linkId = LinkDocument(filePath, type);
+                if (displayAsIcon)
+                {
+                    oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" oleUpdate=\"OLEUPDATE_ONCALL\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", "Package", linkId, _id);
+                }
+                else
+                {
+                    oleObjectNode = string.Format("<oleObject oleUpdate=\"OLEUPDATE_ALWAYS\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", "Package", linkId, _id);
+                }
             }
             else
             {
                 IsExternalLink = false;
                 relId = EmbedDocument(filePath, type);
+
+                if (displayAsIcon)
+                {
+                    oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStreams.CompObj.Reserved1.String, _id, relId);
+                }
+                else
+                {
+                    oleObjectNode = string.Format("<oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStreams.CompObj.Reserved1.String, _id, relId);
+                }
+
             }
 
             //Create Media
@@ -128,25 +149,23 @@ namespace OfficeOpenXml.Drawing.OleObject
             sb.Append("<mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
             sb.Append("<mc:Choice Requires=\"x14\">");
             //Create object node
-            if (displayAsIcon)
-                sb.AppendFormat("<oleObject dvAspect=\"DVASPECT_ICON\" progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", /*"Packager Shell Object"*/_oleDataStreams.CompObj.Reserved1.String, _id, relId);
+            sb.Append(oleObjectNode);
+            if(link)
+                sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\" dde=\"1\">", imgRelId);
             else
-                sb.AppendFormat("<oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", /*"Packager Shell Object"*/_oleDataStreams.CompObj.Reserved1.String, _id, relId);
-            sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\">", imgRelId);
+                sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\">", imgRelId);
             sb.Append("<anchor moveWithCells=\"1\">");
             sb.AppendFormat("<from><xdr:col>{0}</xdr:col><xdr:colOff>{1}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></from>", From.Column, From.ColumnOff, From.Row, From.RowOff);
             sb.AppendFormat("<to><xdr:col>{0}</xdr:col><xdr:colOff>{2}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></to>", To.Column, To.ColumnOff, To.Row, To.RowOff);
             sb.Append("</anchor></objectPr></oleObject>");
             sb.Append("</mc:Choice>");
             //fallback
-            if(displayAsIcon)
-                sb.AppendFormat("<mc:Fallback><oleObject dvAspect=\"DVASPECT_ICON\" progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\" />", /*"Packager Shell Object"*/_oleDataStreams.CompObj.Reserved1.String, _id, relId);
-            else
-                sb.AppendFormat("<mc:Fallback><oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\" />", /*"Packager Shell Object"*/_oleDataStreams.CompObj.Reserved1.String, _id, relId);
+            sb.AppendFormat("<mc:Fallback>");
+            sb.Append(oleObjectNode + "</oleObject>");
             sb.Append("</mc:Fallback></mc:AlternateContent>");
             wsNode.InnerXml = sb.ToString();
-            var oleObjectNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0);
-            _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectNode);
+            var oleObjectXmlNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0);
+            _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectXmlNode);
         }
 
         private string CreateOleObjectDrawingNode(string name)
@@ -739,48 +758,66 @@ namespace OfficeOpenXml.Drawing.OleObject
             return relId;
         }
 
+        internal XmlDocument LinkedOleObjectXml;
+        internal ZipPackagePart LinkedOleObjectPart;
+
         private int LinkDocument(string filePath, OleObjectType type)
         {
             var wb = _worksheet.Workbook;
 
+
+
             //create externalLink xml part
             int newID = 1;
             Uri uri = GetNewUri(wb._package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml", ref newID);
-            var part = wb._package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
+            LinkedOleObjectPart = wb._package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
             var rel = wb.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
-
             //Create relation to external file
-            int relId = 1;
-            var fileRel = part.CreateRelationship(filePath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
-
+            var fileRel = LinkedOleObjectPart.CreateRelationship("file:///" + filePath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
             //Create externalLink xml
-            MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+            //StreamWriter sw = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
             var xml = new StringBuilder();
             xml.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
             xml.Append("<externalLink xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"");
-            xml.Append("xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14 xxl21\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\"");
-            xml.Append("xmlns:xxl21=\"http://schemas.microsoft.com/office/spreadsheetml/2021/extlinks2021\">");
+            xml.Append(" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14 xxl21\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\"");
+            xml.Append(" xmlns:xxl21=\"http://schemas.microsoft.com/office/spreadsheetml/2021/extlinks2021\">");
             xml.Append("<oleLink xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"");
-            xml.AppendFormat("r:id=\"{0}\" progId=\"{1}\">", "rId1", "Package");
-            //xml.AppendFormat("<oleItem name=\"{0}\" icon=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1"); //If Display As Icon...
-            xml.AppendFormat("<oleItems><oleItem name=\"{0}\" advise=\"{1}\" preferPic=\"{2}\"/></oleItems></oleLink></externalLink>", "\'", "1", "1" );
-            using StreamWriter sw = new StreamWriter(ms);
-            sw.Write(xml.ToString());
-            sw.Flush();
+            xml.AppendFormat(" r:id=\"{0}\" progId=\"{1}\">", fileRel.Id, "Package");
+            if(DisplayAsIcon)
+                xml.AppendFormat("<oleItem name=\"{0}\" icon=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1");
+            else
+                xml.AppendFormat("<oleItems><oleItem name=\"{0}\" advise=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1");
+            xml.Append("</oleItems></oleLink></externalLink>");
+            LinkedOleObjectXml = new XmlDocument();
+            LinkedOleObjectXml.LoadXml(xml.ToString());
+            //sw.Write(xml.ToString());
+            LinkedOleObjectXml.Save(LinkedOleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
 
             //create/write wb xml external link node
-            var ers = wb.WorkbookXml.SelectSingleNode("//d:externalReferences", wb.NameSpaceManager);
-            if(ers == null)
-            {
-               ers = wb.WorkbookXml.CreateNode("d", "externalReferences", wb.NameSpaceManager.ToString());
-            }
-            var er = "<externalReference r:id=\"" + rel.Id + "\"/>";
-            ers.InnerXml = ers.InnerXml.ToString() + er;
+            //var ers = wb.WorkbookXml.SelectSingleNode("//d:externalReferences", wb.NameSpaceManager);
+            //if (ers == null)
+            //{
+            //    ers = wb.WorkbookXml.CreateElement("d:externalReferences", wb.NameSpaceManager.LookupNamespace("d"));
+            //    var root = wb.WorkbookXml.DocumentElement;
+            //    if (root != null)
+            //    {
+            //        root.AppendChild(ers);
+            //    }
+            //}
+            //var er = wb.WorkbookXml.CreateElement("d:externalReference", wb.NameSpaceManager.LookupNamespace("d"));
+            //var era = wb.WorkbookXml.CreateAttribute("r:id");
+            //era.Value = rel.Id;
+            //er.Attributes.Append(era);
+            //ers.AppendChild(er);
+
+            var er = (XmlElement)wb.CreateNode("d:externalReferences/d:externalReference", false, true);
+            er.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
 
             //Add the externalLink to externalLink collection
-            var els = _worksheet.Workbook.ExternalLinks;
-            var el = new ExcelExternalLink();
-            els.AddInternal(el);
+            //_externalLink = wb.ExternalLinks[wb.ExternalLinks.GetExternalLink(filePath, fileRel)] as ExcelExternalOleLink; //new ExcelExternalOleLink(wb, new XmlTextReader(LinkedOleObjectPart.GetStream()), LinkedOleObjectPart, er);
+            ////_externalLink.ProgId = "Package";
+            //_externalLink.Relation = fileRel;
+            //els.AddInternal(_externalLink);
             return newID;
         }
 

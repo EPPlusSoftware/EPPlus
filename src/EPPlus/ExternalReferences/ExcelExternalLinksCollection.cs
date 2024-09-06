@@ -10,6 +10,7 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
+using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
@@ -206,7 +207,7 @@ namespace OfficeOpenXml.ExternalReferences
             }
             return ret;
         }
-        internal int GetExternalLink(string extRef)
+        internal int GetExternalLink(string extRef, ZipPackageRelationship relationship = null)
         {
             if (string.IsNullOrEmpty(extRef)) return -1;
             if(extRef.Any(c=>char.IsDigit(c)==false))
@@ -253,6 +254,14 @@ namespace OfficeOpenXml.ExternalReferences
                             if (fi.Name.Equals(wb.File.Name, StringComparison.OrdinalIgnoreCase))
                             {
                                 ret = ix;
+                            }
+                        }
+                        if (_list[ix].ExternalLinkType == eExternalLinkType.OleLink)
+                        {
+                            var wb = _list[ix].As.OleLink;
+                            if( string.Equals( wb.Relation.Target, "file:///" + extRef, StringComparison.OrdinalIgnoreCase) && wb.Relation.Id == relationship.Id)
+                            {
+                                return ix;
                             }
                         }
                     }

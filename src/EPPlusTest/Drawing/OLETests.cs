@@ -22,7 +22,7 @@ namespace EPPlusTest.Drawing
         }
 
         [TestMethod]
-        public void WriteExcelExternal_MP3()
+        public void WriteExternal_MP3()
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");

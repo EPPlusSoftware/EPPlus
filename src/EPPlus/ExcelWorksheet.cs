@@ -53,6 +53,7 @@ using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 using System.Collections;
+using OfficeOpenXml.Drawing.OleObject;
 
 namespace OfficeOpenXml
 {
@@ -2511,6 +2512,11 @@ namespace OfficeOpenXml
             {
                 ctrl.ControlPropertiesXml.Save(ctrl.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
                 ctrl.UpdateXml();
+            }
+            else if(d is ExcelOleObject o)
+            {
+                if(o.LinkedOleObjectPart != null && o.LinkedOleObjectXml != null)
+                    o.LinkedOleObjectXml.Save(o.LinkedOleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
             }
             if (d is ExcelGroupShape grp)
             {
