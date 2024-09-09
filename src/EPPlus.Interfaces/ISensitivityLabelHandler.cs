@@ -1,17 +1,20 @@
-﻿using System;
+﻿#if(!NET35)
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace OfficeOpenXml.Interfaces
 {
     public interface ISensitivityLabelHandler
     {
-        public MemoryStream EncryptPackage(Stream packageStream);
-        public MemoryStream DecryptPackage(Stream packageStream);
-        public void UpdateLabels(IList<IExcelSensibilityLabel> list);
-        public IList<IExcelSensibilityLabel> GetLabels();
+        public Task Init(int Id);
+        public MemoryStream EncryptPackage(MemoryStream packageStream, ref int Id);
+        public Task<MemoryStream> DecryptPackage(MemoryStream packageStream, int Id);
+        public IList<IExcelSensibilityLabel> UpdateLabelList(IList<IExcelSensibilityLabel> list, int Id);
+        public void SetActiveLabel(string name);
     }
 
     public interface IExcelSensibilityLabel
@@ -41,3 +44,4 @@ namespace OfficeOpenXml.Interfaces
         Encryption = 8
     }
 }
+#endif

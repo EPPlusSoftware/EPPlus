@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+#if (!NET35)
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Encryption;
@@ -55,12 +56,6 @@ namespace OfficeOpenXml.SensitivityLabels
             _nsm = new XmlNamespaceManager(nt);
             _nsm.AddNamespace("clbl", ExcelPackage.schemaMipLabelMetadata);
         }
-
-        private void LoadLabelsFromHandler()
-        {
-            Labels._list.AddRange(SensibilityLabelHandler.GetLabels());
-        }
-
         private void LoadLabelsFromPart()
         {
             var part = _pck.ZipPackage.GetPartByContentType(ContentTypes.contentTypeClassificationLabels);
@@ -77,6 +72,17 @@ namespace OfficeOpenXml.SensitivityLabels
             {
                 Labels.Add(ExcelSensibilityLabel.CreateFromElement(_nsm, element));
             }
+        }
+        
+        public void SetActiveLabel(string name)
+        {
+            if(SensibilityLabelHandler==null)
+            {
+                throw (new MissingSensibilityHandlerException("No sensibility label handler is set. Please set the property ExcelSensibilityLabels.SensibilityLabelHandler"));
+            }
+
+
+            SensibilityLabelHandler.SetActiveLabel(name);
         }
 
         public EPPlusReadOnlyList<IExcelSensibilityLabel> Labels
@@ -156,3 +162,4 @@ namespace OfficeOpenXml.SensitivityLabels
         }
     }
 }
+#endif

@@ -28,8 +28,9 @@ using System.Diagnostics;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Configuration;
 using OfficeOpenXml.Interfaces;
+#if(!NET35)
 using OfficeOpenXml.SensitivityLabels;
-
+#endif
 
 #if (Core)
 using Microsoft.Extensions.Configuration;
@@ -1343,6 +1344,7 @@ namespace OfficeOpenXml
             _isExternalStream = true;
             _isDisposed = false;
         }
+#if(!NET35)        
         ExcelSensibilityLabels _sensibilityLabels = null;
         /// <summary>
         /// Sensibility labels meta data.
@@ -1365,5 +1367,6 @@ namespace OfficeOpenXml
             }
         }
         internal int _worksheetAdd=0;
+#endif        
     }
 }
