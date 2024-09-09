@@ -93,7 +93,7 @@ namespace OfficeOpenXml.ExternalReferences
             {
                 foreach (XmlElement elem in nl)
                 {
-                    string rID = elem.GetAttribute("r:id");
+                    string rID = elem.GetAttribute("id",ExcelPackage.schemaRelationships);
                     var rel = _wb.Part.GetRelationship(rID);
                     var part = _wb._package.ZipPackage.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
                     var xr = new XmlTextReader(part.GetStream());

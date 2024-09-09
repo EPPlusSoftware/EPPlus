@@ -794,27 +794,13 @@ namespace OfficeOpenXml.Drawing.OleObject
             LinkedOleObjectXml.Save(LinkedOleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
 
             //create/write wb xml external link node
-            //var ers = wb.WorkbookXml.SelectSingleNode("//d:externalReferences", wb.NameSpaceManager);
-            //if (ers == null)
-            //{
-            //    ers = wb.WorkbookXml.CreateElement("d:externalReferences", wb.NameSpaceManager.LookupNamespace("d"));
-            //    var root = wb.WorkbookXml.DocumentElement;
-            //    if (root != null)
-            //    {
-            //        root.AppendChild(ers);
-            //    }
-            //}
-            //var er = wb.WorkbookXml.CreateElement("d:externalReference", wb.NameSpaceManager.LookupNamespace("d"));
-            //var era = wb.WorkbookXml.CreateAttribute("r:id");
-            //era.Value = rel.Id;
-            //er.Attributes.Append(era);
-            //ers.AppendChild(er);
-
             var er = (XmlElement)wb.CreateNode("d:externalReferences/d:externalReference", false, true);
             er.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
 
+            //FISK THIS BELOW SO WE HAVE REF TO LINKOBJECT
+
             //Add the externalLink to externalLink collection
-            //_externalLink = wb.ExternalLinks[wb.ExternalLinks.GetExternalLink(filePath, fileRel)] as ExcelExternalOleLink; //new ExcelExternalOleLink(wb, new XmlTextReader(LinkedOleObjectPart.GetStream()), LinkedOleObjectPart, er);
+            _externalLink = wb.ExternalLinks[wb.ExternalLinks.GetExternalLink(filePath, fileRel)] as ExcelExternalOleLink; //new ExcelExternalOleLink(wb, new XmlTextReader(LinkedOleObjectPart.GetStream()), LinkedOleObjectPart, er);
             ////_externalLink.ProgId = "Package";
             //_externalLink.Relation = fileRel;
             //els.AddInternal(_externalLink);

@@ -1518,6 +1518,23 @@ namespace OfficeOpenXml.Drawing
 
             return oleObj;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="FilePath">Path to file to embedd or link.</param>
+        /// <param name="Link">True: File will be linked. False: File will be embedded</param>
+        /// <param name="OleObjectType">The type of object</param>
+        /// <param name="ImageFilePath">Path to image for drawing. Note that this is only a temporary image and Excel will overwrite it when saved or opened with its own image.</param>
+        /// <returns></returns>
+        //public ExcelOleObject AddOleObject(string FilePath, bool Link = false, OleObjectType OleObjectType = OleObjectType.Default, bool DisplayAsIcon = false, Stream ImageFilePath = "")
+        //{
+        //    XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
+        //    ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, FilePath, Link, OleObjectType, DisplayAsIcon, ImageFilePath);
+        //    _drawingsList.Add(oleObj);
+        //    _drawingNames.Add(oleObj.Name, _drawingsList.Count - 1);
+
+        //    return oleObj;
+        //}
 
         private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent = false)
         {
