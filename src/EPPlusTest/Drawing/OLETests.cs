@@ -1,9 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.OleObject;
-using OfficeOpenXml.LoadFunctions.Params;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace EPPlusTest.Drawing
 {
