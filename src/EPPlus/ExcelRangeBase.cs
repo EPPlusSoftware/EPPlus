@@ -45,6 +45,7 @@ using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.CellPictures;
 
 namespace OfficeOpenXml
 {
@@ -2622,6 +2623,17 @@ namespace OfficeOpenXml
                     }
                 }
             }
+        }
+
+        internal ExcelCellPicture GetCellPicture()
+        {
+            return _worksheet._cellPicturesManager.GetCellPicture(_fromRow, _fromCol);
+        }
+
+        internal void SetCellPicture(string path)
+        {
+            var bytes = File.ReadAllBytes(path);
+            _worksheet._cellPicturesManager.SetCellPicture(_fromRow, _fromCol, bytes);
         }
     }
 }

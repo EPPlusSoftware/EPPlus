@@ -53,6 +53,7 @@ using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 using System.Collections;
+using OfficeOpenXml.CellPictures;
 
 namespace OfficeOpenXml
 {
@@ -304,12 +305,14 @@ namespace OfficeOpenXml
         internal CellStore<int> _threadedCommentsStore;
         internal CellStore<int?> _dataValidationsStore;
         internal CellStore<MetaDataReference> _metadataStore;
+        internal CellPicturesManager _cellPicturesManager;
 
         internal Dictionary<int, SharedFormula> _sharedFormulas = new Dictionary<int, SharedFormula>();
         internal RangeSorter _rangeSorter;
         internal int _minCol = ExcelPackage.MaxColumns;
         internal int _maxCol = 0;
         internal int _nextControlId;
+
         #region Worksheet Private Properties
         internal ExcelPackage _package;
         private Uri _worksheetUri;
@@ -365,6 +368,7 @@ namespace OfficeOpenXml
             _names = new ExcelNamedRangeCollection(Workbook, this);
 
             _rangeSorter = new RangeSorter(this);
+            _cellPicturesManager = new CellPicturesManager(this);
             FullPrecision = Workbook.FullPrecision;
 
             CreateXml();

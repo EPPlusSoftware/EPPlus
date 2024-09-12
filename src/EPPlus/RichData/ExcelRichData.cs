@@ -25,10 +25,12 @@ namespace OfficeOpenXml.RichData
             }
             Structures = new ExcelRichValueStructureCollection(wb);
             Values = new ExcelRichValueCollection(wb, Structures);
+            RichValueRels = new RichValueRelCollection(wb);
         }
         internal ExcelRichDataValueTypeInfo ValueTypes { get; }
         internal ExcelRichValueStructureCollection Structures { get; }
         internal ExcelRichValueCollection Values { get; }
+        internal RichValueRelCollection RichValueRels { get; }
         internal void CreateParts()
         {
             //Creates the rich data parts and add the parts to the package. 
@@ -46,6 +48,11 @@ namespace OfficeOpenXml.RichData
                 Structures.Part.ShouldBeSaved = true;
                 Values.Part.ShouldBeSaved = true;
             }
+        }
+
+        internal RichValueRel GetRelationByIndex(int index)
+        {
+            return RichValueRels.Items[index];
         }
     }
 }
