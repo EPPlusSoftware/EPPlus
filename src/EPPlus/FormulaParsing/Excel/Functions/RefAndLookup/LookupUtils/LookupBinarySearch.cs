@@ -139,6 +139,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             return asc ? SearchAsc(lookupValue, lookupRange, comparer, direction) : SearchDesc(lookupValue, lookupRange, comparer);
         }
 
+        internal static int GetMaxIndex(IRangeInfo returnArray)
+        {
+            return returnArray.Size.NumberOfRows > returnArray.Size.NumberOfCols ?
+                    returnArray.Size.NumberOfRows : returnArray.Size.NumberOfCols;
+        }
+
         internal static int GetMatchIndex(int ix, IRangeInfo returnArray, LookupMatchMode matchMode, bool asc)
         {
             if (ix > -1) return ix;
@@ -150,9 +156,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
             else if (matchMode == LookupMatchMode.ExactMatchReturnNextLarger)
             {
                 var adjustment = asc ? 0 : -1;
-                var max = returnArray.Size.NumberOfRows > returnArray.Size.NumberOfCols ?
-                    returnArray.Size.NumberOfRows : returnArray.Size.NumberOfCols;
-                result = result >= max ? result : result + adjustment;
+                var max = GetMaxIndex(returnArray);
+                result = result >= max ? max : result + adjustment;
             }
             return result;
         }
