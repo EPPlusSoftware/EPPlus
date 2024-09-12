@@ -37,6 +37,17 @@ namespace OfficeOpenXml.Drawing.EMF
             StringBuffer = BinaryHelper.GetString(br, (Chars * 2), Encoding.Unicode);
             br.BaseStream.Position = position + offDx;
             DxBuffer = br.ReadBytes((int)(Size - offDx));
+
+            var checkSize = Bounds.Length + iGraphicsMode.Length + exScale.Length + eyScale.Length + Reference.Length + 4/*chars*/ + 4/*offstring*/ + Options.Length + Rectangle.Length + 4/*offDx*/ + StringBuffer.Length * 2 + DxBuffer.Length + padding +4 /*type*/ + 4 /*size*/;
+
+            var changedSize = offDx - offString;
+
+            changedSize -= (Chars * 2);
+
+            if (changedSize > 0)
+            {
+                padding = (int)changedSize;
+            }
         }
 
         public EMR_EXTTEXTOUTW(string Text)

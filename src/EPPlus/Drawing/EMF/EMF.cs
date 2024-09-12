@@ -63,10 +63,20 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             //var eof = new EMR_EOF();
             //records.Add(eof);
-            var header = new EMR_HEADER(records);
+            //var header = new EMR_HEADER(records);
 
-            records[0] = header;
+            var header = (EMR_HEADER)records[0];
 
+            var last = (EMR_EOF)records[records.Count - 1];
+
+            var preBytes = header.Bytes;
+
+            header.Bytes = 0;
+
+            foreach (var record in records)
+            {
+                header.Bytes += record.Size;
+            }
 
             using (FileStream fileStream = new FileStream(FilePath, FileMode.Create, FileAccess.Write))
             {
