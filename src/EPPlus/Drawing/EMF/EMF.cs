@@ -66,6 +66,19 @@ namespace OfficeOpenXml.Drawing.EMF
             //records.Add(record);
         }
 
+        public void UpdateTextRecord(string Text)
+        {
+            var textRecord =  records[20] as EMR_EXTTEXTOUTW;
+            textRecord.Text = Text;
+            //records.Add(record);
+        }
+
+        public void ChangeTextAlignment(TextAlignmentModeFlags Flags)
+        {
+            var record = records[8] as EMR_SETTEXTALIGN;
+            record.TextAlignmentMode = Flags;
+        }
+
         public void Save(string FilePath)
         {
             //var eof = new EMR_EOF();
