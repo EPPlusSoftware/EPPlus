@@ -19,6 +19,8 @@ namespace OfficeOpenXml.Drawing.EMF
         internal string StringBuffer;
         internal byte[] DxBuffer;
 
+        private int padding = 0;
+
         public EMR_EXTTEXTOUTW(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
             Bounds = br.ReadBytes(16);
@@ -51,6 +53,12 @@ namespace OfficeOpenXml.Drawing.EMF
             StringBuffer = Text;
             Chars = (uint)StringBuffer.Length;
             offDx = offString + (uint)StringBuffer.Length * 2;
+            if (offDx % 4 != 0)
+            {
+                padding = (int)offDx;
+                offDx += 4 - (offDx % 4);
+                padding = (int)(offDx) - padding;
+            }
             DxBuffer = new byte[Text.Length * 4];
             int j = 0;
             for (int i=0; i<Text.Length; i++)
@@ -77,6 +85,10 @@ namespace OfficeOpenXml.Drawing.EMF
             bw.Write(Rectangle);
             bw.Write(offDx);
             bw.Write(BinaryHelper.GetByteArray(StringBuffer, Encoding.Unicode));
+            if (padding > 0)
+            {
+                bw.Write(new byte[padding]);
+            }
             bw.Write(DxBuffer);
         }
     }
