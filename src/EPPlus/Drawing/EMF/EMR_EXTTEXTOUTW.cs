@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using OfficeOpenXml.Utils;
@@ -39,17 +40,141 @@ namespace OfficeOpenXml.Drawing.EMF
             br.BaseStream.Position = position + offDx;
             DxBuffer = br.ReadBytes((int)(Size - offDx));
 
-            var checkSize = Bounds.Length + iGraphicsMode.Length + exScale.Length + eyScale.Length + Reference.Length + 4/*chars*/ + 4/*offstring*/ + Options.Length + Rectangle.Length + 4/*offDx*/ + StringBuffer.Length * 2 + DxBuffer.Length + padding +4 /*type*/ + 4 /*size*/;
-
             var changedSize = offDx - offString;
-
             changedSize -= (Chars * 2);
-
             if (changedSize > 0)
             {
                 padding = (int)changedSize;
             }
         }
+
+        byte[] GetDxBuffer()
+        {
+            DxBuffer = new byte[StringBuffer.Length * 4];
+            int j = 0;
+            for (int i = 0; i < StringBuffer.Length; i++)
+            {
+                DxBuffer[j++] = (byte)GetSpacingForChar(StringBuffer[i]);
+                DxBuffer[j++] = 0x00;
+                DxBuffer[j++] = 0x00;
+                DxBuffer[j++] = 0x00;
+            }
+            return DxBuffer;
+        }
+
+        static int GetSpacingForChar(char aChar)
+        {
+            switch (aChar)
+            {
+                case 'a':
+                    return 0x06;
+                case 'b':
+                    return 0x07;
+                case 'c':
+                    return 0x05;
+                case 'd':
+                    return 0x07;
+                case 'e':
+                    return 0x06;
+                case 'f':
+                    return 0x04;
+                case 'g':
+                    return 0x07;
+                case 'h':
+                    return 0x07;
+                case 'i':
+                    return 0x03;
+                case 'j':
+                    return 0x03;
+                case 'k':
+                    return 0x06;
+                case 'l':
+                    return 0x03;
+                case 'm':
+                    return 0x09;
+                case 'n':
+                    return 0x07;
+                case 'o':
+                    return 0x07;
+                case 'p':
+                    return 0x07;
+                case 'q':
+                    return 0x07;
+                case 'r':
+                    return 0x04;
+                case 's':
+                    return 0x05;
+                case 't':
+                    return 0x04;
+                case 'u':
+                    return 0x07;
+                case 'v':
+                    return 0x05;
+                case 'w':
+                    return 0x09;
+                case 'x':
+                    return 0x05;
+                case 'y':
+                    return 0x05;
+                case 'z':
+                    return 0x05;
+                case 'A':
+                    return 0x07;
+                case 'B':
+                    return 0x06;
+                case 'C':
+                    return 0x07;
+                case 'D':
+                    return 0x08;
+                case 'E':
+                    return 0x06;
+                case 'F':
+                    return 0x06;
+                case 'G':
+                    return 0x08;
+                case 'H':
+                    return 0x08;
+                case 'I':
+                    return 0x03;
+                case 'J':
+                    return 0x04;
+                case 'K':
+                    return 0x06;
+                case 'L':
+                    return 0x05;
+                case 'M':
+                    return 0x010;
+                case 'N':
+                    return 0x08;
+                case 'O':
+                    return 0x09;
+                case 'P':
+                    return 0x06;
+                case 'Q':
+                    return 0x08;
+                case 'R':
+                    return 0x07;
+                case 'S':
+                    return 0x06;
+                case 'T':
+                    return 0x06;
+                case 'U':
+                    return 0x08;
+                case 'V':
+                    return 0x07;
+                case 'W':
+                    return 0x011;
+                case 'X':
+                    return 0x06;
+                case 'Y':
+                    return 0x05;
+                case 'Z':
+                    return 0x06;
+                default:
+                    return 0x05;
+            }
+        }
+
 
         public EMR_EXTTEXTOUTW(string Text)
         {
