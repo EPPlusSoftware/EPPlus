@@ -59,6 +59,13 @@ namespace OfficeOpenXml.Drawing.EMF
             //records.Add(record);
         }
 
+        public void CreateTextRecord(string Text, int x, int y)
+        {
+            var record = new EMR_EXTTEXTOUTW(Text, x, y);
+            records[20] = record;
+            //records.Add(record);
+        }
+
         public void Save(string FilePath)
         {
             //var eof = new EMR_EOF();

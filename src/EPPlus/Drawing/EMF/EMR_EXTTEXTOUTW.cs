@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using OfficeOpenXml.Utils;
 
@@ -27,7 +28,7 @@ namespace OfficeOpenXml.Drawing.EMF
             iGraphicsMode = br.ReadBytes(4);
             exScale = br.ReadBytes(4);
             eyScale = br.ReadBytes(4);
-            Reference = br.ReadBytes(8);
+            Reference = br.ReadBytes(8);        //Signed, koordinat för var texten börjar. 
             Chars = br.ReadUInt32();
             offString = br.ReadUInt32();
             Options = br.ReadBytes(4);
@@ -73,6 +74,44 @@ namespace OfficeOpenXml.Drawing.EMF
             DxBuffer = new byte[Text.Length * 4];
             int j = 0;
             for (int i=0; i<Text.Length; i++)
+            {
+                DxBuffer[j++] = 0x05;
+                DxBuffer[j++] = 0x00;
+                DxBuffer[j++] = 0x00;
+                DxBuffer[j++] = 0x00;
+            }
+            Size = offDx + (uint)DxBuffer.Length;
+        }
+
+        public EMR_EXTTEXTOUTW(string Text, int x, int y)
+        {
+            Type = RECORD_TYPES.EMR_EXTTEXTOUTW;
+            Bounds = new byte[16] { 0x13, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x4b, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00 };
+            iGraphicsMode = new byte[4] { 0x02, 0x00, 0x00, 0x00 };
+            exScale = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
+            eyScale = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
+
+            var bx = BitConverter.GetBytes(x);
+            var by = BitConverter.GetBytes(y);
+
+            Reference = BinaryHelper.ConcatenateByteArrays(bx, by);
+
+            //Reference = new byte[8] { 0x13, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00 };
+            Options = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
+            Rectangle = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+            offString = 4 + 4 + 16 + 4 + 4 + 4 + 8 + 4 + 4 + 4 + 16 + 4;
+            StringBuffer = Text;
+            Chars = (uint)StringBuffer.Length;
+            offDx = offString + (uint)StringBuffer.Length * 2;
+            if (offDx % 4 != 0)
+            {
+                padding = (int)offDx;
+                offDx += 4 - (offDx % 4);
+                padding = (int)(offDx) - padding;
+            }
+            DxBuffer = new byte[Text.Length * 4];
+            int j = 0;
+            for (int i = 0; i < Text.Length; i++)
             {
                 DxBuffer[j++] = 0x05;
                 DxBuffer[j++] = 0x00;

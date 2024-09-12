@@ -10,5 +10,10 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             TextAlignmentMode = br.ReadBytes(4);
         }
+
+        public EMR_SETTEXTALIGN()
+        {
+
+        }
     }
 }
