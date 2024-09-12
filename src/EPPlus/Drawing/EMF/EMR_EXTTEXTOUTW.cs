@@ -17,10 +17,25 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] Options;
         internal byte[] Rectangle;
         internal uint   offDx;
-        internal string StringBuffer;
+        internal string stringBuffer;
         internal byte[] DxBuffer;
 
         private int padding = 0;
+
+        internal string Text
+        {
+            get 
+            {
+                return stringBuffer;
+            }
+            set
+            {
+                stringBuffer = value;
+                CalculateOffsets();
+            }
+        }
+
+
 
         public EMR_EXTTEXTOUTW(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
@@ -35,11 +50,11 @@ namespace OfficeOpenXml.Drawing.EMF
             Rectangle = br.ReadBytes(16);
             offDx = br.ReadUInt32();
             br.BaseStream.Position = position + offString;
-            StringBuffer = BinaryHelper.GetString(br, (Chars * 2), Encoding.Unicode);
+            stringBuffer = BinaryHelper.GetString(br, (Chars * 2), Encoding.Unicode);
             br.BaseStream.Position = position + offDx;
             DxBuffer = br.ReadBytes((int)(Size - offDx));
 
-            var checkSize = Bounds.Length + iGraphicsMode.Length + exScale.Length + eyScale.Length + Reference.Length + 4/*chars*/ + 4/*offstring*/ + Options.Length + Rectangle.Length + 4/*offDx*/ + StringBuffer.Length * 2 + DxBuffer.Length + padding +4 /*type*/ + 4 /*size*/;
+            var checkSize = Bounds.Length + iGraphicsMode.Length + exScale.Length + eyScale.Length + Reference.Length + 4/*Chars*/ + 4/*offString*/ + Options.Length + Rectangle.Length + 4/*offDx*/ + stringBuffer.Length * 2 + DxBuffer.Length + padding +4 /*Type*/ + 4 /*Size*/;
 
             var changedSize = offDx - offString;
 
@@ -62,25 +77,8 @@ namespace OfficeOpenXml.Drawing.EMF
             Options = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
             Rectangle = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
             offString = 4 + 4 + 16 + 4 + 4 + 4 + 8 + 4 + 4 + 4 + 16 + 4;
-            StringBuffer = Text;
-            Chars = (uint)StringBuffer.Length;
-            offDx = offString + (uint)StringBuffer.Length * 2;
-            if (offDx % 4 != 0)
-            {
-                padding = (int)offDx;
-                offDx += 4 - (offDx % 4);
-                padding = (int)(offDx) - padding;
-            }
-            DxBuffer = new byte[Text.Length * 4];
-            int j = 0;
-            for (int i=0; i<Text.Length; i++)
-            {
-                DxBuffer[j++] = 0x05;
-                DxBuffer[j++] = 0x00;
-                DxBuffer[j++] = 0x00;
-                DxBuffer[j++] = 0x00;
-            }
-            Size = offDx + (uint)DxBuffer.Length;
+            stringBuffer = Text;
+            CalculateOffsets();
         }
 
         public EMR_EXTTEXTOUTW(string Text, int x, int y)
@@ -100,18 +98,23 @@ namespace OfficeOpenXml.Drawing.EMF
             Options = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
             Rectangle = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
             offString = 4 + 4 + 16 + 4 + 4 + 4 + 8 + 4 + 4 + 4 + 16 + 4;
-            StringBuffer = Text;
-            Chars = (uint)StringBuffer.Length;
-            offDx = offString + (uint)StringBuffer.Length * 2;
+            stringBuffer = Text;
+            CalculateOffsets();
+        }
+
+        private void CalculateOffsets()
+        {
+            Chars = (uint)stringBuffer.Length;
+            offDx = offString + (uint)stringBuffer.Length * 2;
             if (offDx % 4 != 0)
             {
                 padding = (int)offDx;
                 offDx += 4 - (offDx % 4);
                 padding = (int)(offDx) - padding;
             }
-            DxBuffer = new byte[Text.Length * 4];
+            DxBuffer = new byte[stringBuffer.Length * 4];
             int j = 0;
-            for (int i = 0; i < Text.Length; i++)
+            for (int i = 0; i < stringBuffer.Length; i++)
             {
                 DxBuffer[j++] = 0x05;
                 DxBuffer[j++] = 0x00;
@@ -134,7 +137,7 @@ namespace OfficeOpenXml.Drawing.EMF
             bw.Write(Options);
             bw.Write(Rectangle);
             bw.Write(offDx);
-            bw.Write(BinaryHelper.GetByteArray(StringBuffer, Encoding.Unicode));
+            bw.Write(BinaryHelper.GetByteArray(stringBuffer, Encoding.Unicode));
             if (padding > 0)
             {
                 bw.Write(new byte[padding]);
