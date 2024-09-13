@@ -29,12 +29,12 @@ namespace OfficeOpenXml.Drawing.EMF
                             case 0x0000000E:
                                 record = new EMR_EOF(br, TypeValue);
                                 break;
-                            //case 0x00000016:
-                            //    record = new EMR_SETTEXTALIGN(br, TypeValue);
-                            //    break;
-                            //case 0x0000004D:
-                            //    record = new EMR_STRETCHBLT(br, TypeValue);
-                            //    break;
+                            case 0x00000016:
+                                record = new EMR_SETTEXTALIGN(br, TypeValue);
+                                break;
+                            case 0x0000004D:
+                                record = new EMR_STRETCHBLT(br, TypeValue);
+                                break;
                             //case 0x00000051:
                             //    record = new EMR_STRETCHDIBITS(br, TypeValue);
                             //    break;
@@ -77,6 +77,12 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             var record = records[8] as EMR_SETTEXTALIGN;
             record.TextAlignmentMode = Flags;
+        }
+
+        public void ChangeImage(byte[] Image)
+        {
+            var record = records[16] as EMR_STRETCHBLT;
+            record.ChangeImage(Image);
         }
 
         public void Save(string FilePath)

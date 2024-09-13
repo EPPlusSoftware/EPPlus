@@ -35,8 +35,6 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-
-
         public EMR_EXTTEXTOUTW(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
             Bounds = br.ReadBytes(16);
