@@ -29,6 +29,44 @@ namespace OfficeOpenXml.Utils
             }
         }
 
+        static internal string GetPotentiallyNullTerminatedString(BinaryReader br, uint size, Encoding enc)
+        {
+            if (size > 0)
+            {
+                byte[] byteTemp = new byte[size];
+                byte lastByte = 1;
+
+                for (int i = 0; i < size; i++)
+                {
+                    var byteToAdd = br.ReadByte();
+                    if(byteToAdd == 0 && lastByte == 0)
+                    {
+                        //Skip the rest
+                        var check = br.ReadBytes((int)(size - i -1));
+                        if(i == 1)
+                        {
+                            return "";
+                        }
+                        return enc.GetString(byteTemp, 0, i);
+                    }
+                    lastByte = byteToAdd;
+                    byteTemp[i] = byteToAdd;
+                }
+                return enc.GetString(byteTemp);
+            }
+            return "";
+        }
+
+        static internal void WriteStringWithSetByteLength(BinaryWriter bw, string str, int sizeOfBytes, Encoding enc)
+        {
+            var arr = GetByteArray(str, enc);
+            bw.Write(arr);
+            if (arr.Length < sizeOfBytes)
+            {
+                bw.Write(new byte[sizeOfBytes - arr.Length]);
+            }
+        }
+
         static internal byte[] GetByteArray(string str, Encoding enc)
         {
             if(str == null)
