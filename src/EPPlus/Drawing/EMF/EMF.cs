@@ -38,6 +38,9 @@ namespace OfficeOpenXml.Drawing.EMF
                             //case 0x00000051:
                             //    record = new EMR_STRETCHDIBITS(br, TypeValue);
                             //    break;
+                            case 0x00000052:
+                                record = new EMR_EXTCREATEFONTINDIRECTW(br, TypeValue);
+                                break;
                             case 0x00000054:
                                 record = new EMR_EXTTEXTOUTW(br, TypeValue);
                                 break;
@@ -92,9 +95,7 @@ namespace OfficeOpenXml.Drawing.EMF
             //var header = new EMR_HEADER(records);
 
             var header = (EMR_HEADER)records[0];
-
             var last = (EMR_EOF)records[records.Count - 1];
-
             var preBytes = header.Bytes;
 
             header.Bytes = 0;
