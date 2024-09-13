@@ -359,7 +359,6 @@ namespace OfficeOpenXml
 						}
 					}
 				}
-
 			}
 		}
 

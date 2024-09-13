@@ -479,10 +479,10 @@ namespace OfficeOpenXml
                     _stream = RecyclableMemory.GetStream();
 
                 var ms = RecyclableMemory.GetStream();
-                if (password != null)
+                if(CompoundDocument.IsCompoundDocument(template))
                 {
                     Encryption.IsEncrypted = true;
-                    Encryption.Password = password;
+                    Encryption.Password = password ?? "";
                     var encrHandler = new EncryptedPackageHandler(this);
                     ms.Dispose();
                     ms = encrHandler.DecryptPackage(template, Encryption);
@@ -523,11 +523,11 @@ namespace OfficeOpenXml
             if (File != null && File.Exists && File.Length > 0)
             {
                 var ms = RecyclableMemory.GetStream();
-                if (password != null)
+                if(CompoundDocument.IsCompoundDocument(ms))
                 {
                     var encrHandler = new EncryptedPackageHandler(this);
                     Encryption.IsEncrypted = true;
-                    Encryption.Password = password;
+                    Encryption.Password = password??"";
                     ms.Dispose();
                     ms = encrHandler.DecryptPackage(File, Encryption);
                 }
@@ -1286,15 +1286,15 @@ namespace OfficeOpenXml
             }
             else
             {
-                Stream ms;
-                if (Password != null)
+                Stream ms = RecyclableMemory.GetStream();
+                StreamUtil.CopyStream(input, ref ms);
+                if(CompoundDocument.IsCompoundDocument((MemoryStream)ms))
                 {
-                    Stream encrStream = RecyclableMemory.GetStream();
-                    StreamUtil.CopyStream(input, ref encrStream);
                     EncryptedPackageHandler eph = new EncryptedPackageHandler(this);
                     Encryption.Password = Password;
-                    ms = eph.DecryptPackage((MemoryStream)encrStream, Encryption);
-                    encrStream.Dispose();
+                    var decrStream = eph.DecryptPackage((MemoryStream)ms, Encryption);
+                    ms.Dispose();
+                    ms = decrStream;
                 }
                 else
                 {
@@ -1366,7 +1366,7 @@ namespace OfficeOpenXml
                 _sensibilityLabels = value;
             }
         }
-        internal int _worksheetAdd=0;
 #endif        
+        internal int _worksheetAdd=0;
     }
 }

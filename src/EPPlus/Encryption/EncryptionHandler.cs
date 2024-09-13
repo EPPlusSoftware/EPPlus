@@ -10,19 +10,17 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.DataValidation.Events;
-using OfficeOpenXml.SensitivityLabels;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.CompundDocument;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
-
+#if(!NET35)
+using OfficeOpenXml.SensitivityLabels;
+#endif
 namespace OfficeOpenXml.Encryption
 {
 
@@ -107,7 +105,18 @@ namespace OfficeOpenXml.Encryption
             {
                 return EncryptPackageAgile(package, encryption);
             }
-            throw(new ArgumentException("Unsupported encryption version."));
+#if (!NET35)
+            else if (encryption.Version == EncryptionVersion.ProtectedBySensibilityLabel)
+            {
+                var decryptionInfo = new EPPlusDecryptionInfo()
+                {
+                    PackageStream = new MemoryStream(package),
+                    ProtectionInformation=_pck.SensibilityLabels.ProtectionInformation
+                };
+                return ExcelSensibilityLabels.SensibilityLabelHandler.EncryptPackageAsync(decryptionInfo, _pck.Id).GetAwaiter().GetResult();
+            }
+#endif
+            throw (new ArgumentException("Unsupported encryption version."));
         }
         private MemoryStream EncryptPackageAgile(byte[] package, ExcelEncryption encryption)
         {
@@ -264,7 +273,7 @@ namespace OfficeOpenXml.Encryption
 #if (!Core)
                 case eHashAlgorithm.RIPEMD160:
                     return new HMACRIPEMD160(salt);
-#endif                
+#endif
                 case eHashAlgorithm.MD5:
                     return new HMACMD5(salt);              
                 case eHashAlgorithm.SHA1:
@@ -514,7 +523,7 @@ namespace OfficeOpenXml.Encryption
         }
         private MemoryStream GetStreamFromPackage(MemoryStream ms, ExcelEncryption encryption)
         {
-            var doc = new CompoundDocument(ms);
+            var doc = new CompoundDocument(ms, false);
             if (doc.Storage.DataStreams.ContainsKey("EncryptionInfo") &&
                doc.Storage.DataStreams.ContainsKey("EncryptedPackage"))
             {
@@ -522,6 +531,7 @@ namespace OfficeOpenXml.Encryption
                 
                 return DecryptDocument(doc.Storage.DataStreams["EncryptedPackage"], encryptionInfo, encryption.Password);
             }
+#if (!NET35)
             if(doc.Directories.Exists(x=>x.Name == "\u0006DataSpaces"))
             {
                 var handler = ExcelSensibilityLabels.SensibilityLabelHandler;
@@ -531,8 +541,11 @@ namespace OfficeOpenXml.Encryption
                 {
                     throw new MissingSensibilityHandlerException($"Can not decrypt package protected by sensitivity label with id : {_pck.SensibilityLabels.Labels.FirstOrDefault(x=>x.Enabled)?.Id}. Please attach a Sensibility Label handler using the ExcelSensibilityLabels.SensibilityLabelHandler property.");
                 }
-                return handler.DecryptPackage(ms);
+                var ret = handler.DecryptPackageAsync(ms, _pck.Id).GetAwaiter().GetResult();
+                _pck.SensibilityLabels.ProtectionInformation = ret.ProtectionInformation;
+                return ret.PackageStream;
             }
+#endif
             else
             {
                 throw (new InvalidDataException("Invalid or unsupported encryption. EncryptionInfo or EncryptedPackage stream is missing"));

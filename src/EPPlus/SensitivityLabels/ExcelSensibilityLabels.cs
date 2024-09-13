@@ -14,21 +14,40 @@
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Encryption;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.Interfaces;
+using OfficeOpenXml.Interfaces.SensitivityLabels;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.SensitivityLabels
 {
     public class ExcelSensibilityLabels
     {
+        static ISensitivityLabelHandler _sensibilityLabelHandler=null;
         /// <summary>
         /// If you want your workbooks to be marked with sensibility lables, you can add a handler for authentication, encryption and decryption using the Microsoft Information Protection SDK.
         /// For more information
         /// </summary>
-        public static ISensitivityLabelHandler SensibilityLabelHandler { get; set; }
+        public static ISensitivityLabelHandler SensibilityLabelHandler 
+        {
+            get
+            {
+                return _sensibilityLabelHandler;
+            }
+            set
+            {
+                if (value != null && value != _sensibilityLabelHandler)
+                {
+                    value.InitAsync();
+                }
+                _sensibilityLabelHandler = value;
+            } 
+        }
 
         ExcelPackage _pck;
         XmlHelper _xmlHelper;
@@ -68,30 +87,80 @@ namespace OfficeOpenXml.SensitivityLabels
 
         private void LoadLabelsFromXmlDocument(XmlDocument xml)
         {
-            foreach (XmlElement element in xml.SelectNodes("/clbl:labelList/clbl:label", _nsm))
+            foreach(XmlElement element in xml.SelectNodes("/clbl:labelList/clbl:label", _nsm))
             {
                 Labels.Add(ExcelSensibilityLabel.CreateFromElement(_nsm, element));
             }
+
+            SensibilityLabelHandler.UpdateLabelList(Labels, _pck.Id);
         }
-        
-        public void SetActiveLabel(string name)
+
+        public void SetActiveLabelById(string id)
         {
-            if(SensibilityLabelHandler==null)
+            var lbls = SensibilityLabelHandler.GetLabels();
+
+            var lbl = lbls.FirstOrDefault(x => x.Id.Equals(id, StringComparison.CurrentCultureIgnoreCase));
+            if (lbl == null)
+            {
+                throw (new ArgumentException($"Sensitivity label with id:{id} does not exist."));
+            }
+            AddLabel(lbl);
+        }
+        public void SetActiveLabelByName(string name)
+        {
+            if (SensibilityLabelHandler == null)
             {
                 throw (new MissingSensibilityHandlerException("No sensibility label handler is set. Please set the property ExcelSensibilityLabels.SensibilityLabelHandler"));
             }
 
+            var lbls = SensibilityLabelHandler.GetLabels();
 
-            SensibilityLabelHandler.SetActiveLabel(name);
+            var lbl = lbls.FirstOrDefault(x => x.Name.Equals(name, StringComparison.CurrentCultureIgnoreCase));
+            if (lbl == null)
+            {
+                throw (new ArgumentException($"Sensitivity label {name} does not exist."));
+            }
+            AddLabel(lbl);
         }
 
+        private void AddLabel(IExcelSensibilityLabel lbl)
+        {
+            var existingLabel = Labels.FirstOrDefault(x => x.Name.Equals(lbl.Id, StringComparison.InvariantCultureIgnoreCase));
+            if (existingLabel == null || existingLabel.Enabled == false)
+            {
+                Labels.Add(new ExcelSensibilityLabel
+                {
+                    Id = lbl.Id,
+                    Name = lbl.Name,
+                    Description = lbl.Description,
+                    Color = lbl.Color,
+                    SiteId = lbl.SiteId,
+                    ContentBits = lbl.ContentBits,
+                    Enabled = true,
+                    Removed = false,
+                    Method = eMethod.Privileged
+                });
+            }
+        }
+
+        /// <summary>
+        /// Contains sensitivity labels for the package. 
+        /// Only the last sensitivity will be applied on save.
+        /// </summary>
         public EPPlusReadOnlyList<IExcelSensibilityLabel> Labels
         {
             get;
         }
+        /// <summary>
+        /// Property used by the <see cref="SensibilityLabelHandler"/> to store information about the sensibility label. 
+        /// The information is passed when calling the DecryptPackageAsync and EncryptPackageAsync methods.
+        /// <seealso cref="ISensitivityLabelHandler.DecryptPackageAsync(System.IO.MemoryStream, string)"/>
+        /// <seealso cref="ISensitivityLabelHandler.EncryptPackageAsync(IDecryptedPackage, string)"/>
+        /// </summary>
+        public object ProtectionInformation { get; set; }
     }
 
-    public class ExcelSensibilityLabel : IExcelSensibilityLabel
+    public class ExcelSensibilityLabel : IExcelSensibilityLabel, IExcelSensibilityLabelUpdate
     {
         /// <summary>
         /// The sensitivity label id. Guid.
@@ -126,20 +195,44 @@ namespace OfficeOpenXml.SensitivityLabels
         /// </summary>
         public eContentBits ContentBits { get; internal set; }
 
-        internal ExcelSensibilityLabel()
+        /// <summary>
+        /// The color of the label.
+        /// </summary>
+        public string Color { get; internal set; }
+
+        public string Tooltip { get; internal set; }
+
+        /// <summary>
+        /// The parent label, if any.
+        /// </summary>
+        public IExcelSensibilityLabel Parent { get; internal set; }
+        /// <summary>
+        /// Update properties from the handler
+        /// </summary>
+        /// <param name="name">The name of the label</param>
+        /// <param name="tooltip">The tooltip for the label</param>
+        /// <param name="description">The desription</param>
+        /// <param name="color">The RGB color in hex</param>
+        /// <param name="parent">The id of the parent of the label.</param>
+        public void Update(string name, string tooltip, string description, string color, IExcelSensibilityLabel parent)
         {
-            
+            Name = name;
+            Tooltip = tooltip;
+            Description = description;
+            Color = color;
+            Parent = parent;
         }
         internal static ExcelSensibilityLabel CreateFromElement(XmlNamespaceManager nsm, XmlElement element)
         {
             var label = new ExcelSensibilityLabel();
             var helper = XmlHelperFactory.Create(nsm, element);
-            label.Id = helper.GetXmlNodeString("@id");
+            label.Id = helper.GetXmlNodeString("@id").TrimStart('{').TrimEnd('}'); // Remove the brackets, so it matches the id in the MIPS api.
             label.Enabled = helper.GetXmlNodeBool("@enabled");
             label.Removed = helper.GetXmlNodeBool("@removed");
             label.Method = GetMethodEnum(helper.GetXmlNodeString("@method"));
             label.SiteId = helper.GetXmlNodeString("@siteId");
             label.ContentBits = (eContentBits)helper.GetXmlNodeInt("@contentBits", 0);
+
             return label;
         }
 
@@ -154,11 +247,6 @@ namespace OfficeOpenXml.SensitivityLabels
                 default:
                     return eMethod.Empty;
             }
-        }
-
-        internal static IExcelSensibilityLabel CreateFromElement(object nameSpaceManager, XmlElement element)
-        {
-            throw new NotImplementedException();
         }
     }
 }

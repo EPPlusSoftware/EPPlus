@@ -10,21 +10,13 @@
  *************************************************************************************************
   08/29/2024         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Utils.CompundDocument;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
-using System.Linq;
-using System.Threading;
-using System.Security.Cryptography;
-using OfficeOpenXml.Utils;
-using System.Security.Cryptography.X509Certificates;
-using OfficeOpenXml.Interfaces;
-using OfficeOpenXml.SensitivityLabels;
 namespace OfficeOpenXml.Encryption
 {
     internal class DataSpacesEncryption

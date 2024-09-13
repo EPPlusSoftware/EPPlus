@@ -52,7 +52,12 @@ namespace OfficeOpenXml
         /// Used in Excel 2010-
         /// Default.
         /// </summary>
-        Agile
+        Agile,
+        /// <summary>
+        /// The workbook is protected by a sensitiviy label.
+        /// For EPPlus to work with this type of encryption you need to set a <see cref="OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabels.SensibilityLabelHandler"/> that handels the decryption/encryption using the Microsoft MIPS API.
+        /// </summary>
+        ProtectedBySensibilityLabel
     }
     /// <summary>
     /// How and if the workbook is encrypted

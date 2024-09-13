@@ -412,7 +412,6 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(1, worksheet.PhoneticProperties.FontId);
 
 				var formulaD2 = p.Workbook.Worksheets["Sheet2"].Cells["D2"].Formula;
-
 				p.Save();
 
 				using(var p2=new ExcelPackage(p.Stream))

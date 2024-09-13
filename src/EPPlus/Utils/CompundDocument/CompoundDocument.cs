@@ -44,9 +44,9 @@ namespace OfficeOpenXml.Utils.CompundDocument
         {
             Storage = new StoragePart();
         }
-        internal CompoundDocument(MemoryStream ms)
+        internal CompoundDocument(MemoryStream ms, bool disposeStream)
         {
-            Read(ms);
+            Read(ms, disposeStream);
         }
         internal CompoundDocument(FileInfo fi)
         {
@@ -75,10 +75,10 @@ namespace OfficeOpenXml.Utils.CompundDocument
         {
             using (var ms = RecyclableMemory.GetStream(doc))
             {
-                Read(ms);
+                Read(ms, true);
             }
         }
-        internal void Read(MemoryStream ms)
+        internal void Read(MemoryStream ms, bool disposeStream)
         {
             using (var doc = new CompoundDocumentFile(ms))
             {
@@ -86,6 +86,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
                 GetStorageAndStreams(Storage, doc.RootItem);
                 Directories = doc.Directories;
             }
+            if (disposeStream) ms.Dispose();
         }
 
         private void GetStorageAndStreams(StoragePart storage, CompoundDocumentItem parent)

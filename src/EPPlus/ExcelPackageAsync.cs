@@ -396,7 +396,18 @@ namespace OfficeOpenXml
 
         #endregion
 
-
+        string _id=null;
+        internal string Id
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_id))
+                {
+                    _id=Guid.NewGuid().ToString();
+                }
+                return _id;
+            }
+        }
         internal async Task<byte[]> GetAsByteArrayAsync(bool save, CancellationToken cancellationToken)
         {
             CheckNotDisposed();
