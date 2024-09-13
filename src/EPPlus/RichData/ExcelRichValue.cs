@@ -1,6 +1,8 @@
-﻿using OfficeOpenXml.Utils;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 
@@ -96,6 +98,23 @@ namespace OfficeOpenXml.RichData
                 }
             }
         }
+
+        public void AddLocalImage(int imageIdentifier, int calcOrigin)
+        {
+            foreach (var s in Structure.Keys)
+            {
+                switch (s.Name)
+                {
+                    case "_rvRel: LocalImageIdentifier":
+                        Values.Add(imageIdentifier.ToString());
+                        break;
+                    case "CalcOrigin":
+                        Values.Add(calcOrigin.ToString());
+                        break;
+                }
+            }
+        }
+
         Dictionary<string, string> _keyValues = null;
         internal bool HasValue(string[] keys, string[] values)
         {

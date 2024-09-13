@@ -83,6 +83,10 @@ namespace OfficeOpenXml.RichData
             {
                 return RichDataStructureFlags.ErrorPropagated;
             }
+            else if(rvStruct.Keys.Any(x => x.Name.Equals("_rvRel:LocalImageIdentifier")) && rvStruct.Keys.Any(x => x.Name.Equals("CalcOrigin")))
+            {
+                return RichDataStructureFlags.LocalImage;
+            }
             return null;
         }
 
@@ -151,6 +155,9 @@ namespace OfficeOpenXml.RichData
                     break;
                 case RichDataStructureFlags.ErrorPropagated:
                     si.SetAsPropagatedError();
+                    break;
+                case RichDataStructureFlags.LocalImage:
+                    si.SetAsLocalImage(); 
                     break;
             }
             StructureItems.Add(si);

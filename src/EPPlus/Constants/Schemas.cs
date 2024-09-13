@@ -14,5 +14,6 @@ namespace OfficeOpenXml.Constants
         // Richdata (used in worksheet.sortstate)
         internal const string schemaRichData = "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata";
         internal const string schemaRichData2 = "http://schemas.microsoft.com/office/spreadsheetml/2017/richdata2";
+        internal const string schemaRichValueRel = "http://schemas.microsoft.com/office/spreadsheetml/2022/richvaluerel";
     }
 }

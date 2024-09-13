@@ -37,5 +37,14 @@ namespace EPPlusTest.InCellImages
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].SetCellPicture(path);
         }
+
+        [TestMethod]
+        public void SetDrawingPic()
+        {
+            var path = @"C:\Users\MatsAlm\OneDrive - EPPlus Software AB\ImagesInCells\ImagesInCells2\purchase-license-thb.png";
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Drawings.AddPicture("p1", path);
+        }
     }
 }

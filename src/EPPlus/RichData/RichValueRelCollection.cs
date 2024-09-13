@@ -1,5 +1,18 @@
-﻿using OfficeOpenXml.Constants;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  11/11/2024         EPPlus Software AB       Initial release EPPlus 8
+ *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -75,6 +88,21 @@ namespace OfficeOpenXml.RichData
 
             return item;
 
+        }
+
+        internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
+        {
+            stream.PutNextEntry(fileName);
+            stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
+            var sw = new StreamWriter(stream);
+            sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+            sw.Write($"<richValueRels xmlns=\"{Schemas.schemaRichValueRel}\" xmlns:r=\"{ExcelPackage.schemaWorkbook}\">");
+            foreach (var item in Items)
+            {
+                item.WriteXml(sw);
+            }
+            sw.Write("</richValueRels>");
+            sw.Flush();
         }
     }
 }

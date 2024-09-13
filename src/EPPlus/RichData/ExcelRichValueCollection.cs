@@ -170,6 +170,14 @@ namespace OfficeOpenXml.RichData
             Items.Add(item);
         }
 
+        internal void AddLocalImage(int imageIdentifier, int calcOrigin)
+        {
+            var structureId = _structures.GetStructureId(RichDataStructureFlags.LocalImage);
+            var item = new ExcelRichValue(structureId);
+            item.Structure = _structures.StructureItems[item.StructureId];
+            item.AddLocalImage(imageIdentifier, calcOrigin);
+        }
+
         public List<ExcelRichValue> Items { get; }=new List<ExcelRichValue>();
         public string ExtLstXml { get; internal set; }
     }

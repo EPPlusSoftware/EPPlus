@@ -33,6 +33,7 @@ namespace OfficeOpenXml.CellPictures
             _metadataStore = sheet._metadataStore;
             _metadata = _workbook.Metadata;
             _pictureStore = _workbook._package.PictureStore;
+            //var part = _workbook._package.ZipPackage.GetPart(new Uri(PART_URI_PATH, UriKind.Relative));
         }
 
         private readonly ExcelWorksheet _sheet;
@@ -40,6 +41,8 @@ namespace OfficeOpenXml.CellPictures
         private readonly CellStore<MetaDataReference> _metadataStore;
         private readonly ExcelMetadata _metadata;
         private readonly PictureStore _pictureStore;
+        const string LocalImageStructureType = "_localImage";
+        const string PART_URI_PATH = "/xl/richData/richValueRel.xml.rels";
 
         private ExcelRichValue GetRichData(int row, int col)
         {
@@ -54,23 +57,20 @@ namespace OfficeOpenXml.CellPictures
             return _workbook.RichData.Values.Items[valueRecord.ValueTypeIndex];
         }
 
+        private ExcelMetadataItem CreateMetadataItem()
+        {
+            //_metadata
+            //_workbook.RichData.Values.Items.Add(new ExcelRichValue())
+            //var item = new ExcelMetadataItem();
+            //item.Records.Add(new ExcelMetadataRecord(_metadata.RichDataTypeIndex, ));
+            return null;
+        }
+
 
         public ExcelCellPicture GetCellPicture(int row, int col)
         {
-            //var vm = _metadataStore.GetValue(row, col).vm;
-            //if (vm == 0) return null;
-            //// vm is a 1-based index pointer
-            //var vmIx = vm - 1;
-            //var valueMd = _metadata.ValueMetadata[vmIx];
-            //var valueRecord = valueMd.Records.First();
-
-            //var type = _metadata.MetadataTypes[valueRecord.RecordTypeIndex - 1];
-            //var futureMetadata = _metadata.MetadataTypes.First(x => x.Name == type.Name);
-
-            //var richData = _workbook.RichData.Values.Items[valueRecord.ValueTypeIndex];
             var richData = GetRichData(row, col);
-            //var structure = richData.Structure;
-            if (richData != null && richData.Structure.Type == "_localImage")
+            if (richData != null && richData.Structure.Type == LocalImageStructureType)
             {
                 var relationIndex = int.Parse(richData.Values.First());
                 var relation = _workbook.RichData.GetRelationByIndex(relationIndex);
@@ -88,7 +88,9 @@ namespace OfficeOpenXml.CellPictures
             var richData = GetRichData(row, col);
             if(richData == null)
             {
-
+                //MetaDataReference mdr;
+                //mdr.vm = 
+                //_metadataStore.SetValue(row, col)
             }
             using var ms = new MemoryStream(imageBytes);
             var pictureType = ImageReader.GetPictureType(ms, true);

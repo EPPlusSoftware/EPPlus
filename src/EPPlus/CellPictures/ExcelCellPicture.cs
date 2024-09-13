@@ -10,12 +10,14 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.RichData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace OfficeOpenXml.CellPictures
@@ -33,6 +35,11 @@ namespace OfficeOpenXml.CellPictures
             
         }
 
+        public ExcelImage Image
+        {
+            get;
+        }
+
         public ExcelAddress CellAddress { get; set;  }
 
         /// <summary>
@@ -42,19 +49,38 @@ namespace OfficeOpenXml.CellPictures
 
         public IPictureRelationDocument RelationDocument => throw new NotImplementedException();
 
-        public string ImageHash { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public Uri UriPic { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ZipPackageRelationship RelPic { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        string IPictureContainer.ImageHash { get; set; }
+        Uri IPictureContainer.UriPic { get; set; }
+        ZipPackageRelationship IPictureContainer.RelPic { get; set; }
         internal int CalcOrigin { get; set; }
 
         public void RemoveImage()
         {
-            throw new NotImplementedException();
+            //IPictureContainer container = this;
+            //var relDoc = (IPictureRelationDocument)_drawings;
+            //if (relDoc.Hashes.TryGetValue(container.ImageHash, out HashInfo hi))
+            //{
+            //    if (hi.RefCount <= 1)
+            //    {
+            //        relDoc.Package.PictureStore.RemoveImage(container.ImageHash, this);
+            //        relDoc.RelatedPart.DeleteRelationship(container.RelPic.Id);
+            //        relDoc.Hashes.Remove(container.ImageHash);
+            //    }
+            //    else
+            //    {
+            //        hi.RefCount--;
+            //    }
+            //}
         }
 
         public void SetNewImage()
         {
-            throw new NotImplementedException();
+            //var relId = ((IPictureContainer)this).RelPic.Id;
+            //TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
+            //if (Image.Type == ePictureType.Svg)
+            //{
+            //    TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relId;
+            //}
         }
     }
 }
