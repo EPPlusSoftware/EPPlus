@@ -105,17 +105,6 @@ namespace OfficeOpenXml.Encryption
             {
                 return EncryptPackageAgile(package, encryption);
             }
-#if (!NET35)
-            else if (encryption.Version == EncryptionVersion.ProtectedBySensibilityLabel)
-            {
-                var decryptionInfo = new EPPlusDecryptionInfo()
-                {
-                    PackageStream = new MemoryStream(package),
-                    ProtectionInformation=_pck.SensibilityLabels.ProtectionInformation
-                };
-                return ExcelSensibilityLabels.SensibilityLabelHandler.EncryptPackageAsync(decryptionInfo, _pck.Id).GetAwaiter().GetResult();
-            }
-#endif
             throw (new ArgumentException("Unsupported encryption version."));
         }
         private MemoryStream EncryptPackageAgile(byte[] package, ExcelEncryption encryption)

@@ -723,7 +723,6 @@ namespace OfficeOpenXml
                 return (_workbook);
             }
         }
-
         /// <summary>
         /// Global configuration for the ExcelPackage class
         /// </summary>
@@ -732,7 +731,6 @@ namespace OfficeOpenXml
         {
             configHandler(_configuration);
         }
-
         /// <summary>
         /// Errors that has been logged during initialization of the ExcelPackage class.
         /// </summary>
@@ -907,7 +905,7 @@ namespace OfficeOpenXml
                 Workbook.Save();
                 if (File == null)
                 {
-                    if (Encryption.IsEncrypted)
+                    if (Encryption.IsEncrypted && Encryption.Version != EncryptionVersion.ProtectedBySensibilityLabel)
                     {
                         byte[] file;
                         using (var ms = RecyclableMemory.GetStream())
@@ -921,6 +919,16 @@ namespace OfficeOpenXml
                             StreamUtil.CopyStream(msEnc, ref _stream);
                         }
                     }
+#if (!NET35)
+                    else if (SensibilityLabels.Labels.Count>0)
+                    {
+                        using (var ms = RecyclableMemory.GetStream())
+                        {
+                            _zipPackage.Save(ms);
+                            _stream = SensibilityLabels.ApplyLabel(ms.ToArray()).ConfigureAwait(false).GetAwaiter().GetResult(); 
+                        }
+                    }
+#endif
                     else
                     {
                         _zipPackage.Save(_stream);
@@ -949,7 +957,7 @@ namespace OfficeOpenXml
                         using (var fi = new FileStream(File.FullName, FileMode.Create))
                         {
                             //EncryptPackage
-                            if (Encryption.IsEncrypted)
+                            if (Encryption.IsEncrypted && Encryption.Version != EncryptionVersion.ProtectedBySensibilityLabel)
                             {
                                 byte[] file = ((MemoryStream)Stream).ToArray();
                                 EncryptedPackageHandler eph = new EncryptedPackageHandler(this);
@@ -959,6 +967,13 @@ namespace OfficeOpenXml
                                     fi.Write(ms.ToArray(), 0, (int)ms.Length);
                                 }
                             }
+#if (!NET35)
+                            else if (SensibilityLabels.Labels.Count > 0)
+                            {
+                                var slStream = SensibilityLabels.ApplyLabel(((MemoryStream)Stream).ToArray()).ConfigureAwait(false).GetAwaiter().GetResult();
+                                fi.Write(((MemoryStream)slStream).ToArray(), 0, (int)slStream.Length);
+                            }
+#endif
                             else
                             {
                                 fi.Write(((MemoryStream)Stream).ToArray(), 0, (int)Stream.Length);
@@ -1326,7 +1341,6 @@ namespace OfficeOpenXml
             //Clear the workbook so that it gets reinitialized next time
             this._workbook = null;
         }
-
         private void ReleaseResources()
         {
             //Release some resources:

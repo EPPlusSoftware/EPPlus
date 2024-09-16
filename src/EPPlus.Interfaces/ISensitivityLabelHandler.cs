@@ -1,6 +1,7 @@
 ﻿#if(!NET35)
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,12 +13,13 @@ public interface IDecryptedPackage
 {
     public MemoryStream PackageStream { get; set; }
     public object ProtectionInformation { get; set; }
+    public string ActiveLabelId { get; set; }
 }
 public interface ISensitivityLabelHandler
 {
     public Task InitAsync();
     public Task<IDecryptedPackage> DecryptPackageAsync(MemoryStream packageStream, string Id);
-    public Task<MemoryStream> EncryptPackageAsync(IDecryptedPackage package, string Id);
+    public Task<MemoryStream> ApplyLabelAndSavePackageAsync(IDecryptedPackage package, string Id);
     public void UpdateLabelList(IEnumerable<IExcelSensibilityLabel> list, string Id);
     public IEnumerable<IExcelSensibilityLabel> GetLabels();
 }

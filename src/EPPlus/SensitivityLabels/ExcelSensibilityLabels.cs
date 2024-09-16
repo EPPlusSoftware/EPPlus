@@ -18,9 +18,12 @@ using OfficeOpenXml.Interfaces.SensitivityLabels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -95,6 +98,10 @@ namespace OfficeOpenXml.SensitivityLabels
             SensibilityLabelHandler.UpdateLabelList(Labels, _pck.Id);
         }
 
+        /// <summary>
+        /// Changes the active sensibility label. This will overwrite the active sensibility label and any settings derived from it.
+        /// </summary>
+        /// <param name="id">The id for the sensibility label without heading and traling brackets.</param>
         public void SetActiveLabelById(string id)
         {
             var lbls = SensibilityLabelHandler.GetLabels();
@@ -106,6 +113,10 @@ namespace OfficeOpenXml.SensitivityLabels
             }
             AddLabel(lbl);
         }
+        /// <summary>
+        /// Changes the active sensibility label. This will overwrite the active sensibility label and any settings derived from it.
+        /// </summary>
+        /// <param name="name"></param>
         public void SetActiveLabelByName(string name)
         {
             if (SensibilityLabelHandler == null)
@@ -125,9 +136,13 @@ namespace OfficeOpenXml.SensitivityLabels
 
         private void AddLabel(IExcelSensibilityLabel lbl)
         {
-            var existingLabel = Labels.FirstOrDefault(x => x.Name.Equals(lbl.Id, StringComparison.InvariantCultureIgnoreCase));
+            var existingLabel = Labels.FirstOrDefault(x => x.Id.Equals(lbl.Id, StringComparison.InvariantCultureIgnoreCase));
             if (existingLabel == null || existingLabel.Enabled == false)
             {
+                ActiveLabelId = lbl.Id;
+                ProtectionInformation = null;
+                _pck.Encryption.Version = EncryptionVersion.ProtectedBySensibilityLabel;
+
                 Labels.Add(new ExcelSensibilityLabel
                 {
                     Id = lbl.Id,
@@ -153,13 +168,31 @@ namespace OfficeOpenXml.SensitivityLabels
         }
         /// <summary>
         /// Property used by the <see cref="SensibilityLabelHandler"/> to store information about the sensibility label. 
-        /// The information is passed when calling the DecryptPackageAsync and EncryptPackageAsync methods.
+        /// The information is passed when calling the DecryptPackageAsync and ApplyLabelAndSavePackageAsync methods.
         /// <seealso cref="ISensitivityLabelHandler.DecryptPackageAsync(System.IO.MemoryStream, string)"/>
-        /// <seealso cref="ISensitivityLabelHandler.EncryptPackageAsync(IDecryptedPackage, string)"/>
+        /// <seealso cref="ISensitivityLabelHandler.ApplyLabelAndSavePackageAsync(IDecryptedPackage, string)"/>
         /// </summary>
         public object ProtectionInformation { get; set; }
+        /// <summary>
+        /// The latest set sensitivity label.
+        /// </summary>
+        internal string ActiveLabelId { get; set; }
+
+#if (!NET35)
+        internal async Task<MemoryStream> ApplyLabel(byte[] bytes)
+        {
+            var decryptionInfo = new EPPlusDecryptionInfo()
+            {
+                PackageStream = new MemoryStream(bytes),
+                ProtectionInformation = _pck.SensibilityLabels.ProtectionInformation,
+                ActiveLabelId = _pck.SensibilityLabels.ActiveLabelId
+            };
+            return await ExcelSensibilityLabels.SensibilityLabelHandler.ApplyLabelAndSavePackageAsync(decryptionInfo, _pck.Id);
+        }
+#endif
     }
 
+    [DebuggerDisplay("Name: {Name}")]
     public class ExcelSensibilityLabel : IExcelSensibilityLabel, IExcelSensibilityLabelUpdate
     {
         /// <summary>

@@ -18,8 +18,13 @@ namespace OfficeOpenXml.Encryption
 {
     public class EPPlusDecryptionInfo : IDecryptedPackage
     {
+        internal EPPlusDecryptionInfo()
+        {
+                
+        }
         public MemoryStream PackageStream { get; set; }
         public object ProtectionInformation { get; set; }
+        public string ActiveLabelId { get; set; }
     }
 }
 #endif
