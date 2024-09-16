@@ -81,11 +81,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTable
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 62
+    startLine: 82
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -127,11 +127,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotNullValue
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 67
+    startLine: 87
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -162,11 +162,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Styles
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 257
+    startLine: 277
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -199,11 +199,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTableXml
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 265
+    startLine: 285
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -236,11 +236,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTableUri
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 269
+    startLine: 289
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -273,11 +273,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 284
+    startLine: 304
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -310,11 +310,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheDefinition
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 310
+    startLine: 330
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -347,14 +347,16 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsCalculated
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 315
+    startLine: 338
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nTrue if the pivot table has been calculated. \n"
+  example: []
   syntax:
     content: public bool IsCalculated { get; }
     parameters: []
@@ -382,22 +384,22 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 331
+    startLine: 355
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
-  summary: "\nCalculates the pivot table \n"
+  summary: "\nCalculates the pivot table.\nAlso see <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public void Calculate(bool refreshCache = false)
     parameters:
     - id: refreshCache
       type: System.Boolean
-      description: ''
+      description: If the pivot cache should be refreshed from the source data, before calculating the pivot table.
     content.vb: Public Sub Calculate(refreshCache As Boolean = False)
   overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate*
   modifiers.csharp:
@@ -418,11 +420,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetPivotData
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 350
+    startLine: 374
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -457,11 +459,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetPivotData
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 367
+    startLine: 391
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -502,11 +504,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalculatedData
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 585
+    startLine: 609
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -539,11 +541,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorkSheet
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 758
+    startLine: 782
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -576,11 +578,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 766
+    startLine: 790
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -613,11 +615,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataOnRows
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 774
+    startLine: 798
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -650,11 +652,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValuesFieldPosition
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 791
+    startLine: 815
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -687,11 +689,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyNumberFormats
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 799
+    startLine: 823
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -724,11 +726,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyBorderFormats
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 813
+    startLine: 837
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -761,11 +763,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyFontFormats
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 827
+    startLine: 851
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -798,11 +800,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyPatternFormats
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 841
+    startLine: 865
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -835,11 +837,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyWidthHeightFormats
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 855
+    startLine: 879
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -872,11 +874,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowMemberPropertyTips
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 869
+    startLine: 893
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -909,11 +911,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowCalcMember
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 883
+    startLine: 907
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -946,11 +948,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EnableDrill
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 897
+    startLine: 921
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -983,11 +985,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDrill
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 911
+    startLine: 935
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1020,11 +1022,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDataTips
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 925
+    startLine: 949
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1057,11 +1059,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FieldPrintTitles
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 939
+    startLine: 963
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1094,11 +1096,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ItemPrintTitles
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 953
+    startLine: 977
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1131,11 +1133,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnGrandTotals
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 967
+    startLine: 991
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1168,11 +1170,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowGrandTotals
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 981
+    startLine: 1005
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1205,11 +1207,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrintDrill
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 995
+    startLine: 1019
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1242,11 +1244,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowError
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1009
+    startLine: 1033
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1279,11 +1281,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1023
+    startLine: 1047
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1316,11 +1318,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1038
+    startLine: 1062
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1353,11 +1355,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowHeaders
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1052
+    startLine: 1076
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1390,11 +1392,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageWrap
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1066
+    startLine: 1090
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1427,11 +1429,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UseAutoFormatting
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1084
+    startLine: 1108
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1464,11 +1466,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GridDropZones
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1098
+    startLine: 1122
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1501,11 +1503,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indent
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1112
+    startLine: 1136
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1538,11 +1540,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineData
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1126
+    startLine: 1150
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1575,11 +1577,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Outline
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1140
+    startLine: 1164
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1612,11 +1614,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MultipleFieldFilters
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1154
+    startLine: 1178
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1649,11 +1651,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compact
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1168
+    startLine: 1192
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1686,11 +1688,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCompact
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1183
+    startLine: 1207
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1722,11 +1724,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompactData
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1194
+    startLine: 1218
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1759,11 +1761,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GrandTotalCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1208
+    startLine: 1232
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1796,11 +1798,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowHeaderCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1222
+    startLine: 1246
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1833,11 +1835,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnHeaderCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1236
+    startLine: 1260
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1870,11 +1872,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MissingCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1250
+    startLine: 1274
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1907,11 +1909,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Filters
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1265
+    startLine: 1289
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1944,11 +1946,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstHeaderRow
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1280
+    startLine: 1304
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1981,11 +1983,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstDataRow
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1295
+    startLine: 1319
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2018,11 +2020,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstDataCol
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1310
+    startLine: 1334
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2055,11 +2057,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fields
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1325
+    startLine: 1349
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2092,11 +2094,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowFields
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1340
+    startLine: 1364
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2129,11 +2131,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnFields
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1355
+    startLine: 1379
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2166,11 +2168,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataFields
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1370
+    startLine: 1394
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2203,11 +2205,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageFields
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1385
+    startLine: 1409
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2240,11 +2242,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1400
+    startLine: 1424
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2277,11 +2279,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowColumnHeaders
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1453
+    startLine: 1477
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2314,11 +2316,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowColumnStripes
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1468
+    startLine: 1492
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2351,11 +2353,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLastColumn
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1483
+    startLine: 1507
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2388,11 +2390,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowRowHeaders
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1498
+    startLine: 1522
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2425,11 +2427,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowRowStripes
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1513
+    startLine: 1537
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2462,11 +2464,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1528
+    startLine: 1552
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2511,11 +2513,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTableStyle
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1548
+    startLine: 1572
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2548,11 +2550,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowValuesRow
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 1569
+    startLine: 1593
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -2962,6 +2964,12 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate(System.Boolean)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate(System.Boolean)
+  isExternal: true
+- uid: OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables(System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables(System.Boolean)
+  isExternal: true
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate*
   commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate
   name: Calculate

@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDisplayBlanksAs
     path: ../src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gap
     path: ../src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Span
     path: ../src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Zero
     path: ../src/EPPlus/Drawing/Chart/enums/eDisplayBlanksAs.cs

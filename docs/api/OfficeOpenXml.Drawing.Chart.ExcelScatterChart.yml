@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelScatterChart
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChart.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterStyle
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChart.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Marker
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChart.cs
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChart.cs
@@ -272,7 +272,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChart.cs
@@ -311,7 +311,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChart.cs

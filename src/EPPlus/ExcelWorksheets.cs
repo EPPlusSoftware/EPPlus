@@ -318,7 +318,7 @@ namespace OfficeOpenXml
 
         internal void GetSheetURI(ref string Name, out int sheetID, out Uri uriWorksheet, bool isChart)
         {
-            Name = RemoveInvalidWorksheetNameCharactersAndTruncateIfMoreThan31Char(Name);
+            Name = RemoveInvalidCharactersAndTruncate(Name);
             sheetID = this.Any() ? this.Max(ws => ws.SheetId) + 1 : 1;
             var uriId = sheetID;
 
@@ -346,7 +346,7 @@ namespace OfficeOpenXml
                 throw new ArgumentException("The worksheet cannot have an empty name");
             }
 
-            name = RemoveInvalidWorksheetNameCharactersAndTruncateIfMoreThan31Char(name);
+            name = RemoveInvalidCharactersAndTruncate(name);
 
             if (name.StartsWith("'", StringComparison.OrdinalIgnoreCase) || name.EndsWith("'", StringComparison.OrdinalIgnoreCase))
             {
@@ -355,7 +355,7 @@ namespace OfficeOpenXml
             return name;
         }
 
-        private string RemoveInvalidWorksheetNameCharactersAndTruncateIfMoreThan31Char(string name)
+        private string RemoveInvalidCharactersAndTruncate(string name)
         {
             //remove invalid characters
             if (ValidateName(name))
@@ -645,7 +645,7 @@ namespace OfficeOpenXml
         internal ExcelWorksheet GetByName(string name)
         {
             if (string.IsNullOrEmpty(name)) return null;
-            name = RemoveInvalidWorksheetNameCharactersAndTruncateIfMoreThan31Char(name);
+            name = RemoveInvalidCharactersAndTruncate(name);
             ExcelWorksheet ws = null;
             foreach (ExcelWorksheet worksheet in _worksheets)
             {

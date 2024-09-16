@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationOperator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: between
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: equal
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: greaterThan
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: greaterThanOrEqual
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: lessThan
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: lessThanOrEqual
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: notBetween
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationOperator.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: notEqual
     path: ../src/EPPlus/DataValidation/ExcelDataValidationOperator.cs

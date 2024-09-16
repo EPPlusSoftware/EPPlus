@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eCalendarType
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gregorian
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -95,7 +95,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GregorianArabic
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -129,7 +129,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GregorianMeFrench
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -163,7 +163,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GregorianUs
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GregorianXlitEnglish
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -231,7 +231,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GregorianXlitFrench
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -265,7 +265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hijri
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -299,7 +299,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hebrew
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -333,7 +333,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Japan
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -367,7 +367,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Korea
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -401,7 +401,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -435,7 +435,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Taiwan
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs
@@ -469,7 +469,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eCalendarType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Thai
     path: ../src/EPPlus/Filter/enums/eCalendarType.cs

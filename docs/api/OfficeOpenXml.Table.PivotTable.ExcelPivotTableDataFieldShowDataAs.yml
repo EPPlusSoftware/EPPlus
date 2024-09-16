@@ -34,7 +34,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableDataFieldShowDataAs
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -77,7 +77,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetNormal
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPercentOfTotal
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -141,7 +141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPercentOfRow
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -173,7 +173,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPercentOfColumn
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -205,7 +205,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPercent
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -242,7 +242,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPercent
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -279,7 +279,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPercentParent
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -314,7 +314,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetIndex
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -346,7 +346,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetRunningTotal
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -382,7 +382,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetDifference
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -421,7 +421,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetDifference
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -460,7 +460,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPercentageDifference
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -497,7 +497,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPercentageDifference
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -534,7 +534,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPercentParentRow
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -566,7 +566,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPercentParentColumn
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -598,7 +598,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPercentOfRunningTotal
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -633,7 +633,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetRankAscending
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -668,7 +668,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetRankDescending
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
@@ -703,7 +703,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableDataFieldShowDataAs.cs

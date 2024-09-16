@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalLink
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalLinkType
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLink.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorLog
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLink.cs

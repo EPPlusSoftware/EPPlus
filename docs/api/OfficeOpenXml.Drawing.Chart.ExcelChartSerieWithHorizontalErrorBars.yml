@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartSerieWithHorizontalErrorBars
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorBarsX
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddErrorBars
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
@@ -166,7 +166,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddErrorBars
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSerieWithHorizontalErrorBars.cs

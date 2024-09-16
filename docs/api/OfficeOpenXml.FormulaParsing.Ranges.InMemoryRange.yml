@@ -44,7 +44,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InMemoryRange
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -133,7 +133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -172,7 +172,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -247,7 +247,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -286,7 +286,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Empty
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -325,7 +325,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -367,7 +367,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCell
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -409,7 +409,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRef
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -448,7 +448,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -487,7 +487,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMulti
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -526,7 +526,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsInMemoryRange
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -565,7 +565,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -604,7 +604,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -643,7 +643,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -682,7 +682,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dimension
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -721,7 +721,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -761,7 +761,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -798,7 +798,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -832,7 +832,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -869,7 +869,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -906,7 +906,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -950,7 +950,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -1000,7 +1000,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -1044,7 +1044,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -1088,7 +1088,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCell
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -1130,7 +1130,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -1167,7 +1167,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -1202,7 +1202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs

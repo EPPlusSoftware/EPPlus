@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eStockChartType
     path: ../src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StockHLC
     path: ../src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StockOHLC
     path: ../src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StockVHLC
     path: ../src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eStockChartType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StockVOHLC
     path: ../src/EPPlus/Drawing/Chart/enums/eStockChartType.cs

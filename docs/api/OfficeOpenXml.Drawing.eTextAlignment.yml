@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eTextAlignment
     path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
@@ -55,7 +55,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Left
     path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Center
     path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
@@ -123,7 +123,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Right
     path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Distributed
     path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Justified
     path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: JustifiedLow
     path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextAlignment.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThaiDistributed
     path: ../src/EPPlus/Drawing/Enums/eTextAlignment.cs

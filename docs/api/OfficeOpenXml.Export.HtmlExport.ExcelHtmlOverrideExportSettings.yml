@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/ExcelHtmlOverrideExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelHtmlOverrideExportSettings
     path: ../src/EPPlus/Export/HtmlExport/Settings/ExcelHtmlOverrideExportSettings.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/ExcelHtmlOverrideExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableId
     path: ../src/EPPlus/Export/HtmlExport/Settings/ExcelHtmlOverrideExportSettings.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/ExcelHtmlOverrideExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdditionalTableClassNames
     path: ../src/EPPlus/Export/HtmlExport/Settings/ExcelHtmlOverrideExportSettings.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/ExcelHtmlOverrideExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accessibility
     path: ../src/EPPlus/Export/HtmlExport/Settings/ExcelHtmlOverrideExportSettings.cs
@@ -176,7 +176,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/ExcelHtmlOverrideExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRows
     path: ../src/EPPlus/Export/HtmlExport/Settings/ExcelHtmlOverrideExportSettings.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/ExcelHtmlOverrideExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Headers
     path: ../src/EPPlus/Export/HtmlExport/Settings/ExcelHtmlOverrideExportSettings.cs

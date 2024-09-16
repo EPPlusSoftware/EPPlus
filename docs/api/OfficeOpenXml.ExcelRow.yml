@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRow
     path: ../src/EPPlus/ExcelRow.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowID
     path: ../src/EPPlus/ExcelRow.cs
@@ -118,7 +118,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/ExcelRow.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Height
     path: ../src/EPPlus/ExcelRow.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomHeight
     path: ../src/EPPlus/ExcelRow.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelRow.cs
@@ -266,7 +266,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelRow.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/ExcelRow.cs
@@ -340,7 +340,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Collapsed
     path: ../src/EPPlus/ExcelRow.cs
@@ -377,7 +377,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineLevel
     path: ../src/EPPlus/ExcelRow.cs
@@ -414,7 +414,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Phonetic
     path: ../src/EPPlus/ExcelRow.cs
@@ -451,7 +451,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelRow.cs
@@ -488,7 +488,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageBreak
     path: ../src/EPPlus/ExcelRow.cs
@@ -525,7 +525,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Merged
     path: ../src/EPPlus/ExcelRow.cs

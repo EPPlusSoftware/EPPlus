@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBarChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelBarChart
     path: ../src/EPPlus/Drawing/Chart/ExcelBarChart.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBarChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Direction
     path: ../src/EPPlus/Drawing/Chart/ExcelBarChart.cs
@@ -198,7 +198,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBarChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Shape
     path: ../src/EPPlus/Drawing/Chart/ExcelBarChart.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBarChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelBarChart.cs
@@ -274,7 +274,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBarChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelBarChart.cs
@@ -313,7 +313,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBarChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GapWidth
     path: ../src/EPPlus/Drawing/Chart/ExcelBarChart.cs
@@ -350,7 +350,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBarChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Overlap
     path: ../src/EPPlus/Drawing/Chart/ExcelBarChart.cs
@@ -387,7 +387,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBarChart.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ExcelBarChart.cs

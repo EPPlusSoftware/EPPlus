@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelFileSharing.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWriteProtection
     path: ../src/EPPlus/ExcelFileSharing.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelFileSharing.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetReadOnly
     path: ../src/EPPlus/ExcelFileSharing.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelFileSharing.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveReadOnly
     path: ../src/EPPlus/ExcelFileSharing.cs
@@ -137,7 +137,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelFileSharing.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsReadOnly
     path: ../src/EPPlus/ExcelFileSharing.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelFileSharing.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UserName
     path: ../src/EPPlus/ExcelFileSharing.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelFileSharing.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReadOnlyRecommended
     path: ../src/EPPlus/ExcelFileSharing.cs

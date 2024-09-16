@@ -258,7 +258,7 @@ namespace OfficeOpenXml.ConditionalFormatting
 
         internal static string NewId()
         {
-            return "{" + Guid.NewGuid().ToString().ToUpperInvariant() + "}";
+            return Guid.NewGuid().ToString().ToUpperInvariant();
         }
 
         internal override ExcelConditionalFormattingRule Clone(ExcelWorksheet newWs = null)

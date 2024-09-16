@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinkAsType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalLinkAsType
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinkAsType.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinkAsType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinkAsType.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinkAsType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalWorkbook
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinkAsType.cs
@@ -142,7 +142,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinkAsType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DdeLink
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinkAsType.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinkAsType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OleLink
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinkAsType.cs

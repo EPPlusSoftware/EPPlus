@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelValueFilterCollection
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Blank
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
@@ -262,7 +262,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelValueFilterCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Filter/ExcelValueFilterCollection.cs

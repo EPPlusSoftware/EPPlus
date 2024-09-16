@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingNoFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingNoFill
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingNoFill.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingNoFill.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingNoFill.cs

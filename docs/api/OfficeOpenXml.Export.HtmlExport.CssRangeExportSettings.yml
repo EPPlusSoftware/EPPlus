@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssRangeExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CssRangeExportSettings
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssRangeExportSettings.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssRangeExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CssExclude
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssRangeExportSettings.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssRangeExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResetToDefault
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssRangeExportSettings.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssRangeExportSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssRangeExportSettings.cs

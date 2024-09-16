@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaList.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelDataValidationFormulaList
     path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaList.cs
@@ -53,7 +53,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaList.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Values
     path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaList.cs

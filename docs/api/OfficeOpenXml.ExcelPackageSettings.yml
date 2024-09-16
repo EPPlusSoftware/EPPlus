@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml
   children:
   - OfficeOpenXml.ExcelPackageSettings.ApplyFiltersOnSave
+  - OfficeOpenXml.ExcelPackageSettings.CultureSpecificBuildInNumberFormats
   - OfficeOpenXml.ExcelPackageSettings.DoGarbageCollectOnDispose
   - OfficeOpenXml.ExcelPackageSettings.ImageSettings
   - OfficeOpenXml.ExcelPackageSettings.TextSettings
@@ -19,11 +20,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPackageSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 19
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -48,6 +49,45 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: OfficeOpenXml.ExcelPackageSettings.CultureSpecificBuildInNumberFormats
+  commentId: P:OfficeOpenXml.ExcelPackageSettings.CultureSpecificBuildInNumberFormats
+  id: CultureSpecificBuildInNumberFormats
+  parent: OfficeOpenXml.ExcelPackageSettings
+  langs:
+  - csharp
+  - vb
+  name: CultureSpecificBuildInNumberFormats
+  nameWithType: ExcelPackageSettings.CultureSpecificBuildInNumberFormats
+  fullName: OfficeOpenXml.ExcelPackageSettings.CultureSpecificBuildInNumberFormats
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageSettings.cs
+      branch: bug/issue1566
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CultureSpecificBuildInNumberFormats
+    path: ../src/EPPlus/ExcelPackageSettings.cs
+    startLine: 27
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCulture specific number formats for the build-in number formats ranging from 14-47.\nAs some build-in number formats are culture specific, this collection adds the pi\n"
+  example: []
+  syntax:
+    content: public static Dictionary<string, Dictionary<int, string>> CultureSpecificBuildInNumberFormats { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.Int32,System.String}}
+    content.vb: Public Shared ReadOnly Property CultureSpecificBuildInNumberFormats As Dictionary(Of String, Dictionary(Of Integer, String))
+  overload: OfficeOpenXml.ExcelPackageSettings.CultureSpecificBuildInNumberFormats*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
 - uid: OfficeOpenXml.ExcelPackageSettings.DoGarbageCollectOnDispose
   commentId: P:OfficeOpenXml.ExcelPackageSettings.DoGarbageCollectOnDispose
   id: DoGarbageCollectOnDispose
@@ -62,11 +102,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoGarbageCollectOnDispose
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 28
+    startLine: 39
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -99,11 +139,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 34
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -136,11 +176,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ImageSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 49
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -173,15 +213,15 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyFiltersOnSave
     path: ../src/EPPlus/ExcelPackageSettings.cs
-    startLine: 65
+    startLine: 75
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nAny auto- or table- filters created will be applied on save.\nIn the case you want to handle this manually, set this property to true.\n"
+  summary: "\nAny auto- or table- filters created will be applied on save.\nIn the case you want to handle this manually, set this property to false.\n"
   example: []
   syntax:
     content: public bool ApplyFiltersOnSave { get; set; }
@@ -494,6 +534,166 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: OfficeOpenXml.ExcelPackageSettings.CultureSpecificBuildInNumberFormats*
+  commentId: Overload:OfficeOpenXml.ExcelPackageSettings.CultureSpecificBuildInNumberFormats
+  name: CultureSpecificBuildInNumberFormats
+  nameWithType: ExcelPackageSettings.CultureSpecificBuildInNumberFormats
+  fullName: OfficeOpenXml.ExcelPackageSettings.CultureSpecificBuildInNumberFormats
+- uid: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.Int32,System.String}}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.Int32,System.String}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  name: Dictionary<String, Dictionary<Int32, String>>
+  nameWithType: Dictionary<String, Dictionary<Int32, String>>
+  fullName: System.Collections.Generic.Dictionary<System.String, System.Collections.Generic.Dictionary<System.Int32, System.String>>
+  nameWithType.vb: Dictionary(Of String, Dictionary(Of Int32, String))
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.String, System.Collections.Generic.Dictionary(Of System.Int32, System.String))
+  name.vb: Dictionary(Of String, Dictionary(Of Int32, String))
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: OfficeOpenXml.ExcelPackageSettings.DoGarbageCollectOnDispose*
   commentId: Overload:OfficeOpenXml.ExcelPackageSettings.DoGarbageCollectOnDispose
   name: DoGarbageCollectOnDispose

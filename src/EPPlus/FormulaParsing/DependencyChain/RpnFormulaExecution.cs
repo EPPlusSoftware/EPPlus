@@ -250,6 +250,7 @@ namespace OfficeOpenXml.FormulaParsing
         private static bool GetFormula(RpnOptimizedDependencyChain depChain, ExcelWorksheet ws, int row, int column, object value, ref RpnFormula f)
         {
 
+            if (value==null) return false;
             if (value is int ix)
             {
                 var sf = ws._sharedFormulas[ix];
@@ -434,7 +435,7 @@ namespace OfficeOpenXml.FormulaParsing
                     if (depChain.processedCells.Contains(ExcelCellBase.GetCellId(ws?.IndexInList ?? ushort.MaxValue, firstAddress.FromRow, firstAddress.FromCol)) == false)
                     {
                         rd?.Merge(firstAddress.FromRow, firstAddress.FromCol);
-                        if (ws._formulas.Exists(firstAddress.FromRow, firstAddress.FromCol, ref v))
+                        if (ws._formulas.Exists(firstAddress.FromRow, firstAddress.FromCol, ref v) && v != null)
                         {
                             depChain._formulaStack.Push(f);
                             GetFormula(depChain, ws, firstAddress.FromRow, firstAddress.FromCol, v, ref f);

@@ -1647,7 +1647,6 @@ namespace EPPlusTest.ConditionalFormatting
                 var sheet = pck.Workbook.Worksheets.Add("formulas");
                 var sheet2 = pck.Workbook.Worksheets.Add("formulasRef");
 
-
                 var range = new ExcelAddress("B1:B5");
 
                 var cf = sheet.ConditionalFormatting.AddBeginsWith(range);
@@ -2208,6 +2207,59 @@ namespace EPPlusTest.ConditionalFormatting
                 Assert.AreEqual("A2:A10", targetSheet.ConditionalFormatting[0].Address.Address);
 
                 SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void MultipleConditionalFormattingRangesShouldBeReadCorrectlyAfterSave()
+        {
+            using (var p1 = OpenPackage("cf_severalCFRead.xlsx", true))
+            {
+                var targetSheet = p1.Workbook.Worksheets.Add("Data Sheet");
+
+                var blanks = targetSheet.Cells["A2:A5"].ConditionalFormatting.AddContainsBlanks();
+
+                blanks.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                blanks.Style.Fill.BackgroundColor.SetColor(Color.BlueViolet);
+                var aboveAverage = targetSheet.Cells["B2:B5"].ConditionalFormatting.AddAboveAverage();
+
+                aboveAverage.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                aboveAverage.Style.Fill.BackgroundColor.SetColor(Color.BlueViolet);
+
+                targetSheet.InsertRow(6, 5);
+
+                Assert.AreEqual("A2:A10", targetSheet.ConditionalFormatting[0].Address.Address);
+
+                targetSheet.Cells["B2:B5"].DataValidation.AddListDataValidation();
+                targetSheet.Cells["A2:A5"].DataValidation.AddListDataValidation();
+
+                SaveAndCleanup(p1, false);
+
+                using (var p2 = new ExcelPackage(p1.Stream))
+                {
+                    var sheet = p2.Workbook.Worksheets[0];
+                    SaveWorkbook("cf_severalCFReadSave2.xlsx", p2);
+
+                    using(var p3 = new ExcelPackage(p2.Stream))
+                    {
+                        var sheet2 = p3.Workbook.Worksheets[0];
+                        Assert.AreEqual(2, sheet2.ConditionalFormatting.Count);
+                        SaveWorkbook("cf_severalCFReadSave3.xlsx", p3);
+                    }
+                }
+            }
+        }
+
+        protected static void SaveAndCleanup(ExcelPackage pck, bool disposePackage = true)
+        {
+            if (pck.Workbook.Worksheets.Count > 0)
+            {
+                pck.Save();
+            }
+
+            if (disposePackage)
+            {
+                pck.Dispose();
             }
         }
     }

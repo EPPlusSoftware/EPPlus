@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePresetChartStyleMultiSeries
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -327,7 +327,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area3dChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -361,7 +361,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area3dChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -395,7 +395,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area3dChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -429,7 +429,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area3dChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -463,7 +463,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area3dChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -497,7 +497,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area3dChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -531,7 +531,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area3dChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -565,7 +565,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area3dChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -599,7 +599,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area3dChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -633,7 +633,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -667,7 +667,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -701,7 +701,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -735,7 +735,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -769,7 +769,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -803,7 +803,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -837,7 +837,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -871,7 +871,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -905,7 +905,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -939,7 +939,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -973,7 +973,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bar3dChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1007,7 +1007,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bar3dChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1041,7 +1041,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bar3dChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1075,7 +1075,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bar3dChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1109,7 +1109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bar3dChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1143,7 +1143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bar3dChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1177,7 +1177,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bar3dChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1211,7 +1211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bar3dChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1245,7 +1245,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bar3dChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1279,7 +1279,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bar3dChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1313,7 +1313,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bar3dChartStyle11
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1347,7 +1347,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1381,7 +1381,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1415,7 +1415,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1449,7 +1449,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1483,7 +1483,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1517,7 +1517,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1551,7 +1551,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1585,7 +1585,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1619,7 +1619,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1653,7 +1653,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1687,7 +1687,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChartStyle11
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1721,7 +1721,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarChartStyle12
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1755,7 +1755,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble3dChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1789,7 +1789,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble3dChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1823,7 +1823,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble3dChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1857,7 +1857,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble3dChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1891,7 +1891,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble3dChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1925,7 +1925,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble3dChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1959,7 +1959,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble3dChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -1993,7 +1993,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble3dChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2027,7 +2027,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2061,7 +2061,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2095,7 +2095,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2129,7 +2129,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2163,7 +2163,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2197,7 +2197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2231,7 +2231,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2265,7 +2265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2299,7 +2299,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2333,7 +2333,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2367,7 +2367,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2401,7 +2401,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2435,7 +2435,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2469,7 +2469,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2503,7 +2503,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2537,7 +2537,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2571,7 +2571,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2605,7 +2605,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2639,7 +2639,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2673,7 +2673,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2707,7 +2707,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle11
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2741,7 +2741,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle12
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2775,7 +2775,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle13
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2809,7 +2809,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnChartStyle14
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2843,7 +2843,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3dChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2877,7 +2877,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3dChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2911,7 +2911,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3dChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2945,7 +2945,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3dChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -2979,7 +2979,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3dChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3013,7 +3013,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3dChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3047,7 +3047,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3dChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3081,7 +3081,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3dChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3115,7 +3115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3dChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3149,7 +3149,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3dChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3183,7 +3183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3dChartStyle11
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3217,7 +3217,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ComboChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3251,7 +3251,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ComboChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3285,7 +3285,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ComboChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3319,7 +3319,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ComboChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3353,7 +3353,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ComboChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3387,7 +3387,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ComboChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3421,7 +3421,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ComboChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3455,7 +3455,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ComboChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3489,7 +3489,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoughnutChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3523,7 +3523,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoughnutChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3557,7 +3557,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoughnutChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3591,7 +3591,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoughnutChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3625,7 +3625,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoughnutChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3659,7 +3659,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoughnutChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3693,7 +3693,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoughnutChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3727,7 +3727,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoughnutChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3761,7 +3761,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoughnutChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3795,7 +3795,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Line3dChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3829,7 +3829,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Line3dChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3863,7 +3863,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Line3dChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3897,7 +3897,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Line3dChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3931,7 +3931,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3965,7 +3965,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -3999,7 +3999,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4033,7 +4033,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4067,7 +4067,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4101,7 +4101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4135,7 +4135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4169,7 +4169,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4203,7 +4203,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4237,7 +4237,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4271,7 +4271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle11
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4305,7 +4305,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle12
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4339,7 +4339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineChartStyle13
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4373,7 +4373,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4407,7 +4407,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4441,7 +4441,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4475,7 +4475,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4509,7 +4509,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4543,7 +4543,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4577,7 +4577,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4611,7 +4611,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4645,7 +4645,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4679,7 +4679,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4713,7 +4713,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChartStyle11
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4747,7 +4747,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OfPieChartStyle12
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4781,7 +4781,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4815,7 +4815,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4849,7 +4849,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4883,7 +4883,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4917,7 +4917,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4951,7 +4951,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -4985,7 +4985,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5019,7 +5019,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5053,7 +5053,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5087,7 +5087,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5121,7 +5121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChartStyle11
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5155,7 +5155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieChartStyle12
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5189,7 +5189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie3dChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5223,7 +5223,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie3dChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5257,7 +5257,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie3dChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5291,7 +5291,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie3dChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5325,7 +5325,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie3dChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5359,7 +5359,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie3dChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5393,7 +5393,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie3dChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5427,7 +5427,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie3dChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5461,7 +5461,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie3dChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5495,7 +5495,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie3dChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5529,7 +5529,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5563,7 +5563,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5597,7 +5597,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5631,7 +5631,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5665,7 +5665,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5699,7 +5699,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5733,7 +5733,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5767,7 +5767,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5801,7 +5801,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5835,7 +5835,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5869,7 +5869,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5903,7 +5903,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5937,7 +5937,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -5971,7 +5971,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6005,7 +6005,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6039,7 +6039,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6073,7 +6073,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6107,7 +6107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6141,7 +6141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScatterChartStyle11
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6175,7 +6175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedArea3dChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6209,7 +6209,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedArea3dChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6243,7 +6243,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedArea3dChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6277,7 +6277,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedArea3dChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6311,7 +6311,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedArea3dChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6345,7 +6345,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedArea3dChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6379,7 +6379,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedArea3dChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6413,7 +6413,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedArea3dChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6447,7 +6447,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedArea3dChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6481,7 +6481,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedAreaChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6515,7 +6515,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedAreaChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6549,7 +6549,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedAreaChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6583,7 +6583,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedAreaChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6617,7 +6617,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedAreaChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6651,7 +6651,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedAreaChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6685,7 +6685,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedAreaChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6719,7 +6719,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedAreaChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6753,7 +6753,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedAreaChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6787,7 +6787,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedAreaChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6821,7 +6821,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBar3dChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6855,7 +6855,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBar3dChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6889,7 +6889,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBar3dChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6923,7 +6923,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBar3dChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6957,7 +6957,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBar3dChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -6991,7 +6991,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBar3dChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7025,7 +7025,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBar3dChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7059,7 +7059,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBar3dChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7093,7 +7093,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBarChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7127,7 +7127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBarChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7161,7 +7161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBarChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7195,7 +7195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBarChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7229,7 +7229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBarChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7263,7 +7263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBarChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7297,7 +7297,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBarChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7331,7 +7331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBarChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7365,7 +7365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBarChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7399,7 +7399,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBarChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7433,7 +7433,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedBarChartStyle11
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7467,7 +7467,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumn3dChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7501,7 +7501,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumn3dChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7535,7 +7535,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumn3dChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7569,7 +7569,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumn3dChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7603,7 +7603,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumn3dChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7637,7 +7637,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumn3dChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7671,7 +7671,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumn3dChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7705,7 +7705,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumn3dChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7739,7 +7739,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumnChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7773,7 +7773,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumnChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7807,7 +7807,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumnChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7841,7 +7841,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumnChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7875,7 +7875,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumnChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7909,7 +7909,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumnChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7943,7 +7943,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumnChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -7977,7 +7977,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumnChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8011,7 +8011,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumnChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8045,7 +8045,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumnChartStyle10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8079,7 +8079,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StackedColumnChartStyle11
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8113,7 +8113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SunburstChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8147,7 +8147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SunburstChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8181,7 +8181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SunburstChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8215,7 +8215,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SunburstChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8249,7 +8249,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SunburstChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8283,7 +8283,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SunburstChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8317,7 +8317,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SunburstChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8351,7 +8351,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SunburstChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8385,7 +8385,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TreemapChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8419,7 +8419,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TreemapChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8453,7 +8453,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TreemapChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8487,7 +8487,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TreemapChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8521,7 +8521,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TreemapChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8555,7 +8555,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TreemapChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8589,7 +8589,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TreemapChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8623,7 +8623,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TreemapChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8657,7 +8657,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TreemapChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8691,7 +8691,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BoxWhiskerChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8725,7 +8725,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BoxWhiskerChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8759,7 +8759,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BoxWhiskerChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8793,7 +8793,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BoxWhiskerChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8827,7 +8827,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BoxWhiskerChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8861,7 +8861,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BoxWhiskerChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8895,7 +8895,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HistogramChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8929,7 +8929,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HistogramChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8963,7 +8963,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HistogramChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -8997,7 +8997,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HistogramChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9031,7 +9031,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HistogramChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9065,7 +9065,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HistogramChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9099,7 +9099,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WaterfallChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9133,7 +9133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WaterfallChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9167,7 +9167,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WaterfallChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9201,7 +9201,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WaterfallChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9235,7 +9235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WaterfallChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9269,7 +9269,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WaterfallChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9303,7 +9303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WaterfallChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9337,7 +9337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WaterfallChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9371,7 +9371,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunnelChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9405,7 +9405,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunnelChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9439,7 +9439,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunnelChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9473,7 +9473,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunnelChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9507,7 +9507,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunnelChartStyle5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9541,7 +9541,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunnelChartStyle6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9575,7 +9575,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunnelChartStyle7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9609,7 +9609,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunnelChartStyle8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9643,7 +9643,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunnelChartStyle9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9677,7 +9677,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RegionMapChartStyle1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9711,7 +9711,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RegionMapChartStyle2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9745,7 +9745,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RegionMapChartStyle3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
@@ -9779,7 +9779,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RegionMapChartStyle4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartStyleMultiSeries.cs

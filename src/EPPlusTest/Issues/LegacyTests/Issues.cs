@@ -6155,6 +6155,7 @@ namespace EPPlusTest
                 }
             }
         }
+
         [TestMethod]
         public void s608()
         {

@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalLinksCollection
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
@@ -112,7 +112,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
@@ -184,7 +184,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
@@ -228,7 +228,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddExternalWorkbook
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
@@ -267,7 +267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
@@ -339,7 +339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
@@ -371,7 +371,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Directories
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
@@ -408,7 +408,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadWorkbooks
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
@@ -443,7 +443,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateCaches
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs

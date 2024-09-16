@@ -523,7 +523,7 @@ namespace OfficeOpenXml
                 return _sortState;
             }
         }
-        public bool FullPrecision { get; set; }
+        internal bool FullPrecision { get; set; }
         internal void CheckSheetTypeAndNotDisposed()
         {
             if (this is ExcelChartsheet)
@@ -1155,6 +1155,7 @@ namespace OfficeOpenXml
             LoadMergeCells(xr);
 
             var nextElement = "conditionalFormatting";
+
             if (xr.ReadUntil(1, NodeOrders.WorksheetTopElementOrder, nextElement))
             {
                 xml = stream.ReadFromEndElement(lastXmlElement, xml, nextElement, false, xr.Prefix);
@@ -1183,6 +1184,7 @@ namespace OfficeOpenXml
             
             if(!string.IsNullOrEmpty(lastXmlElement))
             {
+                //xml = stream.ReadFromEndElement(lastXmlElement, xml);
                 xml = stream.ReadFromEndElement(lastXmlElement, xml, null, true, mainPrefix);
             }
 
@@ -2251,6 +2253,32 @@ namespace OfficeOpenXml
                 return null;
             }
         }
+        /// <summary>
+        /// Fetches the value adapted for the pivot cache. 
+        /// The value is converted depending on the data type. 
+        /// </summary>
+        /// <param name="Row">The row number</param>
+        /// <param name="Column">The row number</param>
+        /// <returns>The value</returns>
+        internal object GetValueForPivotTable(int Row, int Column)
+        {
+            var v = GetCoreValueInner(Row, Column);
+            if (v._value != null)
+            {
+                if (_flags.GetFlagValue(Row, Column, CellFlags.RichText))
+                {
+                    return (object)Cells[Row, Column].RichText.Text;
+                }
+                else
+                {
+                    return Workbook.Styles.GetValueForPivotCache(v._value, v._styleId);
+                }
+            }
+            else
+            {
+                return null;
+            }
+        }
 
         /// <summary>
         /// Get a strongly typed cell value from the worksheet
@@ -2928,13 +2956,12 @@ namespace OfficeOpenXml
                             }
                             r++;
                         }
-                        //fromRow = r;
                         fromCol = c;
                     }
 
-                    if (fvc._toCol == tc)
+                    if (lvc._toCol == tc)
                     {
-                        toCol = fvc._toCol;
+                        toCol = lvc._toCol;
                     }
                     else
                     {
@@ -2947,7 +2974,6 @@ namespace OfficeOpenXml
                             }
                             r--;
                         }
-                        //toRow = r;
                         toCol = c;
                     }
 
@@ -3804,7 +3830,18 @@ namespace OfficeOpenXml
             }
             SlicerXmlSources.Remove(xmlSource);
         }
-
+        ExcelPhoneticProperties _phoneticProperties = null;
+        internal ExcelPhoneticProperties PhoneticProperties
+        {
+            get
+            {
+                if(_phoneticProperties == null)
+                {
+                    _phoneticProperties = new ExcelPhoneticProperties(NameSpaceManager, TopNode);
+                }
+                return _phoneticProperties;
+            }
+        }
         internal XmlNode CreateControlContainerNode()
         {
             var node = GetNode("mc:AlternateContent/mc:Choice[@Requires='x14']");

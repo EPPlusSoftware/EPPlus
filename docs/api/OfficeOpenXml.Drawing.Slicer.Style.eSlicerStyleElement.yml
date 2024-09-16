@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eSlicerStyleElement
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnselectedItemWithData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SelectedItemWithData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnselectedItemWithNoData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SelectedItemWithNoData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HoveredUnselectedItemWithData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HoveredSelectedItemWithData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HoveredUnselectedItemWithNoData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HoveredSelectedItemWithNoData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerStyleType.cs

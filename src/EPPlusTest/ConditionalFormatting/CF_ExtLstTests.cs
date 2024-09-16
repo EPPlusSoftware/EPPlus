@@ -616,5 +616,85 @@ namespace EPPlusTest.ConditionalFormatting
                 SaveAndCleanup(pck);
             }
         }
+
+        [TestMethod]
+        public void WritingNormalAndExtLstCFsShouldNotCrash()
+        {
+            using (var p = OpenTemplatePackage("CF_NormalAndExt.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void ExtLstWithPrefixShouldNotCrash()
+        {
+            using (var p = OpenTemplatePackage("s711Edited.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void CF_ExtStandardID()
+        {
+            string id = "";
+            using (var p = OpenTemplatePackage("ExtStandardIdTest.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var format = ws.ConditionalFormatting;
+                id = format[0].Uid;
+                SaveAndCleanup(p);
+            }
+
+            using (var p = new ExcelPackage("C:\\epplusTest\\Testoutput\\ExtStandardIdTest.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var format = ws.ConditionalFormatting;
+
+                var id2 = format[0].Uid;
+                Assert.AreEqual(id, id2);
+                Assert.AreNotEqual(id2[0], '{');
+                Assert.AreNotEqual(id2[id2.Length - 1], '}');
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void CF_IconSetReadIDGenerated()
+        {
+            string id = "";
+            using (var p = OpenPackage("ExtStandardIdTestGenerated.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("TestIdSheet");
+                var ws2 = p.Workbook.Worksheets.Add("TestIdSheetFormulaTarget");
+
+                ws.Cells["A1:C5"].Formula = "ROW() + COLUMN()";
+                var greaterThan = ws.ConditionalFormatting.AddGreaterThan(ws.Cells["A1:C5"]);
+                greaterThan.Formula = "sheet2!A1";
+                var format = ws.ConditionalFormatting;
+
+                id = format[0].Uid;
+                Assert.AreNotEqual(id[0], '{');
+                Assert.AreNotEqual(id[id.Length - 1], '}');
+                SaveAndCleanup(p);
+            }
+
+            using (var p = new ExcelPackage("C:\\epplusTest\\Testoutput\\ExtStandardIdTestGenerated.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var format = ws.ConditionalFormatting;
+
+                var id2 = format[0].Uid;
+                Assert.AreEqual(id, id2);
+                Assert.AreNotEqual(id2[0], '{');
+                Assert.AreNotEqual(id2[id2.Length - 1], '}');
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

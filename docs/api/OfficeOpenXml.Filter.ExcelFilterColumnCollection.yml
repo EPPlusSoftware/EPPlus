@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFilterColumnCollection
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -78,7 +78,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddValueFilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -198,7 +198,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddCustomFilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -237,7 +237,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddColorFilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -276,7 +276,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddIconFilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -315,7 +315,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTop10FilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -354,7 +354,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDynamicFilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -393,7 +393,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -431,7 +431,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -466,7 +466,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -502,7 +502,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs
@@ -538,7 +538,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumnCollection.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Filter/ExcelFilterColumnCollection.cs

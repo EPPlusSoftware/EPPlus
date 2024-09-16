@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eFillPatternStyle
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pct5
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -136,7 +136,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pct10
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -170,7 +170,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pct20
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -204,7 +204,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pct25
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -238,7 +238,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pct30
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -272,7 +272,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pct40
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -306,7 +306,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pct50
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -340,7 +340,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pct60
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -374,7 +374,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pct70
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -408,7 +408,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pct75
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -442,7 +442,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pct80
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -476,7 +476,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pct90
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -510,7 +510,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Horz
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -544,7 +544,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Vert
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -578,7 +578,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LtHorz
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -612,7 +612,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LtVert
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -646,7 +646,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DkHorz
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -680,7 +680,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DkVert
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -714,7 +714,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NarHorz
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -748,7 +748,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NarVert
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -782,7 +782,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DashHorz
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -816,7 +816,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DashVert
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -850,7 +850,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cross
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -884,7 +884,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DnDiag
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -918,7 +918,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpDiag
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -952,7 +952,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LtDnDiag
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -986,7 +986,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LtUpDiag
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1020,7 +1020,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DkDnDiag
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1054,7 +1054,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DkUpDiag
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1088,7 +1088,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WdDnDiag
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1122,7 +1122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WdUpDiag
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1156,7 +1156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DashDnDiag
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1190,7 +1190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DashUpDiag
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1224,7 +1224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DiagCross
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1258,7 +1258,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SmCheck
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1292,7 +1292,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LgCheck
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1326,7 +1326,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SmGrid
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1360,7 +1360,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LgGrid
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1394,7 +1394,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DotGrid
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1428,7 +1428,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SmConfetti
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1462,7 +1462,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LgConfetti
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1496,7 +1496,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorzBrick
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1530,7 +1530,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DiagBrick
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1564,7 +1564,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SolidDmnd
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1598,7 +1598,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OpenDmnd
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1632,7 +1632,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DotDmnd
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1666,7 +1666,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Plaid
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1700,7 +1700,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sphere
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1734,7 +1734,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Weave
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1768,7 +1768,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Divot
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1802,7 +1802,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Shingle
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1836,7 +1836,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Wave
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1870,7 +1870,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Trellis
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
@@ -1904,7 +1904,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eFillPatternStyle.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ZigZag
     path: ../src/EPPlus/Drawing/Enums/eFillPatternStyle.cs

@@ -99,6 +99,7 @@ items:
   - OfficeOpenXml.JsonTableExportSettings
   - OfficeOpenXml.LicenseContext
   - OfficeOpenXml.LicenseException
+  - OfficeOpenXml.NumberFormatToTextArgs
   - OfficeOpenXml.OfficeProperties
   - OfficeOpenXml.PaddingAlignmentType
   - OfficeOpenXml.PictureAlignment
@@ -762,6 +763,11 @@ references:
   name: LicenseException
   nameWithType: LicenseException
   fullName: OfficeOpenXml.LicenseException
+- uid: OfficeOpenXml.NumberFormatToTextArgs
+  commentId: T:OfficeOpenXml.NumberFormatToTextArgs
+  name: NumberFormatToTextArgs
+  nameWithType: NumberFormatToTextArgs
+  fullName: OfficeOpenXml.NumberFormatToTextArgs
 - uid: OfficeOpenXml.OfficeProperties
   commentId: T:OfficeOpenXml.OfficeProperties
   parent: OfficeOpenXml

@@ -47,7 +47,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePivotTableDatePeriodFilterType
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -80,7 +80,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastMonth
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -114,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastQuarter
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastWeek
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastYear
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M1
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -250,7 +250,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M2
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -284,7 +284,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M3
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -318,7 +318,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M4
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -352,7 +352,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M5
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -386,7 +386,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M6
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -420,7 +420,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M7
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -454,7 +454,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M8
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -488,7 +488,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M9
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -522,7 +522,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M10
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -556,7 +556,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M11
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -590,7 +590,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M12
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -624,7 +624,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextMonth
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -658,7 +658,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextQuarter
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -692,7 +692,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextWeek
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -726,7 +726,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextYear
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -760,7 +760,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Q1
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -794,7 +794,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Q2
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -828,7 +828,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Q3
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -862,7 +862,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Q4
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -896,7 +896,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThisMonth
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -930,7 +930,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThisQuarter
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -964,7 +964,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThisWeek
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -998,7 +998,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThisYear
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -1032,7 +1032,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Today
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -1066,7 +1066,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tomorrow
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -1100,7 +1100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: YearToDate
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
@@ -1134,7 +1134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Yesterday
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableDatePeriodFilterType.cs

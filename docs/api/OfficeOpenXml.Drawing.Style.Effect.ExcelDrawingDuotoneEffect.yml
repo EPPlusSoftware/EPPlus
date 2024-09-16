@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingDuotoneEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingDuotoneEffect
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingDuotoneEffect.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingDuotoneEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color1
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingDuotoneEffect.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingDuotoneEffect.cs
-      branch: develop7
+      branch: bug/issue1566
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color2
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingDuotoneEffect.cs
