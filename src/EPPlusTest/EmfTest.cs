@@ -15,7 +15,9 @@ namespace EPPlusTest
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("EmfSheet");
 
-                var path = "C:\\Users\\OssianEdström\\Downloads\\OG_image1.emf";
+                //var path = "C:\\Users\\OssianEdström\\Downloads\\OG_image1.emf";
+                var path = "C:\\epplusTest\\Workbooks\\UnsignedWithDescriptorsOrigBackup.emf";
+
 
                 var emf = new EMF();
                 emf.Read(path);

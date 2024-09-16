@@ -49,6 +49,7 @@ namespace OfficeOpenXml.Drawing.EMF
             Rectangle = br.ReadBytes(16);
             offDx = br.ReadUInt32();
             br.BaseStream.Position = position + offString;
+            //Encoding is specifically UTF-16LE meaning no BOM allowed and little endian
             stringBuffer = BinaryHelper.GetString(br, (Chars * 2), Encoding.Unicode);
             br.BaseStream.Position = position + offDx;
             DxBuffer = br.ReadBytes((int)(Size - offDx));
