@@ -1,9 +1,11 @@
 # Features / Fixed issues - EPPlus 7
 ## Version 7.3.2
 ### Fixed issues
-* Upgraded System.Text.Json to version 8.0.4 and System.Formats.Asn1 to version 8.0.1 to adress vulnerabilities in previous versions of these libraries. See our [Security Policy](https://github.com/EPPlusSoftware/EPPlus/blob/develop7/SECURITY.md)
+* Upgraded System.Text.Json to version 8.0.4 and System.Formats.Asn1 to version 8.0.1 to address vulnerabilities in previous versions of these libraries. See our [Security Policy](https://github.com/EPPlusSoftware/EPPlus/blob/develop7/SECURITY.md)
 * Upgraded Microsoft.IO.RecyclableMemoryStream from version 3.0.0 to 3.0.1. 
-* 
+* Fixed an issue with the MATCH function when a range was sorted in descending order.
+* When inserting columns, shifting right into a range, an Exception was thrown in rare cases.
+
 ## Version 7.3.1
 ### Fixed issues
 * Fixed duplication of conditional formatting’s which could occur on repeated saves in some cases.
