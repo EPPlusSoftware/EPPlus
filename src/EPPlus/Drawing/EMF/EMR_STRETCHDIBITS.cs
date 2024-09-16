@@ -11,9 +11,9 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] ySrc;
         internal byte[] cxSrc;
         internal byte[] cySrc;
-        internal byte[] offBmiSrc;
+        internal uint   offBmiSrc;
         internal uint   cbBmiSrc;
-        internal byte[] offBitsSrc;
+        internal uint   offBitsSrc;
         internal uint   cbBitsSrc;
         internal byte[] UsageSrc;
         internal byte[] InternalBltRasterOperation;
@@ -24,23 +24,23 @@ namespace OfficeOpenXml.Drawing.EMF
 
         public EMR_STRETCHDIBITS(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
-            Bounds = br.ReadBytes(16); ;
-            xDest = br.ReadBytes(4); ;
-            yDest = br.ReadBytes(4); ;
-            xSrc = br.ReadBytes(4); ;
-            ySrc = br.ReadBytes(4); ;
-            cxSrc = br.ReadBytes(4); ;
-            cySrc = br.ReadBytes(4); ;
-            offBmiSrc = br.ReadBytes(4); ;
-            cbBmiSrc = br.ReadUInt32(); ;
-            offBitsSrc = br.ReadBytes(4); ;
-            cbBitsSrc = br.ReadUInt32(); ;
-            UsageSrc = br.ReadBytes(4); ;
-            InternalBltRasterOperation = br.ReadBytes(4); ;
-            cxDest = br.ReadBytes(4); ;
-            cyDest = br.ReadBytes(4); ;
-            BmiSrc = br.ReadBytes((int)cbBmiSrc); ;
-            BitsSrc = br.ReadBytes((int)cbBitsSrc); ;
+            Bounds = br.ReadBytes(16);
+            xDest = br.ReadBytes(4);
+            yDest = br.ReadBytes(4);
+            xSrc = br.ReadBytes(4);
+            ySrc = br.ReadBytes(4);
+            cxSrc = br.ReadBytes(4);
+            cySrc = br.ReadBytes(4);
+            offBmiSrc = br.ReadUInt32();
+            cbBmiSrc = br.ReadUInt32();
+            offBitsSrc = br.ReadUInt32();
+            cbBitsSrc = br.ReadUInt32();
+            UsageSrc = br.ReadBytes(4);
+            InternalBltRasterOperation = br.ReadBytes(4);
+            cxDest = br.ReadBytes(4);
+            cyDest = br.ReadBytes(4);
+            BmiSrc = br.ReadBytes((int)cbBmiSrc);
+            BitsSrc = br.ReadBytes((int)cbBitsSrc);
     }
     }
 }
