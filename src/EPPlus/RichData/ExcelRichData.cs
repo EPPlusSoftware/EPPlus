@@ -50,9 +50,14 @@ namespace OfficeOpenXml.RichData
             }
         }
 
-        internal RichValueRel GetRelationByIndex(int index)
+        internal RichValueRel GetRelation(int index)
         {
             return RichValueRels.Items[index];
+        }
+
+        internal RichValueRel GetRelation(string target, string type)
+        {
+            return RichValueRels.Items.FirstOrDefault(x => x.Target == target && x.Type == type);
         }
     }
 }

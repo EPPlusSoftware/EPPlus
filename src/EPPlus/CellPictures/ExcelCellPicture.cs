@@ -40,6 +40,8 @@ namespace OfficeOpenXml.CellPictures
             get;
         }
 
+        internal const string LocalImageStructureType = "_localImage";
+
         public ExcelAddress CellAddress { get; set;  }
 
         /// <summary>

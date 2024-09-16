@@ -20,6 +20,7 @@ using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.ExcelXMLWriter;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Metadata;
+using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;

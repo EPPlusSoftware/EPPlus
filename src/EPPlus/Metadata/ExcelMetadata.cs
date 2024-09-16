@@ -8,9 +8,10 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Utils;
@@ -368,6 +369,25 @@ namespace OfficeOpenXml.Metadata
                     if (fmdt.Type==FutureMetadataType.DynamicArray)
                     {
                         return fmdt.AsDynamicArray.IsDynamicArray;
+                    }
+                }
+            }
+            return false;
+        }
+
+        internal bool IsRichData(int vm)
+        {
+            if (vm > ValueMetadata.Count) return false;
+            var valueMetadata = ValueMetadata[vm - 1];
+            var t = MetadataTypes[valueMetadata.Records[0].RecordTypeIndex - 1];
+            if(t.Name == "XLRICHVALUE")
+            {
+                if(FutureMetadata.TryGetValue("XLRICHVALUE", out ExcelFutureMetadata fmd))
+                {
+                    var fmdt = fmd.Types[valueMetadata.Records[0].ValueTypeIndex];
+                    if(fmdt.Type == FutureMetadataType.RichData)
+                    {
+                        return true;
                     }
                 }
             }

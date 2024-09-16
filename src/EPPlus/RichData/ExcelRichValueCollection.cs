@@ -175,7 +175,7 @@ namespace OfficeOpenXml.RichData
             var structureId = _structures.GetStructureId(RichDataStructureFlags.LocalImage);
             var item = new ExcelRichValue(structureId);
             item.Structure = _structures.StructureItems[item.StructureId];
-            item.AddLocalImage(imageIdentifier, calcOrigin);
+            item.AddLocalImage(imageIdentifier, calcOrigin, string.Empty);
         }
 
         public List<ExcelRichValue> Items { get; }=new List<ExcelRichValue>();

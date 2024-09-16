@@ -10,30 +10,42 @@
  *************************************************************************************************
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using System.Xml;
 
-namespace OfficeOpenXml.Metadata
+namespace OfficeOpenXml.Metadata.FutureMetadata
 {
-    internal class ExcelMetadataItem
+    internal class ExcelFutureMetadataRichData : ExcelFutureMetadataType
     {
-        public ExcelMetadataItem()
+        public ExcelFutureMetadataRichData(int index)
         {
-
+            Index = index;
         }
-        public ExcelMetadataItem(XmlReader xr)
+        public ExcelFutureMetadataRichData(XmlReader xr)
         {
-            while(xr.IsEndElementWithName("bk")==false && xr.EOF==false)
+            var startDepth = xr.Depth;
+            while (xr.Read() && startDepth <= xr.Depth)
             {
-                if(xr.IsElementWithName("rc"))
+                if (xr.IsElementWithName("rvb"))
                 {
-                    Records.Add(new ExcelMetadataRecord(int.Parse(xr.GetAttribute("t")), int.Parse(xr.GetAttribute("v"))));
+                    Index = int.Parse(xr.GetAttribute("i"));
                 }
-                xr.Read();
             }
-        }
 
-        public List<ExcelMetadataRecord> Records { get;}= new List<ExcelMetadataRecord>();
+            if (xr.NodeType == XmlNodeType.EndElement) xr.Read();
+        }
+        public int Index { get; private set; }
+        public override FutureMetadataType Type => FutureMetadataType.RichData;
+        public override string Uri => ExtLstUris.RichValueDataUri;
+        internal override void WriteXml(StreamWriter sw)
+        {
+            sw.Write($"<xlrd:rvb i=\"{Index}\"/>");
+        }
     }
 }

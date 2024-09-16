@@ -99,17 +99,20 @@ namespace OfficeOpenXml.RichData
             }
         }
 
-        public void AddLocalImage(int imageIdentifier, int calcOrigin)
+        public void AddLocalImage(int imageIdentifier, int calcOrigin, string text)
         {
             foreach (var s in Structure.Keys)
             {
                 switch (s.Name)
                 {
-                    case "_rvRel: LocalImageIdentifier":
+                    case "_rvRel:LocalImageIdentifier":
                         Values.Add(imageIdentifier.ToString());
                         break;
                     case "CalcOrigin":
                         Values.Add(calcOrigin.ToString());
+                        break;
+                    case "Text":
+                        Values.Add(text);
                         break;
                 }
             }

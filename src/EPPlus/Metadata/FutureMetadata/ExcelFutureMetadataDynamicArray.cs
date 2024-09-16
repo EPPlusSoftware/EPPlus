@@ -8,72 +8,32 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Xml;
 
-namespace OfficeOpenXml.Metadata
+namespace OfficeOpenXml.Metadata.FutureMetadata
 {
-    internal class ExcelFutureMetadata
-    {
-        public int Index { get; set; }
-        public string Name { get; set; }
-        public List<ExcelFutureMetadataType> Types { get; }=new List<ExcelFutureMetadataType>();
-        //string _extLstXml;
-    }
-    internal abstract class ExcelFutureMetadataType
-    {        
-        public abstract FutureMetadataType Type { get; }
-        public abstract string Uri { get; }
-        public ExcelFutureMetadataDynamicArray AsDynamicArray { get { return this as ExcelFutureMetadataDynamicArray; } }
-        public ExcelFutureMetadataRichData AsRichData { get { return this as ExcelFutureMetadataRichData; } }
-
-        internal abstract void WriteXml(StreamWriter sw);
-    }
-    internal class ExcelFutureMetadataRichData : ExcelFutureMetadataType
-    {
-        public ExcelFutureMetadataRichData(int index)
-        {
-            Index = index;
-        }
-        public ExcelFutureMetadataRichData(XmlReader xr)
-        {
-            var startDepth = xr.Depth;
-            while (xr.Read() && startDepth <= xr.Depth)
-            {
-                if (xr.IsElementWithName("rvb"))
-                {
-                    Index=int.Parse(xr.GetAttribute("i"));
-                }
-            }
-
-            if (xr.NodeType == XmlNodeType.EndElement) xr.Read();
-        }
-        public int Index { get; private set; }
-        public override FutureMetadataType Type => FutureMetadataType.RichData;
-        public override string Uri => ExtLstUris.RichValueDataUri;
-        internal override void WriteXml(StreamWriter sw)
-        {
-            sw.Write($"<xlrd:rvb i=\"{Index}\"/>");
-        }
-    }
     internal class ExcelFutureMetadataDynamicArray : ExcelFutureMetadataType
     {
         public ExcelFutureMetadataDynamicArray(bool isDynamicArray)
         {
-            IsDynamicArray= isDynamicArray;
+            IsDynamicArray = isDynamicArray;
             IsCollapsed = false;
         }
         public ExcelFutureMetadataDynamicArray(XmlReader xr)
         {
             var startDepth = xr.Depth;
-            while(xr.Read() && startDepth<=xr.Depth)
+            while (xr.Read() && startDepth <= xr.Depth)
             {
-                if(xr.IsElementWithName("dynamicArrayProperties"))
+                if (xr.IsElementWithName("dynamicArrayProperties"))
                 {
                     IsDynamicArray = ConvertUtil.ToBooleanString(xr.GetAttribute("fDynamic"));
                     IsCollapsed = ConvertUtil.ToBooleanString(xr.GetAttribute("fCollapsed"));
@@ -85,7 +45,7 @@ namespace OfficeOpenXml.Metadata
         }
         internal override void WriteXml(StreamWriter sw)
         {
-            if(string.IsNullOrEmpty(ExtLstXml))
+            if (string.IsNullOrEmpty(ExtLstXml))
             {
                 sw.Write($"<xda:dynamicArrayProperties fDynamic=\"{(IsDynamicArray ? "1" : "0")}\" fCollapsed=\"{(IsCollapsed ? "1" : "0")}\"/>");
             }
@@ -101,5 +61,5 @@ namespace OfficeOpenXml.Metadata
         public bool IsDynamicArray { get; set; }
         public bool IsCollapsed { get; set; }
         public string ExtLstXml { get; set; }
-    }    
+    }
 }

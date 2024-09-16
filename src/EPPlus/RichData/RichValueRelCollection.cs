@@ -87,7 +87,32 @@ namespace OfficeOpenXml.RichData
             item.Target = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri).OriginalString;
 
             return item;
+        }
 
+        internal RichValueRel AddItem(string target, string type, out int relIx)
+        {
+            if(_part == null)
+            {
+                if (_wb._package.ZipPackage.PartExists(_uri))
+                {
+                    _part = _wb._package.ZipPackage.GetPart(_uri);
+                    ReadXml(_part.GetStream());
+                }
+                else
+                {
+                    _part = _wb._package.ZipPackage.CreatePart(_uri, Relationsships.schemaRichDataRelRelationship);
+                }
+            }
+            var relationship = _part.CreateRelationship(target, TargetMode.Internal, type);
+            var rel = new RichValueRel
+            {
+                Id = relationship.Id,
+                Target = relationship.Target,
+                Type = relationship.RelationshipType
+            };
+            relIx = Items.Count;
+            Items.Add(rel);
+            return rel;
         }
 
         internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
