@@ -36,6 +36,9 @@ namespace EPPlusTest.InCellImages
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].SetCellPicture(path);
+            var pic1 = package.Workbook.Worksheets[0].Cells["A1"].GetCellPicture();
+            Assert.IsNotNull(pic1, "Cell A1 picture was not present");
+            package.SaveAs(@"c:\temp\CellPictureEPPlus.xlsx");
         }
 
         [TestMethod]

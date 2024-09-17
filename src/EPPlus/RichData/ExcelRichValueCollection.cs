@@ -18,7 +18,7 @@ namespace OfficeOpenXml.RichData
         ZipPackagePart _part;
         ExcelRichValueStructureCollection _structures;
         Uri _uri;
-        const string PART_URI_PATH = "/xl/richData/rdrichvalue.xml";
+        internal const string PART_URI_PATH = "/xl/richData/rdrichvalue.xml";
         public ExcelRichValueCollection(ExcelWorkbook wb, ExcelRichValueStructureCollection structures)
         {
             _wb = wb;

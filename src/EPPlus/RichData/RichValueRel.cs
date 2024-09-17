@@ -27,7 +27,7 @@ namespace OfficeOpenXml.RichData
 
         internal void WriteXml(StreamWriter sw)
         {
-            sw.Write($"<rel s=\"{Id}\">");
+            sw.Write($"<rel r:id=\"{Id}\" />");
         }
     }
 }

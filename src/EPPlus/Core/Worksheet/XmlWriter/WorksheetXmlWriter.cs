@@ -18,10 +18,12 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.ExcelXMLWriter;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.XmlAccess;
@@ -607,7 +609,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             var richData = _package.Workbook.RichData;
             var metadata = _package.Workbook.Metadata;
             var md = _ws._metadataStore.GetValue(cse.Row, cse.Column);
-            if(md.vm >= 0 && IsMdSameError(metadata, md, error, cse.Row, cse.Column))
+            if (md.vm >= 0 && IsMdSameError(metadata, md, error, cse.Row, cse.Column))
             {
                 return;
             }
@@ -615,13 +617,13 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             {
                 case eErrorType.Spill:
                     var spillError = (ExcelRichDataErrorValue)error;
-                    if(spillError.IsPropagated)
+                    if (spillError.IsPropagated)
                     {
                         richData.Values.AddPropagated(eErrorType.Spill);
                     }
                     else
                     {
-                        richData.Values.AddErrorSpill(spillError);                    
+                        richData.Values.AddErrorSpill(spillError);
                     }
                     break;
                 case eErrorType.Calc:
@@ -630,14 +632,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 default:
                     return;
             }
-            var fmdRichDataCollection = metadata.GetFutureMetadataRichDataCollection();
-            var rdItem = new ExcelFutureMetadataRichData(richData.Values.Items.Count-1);
-            fmdRichDataCollection.Types.Add(rdItem);
-            var mdItem = new ExcelMetadataItem();
-            mdItem.Records.Add(new ExcelMetadataRecord(metadata.RichDataTypeIndex, fmdRichDataCollection.Types.Count - 1));
-            metadata.ValueMetadata.Add(mdItem);
-
-            md.vm = metadata.ValueMetadata.Count;
+            metadata.CreateRichValueMetadata(richData, out int vm);
+            md.vm = vm;
             _ws._metadataStore.SetValue(cse.Row, cse.Column, md);
         }
 

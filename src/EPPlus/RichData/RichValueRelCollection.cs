@@ -25,7 +25,7 @@ namespace OfficeOpenXml.RichData
 {
     internal class RichValueRelCollection
     {
-        const string PART_URI_PATH = "/xl/richData/richValueRel.xml.rels";
+        const string PART_URI_PATH = "/xl/richData/richValueRel.xml";
         Uri _uri;
         private ExcelWorkbook _wb;
         ZipPackagePart _part;
@@ -100,7 +100,9 @@ namespace OfficeOpenXml.RichData
                 }
                 else
                 {
-                    _part = _wb._package.ZipPackage.CreatePart(_uri, Relationsships.schemaRichDataRelRelationship);
+                    _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataValueRel);
+                    _wb.Part.CreateRelationship(_uri, TargetMode.Internal, "http://schemas.microsoft.com/office/2022/10/relationships/richValueRel");
+                    _part.SaveHandler = Save;
                 }
             }
             var relationship = _part.CreateRelationship(target, TargetMode.Internal, type);
@@ -121,7 +123,7 @@ namespace OfficeOpenXml.RichData
             stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
             var sw = new StreamWriter(stream);
             sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
-            sw.Write($"<richValueRels xmlns=\"{Schemas.schemaRichValueRel}\" xmlns:r=\"{ExcelPackage.schemaWorkbook}\">");
+            sw.Write($"<richValueRels xmlns=\"{Schemas.schemaRichValueRel}\" xmlns:r=\"{ExcelPackage.schemaRelationships}\">");
             foreach (var item in Items)
             {
                 item.WriteXml(sw);

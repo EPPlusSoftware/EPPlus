@@ -47,6 +47,7 @@ namespace OfficeOpenXml.RichData
                 ValueTypes.Part.ShouldBeSaved = true;
                 Structures.Part.ShouldBeSaved = true;
                 Values.Part.ShouldBeSaved = true;
+                RichValueRels.Part.ShouldBeSaved = true;
             }
         }
 

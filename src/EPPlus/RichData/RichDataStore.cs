@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Metadata;
+using OfficeOpenXml.Metadata.FutureMetadata;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace OfficeOpenXml.RichData
         internal ExcelRichValue GetRichData(int row, int col, string structureType = null)
         {
             var vm = _metadataStore.GetValue(row, col).vm;
-            if (vm == 0 || _metadata.IsRichData(vm)) return null;
+            if (vm == 0 || !_metadata.IsRichData(vm)) return null;
             // vm is a 1-based index pointer
             var vmIx = vm - 1;
             var valueMd = _metadata.ValueMetadata[vmIx];
@@ -41,7 +42,7 @@ namespace OfficeOpenXml.RichData
             return rdv;
         }
 
-        internal ExcelRichValue AddRichData(string relationshipType, string target, IEnumerable<string> values, RichDataStructureFlags structureFlag, out int rvIx)
+        internal void AddRichData(string relationshipType, string target, IEnumerable<string> values, RichDataStructureFlags structureFlag, out int vmIndex)
         {
             _workbook.RichData.RichValueRels.AddItem(target, relationshipType, out int relIx);
             var structureId = _workbook.RichData.Structures.GetStructureId(structureFlag);
@@ -53,12 +54,11 @@ namespace OfficeOpenXml.RichData
             {
                 rv.AddLocalImage(relIx, int.Parse(values.ElementAt(0)), string.Empty);
             }
-            rvIx = _workbook.RichData.Values.Items.Count;
             _workbook.RichData.Values.Items.Add(rv);
-            var mdi = new ExcelMetadataItem();
-            mdi.Records.Add(new ExcelMetadataRecord(1, rvIx));
-            _metadata.ValueMetadata.Add(mdi);
-            return rv;
+
+            // update the metadata
+            _metadata.CreateRichValueMetadata(_workbook.RichData, out int vm);
+            vmIndex = vm;
         }
 
         internal RichValueRel GetRelation(int relationIndex)

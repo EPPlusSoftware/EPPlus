@@ -10,10 +10,12 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
@@ -37,6 +39,7 @@ namespace OfficeOpenXml.CellPictures
         private readonly RichDataStore _richDataStore;
         private readonly PictureStore _pictureStore;
         // CalcOrigin values:
+        const int CalcOrigin_ByReference = 4;
         const int CalcOrigin_AddedByUser = 5;
 
 
@@ -80,7 +83,15 @@ namespace OfficeOpenXml.CellPictures
                 var pictureType = ImageReader.GetPictureType(ms, true);
                 imageInfo = _pictureStore.AddImage(imageBytes, null, pictureType);
             }
-            var richValue = _richDataStore.AddRichData(ExcelPackage.schemaImage, imageInfo.Uri.OriginalString, new List<string> { calcOrigin.ToString() }, RichDataStructureFlags.LocalImage, out int rvIx);
+            var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
+            var imageUri = UriHelper.GetRelativeUri(rdUri, imageInfo.Uri);
+            _richDataStore.AddRichData(ExcelPackage.schemaImage, imageUri.OriginalString, new List<string> { calcOrigin.ToString() }, RichDataStructureFlags.LocalImage, out int vm);
+            var md = _sheet._metadataStore.GetValue(row, col);
+            md.vm = vm;
+            // there should be a #VALUE error in the cell that contains the picture...
+            _sheet.Cells[row, col].Value = ExcelErrorValue.Create(eErrorType.Value);
+            _sheet._metadataStore.SetValue(row, col, md);
+
         }
 
         public void SetCellPicture(int row, int col, Stream imageStream, int calcOrigin = CalcOrigin_AddedByUser)
