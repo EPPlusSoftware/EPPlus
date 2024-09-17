@@ -13,18 +13,31 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void ReadOriginalEmf()
         {
-            string path = @"C:\epplusTest\OleTest\EMF\OG_image1.emf";
+            string path = @"C:\epplusTest\OleTest\EMF\squresFromExcel.emf";
+            EMF emf = new EMF();
+            emf.Read(path);
+        }
+        [TestMethod]
+        public void ReadBmpInEmf()
+        {
+            string path = @"C:\epplusTest\OleTest\EMF\ChangeImageTest30.emf";
+            EMF emf = new EMF();
+            emf.Read(path);
+        }
+        [TestMethod]
+        public void ReadChangedImage_BMP()
+        {
+            string pathOG = @"C:\epplusTest\OleTest\EMF\squresFromExcel.emf";
+            EMF emfOG = new EMF();
+            emfOG.Read(pathOG);
+            string path = "C:\\epplusTest\\OleTest\\EMF\\BEST FIXED FILE.emf";
             EMF emf = new EMF();
             emf.Read(path);
         }
 
-        [TestMethod]
-        public void ReadBmpInEmf()
-        {
-            string path = @"C:\epplusTest\OleTest\EMF\bmp1.emf";
-            EMF emf = new EMF();
-            emf.Read(path);
-        }
+
+
+
 
         [TestMethod]
         public void ReadEmf()
@@ -46,13 +59,22 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void ChangeImageTest_BMP()
         {
-            string path = @"C:\epplusTest\OleTest\EMF\OG_image1.emf";
+            string path = @"C:\epplusTest\OleTest\EMF\squresFromExcel.emf";
             EMF emf = new EMF();
             emf.Read(path);
-            string imagePath = @"C:\epplusTest\OleTest\EMF\Untitled3.bmp";
+            string imagePath = @"C:\epplusTest\OleTest\EMF\Untitled2.bmp";
             byte[] imageBytes = File.ReadAllBytes(imagePath);
             emf.ChangeImage(imageBytes);
-            emf.Save("C:\\epplusTest\\OleTest\\EMF\\ChangeImageTest.emf");
+            emf.Save("C:\\epplusTest\\OleTest\\EMF\\ChangeImageTest38.emf");
+        }
+
+        [TestMethod]
+        public void ReadWriteImage_BMP()
+        {
+            string path = @"C:\epplusTest\OleTest\EMF\bmp1.emf";
+            EMF emf = new EMF();
+            emf.Read(path);
+            emf.Save("C:\\epplusTest\\OleTest\\EMF\\ChangeImageTest8.emf");
         }
 
         [TestMethod]

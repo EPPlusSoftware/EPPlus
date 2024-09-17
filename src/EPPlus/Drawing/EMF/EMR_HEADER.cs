@@ -26,7 +26,6 @@ namespace OfficeOpenXml.Drawing.EMF
 
         public EMR_HEADER(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
-            
             Bounds = br.ReadBytes(16);
             Frame = br.ReadBytes(16);
             RecordSignature = br.ReadBytes(4);

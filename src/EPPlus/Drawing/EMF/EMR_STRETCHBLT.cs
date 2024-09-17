@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
 using System;
 using System.IO;
+using static OfficeOpenXml.Drawing.OleObject.OleObjectDataStreams;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -23,9 +24,9 @@ namespace OfficeOpenXml.Drawing.EMF
         internal uint   cbBitSrc;
         internal byte[] cxSrc;
         internal byte[] cySrc;
-
         internal byte[] BmiSrc;
         internal byte[] BitsSrc;
+        internal byte[] Padding;
 
         public EMR_STRETCHBLT(BinaryReader br, uint TypeValue) : base(br , TypeValue)
         {
@@ -49,11 +50,18 @@ namespace OfficeOpenXml.Drawing.EMF
 
             BmiSrc = br.ReadBytes((int)cbBmiSrc);
             BitsSrc = br.ReadBytes((int)cbBitSrc);
+
+            int padding = (int)((position + Size) - br.BaseStream.Position);
+            if (padding < 0)
+            {
+                Padding = new byte[0];
+                return;
+            }
+            Padding = br.ReadBytes(padding);
         }
 
         public EMR_STRETCHBLT(byte[] bmp)
         {
-
             Type = RECORD_TYPES.EMR_STRETCHBLT;
             Bounds = new byte[16] { 0x20, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x3F, 0x00, 0x00, 0x00, 0x21, 0x00, 0x00, 0x00 };
             xDest = new byte[4] { 0x20, 0x00, 0x00, 0x00 };
@@ -71,20 +79,44 @@ namespace OfficeOpenXml.Drawing.EMF
             offBitScr = offBmiSrc + cbBmiSrc;
 
             ChangeImage(bmp);
-
-            cxSrc = new byte[4] { 0x20, 0x00, 0x00, 0x00 };
-            cySrc = new byte[4] { 0x20, 0x00, 0x00, 0x00 };
-
-            BmiSrc = new byte[0]; //Empty because everything here is in BitsSrc
-
-            Size = (uint)(offBmiSrc + BitsSrc.Length);
         }
 
         public void ChangeImage(byte[] bmp)
         {
-            BitsSrc = new byte[bmp.Length - 14];
-            Array.Copy(bmp, 14, BitsSrc, 0, bmp.Length-14);
-            cbBitSrc = (uint)BitsSrc.Length;
+            byte[] bmpHeader = new byte[14];
+            Array.Copy(bmp, 0, bmpHeader, 0, 14);
+
+            byte[] bmpDIBHeaderSize = new byte[4];
+            Array.Copy(bmp, 14, bmpDIBHeaderSize, 0, 4);
+
+            int DIBHeaderSize = BitConverter.ToInt32(bmpDIBHeaderSize, 0);
+
+            byte[] bmpDIBHeader = new byte[DIBHeaderSize];
+            Array.Copy(bmp, 14, bmpDIBHeader, 0, DIBHeaderSize);
+
+
+            //Get width and height from bmp image. This will make sure we display the full image.
+            Array.Copy(bmpDIBHeader, 4, cxSrc, 0, 4);
+            Array.Copy(bmpDIBHeader, 8, cySrc, 0, 4);
+
+            int headerSize = DIBHeaderSize + 14;
+
+            byte[] bmpPixelData = new byte[bmp.Length - headerSize];
+            Array.Copy(bmp, headerSize, bmpPixelData, 0, bmp.Length - headerSize);
+
+            BmiSrc = bmpDIBHeader;
+            var headerSizeDiff = cbBmiSrc - bmpDIBHeader.Length;
+            cbBmiSrc = (uint)bmpDIBHeader.Length;
+
+            offBitScr = offBitScr - (uint)headerSizeDiff;
+
+            cbBitSrc = (uint)bmpPixelData.Length;
+            BitsSrc = bmpPixelData;
+
+            Size = (uint)(offBitScr + cbBitSrc);
+            int paddingBytes = (int)(4 - (Size % 4)) % 4;
+            Padding = new byte[paddingBytes];
+
         }
 
         public override void WriteBytes(BinaryWriter bw)
@@ -98,13 +130,18 @@ namespace OfficeOpenXml.Drawing.EMF
             bw.Write(BitBltRasterOperation);
             bw.Write(xSrc);
             bw.Write(ySrc);
-            bw.Write(cbBmiSrc);
+            bw.Write(XformSrc);
+            bw.Write(BkColorSrc);
+            bw.Write(UsageSrc);
             bw.Write(offBmiSrc);
+            bw.Write(cbBmiSrc);
+            bw.Write(offBitScr);
             bw.Write(cbBitSrc);
             bw.Write(cxSrc);
             bw.Write(cySrc);
             bw.Write(BmiSrc);
             bw.Write(BitsSrc);
+            bw.Write(Padding);
         }
     }
 }

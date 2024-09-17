@@ -41,6 +41,6 @@ namespace OfficeOpenXml.Drawing.EMF
             cyDest = br.ReadBytes(4);
             BmiSrc = br.ReadBytes((int)cbBmiSrc);
             BitsSrc = br.ReadBytes((int)cbBitsSrc);
-    }
+        }
     }
 }
