@@ -484,9 +484,18 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             IPictureContainer container = pic;
             var uri = container.UriPic;
-            var ii = added.Workbook._package.PictureStore.AddImage(pic.Image.ImageBytes, null, pic.Image.Type);
 
-            var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+            ZipPackageRelationship rel;
+            if (pic.Image != null)
+            {
+                var ii = added.Workbook._package.PictureStore.AddImage(pic.Image.ImageBytes, null, pic.Image.Type);
+                rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+            }
+            else
+            {
+                rel = partDraw.CreateRelationship(uri, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
+            }
+
             //Fixes problem with invalid image when the same image is used more than once.
             XmlNode relAtt =
                 drawXml.SelectSingleNode(

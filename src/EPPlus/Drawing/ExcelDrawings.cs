@@ -27,6 +27,8 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Xml.Linq;
+using System.Linq;
+
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -112,7 +114,6 @@ namespace OfficeOpenXml.Drawing
 
             foreach (XmlNode node in list)
             {
-
                 ExcelDrawing dr;
                 switch (node.LocalName)
                 {
@@ -870,6 +871,45 @@ namespace OfficeOpenXml.Drawing
         {
             return AddPicture(Name, ImageFile, null);
         }
+
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="LinkedPicture">Linked Picture</param>
+        /// <returns>A picture object</returns>
+        public ExcelPicture AddLinkedPicture(string Name, string LinkedPicture)
+        {
+            var uri = new Uri($"file:///{LinkedPicture}");
+
+            XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
+            var index = uri.OriginalString.IndexOf('.');
+            var type = PictureStore.GetPictureType(uri.OriginalString.Substring(index));
+            var pic = new ExcelPicture(this, drawNode, null, type);
+            pic.LoadImageLinked(uri, type);
+            AddPicture(Name, pic);
+            return pic;
+        }
+
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="LinkedPicture">Linked Picture</param>
+        /// <returns>A picture object</returns>
+        public ExcelPicture AddAndLinkPicture(string Name, string LinkedPicture)
+        {
+            var pic = AddPicture(Name, LinkedPicture);
+
+            var relPart = pic._drawings.Part._rels.FirstOrDefault(x => x.TargetUri.OriginalString == LinkedPicture);
+            if(relPart == null)
+            {
+                relPart = pic._drawings.Part.CreateRelationship(LinkedPicture, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
+            }
+            pic.SetLinkedId(pic.TopNode, pic.Image.Type.Value, relPart.Id);
+            return pic;
+        }
+
         /// <summary>
         /// Adds a picture to the worksheet
         /// </summary>

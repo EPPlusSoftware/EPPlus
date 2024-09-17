@@ -17,7 +17,7 @@ using System.IO;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
-using System.Linq;
+using OfficeOpenXml.Packaging;
 
 #if NETFULL
 using System.Drawing.Imaging;
@@ -47,45 +47,61 @@ namespace OfficeOpenXml.Drawing
         {
             Init();
             XmlNode picNode = node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", drawings.NameSpaceManager);
-            if (picNode != null && picNode.Attributes["embed", ExcelPackage.schemaRelationships] != null)
+
+            if(picNode != null)
             {
-                IPictureContainer container = this;
-                container.RelPic = drawings.Part.GetRelationship(picNode.Attributes["embed", ExcelPackage.schemaRelationships].Value);
-                container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, container.RelPic.TargetUri);
+                if (picNode.Attributes["embed", ExcelPackage.schemaRelationships] != null)
+                {
+                    IPictureContainer container = this;
+                    container.RelPic = drawings.Part.GetRelationship(picNode.Attributes["embed", ExcelPackage.schemaRelationships].Value);
+                    container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, container.RelPic.TargetUri);
 
-                if (drawings.Part.Package.PartExists(container.UriPic))
-                {
-                    Part = drawings.Part.Package.GetPart(container.UriPic);
-                }
-                else
-                {
-                    Part = null;
-                    return;
-                }
-				ContentType = Part.ContentType;
+                    if (drawings.Part.Package.PartExists(container.UriPic))
+                    {
+                        Part = drawings.Part.Package.GetPart(container.UriPic);
+                    }
+                    else
+                    {
+                        Part = null;
+                        return;
+                    }
+                    ContentType = Part.ContentType;
 
-				var ms = ((MemoryStream)Part.GetStream());
-                Image = new ExcelImage(this);
+                    var ms = ((MemoryStream)Part.GetStream());
+                    Image = new ExcelImage(this);
 
-				var type = PictureStore.GetPictureTypeByContentType(ContentType);
-				if (type==null)
-                {
-					type = ImageReader.GetPictureType(ms, false);
-				}
-				Image.Type = type.Value;
-                byte[] iby = ms.ToArray();
-				Image.ImageBytes=iby;
-                var ii = _drawings._package.PictureStore.LoadImage(iby, container.UriPic, Part);
-                var pd = (IPictureRelationDocument)_drawings;
-                if (pd.Hashes.ContainsKey(ii.Hash))
-                {
-                    pd.Hashes[ii.Hash].RefCount++;
+                    var type = PictureStore.GetPictureTypeByContentType(ContentType);
+                    if (type == null)
+                    {
+                        type = ImageReader.GetPictureType(ms, false);
+                    }
+                    Image.Type = type.Value;
+                    byte[] iby = ms.ToArray();
+                    Image.ImageBytes = iby;
+                    var ii = _drawings._package.PictureStore.LoadImage(iby, container.UriPic, Part);
+                    var pd = (IPictureRelationDocument)_drawings;
+                    if (pd.Hashes.ContainsKey(ii.Hash))
+                    {
+                        pd.Hashes[ii.Hash].RefCount++;
+                    }
+                    else
+                    {
+                        pd.Hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id) { RefCount = 1 });
+                    }
+                    container.ImageHash = ii.Hash;
                 }
-                else
+                else if (picNode.Attributes["link", ExcelPackage.schemaRelationships] != null)
                 {
-                    pd.Hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id) { RefCount = 1 });
+                    IPictureContainer container = this;
+                    container.RelPic = drawings.Part.GetRelationship(picNode.Attributes["link", ExcelPackage.schemaRelationships].Value);
+                    container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, container.RelPic.TargetUri);
+
+                    if (Directory.Exists(container.UriPic.AbsolutePath))
+                    {
+                        var file = new FileInfo(container.UriPic.AbsolutePath);
+                        var type = PictureStore.GetPictureType(file.Extension);
+                    }
                 }
-                container.ImageHash = ii.Hash;
             }
         }
         private void Init()
@@ -97,11 +113,25 @@ namespace OfficeOpenXml.Drawing
 			_verticalFlipPath = string.Format(_verticalFlipPath, _topPath);
 		}
 
+        internal void SetLinkedId(XmlNode node, ePictureType type, string relID)
+        {
+            XmlElement blip;
+            if (type == ePictureType.Svg)
+            {
+                blip = (XmlElement)node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip", NameSpaceManager);
+            }
+            else
+            {
+                blip = (XmlElement)node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", NameSpaceManager);
+            }
+            blip.SetAttribute("link", ExcelPackage.schemaRelationships, relID);
+        }
+
 		private void SetRelId(XmlNode node, ePictureType type, string relID)
         {
             //Create relationship
             node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
-            
+
             if (type == ePictureType.Svg)
             {
                 node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relID;
@@ -136,6 +166,28 @@ namespace OfficeOpenXml.Drawing
 
             SaveImageToPackage(type, img);
         }
+
+        internal void LoadImageLinked(Uri imageLocation, ePictureType type)
+        {
+            SaveLinkedImageToPackage(type, imageLocation);
+        }
+
+        private void SaveLinkedImageToPackage(ePictureType type, Uri imageLocation)
+        {
+            var package = _drawings.Worksheet._package.ZipPackage;
+            ContentType = PictureStore.GetContentType(type.ToString());
+            var newUri = imageLocation;
+            var store = _drawings._package.PictureStore;
+            var pc = _drawings as IPictureRelationDocument;
+            IPictureContainer container = this;
+
+            container.RelPic = _drawings.Part.CreateRelationship(newUri, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
+            container.UriPic = newUri;
+
+            var relId = container.RelPic.Id;
+            SetLinkedId(TopNode, type, relId);
+        }
+
         private void SaveImageToPackage(ePictureType type, byte[] img)
         {
             var package = _drawings.Worksheet._package.ZipPackage;
