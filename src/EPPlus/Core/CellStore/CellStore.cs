@@ -589,7 +589,7 @@ namespace OfficeOpenXml.Core.CellStore
             {
                 sourcePagePos = ~sourcePagePos;
             }
-            if (sourcePagePos > sourceColIx._pages.Length - 1 || sourceColIx.PageCount==0)
+            if (sourcePagePos > sourceColIx._pages.Length - 1 || sourceColIx.PageCount==0 || sourcePagePos>=sourceColIx.PageCount)
             {
                 Delete(destStartRow, destCol, rows, 1, false);
                 return;
