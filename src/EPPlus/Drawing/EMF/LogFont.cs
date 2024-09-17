@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class LogFont
     {
+        //Read and written properties
         int Height;
         int Width;
         int Escapement;
@@ -26,6 +28,11 @@ namespace OfficeOpenXml.Drawing.EMF
         byte PitchAndFamily;
         string FaceName;
 
+        //Simplified properties for viewing/editing
+        FamilyFont fontFamily;
+        Pitch pitchFont;
+
+
         private bool recalculateWidth = false;
 
         internal LogFont(BinaryReader br)
@@ -40,7 +47,6 @@ namespace OfficeOpenXml.Drawing.EMF
             Orientation = br.ReadInt32();
             Weight = br.ReadInt32();
             Italic = br.ReadByte();
-            Italic = 0x0001;
             Underline = br.ReadByte();
             StrikeOut = br.ReadByte();
             Set = (CharacterSet)br.ReadByte();
@@ -48,6 +54,10 @@ namespace OfficeOpenXml.Drawing.EMF
             ClipPrecision = br.ReadByte();
             Quality = br.ReadByte();
             PitchAndFamily = br.ReadByte();
+
+            fontFamily = (FamilyFont)(PitchAndFamily >> 4);
+            pitchFont = (Pitch)(PitchAndFamily & 0xF);
+
             //Should stop if encounters a terminating null
             FaceName = BinaryHelper.GetPotentiallyNullTerminatedString(br, 64, Encoding.Unicode);
         }
