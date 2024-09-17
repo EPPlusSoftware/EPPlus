@@ -134,5 +134,37 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             Assert.AreEqual(1, formulaCell.GetValue<int>());
         }
+
+        [TestMethod]
+        public void MatchTest_GreaterThanOrEqual_ShouldReturnIndexOfLast()
+        {
+            _worksheet.Cells["G3"].Value = 1d;
+            _worksheet.Cells["G4"].Value = 0.75;
+            _worksheet.Cells["G5"].Value = 0.5;
+            _worksheet.Cells["G6"].Value = 0.27;
+            _worksheet.Cells["G7"].Value = 0.1;
+
+            _worksheet.Cells["A1"].Formula = "MATCH(0.01,G3:G7,-1)";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual(5, _worksheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void MatchTest_GreaterThanOrEqual_ShouldReturnIndexOfSecondLast()
+        {
+            _worksheet.Cells["G3"].Value = 1d;
+            _worksheet.Cells["G4"].Value = 0.75;
+            _worksheet.Cells["G5"].Value = 0.5;
+            _worksheet.Cells["G6"].Value = 0.27;
+            _worksheet.Cells["G7"].Value = 0.1;
+
+            _worksheet.Cells["A1"].Formula = "MATCH(0.11,G3:G7,-1)";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual(4, _worksheet.Cells["A1"].Value);
+        }
     }
 }

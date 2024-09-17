@@ -31,7 +31,8 @@ namespace EPPlusTest.LoadFunctions
                     c.Members = new MemberInfo[]
                     {
                         t.GetProperty("Id"),
-                        t.GetProperty("Item")
+                        t2.GetProperty("Id"),
+                        t2.GetProperty("Name")
                     };
                 });
 

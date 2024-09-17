@@ -228,7 +228,7 @@ namespace OfficeOpenXml
 
             Buffer.Flush();
             var xml = _encoding.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
-            int endElementIx = FindElementPos(xml, endElement, false);
+            int endElementIx = FindLastElementPos(xml, endElement, xmlPrefix, false);
 
             if (endElementIx < 0) return startXml;
             if (string.IsNullOrEmpty(readToElement))
@@ -413,6 +413,7 @@ namespace OfficeOpenXml
             }
 
             ix = xml.LastIndexOf(element, xml.Length - 1);
+            if (ix < 0) return -1;
 
             while (xml[ix - 1] == ':')
             {
