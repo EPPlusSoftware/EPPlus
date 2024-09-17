@@ -95,7 +95,7 @@ namespace OfficeOpenXml.SensitivityLabels
                 Labels.Add(ExcelSensibilityLabel.CreateFromElement(_nsm, element));
             }
 
-            SensibilityLabelHandler.UpdateLabelList(Labels, _pck.Id);
+            _pck.Settings.SensibilityLabelHandler.UpdateLabelList(Labels, _pck.Id);
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace OfficeOpenXml.SensitivityLabels
         /// <param name="name"></param>
         public void SetActiveLabelByName(string name)
         {
-            if (SensibilityLabelHandler == null)
+            if (_pck.Settings.SensibilityLabelHandler == null)
             {
                 throw (new MissingSensibilityHandlerException("No sensibility label handler is set. Please set the property ExcelSensibilityLabels.SensibilityLabelHandler"));
             }

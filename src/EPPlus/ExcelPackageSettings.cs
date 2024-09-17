@@ -13,6 +13,8 @@
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
 using System;
+using OfficeOpenXml.Interfaces.SensitivityLabels;
+using OfficeOpenXml.SensitivityLabels;
 
 namespace OfficeOpenXml
 {
@@ -74,5 +76,27 @@ namespace OfficeOpenXml
         /// In the case you want to handle this manually, set this property to false.
         /// </summary>
         public bool ApplyFiltersOnSave { get; set; } = true;
+#if(!NET35)
+        ISensitivityLabelHandler _sensibilityLabelHandler = null;
+        /// <summary>
+        /// If you want your workbooks to be marked with sensibility lables, you can add a handler for authentication, encryption and decryption using the Microsoft Information Protection SDK.
+        /// For more information
+        /// </summary>
+        public ISensitivityLabelHandler SensibilityLabelHandler
+        {
+            get
+            {
+                if(_sensibilityLabelHandler==null)
+                {
+                    return ExcelSensibilityLabels.SensibilityLabelHandler;
+                }
+                return _sensibilityLabelHandler;
+            }
+            set
+            {
+                _sensibilityLabelHandler = value;
+            }
+        }
     }
+#endif
 }
