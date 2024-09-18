@@ -48,6 +48,12 @@ namespace OfficeOpenXml.RichData
                     {
                         new ExcelRichValueStructureKey("_rvRel:LocalImageIdentifier", "i"),
                         new ExcelRichValueStructureKey("CalcOrigin", "i")
+                    },
+                    new List<ExcelRichValueStructureKey>()
+                    {
+                        new ExcelRichValueStructureKey("_rvRel:LocalImageIdentifier", "i"),
+                        new ExcelRichValueStructureKey("CalcOrigin", "i"),
+                        new ExcelRichValueStructureKey("Text", "s")
                     }
                 }
             }
@@ -106,6 +112,12 @@ namespace OfficeOpenXml.RichData
         {
             Type = "_localImage";
             Keys.AddRange(RichValueTypes[Type][0]);
+        }
+
+        public void SetAsLocalImageWithAltText()
+        {
+            Type = "_localImage";
+            Keys.AddRange(RichValueTypes[Type][1]);
         }
     }
 }

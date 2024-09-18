@@ -50,18 +50,33 @@ namespace OfficeOpenXml.CellPictures
             {
                 var relationIndex = int.Parse(richData.Values.First());
                 var relation = _richDataStore.GetRelation(relationIndex);
-                var pic = new ExcelCellPicture
+                if(richData.Structure.Keys.Count == 2)
                 {
-                    CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
-                    ImagePath = relation.Target,
-                    CalcOrigin = int.Parse(richData.Values.Last())
-                };
-                return pic;
+                    var pic = new ExcelCellPicture
+                    {
+                        CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
+                        ImagePath = relation.Target,
+                        CalcOrigin = int.Parse(richData.Values.Last())
+                    };
+                    return pic;
+                }
+                else if(richData.Structure.Keys.Count == 3)
+                {
+                    var pic = new ExcelCellPicture
+                    {
+                        CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
+                        ImagePath = relation.Target,
+                        CalcOrigin = int.Parse(richData.Values[1]),
+                        AltText = richData.Values.Last()
+                    };
+                    return pic;
+                }
+               
             }
             return null;
         }
 
-        public void SetCellPicture(int row, int col, byte[] imageBytes, int calcOrigin = CalcOrigin_AddedByUser)
+        public void SetCellPicture(int row, int col, byte[] imageBytes, string altText, CalcOrigins calcOrigin = CalcOrigins.AddedByUserAltText)
         {
             var richData = _richDataStore.GetRichData(row, col, ExcelCellPicture.LocalImageStructureType);
             if(richData == null)
@@ -83,9 +98,10 @@ namespace OfficeOpenXml.CellPictures
                 var pictureType = ImageReader.GetPictureType(ms, true);
                 imageInfo = _pictureStore.AddImage(imageBytes, null, pictureType);
             }
+            var flag = string.IsNullOrEmpty(altText) ? RichDataStructureFlags.LocalImage : RichDataStructureFlags.LocalImageWithAltText;
             var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
             var imageUri = UriHelper.GetRelativeUri(rdUri, imageInfo.Uri);
-            _richDataStore.AddRichData(ExcelPackage.schemaImage, imageUri.OriginalString, new List<string> { calcOrigin.ToString() }, RichDataStructureFlags.LocalImage, out int vm);
+            _richDataStore.AddRichData(ExcelPackage.schemaImage, imageUri.OriginalString, new List<string> { ((int)calcOrigin).ToString(), altText }, flag, out int vm);
             var md = _sheet._metadataStore.GetValue(row, col);
             md.vm = vm;
             // there should be a #VALUE error in the cell that contains the picture...
@@ -94,28 +110,28 @@ namespace OfficeOpenXml.CellPictures
 
         }
 
-        public void SetCellPicture(int row, int col, Stream imageStream, int calcOrigin = CalcOrigin_AddedByUser)
+        public void SetCellPicture(int row, int col, Stream imageStream, string altText, CalcOrigins calcOrigin = CalcOrigins.AddedByUserAltText)
         {
             imageStream.Seek(0, SeekOrigin.Begin);
             using var sr = new StreamReader(imageStream);
             var bytes = sr.ReadToEnd();
-            SetCellPicture(row, col, bytes, calcOrigin);
+            SetCellPicture(row, col, bytes, altText, calcOrigin);
         }
 
-        public void SetCellPicture(int row, int col, string path, int calcOrigin = CalcOrigin_AddedByUser)
+        public void SetCellPicture(int row, int col, string path, string altText, CalcOrigins calcOrigin = CalcOrigins.AddedByUserAltText)
         {
             var imageBytes = File.ReadAllBytes(path);
-            SetCellPicture(row, col, imageBytes, calcOrigin);
+            SetCellPicture(row, col, imageBytes, altText, calcOrigin);
         }
 
-        public void SetCellPicture(int row, int col, FileInfo fileInfo, int calcOrigin = CalcOrigin_AddedByUser)
+        public void SetCellPicture(int row, int col, FileInfo fileInfo, string altText, CalcOrigins calcOrigin = CalcOrigins.AddedByUserAltText)
         {
-            SetCellPicture(row, col, fileInfo.FullName, calcOrigin);
+            SetCellPicture(row, col, fileInfo.FullName, altText, calcOrigin);
         }
 
-        public void SetCellPicture(int row, int col, ExcelImage image, int calcOrigin = CalcOrigin_AddedByUser)
+        public void SetCellPicture(int row, int col, ExcelImage image, string altText, CalcOrigins calcOrigin = CalcOrigins.AddedByUserAltText)
         {
-            SetCellPicture(row, col, image.ImageBytes, calcOrigin);
+            SetCellPicture(row, col, image.ImageBytes, altText, calcOrigin);
         }
     }
 }

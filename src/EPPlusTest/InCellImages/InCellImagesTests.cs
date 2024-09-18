@@ -24,8 +24,7 @@ namespace EPPlusTest.InCellImages
 
             Assert.IsNotNull(pic1, "Cell A1 picture was not present");
             Assert.IsNotNull(pic2, "Cell A2 picture was not present");
-            Assert.IsNotNull(pic3, "Cell B3 picture was not present");
-            // there is no picture in cell B2
+            Assert.IsNotNull(pic3, "Cell B3 picture was not present");            // there is no picture in cell B2
             Assert.IsNull(pic4, "Cell B2 was not empty");
         }
 
@@ -42,12 +41,13 @@ namespace EPPlusTest.InCellImages
         }
 
         [TestMethod]
-        public void SetDrawingPic()
+        public void SetCellPictureWithAltText()
         {
             var path = @"C:\Users\MatsAlm\OneDrive - EPPlus Software AB\ImagesInCells\ImagesInCells2\purchase-license-thb.png";
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
-            sheet.Drawings.AddPicture("p1", path);
+            sheet.Cells["A1"].SetCellPicture(path, "This is an alt-text");
+            package.SaveAs(@"c:\temp\CellPictureEPPlusAlt1.xlsx");
         }
     }
 }

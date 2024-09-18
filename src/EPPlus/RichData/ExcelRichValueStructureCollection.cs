@@ -159,6 +159,9 @@ namespace OfficeOpenXml.RichData
                 case RichDataStructureFlags.LocalImage:
                     si.SetAsLocalImage(); 
                     break;
+                case RichDataStructureFlags.LocalImageWithAltText:
+                    si.SetAsLocalImageWithAltText();
+                    break;
             }
             StructureItems.Add(si);
             _structures.Add(structure, StructureItems.Count - 1);

@@ -10,47 +10,16 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Packaging;
-using OfficeOpenXml.RichData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 
 namespace OfficeOpenXml.CellPictures
 {
-    /// <summary>
-    /// Represents an in-cell picture
-    /// </summary>
-    internal class ExcelCellPicture
+    internal enum CalcOrigins
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public ExcelCellPicture()
-        {
-            
-        }
-
-        public string ImagePath
-        {
-            get; set;
-        }
-
-        public string AltText
-        {
-            get; set;
-        }
-
-        internal int CalcOrigin { get; set; }
-
-        internal const string LocalImageStructureType = "_localImage";
-
-        public ExcelAddress CellAddress { get; set;  }
-
-       
+        AddedByUserAltText = 5,
+        AddedByUserDecorative = 6
     }
 }

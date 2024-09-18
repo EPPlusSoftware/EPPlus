@@ -54,6 +54,10 @@ namespace OfficeOpenXml.RichData
             {
                 rv.AddLocalImage(relIx, int.Parse(values.ElementAt(0)), string.Empty);
             }
+            else if((structureFlag & RichDataStructureFlags.LocalImageWithAltText) == RichDataStructureFlags.LocalImageWithAltText)
+            {
+                rv.AddLocalImage(relIx, int.Parse(values.ElementAt(0)), values.ElementAt(1));
+            }
             _workbook.RichData.Values.Items.Add(rv);
 
             // update the metadata
