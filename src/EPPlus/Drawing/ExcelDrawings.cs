@@ -28,6 +28,8 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Xml.Linq;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -864,49 +866,145 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Adds a picture to the worksheet
         /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="ImageFile">The image file</param>
+        /// <param name="Name">The name of the drawing object</param>
+        /// <param name="ImagePath">The path to the image file</param>
+        /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
-        public ExcelPicture AddPicture(string Name, FileInfo ImageFile)
+        public ExcelPicture AddPicture(string Name, string ImagePath, PictureLocation Location = PictureLocation.Embed)
         {
-            return AddPicture(Name, ImageFile, null);
+            if (string.IsNullOrEmpty(ImagePath) == false)
+            {
+                return AddPicture(Name, new FileInfo(ImagePath), null, Location);
+            }
+            throw (new Exception("AddPicture: Image path can't be null"));
         }
-
+        /// <summary>
+        /// Adds a picture to the worksheet
+        /// </summary>
+        /// <param name="Name">The name of the drawing object</param>
+        /// <param name="ImagePath">The path to the image file</param>
+        /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <param name="Location">Location to access the image from</param>
+        /// <returns>A picture object</returns>
+        public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink Hyperlink, PictureLocation Location = PictureLocation.Embed)
+        {
+            if (string.IsNullOrEmpty(ImagePath) == false)
+            {
+                return AddPicture(Name, new FileInfo(ImagePath), Hyperlink, Location);
+            }
+            throw (new Exception("AddPicture: Image path can't be null"));
+        }
         /// <summary>
         /// Adds a picture to the worksheet
         /// </summary>
         /// <param name="Name"></param>
-        /// <param name="LinkedPicture">Linked Picture</param>
+        /// <param name="ImageFile">The image file</param>
+        /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
-        public ExcelPicture AddLinkedPicture(string Name, string LinkedPicture)
+        public ExcelPicture AddPicture(string Name, FileInfo ImageFile, PictureLocation Location = PictureLocation.Embed)
         {
-            var uri = new Uri($"file:///{LinkedPicture}");
+            return AddPicture(Name, ImageFile, null, Location);
+        }
+
+        internal ExcelPicture AddLinkedPicture(string Name, string imagePath, Uri hyperLink)
+        {
+            var uri = new Uri($"file:///{imagePath}");
 
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             var index = uri.OriginalString.IndexOf('.');
             var type = PictureStore.GetPictureType(uri.OriginalString.Substring(index));
-            var pic = new ExcelPicture(this, drawNode, null, type);
+            var pic = new ExcelPicture(this, drawNode, hyperLink, type, "link");
             pic.LoadImageLinked(uri, type);
-            AddPicture(Name, pic);
             return pic;
         }
 
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="LinkedPicture">Linked Picture</param>
-        /// <returns>A picture object</returns>
-        public ExcelPicture AddAndLinkPicture(string Name, string LinkedPicture)
+        private ExcelPicture BaseAddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
         {
-            var pic = AddPicture(Name, LinkedPicture);
+            ExcelPicture pic = null;
 
-            var relPart = pic._drawings.Part._rels.FirstOrDefault(x => x.TargetUri.OriginalString == LinkedPicture);
-            if(relPart == null)
+            XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
+            var type = PictureStore.GetPictureType(ImageFile.Extension);
+
+            bool containsEmbed = (Location | PictureLocation.Embed) == PictureLocation.Embed;
+            bool hasLink = (Location | PictureLocation.Link) == PictureLocation.Link;
+
+            string attribute = containsEmbed ? "embed" : "link";
+            pic = new ExcelPicture(this, drawNode, Hyperlink, type, attribute);
+
+            if(hasLink)
             {
-                relPart = pic._drawings.Part.CreateRelationship(LinkedPicture, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
+                var uri = new Uri($"file:///{ImageFile.FullName}");
+                pic.LoadImageLinked(uri, type);
             }
-            pic.SetLinkedId(pic.TopNode, pic.Image.Type.Value, relPart.Id);
+
+            //if(hasLink)
+            //{
+            //    if(containsEmbed)
+            //    {
+            //        pic = new ExcelPicture(this, drawNode, Hyperlink, type);
+            //    }
+            //    else
+            //    {
+            //        pic = new ExcelPicture(this, drawNode, Hyperlink, type, "link");
+            //    }
+            //    var uri = new Uri($"file:///{ImageFile.FullName}");
+            //    pic.LoadImageLinked(uri, type);
+            //    //Do thing always (but must be done last)
+            //}
+
+            //if (containsEmbed)
+            //{
+            //    pic = new ExcelPicture(this, drawNode, Hyperlink, type);
+            //}
+            //else
+            //{
+            //    pic = new ExcelPicture(this, drawNode, Hyperlink, type, "link");
+            //}
+
+            //if(hasLink)
+            //{
+            //    var uri = new Uri($"file:///{ImageFile.FullName}");
+            //    pic.LoadImageLinked(uri, type);
+            //}
+
+            //if((Location & PictureLocation.Link) == PictureLocation.Link)
+            //{
+            //    var uri = new Uri($"file:///{ImageFile.FullName}");
+            //    pic.LoadImageLinked(uri, type);
+            //}
+
+            //switch (Location)
+            //{
+            //    case PictureLocation.Embed:
+            //        break;
+            //    case PictureLocation.LinkAndEmbed:
+            //        break;
+            //    case PictureLocation.Link:
+            //        break;
+            //    default:
+            //        throw new NotImplementedException($"The picture location {Location} when adding picture '{Name}' is invalid.");
+            //}
+
+            //switch (Location)
+            //{
+            //    case PictureLocation.Embed:
+            //    case PictureLocation.LinkAndEmbed:
+            //        ValidatePictureFile(Name, ImageFile);
+            //        XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
+            //        var type = PictureStore.GetPictureType(ImageFile.Extension);
+            //        pic = new ExcelPicture(this, drawNode, Hyperlink, type);
+            //        if(Location == PictureLocation.LinkAndEmbed)
+            //        {
+            //            var uri = new Uri($"file:///{ImageFile.FullName}");
+            //            pic.LoadImageLinked(uri, pic.Image.Type.Value);
+            //        }
+            //        break;
+            //    case PictureLocation.Link:
+            //        pic = AddLinkedPicture(Name, ImageFile.FullName, Hyperlink);
+            //        break;
+            //    default:
+            //        throw new NotImplementedException($"The picture location {Location} when adding picture '{Name}' is invalid.");
+            //}
             return pic;
         }
 
@@ -916,15 +1014,36 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Name"></param>
         /// <param name="ImageFile">The image file</param>
         /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
-        public ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink)
+        public ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
         {
-            ValidatePictureFile(Name, ImageFile);
-            XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var type = PictureStore.GetPictureType(ImageFile.Extension);
-            var pic = new ExcelPicture(this, drawNode, Hyperlink, type);
-            pic.LoadImage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
+            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location);
+            if(Location != PictureLocation.Link)
+            {
+                pic.LoadImage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), pic.Image.Type.Value);
+            }
             AddPicture(Name, pic);
+
+            //if (Location == PictureLocation.Link)
+            //{
+            //    pic = AddLinkedPicture(Name, ImageFile.FullName, Hyperlink);
+            //}
+            //else
+            //{
+            //    ValidatePictureFile(Name, ImageFile);
+            //    XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
+            //    var type = PictureStore.GetPictureType(ImageFile.Extension);
+            //    pic = new ExcelPicture(this, drawNode, Hyperlink, type);
+            //    pic.LoadImage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
+            //    AddPicture(Name, pic);
+
+            //    if(Location == PictureLocation.LinkAndEmbed)
+            //    {
+            //        var uri = new Uri($"file:///{ImageFile.FullName}");
+            //        pic.LoadImageLinked(uri, pic.Image.Type.Value);
+            //    }
+            //}
             return pic;
         }
         /// <summary>
@@ -1009,10 +1128,11 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ImageFile">The image file</param>
+        /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
-        public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile)
+        public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, PictureLocation Location = PictureLocation.Embed)
         {
-            return await AddPictureAsync(Name, ImageFile, null);
+            return await AddPictureAsync(Name, ImageFile, null, Location);
         }
         /// <summary>
         /// Adds a picture to the worksheet
@@ -1020,15 +1140,22 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Name"></param>
         /// <param name="ImageFile">The image file</param>
         /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
-        public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, Uri Hyperlink)
+        public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
         {
-            ValidatePictureFile(Name, ImageFile);
-            XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var type = PictureStore.GetPictureType(ImageFile.Extension);
-            var pic = new ExcelPicture(this, drawNode, Hyperlink, type);
-            await pic.LoadImageAsync(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
+            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location);
+            if (Location != PictureLocation.Link)
+            {
+                await pic.LoadImageAsync(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), pic.Image.Type.Value);
+            }
             AddPicture(Name, pic);
+            //ValidatePictureFile(Name, ImageFile);
+            //XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
+            //var type = PictureStore.GetPictureType(ImageFile.Extension);
+            //var pic = new ExcelPicture(this, drawNode, Hyperlink, type);
+            //await pic.LoadImageAsync(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
+            //AddPicture(Name, pic);
             return pic;
         }
         /// <summary>
@@ -1036,10 +1163,11 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ImagePath">The path to the image file</param>
+        /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
-        public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath)
+        public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath, PictureLocation Location = PictureLocation.Embed)
         {
-            return await AddPictureAsync(Name, new FileInfo(ImagePath), null);
+            return await AddPictureAsync(Name, new FileInfo(ImagePath), null, Location);
         }
         /// <summary>
         /// Adds a picture to the worksheet
@@ -1124,35 +1252,6 @@ namespace OfficeOpenXml.Drawing
             pic.Name = Name;
             _drawingsList.Add(pic);
             _drawingNames.Add(Name, _drawingsList.Count - 1);
-        }
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name">The name of the drawing object</param>
-        /// <param name="ImagePath">The path to the image file</param>
-        /// <returns>A picture object</returns>
-        public ExcelPicture AddPicture(string Name, string ImagePath)
-        {
-            if (string.IsNullOrEmpty(ImagePath) == false)
-            {
-                return AddPicture(Name, new FileInfo(ImagePath), null);
-            }
-            throw (new Exception("AddPicture: Image path can't be null"));
-        }
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name">The name of the drawing object</param>
-        /// <param name="ImagePath">The path to the image file</param>
-        /// <param name="Hyperlink">Picture Hyperlink</param>
-        /// <returns>A picture object</returns>
-        public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink Hyperlink)
-        {
-            if (string.IsNullOrEmpty(ImagePath) == false)
-            {
-                return AddPicture(Name, new FileInfo(ImagePath), Hyperlink);
-            }
-            throw (new Exception("AddPicture: Image path can't be null"));
         }
         private void ValidatePictureFile(string Name, FileInfo ImageFile)
         {

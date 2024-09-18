@@ -6226,33 +6226,5 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
-        [TestMethod]
-        public void i1597()
-        {
-            using (var package = OpenTemplatePackage("i1597FuncTest.xlsx"))
-            {
-                var sheet = package.Workbook.Worksheets[0];
-                var draws = sheet.Drawings;
-
-                //var pic = sheet.Drawings.AddPicture("Landscape", "C:\\Users\\OssianEdström\\Pictures\\webp.jpg");
-                package.Workbook.Worksheets.Copy("Sheet1", "Copy");
-
-                SaveAndCleanup(package);
-            }
-        }
-        [TestMethod]
-        public void i1597_2()
-        {
-            using (var package = OpenPackage("TestImageContainers.xlsx", true))
-            {
-                var sheet = package.Workbook.Worksheets.Add("emptyWS");
-
-                var pic = sheet.Drawings.AddAndLinkPicture("Landscape", "C:\\Users\\OssianEdström\\Pictures\\webp.jpg");
-                //var pic = sheet.Drawings.AddPicture("Landscape", "C:\\Users\\OssianEdström\\Pictures\\webp.jpg");
-                package.Workbook.Worksheets.Copy("emptyWS", "Copy");
-
-                SaveAndCleanup(package);
-            }
-        }
     }
 }

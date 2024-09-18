@@ -29,10 +29,9 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.ConditionalFormatting;
-using System.Xml.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -482,30 +481,32 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyPicture(ExcelWorksheet added, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet copy, ExcelPicture pic)
         {
-            IPictureContainer container = pic;
-            var uri = container.UriPic;
-
-            ZipPackageRelationship rel;
             if (pic.Image != null)
             {
                 var ii = added.Workbook._package.PictureStore.AddImage(pic.Image.ImageBytes, null, pic.Image.Type);
-                rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+                var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+
+                UpdatePictureAttributeID("embed", rel.Id, pic.Name, copy.Drawings.NameSpaceManager, drawXml);
             }
-            else
+
+            if (pic.LinkedImageRel != null)
             {
-                rel = partDraw.CreateRelationship(uri, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
+                var rel = partDraw.CreateRelationship(pic.LinkedImageRel.TargetUri, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
+                UpdatePictureAttributeID("link", rel.Id, pic.Name, copy.Drawings.NameSpaceManager, drawXml);
             }
+        }
 
-            //Fixes problem with invalid image when the same image is used more than once.
-            XmlNode relAtt =
-                drawXml.SelectSingleNode(
-                    string.Format(
-                        "//xdr:pic/xdr:nvPicPr/xdr:cNvPr/@name[.='{0}']/../../../xdr:blipFill/a:blip/@r:embed",
-                        pic.Name), copy.Drawings.NameSpaceManager);
+        //Fixes problem with invalid image when the same image is used more than once.
+        private static void UpdatePictureAttributeID(string attrName, string id, string picName, XmlNamespaceManager nsm, XmlDocument drawXml)
+        {
+            var nodeName = string.Format(
+                           "//xdr:pic/xdr:nvPicPr/xdr:cNvPr/@name[.='{0}']/../../../xdr:blipFill/a:blip/@r:{1}",
+                           picName, attrName);
 
+            XmlNode relAtt = drawXml.SelectSingleNode(nodeName, nsm);
             if (relAtt != null)
             {
-                relAtt.Value = rel.Id;
+                relAtt.Value = id;
             }
         }
 

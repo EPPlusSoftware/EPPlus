@@ -18,6 +18,9 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
+using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+
 
 #if NETFULL
 using System.Drawing.Imaging;
@@ -33,13 +36,17 @@ namespace OfficeOpenXml.Drawing
     public sealed class ExcelPicture : ExcelDrawing, IPictureContainer
     {
 #region "Constructors"
-        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type) :
+        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type, string initialAttribute = "embed") :
             base(drawings, node, "xdr:pic/", "xdr:nvPicPr/xdr:cNvPr")
         {
             Init();
-            CreatePicNode(node,type);
+            CreatePicNode(node, type, initialAttribute);
             Hyperlink = hyperlink;
-            Image = new ExcelImage(this);
+            if(initialAttribute != "link")
+            {
+                Image = new ExcelImage(this);
+                Image.Type = type;
+            }
         }
 
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null) :
@@ -90,17 +97,22 @@ namespace OfficeOpenXml.Drawing
                     }
                     container.ImageHash = ii.Hash;
                 }
-                else if (picNode.Attributes["link", ExcelPackage.schemaRelationships] != null)
-                {
-                    IPictureContainer container = this;
-                    container.RelPic = drawings.Part.GetRelationship(picNode.Attributes["link", ExcelPackage.schemaRelationships].Value);
-                    container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, container.RelPic.TargetUri);
 
-                    if (Directory.Exists(container.UriPic.AbsolutePath))
+                if (picNode.Attributes["link", ExcelPackage.schemaRelationships] != null)
+                {
+                    LinkedImageRel = drawings.Part.GetRelationship(picNode.Attributes["link", ExcelPackage.schemaRelationships].Value);
+                    IPictureContainer container = this;
+                    if(container.RelPic == null && container.UriPic == null)
                     {
-                        var file = new FileInfo(container.UriPic.AbsolutePath);
-                        var type = PictureStore.GetPictureType(file.Extension);
+                        container.RelPic = LinkedImageRel;
+                        //container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, LinkedImageRel.TargetUri);
                     }
+
+                    //if (Directory.Exists(container.UriPic.AbsolutePath))
+                    //{
+                    //    var file = new FileInfo(container.UriPic.AbsolutePath);
+                    //    var type = PictureStore.GetPictureType(file.Extension);
+                    //}
                 }
             }
         }
@@ -113,7 +125,7 @@ namespace OfficeOpenXml.Drawing
 			_verticalFlipPath = string.Format(_verticalFlipPath, _topPath);
 		}
 
-        internal void SetLinkedId(XmlNode node, ePictureType type, string relID)
+		internal void SetRelId(XmlNode node, ePictureType type, string relID, string attribute = "embed")
         {
             XmlElement blip;
             if (type == ePictureType.Svg)
@@ -124,18 +136,7 @@ namespace OfficeOpenXml.Drawing
             {
                 blip = (XmlElement)node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", NameSpaceManager);
             }
-            blip.SetAttribute("link", ExcelPackage.schemaRelationships, relID);
-        }
-
-		private void SetRelId(XmlNode node, ePictureType type, string relID)
-        {
-            //Create relationship
-            node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relID;
-
-            if (type == ePictureType.Svg)
-            {
-                node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relID;
-            }
+            blip.SetAttribute(attribute, ExcelPackage.schemaRelationships, relID);
         }
 
         /// <summary>
@@ -169,24 +170,34 @@ namespace OfficeOpenXml.Drawing
 
         internal void LoadImageLinked(Uri imageLocation, ePictureType type)
         {
-            SaveLinkedImageToPackage(type, imageLocation);
-        }
-
-        private void SaveLinkedImageToPackage(ePictureType type, Uri imageLocation)
-        {
-            var package = _drawings.Worksheet._package.ZipPackage;
             ContentType = PictureStore.GetContentType(type.ToString());
-            var newUri = imageLocation;
-            var store = _drawings._package.PictureStore;
-            var pc = _drawings as IPictureRelationDocument;
-            IPictureContainer container = this;
+            LinkedImageRel = _drawings.Part._rels.FirstOrDefault(x => x.TargetUri.OriginalString == imageLocation.OriginalString);
 
-            container.RelPic = _drawings.Part.CreateRelationship(newUri, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
-            container.UriPic = newUri;
-
-            var relId = container.RelPic.Id;
-            SetLinkedId(TopNode, type, relId);
+            if (LinkedImageRel == null)
+            {
+                LinkedImageRel = _drawings.Part.CreateRelationship(imageLocation, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
+            }
+            SetRelId(TopNode, type, LinkedImageRel.Id, "link");
         }
+
+        //private void SaveLinkedImageToPackage(ePictureType type, Uri imageLocation)
+        //{
+        //    ContentType = PictureStore.GetContentType(type.ToString());
+        //    LinkedImageRel = _drawings.Part.CreateRelationship(imageLocation, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
+        //    SetRelId(TopNode, type, LinkedImageRel.Id, "link");
+        //    //var package = _drawings.Worksheet._package.ZipPackage;
+        //    //ContentType = PictureStore.GetContentType(type.ToString());
+        //    //var newUri = imageLocation;
+        //    //var store = _drawings._package.PictureStore;
+        //    //var pc = _drawings as IPictureRelationDocument;
+        //    //IPictureContainer container = this;
+
+        //    //container.RelPic = _drawings.Part.CreateRelationship(newUri, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
+        //    //container.UriPic = newUri;
+
+        //    //var relId = container.RelPic.Id;
+        //    //SetRelId(TopNode, type, relId, "link");
+        //}
 
         private void SaveImageToPackage(ePictureType type, byte[] img)
         {
@@ -244,10 +255,10 @@ namespace OfficeOpenXml.Drawing
             package.Flush();
         }
 
-        private void CreatePicNode(XmlNode node, ePictureType type)
+        private void CreatePicNode(XmlNode node, ePictureType type, string attribute = "embed")
         {
             var picNode = CreateNode("xdr:pic");
-            picNode.InnerXml = PicStartXml(type);
+            picNode.InnerXml = PicStartXml(type, attribute);
 
             node.InsertAfter(node.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings), picNode);
         }
@@ -274,7 +285,7 @@ namespace OfficeOpenXml.Drawing
             SetXmlNodeInt("xdr:pic/xdr:nvPicPr/xdr:cNvPr/@id", newId, null, false);
         }
 
-        private string PicStartXml(ePictureType type)
+        private string PicStartXml(ePictureType type, string attribute)
         {
             StringBuilder xml = new StringBuilder();
 
@@ -283,11 +294,11 @@ namespace OfficeOpenXml.Drawing
             xml.Append("<xdr:cNvPicPr><a:picLocks noChangeAspect=\"1\" /></xdr:cNvPicPr></xdr:nvPicPr><xdr:blipFill>");
             if(type==ePictureType.Svg)
             {
-                xml.Append("<a:blip xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:embed=\"\" cstate=\"print\"><a:extLst><a:ext uri=\"{28A0092B-C50C-407E-A947-70E740481C1C}\"><a14:useLocalDpi xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" val=\"0\"/></a:ext><a:ext uri=\"{96DAC541-7B7A-43D3-8B79-37D633B846F1}\"><asvg:svgBlip xmlns:asvg=\"http://schemas.microsoft.com/office/drawing/2016/SVG/main\" r:embed=\"\"/></a:ext></a:extLst></a:blip>");
+                xml.Append($"<a:blip xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:{attribute}=\"\" cstate=\"print\"><a:extLst><a:ext uri=\"{{28A0092B-C50C-407E-A947-70E740481C1C}}\"><a14:useLocalDpi xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" val=\"0\"/></a:ext><a:ext uri=\"{{96DAC541-7B7A-43D3-8B79-37D633B846F1}}\"><asvg:svgBlip xmlns:asvg=\"http://schemas.microsoft.com/office/drawing/2016/SVG/main\" r:{attribute}=\"\"/></a:ext></a:extLst></a:blip>");
             }
             else
             {
-                xml.Append("<a:blip xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:embed=\"\" cstate=\"print\" />");
+                xml.Append($"<a:blip xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:{attribute}=\"\" cstate=\"print\" />");
             }
             xml.Append("<a:stretch><a:fillRect /> </a:stretch> </xdr:blipFill> <xdr:spPr> <a:xfrm> <a:off x=\"0\" y=\"0\" />  <a:ext cx=\"0\" cy=\"0\" /> </a:xfrm> <a:prstGeom prst=\"rect\"> <a:avLst /> </a:prstGeom> </xdr:spPr>");
 
@@ -516,5 +527,6 @@ namespace OfficeOpenXml.Drawing
 			}
 		}
 
+        internal ZipPackageRelationship LinkedImageRel = null;
 	}
 }
