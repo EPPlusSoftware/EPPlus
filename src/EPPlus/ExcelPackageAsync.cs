@@ -18,6 +18,7 @@ using System.IO;
 #if !NET35 && !NET40
 using System.Threading;
 using System.Threading.Tasks;
+using OfficeOpenXml.Interfaces.SensitivityLabels;
 #endif
 namespace OfficeOpenXml
 {
@@ -208,6 +209,10 @@ namespace OfficeOpenXml
                 }
 
                 Workbook.Save();
+                if(_sensibilityLabels !=null)
+                {
+                    _sensibilityLabels.SaveToXml();
+                }
                 if (File == null)
                 {
                     if (Encryption.IsEncrypted)
@@ -221,6 +226,14 @@ namespace OfficeOpenXml
                             {
                                 await StreamUtil.CopyStreamAsync(msEnc, _stream, cancellationToken).ConfigureAwait(false);
                             }
+                        }
+                    }
+                    else if (SensibilityLabels.Labels.Count > 0 && ExcelPackage.SensibilityLabelHandler != null)
+                    {
+                        using (var ms = RecyclableMemory.GetStream())
+                        {
+                            _zipPackage.Save(ms);
+                            _stream = await SensibilityLabels.ApplyLabel(ms.ToArray()).ConfigureAwait(false);
                         }
                     }
                     else
@@ -262,6 +275,14 @@ namespace OfficeOpenXml
                                 using (var ms = eph.EncryptPackage(file, Encryption))
                                 {
                                     await fi.WriteAsync(ms.ToArray(), 0, (int)ms.Length, cancellationToken).ConfigureAwait(false);
+                                }
+                            }
+                            else if (SensibilityLabels.Labels.Count > 0 && ExcelPackage.SensibilityLabelHandler != null)
+                            {
+                                using (var ms = RecyclableMemory.GetStream())
+                                {
+                                    _zipPackage.Save(ms);
+                                    _stream = await SensibilityLabels.ApplyLabel(ms.ToArray()).ConfigureAwait(false);
                                 }
                             }
                             else
@@ -408,6 +429,28 @@ namespace OfficeOpenXml
                 return _id;
             }
         }
+
+        static ISensitivityLabelHandler _sensibilityLabelHandler = null;
+        /// <summary>
+        /// If you want your workbooks to be marked with sensibility lables, you can add a handler for authentication, encryption and decryption using the Microsoft Information Protection SDK.
+        /// For more information
+        /// </summary>
+        public static ISensitivityLabelHandler SensibilityLabelHandler
+        {
+            get
+            {
+                return _sensibilityLabelHandler;
+            }
+            set
+            {
+                if (value != null && value != _sensibilityLabelHandler)
+                {
+                    value.InitAsync();
+                }
+                _sensibilityLabelHandler = value;
+            }
+        }
+
         internal async Task<byte[]> GetAsByteArrayAsync(bool save, CancellationToken cancellationToken)
         {
             CheckNotDisposed();

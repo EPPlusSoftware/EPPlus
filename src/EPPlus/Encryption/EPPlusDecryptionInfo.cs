@@ -16,14 +16,26 @@ using System.IO;
 
 namespace OfficeOpenXml.Encryption
 {
-    public class EPPlusDecryptionInfo : IDecryptedPackage
+    /// <summary>
+    /// Decryption information passed to the sensitivity label handler
+    /// </summary>
+    public class EPPlusDecryptionInfo : IPackageInfo
     {
         internal EPPlusDecryptionInfo()
         {
                 
         }
+        /// <summary>
+        /// The package stream
+        /// </summary>
         public MemoryStream PackageStream { get; set; }
+        /// <summary>
+        /// Protection information passed to the sensitivity label handler
+        /// </summary>
         public object ProtectionInformation { get; set; }
+        /// <summary>
+        /// If a new sensibility label has been set, this property contains the id of the new label.
+        /// </summary>
         public string ActiveLabelId { get; set; }
     }
 }

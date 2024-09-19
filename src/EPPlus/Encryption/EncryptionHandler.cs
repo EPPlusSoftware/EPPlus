@@ -523,7 +523,7 @@ namespace OfficeOpenXml.Encryption
 #if (!NET35)
             if(doc.Directories.Exists(x=>x.Name == "\u0006DataSpaces"))
             {
-                var handler = ExcelSensibilityLabels.SensibilityLabelHandler;
+                var handler = ExcelPackage.SensibilityLabelHandler;
                 var si = DataSpacesEncryption.ReadDataSpaceEnrcyptionInfo(doc);
                 _pck.SensibilityLabels = new ExcelSensibilityLabels(_pck, si);
                 if(handler == null)

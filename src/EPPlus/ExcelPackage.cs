@@ -903,6 +903,12 @@ namespace OfficeOpenXml
                 }
 
                 Workbook.Save();
+#if (!NET35)
+                if (_sensibilityLabels != null)
+                {
+                    _sensibilityLabels.SaveToXml();
+                }
+#endif
                 if (File == null)
                 {
                     if (Encryption.IsEncrypted && Encryption.Version != EncryptionVersion.ProtectedBySensibilityLabel)
@@ -920,7 +926,7 @@ namespace OfficeOpenXml
                         }
                     }
 #if (!NET35)
-                    else if (SensibilityLabels.Labels.Count>0)
+                    else if (SensibilityLabels.Labels.Count > 0 && ExcelPackage.SensibilityLabelHandler != null)
                     {
                         using (var ms = RecyclableMemory.GetStream())
                         {
@@ -968,7 +974,7 @@ namespace OfficeOpenXml
                                 }
                             }
 #if (!NET35)
-                            else if (SensibilityLabels.Labels.Count > 0)
+                            else if (SensibilityLabels.Labels.Count > 0 && ExcelPackage.SensibilityLabelHandler != null)
                             {
                                 var slStream = SensibilityLabels.ApplyLabel(((MemoryStream)Stream).ToArray()).ConfigureAwait(false).GetAwaiter().GetResult();
                                 fi.Write(((MemoryStream)slStream).ToArray(), 0, (int)slStream.Length);
@@ -1111,7 +1117,7 @@ namespace OfficeOpenXml
                 return _stream;
             }
         }
-        #endregion
+#endregion
         /// <summary>
         /// Compression option for the package
         /// </summary>        
@@ -1166,7 +1172,7 @@ namespace OfficeOpenXml
             }
         }
 #endif
-        #region GetXmlFromUri
+#region GetXmlFromUri
         /// <summary>
         /// Get the XmlDocument from an URI
         /// </summary>
@@ -1358,7 +1364,7 @@ namespace OfficeOpenXml
             _isExternalStream = true;
             _isDisposed = false;
         }
-#if(!NET35)        
+#if (!NET35)
         ExcelSensibilityLabels _sensibilityLabels = null;
         /// <summary>
         /// Sensibility labels meta data.
@@ -1380,7 +1386,7 @@ namespace OfficeOpenXml
                 _sensibilityLabels = value;
             }
         }
-#endif        
+#endif
         internal int _worksheetAdd=0;
     }
 }
