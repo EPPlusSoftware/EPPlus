@@ -19,8 +19,6 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-
 
 #if NETFULL
 using System.Drawing.Imaging;
@@ -127,15 +125,14 @@ namespace OfficeOpenXml.Drawing
 
 		internal void SetRelId(XmlNode node, ePictureType type, string relID, string attribute = "embed")
         {
-            XmlElement blip;
+            XmlElement blip = (XmlElement)node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", NameSpaceManager);
+            XmlElement blipSvg = null;
             if (type == ePictureType.Svg)
             {
-                blip = (XmlElement)node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip", NameSpaceManager);
+                blipSvg = (XmlElement)node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip", NameSpaceManager);
+                blipSvg.SetAttribute(attribute, ExcelPackage.schemaRelationships, relID);
             }
-            else
-            {
-                blip = (XmlElement)node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", NameSpaceManager);
-            }
+
             blip.SetAttribute(attribute, ExcelPackage.schemaRelationships, relID);
         }
 
@@ -241,18 +238,26 @@ namespace OfficeOpenXml.Drawing
             container.ImageHash = ii.Hash;
             using (var ms = RecyclableMemory.GetStream(img))
             {
-                Image.Bounds = PictureStore.GetImageBounds(img, type, _drawings._package);
                 Image.ImageBytes = img;
                 Image.Type = type;
-                var width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
-                var height = Image.Bounds.Height / (Image.Bounds.VerticalResolution / STANDARD_DPI);
-                SetPosDefaults((float)width, (float)height);
+                RecalcWidthHeight();
             }
 
             //Create relationship
             SetRelId(TopNode, type, relId);
             //TopNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
             package.Flush();
+        }
+
+        internal void RecalcWidthHeight()
+        {
+            if(Image != null)
+            {
+                Image.Bounds = PictureStore.GetImageBounds(Image.ImageBytes, Image.Type.Value, _drawings._package);
+                var width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
+                var height = Image.Bounds.Height / (Image.Bounds.VerticalResolution / STANDARD_DPI);
+                SetPosDefaults((float)width, (float)height);
+            }
         }
 
         private void CreatePicNode(XmlNode node, ePictureType type, string attribute = "embed")
@@ -273,7 +278,10 @@ namespace OfficeOpenXml.Drawing
 #endregion
         private void SetPosDefaults(float width, float height)
         {
-            EditAs = eEditAs.OneCell;
+            if(EditAs != eEditAs.Absolute)
+            {
+                EditAs = eEditAs.OneCell;
+            }
             SetPixelWidth(width);
             SetPixelHeight(height);
             _width = GetPixelWidth();

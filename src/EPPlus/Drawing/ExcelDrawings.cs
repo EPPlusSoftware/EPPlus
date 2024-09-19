@@ -1021,6 +1021,10 @@ namespace OfficeOpenXml.Drawing
             var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location);
             if(Location != PictureLocation.Link)
             {
+                if(ImageFile.Exists == false)
+                {
+                    throw new FileNotFoundException($"The file {ImageFile.FullName} could not be found. Epplus cannot insert/embed files that do not exist.");
+                }
                 pic.LoadImage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), pic.Image.Type.Value);
             }
             AddPicture(Name, pic);
