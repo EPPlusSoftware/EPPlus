@@ -343,8 +343,8 @@ namespace EPPlusTest.Drawing
             using (var package = OpenPackage("LinkPic.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("emptyWS");
-                //var uri = GetResourceFile("EPPlus.png").FullName;
-                var uri = @"C:\Users\OssianEdström\Pictures\webp.png";
+                var uri = GetResourceFile("EPPlus.png").FullName;
+                //var uri = @"C:\Users\OssianEdström\Pictures\webp.png";
 
                 var pic = sheet.Drawings.AddPicture("ImageName", uri, PictureLocation.Link);
 
@@ -363,8 +363,7 @@ namespace EPPlusTest.Drawing
             using (var package = OpenPackage("InsertAndLinkPic.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("emptyWS");
-                //var uri = GetResourceFile("EPPlus.png").FullName;
-                var uri = @"C:\Users\OssianEdström\Pictures\webp.png";
+                var uri = GetResourceFile("EPPlus.png").FullName;
 
                 var pic = sheet.Drawings.AddPicture("ImageName", uri, PictureLocation.LinkAndEmbed);
 
@@ -383,8 +382,7 @@ namespace EPPlusTest.Drawing
             using (var package = OpenPackage("AddPic.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("emptyWS");
-                //var uri = GetResourceFile("EPPlus.png").FullName;
-                var uri = @"C:\Users\OssianEdström\Pictures\webp.png";
+                var uri = GetResourceFile("EPPlus.png").FullName;
 
                 var pic = sheet.Drawings.AddPicture("ImageName", uri);
 

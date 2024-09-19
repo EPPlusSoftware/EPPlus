@@ -480,7 +480,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyPicture(ExcelWorksheet added, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet copy, ExcelPicture pic)
         {
-            if (pic.Image != null)
+            if (pic.Image != null && (pic.LocationType | PictureLocation.Embed) == PictureLocation.Embed)
             {
                 var ii = added.Workbook._package.PictureStore.AddImage(pic.Image.ImageBytes, null, pic.Image.Type);
                 var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");

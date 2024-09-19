@@ -906,105 +906,19 @@ namespace OfficeOpenXml.Drawing
             return AddPicture(Name, ImageFile, null, Location);
         }
 
-        internal ExcelPicture AddLinkedPicture(string Name, string imagePath, Uri hyperLink)
-        {
-            var uri = new Uri($"file:///{imagePath}");
-
-            XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var index = uri.OriginalString.IndexOf('.');
-            var type = PictureStore.GetPictureType(uri.OriginalString.Substring(index));
-            var pic = new ExcelPicture(this, drawNode, hyperLink, type, "link");
-            pic.LoadImageLinked(uri, type);
-            return pic;
-        }
-
         private ExcelPicture BaseAddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
         {
-            ExcelPicture pic = null;
-
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             var type = PictureStore.GetPictureType(ImageFile.Extension);
 
-            bool containsEmbed = (Location | PictureLocation.Embed) == PictureLocation.Embed;
             bool hasLink = (Location | PictureLocation.Link) == PictureLocation.Link;
 
-            string attribute = containsEmbed ? "embed" : "link";
-            pic = new ExcelPicture(this, drawNode, Hyperlink, type, attribute);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, type, Location);
 
             if(hasLink)
             {
-                var uri = new Uri($"file:///{ImageFile.FullName}");
-                pic.LoadImageLinked(uri, type);
+                pic.LoadImageLinked(ImageFile);
             }
-
-            //if(hasLink)
-            //{
-            //    if(containsEmbed)
-            //    {
-            //        pic = new ExcelPicture(this, drawNode, Hyperlink, type);
-            //    }
-            //    else
-            //    {
-            //        pic = new ExcelPicture(this, drawNode, Hyperlink, type, "link");
-            //    }
-            //    var uri = new Uri($"file:///{ImageFile.FullName}");
-            //    pic.LoadImageLinked(uri, type);
-            //    //Do thing always (but must be done last)
-            //}
-
-            //if (containsEmbed)
-            //{
-            //    pic = new ExcelPicture(this, drawNode, Hyperlink, type);
-            //}
-            //else
-            //{
-            //    pic = new ExcelPicture(this, drawNode, Hyperlink, type, "link");
-            //}
-
-            //if(hasLink)
-            //{
-            //    var uri = new Uri($"file:///{ImageFile.FullName}");
-            //    pic.LoadImageLinked(uri, type);
-            //}
-
-            //if((Location & PictureLocation.Link) == PictureLocation.Link)
-            //{
-            //    var uri = new Uri($"file:///{ImageFile.FullName}");
-            //    pic.LoadImageLinked(uri, type);
-            //}
-
-            //switch (Location)
-            //{
-            //    case PictureLocation.Embed:
-            //        break;
-            //    case PictureLocation.LinkAndEmbed:
-            //        break;
-            //    case PictureLocation.Link:
-            //        break;
-            //    default:
-            //        throw new NotImplementedException($"The picture location {Location} when adding picture '{Name}' is invalid.");
-            //}
-
-            //switch (Location)
-            //{
-            //    case PictureLocation.Embed:
-            //    case PictureLocation.LinkAndEmbed:
-            //        ValidatePictureFile(Name, ImageFile);
-            //        XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            //        var type = PictureStore.GetPictureType(ImageFile.Extension);
-            //        pic = new ExcelPicture(this, drawNode, Hyperlink, type);
-            //        if(Location == PictureLocation.LinkAndEmbed)
-            //        {
-            //            var uri = new Uri($"file:///{ImageFile.FullName}");
-            //            pic.LoadImageLinked(uri, pic.Image.Type.Value);
-            //        }
-            //        break;
-            //    case PictureLocation.Link:
-            //        pic = AddLinkedPicture(Name, ImageFile.FullName, Hyperlink);
-            //        break;
-            //    default:
-            //        throw new NotImplementedException($"The picture location {Location} when adding picture '{Name}' is invalid.");
-            //}
             return pic;
         }
 
@@ -1029,25 +943,6 @@ namespace OfficeOpenXml.Drawing
             }
             AddPicture(Name, pic);
 
-            //if (Location == PictureLocation.Link)
-            //{
-            //    pic = AddLinkedPicture(Name, ImageFile.FullName, Hyperlink);
-            //}
-            //else
-            //{
-            //    ValidatePictureFile(Name, ImageFile);
-            //    XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            //    var type = PictureStore.GetPictureType(ImageFile.Extension);
-            //    pic = new ExcelPicture(this, drawNode, Hyperlink, type);
-            //    pic.LoadImage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
-            //    AddPicture(Name, pic);
-
-            //    if(Location == PictureLocation.LinkAndEmbed)
-            //    {
-            //        var uri = new Uri($"file:///{ImageFile.FullName}");
-            //        pic.LoadImageLinked(uri, pic.Image.Type.Value);
-            //    }
-            //}
             return pic;
         }
         /// <summary>

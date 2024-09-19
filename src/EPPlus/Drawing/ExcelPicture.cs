@@ -19,6 +19,10 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
 using System.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System.Globalization;
+
+
 
 #if NETFULL
 using System.Drawing.Imaging;
@@ -34,17 +38,19 @@ namespace OfficeOpenXml.Drawing
     public sealed class ExcelPicture : ExcelDrawing, IPictureContainer
     {
 #region "Constructors"
-        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type, string initialAttribute = "embed") :
+        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type, PictureLocation location = PictureLocation.Embed) :
             base(drawings, node, "xdr:pic/", "xdr:nvPicPr/xdr:cNvPr")
         {
             Init();
-            CreatePicNode(node, type, initialAttribute);
+            LocationType = location;
+
+            bool containsEmbed = (location | PictureLocation.Embed) == PictureLocation.Embed;
+            string attribute = containsEmbed ? "embed" : "link";
+            CreatePicNode(node, type, attribute);
+
             Hyperlink = hyperlink;
-            if(initialAttribute != "link")
-            {
-                Image = new ExcelImage(this);
-                Image.Type = type;
-            }
+            Image = new ExcelImage(this);
+            Image.Type = type;
         }
 
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null) :
@@ -103,14 +109,10 @@ namespace OfficeOpenXml.Drawing
                     if(container.RelPic == null && container.UriPic == null)
                     {
                         container.RelPic = LinkedImageRel;
-                        //container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, LinkedImageRel.TargetUri);
+                        Image = new ExcelImage(this);
+                        FileInfo ImageFile = new FileInfo(LinkedImageRel.TargetUri.LocalPath);
+                        LoadImageLinked(ImageFile);
                     }
-
-                    //if (Directory.Exists(container.UriPic.AbsolutePath))
-                    //{
-                    //    var file = new FileInfo(container.UriPic.AbsolutePath);
-                    //    var type = PictureStore.GetPictureType(file.Extension);
-                    //}
                 }
             }
         }
@@ -165,36 +167,49 @@ namespace OfficeOpenXml.Drawing
             SaveImageToPackage(type, img);
         }
 
-        internal void LoadImageLinked(Uri imageLocation, ePictureType type)
+        internal void LoadImageWithoutSavingToPackage(Stream stream, ePictureType type)
         {
-            ContentType = PictureStore.GetContentType(type.ToString());
-            LinkedImageRel = _drawings.Part._rels.FirstOrDefault(x => x.TargetUri.OriginalString == imageLocation.OriginalString);
+            var img = new byte[stream.Length];
+            stream.Seek(0, SeekOrigin.Begin);
+            stream.Read(img, 0, (int)stream.Length);
 
-            if (LinkedImageRel == null)
+            if (type == ePictureType.Emz ||
+               type == ePictureType.Wmz)
             {
-                LinkedImageRel = _drawings.Part.CreateRelationship(imageLocation, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
+                img = ImageReader.ExtractImage(img, out ePictureType? pt);
+                if (pt == null)
+                {
+                    throw (new InvalidDataException($"Invalid image of type {type}"));
+                }
+                type = pt.Value;
+            }
+
+            using (var ms = RecyclableMemory.GetStream(img))
+            {
+                Image.Type = type;
+                Image.ImageBytes = img;
+                Image.Type = type;
+                RecalcWidthHeight();
+            }
+        }
+
+        internal void LoadImageLinked(FileInfo ImageFile)
+        {
+            var uri = new Uri($"file:///{string.Format(ImageFile.FullName,CultureInfo.InvariantCulture)}");
+            var type = PictureStore.GetPictureType(ImageFile.Extension);
+            if (ImageFile.Exists)
+            {
+                LoadImageWithoutSavingToPackage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), type);
+            }
+
+            ContentType = PictureStore.GetContentType(type.ToString());
+            LinkedImageRel = _drawings.Part._rels.FirstOrDefault(x => x.TargetUri.OriginalString == uri.OriginalString);
+            if(LinkedImageRel == null)
+            {
+                LinkedImageRel = _drawings.Part.CreateRelationship(uri, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
             }
             SetRelId(TopNode, type, LinkedImageRel.Id, "link");
         }
-
-        //private void SaveLinkedImageToPackage(ePictureType type, Uri imageLocation)
-        //{
-        //    ContentType = PictureStore.GetContentType(type.ToString());
-        //    LinkedImageRel = _drawings.Part.CreateRelationship(imageLocation, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
-        //    SetRelId(TopNode, type, LinkedImageRel.Id, "link");
-        //    //var package = _drawings.Worksheet._package.ZipPackage;
-        //    //ContentType = PictureStore.GetContentType(type.ToString());
-        //    //var newUri = imageLocation;
-        //    //var store = _drawings._package.PictureStore;
-        //    //var pc = _drawings as IPictureRelationDocument;
-        //    //IPictureContainer container = this;
-
-        //    //container.RelPic = _drawings.Part.CreateRelationship(newUri, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
-        //    //container.UriPic = newUri;
-
-        //    //var relId = container.RelPic.Id;
-        //    //SetRelId(TopNode, type, relId, "link");
-        //}
 
         private void SaveImageToPackage(ePictureType type, byte[] img)
         {
@@ -534,6 +549,8 @@ namespace OfficeOpenXml.Drawing
 				SetXmlNodeBool(_verticalFlipPath, value, false);
 			}
 		}
+
+        internal PictureLocation LocationType = PictureLocation.Embed;
 
         internal ZipPackageRelationship LinkedImageRel = null;
 	}
