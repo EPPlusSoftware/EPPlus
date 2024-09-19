@@ -1732,12 +1732,8 @@ namespace OfficeOpenXml.Table.PivotTable
             var deletedItems = new List<ExcelPivotTableAreaStyle>();
             foreach (ExcelPivotTableAreaStyle a in Styles)
             {
-                if(a.Conditions.UpdateXml()==false)
-                {
-                    deletedItems.Add(a);
-                }
+                a.Conditions.UpdateXml();
             }
-            deletedItems.ForEach(x => Styles.Remove(x));
         }
         private void UpdatePivotTableConditionalFormats()
         {

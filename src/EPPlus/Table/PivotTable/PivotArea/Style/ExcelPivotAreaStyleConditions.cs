@@ -61,18 +61,19 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>Returns false if the items should be deleted.</returns>
         internal bool UpdateXml()
         {
-            if(DataFields.UpdateXml()==false)
+            var ret = false;
+            if(DataFields.UpdateXml())
             {
-                return false;
+                ret = true;
             }
             foreach (ExcelPivotAreaReference r in Fields)
             {
-                if(r.UpdateXml()==false)
+                if(r.UpdateXml())
                 {
-                    return false;
+                    ret = true;
                 }
             }
-            return true;
+            return ret;
         }
     }
 }
