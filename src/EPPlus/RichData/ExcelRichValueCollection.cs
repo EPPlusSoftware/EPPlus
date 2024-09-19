@@ -124,6 +124,12 @@ namespace OfficeOpenXml.RichData
             _part.SaveHandler = Save;
         }
 
+        internal void UpdateStructure(ExcelRichValue rv, int structureId)
+        {
+            rv.StructureId = structureId;
+            rv.Structure = _structures.StructureItems[structureId];
+        }
+
         internal void AddErrorSpill(ExcelRichDataErrorValue spillError)
         {
             var structureId = _structures.GetStructureId(RichDataStructureFlags.ErrorSpill);

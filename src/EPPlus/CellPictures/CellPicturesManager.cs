@@ -76,18 +76,16 @@ namespace OfficeOpenXml.CellPictures
             return null;
         }
 
+        private bool IsValidPictureType(ePictureType type)
+        {
+            return type == ePictureType.Png || type == ePictureType.Jpg || type == ePictureType.Gif || type == ePictureType.Bmp || type == ePictureType.WebP || type == ePictureType.Tif || type == ePictureType.Ico;
+        }
+
         public void SetCellPicture(int row, int col, byte[] imageBytes, string altText, CalcOrigins calcOrigin = CalcOrigins.AddedByUserAltText)
         {
-            var richData = _richDataStore.GetRichData(row, col, ExcelCellPicture.LocalImageStructureType);
-            if(richData == null)
-            {
-                //MetaDataReference mdr;
-                //mdr.vm = 
-                //_metadataStore.SetValue(row, col)
-            }
             using var ms = new MemoryStream(imageBytes);
             ImageInfo imageInfo;
-            RichValueRel relation;
+            RichValueRel relation = default;
             if(_pictureStore.ImageExists(imageBytes))
             {
                 imageInfo = _pictureStore.GetImageInfo(imageBytes);
@@ -96,14 +94,34 @@ namespace OfficeOpenXml.CellPictures
             else
             {
                 var pictureType = ImageReader.GetPictureType(ms, true);
+                if(pictureType == null)
+                {
+                    throw new ArgumentException("Image type not supported/identified.");
+                }
+                else if (!IsValidPictureType(pictureType.Value))
+                {
+                    throw new ArgumentException($"'{pictureType.Value}' is not a supported image type for in-cell pictures. Use png, jpg, gif, bmp, webp, tif or ico.");
+                }
                 imageInfo = _pictureStore.AddImage(imageBytes, null, pictureType);
             }
+            var richDataValue = _richDataStore.GetRichData(row, col, ExcelCellPicture.LocalImageStructureType);
             var flag = string.IsNullOrEmpty(altText) ? RichDataStructureFlags.LocalImage : RichDataStructureFlags.LocalImageWithAltText;
             var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
             var imageUri = UriHelper.GetRelativeUri(rdUri, imageInfo.Uri);
-            _richDataStore.AddRichData(ExcelPackage.schemaImage, imageUri.OriginalString, new List<string> { ((int)calcOrigin).ToString(), altText }, flag, out int vm);
+            int valueMetadataIndex = -1;
+            if(richDataValue == null)
+            {
+                _richDataStore.AddRichData(ExcelPackage.schemaImage, imageUri.OriginalString, new List<string> { ((int)calcOrigin).ToString(), altText }, flag, out int vm);
+                valueMetadataIndex = 1;
+            }
+            else
+            {
+                _richDataStore.UpdateRichData(richDataValue, ExcelPackage.schemaImage, imageUri.OriginalString, new List<string> { ((int)calcOrigin).ToString(), altText }, flag);
+            }
+            
+            
             var md = _sheet._metadataStore.GetValue(row, col);
-            md.vm = vm;
+            md.vm = valueMetadataIndex;
             // there should be a #VALUE error in the cell that contains the picture...
             _sheet.Cells[row, col].Value = ExcelErrorValue.Create(eErrorType.Value);
             _sheet._metadataStore.SetValue(row, col, md);

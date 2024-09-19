@@ -99,8 +99,12 @@ namespace OfficeOpenXml.RichData
             }
         }
 
-        public void AddLocalImage(int imageIdentifier, int calcOrigin, string text)
+        public void AddLocalImage(int imageIdentifier, int calcOrigin, string text, bool clearValues = false)
         {
+            if (clearValues)
+            {
+                Values.Clear();
+            }
             foreach (var s in Structure.Keys)
             {
                 switch (s.Name)

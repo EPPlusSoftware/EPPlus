@@ -117,6 +117,26 @@ namespace OfficeOpenXml.RichData
             return rel;
         }
 
+        public RichValueRel GetItem(string relId, out int ix)
+        {
+            ix = -1;
+            var item = Items.FirstOrDefault(x => x.Id == relId);
+            if(item != null)
+            {
+                ix = Items.IndexOf(item); 
+            }
+            return item;
+        }
+
+        public RichValueRel GetItem(int relIx)
+        {
+            if(relIx < 0 || relIx >= Items.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(relIx));
+            }
+            return Items[relIx];
+        }
+
         internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
         {
             stream.PutNextEntry(fileName);
