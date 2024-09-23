@@ -10,6 +10,7 @@ namespace EPPlusTest.Drawing
     [TestClass]
     public class EMFTests : TestBase
     {
+        //BMP
         [TestMethod]
         public void ReadOriginalEmf()
         {
@@ -62,10 +63,10 @@ namespace EPPlusTest.Drawing
             string path = @"C:\epplusTest\OleTest\EMF\squresFromExcel.emf";
             EMF emf = new EMF();
             emf.Read(path);
-            string imagePath = @"C:\epplusTest\OleTest\EMF\Untitled2.bmp";
+            string imagePath = @"C:\epplusTest\OleTest\Icons\PDFIcon.bmp";
             byte[] imageBytes = File.ReadAllBytes(imagePath);
             emf.ChangeImage(imageBytes);
-            emf.Save("C:\\epplusTest\\OleTest\\EMF\\ChangeImageTest38.emf");
+            emf.Save("C:\\epplusTest\\OleTest\\EMF\\ChangeImageTest51.emf");
         }
 
         [TestMethod]

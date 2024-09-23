@@ -21,6 +21,7 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] cyDest;
         internal byte[] BmiSrc;
         internal byte[] BitsSrc;
+        internal byte[] Padding;
 
         public EMR_STRETCHDIBITS(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
@@ -41,6 +42,43 @@ namespace OfficeOpenXml.Drawing.EMF
             cyDest = br.ReadBytes(4);
             BmiSrc = br.ReadBytes((int)cbBmiSrc);
             BitsSrc = br.ReadBytes((int)cbBitsSrc);
+            int padding = (int)((position + Size) - br.BaseStream.Position);
+            if (padding < 0)
+            {
+                Padding = new byte[0];
+                return;
+            }
+            Padding = br.ReadBytes(padding);
+        }
+
+        public void ChangeImage(byte image)
+        {
+            //check if png or jpeg
+
+        }
+
+
+        public override void WriteBytes(BinaryWriter bw)
+        {
+            base.WriteBytes(bw);
+            bw.Write(Bounds);
+            bw.Write(xDest);
+            bw.Write(yDest);
+            bw.Write(xSrc);
+            bw.Write(ySrc);
+            bw.Write(cxSrc);
+            bw.Write(cySrc);
+            bw.Write(offBmiSrc);
+            bw.Write(cbBmiSrc);
+            bw.Write(offBitsSrc);
+            bw.Write(cbBitsSrc);
+            bw.Write(UsageSrc); 
+            bw.Write(InternalBltRasterOperation);
+            bw.Write(cxDest);
+            bw.Write(cyDest);
+            bw.Write(BmiSrc);
+            bw.Write(BitsSrc);
+            bw.Write(Padding);
         }
     }
 }

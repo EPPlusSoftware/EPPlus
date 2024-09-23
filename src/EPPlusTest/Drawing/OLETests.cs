@@ -27,6 +27,15 @@ namespace EPPlusTest.Drawing
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusExternal_MP3.xlsx");
         }
 
+        [TestMethod]
+        public void WriteExternal_ZIP()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\Audio-Sample-files-master.zip", false, OleObjectType.Default, false, @"C:\epplusTest\OleTest\EMF\BigMaskTest.bmp");
+            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusExternal_ZIP.xlsx");
+        }
+
 
 
 
