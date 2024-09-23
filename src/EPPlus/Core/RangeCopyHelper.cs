@@ -115,7 +115,7 @@ namespace OfficeOpenXml.Core
             var tablesToCopy = new List<ExcelTable>();
             foreach(var table in _sourceRange.Worksheet.Tables)
             {
-                var ac = table.Range.Collide(_sourceRange);
+                var ac = _sourceRange.Collide(table.Range);
                 if (ac == eAddressCollition.Inside ||
                     ac == eAddressCollition.Equal)
                 {
@@ -130,10 +130,10 @@ namespace OfficeOpenXml.Core
             var tr = table.Range;
             var dr = _destinationRange;
             var copiedTable = _destinationRange.Worksheet.Cells[
-                dr._fromRow + (_sourceRange._fromRow - tr._fromRow),
-                dr._fromCol + (_sourceRange._fromCol - tr._fromCol),
-                dr._toRow + (tr._toRow - _sourceRange._fromRow),
-                dr._toCol + (tr._toCol - _sourceRange._fromCol)];
+                dr._fromRow + (tr._fromRow - _sourceRange._fromRow),
+                dr._fromCol + (tr._fromCol -_sourceRange._fromCol),
+                dr._fromRow + (tr._toRow - _sourceRange._fromRow),
+                dr._fromCol + (tr._toCol - _sourceRange._fromCol)];
 
             var name = table.Name;
             if (_destinationRange.Worksheet.Tables._tableNames.ContainsKey(name))

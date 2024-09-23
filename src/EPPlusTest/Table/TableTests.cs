@@ -1047,11 +1047,14 @@ namespace EPPlusTest.Table
         [TestMethod]
         public void TableCopyTest()
         {
-            var ws = _pck.Workbook.Worksheets.Add("Tableopy");
+            var ws = _pck.Workbook.Worksheets.Add("TableCopy");
             var range = LoadItemData(ws);
             var tbl = ws.Tables.Add(range, "Table1");
 
             tbl.Copy(ws.Cells["A1"]);
+            Assert.AreEqual(2, ws.Tables.Count);
+            Assert.AreEqual("Table12", ws.Tables[1].Name);
+            Assert.AreEqual("A1:E11", ws.Tables[1].Address.Address);
         }
         [TestMethod]
         public void TableCopyInRangeTest()
@@ -1061,6 +1064,10 @@ namespace EPPlusTest.Table
             var tbl = ws.Tables.Add(range, "Table1");
 
             ws.Cells["J1:Q13"].Copy(ws.Cells["A1"]);
+
+            Assert.AreEqual(2, ws.Tables.Count);
+            Assert.AreEqual("Table12", ws.Tables[1].Name);
+            Assert.AreEqual("B1:F11", ws.Tables[1].Address.Address);
         }
     }
 }
