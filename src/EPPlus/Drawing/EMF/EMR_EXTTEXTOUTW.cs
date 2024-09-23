@@ -156,7 +156,7 @@ namespace OfficeOpenXml.Drawing.EMF
                 case 'L':
                     return 0x05;
                 case 'M':
-                    return 0x010;
+                    return 0x0A;
                 case 'N':
                     return 0x08;
                 case 'O':
@@ -176,7 +176,7 @@ namespace OfficeOpenXml.Drawing.EMF
                 case 'V':
                     return 0x07;
                 case 'W':
-                    return 0x011;
+                    return 0x0B;
                 case 'X':
                     return 0x06;
                 case 'Y':
@@ -229,12 +229,11 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             Chars = (uint)stringBuffer.Length;
             offDx = offString + (uint)stringBuffer.Length * 2;
-            if (offDx % 4 != 0)
-            {
-                padding = (int)offDx;
-                offDx += 4 - (offDx % 4);
-                padding = (int)(offDx) - padding;
-            }
+
+            padding = (int)offDx;
+            offDx += 4 - (offDx % 4);
+            padding = (int)(offDx) - padding;
+
             DxBuffer = new byte[stringBuffer.Length * 4];
             CalculateDxSpacing();
             Size = offDx + (uint)DxBuffer.Length;
