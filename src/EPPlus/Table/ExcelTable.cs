@@ -54,16 +54,26 @@ namespace OfficeOpenXml.Table
             Address = new ExcelAddressBase(GetXmlNodeString("@ref"));
             _tableStyle = GetTableStyle(StyleName);            
         }
-        internal ExcelTable(ExcelWorksheet sheet, ExcelAddressBase address, string name, int tblId) : 
+        internal ExcelTable(ExcelWorksheet sheet, ExcelAddressBase address, string name, int tblId, ExcelTable copy = null) : 
             base(sheet.NameSpaceManager)
 	    {
             WorkSheet = sheet;
             _address = address;
 
             TableXml = new XmlDocument();
-            LoadXmlSafe(TableXml, GetStartXml(name, tblId), Encoding.UTF8); 
+            if (copy == null)
+            {
+                LoadXmlSafe(TableXml, GetStartXml(name, tblId), Encoding.UTF8);
+                Init();
+            }
+            else
+            {
+                LoadXmlSafe(TableXml, copy.TableXml.OuterXml, Encoding.UTF8);
+                Init();
+                Address = address;
+                SetNameAndDisplayName(name);
+            }
 
-            Init();
 
             //If the table is just one row we cannot have a header.
             if (address._fromRow == address._toRow)
@@ -194,26 +204,31 @@ namespace OfficeOpenXml.Table
             {
                 return GetXmlNodeString(NAME_PATH);
             }
-            set 
+            set
             {
-                if(Name.Equals(value, StringComparison.CurrentCultureIgnoreCase)==false && WorkSheet.Workbook.ExistsTableName(value))
+                if (Name.Equals(value, StringComparison.CurrentCultureIgnoreCase) == false && WorkSheet.Workbook.ExistsTableName(value))
                 {
                     throw (new ArgumentException("Tablename is not unique"));
                 }
                 string prevName = Name;
                 if (WorkSheet.Tables._tableNames.ContainsKey(prevName))
                 {
-                    int ix=WorkSheet.Tables._tableNames[prevName];
+                    int ix = WorkSheet.Tables._tableNames[prevName];
                     WorkSheet.Tables._tableNames.Remove(prevName);
-                    WorkSheet.Tables._tableNames.Add(value,ix);
+                    WorkSheet.Tables._tableNames.Add(value, ix);
                 }
                 var ta = new TableAdjustFormula(this);
                 ta.AdjustFormulas(prevName, value);
-                SetXmlNodeString(NAME_PATH, value);
-                SetXmlNodeString(DISPLAY_NAME_PATH, ExcelAddressUtil.GetValidName(value));
+                SetNameAndDisplayName(value);
             }
         }
-        
+
+        internal void SetNameAndDisplayName(string value)
+        {
+            SetXmlNodeString(NAME_PATH, value);
+            SetXmlNodeString(DISPLAY_NAME_PATH, ExcelAddressUtil.GetValidName(value));
+        }
+
         internal void DeleteMe()
         {
             if (RelationshipID != null)
@@ -1413,6 +1428,11 @@ namespace OfficeOpenXml.Table
             _tableSorter.Sort(configuration);
         }
 
-#endregion
+        internal void Copy(ExcelRangeBase range)
+        {
+            Range.Copy(range);
+        }
+
+        #endregion
     }
 }

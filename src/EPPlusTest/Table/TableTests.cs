@@ -450,7 +450,7 @@ namespace EPPlusTest.Table
 
                 var formula = "mytable[[#this row],[Sales]]+mytable[[#this row],[VAT]]";
                 table.Columns[4].CalculatedColumnFormula = formula;
-                
+
                 //Assert
                 Assert.AreEqual(formula, table.Columns[4].CalculatedColumnFormula);
                 Assert.AreEqual(formula, sheet.Cells["G2"].Formula);
@@ -1022,7 +1022,7 @@ namespace EPPlusTest.Table
                 table.Columns[2].Name = "Column5";
 
                 table.Columns.Add(1);
-                Assert.AreEqual("Column52",table.Columns[4].Name);
+                Assert.AreEqual("Column52", table.Columns[4].Name);
 
                 SaveAndCleanup(package);
             }
@@ -1043,6 +1043,24 @@ namespace EPPlusTest.Table
 
                 table.Columns[1].Name = "AColumn";
             }
+        }
+        [TestMethod]
+        public void TableCopyTest()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Tableopy");
+            var range = LoadItemData(ws);
+            var tbl = ws.Tables.Add(range, "Table1");
+
+            tbl.Copy(ws.Cells["A1"]);
+        }
+        [TestMethod]
+        public void TableCopyInRangeTest()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableCopyFromRange");
+            var range = LoadItemData(ws);
+            var tbl = ws.Tables.Add(range, "Table1");
+
+            ws.Cells["J1:Q13"].Copy(ws.Cells["A1"]);
         }
     }
 }

@@ -64,5 +64,9 @@ namespace OfficeOpenXml
         /// Exclude drawings from being copied
         /// </summary>
         ExcludeDrawings = 0x400,
+        /// <summary>
+        /// Exclude any table within the range. 
+        /// </summary>
+        ExcludeTables = 0x800,
     }
 }
