@@ -181,6 +181,20 @@ namespace EPPlusTest.Drawing
 			var ws = wb.Worksheets.Add("jpgCalibri18");
 			var pic = ws.Drawings.AddPicture("jpgFile2", GetResourceFile("Test1.jpg"));			
 		}
-		#endregion
-	}
+        #endregion
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path")]
+        public void BrokenLinkedImageShouldFail()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+
+                var pic = sheet.Drawings.AddPicture("ImageName", "testafhkai/[/\\|stuff", PictureLocation.Link);
+
+                SaveAndCleanup(package);
+            }
+        }
+    }
 }

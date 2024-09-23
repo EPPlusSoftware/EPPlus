@@ -11,6 +11,7 @@ namespace OfficeOpenXml.Drawing
     [Flags]
     public enum PictureLocation
     {
+        None = 0x00,
         /// <summary>
         /// Copy and Embed the image within the workbook
         /// </summary>
@@ -22,6 +23,6 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Copy and Embed the image and add a link
         /// </summary>
-        LinkAndEmbed = Embed & Link
+        LinkAndEmbed = Embed | Link
     }
 }

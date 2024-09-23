@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Drawing
             Init();
             LocationType = location;
 
-            bool containsEmbed = (location | PictureLocation.Embed) == PictureLocation.Embed;
+            bool containsEmbed = (location & PictureLocation.Embed) == PictureLocation.Embed;
             string attribute = containsEmbed ? "embed" : "link";
             CreatePicNode(node, type, attribute);
 
@@ -63,6 +63,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (picNode.Attributes["embed", ExcelPackage.schemaRelationships] != null)
                 {
+                    LocationType = LocationType | PictureLocation.Embed;
                     IPictureContainer container = this;
                     container.RelPic = drawings.Part.GetRelationship(picNode.Attributes["embed", ExcelPackage.schemaRelationships].Value);
                     container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, container.RelPic.TargetUri);
@@ -104,6 +105,7 @@ namespace OfficeOpenXml.Drawing
 
                 if (picNode.Attributes["link", ExcelPackage.schemaRelationships] != null)
                 {
+                    LocationType = LocationType | PictureLocation.Link;
                     LinkedImageRel = drawings.Part.GetRelationship(picNode.Attributes["link", ExcelPackage.schemaRelationships].Value);
                     IPictureContainer container = this;
                     if(container.RelPic == null && container.UriPic == null)
@@ -266,7 +268,7 @@ namespace OfficeOpenXml.Drawing
 
         internal void RecalcWidthHeight()
         {
-            if(Image != null)
+            if(Image != null && Image.ImageBytes != null)
             {
                 Image.Bounds = PictureStore.GetImageBounds(Image.ImageBytes, Image.Type.Value, _drawings._package);
                 var width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
@@ -550,7 +552,7 @@ namespace OfficeOpenXml.Drawing
 			}
 		}
 
-        internal PictureLocation LocationType = PictureLocation.Embed;
+        internal PictureLocation LocationType = PictureLocation.None;
 
         internal ZipPackageRelationship LinkedImageRel = null;
 	}

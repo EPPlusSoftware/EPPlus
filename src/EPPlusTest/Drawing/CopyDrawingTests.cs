@@ -344,7 +344,6 @@ namespace EPPlusTest.Drawing
             {
                 var sheet = package.Workbook.Worksheets.Add("emptyWS");
                 var uri = GetResourceFile("EPPlus.png").FullName;
-                //var uri = @"C:\Users\OssianEdström\Pictures\webp.png";
 
                 var pic = sheet.Drawings.AddPicture("ImageName", uri, PictureLocation.Link);
 

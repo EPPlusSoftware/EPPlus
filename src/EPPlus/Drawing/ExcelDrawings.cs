@@ -911,7 +911,7 @@ namespace OfficeOpenXml.Drawing
             XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             var type = PictureStore.GetPictureType(ImageFile.Extension);
 
-            bool hasLink = (Location | PictureLocation.Link) == PictureLocation.Link;
+            bool hasLink = (Location & PictureLocation.Link) == PictureLocation.Link;
 
             var pic = new ExcelPicture(this, drawNode, Hyperlink, type, Location);
 
