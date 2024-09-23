@@ -111,7 +111,8 @@ namespace OfficeOpenXml.Drawing.Vml
                     return ret;
                 }
             }
-            throw(new Exception("Anchor element is invalid in vmlDrawing"));
+            return -1;
+            //throw(new Exception("Anchor element is invalid in vmlDrawing"));
         }
     }
 }

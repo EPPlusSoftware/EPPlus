@@ -2207,5 +2207,16 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void RemoveWorksheet()
+        {
+            using (var p = OpenTemplatePackage("i1596.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                ExcelWorksheet worksheet = workbook.Worksheets[1];
+
+                worksheet.DeleteRow(256);
+            }
+        }
     }
 }
