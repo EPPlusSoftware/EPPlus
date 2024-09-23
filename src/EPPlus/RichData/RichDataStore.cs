@@ -76,11 +76,12 @@ namespace OfficeOpenXml.RichData
             vmIndex = vm;
         }
 
-        internal void UpdateRichData(ExcelRichValue rv, string relationshipType, string target, IEnumerable<string> values, RichDataStructureFlags structureFlag)
+        internal void UpdateRichData(ExcelRichValue rv, string relationshipType, Uri targetUri, IEnumerable<string> values, RichDataStructureFlags structureFlag)
         {
             var relIx = int.Parse(rv.Values.First());
-            var rel = _workbook.RichData.RichValueRels.GetItem(relIx);
-            rel.Target = target;
+            //var rel = _workbook.RichData.RichValueRels.GetItem(relIx);
+            //rel.Target = target;
+            _workbook.RichData.RichValueRels.SetNewTarget(relIx, targetUri);
             var structureId = _workbook.RichData.Structures.GetStructureId(structureFlag);
             _workbook.RichData.Values.UpdateStructure(rv, structureId);
             if ((structureFlag & RichDataStructureFlags.LocalImage) == RichDataStructureFlags.LocalImage)

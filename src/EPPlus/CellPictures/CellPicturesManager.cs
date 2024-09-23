@@ -108,24 +108,22 @@ namespace OfficeOpenXml.CellPictures
             var flag = string.IsNullOrEmpty(altText) ? RichDataStructureFlags.LocalImage : RichDataStructureFlags.LocalImageWithAltText;
             var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
             var imageUri = UriHelper.GetRelativeUri(rdUri, imageInfo.Uri);
-            int valueMetadataIndex = -1;
-            if(richDataValue == null)
+            var md = _sheet._metadataStore.GetValue(row, col);
+            int? valueMetadataIndex = default;
+            if (richDataValue == null)
             {
                 _richDataStore.AddRichData(ExcelPackage.schemaImage, imageUri.OriginalString, new List<string> { ((int)calcOrigin).ToString(), altText }, flag, out int vm);
-                valueMetadataIndex = 1;
+                valueMetadataIndex = vm;
             }
             else
             {
-                _richDataStore.UpdateRichData(richDataValue, ExcelPackage.schemaImage, imageUri.OriginalString, new List<string> { ((int)calcOrigin).ToString(), altText }, flag);
+                _richDataStore.UpdateRichData(richDataValue, ExcelPackage.schemaImage, imageUri, new List<string> { ((int)calcOrigin).ToString(), altText }, flag);
+                valueMetadataIndex = md.vm;
             }
-            
-            
-            var md = _sheet._metadataStore.GetValue(row, col);
-            md.vm = valueMetadataIndex;
+            md.vm = valueMetadataIndex ?? 0;
             // there should be a #VALUE error in the cell that contains the picture...
             _sheet.Cells[row, col].Value = ExcelErrorValue.Create(eErrorType.Value);
             _sheet._metadataStore.SetValue(row, col, md);
-
         }
 
         public void SetCellPicture(int row, int col, Stream imageStream, string altText, CalcOrigins calcOrigin = CalcOrigins.AddedByUserAltText)

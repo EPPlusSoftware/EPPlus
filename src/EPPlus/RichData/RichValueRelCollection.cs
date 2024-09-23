@@ -89,14 +89,15 @@ namespace OfficeOpenXml.RichData
             return item;
         }
 
-        internal RichValueRel AddItem(string target, string type, out int relIx)
+        private void EnsurePartExists(out bool partNotLoaded)
         {
-            if(_part == null)
+            partNotLoaded = false;
+            if (_part == null)
             {
                 if (_wb._package.ZipPackage.PartExists(_uri))
                 {
                     _part = _wb._package.ZipPackage.GetPart(_uri);
-                    ReadXml(_part.GetStream());
+                    partNotLoaded = true;
                 }
                 else
                 {
@@ -105,6 +106,16 @@ namespace OfficeOpenXml.RichData
                     _part.SaveHandler = Save;
                 }
             }
+        }
+
+        internal RichValueRel AddItem(string target, string type, out int relIx)
+        {
+            EnsurePartExists(out bool partNotLoaded);
+            if(partNotLoaded)
+            {
+                ReadXml(_part.GetStream());
+            }
+            
             var relationship = _part.CreateRelationship(target, TargetMode.Internal, type);
             var rel = new RichValueRel
             {
@@ -135,6 +146,16 @@ namespace OfficeOpenXml.RichData
                 throw new ArgumentOutOfRangeException(nameof(relIx));
             }
             return Items[relIx];
+        }
+
+        internal void SetNewTarget(int relIx, Uri targetUri)
+        {
+            EnsurePartExists(out bool p);
+            var rel = GetItem(relIx);
+            var relationship = _part.GetRelationship(rel.Id);
+            relationship.TargetUri = targetUri;
+            relationship.Target = targetUri.OriginalString;
+            rel.Target = targetUri.OriginalString;
         }
 
         internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)

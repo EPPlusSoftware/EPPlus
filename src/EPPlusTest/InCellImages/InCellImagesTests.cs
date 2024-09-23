@@ -45,12 +45,13 @@ namespace EPPlusTest.InCellImages
         public void OverwriteCellPicture()
         {
             var path = @"C:\Users\MatsAlm\OneDrive - EPPlus Software AB\ImagesInCells\ImagesInCells2\purchase-license-thb.png";
+            var path2 = @"C:\Users\MatsAlm\OneDrive - EPPlus Software AB\ImagesInCells\ImagesInCells2\register-customer-thb.png";
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].SetCellPicture(path);
             var pic1 = package.Workbook.Worksheets[0].Cells["A1"].GetCellPicture();
             Assert.IsNotNull(pic1, "Cell A1 picture was not present");
-            sheet.Cells["A1"].SetCellPicture(path);
+            sheet.Cells["A1"].SetCellPicture(path2);
             package.SaveAs(@"c:\temp\CellPictureEPPlusOverwrite.xlsx");
         }
 
