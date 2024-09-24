@@ -25,6 +25,8 @@ using System.IO;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Controls;
+using System.Linq;
+
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -863,14 +865,18 @@ namespace OfficeOpenXml.Drawing
         {
             if (string.IsNullOrEmpty(path) == false)
             {
-                if(Uri.IsWellFormedUriString(path, UriKind.RelativeOrAbsolute))
+                if (path.IndexOfAny(Path.GetInvalidPathChars()) > -1)
                 {
-                    return true;
+                    throw (new ArgumentException("AddPicture: Image path can't contain invalid chars"));
                 }
-                else
+
+                var fileName = Path.GetFileName(path);
+
+                if (fileName.IndexOfAny(Path.GetInvalidFileNameChars()) > -1)
                 {
-                    throw (new Exception($"AddPicture: The path is invalid. It is not a wellformed string."));
+                    throw (new ArgumentException("AddPicture: Filename can't contain invalid chars"));
                 }
+                return true;
             }
             throw (new Exception("AddPicture: Image path can't be null"));
         }

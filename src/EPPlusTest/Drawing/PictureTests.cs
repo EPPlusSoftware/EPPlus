@@ -184,8 +184,8 @@ namespace EPPlusTest.Drawing
         #endregion
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "AddPicture: The path is an invalid path. It is not a wellformed string.")]
-        public void AddPictureWithFaultyPathShouldFail()
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
+        public void AddPictureWithIllegalCharsShouldFail()
         {
             using (var package = OpenPackage("LinkPic.xlsx", true))
             {
@@ -196,10 +196,37 @@ namespace EPPlusTest.Drawing
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
+        public void AddPictureWithFaultyPathShouldFail()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+
+                var pic = sheet.Drawings.AddPicture("ImageName", "C:\\temp\\\test???", PictureLocation.Link);
+
+                SaveAndCleanup(package);
+            }
+        }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception), "AddPicture: The path is invalid. It is not a wellformed string.")]
-        public void AddPictureWithFaultyPathAndHyperlinkShouldFail()
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
+        public void AddPictureWithFaultyPathShouldFail2()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+
+                var pic = sheet.Drawings.AddPicture("ImageName", "C:\\temp\\test???", PictureLocation.Link);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
+        public void AddPictureWithIllegalCharsAndHyperlinkShouldFail()
         {
             using (var package = OpenPackage("LinkPic.xlsx", true))
             {
