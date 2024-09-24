@@ -25,11 +25,6 @@ using System.IO;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Controls;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System.Xml.Linq;
-using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -863,6 +858,23 @@ namespace OfficeOpenXml.Drawing
         {
             return (ExcelSurfaceChart)AddAllChartTypes(Name, (eChartType)ChartType, null);
         }
+
+        bool VerifyPath(string path)
+        {
+            if (string.IsNullOrEmpty(path) == false)
+            {
+                if(Uri.IsWellFormedUriString(path, UriKind.RelativeOrAbsolute))
+                {
+                    return true;
+                }
+                else
+                {
+                    throw (new Exception($"AddPicture: The path is invalid. It is not a wellformed string."));
+                }
+            }
+            throw (new Exception("AddPicture: Image path can't be null"));
+        }
+
         /// <summary>
         /// Adds a picture to the worksheet
         /// </summary>
@@ -872,11 +884,8 @@ namespace OfficeOpenXml.Drawing
         /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, string ImagePath, PictureLocation Location = PictureLocation.Embed)
         {
-            if (string.IsNullOrEmpty(ImagePath) == false)
-            {
-                return AddPicture(Name, new FileInfo(ImagePath), null, Location);
-            }
-            throw (new Exception("AddPicture: Image path can't be null"));
+            VerifyPath(ImagePath);
+            return AddPicture(Name, new FileInfo(ImagePath), null, Location);
         }
         /// <summary>
         /// Adds a picture to the worksheet
@@ -888,11 +897,8 @@ namespace OfficeOpenXml.Drawing
         /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink Hyperlink, PictureLocation Location = PictureLocation.Embed)
         {
-            if (string.IsNullOrEmpty(ImagePath) == false)
-            {
-                return AddPicture(Name, new FileInfo(ImagePath), Hyperlink, Location);
-            }
-            throw (new Exception("AddPicture: Image path can't be null"));
+            VerifyPath(ImagePath);
+            return AddPicture(Name, new FileInfo(ImagePath), Hyperlink, Location);
         }
         /// <summary>
         /// Adds a picture to the worksheet
@@ -1066,6 +1072,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>A picture object</returns>
         public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath, PictureLocation Location = PictureLocation.Embed)
         {
+            VerifyPath(ImagePath);
             return await AddPictureAsync(Name, new FileInfo(ImagePath), null, Location);
         }
         /// <summary>
@@ -1077,6 +1084,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>A picture object</returns>
         public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath, Uri Hyperlink)
         {
+            VerifyPath(ImagePath);
             return await AddPictureAsync(Name, new FileInfo(ImagePath), Hyperlink);
         }
         /// <summary>

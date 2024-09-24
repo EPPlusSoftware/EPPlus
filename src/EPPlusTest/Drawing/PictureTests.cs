@@ -184,14 +184,28 @@ namespace EPPlusTest.Drawing
         #endregion
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "Illegal characters in path")]
-        public void BrokenLinkedImageShouldFail()
+        [ExpectedException(typeof(Exception), "AddPicture: The path is an invalid path. It is not a wellformed string.")]
+        public void AddPictureWithFaultyPathShouldFail()
         {
             using (var package = OpenPackage("LinkPic.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("emptyWS");
 
                 var pic = sheet.Drawings.AddPicture("ImageName", "testafhkai/[/\\|stuff", PictureLocation.Link);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(Exception), "AddPicture: The path is invalid. It is not a wellformed string.")]
+        public void AddPictureWithFaultyPathAndHyperlinkShouldFail()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+
+                var pic = sheet.Drawings.AddPicture("ImageName", "testafhkai/[/\\|stuff", new ExcelHyperLink("https://www.google.com/"), PictureLocation.Link);
 
                 SaveAndCleanup(package);
             }
