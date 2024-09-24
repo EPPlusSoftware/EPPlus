@@ -43,5 +43,12 @@ namespace EPPlusTest
                 emf.Save("C:\\epplusTest\\Workbooks\\GeneratedTwo.emf");
             }
         }
+
+        [TestMethod]
+        public void ReadEmf()
+        {
+            var emfImage = new EMF();
+            emfImage.Read("C:\\epplusTest\\Testoutput\\LongName.emf");
+        }
     }
 }
