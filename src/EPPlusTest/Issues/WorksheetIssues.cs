@@ -466,6 +466,16 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void I1596()
+        {
+            using (var p = OpenTemplatePackage("i1596.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                ExcelWorksheet worksheet = workbook.Worksheets[1];
 
+                worksheet.DeleteRow(256);
+            }
+        }
     }
 }
