@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Drawing.EMF
                     case 0x00000051:
                         record = new EMR_STRETCHDIBITS(br, TypeValue);
                         break;
-                    ase 0x0000001E:
+                    case 0x0000001E:
                         record = new EMR_INTERSECTCLIPRECT(br, TypeValue);
                         break;
                     case 0x00000052:
