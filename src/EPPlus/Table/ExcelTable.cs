@@ -1428,11 +1428,36 @@ namespace OfficeOpenXml.Table
             _tableSorter.Sort(configuration);
         }
 
-        internal void Copy(ExcelRangeBase range)
+        #endregion
+        /// <summary>
+        /// Copies the table to the top left cell of the provided range.
+        /// </summary>
+        /// <param name="range">The range</param>
+        /// <param name="newTableName">The name new table name.</param>
+        /// <exception cref="ArgumentException">If a table with the name already exists in the workbook.</exception>
+        public void Copy(ExcelRangeBase range, string newTableName)
+        {
+            if (range._workbook.ExistsTableName(newTableName))
+            {
+                throw new ArgumentException($"A table with name {newTableName} already exists in the workbook.", nameof(newTableName));
+            }
+            Range.Copy(range);
+            var ws = range._worksheet;
+            for (var i=0;i<ws.Tables.Count;i++)
+            {
+                if (ws.Tables[i].Range.Collide(range)!=ExcelAddressBase.eAddressCollition.No)
+                {
+                    ws.Tables[i].Name = newTableName;
+                }
+            }
+        }
+        /// <summary>
+        /// Copies the table to the top left cell of the provided range.
+        /// </summary>
+        /// <param name="range">The range</param>
+        public void Copy(ExcelRangeBase range)
         {
             Range.Copy(range);
         }
-
-        #endregion
     }
 }

@@ -1049,11 +1049,23 @@ namespace EPPlusTest.Table
         {
             var ws = _pck.Workbook.Worksheets.Add("TableCopy");
             var range = LoadItemData(ws);
-            var tbl = ws.Tables.Add(range, "Table1");
+            var tbl = ws.Tables.Add(range, "CopyTable1");
 
             tbl.Copy(ws.Cells["A1"]);
             Assert.AreEqual(2, ws.Tables.Count);
-            Assert.AreEqual("Table12", ws.Tables[1].Name);
+            Assert.AreEqual("CopyTable12", ws.Tables[1].Name);
+            Assert.AreEqual("A1:E11", ws.Tables[1].Address.Address);
+        }
+        [TestMethod]
+        public void TableCopyWithNameChangeTest()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableCopyNewName");
+            var range = LoadItemData(ws);
+            var tbl = ws.Tables.Add(range, "CopyTable2");
+
+            tbl.Copy(ws.Cells["A1"], "CopiedTable2");
+            Assert.AreEqual(2, ws.Tables.Count);
+            Assert.AreEqual("CopiedTable2", ws.Tables[1].Name);
             Assert.AreEqual("A1:E11", ws.Tables[1].Address.Address);
         }
         [TestMethod]
@@ -1061,12 +1073,12 @@ namespace EPPlusTest.Table
         {
             var ws = _pck.Workbook.Worksheets.Add("TableCopyFromRange");
             var range = LoadItemData(ws);
-            var tbl = ws.Tables.Add(range, "Table1");
+            var tbl = ws.Tables.Add(range, "CopyTable3");
 
             ws.Cells["J1:Q13"].Copy(ws.Cells["A1"]);
 
             Assert.AreEqual(2, ws.Tables.Count);
-            Assert.AreEqual("Table12", ws.Tables[1].Name);
+            Assert.AreEqual("CopyTable32", ws.Tables[1].Name);
             Assert.AreEqual("B1:F11", ws.Tables[1].Address.Address);
         }
     }
