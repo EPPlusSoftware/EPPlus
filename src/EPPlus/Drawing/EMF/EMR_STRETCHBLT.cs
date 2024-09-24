@@ -77,7 +77,6 @@ namespace OfficeOpenXml.Drawing.EMF
             offBmiSrc = 4 + 4 + 16 + 4 + 4 + 4 + 4 + 4 + 4 + 4 + 24 + 4 + 4 + 4 + 4 + 4 + 4 + 4 + 4;
             cbBmiSrc = 40;
             offBitScr = offBmiSrc + cbBmiSrc;
-
             ChangeImage(bmp);
         }
 
@@ -93,7 +92,6 @@ namespace OfficeOpenXml.Drawing.EMF
 
             byte[] bmpDIBHeader = new byte[DIBHeaderSize];
             Array.Copy(bmp, 14, bmpDIBHeader, 0, DIBHeaderSize);
-
 
             //Get width and height from bmp image. This will make sure we display the full image.
             Array.Copy(bmpDIBHeader, 4, cxSrc, 0, 4);
@@ -116,7 +114,6 @@ namespace OfficeOpenXml.Drawing.EMF
             Size = (uint)(offBitScr + cbBitSrc);
             int paddingBytes = (int)(4 - (Size % 4)) % 4;
             Padding = new byte[paddingBytes];
-
         }
 
         public override void WriteBytes(BinaryWriter bw)

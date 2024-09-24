@@ -269,7 +269,7 @@ namespace OfficeOpenXml.Drawing.Vml
             vml.Append("<x:ClientData ObjectType=\"Pict\">");
             //vml.Append("<x:MoveWithCells />");
             vml.Append("<x:SizeWithCells />");
-            vml.AppendFormat("<x:Anchor>0, 0, 0, 0, 1, 18, 2, 14</x:Anchor>"); //SET VALUE BASED ON MEDIA
+            vml.AppendFormat("<x:Anchor>0, 0, 0, 0, 1, 32, 3, 12</x:Anchor>"); //SET VALUE BASED ON MEDIA
             //vml.Append("<x:AutoFill>False</x:AutoFill>");
             vml.Append("<x:CF>Pict</x:CF>");
             vml.Append("<x:AutoPict/>");

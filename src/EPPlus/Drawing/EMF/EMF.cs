@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.IO.Pipes;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -17,44 +18,60 @@ namespace OfficeOpenXml.Drawing.EMF
             {
                 using (BinaryReader br = new BinaryReader(fileStream))
                 {
-                    while (br.BaseStream.Position < br.BaseStream.Length)
-                    {
-                        EMR_RECORD record;
-                        var TypeValue = br.ReadUInt32();
-                        switch (TypeValue)
-                        {
-                            case 0x00000001:
-                                record = new EMR_HEADER(br, TypeValue);
-                                break;
-                            case 0x0000000E:
-                                record = new EMR_EOF(br, TypeValue);
-                                break;
-                            case 0x00000016:
-                                record = new EMR_SETTEXTALIGN(br, TypeValue);
-                                break;
-                            case 0x0000004D:
-                                record = new EMR_STRETCHBLT(br, TypeValue);
-                                break;
-                            case 0x0000001E:
-                                record = new EMR_INTERSECTCLIPRECT(br, TypeValue);
-                                break;
-                            //case 0x00000051:
-                            //    record = new EMR_STRETCHDIBITS(br, TypeValue);
-                            //    break;
-                            case 0x00000052:
-                                record = new EMR_EXTCREATEFONTINDIRECTW(br, TypeValue);
-                                break;
-                            case 0x00000054:
-                                record = new EMR_EXTTEXTOUTW(br, TypeValue);
-                                break;
-                            default:
-                                record = new EMR_RECORD(br, TypeValue, true);
-                                break;
-                        }
-                        records.Add(record);
-                        size += record.Size;
-                    }
+                    ReadEmfRecords(br);
                 }
+            }
+        }
+
+        public void Read(byte[] emf)
+        {
+            using (Stream emfByteStream = new MemoryStream(emf))
+            {
+                using (BinaryReader br = new BinaryReader(emfByteStream))
+                {
+                    ReadEmfRecords(br);
+                }
+            }
+        }
+
+        private void ReadEmfRecords(BinaryReader br)
+        {
+            while (br.BaseStream.Position < br.BaseStream.Length)
+            {
+                EMR_RECORD record;
+                var TypeValue = br.ReadUInt32();
+                switch (TypeValue)
+                {
+                    case 0x00000001:
+                        record = new EMR_HEADER(br, TypeValue);
+                        break;
+                    case 0x0000000E:
+                        record = new EMR_EOF(br, TypeValue);
+                        break;
+                    case 0x00000016:
+                        record = new EMR_SETTEXTALIGN(br, TypeValue);
+                        break;
+                    case 0x0000004D:
+                        record = new EMR_STRETCHBLT(br, TypeValue);
+                        break;
+                    case 0x00000051:
+                        record = new EMR_STRETCHDIBITS(br, TypeValue);
+                        break;
+                    ase 0x0000001E:
+                        record = new EMR_INTERSECTCLIPRECT(br, TypeValue);
+                        break;
+                    case 0x00000052:
+                        record = new EMR_EXTCREATEFONTINDIRECTW(br, TypeValue);
+                        break;
+                    case 0x00000054:
+                        record = new EMR_EXTTEXTOUTW(br, TypeValue);
+                        break;
+                    default:
+                        record = new EMR_RECORD(br, TypeValue, true);
+                        break;
+                }
+                records.Add(record);
+                size += record.Size;
             }
         }
 
@@ -74,7 +91,7 @@ namespace OfficeOpenXml.Drawing.EMF
 
         public void UpdateTextRecord(string Text)
         {
-            var textRecord =  records[20] as EMR_EXTTEXTOUTW;
+            var textRecord = records[20] as EMR_EXTTEXTOUTW;
             textRecord.Text = Text;
             //records.Add(record);
         }
@@ -116,6 +133,32 @@ namespace OfficeOpenXml.Drawing.EMF
                     {
                         record.WriteBytes(br);
                     }
+                }
+            }
+        }
+
+        public byte[] GetBytes()
+        {
+            var header = (EMR_HEADER)records[0];
+            var last = (EMR_EOF)records[records.Count - 1];
+            var preBytes = header.Bytes;
+
+            header.Bytes = 0;
+
+            foreach (var record in records)
+            {
+                header.Bytes += record.Size;
+            }
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                using (BinaryWriter br = new BinaryWriter(ms))
+                {
+                    foreach (var record in records)
+                    {
+                        record.WriteBytes(br);
+                    }
+                    return ms.ToArray();
                 }
             }
         }
