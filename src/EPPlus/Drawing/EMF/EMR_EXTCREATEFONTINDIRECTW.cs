@@ -8,7 +8,7 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class EMR_EXTCREATEFONTINDIRECTW : EMR_RECORD
     {
-        byte[] ihFonts;
+        internal byte[] ihFonts;
         LogFont elw = null;
 
         bool isExDv = false;

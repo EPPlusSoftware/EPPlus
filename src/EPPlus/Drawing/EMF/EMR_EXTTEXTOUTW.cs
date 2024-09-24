@@ -23,6 +23,12 @@ namespace OfficeOpenXml.Drawing.EMF
 
         private int padding = 0;
 
+        internal int InternalFontId;
+        /// <summary>
+        /// Minimum spacing is 0x01 which should be correct at fontsize 2
+        /// </summary>
+        internal int FontSize = 5;
+
         internal string Text
         {
             get 
@@ -188,6 +194,150 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
+        int GetSpacingForChar2(char aChar)
+        {
+            var baseSize = (int)Math.Round((double)(FontSize / 2), 1);
+
+            int plusOne;
+            int plusTwo;
+            int plusThree;
+            int plusFour;
+
+            int minusOne;
+            int minusTwo;
+
+            bool isMono = false;
+            if (isMono)
+            {
+                plusOne = baseSize;
+                plusTwo = baseSize;
+                plusThree = baseSize;
+                plusFour = baseSize;
+
+                minusOne = baseSize;
+                minusTwo = baseSize;
+            }
+            else
+            {
+                plusOne = (int)Math.Round((double)(1 + (1 / 5)) * baseSize);
+                plusTwo = (int)Math.Round((double)(1 + (2 / 5)) * baseSize);
+                plusThree = (int)Math.Round((double)(1 + (3 / 5)) * baseSize);
+                plusFour = (int)Math.Round((double)(1 + (4 / 5)) * baseSize);
+
+                minusOne = (int)Math.Round((double)(1 - (1 / 5)) * baseSize);
+                minusTwo = (int)Math.Round((double)(1 - (2 / 5)) * baseSize);
+            }
+
+            switch (aChar)
+            {
+                case 'a':
+                    return plusOne;
+                case 'b':
+                    return plusTwo;
+                case 'c':
+                    return baseSize;
+                case 'd':
+                    return plusTwo;
+                case 'e':
+                    return plusOne;
+                case 'f':
+                    return minusOne;
+                case 'g':
+                    return plusTwo;
+                case 'h':
+                    return plusTwo;
+                case 'i':
+                    return minusTwo;
+                case 'j':
+                    return minusTwo;
+                case 'k':
+                    return plusOne;
+                case 'l':
+                    return minusTwo;
+                case 'm':
+                    return plusFour;
+                case 'n':
+                    return plusTwo;
+                case 'o':
+                    return plusTwo;
+                case 'p':
+                    return plusTwo;
+                case 'q':
+                    return plusTwo;
+                case 'r':
+                    return minusOne;
+                case 's':
+                    return baseSize;
+                case 't':
+                    return minusOne;
+                case 'u':
+                    return plusTwo;
+                case 'v':
+                    return baseSize;
+                case 'w':
+                    return plusFour;
+                case 'x':
+                    return baseSize;
+                case 'y':
+                    return baseSize;
+                case 'z':
+                    return baseSize;
+                case 'A':
+                    return plusTwo;
+                case 'B':
+                    return plusOne;
+                case 'C':
+                    return plusTwo;
+                case 'D':
+                    return plusThree;
+                case 'E':
+                    return plusOne;
+                case 'F':
+                    return plusOne;
+                case 'G':
+                    return plusThree;
+                case 'H':
+                    return plusThree;
+                case 'I':
+                    return minusTwo;
+                case 'J':
+                    return minusOne;
+                case 'K':
+                    return plusOne;
+                case 'L':
+                    return baseSize;
+                case 'M':
+                    return (int)Math.Round((double)baseSize + 1*baseSize);
+                case 'N':
+                    return plusThree;
+                case 'O':
+                    return plusFour;
+                case 'P':
+                    return plusOne;
+                case 'Q':
+                    return plusThree;
+                case 'R':
+                    return plusTwo;
+                case 'S':
+                    return plusOne;
+                case 'T':
+                    return plusOne;
+                case 'U':
+                    return plusThree;
+                case 'V':
+                    return plusTwo;
+                case 'W':
+                    return (int)Math.Round((double)baseSize + (1 + 1/5)*baseSize);
+                case 'X':
+                    return plusOne;
+                case 'Y':
+                    return baseSize;
+                case 'Z':
+                    return plusOne;
+                default:
+                    return baseSize;
+            }
+        }
 
         public EMR_EXTTEXTOUTW(string Text)
         {

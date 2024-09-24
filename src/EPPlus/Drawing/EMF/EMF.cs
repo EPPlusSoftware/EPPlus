@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
+using System.Linq;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -11,6 +13,8 @@ namespace OfficeOpenXml.Drawing.EMF
         uint size = 0;
 
         public EMF() { }
+
+        internal Dictionary<int, EMR_EXTCREATEFONTINDIRECTW> Fonts = new Dictionary<int, EMR_EXTCREATEFONTINDIRECTW>();
 
         public void Read(string emf)
         {
@@ -61,10 +65,23 @@ namespace OfficeOpenXml.Drawing.EMF
                         record = new EMR_INTERSECTCLIPRECT(br, TypeValue);
                         break;
                     case 0x00000052:
-                        record = new EMR_EXTCREATEFONTINDIRECTW(br, TypeValue);
+                        var font = new EMR_EXTCREATEFONTINDIRECTW(br, TypeValue);
+                        Fonts.Add(BitConverter.ToInt32(font.ihFonts, 0), font);
+                        record = font;
                         break;
                     case 0x00000054:
-                        record = new EMR_EXTTEXTOUTW(br, TypeValue);
+                        var text = new EMR_EXTTEXTOUTW(br, TypeValue);
+                        var lastRecord = records.Last();
+                        if(lastRecord.Type == RECORD_TYPES.EMR_SELECTOBJECT)
+                        {
+                            int id = BitConverter.ToInt32(lastRecord.data, 0);
+                            text.InternalFontId = id;
+                        }
+                        //if (Fonts.ContainsKey(id))
+                        //{
+                        //    text.InternalFontId = id;
+                        //}
+                        record = text;
                         break;
                     default:
                         record = new EMR_RECORD(br, TypeValue, true);
