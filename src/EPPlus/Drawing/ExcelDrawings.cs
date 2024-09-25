@@ -878,7 +878,7 @@ namespace OfficeOpenXml.Drawing
                 }
                 return true;
             }
-            throw (new Exception("AddPicture: Image path can't be null"));
+            throw (new NullReferenceException("AddPicture: Image path can't be null"));
         }
 
         /// <summary>
