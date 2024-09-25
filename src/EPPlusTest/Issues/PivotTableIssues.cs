@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using System.Linq;
 using System;
+using System.IO;
 namespace EPPlusTest.Issues
 {
     [TestClass]
@@ -88,6 +89,52 @@ namespace EPPlusTest.Issues
 
             worksheet.Cells[table.Address.Start.Row, table.Address.Start.Column, table.Address.End.Row, table.Address.End.Column].AutoFitColumns();
             //workbook.CalculateAllPivotTables(refresh: true);
+        }
+        [TestMethod]
+        public void i1603()
+        {
+            using (var package = OpenPackage("i1603.xlsx", true))
+            {
+                var dataSheet = package.Workbook.Worksheets.Add("Data");
+                var pivotSheet = package.Workbook.Worksheets.Add("Pivot");
+
+                //put data in the data sheet
+                dataSheet.Cells["A1"].Value = "Name";
+                dataSheet.Cells["B1"].Value = "Age";
+                dataSheet.Cells["C1"].Value = "Gender";
+
+                dataSheet.Cells["A2"].Value = "John";
+                dataSheet.Cells["B2"].Value = 25;
+                dataSheet.Cells["C2"].Value = "Male";
+                dataSheet.Cells["A3"].Value = "Jane";
+                dataSheet.Cells["B3"].Value = 30;
+                dataSheet.Cells["C3"].Value = "Female";
+                dataSheet.Cells["A4"].Value = "Bob";
+                dataSheet.Cells["B4"].Value = 40;
+                dataSheet.Cells["C4"].Value = "Male";
+                dataSheet.Cells["A5"].Value = "Mary";
+                dataSheet.Cells["B5"].Value = 28;
+                dataSheet.Cells["C5"].Value = "Female";
+                dataSheet.Cells["A6"].Value = "John";
+                dataSheet.Cells["B6"].Value = 68;
+                dataSheet.Cells["C6"].Value = "Male";
+
+                //create pivot table
+                var pivotDataRange = dataSheet.Cells[1, 1, 6, 3];
+                var pivotTable = pivotSheet.PivotTables.Add(pivotSheet.Cells["C3"], pivotDataRange, "TestPivotTable");
+
+                var field1 = pivotTable.Fields["Name"];
+                var f1 = pivotTable.RowFields.Add(field1);
+                f1.Items.ShowDetails(false);
+                Assert.AreEqual(5, f1.Items.Count);
+
+                var field2 = pivotTable.Fields["Age"];
+                var f2 = pivotTable.RowFields.Add(field2);
+                f2.Items.ShowDetails(false);
+                Assert.AreEqual(6, f2.Items.Count);
+
+                SaveAndCleanup(package);
+            }
         }
     }
 }
