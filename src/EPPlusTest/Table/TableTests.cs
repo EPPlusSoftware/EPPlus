@@ -324,9 +324,9 @@ namespace EPPlusTest.Table
 
                 var range = sheet.Cells["A1:D11"];
 
-                // create the table
+                // create the tableCopy
                 var table = sheet.Tables.Add(range, "myTable");
-                // configure the table
+                // configure the tableCopy
                 table.ShowHeader = true;
                 table.ShowFirstColumn = true;
                 table.TableStyle = TableStyles.Dark2;
@@ -345,7 +345,7 @@ namespace EPPlusTest.Table
                 using (var p2 = new ExcelPackage(p1.Stream))
                 {
                     sheet = p2.Workbook.Worksheets["Tables"];
-                    // get a table by its name and change properties
+                    // get a tableCopy by its name and change properties
                     var myTable = sheet.Tables["myTable"];
                     myTable.TableStyle = TableStyles.Medium8;
                     myTable.ShowFirstColumn = false;
@@ -355,7 +355,7 @@ namespace EPPlusTest.Table
                     using (var p3 = new ExcelPackage(p2.Stream))
                     {
                         sheet = p3.Workbook.Worksheets["Tables"];
-                        // get a table by its name and change properties
+                        // get a tableCopy by its name and change properties
                         sheet.Tables.Delete("myTable");
 
                         SaveWorkbook("Table3.xlsx", p3);
@@ -388,9 +388,9 @@ namespace EPPlusTest.Table
 
                 var range = sheet.Cells["A1:D11"];
 
-                // create the table
+                // create the tableCopy
                 var table = sheet.Tables.Add(range, "myTable");
-                // configure the table
+                // configure the tableCopy
                 table.ShowHeader = true;
                 table.ShowFirstColumn = true;
                 table.ShowFilter = false;
@@ -442,9 +442,9 @@ namespace EPPlusTest.Table
 
                 var range = sheet.Cells["C1:G11"];
 
-                // create the table
+                // create the tableCopy
                 var table = sheet.Tables.Add(range, "myTable");
-                // configure the table
+                // configure the tableCopy
                 table.ShowHeader = true;
                 table.ShowTotal = true;
 
@@ -511,7 +511,7 @@ namespace EPPlusTest.Table
                 var tbl2 = ws1.Tables.Add(ws1.Cells["E1:G2"], "Table12");
                 tbl2.Columns[2].CalculatedColumnFormula = "Table1[[#This Row],[Column1]]+Table12[[#This Row],[Column2]]";
 
-                // Create some references outside of the table
+                // Create some references outside of the tableCopy
                 ws2.SetFormula(1, 1, "Table1[[#This Row],[Column1]]");
                 ws2.Cells["B1:B2"].Formula = "Table1[[#This Row],[Column3]]";
                 p.Workbook.Names.AddFormula("TableRef", "Table1[[#This Row],[Column1]]");
@@ -536,7 +536,7 @@ namespace EPPlusTest.Table
         {
             using (var pck = new ExcelPackage())
             {
-                // Set up a worksheet containing a table
+                // Set up a worksheet containing a tableCopy
                 var wks = pck.Workbook.Worksheets.Add("Sheet1");
                 wks.Cells["A1"].Value = "Col1";
                 wks.Cells["B1"].Value = "Col2";
@@ -551,10 +551,10 @@ namespace EPPlusTest.Table
                 Assert.AreEqual(formula, wks.Cells["C2"].Formula);
                 Assert.AreEqual(formula, table1.Columns["Col3"].CalculatedColumnFormula);
 
-                // Remove the calculated column formula from the table
+                // Remove the calculated column formula from the tableCopy
                 table1.Columns["Col3"].CalculatedColumnFormula = null;
 
-                // Check the formula has been removed from the table
+                // Check the formula has been removed from the tableCopy
                 Assert.IsTrue(string.IsNullOrEmpty(wks.Cells["C2"].Formula));
                 Assert.IsTrue(string.IsNullOrEmpty(table1.Columns["Col3"].CalculatedColumnFormula));
 
@@ -570,7 +570,7 @@ namespace EPPlusTest.Table
         {
             using (var p = OpenPackage("CalculatedColumnFormulaRemove1.xlsx", true))
             {
-                // Set up a worksheet containing a table
+                // Set up a worksheet containing a tableCopy
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1"].Value = "Col1";
                 ws.Cells["B1"].Value = "Col2";
@@ -585,7 +585,7 @@ namespace EPPlusTest.Table
                 Assert.AreEqual(formula, ws.Cells["C2"].Formula);
                 Assert.AreEqual(formula, table1.Columns["Col3"].CalculatedColumnFormula);
 
-                // Remove all formulas from the table
+                // Remove all formulas from the tableCopy
                 table1.Range.ClearFormulas();
                 table1.Range.ClearFormulaValues();
 
@@ -600,7 +600,7 @@ namespace EPPlusTest.Table
         {
             using (var p = OpenPackage("CalculatedColumnFormulaRemove2.xlsx", true))
             {
-                // Set up a worksheet containing a table
+                // Set up a worksheet containing a tableCopy
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1"].Value = "Col1";
                 ws.Cells["B1"].Value = "Col2";
@@ -615,12 +615,12 @@ namespace EPPlusTest.Table
                 Assert.AreEqual(formula, ws.Cells["C2"].Formula);
                 Assert.AreEqual(formula, table1.Columns["Col3"].CalculatedColumnFormula);
 
-                // Remove all formulas from the table
+                // Remove all formulas from the tableCopy
                 table1.Range.ClearFormulas();
                 table1.Range.ClearFormulaValues();
                 Assert.IsTrue(string.IsNullOrEmpty(ws.Cells["C2"].Formula));
 
-                // Add a row to the table
+                // Add a row to the tableCopy
                 table1.InsertRow(1);
 
                 // Check the formula has not been reinserted
@@ -634,7 +634,7 @@ namespace EPPlusTest.Table
         {
             using (var p = OpenPackage("CalculatedColumnFormulaRemove3.xlsx", true))
             {
-                // Set up a worksheet containing a table
+                // Set up a worksheet containing a tableCopy
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells["A1"].Value = "Col1";
                 ws.Cells["B1"].Value = "Col2";
@@ -662,7 +662,7 @@ namespace EPPlusTest.Table
                 ws.Cells["C3"].Formula = differentFormula;
                 Assert.AreEqual(differentFormula, ws.Cells["C3"].Formula);
 
-                // Add a new row to the bottom of the table
+                // Add a new row to the bottom of the tableCopy
                 table1.AddRow();
 
                 // Check that the new row has the formula
@@ -693,7 +693,7 @@ namespace EPPlusTest.Table
                 // Delete the row that has the merged cells
                 worksheet.DeleteRow(4);
 
-                // Create a table
+                // Create a tableCopy
                 var tableCells = worksheet.Cells["A1:B2"];
                 var table = worksheet.Tables.Add(tableCells, "table"); // --> This triggers a NullReferenceException
             }
@@ -798,7 +798,7 @@ namespace EPPlusTest.Table
                 TableStyles style = TableStyles.Dark1;
                 var tableRange = sheet.Cells["A1"].LoadFromDataTable(data, true, style);
 
-                // configure the table
+                // configure the tableCopy
                 var table = sheet.Tables.GetFromRange(tableRange);
                 table.Sort(x => x.SortBy.ColumnNamed("Population", eSortOrder.Descending));
                 table.ShowTotal = true;
@@ -826,7 +826,7 @@ namespace EPPlusTest.Table
         {
             using (var pck = new ExcelPackage())
             {
-                // Set up a worksheet containing a table
+                // Set up a worksheet containing a tableCopy
                 var wks = pck.Workbook.Worksheets.Add("Sheet1");
                 wks.Cells["A1"].Value = "Col1";
                 wks.Cells["B1"].Value = "Col2";
@@ -850,7 +850,7 @@ namespace EPPlusTest.Table
                 Assert.AreEqual(eThemeSchemeColor.Text2, wks.Cells["B3"].Style.Font.Color.Theme);
                 Assert.AreEqual(0.39997558519241921m, wks.Cells["B3"].Style.Font.Color.Tint);
 
-                // Remove the calculated column formula from the table
+                // Remove the calculated column formula from the tableCopy
                 table1.Columns["Col3"].CalculatedColumnFormula = "";
 
                 // Check the style hasn't changed
@@ -1009,7 +1009,6 @@ namespace EPPlusTest.Table
                 ws.SetValue("A1", "AColumn");
                 ws.SetValue("B1", "AnotherColumn");
                 ws.SetValue("C1", "ThirdColumn");
-
                 var table = ws.Tables.Add(range, "newTable");
 
                 table.ShowHeader = true;
@@ -1051,9 +1050,9 @@ namespace EPPlusTest.Table
             var range = LoadItemData(ws);
             var tbl = ws.Tables.Add(range, "CopyTable1");
 
-            tbl.Copy(ws.Cells["A1"]);
+            var tableCopy = tbl.Copy(ws.Cells["A1"]);
             Assert.AreEqual(2, ws.Tables.Count);
-            Assert.AreEqual("CopyTable12", ws.Tables[1].Name);
+            Assert.AreEqual("CopyTable12", tableCopy.Name);
             Assert.AreEqual("A1:E11", ws.Tables[1].Address.Address);
         }
         [TestMethod]
@@ -1063,9 +1062,9 @@ namespace EPPlusTest.Table
             var range = LoadItemData(ws);
             var tbl = ws.Tables.Add(range, "CopyTable2");
 
-            tbl.Copy(ws.Cells["A1"], "CopiedTable2");
+            var tblCopy = tbl.Copy(ws.Cells["A1"], "CopiedTable2");
             Assert.AreEqual(2, ws.Tables.Count);
-            Assert.AreEqual("CopiedTable2", ws.Tables[1].Name);
+            Assert.AreEqual("CopiedTable2", tblCopy.Name);
             Assert.AreEqual("A1:E11", ws.Tables[1].Address.Address);
         }
         [TestMethod]
@@ -1074,7 +1073,6 @@ namespace EPPlusTest.Table
             var ws = _pck.Workbook.Worksheets.Add("TableCopyFromRange");
             var range = LoadItemData(ws);
             var tbl = ws.Tables.Add(range, "CopyTable3");
-
             ws.Cells["J1:Q13"].Copy(ws.Cells["A1"]);
 
             Assert.AreEqual(2, ws.Tables.Count);

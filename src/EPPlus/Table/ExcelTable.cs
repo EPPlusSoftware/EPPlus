@@ -27,6 +27,8 @@ using OfficeOpenXml.Style.Dxf;
 using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using System.Linq;
+
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -1435,29 +1437,30 @@ namespace OfficeOpenXml.Table
         /// <param name="range">The range</param>
         /// <param name="newTableName">The name new table name.</param>
         /// <exception cref="ArgumentException">If a table with the name already exists in the workbook.</exception>
-        public void Copy(ExcelRangeBase range, string newTableName)
+        public ExcelTable Copy(ExcelRangeBase range, string newTableName)
         {
-            if (range._workbook.ExistsTableName(newTableName))
+            if(newTableName.Equals(Name, StringComparison.OrdinalIgnoreCase) && range._workbook.ExistsTableName(newTableName))
             {
                 throw new ArgumentException($"A table with name {newTableName} already exists in the workbook.", nameof(newTableName));
             }
+
             Range.Copy(range);
             var ws = range._worksheet;
-            for (var i=0;i<ws.Tables.Count;i++)
+            var tblCopy = WorkSheet.Tables.FirstOrDefault(x => x.Address.Collide(range) == ExcelAddressBase.eAddressCollition.No);
+            if (tblCopy != null)
             {
-                if (ws.Tables[i].Range.Collide(range)!=ExcelAddressBase.eAddressCollition.No)
-                {
-                    ws.Tables[i].Name = newTableName;
-                }
+                tblCopy.Name = newTableName;
             }
+            return tblCopy;
         }
         /// <summary>
         /// Copies the table to the top left cell of the provided range.
         /// </summary>
         /// <param name="range">The range</param>
-        public void Copy(ExcelRangeBase range)
+        public ExcelTable Copy(ExcelRangeBase range)
         {
             Range.Copy(range);
+            return WorkSheet.Tables.FirstOrDefault(x => x.Address.Collide(range) != ExcelAddressBase.eAddressCollition.No);
         }
     }
 }

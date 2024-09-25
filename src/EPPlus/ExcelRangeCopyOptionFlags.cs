@@ -15,7 +15,7 @@ using System;
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// Flag enum, specify all flags that you want to exclude from the copy.
+    /// Copy options enum. Specify the flags that you want to exclude from the copy or if you want to transpose the output.
     /// </summary>
     [Flags]    
     public enum ExcelRangeCopyOptionFlags : int
@@ -68,5 +68,9 @@ namespace OfficeOpenXml
         /// Exclude any table within the range. 
         /// </summary>
         ExcludeTables = 0x800,
+        /// <summary>
+        /// Exclude any pivot table within the range. 
+        /// </summary>
+        ExcludePivotTables = 0x1000,
     }
 }

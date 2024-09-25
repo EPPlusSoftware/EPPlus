@@ -21,6 +21,7 @@ using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Table;
+using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Utils;
 using System;
@@ -28,6 +29,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using static OfficeOpenXml.ExcelAddressBase;
 
 namespace OfficeOpenXml.Core
@@ -105,9 +107,29 @@ namespace OfficeOpenXml.Core
             {
                 CopyTables();
             }
-            
+
+            if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludePivotTables))
+            {
+                CopyPivotTables();
+            }
+
             CopyFullColumn();
             CopyFullRow();
+        }
+
+        private void CopyPivotTables()
+        {
+            var tablesToCopy = new List<ExcelPivotTable>();
+            foreach (var table in _sourceRange.Worksheet.PivotTables)
+            {
+                var ac = _sourceRange.Collide(table.Address);
+                if (ac == eAddressCollition.Inside ||
+                    ac == eAddressCollition.Equal)
+                {
+                    tablesToCopy.Add(table);
+                }
+            }
+            tablesToCopy.ForEach(table => CopyPivotTable(table));
         }
 
         private void CopyTables()
@@ -141,6 +163,24 @@ namespace OfficeOpenXml.Core
                 name = _destinationRange.Worksheet.Tables.GetNewTableName(name);
             }
             _destinationRange._worksheet.Tables.AddInternal(copiedTable, name, table);
+        }
+        private void CopyPivotTable(ExcelPivotTable ptCopy)
+        {
+            var tr = ptCopy.Address;
+            var dr = _destinationRange;
+            var destinationAddress = _destinationRange.Worksheet.Cells[
+                dr._fromRow + (tr._fromRow - _sourceRange._fromRow),
+                dr._fromCol + (tr._fromCol - _sourceRange._fromCol),
+                dr._fromRow + (tr._toRow - _sourceRange._fromRow),
+                dr._fromCol + (tr._toCol - _sourceRange._fromCol)];
+
+            var name = ptCopy.Name;
+            if (_destinationRange.Worksheet.PivotTables._pivotTableNames.ContainsKey(name))
+            {
+                name = _destinationRange.Worksheet.PivotTables.GetNewTableName(name);
+            }
+
+            _destinationRange._worksheet.PivotTables.Add(new ExcelPivotTable(_destinationRange.Worksheet, destinationAddress, ptCopy, name, _destinationRange.Worksheet.Workbook._nextPivotTableID++));
         }
 
         private void CopyDrawings()
