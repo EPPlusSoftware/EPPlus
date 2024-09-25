@@ -1,21 +1,26 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using System;
-using System.Drawing.Imaging;
+﻿using System;
 using System.IO;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
     internal class EMR_EXTCREATEFONTINDIRECTW : EMR_RECORD
     {
-        byte[] ihFonts;
+        uint ihFonts;
         LogFont elw = null;
 
         bool isExDv = false;
 
+        internal EMR_EXTCREATEFONTINDIRECTW(LogFontExDv elw)
+        {
+            Type = RECORD_TYPES.EMR_EXTCREATEFONTINDIRECTW;
+            Size = 368;
+            ihFonts = 2;
+            this.elw = elw;
+        }
+
         internal EMR_EXTCREATEFONTINDIRECTW(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
-            ihFonts = br.ReadBytes(4);
+            ihFonts = br.ReadUInt32();
 
             var sizeOfVariableObject = Size - 12;
             if (sizeOfVariableObject > 320)//Size of a LogFontPanose object

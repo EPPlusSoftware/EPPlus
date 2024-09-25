@@ -4,9 +4,11 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class DesignVector
     {
-        uint Signature;
-        uint NumAxes;
-        uint[] Values;
+        internal uint Signature;
+        internal uint NumAxes;
+        internal uint[] Values;
+
+        internal DesignVector() { }
 
         //Should only be used for a multiple master/OpenType font
         internal DesignVector(BinaryReader br)

@@ -11,9 +11,11 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class LogFontEx : LogFont
     {
-        string FullName;
-        string Style;
-        string Script;
+        internal string FullName;
+        internal string Style;
+        internal string Script;
+
+        internal LogFontEx() : base() {}
 
         internal LogFontEx(BinaryReader br) : base(br)
         {

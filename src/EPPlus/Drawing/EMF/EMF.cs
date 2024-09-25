@@ -96,6 +96,13 @@ namespace OfficeOpenXml.Drawing.EMF
             //records.Add(record);
         }
 
+        public void SetNewText(string Text)
+        {
+            //remove current text record block
+            //create emfcalculatetextlength
+            //insert records from emfcalculatetextlength
+        }
+
         public void ChangeTextAlignment(TextAlignmentModeFlags Flags)
         {
             var record = records[8] as EMR_SETTEXTALIGN;

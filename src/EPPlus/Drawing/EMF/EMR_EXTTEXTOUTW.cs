@@ -75,7 +75,7 @@ namespace OfficeOpenXml.Drawing.EMF
             return DxBuffer;
         }
 
-        static int GetSpacingForChar(char aChar)
+        internal static int GetSpacingForChar(char aChar)
         {
             switch (aChar)
             {
@@ -259,5 +259,27 @@ namespace OfficeOpenXml.Drawing.EMF
             }
             bw.Write(DxBuffer);
         }
-    }
+
+
+        //we can fit 32 of the smalest character, l   len = 96, but we go len 90, 30 char, range 0-47
+        //We can fit 11 of the widest character, O.   len = 99 but we go len 90, 10 char, range 0-44
+
+        //Create new class that takes a string, gets it's len
+        //if len is bigger than 90, cut at 90
+        //repeat until string is end or more than 3 rows.
+        //For each string create new textbox which is a record collection cosisting of:
+            /*
+            EMF_EXTCREATEFONTINDIRECTW Font;
+            EMF_SELECTOBJECT sel1;
+            EMF_SELECTOBJECT bkmode;
+            EMF_EXTTEXTOUTW text;
+            EMF_SELECTOBJECT sel2;
+            EMF_DELETEOBJECT del;
+            */
+        //Calculate ReferenceX in Text based on len. lower len higher value.
+        //RefenceY is increased by 12.
+        //Remove current textRecords
+        //Add our Text records
+        //Done
+        }
 }

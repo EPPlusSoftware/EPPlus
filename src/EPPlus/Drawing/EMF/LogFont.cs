@@ -13,20 +13,20 @@ namespace OfficeOpenXml.Drawing.EMF
     internal class LogFont
     {
         //Read and written properties
-        int Height;
-        int Width;
-        int Escapement;
-        int Orientation;
-        int Weight;
-        byte Italic;
-        byte Underline;
-        byte StrikeOut;
-        CharacterSet Set;
-        byte OutPrecision;
-        byte ClipPrecision;
-        byte Quality;
-        byte PitchAndFamily;
-        string FaceName;
+        internal int Height;
+        internal int Width;
+        internal int Escapement;
+        internal int Orientation;
+        internal int Weight;
+        internal byte Italic;
+        internal byte Underline;
+        internal byte StrikeOut;
+        internal CharacterSet Set;
+        internal byte OutPrecision;
+        internal byte ClipPrecision;
+        internal byte Quality;
+        internal byte PitchAndFamily;
+        internal string FaceName;
 
         //Simplified properties for viewing/editing
         FamilyFont fontFamily;
@@ -34,6 +34,8 @@ namespace OfficeOpenXml.Drawing.EMF
 
 
         private bool recalculateWidth = false;
+
+        internal LogFont() { }
 
         internal LogFont(BinaryReader br)
         {
