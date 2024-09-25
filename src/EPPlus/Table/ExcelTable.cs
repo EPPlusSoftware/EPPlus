@@ -74,8 +74,11 @@ namespace OfficeOpenXml.Table
                 Init();
                 Address = address;
                 SetNameAndDisplayName(name);
+                if(copy.WorkSheet._package != WorkSheet._package)
+                {
+                    DxfStyleHandler.CopyDxfStylesTable(copy, this);
+                }
             }
-
 
             //If the table is just one row we cannot have a header.
             if (address._fromRow == address._toRow)
@@ -87,7 +90,6 @@ namespace OfficeOpenXml.Table
                 SetAutoFilter();
             }
         }
-
         private void Init()
         {
             TopNode = TableXml.DocumentElement;

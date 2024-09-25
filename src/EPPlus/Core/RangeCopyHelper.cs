@@ -158,7 +158,7 @@ namespace OfficeOpenXml.Core
                 dr._fromCol + (tr._toCol - _sourceRange._fromCol)];
 
             var name = table.Name;
-            if (_destinationRange.Worksheet.Tables._tableNames.ContainsKey(name))
+            if (_destinationRange._workbook.ExistsTableName(name))
             {
                 name = _destinationRange.Worksheet.Tables.GetNewTableName(name);
             }

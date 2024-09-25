@@ -1079,5 +1079,36 @@ namespace EPPlusTest.Table
             Assert.AreEqual("CopyTable32", ws.Tables[1].Name);
             Assert.AreEqual("B1:F11", ws.Tables[1].Address.Address);
         }
+        [TestMethod]
+        public void TableCopyInRangeToNewWorksheetTest()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableCopyRangeToNewWs");
+            var range = LoadItemData(ws);
+            var tbl = ws.Tables.Add(range, "SourceTableCopy4");
+            var wsDest = _pck.Workbook.Worksheets.Add("DestCopy4");
+            ws.Cells["J1:Q13"].Copy(wsDest.Cells["A1"]);
+
+            Assert.AreEqual(1, ws.Tables.Count);
+            Assert.AreEqual(1, wsDest.Tables.Count);
+            Assert.AreEqual("SourceTableCopy42", wsDest.Tables[0].Name);
+            Assert.AreEqual("B1:F11", wsDest.Tables[0].Address.Address);
+        }
+        [TestMethod]
+        public void TableCopyInRangeToNewWorkbookTest()
+        {
+            using var p1 = new ExcelPackage();
+            var ws = p1.Workbook.Worksheets.Add("TableCopyToNewPackage");
+            var range = LoadItemData(ws);
+            var tbl = ws.Tables.Add(range, "SourceTableCopy5");
+            using var p2 = new ExcelPackage();
+            var wsDest = p2.Workbook.Worksheets.Add("DestCopy5");
+            ws.Cells["J1:Q13"].Copy(wsDest.Cells["A1"]);
+
+            SaveWorkbook("CopyTableToNewWorkbook.xlsx", p2);
+            Assert.AreEqual(1, ws.Tables.Count);
+            Assert.AreEqual(1, wsDest.Tables.Count);
+            Assert.AreEqual("SourceTableCopy5", wsDest.Tables[0].Name);
+            Assert.AreEqual("B1:F11", wsDest.Tables[0].Address.Address);
+        }
     }
 }

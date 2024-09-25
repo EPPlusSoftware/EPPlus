@@ -1876,14 +1876,21 @@ namespace OfficeOpenXml.Table.PivotTable
             return _colItems.OrderBy(x => x, ArrayComparer.Instance).ToList<int[]>();
         }
 
-        public ExcelPivotTable Copy(ExcelRange destinationRange, string newPivotTableName)
+        /// <summary>
+        /// Copies the pivot table to another range.
+        /// </summary>
+        /// <param name="destinationRange">The destination range.</param>
+        /// <param name="name">The name of the new pivot table.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public ExcelPivotTable Copy(ExcelRange destinationRange, string name)
         {
-            if(newPivotTableName.Equals(Name, StringComparison.OrdinalIgnoreCase) == false && WorkSheet.PivotTables._pivotTableNames.ContainsKey(newPivotTableName))
+            if(name.Equals(Name, StringComparison.OrdinalIgnoreCase) == false && WorkSheet.PivotTables._pivotTableNames.ContainsKey(name))
             {
-                throw new ArgumentException($"A pivot table with name {newPivotTableName} already exists in the workbook.", nameof(newPivotTableName));
+                throw new ArgumentException($"A pivot table with name {name} already exists in the workbook.", nameof(name));
             }
             var pt = Copy(destinationRange);
-            pt.Name = newPivotTableName;
+            pt.Name = name;
             return pt;
         }
         public ExcelPivotTable Copy(ExcelRange destinationRange)
