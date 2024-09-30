@@ -947,10 +947,7 @@ namespace OfficeOpenXml.Drawing
             var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location);
             if(Location != PictureLocation.Link)
             {
-                if(ImageFile.Exists == false)
-                {
-                    throw new FileNotFoundException($"The file {ImageFile.FullName} could not be found. Epplus cannot insert/embed files that do not exist.");
-                }
+                ValidatePictureFile(Name, ImageFile);
                 pic.LoadImage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), pic.Image.Type.Value);
             }
             AddPicture(Name, pic);
@@ -1058,10 +1055,10 @@ namespace OfficeOpenXml.Drawing
             var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location);
             if (Location != PictureLocation.Link)
             {
+                ValidatePictureFile(Name, ImageFile);
                 await pic.LoadImageAsync(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), pic.Image.Type.Value);
             }
             AddPicture(Name, pic);
-            //ValidatePictureFile(Name, ImageFile);
             //XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
             //var type = PictureStore.GetPictureType(ImageFile.Extension);
             //var pic = new ExcelPicture(this, drawNode, Hyperlink, type);
@@ -1087,8 +1084,9 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Name"></param>
         /// <param name="ImagePath">The path to the image file</param>
         /// <param name="Hyperlink">Picture Hyperlink</param>
+        /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
-        public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath, Uri Hyperlink)
+        public async Task<ExcelPicture> AddPictureAsync(string Name, string ImagePath, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
         {
             VerifyPath(ImagePath);
             return await AddPictureAsync(Name, new FileInfo(ImagePath), Hyperlink);
