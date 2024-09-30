@@ -99,5 +99,9 @@ namespace OfficeOpenXml.FormulaParsing
         /// The address.
         /// </summary>
         FormulaRangeAddress Address { get; }
+        /// <summary>
+        /// If the address contains commaseparated addresses, this array contains the individual addresses.
+        /// </summary>
+        FormulaRangeAddress[] Addresses { get; }
     }
 }
