@@ -1502,39 +1502,33 @@ namespace OfficeOpenXml.Drawing
         #endregion
 
         /// <summary>
-        /// 
+        /// Embedd or link an object to the worksheet.
         /// </summary>
         /// <param name="FilePath">Path to file to embedd or link.</param>
-        /// <param name="Link">True: File will be linked. False: File will be embedded</param>
-        /// <param name="OleObjectType">The type of object</param>
-        /// <param name="ImageFilePath">Path to image for drawing. Note that this is only a temporary image and Excel will overwrite it when saved or opened with its own image.</param>
-        /// <returns></returns>
-        public ExcelOleObject AddOleObject(string FilePath, bool Link = false, OleObjectType OleObjectType = OleObjectType.Default, bool DisplayAsIcon = false, string ImageFilePath = "")
+        /// <param name="LinkToFile">Optional - True: File will be linked. False: File will be embedded.</param>
+        /// <param name="DisplayAsIcon">Optional - Set to display the object as in icon.</param>
+        /// <param name="IconFilePath">Optional - Path to a bitmap image file for use as icon.</param>
+        /// <param name="OleObjectType">Optional - The type of object.</param>
+        /// <returns>A Drawing of the ExcelOleObject type.</returns>
+        public ExcelOleObject AddOleObject(string FilePath, bool LinkToFile = false, bool DisplayAsIcon = false, string IconFilePath = "", OleObjectType OleObjectType = OleObjectType.Default)
         {
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
-            ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, FilePath, Link, OleObjectType, DisplayAsIcon, ImageFilePath);
+            ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, FilePath, LinkToFile, OleObjectType, DisplayAsIcon, IconFilePath);
             _drawingsList.Add(oleObj);
             _drawingNames.Add(oleObj.Name, _drawingsList.Count - 1);
 
             return oleObj;
         }
+
         /// <summary>
-        /// 
+        /// Embedd or link an object to the worksheet.
         /// </summary>
         /// <param name="FilePath">Path to file to embedd or link.</param>
-        /// <param name="Link">True: File will be linked. False: File will be embedded</param>
-        /// <param name="OleObjectType">The type of object</param>
-        /// <param name="ImageFilePath">Path to image for drawing. Note that this is only a temporary image and Excel will overwrite it when saved or opened with its own image.</param>
-        /// <returns></returns>
-        //public ExcelOleObject AddOleObject(string FilePath, bool Link = false, OleObjectType OleObjectType = OleObjectType.Default, bool DisplayAsIcon = false, Stream ImageFilePath = "")
-        //{
-        //    XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
-        //    ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, FilePath, Link, OleObjectType, DisplayAsIcon, ImageFilePath);
-        //    _drawingsList.Add(oleObj);
-        //    _drawingNames.Add(oleObj.Name, _drawingsList.Count - 1);
-
-        //    return oleObj;
-        //}
+        /// <returns>A Drawing of the ExcelOleObject type.</returns>
+        public ExcelOleObject AddOleObject(string FilePath)
+        {
+            return AddOleObject(FilePath, false, false, "", OleObjectType.Default);
+        }
 
         private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent = false)
         {

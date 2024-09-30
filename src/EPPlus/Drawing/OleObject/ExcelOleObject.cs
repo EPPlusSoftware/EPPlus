@@ -10,7 +10,7 @@ using OfficeOpenXml.Utils;
 using System.IO;
 using System.Text;
 using OfficeOpenXml.Utils.Extensions;
-using static OfficeOpenXml.Drawing.OleObject.OleObjectDataStreams;
+using static OfficeOpenXml.Drawing.OleObject.OleObjectDataStructures;
 using System.Collections.Generic;
 
 
@@ -39,7 +39,6 @@ namespace OfficeOpenXml.Drawing.OleObject
         DOC,
     }
 
-
     public class ExcelOleObject : ExcelDrawing
     {
         private const string OLE_STREAM_NAME = "\u0001Ole";
@@ -52,7 +51,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal XmlHelper _vmlProp;
         internal OleObjectInternal _oleObject;
         internal CompoundDocument _document;
-        internal OleObjectDataStreams _oleDataStreams;
+        internal OleObjectDataStructures _oleDataStructures;
         internal ExcelExternalOleLink _externalLink;
         internal ExcelWorksheet _worksheet;
         internal ZipPackagePart oleObjectPart;
@@ -65,6 +64,48 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// </summary>
         public readonly bool IsExternalLink;
 
+        /// <summary>
+        /// Return the drawing type of this object
+        /// </summary>
+        public override eDrawingType DrawingType
+        {
+            get
+            {
+                return eDrawingType.OleObject;
+            }
+        }
+
+        internal string LegacySpId
+        {
+            get
+            {
+                return GetXmlNodeString($"{GetlegacySpIdPath()}/a:extLst/a:ext[@uri='{ExtLstUris.LegacyObjectWrapperUri}']/a14:compatExt/@spid");
+            }
+            set
+            {
+                var node = GetNode(GetlegacySpIdPath());
+                var extHelper = XmlHelperFactory.Create(NameSpaceManager, node);
+                var extNode = extHelper.GetOrCreateExtLstSubNode(ExtLstUris.LegacyObjectWrapperUri, "a14");
+                if (extNode.InnerXml == "")
+                {
+                    extNode.InnerXml = $"<a14:compatExt/>";
+                }
+                ((XmlElement)extNode.FirstChild).SetAttribute("spid", value);
+            }
+        }
+
+        internal string GetlegacySpIdPath()
+        {
+            return $"{(_topPath == "" ? "" : _topPath + "/")}xdr:nvSpPr/xdr:cNvPr";
+        }
+
+        /// <summary>
+        /// Constructor for loading exsisting Ole Object.
+        /// </summary>
+        /// <param name="drawings"></param>
+        /// <param name="node"></param>
+        /// <param name="oleObject"></param>
+        /// <param name="parent"></param>
         internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, OleObjectInternal oleObject, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
@@ -78,26 +119,37 @@ namespace OfficeOpenXml.Drawing.OleObject
             if (IsExternalLink)
             {
                 IsExternalLink = false;
-                LoadEmbeddedDocument();
+                LoadEmbeddedObject();
             }
             else
             {
                 IsExternalLink = true;
-                LoadExternalLink();
+                LoadLinkedObject();
             }
         }
 
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string filePath, bool link, OleObjectType type = OleObjectType.Default, bool displayAsIcon = false, string mediaFilePath = "", ExcelGroupShape parent = null)
+        /// <summary>
+        /// Constructor for creating new Ole Object.
+        /// </summary>
+        /// <param name="drawings"></param>
+        /// <param name="node"></param>
+        /// <param name="filePath"></param>
+        /// <param name="linkToFile"></param>
+        /// <param name="type"></param>
+        /// <param name="displayAsIcon"></param>
+        /// <param name="iconFilePath"></param>
+        /// <param name="parent"></param>
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string filePath, bool linkToFile, OleObjectType type = OleObjectType.Default, bool displayAsIcon = false, string iconFilePath = "", ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             _worksheet = drawings.Worksheet;
             string relId = "";
             string oleObjectNode = "";
             DisplayAsIcon = displayAsIcon;
-            if (link)
+            if (linkToFile)
             {
                 IsExternalLink = true;
-                var linkId = LinkDocument(filePath, type);
+                var linkId = CreateLinkToObject(filePath, type);
                 if (displayAsIcon)
                 {
                     oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" oleUpdate=\"OLEUPDATE_ONCALL\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", "Package", linkId, _id);
@@ -110,32 +162,29 @@ namespace OfficeOpenXml.Drawing.OleObject
             else
             {
                 IsExternalLink = false;
-                relId = EmbedDocument(filePath, type);
+                relId = CreateEmbeddedObject(filePath, type);
 
                 if (displayAsIcon)
                 {
-                    oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStreams.CompObj.Reserved1.String, _id, relId);
+                    oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStructures.CompObj.Reserved1.String, _id, relId);
                 }
                 else
                 {
-                    oleObjectNode = string.Format("<oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStreams.CompObj.Reserved1.String, _id, relId);
+                    oleObjectNode = string.Format("<oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStructures.CompObj.Reserved1.String, _id, relId);
                 }
 
             }
-
             //Create Media
             int newID = 1;
             var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
             var part = _worksheet._package.ZipPackage.CreatePart(Uri, "image/x-emf", CompressionLevel.None, "emf");
             var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
-
-            /* Create EMF image for ole Object */
             byte[] image = OleObjectIcon.DefaultIcon;
             EmfImage emf = new EmfImage();
             emf.Read(image);
-            if (!string.IsNullOrEmpty(mediaFilePath))
+            if (!string.IsNullOrEmpty(iconFilePath))
             {
-                byte[] newImage = File.ReadAllBytes(mediaFilePath);
+                byte[] newImage = File.ReadAllBytes(iconFilePath);
                 emf.ChangeImage(newImage);
             }
             else
@@ -179,7 +228,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             sb.Append("<mc:Choice Requires=\"x14\">");
             //Create object node
             sb.Append(oleObjectNode);
-            if(link)
+            if(linkToFile)
                 sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\" dde=\"1\">", imgRelId);
             else
                 sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\">", imgRelId);
@@ -236,6 +285,355 @@ namespace OfficeOpenXml.Drawing.OleObject
                        $"</a:outerShdw></a:effectLst></a14:hiddenEffects></a:ext></a:extLst></xdr:spPr>");
             return xml.ToString();
         }
+
+        private void LoadEmbeddedObject()
+        {
+            var oleRel = _worksheet.Part.GetRelationship(_oleObject.RelationshipId);
+            if (oleRel != null && oleRel.TargetUri.ToString().Contains(".bin"))
+            {
+                var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
+                oleObjectPart = _worksheet._package.ZipPackage.GetPart(oleObj);
+                var oleStream = (MemoryStream)oleObjectPart.GetStream(FileMode.Open, FileAccess.Read);
+                _document = new CompoundDocument(oleStream);
+            }
+        }
+
+        private void LoadLinkedObject()
+        {
+            var els = _worksheet.Workbook.ExternalLinks;
+            foreach (var el in els)
+            {
+                if (el.ExternalLinkType == eExternalLinkType.OleLink)
+                {
+                    var filename = el.Part.Entry.ToString();
+                    var splitFilename = filename.Split("ZipEntry::xl/externalLinks/externalLink.xml".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    var splitLink = _oleObject.Link.Split("[]".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    if (splitLink[0].Contains(splitFilename[0]))
+                    {
+                        _externalLink = el as ExcelExternalOleLink;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private string CreateEmbeddedObject(string filePath, OleObjectType type)
+        {
+            string relId = "";
+            byte[] fileData = File.ReadAllBytes(filePath);
+            string fileType = Path.GetExtension(filePath).ToLower();
+            _oleDataStructures = new OleObjectDataStructures();
+            _document = new CompoundDocument();
+            Guid ClsId = OleObjectGUIDCollection.keyValuePairs["Package"];
+            if (type == OleObjectType.PDF) //Only if Acrobat Reader is installed
+            {
+                //Create Ole structure and add data
+                CreateOleObject();
+                //Create Ole Data Stream and add to Compound object
+                CreateOleDataStream();
+                //Create CompObj structure and add data
+                CreateCompObjObject("Acrobat Document", "Acrobat.Document.DC");
+                //Create CompObj Data Stream and add to Compound object
+                CreateCompObjDataStream();
+                //Add CONTENT Data Stream
+                _oleDataStructures.DataFile = fileData;
+                _document.Storage.DataStreams.Add(CONTENTS_STREAM_NAME, new CompoundDocumentItem(CONTENTS_STREAM_NAME, fileData));
+                ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO PDF GUID?
+            }
+            else if (type == OleObjectType.ODF) //open office formats if libre office installed
+            {
+                //Create Ole structure and add data
+                CreateOleObject();
+                //Create Ole Data Stream and add to Compound object
+                CreateOleDataStream();
+                //Create CompObj structure and add data
+                CreateCompObjObject("OpenDocument Text", "Word.OpenDocumentText.12"); //This has different values depending on if is spreadsheet, presentation or text
+                                                                                      //Create CompObj Data Stream and add to Compound object
+                CreateCompObjDataStream();
+                //Add EmbeddedOdf
+                _oleDataStructures.DataFile = fileData;
+                _document.Storage.DataStreams.Add(EMBEDDEDODF_STREAM_NAME, new CompoundDocumentItem(EMBEDDEDODF_STREAM_NAME, fileData));
+                ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO ODF GUID?
+            }
+            else if (type == OleObjectType.DOC) //ms office format
+            {
+                //Embedd as is
+                string name = "";
+                if (fileType == ".docx")
+                {
+                    name = "Microsoft_Word_Document";
+                    CreateCompObjObject("Document", "Document");
+                }
+                else if (fileType == ".xlsx")
+                {
+                    name = "Microsoft_Excel_Worksheet";
+                    CreateCompObjObject("Worksheet", "Worksheet");
+                }
+                else if (fileType == ".pptx")
+                {
+                    name = "Microsoft_PowerPoint_Presentation";
+                    CreateCompObjObject("Presentation", "Presentation");
+                }
+                int newID = 1;
+                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
+                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties); //Change content type or add content type for the doc type?
+                var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
+                relId = rel.Id;
+                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+                ms.Write(fileData, 0, fileData.Length);
+                return relId;
+            }
+            else if (type == OleObjectType.Default)
+            {
+                CreateCompObjObject("OLE Package", "Package");
+                CreateCompObjDataStream();
+                CreateOleNativeObject(fileData, filePath);
+                CreateOleNativeDataStream();
+                ClsId = OleObjectGUIDCollection.keyValuePairs["Package"];
+            }
+            if (_document.Storage.DataStreams != null)
+            {
+                int newID = 1;
+                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/oleObject{0}.bin", ref newID);
+                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeOleObject);
+                var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/oleObject");
+                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+                _document.RootItem.ClsID = ClsId;
+                _document.Save(ms);
+                relId = rel.Id;
+            }
+            return relId;
+        }
+
+        private int CreateLinkToObject(string filePath, OleObjectType type)
+        {
+            var wb = _worksheet.Workbook;
+            //create externalLink xml part
+            int newID = 1;
+            Uri uri = GetNewUri(wb._package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml", ref newID);
+            LinkedOleObjectPart = wb._package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
+            var rel = wb.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
+            //Create relation to external file
+            var fileRel = LinkedOleObjectPart.CreateRelationship("file:///" + filePath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
+            //Create externalLink xml
+            //StreamWriter sw = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
+            var xml = new StringBuilder();
+            xml.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+            xml.Append("<externalLink xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"");
+            xml.Append(" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14 xxl21\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\"");
+            xml.Append(" xmlns:xxl21=\"http://schemas.microsoft.com/office/spreadsheetml/2021/extlinks2021\">");
+            xml.Append("<oleLink xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"");
+            xml.AppendFormat(" r:id=\"{0}\" progId=\"{1}\">", fileRel.Id, "Package");
+            if (DisplayAsIcon)
+                xml.AppendFormat("<oleItems><oleItem name=\"{0}\" icon=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1");
+            else
+                xml.AppendFormat("<oleItems><oleItem name=\"{0}\" advise=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1");
+            xml.Append("</oleItems></oleLink></externalLink>");
+            LinkedOleObjectXml = new XmlDocument();
+            LinkedOleObjectXml.LoadXml(xml.ToString());
+            LinkedOleObjectXml.Save(LinkedOleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+
+            //create/write wb xml external link node
+            var er = (XmlElement)wb.CreateNode("d:externalReferences/d:externalReference", false, true);
+            er.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
+
+            //Add the externalLink to externalLink collection
+            _externalLink = wb.ExternalLinks[wb.ExternalLinks.GetExternalLink(filePath, fileRel)] as ExcelExternalOleLink; //new ExcelExternalOleLink(wb, new XmlTextReader(LinkedOleObjectPart.GetStream()), LinkedOleObjectPart, er);
+            return newID;
+        }
+
+        #region WriteBinaries
+        private void CreateOleDataStream()
+        {
+            byte[] oleBytes = BinaryHelper.ConcatenateByteArrays(
+                                           BitConverter.GetBytes(_oleDataStructures.Ole.Version),
+                                           BitConverter.GetBytes(_oleDataStructures.Ole.Flags),
+                                           BitConverter.GetBytes(_oleDataStructures.Ole.LinkUpdateOption),
+                                           BitConverter.GetBytes(_oleDataStructures.Ole.Reserved1),
+                                           BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStreamSize) );
+            if (_oleDataStructures.Ole.ReservedMonikerStreamSize > 0)
+            {
+                oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.ClsId.Data1),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.ClsId.Data2),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.ClsId.Data3),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.ClsId.Data4),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.StreamData1),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.StreamData2),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.StreamData3),
+                                        BinaryHelper.GetByteArray(_oleDataStructures.Ole.ReservedMonikerStream.StreamData4, _oleDataStructures.Ole.ReservedMonikerStream.Encoding) );
+            }
+            if (IsExternalLink)
+            {
+                oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStreamSize) );
+                if (_oleDataStructures.Ole.RelativeSourceMonikerStreamSize > 0)
+                {
+                    oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.ClsId.Data1),
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.ClsId.Data2),
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.ClsId.Data3),
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.ClsId.Data4),
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.StreamData1),
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.StreamData2),
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.StreamData3),
+                                            BinaryHelper.GetByteArray(_oleDataStructures.Ole.RelativeSourceMonikerStream.StreamData4, _oleDataStructures.Ole.RelativeSourceMonikerStream.Encoding) );
+                }
+                oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStreamSize) );
+                if (_oleDataStructures.Ole.AbsoluteSourceMonikerStreamSize > 0)
+                {
+                    oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.ClsId.Data1),
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.ClsId.Data2),
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.ClsId.Data3),
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.ClsId.Data4),
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.StreamData1),
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.StreamData2),
+                                            BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.StreamData3),
+                                            BinaryHelper.GetByteArray(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.StreamData4, _oleDataStructures.Ole.AbsoluteSourceMonikerStream.Encoding) );
+                }
+                oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
+                                        new byte[_oleDataStructures.Ole.ClsIdIndicator],
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.ClsId.Data1),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.ClsId.Data2),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.ClsId.Data3),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.ClsId.Data4),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.ReservedDisplayName.Length),
+                                        BinaryHelper.GetByteArray(_oleDataStructures.Ole.ReservedDisplayName.String, _oleDataStructures.Ole.ReservedDisplayName.Encoding),
+                                        new byte[_oleDataStructures.Ole.Reserved2],
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.LocalUpdateTime.dwLowDateTime),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.LocalUpdateTime.dwHighDateTime),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.LocalCheckUpdateTime.dwLowDateTime),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.LocalCheckUpdateTime.dwHighDateTime),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.RemoteUpdateTime.dwLowDateTime),
+                                        BitConverter.GetBytes(_oleDataStructures.Ole.RemoteUpdateTime.dwHighDateTime) );
+            }
+            _document.Storage.DataStreams.Add(OLE_STREAM_NAME, new CompoundDocumentItem(OLE_STREAM_NAME, oleBytes));
+        }
+        private void CreateCompObjDataStream()
+        {
+            byte[] compObjBytes = BinaryHelper.ConcatenateByteArrays(
+                                               BitConverter.GetBytes(_oleDataStructures.CompObj.Header.Reserved1),
+                                               BitConverter.GetBytes(_oleDataStructures.CompObj.Header.Version),
+                                               _oleDataStructures.CompObj.Header.Reserved2,
+                                               BitConverter.GetBytes(_oleDataStructures.CompObj.AnsiUserType.Length),
+                                               BinaryHelper.GetByteArray(_oleDataStructures.CompObj.AnsiUserType.String + "\0", _oleDataStructures.CompObj.AnsiUserType.Encoding),
+                                               BitConverter.GetBytes(_oleDataStructures.CompObj.AnsiClipboardFormat.MarkerOrLength),
+                                               _oleDataStructures.CompObj.AnsiClipboardFormat.FormatOrAnsiString,
+                                               BitConverter.GetBytes(_oleDataStructures.CompObj.Reserved1.Length),
+                                               BinaryHelper.GetByteArray(_oleDataStructures.CompObj.Reserved1.String + "\0", _oleDataStructures.CompObj.Reserved1.Encoding),
+                                               BitConverter.GetBytes(_oleDataStructures.CompObj.UnicodeMarker),
+                                               BitConverter.GetBytes(_oleDataStructures.CompObj.UnicodeUserType.Length),
+                                               BinaryHelper.GetByteArray(_oleDataStructures.CompObj.UnicodeUserType.String, _oleDataStructures.CompObj.UnicodeUserType.Encoding),
+                                               BitConverter.GetBytes(_oleDataStructures.CompObj.UnicodeClipboardFormat.MarkerOrLength),
+                                               _oleDataStructures.CompObj.UnicodeClipboardFormat.FormatOrUnicodeString,
+                                               BitConverter.GetBytes(_oleDataStructures.CompObj.Reserved2.Length),
+                                               BinaryHelper.GetByteArray(_oleDataStructures.CompObj.Reserved2.String, _oleDataStructures.CompObj.Reserved2.Encoding) );
+            _document.Storage.DataStreams.Add(COMPOBJ_STREAM_NAME, new CompoundDocumentItem(COMPOBJ_STREAM_NAME, compObjBytes));
+        }
+        private void CreateOleNativeDataStream()
+        {
+            byte[] oleNativeBytes = BinaryHelper.ConcatenateByteArrays(
+                                                 BitConverter.GetBytes(_oleDataStructures.OleNative.Header.Size),
+                                                 BitConverter.GetBytes(_oleDataStructures.OleNative.Header.Type),
+                                                 BinaryHelper.GetByteArray(_oleDataStructures.OleNative.Header.FileName.String + "\0", _oleDataStructures.OleNative.Header.FileName.Encoding),
+                                                 BinaryHelper.GetByteArray(_oleDataStructures.OleNative.Header.FilePath.String + "\0", _oleDataStructures.OleNative.Header.FilePath.Encoding),
+                                                 BitConverter.GetBytes(_oleDataStructures.OleNative.Header.Reserved1),
+                                                 BitConverter.GetBytes(_oleDataStructures.OleNative.Header.TempPath.Length),
+                                                 BinaryHelper.GetByteArray(_oleDataStructures.OleNative.Header.TempPath.String + "\0", _oleDataStructures.OleNative.Header.TempPath.Encoding),
+                                                 BitConverter.GetBytes(_oleDataStructures.OleNative.NativeDataSize),
+                                                 _oleDataStructures.OleNative.NativeData,
+                                                 BitConverter.GetBytes(_oleDataStructures.OleNative.Footer.TempPath.Length),
+                                                 BinaryHelper.GetByteArray(_oleDataStructures.OleNative.Footer.TempPath.String, _oleDataStructures.OleNative.Footer.TempPath.Encoding),
+                                                 BitConverter.GetBytes(_oleDataStructures.OleNative.Footer.FileName.Length),
+                                                 BinaryHelper.GetByteArray(_oleDataStructures.OleNative.Footer.FileName.String, _oleDataStructures.OleNative.Footer.FileName.Encoding),
+                                                 BitConverter.GetBytes(_oleDataStructures.OleNative.Footer.FilePath.Length),
+                                                 BinaryHelper.GetByteArray(_oleDataStructures.OleNative.Footer.FilePath.String, _oleDataStructures.OleNative.Footer.FilePath.Encoding) );
+            //Write total size to size.
+            var totalsize = BitConverter.GetBytes(oleNativeBytes.Length - 4);
+            oleNativeBytes[0] = totalsize[0];
+            oleNativeBytes[1] = totalsize[1];
+            oleNativeBytes[2] = totalsize[2];
+            oleNativeBytes[3] = totalsize[3];
+            _document.Storage.DataStreams.Add(OLE10NATIVE_STREAM_NAME, new CompoundDocumentItem(OLE10NATIVE_STREAM_NAME, oleNativeBytes));
+        }
+
+        private void CreateOleObject()
+        {
+            _oleDataStructures.Ole = new OleObjectStream();
+            _oleDataStructures.Ole.ReservedMonikerStream = new MonikerStream();
+            _oleDataStructures.Ole.ReservedMonikerStream.ClsId = new CLSID();
+            byte[] size = BinaryHelper.ConcatenateByteArrays(
+                                       BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.ClsId.Data1),
+                                       BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.ClsId.Data2),
+                                       BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.ClsId.Data3),
+                                       BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.ClsId.Data4),
+                                       BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.StreamData1),
+                                       BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.StreamData2),
+                                       BitConverter.GetBytes(_oleDataStructures.Ole.ReservedMonikerStream.StreamData3),
+                                       BinaryHelper.GetByteArray(_oleDataStructures.Ole.ReservedMonikerStream.StreamData4, _oleDataStructures.Ole.ReservedMonikerStream.Encoding) );
+            if (IsExternalLink)
+            {
+                _oleDataStructures.Ole.ReservedMonikerStreamSize = (UInt32)size.Length;
+                _oleDataStructures.Ole.RelativeSourceMonikerStream = new MonikerStream();
+                _oleDataStructures.Ole.RelativeSourceMonikerStream.ClsId = new CLSID();
+                size = BinaryHelper.ConcatenateByteArrays(
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.ClsId.Data1),
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.ClsId.Data2),
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.ClsId.Data3),
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.ClsId.Data4),
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.StreamData1),
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.StreamData2),
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.RelativeSourceMonikerStream.StreamData3),
+                                    BinaryHelper.GetByteArray(_oleDataStructures.Ole.RelativeSourceMonikerStream.StreamData4, _oleDataStructures.Ole.RelativeSourceMonikerStream.Encoding) );
+                _oleDataStructures.Ole.RelativeSourceMonikerStreamSize = (UInt32)size.Length;
+                _oleDataStructures.Ole.AbsoluteSourceMonikerStream = new MonikerStream();
+                _oleDataStructures.Ole.AbsoluteSourceMonikerStream.ClsId = new CLSID();
+                size = BinaryHelper.ConcatenateByteArrays(
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.ClsId.Data1),
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.ClsId.Data2),
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.ClsId.Data3),
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.ClsId.Data4),
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.StreamData1),
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.StreamData2),
+                                    BitConverter.GetBytes(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.StreamData3),
+                                    BinaryHelper.GetByteArray(_oleDataStructures.Ole.AbsoluteSourceMonikerStream.StreamData4, _oleDataStructures.Ole.AbsoluteSourceMonikerStream.Encoding) );
+                _oleDataStructures.Ole.AbsoluteSourceMonikerStreamSize = (UInt32)size.Length;
+                _oleDataStructures.Ole.ClsId = new CLSID();
+                _oleDataStructures.Ole.ReservedDisplayName = new LengthPrefixedUnicodeString();
+                _oleDataStructures.Ole.LocalUpdateTime = new FILETIME();
+                _oleDataStructures.Ole.LocalCheckUpdateTime = new FILETIME();
+                _oleDataStructures.Ole.RemoteUpdateTime = new FILETIME();
+            }
+        }
+        private void CreateCompObjObject(string AnsiUserTypeString, string Reserved1String)
+        {
+            _oleDataStructures.CompObj = new CompObjStream();
+            _oleDataStructures.CompObj.Header = new CompObjHeader();
+            _oleDataStructures.CompObj.AnsiUserType = new LengthPrefixedAnsiString(AnsiUserTypeString);
+            _oleDataStructures.CompObj.AnsiClipboardFormat = new ClipboardFormatOrAnsiString();
+            _oleDataStructures.CompObj.Reserved1 = new LengthPrefixedAnsiString(Reserved1String);
+            _oleDataStructures.CompObj.UnicodeUserType = new LengthPrefixedUnicodeString();
+            _oleDataStructures.CompObj.UnicodeClipboardFormat = new ClipboardFormatOrUnicodeString();
+            _oleDataStructures.CompObj.Reserved2 = new LengthPrefixedUnicodeString();
+        }
+
+        private void CreateOleNativeObject(byte[] fileData, string filePath)
+        {
+            _oleDataStructures.OleNative = new OleNativeStream();
+            var fileName = Path.GetFileName(filePath);
+            var tempLocation = OleObjectDataStructures.GetTempFile(fileName);
+            _oleDataStructures.OleNative.Header.FileName.String = fileName;
+            _oleDataStructures.OleNative.Header.FilePath.String = filePath;
+            _oleDataStructures.OleNative.Header.TempPath = new LengthPrefixedAnsiString(tempLocation);
+            _oleDataStructures.OleNative.NativeData = fileData;
+            _oleDataStructures.OleNative.NativeDataSize = (uint)fileData.Length;
+            _oleDataStructures.OleNative.Footer.TempPath = new LengthPrefixedUnicodeString(tempLocation);
+            _oleDataStructures.OleNative.Footer.FileName = new LengthPrefixedUnicodeString(fileName);
+            _oleDataStructures.OleNative.Footer.FilePath = new LengthPrefixedUnicodeString(filePath);
+        }
+        #endregion
 
         #region ReadBinaries
         private LengthPrefixedUnicodeString ReadLengthPrefixedUnicodeString(BinaryReader br)
@@ -331,47 +729,47 @@ namespace OfficeOpenXml.Drawing.OleObject
             using (var ms = RecyclableMemory.GetStream(oleBytes))
             {
                 BinaryReader br = new BinaryReader(ms);
-                _oleDataStreams.Ole.Version = br.ReadUInt32();
-                _oleDataStreams.Ole.Flags = br.ReadUInt32();
-                _oleDataStreams.Ole.LinkUpdateOption = br.ReadUInt32();
-                _oleDataStreams.Ole.Reserved1 = br.ReadUInt32();
-                _oleDataStreams.Ole.ReservedMonikerStreamSize = br.ReadUInt32();
-                if (_oleDataStreams.Ole.ReservedMonikerStreamSize != 0)
-                    _oleDataStreams.Ole.ReservedMonikerStream = ReadMONIKERSTREAM(br, _oleDataStreams.Ole.ReservedMonikerStreamSize - 4);
+                _oleDataStructures.Ole.Version = br.ReadUInt32();
+                _oleDataStructures.Ole.Flags = br.ReadUInt32();
+                _oleDataStructures.Ole.LinkUpdateOption = br.ReadUInt32();
+                _oleDataStructures.Ole.Reserved1 = br.ReadUInt32();
+                _oleDataStructures.Ole.ReservedMonikerStreamSize = br.ReadUInt32();
+                if (_oleDataStructures.Ole.ReservedMonikerStreamSize != 0)
+                    _oleDataStructures.Ole.ReservedMonikerStream = ReadMONIKERSTREAM(br, _oleDataStructures.Ole.ReservedMonikerStreamSize - 4);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.Ole.RelativeSourceMonikerStreamSize = br.ReadUInt32();
-                if (_oleDataStreams.Ole.RelativeSourceMonikerStreamSize != 0)
-                    _oleDataStreams.Ole.RelativeSourceMonikerStream = ReadMONIKERSTREAM(br, _oleDataStreams.Ole.RelativeSourceMonikerStreamSize - 4);
+                _oleDataStructures.Ole.RelativeSourceMonikerStreamSize = br.ReadUInt32();
+                if (_oleDataStructures.Ole.RelativeSourceMonikerStreamSize != 0)
+                    _oleDataStructures.Ole.RelativeSourceMonikerStream = ReadMONIKERSTREAM(br, _oleDataStructures.Ole.RelativeSourceMonikerStreamSize - 4);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize = br.ReadUInt32();
-                if (_oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize != 0)
-                    _oleDataStreams.Ole.AbsoluteSourceMonikerStream = ReadMONIKERSTREAM(br, _oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize - 4);
+                _oleDataStructures.Ole.AbsoluteSourceMonikerStreamSize = br.ReadUInt32();
+                if (_oleDataStructures.Ole.AbsoluteSourceMonikerStreamSize != 0)
+                    _oleDataStructures.Ole.AbsoluteSourceMonikerStream = ReadMONIKERSTREAM(br, _oleDataStructures.Ole.AbsoluteSourceMonikerStreamSize - 4);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.Ole.ClsIdIndicator = br.ReadUInt32();
+                _oleDataStructures.Ole.ClsIdIndicator = br.ReadUInt32();
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.Ole.ClsId = ReadCLSID(br);
+                _oleDataStructures.Ole.ClsId = ReadCLSID(br);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.Ole.ReservedDisplayName = ReadLengthPrefixedUnicodeString(br);
+                _oleDataStructures.Ole.ReservedDisplayName = ReadLengthPrefixedUnicodeString(br);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.Ole.Reserved2 = br.ReadUInt32();
+                _oleDataStructures.Ole.Reserved2 = br.ReadUInt32();
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.Ole.LocalUpdateTime = ReadFILETIME(br);
-                _oleDataStreams.Ole.LocalCheckUpdateTime = ReadFILETIME(br);
-                _oleDataStreams.Ole.RemoteUpdateTime = ReadFILETIME(br);
+                _oleDataStructures.Ole.LocalUpdateTime = ReadFILETIME(br);
+                _oleDataStructures.Ole.LocalCheckUpdateTime = ReadFILETIME(br);
+                _oleDataStructures.Ole.RemoteUpdateTime = ReadFILETIME(br);
             }
         }
         private CompObjHeader ReadCompObjHeader(BinaryReader br)
@@ -387,35 +785,35 @@ namespace OfficeOpenXml.Drawing.OleObject
             using (var ms = RecyclableMemory.GetStream(oleBytes))
             {
                 BinaryReader br = new BinaryReader(ms);
-                _oleDataStreams.CompObj.Header = ReadCompObjHeader(br);
+                _oleDataStructures.CompObj.Header = ReadCompObjHeader(br);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.CompObj.AnsiUserType = ReadLengthPrefixedAnsiString(br);
+                _oleDataStructures.CompObj.AnsiUserType = ReadLengthPrefixedAnsiString(br);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.CompObj.AnsiClipboardFormat = ReadClipboardFormatOrAnsiString(br);
+                _oleDataStructures.CompObj.AnsiClipboardFormat = ReadClipboardFormatOrAnsiString(br);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.CompObj.Reserved1 = ReadLengthPrefixedAnsiString(br);
+                _oleDataStructures.CompObj.Reserved1 = ReadLengthPrefixedAnsiString(br);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.CompObj.UnicodeMarker = br.ReadUInt32();
+                _oleDataStructures.CompObj.UnicodeMarker = br.ReadUInt32();
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.CompObj.UnicodeUserType = ReadLengthPrefixedUnicodeString(br);
+                _oleDataStructures.CompObj.UnicodeUserType = ReadLengthPrefixedUnicodeString(br);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.CompObj.UnicodeClipboardFormat = ReadClipboardFormatOrUnicodeString(br);
+                _oleDataStructures.CompObj.UnicodeClipboardFormat = ReadClipboardFormatOrUnicodeString(br);
                 if (br.BaseStream.Position >= br.BaseStream.Length)
                     return;
 
-                _oleDataStreams.CompObj.Reserved2 = ReadLengthPrefixedUnicodeString(br);
+                _oleDataStructures.CompObj.Reserved2 = ReadLengthPrefixedUnicodeString(br);
             }
         }
         private OleNativeHeader ReadOleNativeHeader(BinaryReader br)
@@ -442,10 +840,10 @@ namespace OfficeOpenXml.Drawing.OleObject
             using (var ms = RecyclableMemory.GetStream(oleBytes))
             {
                 BinaryReader br = new BinaryReader(ms);
-                _oleDataStreams.OleNative.Header = ReadOleNativeHeader(br);
-                _oleDataStreams.OleNative.NativeDataSize = br.ReadUInt32();
-                _oleDataStreams.OleNative.NativeData = br.ReadBytes((int)_oleDataStreams.OleNative.NativeDataSize);
-                _oleDataStreams.OleNative.Footer = ReadOleNativeFooter(br);
+                _oleDataStructures.OleNative.Header = ReadOleNativeHeader(br);
+                _oleDataStructures.OleNative.NativeDataSize = br.ReadUInt32();
+                _oleDataStructures.OleNative.NativeData = br.ReadBytes((int)_oleDataStructures.OleNative.NativeDataSize);
+                _oleDataStructures.OleNative.Footer = ReadOleNativeFooter(br);
             }
         }
         #endregion
@@ -453,417 +851,37 @@ namespace OfficeOpenXml.Drawing.OleObject
         #region Export
         internal void ExportOleObjectData(string ExportPath)
         {
-            _oleDataStreams = new OleObjectDataStreams();
+            _oleDataStructures = new OleObjectDataStructures();
             if (_document.Storage.DataStreams.ContainsKey(OLE10NATIVE_STREAM_NAME))
             {
-                _oleDataStreams.OleNative = new OleObjectDataStreams.OleNativeStream();
+                _oleDataStructures.OleNative = new OleObjectDataStructures.OleNativeStream();
                 ReadOleNative(_document.Storage.DataStreams[OLE10NATIVE_STREAM_NAME].Stream);
             }
             if (_document.Storage.DataStreams.ContainsKey(OLE_STREAM_NAME))
             {
-                _oleDataStreams.Ole = new OleObjectDataStreams.OleObjectStream();
+                _oleDataStructures.Ole = new OleObjectDataStructures.OleObjectStream();
                 ReadOleStream(_document.Storage.DataStreams[OLE_STREAM_NAME].Stream);
             }
             if (_document.Storage.DataStreams.ContainsKey(COMPOBJ_STREAM_NAME))
             {
-                _oleDataStreams.CompObj = new OleObjectDataStreams.CompObjStream();
+                _oleDataStructures.CompObj = new OleObjectDataStructures.CompObjStream();
                 ReadCompObjStream(_document.Storage.DataStreams[COMPOBJ_STREAM_NAME].Stream);
             }
             using var p = new ExcelPackage(ExportPath);
-            OleObjectDataStreamsExport.ExportOleNative(_worksheet._package.File.Name, oleObjectPart.Entry.FileName, p, _oleDataStreams);
-            OleObjectDataStreamsExport.ExportOle(_worksheet._package.File.Name, oleObjectPart.Entry.FileName, p, _oleDataStreams, IsExternalLink);
-            OleObjectDataStreamsExport.ExportCompObj(_worksheet._package.File.Name, oleObjectPart.Entry.FileName, p, _oleDataStreams);
+            OleObjectDataStreamsExport.ExportOleNative(_worksheet._package.File.Name, oleObjectPart.Entry.FileName, p, _oleDataStructures);
+            OleObjectDataStreamsExport.ExportOle(_worksheet._package.File.Name, oleObjectPart.Entry.FileName, p, _oleDataStructures, IsExternalLink);
+            OleObjectDataStreamsExport.ExportCompObj(_worksheet._package.File.Name, oleObjectPart.Entry.FileName, p, _oleDataStructures);
             p.Save();
         }
         #endregion
-
-        private void LoadEmbeddedDocument()
-        {
-            var oleRel = _worksheet.Part.GetRelationship(_oleObject.RelationshipId);
-            if (oleRel != null && oleRel.TargetUri.ToString().Contains(".bin"))
-            {
-                var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
-                oleObjectPart = _worksheet._package.ZipPackage.GetPart(oleObj);
-                var oleStream = (MemoryStream)oleObjectPart.GetStream(FileMode.Open, FileAccess.Read);
-                _document = new CompoundDocument(oleStream);
-            }
-        }
-
-        private void LoadExternalLink()
-        {
-            var els = _worksheet.Workbook.ExternalLinks;
-            foreach (var el in els)
-            {
-                if (el.ExternalLinkType == eExternalLinkType.OleLink)
-                {
-                    var filename = el.Part.Entry.ToString();
-                    var splitFilename = filename.Split("ZipEntry::xl/externalLinks/externalLink.xml".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                    var splitLink = _oleObject.Link.Split("[]".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                    if (splitLink[0].Contains(splitFilename[0]))
-                    {
-                        _externalLink = el as ExcelExternalOleLink;
-                        break;
-                    }
-                }
-            }
-        }
-
-        #region WriteBinaries
-        private void CreateOleDataStream()
-        {
-            byte[] oleBytes = BinaryHelper.ConcatenateByteArrays(
-                                           BitConverter.GetBytes(_oleDataStreams.Ole.Version),
-                                           BitConverter.GetBytes(_oleDataStreams.Ole.Flags),
-                                           BitConverter.GetBytes(_oleDataStreams.Ole.LinkUpdateOption),
-                                           BitConverter.GetBytes(_oleDataStreams.Ole.Reserved1),
-                                           BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStreamSize) );
-            if (_oleDataStreams.Ole.ReservedMonikerStreamSize > 0)
-            {
-                oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data1),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data2),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data3),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data4),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData1),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData2),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData3),
-                                        BinaryHelper.GetByteArray(_oleDataStreams.Ole.ReservedMonikerStream.StreamData4, _oleDataStreams.Ole.ReservedMonikerStream.Encoding) );
-            }
-            if (IsExternalLink)
-            {
-                oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStreamSize) );
-                if (_oleDataStreams.Ole.RelativeSourceMonikerStreamSize > 0)
-                {
-                    oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data1),
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data2),
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data3),
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data4),
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData1),
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData2),
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData3),
-                                            BinaryHelper.GetByteArray(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData4, _oleDataStreams.Ole.RelativeSourceMonikerStream.Encoding) );
-                }
-                oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize) );
-                if (_oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize > 0)
-                {
-                    oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data1),
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data2),
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data3),
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data4),
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData1),
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData2),
-                                            BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData3),
-                                            BinaryHelper.GetByteArray(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData4, _oleDataStreams.Ole.AbsoluteSourceMonikerStream.Encoding) );
-                }
-                oleBytes = BinaryHelper.ConcatenateByteArrays(oleBytes,
-                                        new byte[_oleDataStreams.Ole.ClsIdIndicator],
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.ClsId.Data1),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.ClsId.Data2),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.ClsId.Data3),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.ClsId.Data4),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.ReservedDisplayName.Length),
-                                        BinaryHelper.GetByteArray(_oleDataStreams.Ole.ReservedDisplayName.String, _oleDataStreams.Ole.ReservedDisplayName.Encoding),
-                                        new byte[_oleDataStreams.Ole.Reserved2],
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.LocalUpdateTime.dwLowDateTime),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.LocalUpdateTime.dwHighDateTime),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.LocalCheckUpdateTime.dwLowDateTime),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.LocalCheckUpdateTime.dwHighDateTime),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.RemoteUpdateTime.dwLowDateTime),
-                                        BitConverter.GetBytes(_oleDataStreams.Ole.RemoteUpdateTime.dwHighDateTime) );
-            }
-            _document.Storage.DataStreams.Add(OLE_STREAM_NAME, new CompoundDocumentItem(OLE_STREAM_NAME, oleBytes));
-        }
-        private void CreateCompObjDataStream()
-        {
-            byte[] compObjBytes = BinaryHelper.ConcatenateByteArrays(
-                                               BitConverter.GetBytes(_oleDataStreams.CompObj.Header.Reserved1),
-                                               BitConverter.GetBytes(_oleDataStreams.CompObj.Header.Version),
-                                               _oleDataStreams.CompObj.Header.Reserved2,
-                                               BitConverter.GetBytes(_oleDataStreams.CompObj.AnsiUserType.Length),
-                                               BinaryHelper.GetByteArray(_oleDataStreams.CompObj.AnsiUserType.String + "\0", _oleDataStreams.CompObj.AnsiUserType.Encoding),
-                                               BitConverter.GetBytes(_oleDataStreams.CompObj.AnsiClipboardFormat.MarkerOrLength),
-                                               _oleDataStreams.CompObj.AnsiClipboardFormat.FormatOrAnsiString,
-                                               BitConverter.GetBytes(_oleDataStreams.CompObj.Reserved1.Length),
-                                               BinaryHelper.GetByteArray(_oleDataStreams.CompObj.Reserved1.String + "\0", _oleDataStreams.CompObj.Reserved1.Encoding),
-                                               BitConverter.GetBytes(_oleDataStreams.CompObj.UnicodeMarker),
-                                               BitConverter.GetBytes(_oleDataStreams.CompObj.UnicodeUserType.Length),
-                                               BinaryHelper.GetByteArray(_oleDataStreams.CompObj.UnicodeUserType.String, _oleDataStreams.CompObj.UnicodeUserType.Encoding),
-                                               BitConverter.GetBytes(_oleDataStreams.CompObj.UnicodeClipboardFormat.MarkerOrLength),
-                                               _oleDataStreams.CompObj.UnicodeClipboardFormat.FormatOrUnicodeString,
-                                               BitConverter.GetBytes(_oleDataStreams.CompObj.Reserved2.Length),
-                                               BinaryHelper.GetByteArray(_oleDataStreams.CompObj.Reserved2.String, _oleDataStreams.CompObj.Reserved2.Encoding) );
-            _document.Storage.DataStreams.Add(COMPOBJ_STREAM_NAME, new CompoundDocumentItem(COMPOBJ_STREAM_NAME, compObjBytes));
-        }
-        private void CreateOleNativeDataStream()
-        {
-            byte[] oleNativeBytes = BinaryHelper.ConcatenateByteArrays(
-                                                 BitConverter.GetBytes(_oleDataStreams.OleNative.Header.Size),
-                                                 BitConverter.GetBytes(_oleDataStreams.OleNative.Header.Type),
-                                                 BinaryHelper.GetByteArray(_oleDataStreams.OleNative.Header.FileName.String + "\0", _oleDataStreams.OleNative.Header.FileName.Encoding),
-                                                 BinaryHelper.GetByteArray(_oleDataStreams.OleNative.Header.FilePath.String + "\0", _oleDataStreams.OleNative.Header.FilePath.Encoding),
-                                                 BitConverter.GetBytes(_oleDataStreams.OleNative.Header.Reserved1),
-                                                 BitConverter.GetBytes(_oleDataStreams.OleNative.Header.TempPath.Length),
-                                                 BinaryHelper.GetByteArray(_oleDataStreams.OleNative.Header.TempPath.String + "\0", _oleDataStreams.OleNative.Header.TempPath.Encoding),
-                                                 BitConverter.GetBytes(_oleDataStreams.OleNative.NativeDataSize),
-                                                 _oleDataStreams.OleNative.NativeData,
-                                                 BitConverter.GetBytes(_oleDataStreams.OleNative.Footer.TempPath.Length),
-                                                 BinaryHelper.GetByteArray(_oleDataStreams.OleNative.Footer.TempPath.String, _oleDataStreams.OleNative.Footer.TempPath.Encoding),
-                                                 BitConverter.GetBytes(_oleDataStreams.OleNative.Footer.FileName.Length),
-                                                 BinaryHelper.GetByteArray(_oleDataStreams.OleNative.Footer.FileName.String, _oleDataStreams.OleNative.Footer.FileName.Encoding),
-                                                 BitConverter.GetBytes(_oleDataStreams.OleNative.Footer.FilePath.Length),
-                                                 BinaryHelper.GetByteArray(_oleDataStreams.OleNative.Footer.FilePath.String, _oleDataStreams.OleNative.Footer.FilePath.Encoding) );
-            //Write total size to size.
-            var totalsize = BitConverter.GetBytes(oleNativeBytes.Length - 4);
-            oleNativeBytes[0] = totalsize[0];
-            oleNativeBytes[1] = totalsize[1];
-            oleNativeBytes[2] = totalsize[2];
-            oleNativeBytes[3] = totalsize[3];
-            _document.Storage.DataStreams.Add(OLE10NATIVE_STREAM_NAME, new CompoundDocumentItem(OLE10NATIVE_STREAM_NAME, oleNativeBytes));
-        }
-
-        private void CreateOleObject()
-        {
-            _oleDataStreams.Ole = new OleObjectStream();
-            _oleDataStreams.Ole.ReservedMonikerStream = new MonikerStream();
-            _oleDataStreams.Ole.ReservedMonikerStream.ClsId = new CLSID();
-            byte[] size = BinaryHelper.ConcatenateByteArrays(
-                                       BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data1),
-                                       BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data2),
-                                       BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data3),
-                                       BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.ClsId.Data4),
-                                       BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData1),
-                                       BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData2),
-                                       BitConverter.GetBytes(_oleDataStreams.Ole.ReservedMonikerStream.StreamData3),
-                                       BinaryHelper.GetByteArray(_oleDataStreams.Ole.ReservedMonikerStream.StreamData4, _oleDataStreams.Ole.ReservedMonikerStream.Encoding) );
-            if (IsExternalLink)
-            {
-                _oleDataStreams.Ole.ReservedMonikerStreamSize = (UInt32)size.Length;
-                _oleDataStreams.Ole.RelativeSourceMonikerStream = new MonikerStream();
-                _oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId = new CLSID();
-                size = BinaryHelper.ConcatenateByteArrays(
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data1),
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data2),
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data3),
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.ClsId.Data4),
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData1),
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData2),
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData3),
-                                    BinaryHelper.GetByteArray(_oleDataStreams.Ole.RelativeSourceMonikerStream.StreamData4, _oleDataStreams.Ole.RelativeSourceMonikerStream.Encoding) );
-                _oleDataStreams.Ole.RelativeSourceMonikerStreamSize = (UInt32)size.Length;
-                _oleDataStreams.Ole.AbsoluteSourceMonikerStream = new MonikerStream();
-                _oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId = new CLSID();
-                size = BinaryHelper.ConcatenateByteArrays(
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data1),
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data2),
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data3),
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.ClsId.Data4),
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData1),
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData2),
-                                    BitConverter.GetBytes(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData3),
-                                    BinaryHelper.GetByteArray(_oleDataStreams.Ole.AbsoluteSourceMonikerStream.StreamData4, _oleDataStreams.Ole.AbsoluteSourceMonikerStream.Encoding) );
-                _oleDataStreams.Ole.AbsoluteSourceMonikerStreamSize = (UInt32)size.Length;
-                _oleDataStreams.Ole.ClsId = new CLSID();
-                _oleDataStreams.Ole.ReservedDisplayName = new LengthPrefixedUnicodeString();
-                _oleDataStreams.Ole.LocalUpdateTime = new FILETIME();
-                _oleDataStreams.Ole.LocalCheckUpdateTime = new FILETIME();
-                _oleDataStreams.Ole.RemoteUpdateTime = new FILETIME();
-            }
-        }
-        private void CreateCompObjObject(string AnsiUserTypeString, string Reserved1String)
-        {
-            _oleDataStreams.CompObj = new CompObjStream();
-            _oleDataStreams.CompObj.Header = new CompObjHeader();
-            _oleDataStreams.CompObj.AnsiUserType = new LengthPrefixedAnsiString(AnsiUserTypeString);
-            _oleDataStreams.CompObj.AnsiClipboardFormat = new ClipboardFormatOrAnsiString();
-            _oleDataStreams.CompObj.Reserved1 = new LengthPrefixedAnsiString(Reserved1String);
-            _oleDataStreams.CompObj.UnicodeUserType = new LengthPrefixedUnicodeString();
-            _oleDataStreams.CompObj.UnicodeClipboardFormat = new ClipboardFormatOrUnicodeString();
-            _oleDataStreams.CompObj.Reserved2 = new LengthPrefixedUnicodeString();
-        }
-
-        private void CreateOleNativeObject(byte[] fileData, string filePath)
-        {
-            _oleDataStreams.OleNative = new OleNativeStream();
-            var fileName = Path.GetFileName(filePath);
-            var tempLocation = OleObjectDataStreams.GetTempFile(fileName);
-            _oleDataStreams.OleNative.Header.FileName.String = fileName;
-            _oleDataStreams.OleNative.Header.FilePath.String = filePath;
-            _oleDataStreams.OleNative.Header.TempPath = new LengthPrefixedAnsiString(tempLocation);
-            _oleDataStreams.OleNative.NativeData = fileData;
-            _oleDataStreams.OleNative.NativeDataSize = (uint)fileData.Length;
-            _oleDataStreams.OleNative.Footer.TempPath = new LengthPrefixedUnicodeString(tempLocation);
-            _oleDataStreams.OleNative.Footer.FileName = new LengthPrefixedUnicodeString(fileName);
-            _oleDataStreams.OleNative.Footer.FilePath = new LengthPrefixedUnicodeString(filePath);
-        }
-        #endregion
-
-        private string EmbedDocument(string filePath, OleObjectType type)
-        {
-            string relId = "";
-            byte[] fileData = File.ReadAllBytes(filePath);
-            string fileType = Path.GetExtension(filePath).ToLower();
-            _oleDataStreams = new OleObjectDataStreams();
-            _document = new CompoundDocument();
-            Guid ClsId = OleObjectGUIDCollection.keyValuePairs["Package"];
-                if (type == OleObjectType.PDF) //Only if Acrobat Reader is installed
-                {
-                    //Create Ole structure and add data
-                    CreateOleObject();
-                    //Create Ole Data Stream and add to Compound object
-                    CreateOleDataStream();
-                    //Create CompObj structure and add data
-                    CreateCompObjObject("Acrobat Document", "Acrobat.Document.DC");
-                    //Create CompObj Data Stream and add to Compound object
-                    CreateCompObjDataStream();
-                    //Add CONTENT Data Stream
-                    _oleDataStreams.DataFile = fileData;
-                    _document.Storage.DataStreams.Add(CONTENTS_STREAM_NAME, new CompoundDocumentItem(CONTENTS_STREAM_NAME, fileData));
-                    ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO PDF GUID?
-                }
-                else if (type == OleObjectType.ODF) //open office formats if libre office installed
-                {
-                    //Create Ole structure and add data
-                    CreateOleObject();
-                    //Create Ole Data Stream and add to Compound object
-                    CreateOleDataStream();
-                    //Create CompObj structure and add data
-                    CreateCompObjObject("OpenDocument Text", "Word.OpenDocumentText.12"); //This has different values depending on if is spreadsheet, presentation or text
-                    //Create CompObj Data Stream and add to Compound object
-                    CreateCompObjDataStream();
-                    //Add EmbeddedOdf
-                    _oleDataStreams.DataFile = fileData;
-                    _document.Storage.DataStreams.Add(EMBEDDEDODF_STREAM_NAME, new CompoundDocumentItem(EMBEDDEDODF_STREAM_NAME, fileData));
-                    ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO ODF GUID?
-                }
-            else if (type == OleObjectType.DOC) //ms office format
-            {
-                //Embedd as is
-                string name = "";
-                if (fileType == ".docx")
-                {
-                    name = "Microsoft_Word_Document";
-                    CreateCompObjObject("Document", "Document");
-                }
-                else if (fileType == ".xlsx")
-                {
-                    name = "Microsoft_Excel_Worksheet";
-                    CreateCompObjObject("Worksheet", "Worksheet");
-                }
-                else if (fileType == ".pptx")
-                {
-                    name = "Microsoft_PowerPoint_Presentation";
-                    CreateCompObjObject("Presentation", "Presentation");
-                }
-                int newID = 1;
-                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
-                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties); //Change content type or add content type for the doc type?
-                var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
-                relId = rel.Id;
-                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-                ms.Write(fileData, 0, fileData.Length);
-                return relId;
-            }
-            else if (type == OleObjectType.Default)
-            {
-                CreateCompObjObject("OLE Package", "Package");
-                CreateCompObjDataStream();
-                CreateOleNativeObject(fileData, filePath);
-                CreateOleNativeDataStream();
-                ClsId = OleObjectGUIDCollection.keyValuePairs["Package"];
-            }
-            if (_document.Storage.DataStreams != null)
-            {
-                int newID = 1;
-                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/oleObject{0}.bin", ref newID);
-                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeOleObject);
-                var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/oleObject");
-                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-                _document.RootItem.ClsID = ClsId;
-                _document.Save(ms);
-                relId = rel.Id;
-            }
-            return relId;
-        }
-
-        private int LinkDocument(string filePath, OleObjectType type)
-        {
-            var wb = _worksheet.Workbook;
-            //create externalLink xml part
-            int newID = 1;
-            Uri uri = GetNewUri(wb._package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml", ref newID);
-            LinkedOleObjectPart = wb._package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
-            var rel = wb.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
-            //Create relation to external file
-            var fileRel = LinkedOleObjectPart.CreateRelationship("file:///" + filePath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
-            //Create externalLink xml
-            //StreamWriter sw = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
-            var xml = new StringBuilder();
-            xml.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
-            xml.Append("<externalLink xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"");
-            xml.Append(" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" mc:Ignorable=\"x14 xxl21\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\"");
-            xml.Append(" xmlns:xxl21=\"http://schemas.microsoft.com/office/spreadsheetml/2021/extlinks2021\">");
-            xml.Append("<oleLink xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"");
-            xml.AppendFormat(" r:id=\"{0}\" progId=\"{1}\">", fileRel.Id, "Package");
-            if(DisplayAsIcon)
-                xml.AppendFormat("<oleItems><oleItem name=\"{0}\" icon=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1");
-            else
-                xml.AppendFormat("<oleItems><oleItem name=\"{0}\" advise=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1");
-            xml.Append("</oleItems></oleLink></externalLink>");
-            LinkedOleObjectXml = new XmlDocument();
-            LinkedOleObjectXml.LoadXml(xml.ToString());
-            LinkedOleObjectXml.Save(LinkedOleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
-
-            //create/write wb xml external link node
-            var er = (XmlElement)wb.CreateNode("d:externalReferences/d:externalReference", false, true);
-            er.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
-
-            //Add the externalLink to externalLink collection
-            _externalLink = wb.ExternalLinks[wb.ExternalLinks.GetExternalLink(filePath, fileRel)] as ExcelExternalOleLink; //new ExcelExternalOleLink(wb, new XmlTextReader(LinkedOleObjectPart.GetStream()), LinkedOleObjectPart, er);
-            return newID;
-        }
-
-        /// <summary>
-        /// Return the drawing type of this object
-        /// </summary>
-        public override eDrawingType DrawingType
-        {
-            get
-            {
-                return eDrawingType.OleObject;
-            }
-        }
-
-        internal string LegacySpId
-        {
-            get
-            {
-                return GetXmlNodeString($"{GetlegacySpIdPath()}/a:extLst/a:ext[@uri='{ExtLstUris.LegacyObjectWrapperUri}']/a14:compatExt/@spid");
-            }
-            set
-            {
-                var node = GetNode(GetlegacySpIdPath());
-                var extHelper = XmlHelperFactory.Create(NameSpaceManager, node);
-                var extNode = extHelper.GetOrCreateExtLstSubNode(ExtLstUris.LegacyObjectWrapperUri, "a14");
-                if (extNode.InnerXml == "")
-                {
-                    extNode.InnerXml = $"<a14:compatExt/>";
-                }
-                ((XmlElement)extNode.FirstChild).SetAttribute("spid", value);
-            }
-        }
-        internal string GetlegacySpIdPath()
-        {
-            return $"{(_topPath == "" ? "" : _topPath + "/")}xdr:nvSpPr/xdr:cNvPr";
-        }
     }
 }
 
 /*
  * TODO:
+ * DELETE OleObject
+ * Copy OleObject
+ * 
  * Skapa default värden för aString och Resereved1String i CompObj
  * Funktion för att sätta StreamData4 i Ole som är worksheetName!ObjectName
  *

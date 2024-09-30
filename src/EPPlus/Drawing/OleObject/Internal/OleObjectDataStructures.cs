@@ -14,7 +14,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         };
     }
 
-    internal class OleObjectDataStreams
+    internal class OleObjectDataStructures
     {
 
         internal OleNativeStream OleNative;

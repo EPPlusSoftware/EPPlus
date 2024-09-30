@@ -32,7 +32,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\Audio-Sample-files-master.zip", true, OleObjectType.Default, true, @"C:\epplusTest\OleTest\EMF\BigMaskTest.bmp");
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\Audio-Sample-files-master.zip", true, true, @"C:\epplusTest\OleTest\EMF\BigMaskTest.bmp", OleObjectType.Default);
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusExternal_ZIP.xlsx");
         }
 
@@ -66,7 +66,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MySheet.xlsx", false, OleObjectType.DOC);
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MySheet.xlsx", false, false, "", OleObjectType.DOC);
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_XLSX.xlsx");
         }
         [TestMethod]
@@ -74,7 +74,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyWord.docx", false, OleObjectType.DOC);
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyWord.docx", false, false, "", OleObjectType.DOC);
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_DOCX.xlsx");
         }
         [TestMethod]
@@ -82,7 +82,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyPresent.pptx", false, OleObjectType.DOC);
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyPresent.pptx", false, false, "", OleObjectType.DOC);
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_PPTX.xlsx");
         }
 

@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using static OfficeOpenXml.Drawing.OleObject.OleObjectDataStreams;
+using static OfficeOpenXml.Drawing.OleObject.OleObjectDataStructures;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
     internal static class OleObjectDataStreamsExport
     {
 
-        private static void ExportLengthPrefixedUnicodeString(ExcelWorksheet ws, ref int c, OleObjectDataStreams.LengthPrefixedUnicodeString LPUniS)
+        private static void ExportLengthPrefixedUnicodeString(ExcelWorksheet ws, ref int c, OleObjectDataStructures.LengthPrefixedUnicodeString LPUniS)
         {
             if (LPUniS == null)
             {
@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             ws.Cells[2, c++].Value = LPUniS.String;
         }
 
-        private static void ExportLengthPrefixedAnsiString(ExcelWorksheet ws, ref int c, OleObjectDataStreams.LengthPrefixedAnsiString LPAnsiS)
+        private static void ExportLengthPrefixedAnsiString(ExcelWorksheet ws, ref int c, OleObjectDataStructures.LengthPrefixedAnsiString LPAnsiS)
         {
             if (LPAnsiS == null)
             {
@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             ws.Cells[2, c++].Value = LPAnsiS.String;
         }
 
-        private static void ExportClipboardFormatOrUnicodeString(ExcelWorksheet ws, ref int c, OleObjectDataStreams.ClipboardFormatOrUnicodeString CFOUS)
+        private static void ExportClipboardFormatOrUnicodeString(ExcelWorksheet ws, ref int c, OleObjectDataStructures.ClipboardFormatOrUnicodeString CFOUS)
         {
             if (CFOUS == null)
             {
@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             ws.Cells[2, c++].Value = CFOUS.FormatOrUnicodeString;
         }
 
-        private static void ExportClipboardFormatOrAnsiString(ExcelWorksheet ws, ref int c, OleObjectDataStreams.ClipboardFormatOrAnsiString CFOAS)
+        private static void ExportClipboardFormatOrAnsiString(ExcelWorksheet ws, ref int c, OleObjectDataStructures.ClipboardFormatOrAnsiString CFOAS)
         {
             if (CFOAS == null)
             {
@@ -80,7 +80,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             ws.Cells[2, c++].Value = MonikerStream.StreamData4;
         }
 
-        private static void ExportFILETIME(ExcelWorksheet ws, ref int c, OleObjectDataStreams.FILETIME FILETIME)
+        private static void ExportFILETIME(ExcelWorksheet ws, ref int c, OleObjectDataStructures.FILETIME FILETIME)
         {
             if (FILETIME == null)
             {
@@ -103,7 +103,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             ws.Cells[2, c++].Value = header.Reserved2;
         }
 
-        internal static void ExportCompObj(string currentPackageFileName, string currentPackageOleObjectName, ExcelPackage newPackage, OleObjectDataStreams oleDataStreams)
+        internal static void ExportCompObj(string currentPackageFileName, string currentPackageOleObjectName, ExcelPackage newPackage, OleObjectDataStructures oleDataStreams)
         {
             if (oleDataStreams.CompObj == null)
                 return;
@@ -148,7 +148,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             ExportLengthPrefixedUnicodeString(ws, ref c, oleDataStreams.CompObj.Reserved2);
         }
 
-        internal static void ExportOle(string currentPackageFileName, string currentPackageOleObjectName, ExcelPackage newPackage, OleObjectDataStreams oleDataStreams, bool isExternalLink = false)
+        internal static void ExportOle(string currentPackageFileName, string currentPackageOleObjectName, ExcelPackage newPackage, OleObjectDataStructures oleDataStreams, bool isExternalLink = false)
         {
             if (oleDataStreams.Ole == null)
                 return;
@@ -232,7 +232,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
-        internal static void ExportOleNative(string currentPackageFileName, string currentPackageOleObjectName, ExcelPackage newPackage, OleObjectDataStreams oleDataStreams)
+        internal static void ExportOleNative(string currentPackageFileName, string currentPackageOleObjectName, ExcelPackage newPackage, OleObjectDataStructures oleDataStreams)
         {
             if (oleDataStreams.OleNative == null)
                 return;
