@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipes;
@@ -14,7 +15,9 @@ namespace OfficeOpenXml.Drawing.EMF
 
         public EMF() { }
 
-        internal Dictionary<int, EMR_EXTCREATEFONTINDIRECTW> Fonts = new Dictionary<int, EMR_EXTCREATEFONTINDIRECTW>();
+        internal Dictionary<uint, EMR_EXTCREATEFONTINDIRECTW> Fonts = new Dictionary<uint, EMR_EXTCREATEFONTINDIRECTW>();
+        EMR_EXTCREATEFONTINDIRECTW lastFont;
+        internal uint currentlySelectedId;
 
         public void Read(string emf)
         {
@@ -55,6 +58,11 @@ namespace OfficeOpenXml.Drawing.EMF
                     case 0x00000016:
                         record = new EMR_SETTEXTALIGN(br, TypeValue);
                         break;
+                    case 0x00000025:
+                        var obj = new EMR_SELECTOBJECT(br, TypeValue);
+                        currentlySelectedId = obj.ihObject;
+                        record = obj;
+                        break;
                     case 0x0000004D:
                         record = new EMR_STRETCHBLT(br, TypeValue);
                         break;
@@ -66,16 +74,24 @@ namespace OfficeOpenXml.Drawing.EMF
                         break;
                     case 0x00000052:
                         var font = new EMR_EXTCREATEFONTINDIRECTW(br, TypeValue);
-                        Fonts.Add(BitConverter.ToInt32(font.ihFonts, 0), font);
+                        if (Fonts.ContainsKey(font.ihFonts) == false)
+                        {
+                            Fonts.Add(font.ihFonts, font);
+                        }
+                        lastFont = font;
                         record = font;
                         break;
                     case 0x00000054:
                         var text = new EMR_EXTTEXTOUTW(br, TypeValue);
                         var lastRecord = records.Last();
-                        if(lastRecord.Type == RECORD_TYPES.EMR_SELECTOBJECT)
+                        text.InternalFontId = currentlySelectedId;
+                        if(lastFont.ihFonts == currentlySelectedId)
                         {
-                            int id = BitConverter.ToInt32(lastRecord.data, 0);
-                            text.InternalFontId = id;
+                            text.Font = lastFont;
+                        }
+                        else if (Fonts.ContainsKey(currentlySelectedId))
+                        {
+                            text.Font = Fonts[currentlySelectedId];
                         }
                         //if (Fonts.ContainsKey(id))
                         //{

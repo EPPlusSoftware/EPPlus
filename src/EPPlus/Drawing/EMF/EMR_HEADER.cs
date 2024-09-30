@@ -1,5 +1,8 @@
 ﻿using System.IO;
 using System.Collections.Generic;
+using OfficeOpenXml.Packaging.Ionic.Zip;
+using System.Text;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -13,37 +16,97 @@ namespace OfficeOpenXml.Drawing.EMF
         internal uint   Records;            //4         //List Size
         internal ushort Handles;            //2         //number of graphics objects
         internal byte[] Reserved;           //2
-        internal byte[] nDescription;       //4
-        internal byte[] offDescription;     //4
+        internal uint nDescription;       //4
+        internal uint offDescription;     //4
         internal uint   nPalEntries;        //4         //Found in EOF
         internal byte[] Device;             //8
         internal byte[] Millimeters;        //8
-        internal byte[] cbPixelFormat;      //4
-        internal byte[] offPixelFormat;     //4
+        internal uint cbPixelFormat;      //4
+        internal uint offPixelFormat;     //4
         internal byte[] bOpenGL;            //4
         internal byte[] MicroMetersX;       //4
         internal byte[] MicroMetersY;       //4
 
+        internal string DescriptionString;
+        internal byte[] PixelFormatDescriptor;
+
+        internal string headerType = "Emf_MetafileHeader";
+        internal uint headerSize;
+
         public EMR_HEADER(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
-            Bounds = br.ReadBytes(16);
-            Frame = br.ReadBytes(16);
-            RecordSignature = br.ReadBytes(4);
-            Version = br.ReadBytes(4);
-            Bytes = br.ReadUInt32();
-            Records = br.ReadUInt32();
-            Handles = br.ReadUInt16();
-            Reserved = br.ReadBytes(2);
-            nDescription = br.ReadBytes(4);
-            offDescription = br.ReadBytes(4);
-            nPalEntries = br.ReadUInt32();
-            Device = br.ReadBytes(8);
-            Millimeters = br.ReadBytes(8);
-            cbPixelFormat = br.ReadBytes(4);
-            offPixelFormat = br.ReadBytes(4);
-            bOpenGL = br.ReadBytes(4);
-            MicroMetersX = br.ReadBytes(4);
-            MicroMetersY = br.ReadBytes(4);
+            if (Size >= 84)
+            {
+                headerSize = Size;
+
+                Bounds = br.ReadBytes(16);
+                Frame = br.ReadBytes(16);
+                RecordSignature = br.ReadBytes(4);
+                Version = br.ReadBytes(4);
+                Bytes = br.ReadUInt32();
+                Records = br.ReadUInt32();
+                Handles = br.ReadUInt16();
+                Reserved = br.ReadBytes(2);
+                nDescription = br.ReadUInt32();
+                offDescription = br.ReadUInt32();
+                nPalEntries = br.ReadUInt32();
+                Device = br.ReadBytes(8);
+                Millimeters = br.ReadBytes(8);
+
+                //Valid description?
+                if (offDescription >= 88 && offDescription + (nDescription * 2) <= Size)
+                {
+                    headerSize = offDescription;
+                }
+
+                if (headerSize >= 100)
+                {
+                    //Header is SomeKind of headerExtension
+                    cbPixelFormat = br.ReadUInt32();
+                    offPixelFormat = br.ReadUInt32();
+                    bOpenGL = br.ReadBytes(4);
+
+                    if (offPixelFormat >= 100 && offPixelFormat + cbPixelFormat <= Size)
+                    {
+                        if(offPixelFormat < headerSize)
+                        {
+                            headerSize = offPixelFormat;
+                        }
+                    }
+
+                    if(headerSize >= 108)
+                    {
+                        headerType += "Extension2";
+                        //TODO: Define how to determine extension2
+                        MicroMetersX = br.ReadBytes(4);
+                        MicroMetersY = br.ReadBytes(4);
+                    }
+                    else
+                    {
+                        headerType += "Extension1";
+                    }
+                }
+
+                if(Size != headerSize)
+                {
+                    var pos = br.BaseStream.Position;
+
+                    if (offDescription != pos)
+                    {
+                        br.BaseStream.Position = offDescription;
+                    }
+                    DescriptionString = BinaryHelper.GetString(br, (nDescription * 2), Encoding.Unicode);
+                    if(offPixelFormat != 0)
+                    {
+                        br.BaseStream.Position = offPixelFormat;
+                        PixelFormatDescriptor = br.ReadBytes((int)cbPixelFormat);
+                    }
+                }
+            }
+            else
+            {
+                throw new BadReadException("Emf-Header MUST be larger than or equal to 84");
+            }
         }
 
         public EMR_HEADER(List<EMR_RECORD> Records)
@@ -54,12 +117,12 @@ namespace OfficeOpenXml.Drawing.EMF
             RecordSignature = new byte[4] { 0x20, 0x45, 0x4D, 0x46 };
             Version = new byte[4] { 0x00, 0x00, 0x01, 0x00 };
             Reserved = new byte[2] { 0x00, 0x00 };
-            nDescription = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
-            offDescription = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
+            nDescription =  0;
+            offDescription = 0;
             Device = new byte[8] { 0x00, 0x14, 0x00, 0x00, 0xA0, 0x05, 0x00, 0x00 };
             Millimeters = new byte[8] { 0xA9, 0x04, 0x00, 0x00, 0x50, 0x01, 0x00, 0x00 };
-            cbPixelFormat = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
-            offPixelFormat = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
+            cbPixelFormat = 0;
+            offPixelFormat = 0;
             bOpenGL = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
             MicroMetersX = new byte[4] { 0x28, 0x34, 0x12, 0x00 };
             MicroMetersY = new byte[4] { 0x80, 0x20, 0x05, 0x00 };

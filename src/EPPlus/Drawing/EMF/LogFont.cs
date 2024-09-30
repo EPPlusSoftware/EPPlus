@@ -13,7 +13,7 @@ namespace OfficeOpenXml.Drawing.EMF
     internal class LogFont
     {
         //Read and written properties
-        int Height;
+        internal int Height;
         int Width;
         int Escapement;
         int Orientation;
@@ -32,6 +32,8 @@ namespace OfficeOpenXml.Drawing.EMF
         FamilyFont fontFamily;
         Pitch pitchFont;
 
+        internal int CalculatedAverageWidth;
+        internal int DefinedHeight;
 
         private bool recalculateWidth = false;
 
@@ -60,6 +62,27 @@ namespace OfficeOpenXml.Drawing.EMF
 
             //Should stop if encounters a terminating null
             FaceName = BinaryHelper.GetPotentiallyNullTerminatedString(br, 64, Encoding.Unicode);
+
+            DefinedHeight = DefineHeight();
+            //Assuming output pixel width is equal to height
+            CalculatedAverageWidth = Width != 0 ? Width : (int)Math.Round((DefinedHeight / 2d),MidpointRounding.AwayFromZero);
+        }
+
+        int DefineHeight()
+        {
+            if(0 < Height)
+            {
+                //TODO: Transform into device units
+                return Height;
+            }
+            else if(Height == 0)
+            {
+                return 11;
+            }
+            else 
+            {
+                return Math.Abs(Height);
+            }
         }
 
         internal virtual void WriteBytes(BinaryWriter bw)

@@ -8,14 +8,14 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class EMR_EXTCREATEFONTINDIRECTW : EMR_RECORD
     {
-        internal byte[] ihFonts;
-        LogFont elw = null;
+        internal uint ihFonts;
+        internal LogFont elw = null;
 
         bool isExDv = false;
 
         internal EMR_EXTCREATEFONTINDIRECTW(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
-            ihFonts = br.ReadBytes(4);
+            ihFonts = br.ReadUInt32();
 
             var sizeOfVariableObject = Size - 12;
             if (sizeOfVariableObject > 320)//Size of a LogFontPanose object
@@ -27,6 +27,11 @@ namespace OfficeOpenXml.Drawing.EMF
             {
                 //Fixed length is LogFontPanose
                 elw = new LogFontPanose(br);
+            }
+            else if(sizeOfVariableObject == 92)
+            {
+                //The object MAY be as simple as a logfont object.
+                elw = new LogFont(br);
             }
             else
             {

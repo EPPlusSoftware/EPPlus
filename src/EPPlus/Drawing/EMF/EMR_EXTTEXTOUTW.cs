@@ -23,11 +23,29 @@ namespace OfficeOpenXml.Drawing.EMF
 
         private int padding = 0;
 
-        internal int InternalFontId;
+        internal uint InternalFontId;
         /// <summary>
         /// Minimum spacing is 0x01 which should be correct at fontsize 2
         /// </summary>
-        internal int FontSize = 5;
+        //internal int FontSize = 11;
+        internal int FontSize
+        {
+            get
+            {
+                if(Font == null | Font.elw.Height == 0)
+                {
+                    return 11;
+                }
+                else
+                {
+                    var height = Font.elw.Height;
+
+                    return Font.elw.Height < 0 ? Math.Abs(height) : height; 
+                }
+            }
+        }
+
+        internal EMR_EXTCREATEFONTINDIRECTW Font = null;
 
         internal string Text
         {
@@ -81,122 +99,122 @@ namespace OfficeOpenXml.Drawing.EMF
             return DxBuffer;
         }
 
-        static int GetSpacingForChar(char aChar)
-        {
-            switch (aChar)
-            {
-                case 'a':
-                    return 0x06;
-                case 'b':
-                    return 0x07;
-                case 'c':
-                    return 0x05;
-                case 'd':
-                    return 0x07;
-                case 'e':
-                    return 0x06;
-                case 'f':
-                    return 0x04;
-                case 'g':
-                    return 0x07;
-                case 'h':
-                    return 0x07;
-                case 'i':
-                    return 0x03;
-                case 'j':
-                    return 0x03;
-                case 'k':
-                    return 0x06;
-                case 'l':
-                    return 0x03;
-                case 'm':
-                    return 0x09;
-                case 'n':
-                    return 0x07;
-                case 'o':
-                    return 0x07;
-                case 'p':
-                    return 0x07;
-                case 'q':
-                    return 0x07;
-                case 'r':
-                    return 0x04;
-                case 's':
-                    return 0x05;
-                case 't':
-                    return 0x04;
-                case 'u':
-                    return 0x07;
-                case 'v':
-                    return 0x05;
-                case 'w':
-                    return 0x09;
-                case 'x':
-                    return 0x05;
-                case 'y':
-                    return 0x05;
-                case 'z':
-                    return 0x05;
-                case 'A':
-                    return 0x07;
-                case 'B':
-                    return 0x06;
-                case 'C':
-                    return 0x07;
-                case 'D':
-                    return 0x08;
-                case 'E':
-                    return 0x06;
-                case 'F':
-                    return 0x06;
-                case 'G':
-                    return 0x08;
-                case 'H':
-                    return 0x08;
-                case 'I':
-                    return 0x03;
-                case 'J':
-                    return 0x04;
-                case 'K':
-                    return 0x06;
-                case 'L':
-                    return 0x05;
-                case 'M':
-                    return 0x0A;
-                case 'N':
-                    return 0x08;
-                case 'O':
-                    return 0x09;
-                case 'P':
-                    return 0x06;
-                case 'Q':
-                    return 0x08;
-                case 'R':
-                    return 0x07;
-                case 'S':
-                    return 0x06;
-                case 'T':
-                    return 0x06;
-                case 'U':
-                    return 0x08;
-                case 'V':
-                    return 0x07;
-                case 'W':
-                    return 0x0B;
-                case 'X':
-                    return 0x06;
-                case 'Y':
-                    return 0x05;
-                case 'Z':
-                    return 0x06;
-                default:
-                    return 0x05;
-            }
-        }
+        //static int GetSpacingForChar(char aChar)
+        //{
+        //    switch (aChar)
+        //    {
+        //        case 'a':
+        //            return 0x06;
+        //        case 'b':
+        //            return 0x07;
+        //        case 'c':
+        //            return 0x05;
+        //        case 'd':
+        //            return 0x07;
+        //        case 'e':
+        //            return 0x06;
+        //        case 'f':
+        //            return 0x04;
+        //        case 'g':
+        //            return 0x07;
+        //        case 'h':
+        //            return 0x07;
+        //        case 'i':
+        //            return 0x03;
+        //        case 'j':
+        //            return 0x03;
+        //        case 'k':
+        //            return 0x06;
+        //        case 'l':
+        //            return 0x03;
+        //        case 'm':
+        //            return 0x09;
+        //        case 'n':
+        //            return 0x07;
+        //        case 'o':
+        //            return 0x07;
+        //        case 'p':
+        //            return 0x07;
+        //        case 'q':
+        //            return 0x07;
+        //        case 'r':
+        //            return 0x04;
+        //        case 's':
+        //            return 0x05;
+        //        case 't':
+        //            return 0x04;
+        //        case 'u':
+        //            return 0x07;
+        //        case 'v':
+        //            return 0x05;
+        //        case 'w':
+        //            return 0x09;
+        //        case 'x':
+        //            return 0x05;
+        //        case 'y':
+        //            return 0x05;
+        //        case 'z':
+        //            return 0x05;
+        //        case 'A':
+        //            return 0x07;
+        //        case 'B':
+        //            return 0x06;
+        //        case 'C':
+        //            return 0x07;
+        //        case 'D':
+        //            return 0x08;
+        //        case 'E':
+        //            return 0x06;
+        //        case 'F':
+        //            return 0x06;
+        //        case 'G':
+        //            return 0x08;
+        //        case 'H':
+        //            return 0x08;
+        //        case 'I':
+        //            return 0x03;
+        //        case 'J':
+        //            return 0x04;
+        //        case 'K':
+        //            return 0x06;
+        //        case 'L':
+        //            return 0x05;
+        //        case 'M':
+        //            return 0x0A;
+        //        case 'N':
+        //            return 0x08;
+        //        case 'O':
+        //            return 0x09;
+        //        case 'P':
+        //            return 0x06;
+        //        case 'Q':
+        //            return 0x08;
+        //        case 'R':
+        //            return 0x07;
+        //        case 'S':
+        //            return 0x06;
+        //        case 'T':
+        //            return 0x06;
+        //        case 'U':
+        //            return 0x08;
+        //        case 'V':
+        //            return 0x07;
+        //        case 'W':
+        //            return 0x0B;
+        //        case 'X':
+        //            return 0x06;
+        //        case 'Y':
+        //            return 0x05;
+        //        case 'Z':
+        //            return 0x06;
+        //        default:
+        //            return 0x05;
+        //    }
+        //}
 
-        int GetSpacingForChar2(char aChar)
+        int GetSpacingForChar(char aChar)
         {
-            var baseSize = (int)Math.Round((double)(FontSize / 2), 1);
+            var baseSize = (int)Math.Round((double)(FontSize / 2));
 
             int plusOne;
             int plusTwo;
@@ -219,13 +237,18 @@ namespace OfficeOpenXml.Drawing.EMF
             }
             else
             {
-                plusOne = (int)Math.Round((double)(1 + (1 / 5)) * baseSize);
-                plusTwo = (int)Math.Round((double)(1 + (2 / 5)) * baseSize);
-                plusThree = (int)Math.Round((double)(1 + (3 / 5)) * baseSize);
-                plusFour = (int)Math.Round((double)(1 + (4 / 5)) * baseSize);
+                var modifier = 0.2d;
+                var baseFactor = 1 + modifier;
+                var factorNegative = (1 - modifier) * baseSize;
+                var factor = baseFactor * baseSize;
 
-                minusOne = (int)Math.Round((double)(1 - (1 / 5)) * baseSize);
-                minusTwo = (int)Math.Round((double)(1 - (2 / 5)) * baseSize);
+                plusOne = (int)Math.Round(baseSize * (1 + modifier * 1), MidpointRounding.AwayFromZero);
+                plusTwo = (int)Math.Round(baseSize * (1 + modifier * 2), MidpointRounding.AwayFromZero);
+                plusThree = (int)Math.Round(baseSize * (1 + modifier * 3), MidpointRounding.AwayFromZero);
+                plusFour = (int)Math.Round(baseSize * (1 + modifier * 4), MidpointRounding.AwayFromZero);
+
+                minusOne = (int)Math.Round(baseSize * (1 - modifier * 1), MidpointRounding.AwayFromZero);
+                minusTwo = (int)Math.Round(baseSize * (1 - modifier * 2), MidpointRounding.AwayFromZero);
             }
 
             switch (aChar)
