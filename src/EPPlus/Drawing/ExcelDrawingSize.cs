@@ -24,6 +24,7 @@ namespace OfficeOpenXml.Drawing
         internal ExcelDrawingSize(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback=null) :
             base (ns,node)
         {
+
             _setWidthCallback = setWidthCallback;
             Load();
         }

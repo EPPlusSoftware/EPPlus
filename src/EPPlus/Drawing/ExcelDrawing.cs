@@ -576,7 +576,9 @@ namespace OfficeOpenXml.Drawing
                 case "sp":
                     return GetShapeOrControl(drawings, node, drawNode, parent);
                 case "pic":
-                    return new ExcelPicture(drawings, node, parent);
+                    var aPic = new ExcelPicture(drawings, node, parent);
+                    aPic.RecalcWidthHeight();
+                    return aPic;
                 case "graphicFrame":
                     return ExcelChart.GetChart(drawings, node, parent);
                 case "grpSp":

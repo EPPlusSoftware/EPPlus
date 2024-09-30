@@ -145,7 +145,6 @@ namespace OfficeOpenXml.Packaging
 
         private void ExtractEntryToPart(ZipInputStream zip, ZipEntry e)
         {
-
             var part = new ZipPackagePart(this, e);
 
             var rest = e.UncompressedSize;
