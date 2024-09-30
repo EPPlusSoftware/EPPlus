@@ -323,6 +323,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["let"] = new LetFunction();
             // Reference and lookup
             Functions["address"] = new Address();
+            Functions["areas"] = new Areas();
             Functions["hlookup"] = new HLookup();
             Functions["vlookup"] = new VLookup();
             Functions["xlookup"] = new Xlookup();
