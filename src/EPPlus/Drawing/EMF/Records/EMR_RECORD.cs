@@ -8,12 +8,12 @@ namespace OfficeOpenXml.Drawing.EMF
     {
         internal RECORD_TYPES Type; //4
         internal uint Size;         //4
-        internal byte[] data;       //Variable
+        internal byte[] data;       //This byte array is used for records not yet implemented to preserve data.
         internal long position = 0;
 
-        public EMR_RECORD() { }
+        internal EMR_RECORD() { }
 
-        public EMR_RECORD(BinaryReader br, uint TypeValue, bool readData = false)
+        internal EMR_RECORD(BinaryReader br, uint TypeValue, bool readData = false)
         {
             position = br.BaseStream.Position - 4;
             Type = (RECORD_TYPES)TypeValue;
@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        public virtual void WriteBytes(BinaryWriter bw)
+        internal virtual void WriteBytes(BinaryWriter bw)
         {
             bw.Write((uint)Type);
             bw.Write(Size);

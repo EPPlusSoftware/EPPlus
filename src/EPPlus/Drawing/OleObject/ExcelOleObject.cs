@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Xml;
 using OfficeOpenXml.Drawing.Vml;
+using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Utils.CompundDocument;
 using OfficeOpenXml.ExternalReferences;
@@ -41,11 +42,11 @@ namespace OfficeOpenXml.Drawing.OleObject
 
     public class ExcelOleObject : ExcelDrawing
     {
-        const string OLE_STREAM_NAME = "\u0001Ole";
-        const string COMPOBJ_STREAM_NAME = "\u0001CompObj";
-        const string OLE10NATIVE_STREAM_NAME = "\u0001Ole10Native";
-        const string CONTENTS_STREAM_NAME = "CONTENTS";
-        const string EMBEDDEDODF_STREAM_NAME = "EmbeddedOdf";
+        private const string OLE_STREAM_NAME = "\u0001Ole";
+        private const string COMPOBJ_STREAM_NAME = "\u0001CompObj";
+        private const string OLE10NATIVE_STREAM_NAME = "\u0001Ole10Native";
+        private const string CONTENTS_STREAM_NAME = "CONTENTS";
+        private const string EMBEDDEDODF_STREAM_NAME = "EmbeddedOdf";
 
         internal ExcelVmlDrawingBase _vml;
         internal XmlHelper _vmlProp;
@@ -55,6 +56,8 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal ExcelExternalOleLink _externalLink;
         internal ExcelWorksheet _worksheet;
         internal ZipPackagePart oleObjectPart;
+        internal XmlDocument LinkedOleObjectXml;
+        internal ZipPackagePart LinkedOleObjectPart;
         internal bool DisplayAsIcon;
 
         /// <summary>
@@ -126,9 +129,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             var part = _worksheet._package.ZipPackage.CreatePart(Uri, "image/x-emf", CompressionLevel.None, "emf");
             var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
 
-            /* Create EMF for ole Object */
+            /* Create EMF image for ole Object */
             byte[] image = OleObjectIcon.DefaultIcon;
-            EMF.EMF emf = new EMF.EMF();
+            EmfImage emf = new EmfImage();
             emf.Read(image);
             if (!string.IsNullOrEmpty(mediaFilePath))
             {
@@ -148,7 +151,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                     emf.ChangeImage(OleObjectIcon.PDF_Icon_Bitmap);
             }
             string filename = Path.GetFileName(filePath);
-            emf.UpdateTextRecord(filename);
+            emf.SetNewTextInDefaultEMFImage(filename);
             image = emf.GetBytes();
             MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
             ms.Write(image, 0, image.Length);
@@ -445,7 +448,9 @@ namespace OfficeOpenXml.Drawing.OleObject
                 _oleDataStreams.OleNative.Footer = ReadOleNativeFooter(br);
             }
         }
+        #endregion
 
+        #region Export
         internal void ExportOleObjectData(string ExportPath)
         {
             _oleDataStreams = new OleObjectDataStreams();
@@ -472,7 +477,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         }
         #endregion
 
-        internal void LoadEmbeddedDocument()
+        private void LoadEmbeddedDocument()
         {
             var oleRel = _worksheet.Part.GetRelationship(_oleObject.RelationshipId);
             if (oleRel != null && oleRel.TargetUri.ToString().Contains(".bin"))
@@ -484,7 +489,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
-        internal void LoadExternalLink()
+        private void LoadExternalLink()
         {
             var els = _worksheet.Workbook.ExternalLinks;
             foreach (var el in els)
@@ -783,9 +788,6 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
             return relId;
         }
-
-        internal XmlDocument LinkedOleObjectXml;
-        internal ZipPackagePart LinkedOleObjectPart;
 
         private int LinkDocument(string filePath, OleObjectType type)
         {

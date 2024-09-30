@@ -1,11 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.Utils;
-using System;
-using System.Collections.Generic;
+﻿using OfficeOpenXml.Utils;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
@@ -29,9 +23,8 @@ namespace OfficeOpenXml.Drawing.EMF
         internal string FaceName;
 
         //Simplified properties for viewing/editing
-        FamilyFont fontFamily;
-        Pitch pitchFont;
-
+        internal FamilyFont fontFamily;
+        internal Pitch pitchFont;
 
         private bool recalculateWidth = false;
 

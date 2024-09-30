@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using OfficeOpenXml.Utils;
@@ -36,7 +35,7 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        public EMR_EXTTEXTOUTW(BinaryReader br, uint TypeValue) : base(br, TypeValue)
+        internal EMR_EXTTEXTOUTW(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
             Bounds = br.ReadBytes(16);
             iGraphicsMode = br.ReadBytes(4);
@@ -62,7 +61,7 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        byte[] CalculateDxSpacing()
+        private byte[] CalculateDxSpacing()
         {
             int j = 0;
             for (int i = 0; i < stringBuffer.Length; i++)
@@ -189,7 +188,7 @@ namespace OfficeOpenXml.Drawing.EMF
         }
 
 
-        public EMR_EXTTEXTOUTW(string Text)
+        internal EMR_EXTTEXTOUTW(string Text)
         {
             Type = RECORD_TYPES.EMR_EXTTEXTOUTW;
             Bounds = new byte[16] { 0x13, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x4b, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00 };
@@ -204,7 +203,7 @@ namespace OfficeOpenXml.Drawing.EMF
             CalculateOffsets();
         }
 
-        public EMR_EXTTEXTOUTW(string Text, int x, int y)
+        internal EMR_EXTTEXTOUTW(string Text, int x, int y)
         {
             Type = RECORD_TYPES.EMR_EXTTEXTOUTW;
             Bounds = new byte[16] { 0x13, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x4b, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00 };
@@ -239,7 +238,7 @@ namespace OfficeOpenXml.Drawing.EMF
             Size = offDx + (uint)DxBuffer.Length;
         }
 
-        public override void WriteBytes(BinaryWriter bw)
+        internal override void WriteBytes(BinaryWriter bw)
         {
             base.WriteBytes(bw);
             bw.Write(Bounds);
@@ -259,27 +258,5 @@ namespace OfficeOpenXml.Drawing.EMF
             }
             bw.Write(DxBuffer);
         }
-
-
-        //we can fit 32 of the smalest character, l   len = 96, but we go len 90, 30 char, range 0-47
-        //We can fit 11 of the widest character, O.   len = 99 but we go len 90, 10 char, range 0-44
-
-        //Create new class that takes a string, gets it's len
-        //if len is bigger than 90, cut at 90
-        //repeat until string is end or more than 3 rows.
-        //For each string create new textbox which is a record collection cosisting of:
-            /*
-            EMF_EXTCREATEFONTINDIRECTW Font;
-            EMF_SELECTOBJECT sel1;
-            EMF_SELECTOBJECT bkmode;
-            EMF_EXTTEXTOUTW text;
-            EMF_SELECTOBJECT sel2;
-            EMF_DELETEOBJECT del;
-            */
-        //Calculate ReferenceX in Text based on len. lower len higher value.
-        //RefenceY is increased by 12.
-        //Remove current textRecords
-        //Add our Text records
-        //Done
-        }
+    }
 }

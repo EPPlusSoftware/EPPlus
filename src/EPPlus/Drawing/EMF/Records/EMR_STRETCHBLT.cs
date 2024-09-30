@@ -1,7 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering;
-using System;
+﻿using System;
 using System.IO;
-using static OfficeOpenXml.Drawing.OleObject.OleObjectDataStreams;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -28,7 +26,7 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] BitsSrc;
         internal byte[] Padding;
 
-        public EMR_STRETCHBLT(BinaryReader br, uint TypeValue) : base(br , TypeValue)
+        internal EMR_STRETCHBLT(BinaryReader br, uint TypeValue) : base(br , TypeValue)
         {
             Bounds = br.ReadBytes(16);
             xDest = br.ReadBytes(4);
@@ -60,7 +58,7 @@ namespace OfficeOpenXml.Drawing.EMF
             Padding = br.ReadBytes(padding);
         }
 
-        public EMR_STRETCHBLT(byte[] bmp)
+        internal EMR_STRETCHBLT(byte[] bmp)
         {
             Type = RECORD_TYPES.EMR_STRETCHBLT;
             Bounds = new byte[16] { 0x20, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x3F, 0x00, 0x00, 0x00, 0x21, 0x00, 0x00, 0x00 };
@@ -80,7 +78,7 @@ namespace OfficeOpenXml.Drawing.EMF
             ChangeImage(bmp);
         }
 
-        public void ChangeImage(byte[] bmp)
+        internal void ChangeImage(byte[] bmp)
         {
             byte[] bmpHeader = new byte[14];
             Array.Copy(bmp, 0, bmpHeader, 0, 14);
@@ -116,7 +114,7 @@ namespace OfficeOpenXml.Drawing.EMF
             Padding = new byte[paddingBytes];
         }
 
-        public override void WriteBytes(BinaryWriter bw)
+        internal override void WriteBytes(BinaryWriter bw)
         {
             base.WriteBytes(bw);
             bw.Write(Bounds);

@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.IO.Pipes;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
-    internal class EMF
+    internal class EmfImage
     {
         internal List<EMR_RECORD> records = new List<EMR_RECORD>();
 
         uint size = 0;
 
-        public EMF() { }
+        internal EmfImage() { }
 
-        public void Read(string emf)
+        internal void Read(string emf)
         {
             using (FileStream fileStream = new FileStream(emf, FileMode.Open, FileAccess.Read))
             {
@@ -23,7 +22,7 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        public void Read(byte[] emf)
+        internal void Read(byte[] emf)
         {
             using (Stream emfByteStream = new MemoryStream(emf))
             {
@@ -75,52 +74,21 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        public void CreateTextRecord(string Text)
+        internal void SetNewTextInDefaultEMFImage(string Text)
         {
-            var record = new EMR_EXTTEXTOUTW(Text);
-            records[20] = record;
-            //records.Add(record);
+            EmfCalculateTextLength ectl = new EmfCalculateTextLength(Text);
+            records.RemoveRange(17, 6);
+            records.InsertRange(17, ectl.TextRecords);
         }
 
-        public void CreateTextRecord(string Text, int x, int y)
-        {
-            var record = new EMR_EXTTEXTOUTW(Text, x, y);
-            records[20] = record;
-            //records.Add(record);
-        }
-
-        public void UpdateTextRecord(string Text)
-        {
-            var textRecord = records[20] as EMR_EXTTEXTOUTW;
-            textRecord.Text = Text;
-            //records.Add(record);
-        }
-
-        public void SetNewText(string Text)
-        {
-            //remove current text record block
-            //create emfcalculatetextlength
-            //insert records from emfcalculatetextlength
-        }
-
-        public void ChangeTextAlignment(TextAlignmentModeFlags Flags)
-        {
-            var record = records[8] as EMR_SETTEXTALIGN;
-            record.TextAlignmentMode = Flags;
-        }
-
-        public void ChangeImage(byte[] Image)
+        internal void ChangeImage(byte[] Image)
         {
             var record = records[16] as EMR_STRETCHBLT;
             record.ChangeImage(Image);
         }
 
-        public void Save(string FilePath)
+        internal void Save(string FilePath)
         {
-            //var eof = new EMR_EOF();
-            //records.Add(eof);
-            //var header = new EMR_HEADER(records);
-
             var header = (EMR_HEADER)records[0];
             var last = (EMR_EOF)records[records.Count - 1];
             var preBytes = header.Bytes;
@@ -144,7 +112,7 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        public byte[] GetBytes()
+        internal byte[] GetBytes()
         {
             var header = (EMR_HEADER)records[0];
             var last = (EMR_EOF)records[records.Count - 1];

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+﻿using System.IO;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -12,18 +6,18 @@ namespace OfficeOpenXml.Drawing.EMF
     {
         internal RectLObject Clip;
 
-        public EMR_INTERSECTCLIPRECT(BinaryReader br, uint TypeValue) : base(br, TypeValue)
+        internal EMR_INTERSECTCLIPRECT(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
             Clip = new RectLObject(br);
         }
 
-        public EMR_INTERSECTCLIPRECT()
+        internal EMR_INTERSECTCLIPRECT()
         {
             Type = RECORD_TYPES.EMR_INTERSECTCLIPRECT;
             Clip = new RectLObject();
         }
 
-        public override void WriteBytes(BinaryWriter bw)
+        internal override void WriteBytes(BinaryWriter bw)
         {
             base.WriteBytes(bw);
             Clip.WriteBytes(bw);

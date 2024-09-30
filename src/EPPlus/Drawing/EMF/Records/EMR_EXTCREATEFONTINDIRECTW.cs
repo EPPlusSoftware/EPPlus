@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        public override void WriteBytes(BinaryWriter bw)
+        internal override void WriteBytes(BinaryWriter bw)
         {
             base.WriteBytes(bw);
             bw.Write(ihFonts);

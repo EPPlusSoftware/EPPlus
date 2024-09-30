@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.IO;
+﻿using System.IO;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -10,7 +9,7 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] PaletteBuffer;  //Variable
         internal uint   SizeLast;       //4
 
-        public EMR_EOF(BinaryReader br, uint TypeValue) : base(br, TypeValue)
+        internal EMR_EOF(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
             nPalEntries = br.ReadUInt32();
             offPalEntries = br.ReadUInt32();
@@ -19,7 +18,7 @@ namespace OfficeOpenXml.Drawing.EMF
             SizeLast = br.ReadUInt32();
         }
 
-        public EMR_EOF()
+        internal EMR_EOF()
         {
             Type = RECORD_TYPES.EMR_EOF;
             nPalEntries = 0;
@@ -29,7 +28,7 @@ namespace OfficeOpenXml.Drawing.EMF
             SizeLast = Size;
         }
 
-        public override void WriteBytes(BinaryWriter bw)
+        internal override void WriteBytes(BinaryWriter bw)
         {
             base.WriteBytes(bw);
             bw.Write(nPalEntries);

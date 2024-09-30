@@ -24,7 +24,7 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] MicroMetersX;       //4
         internal byte[] MicroMetersY;       //4
 
-        public EMR_HEADER(BinaryReader br, uint TypeValue) : base(br, TypeValue)
+        internal EMR_HEADER(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
             Bounds = br.ReadBytes(16);
             Frame = br.ReadBytes(16);
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Drawing.EMF
             MicroMetersY = br.ReadBytes(4);
         }
 
-        public EMR_HEADER(List<EMR_RECORD> Records)
+        internal EMR_HEADER(List<EMR_RECORD> Records)
         {
             Type = RECORD_TYPES.EMR_HEADER;
             Bounds = new byte[16] { 0x13, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x4b, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00 };
@@ -95,7 +95,7 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        public override void WriteBytes(BinaryWriter bw)
+        internal override void WriteBytes(BinaryWriter bw)
         {
             base.WriteBytes(bw);
             bw.Write(Bounds);

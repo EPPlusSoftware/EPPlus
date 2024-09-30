@@ -1,4 +1,4 @@
-﻿namespace OfficeOpenXml.Drawing.OleObject
+﻿namespace OfficeOpenXml.Drawing.EMF
 {
     internal static partial class OleObjectIcon
     {
