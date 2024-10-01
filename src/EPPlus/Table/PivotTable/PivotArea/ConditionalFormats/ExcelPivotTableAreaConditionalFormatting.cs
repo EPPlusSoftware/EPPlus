@@ -8,18 +8,18 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.7
+  09/30/2024         EPPlus Software AB       Pivot Table Conditional Formatting - EPPlus 7.4
  *************************************************************************************************/
 using System.Xml;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
     /// <summary>
-    /// Defines sorting for a pivot table area within a pivot table.
+    /// Defines an area for conditional formatting within a pivot table.
     /// </summary>
-    public class ExcelPivotAreaAutoSort : ExcelPivotArea
+    public class ExcelPivotTableAreaConditionalFormatting : ExcelPivotArea
     {
-        internal ExcelPivotAreaAutoSort(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) :
+        internal ExcelPivotTableAreaConditionalFormatting(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) :
             base(nsm, topNode, pt)
         {
 

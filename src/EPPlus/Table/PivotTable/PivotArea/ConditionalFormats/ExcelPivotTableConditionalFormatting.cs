@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
+  09/30/2024         EPPlus Software AB       Pivot Table Conditional Formatting - EPPlus 7.4
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
@@ -21,10 +21,10 @@ namespace OfficeOpenXml.Table.PivotTable
     /// <summary>
     /// Defines a pivot table area of selection used for styling.
     /// </summary>
-    public class ExcelPivotTableAreaConditionalFormat : XmlHelper
+    public class ExcelPivotTableConditionalFormatting : XmlHelper
     {
         ExcelConditionalFormattingCollection _conditionalFormattings;
-        internal ExcelPivotTableAreaConditionalFormat(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) :
+        internal ExcelPivotTableConditionalFormatting(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) :
             base(nsm, topNode)
         {
             _conditionalFormattings = pt.WorkSheet.ConditionalFormatting;
@@ -36,10 +36,10 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
             var node = CreateNode("d:pivotAreas");
-            Areas = new ExcelPivotTableAreas(pt, node);
+            Areas = new ExcelPivotTableAreaConditionalFormattingCollection(pt, node);
         }
 
-        internal ExcelPivotTableAreaConditionalFormat(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt, eExcelConditionalFormattingRuleType type) :
+        internal ExcelPivotTableConditionalFormatting(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt, eExcelConditionalFormattingRuleType type) :
             base(nsm, topNode)
         {
             _conditionalFormattings = pt.WorkSheet.ConditionalFormatting;
@@ -48,12 +48,12 @@ namespace OfficeOpenXml.Table.PivotTable
             ConditionalFormatting.PivotTable = true;
             Priority = ConditionalFormatting.Priority;
             var node = CreateNode("d:pivotAreas");
-            Areas = new ExcelPivotTableAreas(pt, node);
+            Areas = new ExcelPivotTableAreaConditionalFormattingCollection(pt, node);
         }
         /// <summary>
-        /// A collection of conditions for the conditional formats. Conditions can be set for specific row-, column- or data fields. Specify labels, data grand totals and more.
+        /// A collection of conditions for the conditional formattings. Conditions can be set for specific row-, column- or data fields. Specify labels, data grand totals and more.
         /// </summary>
-        public ExcelPivotTableAreas Areas
+        public ExcelPivotTableAreaConditionalFormattingCollection Areas
         {
             get;
         }
@@ -97,15 +97,15 @@ namespace OfficeOpenXml.Table.PivotTable
         /// This property only apply to condional formattings for above/below -average, -stdev amd top or bottom.
         /// </summary>
         /// <exception cref="InvalidOperationException">If setting this property to Row or Column when having an unsupported conditional formatting rule.</exception>
-        public ePivotTableConditionalFormattingConditionType Type
+        public ConditionType Type
         {
             get
             {
-                return GetXmlEnum("@type", ePivotTableConditionalFormattingConditionType.None);
+                return GetXmlEnum("@type", ConditionType.None);
             }
             set
             {
-                if((value == ePivotTableConditionalFormattingConditionType.Row || value == ePivotTableConditionalFormattingConditionType.Column) && 
+                if((value == ConditionType.Row || value == ConditionType.Column) && 
                   !(_conditionalFormatting.Type == eExcelConditionalFormattingRuleType.AboveAverage ||
                    _conditionalFormatting.Type == eExcelConditionalFormattingRuleType.AboveOrEqualAverage ||
                    _conditionalFormatting.Type == eExcelConditionalFormattingRuleType.AboveStdDev ||
@@ -126,57 +126,17 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// The scope of the pivot table conditional formatting rule. Default is Selection.
         /// </summary>
-        public ePivotTableConditionalFormattingConditionScope Scope
+        public ConditionScope Scope
         {
             get
             {
-                return GetXmlEnum("@scope", ePivotTableConditionalFormattingConditionScope.Selection);
+                return GetXmlEnum("@scope", ConditionScope.Selection);
             }
             set
             {
                 SetXmlNodeString("@scope", value.ToEnumString());
             }
         }
-    }
-    /// <summary>
-    /// Conditional Formatting Evaluation Type
-    /// </summary>
-    public enum ePivotTableConditionalFormattingConditionType
-    {
-        /// <summary>
-        /// The conditional formatting is not evaluated
-        /// </summary>
-        None,
-        /// <summary>
-        /// The Top N conditional formatting is evaluated across the entire scope range.
-        /// </summary>
-        All,
-        /// <summary>
-        /// The Top N conditional formatting is evaluated for each row§.
-        /// </summary>
-        Row,
-        /// <summary>
-        /// The Top N conditional formatting is evaluated for each column.
-        /// </summary>
-        Column
-    }
-    /// <summary>
-    /// The scope of the pivot table conditional formatting rule
-    /// </summary>
-    public enum ePivotTableConditionalFormattingConditionScope
-    {
-        /// <summary>
-        /// The conditional formatting is applied to the selected data fields.
-        /// </summary>
-        Data,
-        /// <summary>
-        /// The conditional formatting is applied to the selected PivotTable field intersections.
-        /// </summary>
-        Field,
-        /// <summary>
-        /// The conditional formatting is applied to the selected data fields.
-        /// </summary>
-        Selection
     }
 }
 

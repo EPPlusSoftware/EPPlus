@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Table.PivotTable
             get;  
         }
         /// <summary>
-        /// The data field that the conditions will apply to. 
+        /// The data field that the conditions will apply too. 
         /// </summary>
         public ExcelPivotAreaDataFieldReference DataFields
         {

@@ -8,21 +8,31 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.7
+  12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
  *************************************************************************************************/
-using System.Xml;
-
 namespace OfficeOpenXml.Table.PivotTable
 {
     /// <summary>
-    /// Defines sorting for a pivot table area within a pivot table.
+    /// Conditional Formatting Evaluation Type
     /// </summary>
-    public class ExcelPivotAreaAutoSort : ExcelPivotArea
+    public enum ConditionType
     {
-        internal ExcelPivotAreaAutoSort(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) :
-            base(nsm, topNode, pt)
-        {
-
-        }
+        /// <summary>
+        /// The conditional formatting is not evaluated
+        /// </summary>
+        None,
+        /// <summary>
+        /// The Top N conditional formatting is evaluated across the entire scope range.
+        /// </summary>
+        All,
+        /// <summary>
+        /// The Top N conditional formatting is evaluated for each row§.
+        /// </summary>
+        Row,
+        /// <summary>
+        /// The Top N conditional formatting is evaluated for each column.
+        /// </summary>
+        Column
     }
 }
+

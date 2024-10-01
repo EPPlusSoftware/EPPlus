@@ -25,7 +25,16 @@ namespace OfficeOpenXml.Table.PivotTable
             base(nsm, topNode)
         {
             _pt = pt;
+            Conditions = new ExcelPivotAreaStyleConditions(nsm, topNode, pt);
         }
+        /// <summary>
+        /// Conditions for the pivot table. Conditions can be set for specific row-, column- or data fields. Specify labels, data grand totals and more.
+        /// </summary>
+        public ExcelPivotAreaStyleConditions Conditions
+        {
+            get;
+        }
+
         /// <summary>
         /// The field referenced. -2 means refers to values.
         /// </summary>

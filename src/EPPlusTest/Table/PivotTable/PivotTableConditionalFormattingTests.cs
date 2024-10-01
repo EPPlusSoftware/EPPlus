@@ -66,7 +66,7 @@ namespace EPPlusTest.Table.PivotTable
             var pt = CreatePivotTable(ws);
             var rule = pt.ConditionalFormattings.Add(eExcelPivotTableConditionalFormattingRuleType.GreaterThan);
 
-            rule.Scope = ePivotTableConditionalFormattingConditionScope.Field;
+            rule.Scope = ConditionScope.Field;
             var area = rule.Areas.Add();
             area.Conditions.DataFields.Add(pt.DataFields[0]);
             rule.ConditionalFormatting.As.GreaterThan.Formula = "7.3";
@@ -86,7 +86,7 @@ namespace EPPlusTest.Table.PivotTable
             var pt = CreatePivotTable(ws);
             var rule = pt.ConditionalFormattings.Add(eExcelPivotTableConditionalFormattingRuleType.GreaterThan);
 
-            rule.Type = ePivotTableConditionalFormattingConditionType.Row; //row and column causes the workbook to become corrupt.
+            rule.Type = ConditionType.Row; //row and column causes the workbook to become corrupt.
         }
         [TestMethod]
         public void AddPivotCF_AddExtLstPivotFormattingData()
@@ -94,7 +94,7 @@ namespace EPPlusTest.Table.PivotTable
             var ws = _pck.Workbook.Worksheets.Add("PivotCfDataBar");
             var pt = CreatePivotTable(ws);
             var rule = pt.ConditionalFormattings.Add(eExcelPivotTableConditionalFormattingRuleType.DataBar);
-            rule.Scope = ePivotTableConditionalFormattingConditionScope.Data;
+            rule.Scope = ConditionScope.Data;
 
             var area = rule.Areas.Add();
             area.Conditions.DataFields.Add(pt.DataFields[1]);
@@ -109,11 +109,11 @@ namespace EPPlusTest.Table.PivotTable
             var rule = pt.ConditionalFormattings.Add(eExcelPivotTableConditionalFormattingRuleType.BottomPercent, pt.DataFields[0]);
             var area = rule.Areas[0];
 
-            rule.Scope = ePivotTableConditionalFormattingConditionScope.Field;
+            rule.Scope = ConditionScope.Field;
             area.Conditions.Fields.Add(pt.Fields[0]);
 
-            rule.Scope = ePivotTableConditionalFormattingConditionScope.Field;
-            rule.Type = ePivotTableConditionalFormattingConditionType.Column;
+            rule.Scope = ConditionScope.Field;
+            rule.Type = ConditionType.Column;
             rule.ConditionalFormatting.As.TopBottom.Rank = 20;
             rule.ConditionalFormatting.Style.Fill.PatternType = ExcelFillStyle.Solid;
             rule.ConditionalFormatting.Style.Fill.BackgroundColor.SetColor(Color.Red);
@@ -126,7 +126,7 @@ namespace EPPlusTest.Table.PivotTable
             var rule = pt.ConditionalFormattings.Add(eExcelPivotTableConditionalFormattingRuleType.ThreeIconSet, pt.DataFields[0]);
             var area = rule.Areas[0];
 
-            rule.Scope = ePivotTableConditionalFormattingConditionScope.Field;
+            rule.Scope = ConditionScope.Field;
             area.Conditions.Fields.Add(pt.Fields[0]);
 
             rule.ConditionalFormatting.As.ThreeIconSet.IconSet=eExcelconditionalFormatting3IconsSetType.Stars;

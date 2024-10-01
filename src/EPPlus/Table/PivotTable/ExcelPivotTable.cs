@@ -158,7 +158,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             Styles = new ExcelPivotTableAreaStyleCollection(this);
-            ConditionalFormattings = new ExcelPivotTableAreaConditionalFormatsCollection(this);
+            ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
         }
         /// <summary>
         /// Add a new pivottable
@@ -178,7 +178,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             LoadFields();
             Styles = new ExcelPivotTableAreaStyleCollection(this);
-            ConditionalFormattings = new ExcelPivotTableAreaConditionalFormatsCollection(this);
+            ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
         }
         /// <summary>
         /// Add a new pivottable
@@ -198,7 +198,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             LoadFields();
             Styles = new ExcelPivotTableAreaStyleCollection(this);
-            ConditionalFormattings = new ExcelPivotTableAreaConditionalFormatsCollection(this);
+            ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
 
         }
 
@@ -1622,7 +1622,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
-        public ExcelPivotTableAreaConditionalFormatsCollection ConditionalFormattings { get; private set; } 
+        public ExcelPivotTableConditionalFormattingCollection ConditionalFormattings { get; private set; } 
 
         internal int ChangeCacheId(int oldCacheId)
         {
@@ -1737,12 +1737,12 @@ namespace OfficeOpenXml.Table.PivotTable
         }
         private void UpdatePivotTableConditionalFormats()
         {
-            var cfToDelete = new List<ExcelPivotTableAreaConditionalFormat>();
+            var cfToDelete = new List<ExcelPivotTableConditionalFormatting>();
             foreach (var cf in ConditionalFormattings)
             {
                 cf.Priority = cf.ConditionalFormatting.Priority;
-                var areasToDelete = new List<ExcelPivotTableAreaStyle>();
-                foreach (ExcelPivotTableAreaStyle a in cf.Areas)
+                var areasToDelete = new List<ExcelPivotTableAreaConditionalFormatting>();
+                foreach (ExcelPivotTableAreaConditionalFormatting a in cf.Areas)
                 {
                     if(a.Conditions.UpdateXml()==false)
                     {
