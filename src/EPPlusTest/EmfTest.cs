@@ -102,30 +102,21 @@ namespace EPPlusTest
         public void CheckFontEnlarged()
         {
             var validTemplate = new EMF();
-            validTemplate.Read("C:\\Users\\OssianEdström\\Documents\\InkscapeValidSignatureFile3.emf");
+            validTemplate.Read("C:\\Users\\OssianEdström\\Documents\\TestingEmf.emf");
             var records = validTemplate.records;
 
-            //var clipRect = (EMR_INTERSECTCLIPRECT)records[121];
-            //clipRect.Clip.Left = 41;
-            //clipRect.Clip.Top = 51;
-            //clipRect.Clip.Right = 242;
-            //clipRect.Clip.Bottom = 72;
+            var bounds = ((EMR_HEADER)records[0]).Bounds;
+            bounds.Bottom = 129;
+            bounds.Right = 257;
+
+            records.Remove(records[69]);
+            records.Remove(records[68]);
+
             var fontRecordArr = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTCREATEFONTINDIRECTW);
             var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).ToArray();
             ((EMR_EXTTEXTOUTW)textRecords[0]).Text = "DifferentText";
-            //var timeStamp = (EMR_EXTTEXTOUTW)textRecords[0];
-            //var signTextObject = (EMR_EXTTEXTOUTW)textRecords[2];
-            //var suggestedSignerObject = (EMR_EXTTEXTOUTW)textRecords[3];
-            //var suggestedTitleObject = (EMR_EXTTEXTOUTW)textRecords[4];
-            //var signedBy = (EMR_EXTTEXTOUTW)textRecords[5];
 
-            //timeStamp.Text = "TimeStamp";
-            //signTextObject.Text = "TemplateSignature";
-            //suggestedSignerObject.Text = "TemplateSigner";
-            //suggestedTitleObject.Text = "TemplateTitle";
-            //signedBy.Text = "Signed by: TemplateName";
-
-            validTemplate.Save("C:\\epplusTest\\Testoutput\\testTempPresentation.emf");
+            validTemplate.Save("C:\\epplusTest\\Testoutput\\TestingEmf.emf");
         }
 
         [TestMethod]

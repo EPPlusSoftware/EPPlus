@@ -41,6 +41,13 @@ namespace OfficeOpenXml.Drawing.EMF
             Right = 242;
             Bottom = 72;
         }
+        internal RectLObject(int left, int top, int right, int bottom)
+        {
+            Left = left;
+            Top = top;
+            Right = right;
+            Bottom = bottom;
+        }
 
         internal void WriteBytes(BinaryWriter bw)
         {

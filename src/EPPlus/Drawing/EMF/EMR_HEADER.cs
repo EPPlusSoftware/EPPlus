@@ -8,8 +8,8 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class EMR_HEADER : EMR_RECORD
     {
-        internal byte[] Bounds;             //16
-        internal byte[] Frame;              //16
+        internal RectLObject Bounds;             //16
+        internal RectLObject Frame;              //16
         internal byte[] RecordSignature;    //4
         internal byte[] Version;            //4
         internal uint   Bytes;              //4         //Filesize
@@ -39,8 +39,9 @@ namespace OfficeOpenXml.Drawing.EMF
             {
                 headerSize = Size;
 
-                Bounds = br.ReadBytes(16);
-                Frame = br.ReadBytes(16);
+
+                Bounds = new RectLObject(br);
+                Frame = new RectLObject(br);
                 RecordSignature = br.ReadBytes(4);
                 Version = br.ReadBytes(4);
                 Bytes = br.ReadUInt32();
@@ -101,6 +102,12 @@ namespace OfficeOpenXml.Drawing.EMF
                         br.BaseStream.Position = offPixelFormat;
                         PixelFormatDescriptor = br.ReadBytes((int)cbPixelFormat);
                     }
+
+                    if(br.BaseStream.Position != Size)
+                    {
+                        //Something weird, likely EMF+ record
+                        br.BaseStream.Position = Size;
+                    }
                 }
             }
             else
@@ -112,8 +119,10 @@ namespace OfficeOpenXml.Drawing.EMF
         public EMR_HEADER(List<EMR_RECORD> Records)
         {
             Type = RECORD_TYPES.EMR_HEADER;
-            Bounds = new byte[16] { 0x13, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x4b, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00 };
-            Frame = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xBD, 0x08, 0x00, 0x00, 0x90, 0x06, 0x00, 0x00 };
+            Bounds = new RectLObject(13, 2, 75, 30);
+            Frame = new RectLObject(0, 0, 2237, 1680);
+            //Bounds = new byte[16] { 0x13, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x4b, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00 };
+            //Frame = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xBD, 0x08, 0x00, 0x00, 0x90, 0x06, 0x00, 0x00 };
             RecordSignature = new byte[4] { 0x20, 0x45, 0x4D, 0x46 };
             Version = new byte[4] { 0x00, 0x00, 0x01, 0x00 };
             Reserved = new byte[2] { 0x00, 0x00 };
@@ -161,8 +170,8 @@ namespace OfficeOpenXml.Drawing.EMF
         public override void WriteBytes(BinaryWriter bw)
         {
             base.WriteBytes(bw);
-            bw.Write(Bounds);
-            bw.Write(Frame);
+            Bounds.WriteBytes(bw);
+            Frame.WriteBytes(bw);
             bw.Write(RecordSignature);
             bw.Write(Version);
             bw.Write(Bytes);
