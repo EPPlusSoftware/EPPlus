@@ -108,6 +108,5 @@ namespace EPPlusTest.Issues
 
             SaveWorkbook("s699-resaved.xlsx", p);
         }
-
     }
-}
+ }

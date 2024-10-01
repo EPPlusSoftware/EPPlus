@@ -279,10 +279,12 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// </summary>
         //public ExcelAddressBase Address
         //{
-        //    get { return _address; }
+        //    get { return _addresses; }
         //}
 
         public FormulaRangeAddress Address { get { return _address; } }
+
+        public FormulaRangeAddress[] Addresses => [_address];
 
         /// <summary>
         /// Gets the value 

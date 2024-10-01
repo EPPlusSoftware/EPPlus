@@ -192,7 +192,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     {
                         if(e.ExpressionType == ExpressionType.CellAddress)
                         {
-                            var fa = e.GetAddress();
+                            var fa = e.GetAddress()[0];
                             var adr = ExcelCellBase.GetAddress(fa.FromRow, fa.FromCol, fa.ToRow, fa.ToCol);
                             key.Append(adr);
                         }
@@ -217,7 +217,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             }
                             else
                             {
-                                var adr = fa.Address;
+                                var adr = GetAddressString(fa);
                                 key.Append(adr);
                             }
                         }
@@ -229,6 +229,20 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 }
             }
             return key.ToString();
+        }
+
+        private string GetAddressString(FormulaRangeAddress[] address)
+        {
+            var sb = new StringBuilder();
+            foreach (var addr in address) 
+            {
+                if(sb.Length > 0)
+                { 
+                    sb.Append(",");
+                }
+                sb.Append(addr.ToString());
+            }
+            return sb.ToString();
         }
 
         internal bool NeedsCheckAddressAdjustment()
@@ -256,7 +270,5 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 _status = value;
             }
         }
-
     }
-
 }

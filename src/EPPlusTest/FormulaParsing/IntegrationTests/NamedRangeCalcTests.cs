@@ -37,7 +37,8 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
         {
             using (var pck = new ExcelPackage())
             {
-                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");                
+                var sheet1 = pck.Workbook.Worksheets.Add("Sheet1");  
+                
                 sheet1.Cells["A1"].Value = 10;
                 sheet1.Cells["A2"].Value = 4;
                 sheet1.Cells["A3"].Value = 1.6;

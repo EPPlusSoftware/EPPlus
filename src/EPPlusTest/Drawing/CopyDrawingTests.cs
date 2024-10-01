@@ -5,6 +5,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using System;
 using System.Collections.Generic;
+using OfficeOpenXml.Drawing;
 
 namespace EPPlusTest.Drawing
 {
@@ -317,6 +318,81 @@ namespace EPPlusTest.Drawing
             var cpyWs = package.Workbook.Worksheets.Add("Copy", ws);
             cpyWs.View.TabSelected = false;
             package.SaveAs("C:\\epplusTest\\Testoutput\\i1475.xlsx");
+        }
+        //i1597
+        [TestMethod]
+        public void CopyExistingLinkedPicture()
+        {
+            using (var package = OpenTemplatePackage("i1597.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                var originalPic = (ExcelPicture)sheet.Drawings[0];
+
+                var newWS = package.Workbook.Worksheets.Copy("Sheet1", "Copy");
+
+                var copiedPic = (ExcelPicture)newWS.Drawings[0];
+
+                Assert.AreEqual(originalPic.LinkedImageRel.TargetUri, copiedPic.LinkedImageRel.TargetUri);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void AddLinkedPictureAndCopy()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+                var uri = GetResourceFile("EPPlus.png").FullName;
+
+                var pic = sheet.Drawings.AddPicture("ImageName", uri, PictureLocation.Link);
+
+                Assert.AreEqual($"file:///{uri}", pic.LinkedImageRel.TargetUri.OriginalString);
+
+                var copiedWs = package.Workbook.Worksheets.Copy("emptyWS", "Copy");
+                var picCopied = (ExcelPicture)copiedWs.Drawings[0];
+                Assert.AreEqual($"file:///{uri}", picCopied.LinkedImageRel.TargetUri.OriginalString);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void InsertAndLinkPictureAndCopy()
+        {
+            using (var package = OpenPackage("InsertAndLinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+                var uri = GetResourceFile("EPPlus.png").FullName;
+
+                var pic = sheet.Drawings.AddPicture("ImageName", uri, PictureLocation.LinkAndEmbed);
+
+                Assert.AreEqual($"file:///{uri}", pic.LinkedImageRel.TargetUri.OriginalString);
+
+                var copiedWs = package.Workbook.Worksheets.Copy("emptyWS", "Copy");
+                var picCopied = (ExcelPicture)copiedWs.Drawings[0];
+                Assert.AreEqual($"file:///{uri}", picCopied.LinkedImageRel.TargetUri.OriginalString);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void AddAndCopyImage()
+        {
+            using (var package = OpenPackage("AddPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+                var uri = GetResourceFile("EPPlus.png").FullName;
+
+                var pic = sheet.Drawings.AddPicture("ImageName", uri);
+
+                var copiedWs = package.Workbook.Worksheets.Copy("emptyWS", "Copy");
+                var picCopied = (ExcelPicture)copiedWs.Drawings[0];
+
+                Assert.AreEqual(pic._width, picCopied._width);
+                Assert.AreEqual(pic.Size.Width, picCopied.Size.Width);
+
+                SaveAndCleanup(package);
+            }
         }
     }
 }
