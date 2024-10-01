@@ -38,6 +38,9 @@ namespace OfficeOpenXml.Drawing.OleObject
         DOC,
     }
 
+    /// <summary>
+    /// Class for reading and writing OLE Objects.
+    /// </summary>
     public class ExcelOleObject : ExcelDrawing
     {
         private const string CONTENTS_STREAM_NAME = "CONTENTS";
@@ -56,7 +59,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal bool DisplayAsIcon;
 
         /// <summary>
-        /// 
+        /// True: File is linked. False: File is embedded.
         /// </summary>
         public readonly bool IsExternalLink;
 

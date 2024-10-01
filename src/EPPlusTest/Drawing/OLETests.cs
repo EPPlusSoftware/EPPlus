@@ -7,6 +7,26 @@ namespace EPPlusTest.Drawing
     [TestClass]
     public class OLETests : TestBase
     {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //OLD TESTS FOR INSPIRATION
+
+
+
+
+
         // <summary>
         // LINKED FILES
         // </summary>
