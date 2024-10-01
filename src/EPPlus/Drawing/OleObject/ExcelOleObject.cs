@@ -16,36 +16,10 @@ using OfficeOpenXml.Drawing.OleObject.Structures;
 namespace OfficeOpenXml.Drawing.OleObject
 {
     /// <summary>
-    /// Types of objects to Embedd
-    /// </summary>
-    public enum OleObjectType
-    {
-        /// <summary>
-        /// The Default property for most embedded objects.
-        /// </summary>
-        Default,
-        /// <summary>
-        /// Use this Ole Object Type for PDF docuemnts for use in Adobe Acrobat. Use Default for other PDF applications.
-        /// </summary>
-        PDF,
-        /// <summary>
-        /// Use this Ole Object Type for Libre Office document types.
-        /// </summary>
-        ODF,
-        /// <summary>
-        /// Use this Ole Object Type for Microsoft Office document types.
-        /// </summary>
-        DOC,
-    }
-
-    /// <summary>
     /// Class for reading and writing OLE Objects.
     /// </summary>
     public class ExcelOleObject : ExcelDrawing
     {
-        private const string CONTENTS_STREAM_NAME = "CONTENTS";
-        private const string EMBEDDEDODF_STREAM_NAME = "EmbeddedOdf";
-
         internal ExcelVmlDrawingBase _vml;
         internal XmlHelper _vmlProp;
         internal OleObjectInternal _oleObject;
@@ -134,11 +108,10 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// <param name="node"></param>
         /// <param name="filePath"></param>
         /// <param name="linkToFile"></param>
-        /// <param name="type"></param>
         /// <param name="displayAsIcon"></param>
         /// <param name="iconFilePath"></param>
         /// <param name="parent"></param>
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string filePath, bool linkToFile, OleObjectType type = OleObjectType.Default, bool displayAsIcon = false, string iconFilePath = "", ExcelGroupShape parent = null)
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string filePath, bool linkToFile, bool displayAsIcon = false, string iconFilePath = "", ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             _worksheet = drawings.Worksheet;
@@ -148,7 +121,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             DisplayAsIcon = displayAsIcon;
             if (linkToFile)
             {
-                var linkId = CreateLinkToObject(filePath, type);
+                var linkId = CreateLinkToObject(filePath);
                 if (displayAsIcon)
                 {
                     oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" oleUpdate=\"OLEUPDATE_ONCALL\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", "Package", linkId, _id);
@@ -160,7 +133,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
             else
             {
-                relId = CreateEmbeddedObject(filePath, type);
+                relId = CreateEmbeddedObject(filePath);
                 if (displayAsIcon)
                 {
                     oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStructures.CompObj.Reserved1.String, _id, relId);
@@ -314,7 +287,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
-        private string CreateEmbeddedObject(string filePath, OleObjectType type)
+        private string CreateEmbeddedObject(string filePath)
         {
             string relId = "";
             byte[] fileData = File.ReadAllBytes(filePath);
@@ -322,37 +295,27 @@ namespace OfficeOpenXml.Drawing.OleObject
             _oleDataStructures = new OleObjectDataStructures();
             _document = new CompoundDocument();
             Guid ClsId = OleObjectGUIDCollection.keyValuePairs["Package"];
-            if (type == OleObjectType.PDF) //Only if Acrobat Reader is installed
+            if (fileType == ".pdf")
             {
-                //Create Ole structure and add data
                 Ole.CreateOleObject(_oleDataStructures, IsExternalLink);
-                //Create Ole Data Stream and add to Compound object
                 Ole.CreateOleDataStream(_oleDataStructures, _document, IsExternalLink);
-                //Create CompObj structure and add data
                 CompObj.CreateCompObjObject(_oleDataStructures, "Acrobat Document", "Acrobat.Document.DC");
-                //Create CompObj Data Stream and add to Compound object
                 CompObj.CreateCompObjDataStream(_oleDataStructures, _document);
-                //Add CONTENT Data Stream
-                _oleDataStructures.DataFile = fileData;
-                _document.Storage.DataStreams.Add(CONTENTS_STREAM_NAME, new CompoundDocumentItem(CONTENTS_STREAM_NAME, fileData));
+                OleDataFile.CreateDataFileObject(_oleDataStructures, fileData);
+                OleDataFile.CreateDataFileDataStream(_document, OleDataFile.CONTENTS_STREAM_NAME, fileData);
                 ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO PDF GUID?
             }
-            else if (type == OleObjectType.ODF) //open office formats if libre office installed
+            else if (fileType == ".odp" || fileType == ".odt" || fileType == ".ods")
             {
-                //Create Ole structure and add data
                 Ole.CreateOleObject(_oleDataStructures, IsExternalLink);
-                //Create Ole Data Stream and add to Compound object
                 Ole.CreateOleDataStream(_oleDataStructures, _document, IsExternalLink);
-                //Create CompObj structure and add data
                 CompObj.CreateCompObjObject(_oleDataStructures, "OpenDocument Text", "Word.OpenDocumentText.12"); //This has different values depending on if is spreadsheet, presentation or text
-                //Create CompObj Data Stream and add to Compound object
                 CompObj.CreateCompObjDataStream(_oleDataStructures, _document);
-                //Add EmbeddedOdf
-                _oleDataStructures.DataFile = fileData;
-                _document.Storage.DataStreams.Add(EMBEDDEDODF_STREAM_NAME, new CompoundDocumentItem(EMBEDDEDODF_STREAM_NAME, fileData));
+                OleDataFile.CreateDataFileObject(_oleDataStructures, fileData);
+                OleDataFile.CreateDataFileDataStream(_document, OleDataFile.EMBEDDEDODF_STREAM_NAME, fileData);
                 ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO ODF GUID?
             }
-            else if (type == OleObjectType.DOC) //ms office format
+            else if (fileType == ".docx" || fileType == ".pptx" || fileType == ".xlsx" )
             {
                 //Embedd as is
                 string name = "";
@@ -380,7 +343,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 ms.Write(fileData, 0, fileData.Length);
                 return relId;
             }
-            else if (type == OleObjectType.Default)
+            else
             {
                 CompObj.CreateCompObjObject(_oleDataStructures, "OLE Package", "Package");
                 CompObj.CreateCompObjDataStream(_oleDataStructures, _document);
@@ -402,7 +365,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             return relId;
         }
 
-        private int CreateLinkToObject(string filePath, OleObjectType type)
+        private int CreateLinkToObject(string filePath)
         {
             var wb = _worksheet.Workbook;
             //create externalLink xml part
@@ -413,7 +376,6 @@ namespace OfficeOpenXml.Drawing.OleObject
             //Create relation to external file
             var fileRel = LinkedOleObjectPart.CreateRelationship("file:///" + filePath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
             //Create externalLink xml
-            //StreamWriter sw = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
             var xml = new StringBuilder();
             xml.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
             xml.Append("<externalLink xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\"");
@@ -477,7 +439,11 @@ namespace OfficeOpenXml.Drawing.OleObject
  * [] Copy OleObject
  * [] ODF, PDF, DOCX, PPTX, XLSX Detection.
  * [] Prepare excel file to read for tests
- *
+ * [] CLSID för PDF
+ * [] CLSID för ODF
+ * [] CompObj Strings för ODF
+ * [] Change content type or add content type for the doc type?
+ * 
  * Tests
  * Read Embedded Ole
  * Read Linked Ole
@@ -486,7 +452,6 @@ namespace OfficeOpenXml.Drawing.OleObject
  * Write Ole
  * Read Ole
  * 
- * Same Tests again but for ODF, PDF, DOCX, PPTX, XLSX
  * 
  * TEST for EMF
  * change picture

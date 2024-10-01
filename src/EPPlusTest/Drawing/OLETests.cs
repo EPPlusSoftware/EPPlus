@@ -7,9 +7,93 @@ namespace EPPlusTest.Drawing
     [TestClass]
     public class OLETests : TestBase
     {
+        //Generic OLE Object
+        [TestMethod]
+        public void ReadEmbeddedOleObject()
+        {
 
+        }
+        [TestMethod]
+        public void ReadLinkedOleObject()
+        {
 
+        }
+        [TestMethod]
+        public void WriteEmbeddedOleObject()
+        {
 
+        }
+        [TestMethod]
+        public void WriteLinkedOleObject()
+        {
+
+        }
+
+        //PDF object
+        [TestMethod]
+        public void ReadEmbeddedOleObject_PDF()
+        {
+
+        }
+        [TestMethod]
+        public void ReadLinkedOleObject_PDF()
+        {
+
+        }
+        [TestMethod]
+        public void WriteEmbeddedOleObject_PDF()
+        {
+
+        }
+        [TestMethod]
+        public void WriteLinkedOleObject_PDF()
+        {
+
+        }
+
+        //ODF object
+        [TestMethod]
+        public void ReadEmbeddedOleObject_ODF()
+        {
+
+        }
+        [TestMethod]
+        public void ReadLinkedOleObject_ODF()
+        {
+
+        }
+        [TestMethod]
+        public void WriteEmbeddedOleObject_ODF()
+        {
+
+        }
+        [TestMethod]
+        public void WriteLinkedOleObject_ODF()
+        {
+
+        }
+
+        //MS Objects
+        [TestMethod]
+        public void ReadEmbeddedOleObject_MSD()
+        {
+
+        }
+        [TestMethod]
+        public void ReadLinkedOleObject_MSD()
+        {
+
+        }
+        [TestMethod]
+        public void WriteEmbeddedOleObject_MSD()
+        {
+
+        }
+        [TestMethod]
+        public void WriteLinkedOleObject_MSD()
+        {
+
+        }
 
 
 
@@ -52,7 +136,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\Audio-Sample-files-master.zip", true, true, @"C:\epplusTest\OleTest\EMF\BigMaskTest.bmp", OleObjectType.Default);
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\Audio-Sample-files-master.zip", true, true, @"C:\epplusTest\OleTest\EMF\BigMaskTest.bmp");
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusExternal_ZIP.xlsx");
         }
 
@@ -86,7 +170,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MySheet.xlsx", false, false, "", OleObjectType.DOC);
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MySheet.xlsx", false, false, ""/*, OleObjectType.DOC*/);
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_XLSX.xlsx");
         }
         [TestMethod]
@@ -94,7 +178,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyWord.docx", false, false, "", OleObjectType.DOC);
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyWord.docx", false, false, ""/*, OleObjectType.DOC*/);
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_DOCX.xlsx");
         }
         [TestMethod]
@@ -102,7 +186,7 @@ namespace EPPlusTest.Drawing
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyPresent.pptx", false, false, "", OleObjectType.DOC);
+            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyPresent.pptx", false, false, ""/*, OleObjectType.DOC*/);
             p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_PPTX.xlsx");
         }
 
