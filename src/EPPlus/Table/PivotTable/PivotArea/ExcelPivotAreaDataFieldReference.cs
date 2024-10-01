@@ -99,7 +99,7 @@ namespace OfficeOpenXml.Table.PivotTable
             _dataFields.Add(field);
         }
 
-        internal override void UpdateXml()
+        internal override bool UpdateXml()
         {
             //Remove reference, so they can be re-written 
             if (TopNode.LocalName == "reference")
@@ -116,7 +116,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     TopNode.ParentNode.ParentNode.RemoveChild(TopNode.ParentNode);
                 }
-                return;
+                return false;
             }
             else
             {
@@ -128,7 +128,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     TopNode = rn;
                 }
             }
-
+            var ret = false;
             foreach (ExcelPivotTableDataField r in _dataFields)
             {
                 if (r.Field.IsDataField)
@@ -138,9 +138,11 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         var n = (XmlElement)CreateNode("d:x", false, true);
                         n.SetAttribute("v", ix.ToString(CultureInfo.InvariantCulture));
+                        ret = true;
                     }
                 }
-            }            
+            }
+            return ret;
         }
         internal void Clear()
         {

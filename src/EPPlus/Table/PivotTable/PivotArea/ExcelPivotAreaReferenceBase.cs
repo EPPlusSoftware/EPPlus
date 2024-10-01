@@ -92,7 +92,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool("@byPosition", value);
             }
         }
-        internal abstract void UpdateXml();
+        internal abstract bool UpdateXml();
         /// <summary>
         /// If the default subtotal is included in the filter.
         /// </summary>
