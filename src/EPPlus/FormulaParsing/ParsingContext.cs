@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing
     /// <summary>
     /// Parsing context
     /// </summary>
-    public class ParsingContext //: IParsingLifetimeEventHandler
+    public class ParsingContext 
     {
         private ParsingContext(ExcelPackage package) {
             SubtotalAddresses = new HashSet<ulong>();
@@ -108,11 +108,6 @@ namespace OfficeOpenXml.FormulaParsing
         {
             return Create(null);
         }
-
-        //void IParsingLifetimeEventHandler.ParsingCompleted()
-        //{
-
-        //}
 
         internal int GetWorksheetIndex(string wsName)
         {
