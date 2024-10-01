@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -111,9 +112,8 @@ namespace OfficeOpenXml.Drawing.EMF
 
         private static int ConvertRange(int OriginalRangeStart, int OriginalRangeEnd, int NewRangeStart, int NewRangeEnd, int OriginalValue)
         {
-            double scaling = (double)((NewRangeEnd - NewRangeStart) / (OriginalRangeEnd - OriginalRangeStart));
+            double scaling = (double)(NewRangeEnd - NewRangeStart) / (OriginalRangeEnd - OriginalRangeStart);
             return (int)(NewRangeStart + ((OriginalValue - OriginalRangeStart) * scaling));
         }
-
     }
 }

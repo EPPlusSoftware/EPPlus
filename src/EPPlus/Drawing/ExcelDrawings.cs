@@ -26,8 +26,6 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
-using System.Xml.Linq;
-
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;

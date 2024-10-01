@@ -48,7 +48,6 @@ namespace EPPlusTest.Drawing
             handler.GetImageBounds(ms, ePictureType.Emf, out width, out height, out horRes, out verRes);
         }
 
-
         [TestMethod]
         public void ReadEmf()
         {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace OfficeOpenXml.Drawing.OleObject
+namespace OfficeOpenXml.Drawing.OleObject.Structures
 {
 
     static internal class OleObjectGUIDCollection
@@ -183,9 +183,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             internal LengthPrefixedUnicodeString Reserved2;
         }
 
-        internal class OleNativeHeader
+        internal class Ole10NativeHeader
         {
-            internal OleNativeHeader()
+            internal Ole10NativeHeader()
             {
                 FileName = new LengthPrefixedAnsiString();
                 FilePath = new LengthPrefixedAnsiString();
@@ -199,9 +199,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             internal LengthPrefixedAnsiString TempPath;
         }
 
-        internal class OleNativeFooter
+        internal class Ole10NativeFooter
         {
-            internal OleNativeFooter()
+            internal Ole10NativeFooter()
             {
                 TempPath = new LengthPrefixedUnicodeString();
                 FileName = new LengthPrefixedUnicodeString();
@@ -216,13 +216,13 @@ namespace OfficeOpenXml.Drawing.OleObject
         {
             internal OleNativeStream()
             {
-                Header = new OleNativeHeader();
-                Footer = new OleNativeFooter();
+                Header = new Ole10NativeHeader();
+                Footer = new Ole10NativeFooter();
             }
-            internal OleNativeHeader Header;
+            internal Ole10NativeHeader Header;
             internal UInt32 NativeDataSize = 0;
             internal byte[] NativeData;
-            internal OleNativeFooter Footer;
+            internal Ole10NativeFooter Footer;
         }
 
         static internal string GetTempFile(string FileName)

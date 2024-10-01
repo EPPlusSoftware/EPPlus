@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using static OfficeOpenXml.Drawing.OleObject.OleObjectDataStructures;
+﻿using OfficeOpenXml.Drawing.OleObject.Structures;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
@@ -53,7 +49,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             ws.Cells[2, c++].Value = CFOAS.FormatOrAnsiString;
         }
 
-        private static void ExportCLSID(ExcelWorksheet ws, ref int c, CLSID ClsId)
+        private static void ExportCLSID(ExcelWorksheet ws, ref int c, OleObjectDataStructures.CLSID ClsId)
         {
             if (ClsId == null)
             {
@@ -66,7 +62,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             ws.Cells[2, c++].Value = ClsId.Data4;
         }
 
-        private static void ExportMonikerStream(ExcelWorksheet ws, ref int c, MonikerStream MonikerStream)
+        private static void ExportMonikerStream(ExcelWorksheet ws, ref int c, OleObjectDataStructures.MonikerStream MonikerStream)
         {
             if (MonikerStream == null)
             {
@@ -91,7 +87,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             ws.Cells[2, c++].Value = FILETIME.dwHighDateTime;
         }
 
-        private static void ExportCompObjHeader(ExcelWorksheet ws, ref int c, CompObjHeader header)
+        private static void ExportCompObjHeader(ExcelWorksheet ws, ref int c, OleObjectDataStructures.CompObjHeader header)
         {
             if (header == null)
             {
