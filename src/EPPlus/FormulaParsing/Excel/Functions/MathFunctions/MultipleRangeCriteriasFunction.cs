@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Utils;
 using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
 
@@ -31,11 +32,29 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 if (obj == null) return false;
                 return obj.Equals(e);
             }
+            if(obj is bool b1)
+            {
+                if(expression is bool b2)
+                {
+                    return b1 == b2;
+                }
+                else if(expression != null && bool.TryParse(expression.ToString(), out bool b3))
+                {
+                    return b1 == b3;
+                }
+                return false;
+            }
             var expressionEvaluator = new ExpressionEvaluator(ctx);
             double? candidate = default(double?);
             if (IsNumeric(obj))
             {
                 candidate = ConvertUtil.GetValueDouble(obj);
+                if(IsNumeric(expression))
+                {
+                    var dblE = ConvertUtil.GetValueDouble(expression);
+                    var compResult = candidate.Value.CompareTo(dblE);
+                    return compResult == 0;
+                }
             }
             var expressionString = expression==null ? string.Empty : expression.ToString();
             if (candidate.HasValue)

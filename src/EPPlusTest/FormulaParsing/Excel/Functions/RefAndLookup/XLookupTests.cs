@@ -60,7 +60,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             }
             else
             {
-                _sheet.Cells["F2"].Formula = $"     (E2,A2:A11,C2:C11,\"{notFoundText}\")";
+                _sheet.Cells["F2"].Formula = $"XLOOKUP(E2,A2:A11,C2:C11,\"{notFoundText}\")";
             }
 
             _sheet.Calculate();

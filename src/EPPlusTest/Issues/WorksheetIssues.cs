@@ -7,6 +7,7 @@ using OfficeOpenXml.FormulaParsing;
 using System.Globalization;
 using System.Threading;
 using System.IO;
+using System.Drawing;
 namespace EPPlusTest.Issues
 {
 	[TestClass]
@@ -361,6 +362,7 @@ namespace EPPlusTest.Issues
 			{
                 SwitchBackToCurrentCulture();
             }
+
         }
         [TestMethod]
         public void ShareFormulaIDNotFoundError()
@@ -420,6 +422,60 @@ namespace EPPlusTest.Issues
 				}
             }
         }
+		[TestMethod]
+		public void DimensionValueIssue()
+		{
+			using (var excelPackage = OpenTemplatePackage(@"s719-DimensionByValue.xlsx"))
+			{
+				ExcelWorksheet excelWorksheet = excelPackage.Workbook.Worksheets["1"];
+
+				Console.WriteLine(excelWorksheet.Dimension.Columns);
+				Console.WriteLine(excelWorksheet.DimensionByValue.Columns);
+			}
+        }
+		[TestMethod]
+		public void s730()
+		{
+			using (var p = OpenTemplatePackage("s730.xlsx"))
+			{
+                string sheetName = "披露附注";
+                var ws = p.Workbook.Worksheets[sheetName];
+				ws.Cells["G8700:G8705"].Insert(eShiftTypeInsert.Right);
+				SaveAndCleanup(p);
+			}
+        }
+        [TestMethod]
+        public void ValidateShiftRightSecondPage_CellStore()
+        {
+            using (var p = OpenPackage("s730-2.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+				ws.SetValue(8244, 7, "x");
+				ws.Cells["G8700:G8707"].Style.Fill.SetBackground(Color.Yellow, OfficeOpenXml.Style.ExcelFillStyle.Solid);
+				ws.Cells["G8700:G8705"].Insert(eShiftTypeInsert.Right);
+
+				Assert.AreEqual("x", ws.GetValue(8244, 7));
+				Assert.AreEqual("FFFFFF00", ws.Cells["H8700"].Style.Fill.BackgroundColor.Rgb);
+                Assert.AreEqual("FFFFFF00", ws.Cells["H8705"].Style.Fill.BackgroundColor.Rgb);
+                Assert.IsNull(ws.Cells["H8706"].Style.Fill.BackgroundColor.Rgb);
+                Assert.IsNull(ws.Cells["H8707"].Style.Fill.BackgroundColor.Rgb);
+
+                Assert.AreEqual("FFFFFF00", ws.Cells["G8706"].Style.Fill.BackgroundColor.Rgb);
+                Assert.AreEqual("FFFFFF00", ws.Cells["G8707"].Style.Fill.BackgroundColor.Rgb);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void I1596()
+        {
+            using (var p = OpenTemplatePackage("i1596.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                ExcelWorksheet worksheet = workbook.Worksheets[1];
+
+                worksheet.DeleteRow(256);
+            }
+        }
     }
 }
-

@@ -10,7 +10,6 @@
  *************************************************************************************************
   02/10/2023       EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
-using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Constants;
@@ -1159,7 +1158,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 var dataBar = (ExcelConditionalFormattingDataBar)format;
                 uid = dataBar.Uid.ToString();
 
-                cache.Append($"<{prefix}cfRule type=\"{format.Type.ToString().UnCapitalizeFirstLetter()}\" id=\"{uid}\">");
+                cache.Append($"<{prefix}cfRule type=\"{format.Type.ToString().UnCapitalizeFirstLetter()}\" id=\"{{{uid}}}\">");
 
                 cache.Append($"<{prefix}dataBar minLength=\"{dataBar.LowValue.minLength}\" ");
                 cache.Append($"maxLength=\"{dataBar.HighValue.maxLength}\"");
@@ -1330,7 +1329,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         throw new InvalidOperationException($"Impossible case found {format.Type} is not an iconSet");
                 }
 
-                cache.Append($"<{prefix}cfRule type=\"iconSet\" priority=\"{format.Priority}\" id=\"{uid}\">");
+                cache.Append($"<{prefix}cfRule type=\"iconSet\" priority=\"{format.Priority}\" id=\"{{{uid}}}\">");
                 cache.Append($"<{prefix}iconSet ");
 
                 if (isCustom == false)
@@ -1403,7 +1402,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     cache.Append($"operator=\"{format.Operator.ToEnumString()}\" ");
                 }
 
-                cache.Append($"id=\"{format.Uid}\">");
+                cache.Append($"id=\"{{{format.Uid}}}\">");
 
                 if (format.Type == eExcelConditionalFormattingRuleType.TwoColorScale ||
                     format.Type == eExcelConditionalFormattingRuleType.ThreeColorScale)
@@ -1814,7 +1813,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 
                     string AltPrefix = "x14";
                     cache.Append($"<{prefix}ext xmlns:{AltPrefix}=\"{ExcelPackage.schemaMainX14}\" uri=\"{ExtLstUris.ExtChildUri}\">");
-                    cache.Append($"<{AltPrefix}:id>{dataBar.Uid}</{AltPrefix}:id>");
+                    cache.Append($"<{AltPrefix}:id>{{{dataBar.Uid}}}</{AltPrefix}:id>");
                     cache.Append($"</{prefix}ext>");
 
                     cache.Append($"</{prefix}extLst>");
