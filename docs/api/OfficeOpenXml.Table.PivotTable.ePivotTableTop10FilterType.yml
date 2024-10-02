@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePivotTableTop10FilterType
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sum
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableTop10FilterType.cs

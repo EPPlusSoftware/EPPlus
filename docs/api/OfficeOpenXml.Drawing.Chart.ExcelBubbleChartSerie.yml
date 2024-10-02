@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelBubbleChartSerie
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChartSerie.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChartSerie.cs
@@ -132,7 +132,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChartSerie.cs
@@ -171,7 +171,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChartSerie.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BubbleSize
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChartSerie.cs
@@ -248,7 +248,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelBubbleChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataPoints
     path: ../src/EPPlus/Drawing/Chart/ExcelBubbleChartSerie.cs

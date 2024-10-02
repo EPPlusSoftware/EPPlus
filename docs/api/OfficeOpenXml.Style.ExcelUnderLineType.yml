@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelUnderLineType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelUnderLineType
     path: ../src/EPPlus/Style/enums/ExcelUnderLineType.cs
@@ -53,7 +53,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelUnderLineType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Style/enums/ExcelUnderLineType.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelUnderLineType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Single
     path: ../src/EPPlus/Style/enums/ExcelUnderLineType.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelUnderLineType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Double
     path: ../src/EPPlus/Style/enums/ExcelUnderLineType.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelUnderLineType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SingleAccounting
     path: ../src/EPPlus/Style/enums/ExcelUnderLineType.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelUnderLineType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoubleAccounting
     path: ../src/EPPlus/Style/enums/ExcelUnderLineType.cs

@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawing3D
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Scene
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExtrusionHeight
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ContourWidth
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
@@ -184,7 +184,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopBevel
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
@@ -221,7 +221,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomBevel
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
@@ -258,7 +258,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExtrusionColor
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
@@ -295,7 +295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ContourColor
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
@@ -332,7 +332,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaterialType
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
@@ -369,7 +369,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShapeDepthZCoordinate
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
@@ -406,7 +406,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3D.cs

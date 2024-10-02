@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/ApplyDataFrom.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyDataFrom
     path: ../src/EPPlus/Table/enums/ApplyDataFrom.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/ApplyDataFrom.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnNamesToCells
     path: ../src/EPPlus/Table/enums/ApplyDataFrom.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/ApplyDataFrom.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellsToColumnNames
     path: ../src/EPPlus/Table/enums/ApplyDataFrom.cs

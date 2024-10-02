@@ -1,0 +1,1091 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  id: eExcelPivotTableConditionalFormattingRuleType
+  parent: OfficeOpenXml.ConditionalFormatting
+  children:
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.AboveAverage
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.AboveOrEqualAverage
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.AboveStdDev
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BelowAverage
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BelowOrEqualAverage
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BelowStdDev
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Between
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Bottom
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BottomPercent
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ContainsBlanks
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ContainsErrors
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.DataBar
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Equal
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Expression
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.FiveIconSet
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.FourIconSet
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.GreaterThan
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.GreaterThanOrEqual
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.LessThan
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.LessThanOrEqual
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotBetween
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotContainsBlanks
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotContainsErrors
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotEqual
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ThreeColorScale
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ThreeIconSet
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Top
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.TopPercent
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.TwoColorScale
+  langs:
+  - csharp
+  - vb
+  name: eExcelPivotTableConditionalFormattingRuleType
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: eExcelPivotTableConditionalFormattingRuleType
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1104
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nConditional formatting rule types valid for pivot tables.\n"
+  example: []
+  syntax:
+    content: public enum eExcelPivotTableConditionalFormattingRuleType
+    content.vb: Public Enum eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.AboveAverage
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.AboveAverage
+  id: AboveAverage
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: AboveAverage
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.AboveAverage
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.AboveAverage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AboveAverage
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1111
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells that are above the average for all values in the range.\n"
+  remarks: AboveAverage Excel CF Rule Type
+  example: []
+  syntax:
+    content: AboveAverage = 0
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.AboveOrEqualAverage
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.AboveOrEqualAverage
+  id: AboveOrEqualAverage
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: AboveOrEqualAverage
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.AboveOrEqualAverage
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.AboveOrEqualAverage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AboveOrEqualAverage
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1117
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells that are above or equal to the average for all values in the range.\n"
+  remarks: AboveAverage Excel CF Rule Type
+  example: []
+  syntax:
+    content: AboveOrEqualAverage = 1
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BelowAverage
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BelowAverage
+  id: BelowAverage
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: BelowAverage
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.BelowAverage
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BelowAverage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BelowAverage
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1123
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells that are below the average for all values in the range.\n"
+  remarks: AboveAverage Excel CF Rule Type
+  example: []
+  syntax:
+    content: BelowAverage = 2
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BelowOrEqualAverage
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BelowOrEqualAverage
+  id: BelowOrEqualAverage
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: BelowOrEqualAverage
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.BelowOrEqualAverage
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BelowOrEqualAverage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BelowOrEqualAverage
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1129
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells that are below or equal to the average for all values in the range.\n"
+  remarks: AboveAverage Excel CF Rule Type
+  example: []
+  syntax:
+    content: BelowOrEqualAverage = 3
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.AboveStdDev
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.AboveStdDev
+  id: AboveStdDev
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: AboveStdDev
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.AboveStdDev
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.AboveStdDev
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AboveStdDev
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1137
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells that are above the standard deviation for all values in the range.\n<remarks>AboveAverage Excel CF Rule Type</remarks>\n"
+  example: []
+  syntax:
+    content: AboveStdDev = 4
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BelowStdDev
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BelowStdDev
+  id: BelowStdDev
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: BelowStdDev
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.BelowStdDev
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BelowStdDev
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BelowStdDev
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1143
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells that are below the standard deviation for all values in the range.\n"
+  remarks: AboveAverage Excel CF Rule Type
+  example: []
+  syntax:
+    content: BelowStdDev = 5
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Bottom
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Bottom
+  id: Bottom
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: Bottom
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.Bottom
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Bottom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Bottom
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1151
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells whose values fall in the bottom N bracket as specified.\n"
+  remarks: Top10 Excel CF Rule Type
+  example: []
+  syntax:
+    content: Bottom = 6
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BottomPercent
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BottomPercent
+  id: BottomPercent
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: BottomPercent
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.BottomPercent
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.BottomPercent
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: BottomPercent
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1157
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells whose values fall in the bottom N percent as specified.\n"
+  remarks: Top10 Excel CF Rule Type
+  example: []
+  syntax:
+    content: BottomPercent = 7
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Top
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Top
+  id: Top
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: Top
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.Top
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Top
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Top
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1163
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells whose values fall in the top N bracket as specified.\n"
+  remarks: Top10 Excel CF Rule Type
+  example: []
+  syntax:
+    content: Top = 8
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.TopPercent
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.TopPercent
+  id: TopPercent
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: TopPercent
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.TopPercent
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.TopPercent
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TopPercent
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1169
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells whose values fall in the top N percent as specified.\n"
+  remarks: Top10 Excel CF Rule Type
+  example: []
+  syntax:
+    content: TopPercent = 9
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Between
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Between
+  id: Between
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: Between
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.Between
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Between
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Between
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1178
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells in the range between the given two formulas.\n"
+  remarks: CellIs Excel CF Rule Type
+  example: []
+  syntax:
+    content: Between = 21
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ContainsBlanks
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ContainsBlanks
+  id: ContainsBlanks
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: ContainsBlanks
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.ContainsBlanks
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ContainsBlanks
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ContainsBlanks
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1189
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells that are completely blank.\n"
+  remarks: "\nEquivalent of using LEN(TRIM()). This means that if the cell contains only\ncharacters that TRIM() would remove, then it is considered blank. An empty cell\nis also considered blank.\n"
+  example: []
+  syntax:
+    content: ContainsBlanks = 22
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ContainsErrors
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ContainsErrors
+  id: ContainsErrors
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: ContainsErrors
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.ContainsErrors
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ContainsErrors
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ContainsErrors
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1199
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells with formula errors.\n"
+  remarks: "\nEquivalent to using ISERROR() sheet function to determine if there is\na formula error.\n"
+  example: []
+  syntax:
+    content: ContainsErrors = 23
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Equal
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Equal
+  id: Equal
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: Equal
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.Equal
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Equal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Equal
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1205
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells equal to the given formula.\n"
+  remarks: CellIs Excel CF Rule Type
+  example: []
+  syntax:
+    content: Equal = 27
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Expression
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Expression
+  id: Expression
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: Expression
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.Expression
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.Expression
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Expression
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1211
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThis rule contains a formula to evaluate. When the formula result is true, the cell is highlighted.\n"
+  remarks: Expression Excel CF Rule Type
+  example: []
+  syntax:
+    content: Expression = 28
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.GreaterThan
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.GreaterThan
+  id: GreaterThan
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: GreaterThan
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.GreaterThan
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.GreaterThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreaterThan
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1217
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells greater than the given formula.\n"
+  remarks: CellIs Excel CF Rule Type
+  example: []
+  syntax:
+    content: GreaterThan = 29
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.GreaterThanOrEqual
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.GreaterThanOrEqual
+  id: GreaterThanOrEqual
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: GreaterThanOrEqual
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.GreaterThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.GreaterThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GreaterThanOrEqual
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1223
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells greater than or equal the given formula.\n"
+  remarks: CellIs Excel CF Rule Type
+  example: []
+  syntax:
+    content: GreaterThanOrEqual = 30
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.LessThan
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.LessThan
+  id: LessThan
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: LessThan
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.LessThan
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.LessThan
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LessThan
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1229
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells less than the given formula.\n"
+  remarks: CellIs Excel CF Rule Type
+  example: []
+  syntax:
+    content: LessThan = 31
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.LessThanOrEqual
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.LessThanOrEqual
+  id: LessThanOrEqual
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: LessThanOrEqual
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.LessThanOrEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.LessThanOrEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LessThanOrEqual
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1235
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells less than or equal the given formula.\n"
+  remarks: CellIs Excel CF Rule Type
+  example: []
+  syntax:
+    content: LessThanOrEqual = 32
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotBetween
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotBetween
+  id: NotBetween
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: NotBetween
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.NotBetween
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotBetween
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NotBetween
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1241
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells outside the range in given two formulas.\n"
+  remarks: CellIs Excel CF Rule Type
+  example: []
+  syntax:
+    content: NotBetween = 33
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotContainsBlanks
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotContainsBlanks
+  id: NotContainsBlanks
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: NotContainsBlanks
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.NotContainsBlanks
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotContainsBlanks
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NotContainsBlanks
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1252
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells that are not blank.\n"
+  remarks: "\nEquivalent of using LEN(TRIM()). This means that if the cell contains only\ncharacters that TRIM() would remove, then it is considered blank. An empty cell\nis also considered blank.\n"
+  example: []
+  syntax:
+    content: NotContainsBlanks = 35
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotContainsErrors
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotContainsErrors
+  id: NotContainsErrors
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: NotContainsErrors
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.NotContainsErrors
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotContainsErrors
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NotContainsErrors
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1262
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nHighlights cells without formula errors.\n"
+  remarks: "\nEquivalent to using ISERROR() sheet function to determine if there is a\nformula error.\n"
+  example: []
+  syntax:
+    content: NotContainsErrors = 36
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotEqual
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotEqual
+  id: NotEqual
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: NotEqual
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.NotEqual
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.NotEqual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NotEqual
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1268
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\n.\n"
+  remarks: CellIs Excel CF Rule Type
+  example: []
+  syntax:
+    content: NotEqual = 38
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ThreeColorScale
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ThreeColorScale
+  id: ThreeColorScale
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: ThreeColorScale
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.ThreeColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ThreeColorScale
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThreeColorScale
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1276
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThree Color Scale (Low, Middle and High Color Scale)\n"
+  remarks: ColorScale Excel CF Rule Type
+  example: []
+  syntax:
+    content: ThreeColorScale = 40
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.TwoColorScale
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.TwoColorScale
+  id: TwoColorScale
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: TwoColorScale
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.TwoColorScale
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.TwoColorScale
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TwoColorScale
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1282
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nTwo Color Scale (Low and High Color Scale)\n"
+  remarks: ColorScale Excel CF Rule Type
+  example: []
+  syntax:
+    content: TwoColorScale = 41
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ThreeIconSet
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ThreeIconSet
+  id: ThreeIconSet
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: ThreeIconSet
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.ThreeIconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.ThreeIconSet
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ThreeIconSet
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1291
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThis conditional formatting rule applies a 3 set icons to cells according\nto their values.\n"
+  remarks: IconSet Excel CF Rule Type
+  example: []
+  syntax:
+    content: ThreeIconSet = 42
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.FourIconSet
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.FourIconSet
+  id: FourIconSet
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: FourIconSet
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.FourIconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.FourIconSet
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FourIconSet
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1298
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThis conditional formatting rule applies a 4 set icons to cells according\nto their values.\n"
+  remarks: IconSet Excel CF Rule Type
+  example: []
+  syntax:
+    content: FourIconSet = 43
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.FiveIconSet
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.FiveIconSet
+  id: FiveIconSet
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: FiveIconSet
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.FiveIconSet
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.FiveIconSet
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FiveIconSet
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1305
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThis conditional formatting rule applies a 5 set icons to cells according\nto their values.\n"
+  remarks: IconSet Excel CF Rule Type
+  example: []
+  syntax:
+    content: FiveIconSet = 44
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.DataBar
+  commentId: F:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.DataBar
+  id: DataBar
+  parent: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  langs:
+  - csharp
+  - vb
+  name: DataBar
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType.DataBar
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType.DataBar
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DataBar
+    path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
+    startLine: 1313
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.ConditionalFormatting
+  summary: "\nThis conditional formatting rule displays a gradated data bar in the range of cells.\n"
+  remarks: DataBar Excel CF Rule Type
+  example: []
+  syntax:
+    content: DataBar = 45
+    return:
+      type: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.ConditionalFormatting
+  commentId: N:OfficeOpenXml.ConditionalFormatting
+  name: OfficeOpenXml.ConditionalFormatting
+  nameWithType: OfficeOpenXml.ConditionalFormatting
+  fullName: OfficeOpenXml.ConditionalFormatting
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelPivotTableConditionalFormattingRuleType
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType

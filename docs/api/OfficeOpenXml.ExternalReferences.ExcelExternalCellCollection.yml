@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalCellCollection
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
@@ -75,7 +75,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
@@ -166,7 +166,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
@@ -206,7 +206,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
@@ -245,7 +245,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
@@ -279,7 +279,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
@@ -316,7 +316,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
@@ -353,7 +353,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
@@ -388,7 +388,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellCollection.cs

@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDxfAlignment
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalAlignment
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
@@ -111,7 +111,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalAlignment
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextRotation
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WrapText
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
@@ -222,7 +222,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indent
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RelativeIndent
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
@@ -296,7 +296,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: JustifyLastLine
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
@@ -333,7 +333,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShrinkToFit
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
@@ -370,7 +370,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReadingOrder
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
@@ -407,7 +407,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetTextVertical
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
@@ -439,7 +439,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
@@ -479,7 +479,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfAlignment.cs

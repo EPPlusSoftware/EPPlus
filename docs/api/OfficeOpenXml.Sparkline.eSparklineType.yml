@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/Enums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eSparklineType
     path: ../src/EPPlus/Sparkline/Enums.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/Enums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Line
     path: ../src/EPPlus/Sparkline/Enums.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/Enums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/Sparkline/Enums.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/Enums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Stacked
     path: ../src/EPPlus/Sparkline/Enums.cs

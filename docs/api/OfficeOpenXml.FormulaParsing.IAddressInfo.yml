@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml.FormulaParsing
   children:
   - OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  - OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
   langs:
   - csharp
   - vb
@@ -16,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IAddressInfo
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -49,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -66,6 +67,41 @@ items:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
     content.vb: ReadOnly Property Address As FormulaRangeAddress
   overload: OfficeOpenXml.FormulaParsing.IAddressInfo.Address*
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+  commentId: P:OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+  id: Addresses
+  parent: OfficeOpenXml.FormulaParsing.IAddressInfo
+  langs:
+  - csharp
+  - vb
+  name: Addresses
+  nameWithType: IAddressInfo.Addresses
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/IRangeInfo.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Addresses
+    path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
+    startLine: 104
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIf the address contains commaseparated addresses, this array contains the individual addresses.\n"
+  example: []
+  syntax:
+    content: FormulaRangeAddress[] Addresses { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress[]
+    content.vb: ReadOnly Property Addresses As FormulaRangeAddress()
+  overload: OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses*
   modifiers.csharp:
   - get
   modifiers.vb:
@@ -92,3 +128,32 @@ references:
   name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   nameWithType: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+  name: Addresses
+  nameWithType: IAddressInfo.Addresses
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress[]
+  isExternal: true
+  name: FormulaRangeAddress[]
+  nameWithType: FormulaRangeAddress[]
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress[]
+  nameWithType.vb: FormulaRangeAddress()
+  fullName.vb: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress()
+  name.vb: FormulaRangeAddress()
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: ()
+    nameWithType: ()
+    fullName: ()

@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelBoxWhiskerChartSerie
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParentLabelLayout
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: QuartileMethod
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowMeanLine
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -198,7 +198,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowMeanMarker
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowNonOutliers
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -272,7 +272,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowOutliers
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs

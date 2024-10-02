@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eBuildInUnits
     path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: hundreds
     path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
@@ -91,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: thousands
     path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
@@ -125,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: tenThousands
     path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: hundredThousands
     path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: millions
     path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
@@ -227,7 +227,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: tenMillions
     path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: hundredMillions
     path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
@@ -295,7 +295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: billions
     path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: trillions
     path: ../src/EPPlus/Drawing/Chart/enums/eBuildInUnits.cs

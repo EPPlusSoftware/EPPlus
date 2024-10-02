@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontSize
     path: ../src/EPPlus/FontSize.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultFont
     path: ../src/EPPlus/FontSize.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NonExistingFont
     path: ../src/EPPlus/FontSize.cs
@@ -134,7 +134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontWidths
     path: ../src/EPPlus/FontSize.cs
@@ -169,7 +169,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontHeights
     path: ../src/EPPlus/FontSize.cs
@@ -204,7 +204,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAllFontsFromResource
     path: ../src/EPPlus/FontSize.cs
@@ -238,7 +238,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFontsFromResource
     path: ../src/EPPlus/FontSize.cs

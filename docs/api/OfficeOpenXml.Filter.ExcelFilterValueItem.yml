@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFilterValueItem
     path: ../src/EPPlus/Filter/ExcelFilterItem.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Filter/ExcelFilterItem.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/Filter/ExcelFilterItem.cs
