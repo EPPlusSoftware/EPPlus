@@ -266,6 +266,11 @@ namespace OfficeOpenXml.Style
                 {
                     continue;
                 }
+                else if(isText)
+                {
+                    isText = false;
+                    continue;
+                }
                 switch(c)
                 {
                     case '\\':

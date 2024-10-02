@@ -334,7 +334,7 @@ namespace EPPlusTest.Issues
 						excelCalculationOption.AllowCircularReferences = true;
 						worksheet.Calculate(excelCalculationOption);
 					}
-					catch (Exception ex)
+					catch
 					{
 
 
@@ -350,7 +350,7 @@ namespace EPPlusTest.Issues
 						excelCalculationOption.AllowCircularReferences = true;
 						worksheet.Calculate(excelCalculationOption);
 					}
-					catch (Exception ex)
+					catch 
 					{
 
 
@@ -396,7 +396,7 @@ namespace EPPlusTest.Issues
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("error");
+                    Console.WriteLine($"error {ex}");
                 }
 
 				SaveAndCleanup(p);

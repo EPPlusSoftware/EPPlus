@@ -935,6 +935,9 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// </summary>
         public FormulaRangeAddress Address => this;
 
+        /// <summary>
+        /// If the address contains multiple comma separated addresses, the individual addresses are stored here.
+        /// </summary>
         public FormulaRangeAddress[] Addresses => [this];
     }
     /// <summary>

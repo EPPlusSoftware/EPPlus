@@ -187,7 +187,9 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 return _cells[_rowIndex, _colIx] ?? new InMemoryCellInfo(null);
             }
         }
-
+        /// <summary>
+        /// The addresses for the range, if more than one.
+        /// </summary>
         public FormulaRangeAddress[] Addresses => [_address];
 
         /// <summary>
