@@ -17,5 +17,11 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             ihObject = br.ReadUInt32();
         }
+
+        public override void WriteBytes(BinaryWriter bw)
+        {
+            base.WriteBytes(bw);
+            bw.Write(ihObject);
+        }
     }
 }

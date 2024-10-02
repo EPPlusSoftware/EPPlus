@@ -42,6 +42,7 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
         TrebuchetMS = 21,
         TwCenMT = 22,
         TwCenMTCondensed = 23,
-        Verdana = 24
+        Verdana = 24,
+        SegoeUI = 25
     }
 }

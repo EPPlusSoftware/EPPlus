@@ -1,8 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.IO.Pipes;
 using System.Linq;
 
 namespace OfficeOpenXml.Drawing.EMF
@@ -10,10 +7,12 @@ namespace OfficeOpenXml.Drawing.EMF
     internal class EMF
     {
         internal List<EMR_RECORD> records = new List<EMR_RECORD>();
-
+        ExcelTextSettings textSettings;
         uint size = 0;
-
+        MapMode currentMapMode = MapMode.MM_TEXT;
         public EMF() { }
+
+        internal ExcelPackage pck = new ExcelPackage();
 
         internal Dictionary<uint, EMR_EXTCREATEFONTINDIRECTW> Fonts = new Dictionary<uint, EMR_EXTCREATEFONTINDIRECTW>();
         EMR_EXTCREATEFONTINDIRECTW lastFont;
@@ -43,6 +42,9 @@ namespace OfficeOpenXml.Drawing.EMF
 
         private void ReadEmfRecords(BinaryReader br)
         {
+            textSettings = new ExcelTextSettings();
+            var Measurer = textSettings.GenericTextMeasurer;
+
             while (br.BaseStream.Position < br.BaseStream.Length)
             {
                 EMR_RECORD record;
@@ -51,6 +53,11 @@ namespace OfficeOpenXml.Drawing.EMF
                 {
                     case 0x00000001:
                         record = new EMR_HEADER(br, TypeValue);
+                        break;
+                    case 0x00000011:
+                        var mapMode = new EMR_SETMAPMODE(br, TypeValue);
+                        currentMapMode = mapMode.MapMode;
+                        record = mapMode;
                         break;
                     case 0x0000000E:
                         record = new EMR_EOF(br, TypeValue);
@@ -85,6 +92,8 @@ namespace OfficeOpenXml.Drawing.EMF
                         var text = new EMR_EXTTEXTOUTW(br, TypeValue);
                         var lastRecord = records.Last();
                         text.InternalFontId = currentlySelectedId;
+                        text.mode = currentMapMode;
+                        text.measurer = Measurer;
                         if(lastFont.ihFonts == currentlySelectedId)
                         {
                             text.Font = lastFont;

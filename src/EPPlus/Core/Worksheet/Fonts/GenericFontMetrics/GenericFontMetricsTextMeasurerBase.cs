@@ -86,6 +86,48 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             return new TextMeasurement(width, height);
         }
 
+        //internal List<uint> MeasureTextSpacingInternal(string text, uint fontKey, MeasurementFontStyles style, float size)
+        //{
+        //    var sFont = _fonts[fontKey];
+        //    var chars = text.ToCharArray();
+
+        //    var spacingBuffer = new List<uint>();
+
+        //    for (var x = 0; x < chars.Length; x++)
+        //    {
+        //        var fnt = sFont;
+        //        var c = chars[x];
+
+        //        if (sFont.CharMetrics.ContainsKey(c))
+        //        {
+        //            var metrics = sFont.CharMetrics[c];
+        //            sFont.
+        //        }
+
+        //            //// if east asian char use default regardless of actual font.
+        //            //if (IsEastAsianChar(c))
+        //            //{
+        //            //    widthEA += GetEastAsianCharWidth(c, style);
+        //            //}
+        //            //else
+        //            //{
+        //            //    if (sFont.CharMetrics.ContainsKey(c))
+        //            //    {
+        //            //        var fw = fnt.ClassWidths[sFont.CharMetrics[c]];
+        //            //        if (Char.IsDigit(c)) fw *= FontScaleFactors.DigitsScalingFactor;
+        //            //        width += fw;
+        //            //    }
+        //            //    else
+        //            //    {
+        //            //        width += sFont.ClassWidths[fnt.DefaultWidthClass];
+        //            //    }
+        //            //}
+
+        //    }
+
+        //}
+
+
 
 
         internal static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)

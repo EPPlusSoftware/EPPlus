@@ -7,6 +7,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using System.Drawing;
+
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -25,8 +28,25 @@ namespace OfficeOpenXml.Drawing.EMF
         byte OutPrecision;
         byte ClipPrecision;
         byte Quality;
-        byte PitchAndFamily;
-        string FaceName;
+        internal byte PitchAndFamily;
+        internal string FaceName;
+
+        internal MeasurementFont mFont = new MeasurementFont();
+
+        internal int FontPointSize
+        {
+            get
+            {
+                if (Height == 0)
+                {
+                    return 11;
+                }
+                else
+                {
+                    return Height < 0 ? Math.Abs(Height) : Height;
+                }
+            }
+        }
 
         //Simplified properties for viewing/editing
         FamilyFont fontFamily;
@@ -66,6 +86,13 @@ namespace OfficeOpenXml.Drawing.EMF
             DefinedHeight = DefineHeight();
             //Assuming output pixel width is equal to height
             CalculatedAverageWidth = Width != 0 ? Width : (int)Math.Round((DefinedHeight / 2d),MidpointRounding.AwayFromZero);
+
+            mFont = new MeasurementFont()
+            {
+                FontFamily = FaceName,
+                Size = FontPointSize,
+                Style = MeasurementFontStyles.Regular
+            };
         }
 
         int DefineHeight()

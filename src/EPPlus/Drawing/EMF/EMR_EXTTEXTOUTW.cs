@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Drawing.EMF
@@ -24,11 +26,17 @@ namespace OfficeOpenXml.Drawing.EMF
         private int padding = 0;
 
         internal uint InternalFontId;
+
+        internal ExcelTextSettings textSettings = new ExcelTextSettings();
+
+        internal MapMode mode = MapMode.MM_TEXT;
+        internal ITextMeasurer Measurer;
+
         /// <summary>
         /// Minimum spacing is 0x01 which should be correct at fontsize 2
         /// </summary>
         //internal int FontSize = 11;
-        internal int FontSize
+        internal int FontPointSize
         {
             get
             {
@@ -55,6 +63,8 @@ namespace OfficeOpenXml.Drawing.EMF
             }
             set
             {
+                var test = FontSize.GetFontSize(Font.elw.FaceName, true);
+                //textSettings.GenericTextMeasurer.MeasureText(value, Meas)
                 stringBuffer = value;
                 CalculateOffsets();
             }
@@ -88,6 +98,13 @@ namespace OfficeOpenXml.Drawing.EMF
 
         byte[] CalculateDxSpacing()
         {
+
+            //if(Font != null)
+            //{
+            //    GenericFontMetricsTextMeasurerBase
+            //    //if( Font.elw.FaceName)
+            //}
+
             int j = 0;
             for (int i = 0; i < stringBuffer.Length; i++)
             {
@@ -212,9 +229,14 @@ namespace OfficeOpenXml.Drawing.EMF
         //    }
         //}
 
+        int GetSpacingForCharAlt(char aChar)
+        {
+
+        }
+
         int GetSpacingForChar(char aChar)
         {
-            var baseSize = (int)Math.Round((double)(FontSize / 2));
+            var baseSize = (int)Math.Round((double)(FontPointSize / 2));
 
             int plusOne;
             int plusTwo;

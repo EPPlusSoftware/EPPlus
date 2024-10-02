@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Drawing.EMF;
 using System.Linq;
+using OfficeOpenXml;
+using System.Collections.Generic;
 
 namespace EPPlusTest
 {
@@ -67,12 +69,41 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void CheckValidTemplateEnhanced()
+        {
+            var validTemplate = new SignatureLineTemplateValid();
+            //var records = validTemplate.records;
+
+            Dictionary<float, short> _fontWidthDefault = null;
+            if (FontSize.FontWidths.ContainsKey(FontSize.NonExistingFont))
+            {
+                FontSize.LoadAllFontsFromResource();
+                _fontWidthDefault = FontSize.FontWidths[FontSize.NonExistingFont];
+            }
+
+            var pck = new ExcelPackage();
+
+            //pck.Settings.TextSettings.DefaultTextMeasurer.
+           
+            var width = FontSize.GetFontSize("SegoeUI", true);
+
+            validTemplate.timeStamp.Text = "TimeStamp";
+            validTemplate.signTextObject.Text = "TemplateSignature";
+            validTemplate.suggestedSignerObject.Text = "TemplateSigner";
+            validTemplate.suggestedTitleObject.Text = "TemplateTitle";
+            validTemplate.Signers = "TemplateName";
+
+            validTemplate.Save("C:\\epplusTest\\Testoutput\\testTemp.emf");
+        }
+
+
+        [TestMethod]
         public void CheckFontStuff()
         {
             var validTemplate = new EMF();
             //validTemplate.Read("C:\\Users\\OssianEdström\\Documents\\presentationEmf.emf");
             //validTemplate.Read("C:\\Users\\OssianEdström\\Pictures\\Segoe_UI_pt10.emf");
-            validTemplate.Read("C:\\epplusTest\\Testoutput\\ValidImage.emf");
+            validTemplate.Read("C:\\epplusTest\\Testoutput\\ValidImageOriginal.emf");
             var records = validTemplate.records;
 
             //var clipRect = (EMR_INTERSECTCLIPRECT)records[121];
@@ -102,15 +133,16 @@ namespace EPPlusTest
         public void CheckFontEnlarged()
         {
             var validTemplate = new EMF();
-            validTemplate.Read("C:\\Users\\OssianEdström\\Documents\\TestingEmf.emf");
+            //validTemplate.Read("C:\\Users\\OssianEdström\\Documents\\TestingEmf.emf");
+            validTemplate.Read(@"C:\Users\OssianEdström\Pictures\Picture9.emf");
             var records = validTemplate.records;
 
             var bounds = ((EMR_HEADER)records[0]).Bounds;
             bounds.Bottom = 129;
             bounds.Right = 257;
 
-            records.Remove(records[69]);
-            records.Remove(records[68]);
+            //records.Remove(records[69]);
+            //records.Remove(records[68]);
 
             var fontRecordArr = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTCREATEFONTINDIRECTW);
             var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).ToArray();

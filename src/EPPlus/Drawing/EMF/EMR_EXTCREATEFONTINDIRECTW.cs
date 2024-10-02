@@ -3,6 +3,8 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Drawing.Imaging;
 using System.IO;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -10,6 +12,7 @@ namespace OfficeOpenXml.Drawing.EMF
     {
         internal uint ihFonts;
         internal LogFont elw = null;
+        ExcelFont excelFont;
 
         bool isExDv = false;
 
@@ -37,6 +40,12 @@ namespace OfficeOpenXml.Drawing.EMF
             {
                 throw new InvalidOperationException("Corrupt file. The 'elw' field of a EXTCREATEFONTINDIRECTW object cannot be smaller than 320 bytes");
             }
+            //excelFont.Family = (int)elw.PitchAndFamily;
+            //excelFont.
+
+            //font.Style = MeasurementFontStyles.Regular;
+            //font.FontFamily = elw.FaceName;
+            //font.Size = 
         }
 
         public override void WriteBytes(BinaryWriter bw)
