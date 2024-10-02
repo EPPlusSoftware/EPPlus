@@ -15,7 +15,6 @@ namespace EPPlusTest.Table.PivotTable
     public class PivotTableConditionalFormattingReadTests : TestBase
     {
         static ExcelPackage _pck;
-        static ExcelWorksheet _ws;
         [ClassInitialize]
         public static void Init(TestContext context)
         {

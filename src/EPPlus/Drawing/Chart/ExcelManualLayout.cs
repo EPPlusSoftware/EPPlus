@@ -32,7 +32,29 @@ namespace OfficeOpenXml.Drawing.Chart
     /// </summary>
     public class ExcelManualLayout : XmlHelper
     {
-        eLayoutTarget layoutTarget;
+        //string _layoutTargetPath;
+        //TODO: Check how this property should be added
+        ///// <summary>
+        ///// Layout target
+        ///// </summary>
+        //public eLayoutTarget? LayoutTarget 
+        //{
+        //    get
+        //    {
+        //        return GetXmlEnumNull<eLayoutTarget>(_layoutTargetPath);
+        //    }
+        //    set
+        //    {
+        //        if ( value == null )
+        //        {
+        //            DeleteNode(_layoutTargetPath, true);
+        //        }
+        //        else
+        //        {
+        //            SetXmlNodeString(_layoutTargetPath, value.ToEnumString());
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Define mode for Left (x) attribute
@@ -280,13 +302,9 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             _path = path;
             _extLstPath = extLstPath;
+            //_layoutTargetPath = $"{_path}/c:layoutTarget/@val";  Removed for now. See commented out property LayoutTarget above.
             NameSpaceManager.AddNamespace("c15", ExcelPackage.schemaChart2012);
             NameSpaceManager.AddNamespace("c16", ExcelPackage.schemaChart2014);
-
-
-            //var extPath = "c:extLst/c:ext";
-            //var extNode2 = GetNode($"{extPath}[1]");
-            //var c15LayoutNode = (XmlElement)CreateNode(extNode2, "c15:layout");
 
             AddSchemaNodeOrder(schemaNodeOrder, ["layoutTarget", "xMode", "yMode", "wMode", "hMode", "x", "y", "w", "h", "extLst"]);
         }
