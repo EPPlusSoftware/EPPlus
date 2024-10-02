@@ -29,7 +29,6 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal ExcelWorksheet _worksheet;
         internal ZipPackagePart oleObjectPart;
         internal XmlDocument LinkedOleObjectXml;
-        internal ZipPackagePart LinkedOleObjectPart;
         internal bool DisplayAsIcon;
 
         /// <summary>
@@ -266,6 +265,11 @@ namespace OfficeOpenXml.Drawing.OleObject
                 var oleStream = (MemoryStream)oleObjectPart.GetStream(FileMode.Open, FileAccess.Read);
                 _document = new CompoundDocument(oleStream);
             }
+            else if(oleRel != null && ( oleRel.TargetUri.ToString().Contains(".docx") || oleRel.TargetUri.ToString().Contains(".pptx") || oleRel.TargetUri.ToString().Contains(".xlsx")))
+            {
+                var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
+                oleObjectPart = _worksheet._package.ZipPackage.GetPart(oleObj);
+            }
         }
 
         private void LoadLinkedObject()
@@ -336,10 +340,10 @@ namespace OfficeOpenXml.Drawing.OleObject
                 }
                 int newID = 1;
                 var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
-                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties); //Change content type or add content type for the doc type?
+                oleObjectPart = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties); //Change content type or add content type for the doc type?
                 var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
                 relId = rel.Id;
-                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+                MemoryStream ms = (MemoryStream)oleObjectPart.GetStream(FileMode.Create, FileAccess.Write);
                 ms.Write(fileData, 0, fileData.Length);
                 return relId;
             }
@@ -355,9 +359,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             {
                 int newID = 1;
                 var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/oleObject{0}.bin", ref newID);
-                var part = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeOleObject);
+                oleObjectPart = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeOleObject);
                 var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/oleObject");
-                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+                MemoryStream ms = (MemoryStream)oleObjectPart.GetStream(FileMode.Create, FileAccess.Write);
                 _document.RootItem.ClsID = ClsId;
                 _document.Save(ms);
                 relId = rel.Id;
@@ -371,10 +375,10 @@ namespace OfficeOpenXml.Drawing.OleObject
             //create externalLink xml part
             int newID = 1;
             Uri uri = GetNewUri(wb._package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml", ref newID);
-            LinkedOleObjectPart = wb._package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
+            oleObjectPart = wb._package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
             var rel = wb.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
             //Create relation to external file
-            var fileRel = LinkedOleObjectPart.CreateRelationship("file:///" + filePath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
+            var fileRel = oleObjectPart.CreateRelationship("file:///" + filePath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
             //Create externalLink xml
             var xml = new StringBuilder();
             xml.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
@@ -390,14 +394,14 @@ namespace OfficeOpenXml.Drawing.OleObject
             xml.Append("</oleItems></oleLink></externalLink>");
             LinkedOleObjectXml = new XmlDocument();
             LinkedOleObjectXml.LoadXml(xml.ToString());
-            LinkedOleObjectXml.Save(LinkedOleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+            LinkedOleObjectXml.Save(oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
 
             //create/write wb xml external link node
             var er = (XmlElement)wb.CreateNode("d:externalReferences/d:externalReference", false, true);
             er.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
 
             //Add the externalLink to externalLink collection
-            _externalLink = wb.ExternalLinks[wb.ExternalLinks.GetExternalLink(filePath, fileRel)] as ExcelExternalOleLink; //new ExcelExternalOleLink(wb, new XmlTextReader(LinkedOleObjectPart.GetStream()), LinkedOleObjectPart, er);
+            _externalLink = wb.ExternalLinks[wb.ExternalLinks.GetExternalLink(filePath, fileRel)] as ExcelExternalOleLink;
             return newID;
         }
 
@@ -435,22 +439,19 @@ namespace OfficeOpenXml.Drawing.OleObject
 }
 
 /* TODO:
- * [] DELETE OleObject
- * [] Copy OleObject
- * [] ODF, PDF, DOCX, PPTX, XLSX Detection.
- * [] Prepare excel file to read for tests
- * [] CLSID för PDF
- * [] CLSID för ODF
- * [] CompObj Strings för ODF
- * [] Change content type or add content type for the doc type?
+ * [ ] DELETE OleObject
+ * [ ] Copy OleObject
+ * [X] ODF, PDF, DOCX, PPTX, XLSX Detection.
+ * [X] Prepare excel file to read for tests
+ * [ ] CLSID för PDF
+ * [ ] CLSID för ODF
+ * [ ] CompObj Strings för ODF
+ * [X] spara msoff part för åtkomst
  * 
  * Tests
- * Read Embedded Ole
- * Read Linked Ole
  * Delete Ole
  * Copy Ole
  * Write Ole
- * Read Ole
  * 
  * 
  * TEST for EMF

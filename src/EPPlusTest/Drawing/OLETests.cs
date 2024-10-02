@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.OleObject;
+using OfficeOpenXml.Drawing.OleObject.Structures;
 
 namespace EPPlusTest.Drawing
 {
@@ -11,17 +12,138 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void ReadEmbeddedOleObject()
         {
+            //Read generic ole object.
+            var genericOlePackage = OpenTemplatePackage("OleObjectTest_Embed_GENERIC.xlsx");
+            var genericOleWs = genericOlePackage.Workbook.Worksheets[0];
+            var genericOle = genericOleWs.Drawings[0];
+            bool isExcelOleObject = genericOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            var embededOle = genericOle as ExcelOleObject;
+            Assert.IsFalse(embededOle.IsExternalLink);
 
+            //Read PDF Object
+            var pdfOlePackage = OpenTemplatePackage("OleObjectTest_Embed_PDF.xlsx");
+            var pdfOleWs = pdfOlePackage.Workbook.Worksheets[0];
+            var pdfOle = pdfOleWs.Drawings[0];
+            isExcelOleObject = pdfOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            embededOle = pdfOle as ExcelOleObject;
+            Assert.IsFalse(embededOle.IsExternalLink);
+
+            //Read DOCX Object
+            var docxOlePackage = OpenTemplatePackage("OleObjectTest_Embed_DOCX.xlsx");
+            var docxOleWs = docxOlePackage.Workbook.Worksheets[0];
+            var docxOle = docxOleWs.Drawings[0];
+            isExcelOleObject = docxOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            embededOle = docxOle as ExcelOleObject;
+            Assert.IsFalse(embededOle.IsExternalLink);
+
+            //Read PPTX Object
+            var pptxOlePackage = OpenTemplatePackage("OleObjectTest_Embed_PPTX.xlsx");
+            var pptxOleWs = pptxOlePackage.Workbook.Worksheets[0];
+            var pptxOle = pptxOleWs.Drawings[0];
+            isExcelOleObject = pptxOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            embededOle = pptxOle as ExcelOleObject;
+            Assert.IsFalse(embededOle.IsExternalLink);
+
+            //Read XLSX Object
+            var xlsxOlePackage = OpenTemplatePackage("OleObjectTest_Embed_XLSX.xlsx");
+            var xlsxOleWs = xlsxOlePackage.Workbook.Worksheets[0];
+            var xlsxOle = xlsxOleWs.Drawings[0];
+            isExcelOleObject = xlsxOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            embededOle = xlsxOle as ExcelOleObject;
+            Assert.IsFalse(embededOle.IsExternalLink);
+
+            //Read ODS Object
+            var odsOlePackage = OpenTemplatePackage("OleObjectTest_Embed_ODS.xlsx");
+            var odsOleWs = odsOlePackage.Workbook.Worksheets[0];
+            var odsOle = odsOleWs.Drawings[0];
+            isExcelOleObject = odsOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            embededOle = odsOle as ExcelOleObject;
+            Assert.IsFalse(embededOle.IsExternalLink);
         }
+
         [TestMethod]
         public void ReadLinkedOleObject()
         {
+            //Read generic ole object.
+            var genericOlePackage = OpenTemplatePackage("OleObjectTest_Link_GENERIC.xlsx");
+            var genericOleWs = genericOlePackage.Workbook.Worksheets[0];
+            var genericOle = genericOleWs.Drawings[0];
+            bool isExcelOleObject = genericOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            var linkedOle = genericOle as ExcelOleObject;
+            Assert.IsTrue(linkedOle.IsExternalLink);
 
+            //Read PDF Object
+            var pdfOlePackage = OpenTemplatePackage("OleObjectTest_Link_PDF.xlsx");
+            var pdfOleWs = pdfOlePackage.Workbook.Worksheets[0];
+            var pdfOle = pdfOleWs.Drawings[0];
+            isExcelOleObject = pdfOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            linkedOle = pdfOle as ExcelOleObject;
+            Assert.IsTrue(linkedOle.IsExternalLink);
+
+            //Read DOCX Object
+            var docxOlePackage = OpenTemplatePackage("OleObjectTest_Link_DOCX.xlsx");
+            var docxOleWs = docxOlePackage.Workbook.Worksheets[0];
+            var docxOle = docxOleWs.Drawings[0];
+            isExcelOleObject = docxOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            linkedOle = docxOle as ExcelOleObject;
+            Assert.IsTrue(linkedOle.IsExternalLink);
+            
+            //Read PPTX Object
+            var pptxOlePackage = OpenTemplatePackage("OleObjectTest_Link_PPTX.xlsx");
+            var pptxOleWs = pptxOlePackage.Workbook.Worksheets[0];
+            var pptxOle = pptxOleWs.Drawings[0];
+            isExcelOleObject = pptxOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            linkedOle = pptxOle as ExcelOleObject;
+            Assert.IsTrue(linkedOle.IsExternalLink);
+
+            //Read XLSX Object
+            var xlsxOlePackage = OpenTemplatePackage("OleObjectTest_Link_XLSX.xlsx");
+            var xlsxOleWs = xlsxOlePackage.Workbook.Worksheets[0];
+            var xlsxOle = xlsxOleWs.Drawings[0];
+            isExcelOleObject = xlsxOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            linkedOle = xlsxOle as ExcelOleObject;
+            Assert.IsTrue(linkedOle.IsExternalLink);
+
+            //Read ODS Object
+            var odsOlePackage = OpenTemplatePackage("OleObjectTest_Link_ODS.xlsx");
+            var odsOleWs = odsOlePackage.Workbook.Worksheets[0];
+            var odsOle = odsOleWs.Drawings[0];
+            isExcelOleObject = odsOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            linkedOle = odsOle as ExcelOleObject;
+            Assert.IsTrue(linkedOle.IsExternalLink);
         }
+
         [TestMethod]
         public void WriteEmbeddedOleObject()
         {
+            //Write Generic Object
+            using var genericOlePackage = OpenPackage("EpplusOleObject_Generic.xlsx");
+            var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
+            var genericOle = generiWs.Drawings.AddOleObject(@"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt");
+            Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME));
+            Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
+            SaveAndCleanup(genericOlePackage);
 
+            //Write PDF Object
+            using var pdfOlePackage = OpenPackage("EpplusOleObject_PDF.xlsx");
+            var pdfWs = pdfOlePackage.Workbook.Worksheets.Add("Sheet 1");
+            var pdfOle = pdfWs.Drawings.AddOleObject(@"C:\epplusTest\Workbooks\OleObjectFiles\MyPDF.pdf");
+            Assert.IsTrue(pdfOle._document.Storage.DataStreams.ContainsKey(Ole.OLE_STREAM_NAME));
+            Assert.IsTrue(pdfOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
+            Assert.IsTrue(pdfOle._document.Storage.DataStreams.ContainsKey(OleDataFile.CONTENTS_STREAM_NAME));
+            SaveAndCleanup(pdfOlePackage);
         }
         [TestMethod]
         public void WriteLinkedOleObject()
@@ -29,77 +151,58 @@ namespace EPPlusTest.Drawing
 
         }
 
-        //PDF object
         [TestMethod]
-        public void ReadEmbeddedOleObject_PDF()
+        public void CheckCompoundDocument_Generic()
         {
-
+            var p = OpenTemplatePackage("OleObjectTest_Embed_GENERIC.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            Assert.IsTrue(ole._document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME));
+            Assert.IsTrue(ole._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
         }
         [TestMethod]
-        public void ReadLinkedOleObject_PDF()
+        public void CheckCompoundDocument_PDF()
         {
-
+            var p = OpenTemplatePackage("OleObjectTest_Embed_PDF.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            Assert.IsTrue(ole._document.Storage.DataStreams.ContainsKey(OleDataFile.CONTENTS_STREAM_NAME));
+            Assert.IsTrue(ole._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
+            Assert.IsTrue(ole._document.Storage.DataStreams.ContainsKey(Ole.OLE_STREAM_NAME));
         }
         [TestMethod]
-        public void WriteEmbeddedOleObject_PDF()
+        public void CheckCompoundDocument_ODS()
         {
-
+            var p = OpenTemplatePackage("OleObjectTest_Embed_ODS.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            Assert.IsTrue(ole._document.Storage.DataStreams.ContainsKey(OleDataFile.EMBEDDEDODF_STREAM_NAME));
+            Assert.IsTrue(ole._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
         }
         [TestMethod]
-        public void WriteLinkedOleObject_PDF()
+        public void CheckMsOff_DOCX()
         {
-
-        }
-
-        //ODF object
-        [TestMethod]
-        public void ReadEmbeddedOleObject_ODF()
-        {
-
+            var p = OpenTemplatePackage("OleObjectTest_Embed_DOCX.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            Assert.IsTrue(ole.oleObjectPart.Uri.ToString().Contains(".docx"));
         }
         [TestMethod]
-        public void ReadLinkedOleObject_ODF()
+        public void CheckMsOff_PPTX()
         {
-
+            var p = OpenTemplatePackage("OleObjectTest_Embed_PPTX.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            Assert.IsTrue(ole.oleObjectPart.Uri.ToString().Contains(".pptx"));
         }
         [TestMethod]
-        public void WriteEmbeddedOleObject_ODF()
+        public void CheckMsOff_XLSX()
         {
-
+            var p = OpenTemplatePackage("OleObjectTest_Embed_XLSX.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            Assert.IsTrue(ole.oleObjectPart.Uri.ToString().Contains(".xlsx"));
         }
-        [TestMethod]
-        public void WriteLinkedOleObject_ODF()
-        {
-
-        }
-
-        //MS Objects
-        [TestMethod]
-        public void ReadEmbeddedOleObject_MSD()
-        {
-
-        }
-        [TestMethod]
-        public void ReadLinkedOleObject_MSD()
-        {
-
-        }
-        [TestMethod]
-        public void WriteEmbeddedOleObject_MSD()
-        {
-
-        }
-        [TestMethod]
-        public void WriteLinkedOleObject_MSD()
-        {
-
-        }
-
-
-
-
-
-
 
 
 

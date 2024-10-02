@@ -2515,8 +2515,8 @@ namespace OfficeOpenXml
             }
             else if(d is ExcelOleObject o)
             {
-                if(o.LinkedOleObjectPart != null && o.LinkedOleObjectXml != null)
-                    o.LinkedOleObjectXml.Save(o.LinkedOleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+                if(o.oleObjectPart != null && o.LinkedOleObjectXml != null)
+                    o.LinkedOleObjectXml.Save(o.oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
             }
             if (d is ExcelGroupShape grp)
             {

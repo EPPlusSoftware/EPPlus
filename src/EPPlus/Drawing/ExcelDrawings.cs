@@ -1557,10 +1557,10 @@ namespace OfficeOpenXml.Drawing
         /// <param name="IconFilePath">Optional - Path to a bitmap image file for use as icon.</param>
         /// <param name="OleObjectType">Optional - The type of object.</param>
         /// <returns>A Drawing of the ExcelOleObject type.</returns>
-        public ExcelOleObject AddOleObject(string FilePath, bool LinkToFile = false, bool DisplayAsIcon = false, string IconFilePath = ""/*, OleObjectType OleObjectType = OleObjectType.Default*/)
+        public ExcelOleObject AddOleObject(string FilePath, bool LinkToFile = false, bool DisplayAsIcon = false, string IconFilePath = "")
         {
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
-            ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, FilePath, LinkToFile, /*OleObjectType,*/ DisplayAsIcon, IconFilePath);
+            ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, FilePath, LinkToFile, DisplayAsIcon, IconFilePath);
             _drawingsList.Add(oleObj);
             _drawingNames.Add(oleObj.Name, _drawingsList.Count - 1);
 
@@ -1574,7 +1574,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>A Drawing of the ExcelOleObject type.</returns>
         public ExcelOleObject AddOleObject(string FilePath)
         {
-            return AddOleObject(FilePath, false, false, ""/*, OleObjectType.Default*/);
+            return AddOleObject(FilePath, false, false, "");
         }
 
         private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent = false)
