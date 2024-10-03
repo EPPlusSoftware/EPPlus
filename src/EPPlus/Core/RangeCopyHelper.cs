@@ -166,6 +166,11 @@ namespace OfficeOpenXml.Core
         }
         private void CopyPivotTable(ExcelPivotTable ptCopy)
         {
+            if(_sameWorkbook==false)
+            {
+                throw new NotSupportedException("EPPlus currently does not support copying a pivot table to another workbook.");
+            }
+
             var tr = ptCopy.Address;
             var dr = _destinationRange;
             var destinationAddress = _destinationRange.Worksheet.Cells[
@@ -175,7 +180,7 @@ namespace OfficeOpenXml.Core
                 dr._fromCol + (tr._toCol - _sourceRange._fromCol)];
 
             var name = ptCopy.Name;
-            if (_destinationRange.Worksheet.PivotTables._pivotTableNames.ContainsKey(name))
+            if (_destinationRange._workbook.ExistsPivotTableName(name))
             {
                 name = _destinationRange.Worksheet.PivotTables.GetNewTableName(name);
             }

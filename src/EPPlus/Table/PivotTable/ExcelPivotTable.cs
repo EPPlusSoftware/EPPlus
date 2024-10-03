@@ -1911,7 +1911,7 @@ namespace OfficeOpenXml.Table.PivotTable
         }
 
         /// <summary>
-        /// Copies the pivot table to another range.
+        /// Copies the pivot table to another range. The range must be within the same workbook.
         /// </summary>
         /// <param name="destinationRange">The destination range.</param>
         /// <param name="name">The name of the new pivot table.</param>
@@ -1927,6 +1927,12 @@ namespace OfficeOpenXml.Table.PivotTable
             pt.Name = name;
             return pt;
         }
+        /// <summary>
+        /// Copies the pivot table to another range. The range must be within the same workbook.
+        /// </summary>
+        /// <param name="destinationRange">The destination range.</param>
+        /// <returns>The new copy of the <see cref="ExcelPivotTable" /></returns>
+        /// <exception cref="ArgumentException"></exception>
         public ExcelPivotTable Copy(ExcelRange destinationRange)
         {
             var range = WorkSheet.Cells[Address.Address];
