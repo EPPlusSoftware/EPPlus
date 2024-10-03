@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelTreemapChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTreemapChartSerie
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelTreemapChartSerie.cs
@@ -82,7 +82,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelTreemapChartSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParentLabelLayout
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelTreemapChartSerie.cs

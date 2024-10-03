@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidationCustom.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelDataValidationCustom
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidationCustom.cs

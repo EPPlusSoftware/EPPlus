@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAxisPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eAxisPosition
     path: ../src/EPPlus/Drawing/Chart/enums/eAxisPosition.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAxisPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Left
     path: ../src/EPPlus/Drawing/Chart/enums/eAxisPosition.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAxisPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bottom
     path: ../src/EPPlus/Drawing/Chart/enums/eAxisPosition.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAxisPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Right
     path: ../src/EPPlus/Drawing/Chart/enums/eAxisPosition.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAxisPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Top
     path: ../src/EPPlus/Drawing/Chart/enums/eAxisPosition.cs

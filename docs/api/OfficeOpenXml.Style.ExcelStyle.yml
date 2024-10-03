@@ -32,7 +32,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelStyle
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -80,7 +80,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Numberformat
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -228,7 +228,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalAlignment
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -265,7 +265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalAlignment
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -302,7 +302,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: JustifyLastLine
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -339,7 +339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WrapText
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -376,7 +376,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReadingOrder
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -413,7 +413,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetTextVertical
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -445,7 +445,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShrinkToFit
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -482,7 +482,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indent
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -519,7 +519,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextRotation
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -556,7 +556,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Locked
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -593,7 +593,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -630,7 +630,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: QuotePrefix
     path: ../src/EPPlus/Style/ExcelStyle.cs
@@ -667,7 +667,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XfId
     path: ../src/EPPlus/Style/ExcelStyle.cs

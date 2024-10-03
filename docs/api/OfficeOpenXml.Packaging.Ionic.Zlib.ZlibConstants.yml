@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ZlibConstants
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WindowBitsMax
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WindowBitsDefault
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Z_OK
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Z_STREAM_END
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
@@ -209,7 +209,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Z_NEED_DICT
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
@@ -244,7 +244,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Z_STREAM_ERROR
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
@@ -279,7 +279,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Z_DATA_ERROR
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
@@ -314,7 +314,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Z_BUF_ERROR
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
@@ -349,7 +349,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorkingBufferSizeDefault
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
@@ -384,7 +384,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorkingBufferSizeMin
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibConstants.cs

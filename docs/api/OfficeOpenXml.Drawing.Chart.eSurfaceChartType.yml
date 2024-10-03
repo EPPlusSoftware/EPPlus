@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eSurfaceChartType
     path: ../src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Surface
     path: ../src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SurfaceTopView
     path: ../src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SurfaceTopViewWireframe
     path: ../src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SurfaceWireframe
     path: ../src/EPPlus/Drawing/Chart/enums/eSurfaceChartType.cs

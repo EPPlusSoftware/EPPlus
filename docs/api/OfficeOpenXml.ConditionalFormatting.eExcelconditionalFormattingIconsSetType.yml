@@ -32,7 +32,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eExcelconditionalFormattingIconsSetType
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeArrows
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeArrowsGray
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -133,7 +133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeFlags
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -167,7 +167,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeSigns
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -201,7 +201,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeSymbols
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeSymbols2
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -269,7 +269,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeTrafficLights1
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeTrafficLights2
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -337,7 +337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FourArrows
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -371,7 +371,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FourArrowsGray
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -405,7 +405,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FourRating
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -439,7 +439,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FourRedToBlack
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -473,7 +473,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FourTrafficLights
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -507,7 +507,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FiveArrows
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -541,7 +541,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FiveArrowsGray
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -575,7 +575,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FiveQuarters
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -609,7 +609,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FiveRating
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs

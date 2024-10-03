@@ -1,4 +1,4 @@
-/*************************************************************************************************
+﻿/*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -8,23 +8,27 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  12/28/2020         EPPlus Software AB       Pivot Table Styling - EPPlus 5.6
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.FormulaParsing
+namespace OfficeOpenXml.Table.PivotTable
 {
     /// <summary>
-    /// Parsing lifetime event handler
+    /// The scope of the pivot table conditional formatting rule
     /// </summary>
-    public interface IParsingLifetimeEventHandler
+    public enum ConditionScope
     {
         /// <summary>
-        /// Parsing completed
+        /// The conditional formatting is applied to the selected data fields.
         /// </summary>
-        void ParsingCompleted();
+        Data,
+        /// <summary>
+        /// The conditional formatting is applied to the selected PivotTable field intersections.
+        /// </summary>
+        Field,
+        /// <summary>
+        /// The conditional formatting is applied to the selected data fields.
+        /// </summary>
+        Selection
     }
 }
+

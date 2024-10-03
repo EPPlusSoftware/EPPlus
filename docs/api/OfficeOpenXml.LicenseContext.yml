@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseContext
     path: ../src/EPPlus/Enums.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NonCommercial
     path: ../src/EPPlus/Enums.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Commercial
     path: ../src/EPPlus/Enums.cs

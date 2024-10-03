@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRange
     path: ../src/EPPlus/ExcelRange.cs
@@ -274,7 +274,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
@@ -318,7 +318,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
@@ -365,7 +365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
@@ -418,7 +418,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetFormula
     path: ../src/EPPlus/ExcelRange.cs

@@ -1,4 +1,17 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.4.0
+### Features
+* Support for Conditional Formattings in Pivot tables via Pivot Areas.
+* Added support for multiple addresses in function arguments, i.e Sum((A1:A2,A4:A5)) should be handled as a single argument.
+* Added support for linked pictures in the ExcelDrawings.AddPicture method using the 'PictureLocation' argument.
+* Added new function
+	* AREAS
+	* TDIST
+
+### Fixed issues
+* Loading a vml drawing without the Anchor element caused EPPlus to throw an Exception.
+* Removed unused classes ParsingScope and ParsingScopes and the interface IParsingLifetimeEventHandler
+
 ## Version 7.3.2
 ### Fixed issues
 * Upgraded System.Text.Json to version 8.0.4 and System.Formats.Asn1 to version 8.0.1 to address vulnerabilities in previous versions of these libraries. See our [Security Policy](https://github.com/EPPlusSoftware/EPPlus/blob/develop7/SECURITY.md)

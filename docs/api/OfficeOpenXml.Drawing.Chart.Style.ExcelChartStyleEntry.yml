@@ -33,7 +33,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartStyleEntry
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -79,7 +79,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BorderReference
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillReference
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EffectReference
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontReference
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -300,7 +300,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -337,7 +337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -374,7 +374,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultTextRun
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -411,7 +411,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultTextBody
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -448,7 +448,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Modifier
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -485,7 +485,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasFill
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -522,7 +522,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasBorder
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -559,7 +559,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasEffect
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -596,7 +596,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasThreeD
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -633,7 +633,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasTextBody
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -670,7 +670,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasRichText
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
@@ -707,7 +707,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasTextRun
     path: ../src/EPPlus/Drawing/Chart/Style/ExcelChartStyleEntry.cs

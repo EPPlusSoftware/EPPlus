@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCalculationOption
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
@@ -95,7 +95,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowCircularReferences
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
@@ -132,7 +132,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheExpressions
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
@@ -169,7 +169,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrecisionAndRoundingStrategy
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
@@ -206,7 +206,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FollowDependencyChain
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs

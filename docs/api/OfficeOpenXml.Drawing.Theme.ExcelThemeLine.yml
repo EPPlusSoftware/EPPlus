@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelThemeLine
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cap
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompoundLineStyle
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Alignment
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
@@ -219,7 +219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
@@ -256,7 +256,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
@@ -293,7 +293,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Join
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
@@ -330,7 +330,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MiterJoinLimit
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
@@ -367,7 +367,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeadEnd
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
@@ -404,7 +404,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TailEnd
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeLine.cs

@@ -32,7 +32,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePresetChartColors
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorfulPalette1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorfulPalette2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -133,7 +133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorfulPalette3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -167,7 +167,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorfulPalette4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -201,7 +201,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette1
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette2
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -269,7 +269,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette3
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette4
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -337,7 +337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette5
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -371,7 +371,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette6
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -405,7 +405,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette7
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -439,7 +439,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette8
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -473,7 +473,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette9
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -507,7 +507,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette10
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -541,7 +541,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette11
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -575,7 +575,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette12
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
@@ -609,7 +609,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonochromaticPalette13
     path: ../src/EPPlus/Drawing/Chart/Style/ePresetChartColors.cs

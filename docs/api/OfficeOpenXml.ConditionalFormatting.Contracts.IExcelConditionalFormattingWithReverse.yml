@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithReverse.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingWithReverse
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithReverse.cs
@@ -49,7 +49,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithReverse.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reverse
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithReverse.cs

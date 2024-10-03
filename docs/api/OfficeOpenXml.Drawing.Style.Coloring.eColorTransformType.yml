@@ -43,7 +43,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eColorTransformType
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tint
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Shade
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Comp
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -178,7 +178,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Inv
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gray
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -246,7 +246,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Alpha
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -280,7 +280,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AlphaOff
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -314,7 +314,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AlphaMod
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -348,7 +348,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hue
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -382,7 +382,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HueOff
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -416,7 +416,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HueMod
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -450,7 +450,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sat
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -484,7 +484,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SatOff
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -518,7 +518,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SatMod
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -552,7 +552,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Lum
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -586,7 +586,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LumOff
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -620,7 +620,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LumMod
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -654,7 +654,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Red
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -688,7 +688,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RedOff
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -722,7 +722,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RedMod
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -756,7 +756,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Green
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -790,7 +790,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreenOff
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -824,7 +824,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreenMod
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -858,7 +858,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Blue
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -892,7 +892,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BlueOff
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -926,7 +926,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BlueMod
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -960,7 +960,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gamma
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
@@ -994,7 +994,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InvGamma
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformType.cs

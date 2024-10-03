@@ -18,7 +18,7 @@ using OfficeOpenXml.Utils;
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// Numberformat settings used in the <see cref=""/>
+    /// Numberformat settings used in the <see cref="ExcelWorkbook.NumberFormatToTextHandler"/>
     /// </summary>
     public class NumberFormatToTextArgs
     {

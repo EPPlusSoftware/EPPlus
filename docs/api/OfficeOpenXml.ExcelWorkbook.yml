@@ -44,7 +44,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWorkbook
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheets
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -136,7 +136,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateHtmlExporter
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -181,7 +181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Names
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -218,7 +218,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalLinks
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -255,7 +255,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaParserManager
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -292,7 +292,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreadedCommentPersons
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxFontWidth
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -366,7 +366,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Protection
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -403,7 +403,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: View
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -440,7 +440,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VbaProject
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -477,7 +477,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveVBAProject
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -509,7 +509,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateVBAProject
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -541,7 +541,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalculateAllPivotTables
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -577,7 +577,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorkbookXml
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -614,7 +614,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CodeModule
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -651,7 +651,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Date1904
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -688,7 +688,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StylesXml
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -725,7 +725,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Styles
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -762,7 +762,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Properties
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -799,7 +799,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalcMode
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -836,7 +836,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullCalcOnLoad
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -873,7 +873,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThemeManager
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -910,7 +910,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultThemeVersion
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -947,7 +947,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullPrecision
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -984,7 +984,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulas
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -1016,7 +1016,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulaValues
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -1048,7 +1048,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -1082,7 +1082,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasLoadedPivotTables
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -1119,27 +1119,29 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormatToTextHandler
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 2033
+    startLine: 2036
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
+  summary: "\nHandler for the <xref href=\"OfficeOpenXml.ExcelRangeBase.Text\" data-throw-if-not-resolved=\"false\"></xref> property to override the default behaviour.\nThis can be used to handle localized number formats or formats where EPPlus differs from the spread sheet application.\n"
+  example: []
   syntax:
-    content: public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; }
+    content: public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; set; }
     parameters: []
     return:
       type: System.Func{OfficeOpenXml.NumberFormatToTextArgs,System.String}
-    content.vb: Public ReadOnly Property NumberFormatToTextHandler As Func(Of NumberFormatToTextArgs, String)
+    content.vb: Public Property NumberFormatToTextHandler As Func(Of NumberFormatToTextArgs, String)
   overload: OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler*
   modifiers.csharp:
   - public
   - get
+  - set
   modifiers.vb:
   - Public
-  - ReadOnly
 references:
 - uid: OfficeOpenXml
   commentId: N:OfficeOpenXml
@@ -2185,6 +2187,12 @@ references:
   name: HasLoadedPivotTables
   nameWithType: ExcelWorkbook.HasLoadedPivotTables
   fullName: OfficeOpenXml.ExcelWorkbook.HasLoadedPivotTables
+- uid: OfficeOpenXml.ExcelRangeBase.Text
+  commentId: P:OfficeOpenXml.ExcelRangeBase.Text
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: Text
+  nameWithType: ExcelRangeBase.Text
+  fullName: OfficeOpenXml.ExcelRangeBase.Text
 - uid: OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler*
   commentId: Overload:OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler
   name: NumberFormatToTextHandler
@@ -2248,6 +2256,12 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
 - uid: System.Func`2
   commentId: T:System.Func`2
   isExternal: true

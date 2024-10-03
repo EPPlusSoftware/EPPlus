@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Erf
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgumentMinLength
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Execute
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Engineering/Erf.cs

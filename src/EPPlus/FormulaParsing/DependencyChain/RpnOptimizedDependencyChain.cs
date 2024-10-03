@@ -68,8 +68,10 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 if((e.Value.Status & ExpressionStatus.IsAddress) == ExpressionStatus.IsAddress)
                 {
-                    var a = e.Value.GetAddress();
-                    qr.Add(new QuadRange(a), _formulas.Count);
+                    foreach (var a in e.Value.GetAddress())
+                    {
+                        qr.Add(new QuadRange(a), _formulas.Count);
+                    }
                 }
             }
             _formulas.Add(f);

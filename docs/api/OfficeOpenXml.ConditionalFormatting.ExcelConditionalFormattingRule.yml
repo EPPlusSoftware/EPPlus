@@ -33,7 +33,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelConditionalFormattingRule
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -82,7 +82,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
@@ -162,11 +162,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Priority
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 64
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -201,11 +201,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StopIfTrue
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 79
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -240,11 +240,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTable
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 86
+    startLine: 84
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -279,11 +279,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 104
+    startLine: 102
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -318,11 +318,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StdDev
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 121
+    startLine: 119
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -355,11 +355,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rank
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 138
+    startLine: 136
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -392,11 +392,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 553
+    startLine: 548
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -431,11 +431,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AboveAverage
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 630
+    startLine: 625
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -468,11 +468,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EqualAverage
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 644
+    startLine: 639
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -505,11 +505,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bottom
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 658
+    startLine: 653
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -542,11 +542,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 671
+    startLine: 666
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -579,11 +579,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TimePeriod
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 684
+    startLine: 679
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -616,11 +616,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Operator
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 689
+    startLine: 684
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -653,11 +653,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 697
+    startLine: 692
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -692,11 +692,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula2
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 714
+    startLine: 709
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting
@@ -731,11 +731,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/ConditionalFormatting/Rules/ExcelConditionalFormattingRule.cs
-    startLine: 733
+    startLine: 728
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ConditionalFormatting

@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotCacheDefinition
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Refresh
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheDefinitionXml
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -134,7 +134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheDefinitionUri
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -171,7 +171,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTable
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -208,7 +208,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SourceRange
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -245,7 +245,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveData
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -282,7 +282,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheSource
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs

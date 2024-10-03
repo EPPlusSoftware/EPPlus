@@ -10,28 +10,19 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Table.PivotTable.Calculation;
+using OfficeOpenXml.Table.PivotTable.Filter;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Text.RegularExpressions;
-using OfficeOpenXml.Table;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Packaging;
-using System.Linq;
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.Filter;
-using OfficeOpenXml.Packaging.Ionic;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.Style.Dxf;
-using System.IO;
 using System.Globalization;
-using OfficeOpenXml.Table.PivotTable.Filter;
-using OfficeOpenXml.Table.PivotTable.Calculation;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs;
-using System.Diagnostics.CodeAnalysis;
-
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
 namespace OfficeOpenXml.Table.PivotTable
 {
     /// <summary>
@@ -61,18 +52,27 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// The hash value for the object 
         /// </summary>
-        /// <param name="obj"></param>
         /// <returns></returns>
-        public int GetHashCode(PivotNull obj)
+        public override int GetHashCode()
 		{
 			return 0;
 		}
 
-		/// <summary>
-		/// Return the string representation of the pivot null value
-		/// </summary>
-		/// <returns>An empty string</returns>
-		public override string ToString()
+        /// <summary>
+        /// The hash value for the object 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int GetHashCode(PivotNull obj)
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// Return the string representation of the pivot null value
+        /// </summary>
+        /// <returns>An empty string</returns>
+        public override string ToString()
 		{
 			return "";
 		}
@@ -172,6 +172,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     DataFields.AddInternal(dataField);
                 }
             }
+            ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
         }
 
         /// <summary>
@@ -192,6 +193,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             LoadFields();
             Styles = new ExcelPivotTableAreaStyleCollection(this);
+            ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
         }
         internal ExcelPivotTable(ExcelWorksheet sheet, ExcelAddressBase address, ExcelPivotTable ptCopy, string name, int tblId) :
         base(sheet.NameSpaceManager)
@@ -225,6 +227,8 @@ namespace OfficeOpenXml.Table.PivotTable
 
             LoadFields();
             Styles = new ExcelPivotTableAreaStyleCollection(this);
+            ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
+
         }
 
         private void CreatePivotTable(ExcelWorksheet sheet, ExcelAddressBase address, int fields, string name, int tblId, ExcelPivotTable copy)
@@ -1656,6 +1660,10 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
+        /// <summary>
+        /// A collection of Conditional Formatting's to apply to the pivot table.
+        /// </summary>
+        public ExcelPivotTableConditionalFormattingCollection ConditionalFormattings { get; private set; } 
 
         internal int ChangeCacheId(int oldCacheId)
         {
@@ -1757,16 +1765,42 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             UpdatePivotTableStyles();
+            UpdatePivotTableConditionalFormats();
             PivotTableXml.Save(Part.GetStream(FileMode.Create));
         }
         private void UpdatePivotTableStyles()
         {
+            var deletedItems = new List<ExcelPivotTableAreaStyle>();
             foreach (ExcelPivotTableAreaStyle a in Styles)
             {
                 a.Conditions.UpdateXml();
             }
         }
-
+        private void UpdatePivotTableConditionalFormats()
+        {
+            var cfToDelete = new List<ExcelPivotTableConditionalFormatting>();
+            foreach (var cf in ConditionalFormattings)
+            {
+                cf.Priority = cf.ConditionalFormatting.Priority;
+                var areasToDelete = new List<ExcelPivotTableAreaConditionalFormatting>();
+                foreach (ExcelPivotTableAreaConditionalFormatting a in cf.Areas)
+                {
+                    if(a.Conditions.UpdateXml()==false)
+                    {
+                        areasToDelete.Add(a);
+                    }
+                }
+                if(cf.Areas.Count==areasToDelete.Count)
+                {
+                    cfToDelete.Add(cf);
+                }
+                else
+                {
+                    areasToDelete.ForEach(x => cf.Areas.Remove(x));
+                }
+            }
+            cfToDelete.ForEach(x => ConditionalFormattings.Remove(x));
+        }
         internal void Sort()
         {
             foreach (var field in RowFields.Union(ColumnFields))

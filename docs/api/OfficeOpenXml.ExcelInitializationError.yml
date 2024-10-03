@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelInitializationError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelInitializationError
     path: ../src/EPPlus/ExcelInitializationError.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelInitializationError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorMessage
     path: ../src/EPPlus/ExcelInitializationError.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelInitializationError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TimestampUtc
     path: ../src/EPPlus/ExcelInitializationError.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelInitializationError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Exception
     path: ../src/EPPlus/ExcelInitializationError.cs

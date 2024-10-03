@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eLabelPosition
     path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BestFit
     path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
@@ -91,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Left
     path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
@@ -125,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Right
     path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Center
     path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Top
     path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
@@ -227,7 +227,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bottom
     path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InBase
     path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
@@ -295,7 +295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InEnd
     path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutEnd
     path: ../src/EPPlus/Drawing/Chart/enums/eLabelPosition.cs

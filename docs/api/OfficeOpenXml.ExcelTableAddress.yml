@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTableAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableAddress
     path: ../src/EPPlus/ExcelTableAddress.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTableAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/ExcelTableAddress.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTableAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnSpan
     path: ../src/EPPlus/ExcelTableAddress.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTableAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsAll
     path: ../src/EPPlus/ExcelTableAddress.cs
@@ -176,7 +176,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTableAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHeader
     path: ../src/EPPlus/ExcelTableAddress.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTableAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsData
     path: ../src/EPPlus/ExcelTableAddress.cs
@@ -250,7 +250,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTableAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTotals
     path: ../src/EPPlus/ExcelTableAddress.cs
@@ -287,7 +287,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTableAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsThisRow
     path: ../src/EPPlus/ExcelTableAddress.cs
