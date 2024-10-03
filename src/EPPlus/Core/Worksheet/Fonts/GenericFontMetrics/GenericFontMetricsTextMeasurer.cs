@@ -14,8 +14,6 @@ using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
 {
@@ -37,6 +35,19 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         public bool ValidForEnvironment()
         {
             return true;
+        }
+
+        internal List<uint> MeasureIndividualCharacters(string text, MeasurementFont font)
+        {
+            var fontKey = GetKey(font.FontFamily, font.Style);
+            if (IsValidFont(fontKey))
+            {
+                return MeasureTextSpacingInternal(text, fontKey, font.Style, font.Size);
+            }
+            else
+            {
+                throw new InvalidOperationException("Font is not valid");
+            }
         }
     }
 }

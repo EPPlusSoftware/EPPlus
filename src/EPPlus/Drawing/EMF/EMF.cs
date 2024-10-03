@@ -93,8 +93,7 @@ namespace OfficeOpenXml.Drawing.EMF
                         var lastRecord = records.Last();
                         text.InternalFontId = currentlySelectedId;
                         text.mode = currentMapMode;
-                        text.measurer = Measurer;
-                        if(lastFont.ihFonts == currentlySelectedId)
+                        if (lastFont.ihFonts == currentlySelectedId)
                         {
                             text.Font = lastFont;
                         }

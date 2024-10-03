@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
+﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Utils;
+using System;
+using System.IO;
+using System.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -15,11 +14,11 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] exScale;
         internal byte[] eyScale;
         internal byte[] Reference;
-        internal uint   Chars;
-        internal uint   offString;
+        internal uint Chars;
+        internal uint offString;
         internal byte[] Options;
         internal byte[] Rectangle;
-        internal uint   offDx;
+        internal uint offDx;
         internal string stringBuffer;
         internal byte[] DxBuffer;
 
@@ -40,7 +39,7 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             get
             {
-                if(Font == null | Font.elw.Height == 0)
+                if (Font == null | Font.elw.Height == 0)
                 {
                     return 11;
                 }
@@ -48,7 +47,7 @@ namespace OfficeOpenXml.Drawing.EMF
                 {
                     var height = Font.elw.Height;
 
-                    return Font.elw.Height < 0 ? Math.Abs(height) : height; 
+                    return Font.elw.Height < 0 ? Math.Abs(height) : height;
                 }
             }
         }
@@ -57,13 +56,13 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal string Text
         {
-            get 
+            get
             {
                 return stringBuffer;
             }
             set
             {
-                var test = FontSize.GetFontSize(Font.elw.FaceName, true);
+                //var test = FontSize.GetFontSize(Font.elw.FaceName, true);
                 //textSettings.GenericTextMeasurer.MeasureText(value, Meas)
                 stringBuffer = value;
                 CalculateOffsets();
@@ -88,6 +87,10 @@ namespace OfficeOpenXml.Drawing.EMF
             br.BaseStream.Position = position + offDx;
             DxBuffer = br.ReadBytes((int)(Size - offDx));
 
+            byte[] prevBuff = new byte[DxBuffer.Length];
+            DxBuffer.CopyTo(prevBuff, 0);
+            CalculateDxSpacing();
+
             var changedSize = offDx - offString;
             changedSize -= (Chars * 2);
             if (changedSize > 0)
@@ -98,21 +101,33 @@ namespace OfficeOpenXml.Drawing.EMF
 
         byte[] CalculateDxSpacing()
         {
-
             //if(Font != null)
             //{
             //    GenericFontMetricsTextMeasurerBase
             //    //if( Font.elw.FaceName)
             //}
 
-            int j = 0;
-            for (int i = 0; i < stringBuffer.Length; i++)
+            var aMesurement = (GenericFontMetricsTextMeasurer)textSettings.GenericTextMeasurer;
+
+            var values = aMesurement.MeasureIndividualCharacters(stringBuffer, Font.elw.mFont);
+
+            int index = 0;
+            foreach (uint val in values)
             {
-                DxBuffer[j++] = (byte)GetSpacingForChar(stringBuffer[i]);
-                DxBuffer[j++] = 0x00;
-                DxBuffer[j++] = 0x00;
-                DxBuffer[j++] = 0x00;
+                var bytes = BitConverter.GetBytes(val);
+                bytes.CopyTo(DxBuffer, index);
+                index += bytes.Length;
             }
+
+            //int j = 0;
+            //for (int i = 0; i < stringBuffer.Length; i++)
+            //{
+
+            //    DxBuffer[j++] = (byte)GetSpacingForChar(stringBuffer[i]);
+            //    DxBuffer[j++] = 0x00;
+            //    DxBuffer[j++] = 0x00;
+            //    DxBuffer[j++] = 0x00;
+            //}
             return DxBuffer;
         }
 
@@ -229,10 +244,11 @@ namespace OfficeOpenXml.Drawing.EMF
         //    }
         //}
 
-        int GetSpacingForCharAlt(char aChar)
-        {
-
-        }
+        //uint GetSpacingForCharAlt(char aChar)
+        //{
+        //    var aMesurement = textSettings.GenericTextMeasurer.MeasureText($"{aChar}", Font.elw.mFont);
+        //    aMesurement.Width
+        //}
 
         int GetSpacingForChar(char aChar)
         {
@@ -352,7 +368,7 @@ namespace OfficeOpenXml.Drawing.EMF
                 case 'L':
                     return baseSize;
                 case 'M':
-                    return (int)Math.Round((double)baseSize + 1*baseSize);
+                    return (int)Math.Round((double)baseSize + 1 * baseSize);
                 case 'N':
                     return plusThree;
                 case 'O':
@@ -372,7 +388,7 @@ namespace OfficeOpenXml.Drawing.EMF
                 case 'V':
                     return plusTwo;
                 case 'W':
-                    return (int)Math.Round((double)baseSize + (1 + 1/5)*baseSize);
+                    return (int)Math.Round((double)baseSize + (1 + 1 / 5) * baseSize);
                 case 'X':
                     return plusOne;
                 case 'Y':

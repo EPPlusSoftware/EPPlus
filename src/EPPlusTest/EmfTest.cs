@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.Drawing.EMF;
-using System.Linq;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing.EMF;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EPPlusTest
 {
@@ -84,7 +84,7 @@ namespace EPPlusTest
             var pck = new ExcelPackage();
 
             //pck.Settings.TextSettings.DefaultTextMeasurer.
-           
+
             var width = FontSize.GetFontSize("SegoeUI", true);
 
             validTemplate.timeStamp.Text = "TimeStamp";

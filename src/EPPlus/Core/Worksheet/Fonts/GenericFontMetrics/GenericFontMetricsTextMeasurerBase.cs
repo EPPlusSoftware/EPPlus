@@ -16,7 +16,6 @@ using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 {
@@ -86,46 +85,50 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             return new TextMeasurement(width, height);
         }
 
-        //internal List<uint> MeasureTextSpacingInternal(string text, uint fontKey, MeasurementFontStyles style, float size)
-        //{
-        //    var sFont = _fonts[fontKey];
-        //    var chars = text.ToCharArray();
+        internal List<uint> MeasureTextSpacingInternal(string text, uint fontKey, MeasurementFontStyles style, float size)
+        {
+            var sFont = _fonts[fontKey];
+            var chars = text.ToCharArray();
 
-        //    var spacingBuffer = new List<uint>();
+            var spacingBuffer = new List<uint>();
 
-        //    for (var x = 0; x < chars.Length; x++)
-        //    {
-        //        var fnt = sFont;
-        //        var c = chars[x];
+            for (var x = 0; x < chars.Length; x++)
+            {
+                var fnt = sFont;
+                var c = chars[x];
 
-        //        if (sFont.CharMetrics.ContainsKey(c))
-        //        {
-        //            var metrics = sFont.CharMetrics[c];
-        //            sFont.
-        //        }
+                if (sFont.CharMetrics.ContainsKey(c))
+                {
+                    var metrics = sFont.CharMetrics[c];
+                    var classWidth = fnt.ClassWidths[sFont.CharMetrics[c]];
 
-        //            //// if east asian char use default regardless of actual font.
-        //            //if (IsEastAsianChar(c))
-        //            //{
-        //            //    widthEA += GetEastAsianCharWidth(c, style);
-        //            //}
-        //            //else
-        //            //{
-        //            //    if (sFont.CharMetrics.ContainsKey(c))
-        //            //    {
-        //            //        var fw = fnt.ClassWidths[sFont.CharMetrics[c]];
-        //            //        if (Char.IsDigit(c)) fw *= FontScaleFactors.DigitsScalingFactor;
-        //            //        width += fw;
-        //            //    }
-        //            //    else
-        //            //    {
-        //            //        width += sFont.ClassWidths[fnt.DefaultWidthClass];
-        //            //    }
-        //            //}
+                    var width = classWidth * size;
+                    uint simplifiedWidth = (uint)Math.Round(width, MidpointRounding.AwayFromZero);
+                    spacingBuffer.Add(simplifiedWidth);
+                }
 
-        //    }
+                //// if east asian char use default regardless of actual font.
+                //if (IsEastAsianChar(c))
+                //{
+                //    widthEA += GetEastAsianCharWidth(c, style);
+                //}
+                //else
+                //{
+                //    if (sFont.CharMetrics.ContainsKey(c))
+                //    {
+                //        var fw = fnt.ClassWidths[sFont.CharMetrics[c]];
+                //        if (Char.IsDigit(c)) fw *= FontScaleFactors.DigitsScalingFactor;
+                //        width += fw;
+                //    }
+                //    else
+                //    {
+                //        width += sFont.ClassWidths[fnt.DefaultWidthClass];
+                //    }
+                //}
 
-        //}
+            }
+            return spacingBuffer;
+        }
 
 
 
