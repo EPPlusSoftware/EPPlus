@@ -225,5 +225,19 @@ namespace EPPlusTest.Core.Worksheet
                 Assert.AreEqual(5655, ws.View.PaneSettings.XSplit);
             }
         }
+        [TestMethod]
+        public void AddDocPropertyTagTest()
+        {
+            using (var p = OpenPackage("Tag.xlsx", true))
+            {
+                p.Workbook.Worksheets.Add("Sheet1");
+                p.Workbook.Properties.Application = "EPPlus";
+                p.Workbook.Properties.Keywords = "Non-Commercial use only: See details here, https://polyformproject.org/licenses/noncommercial/1.0.0";
+                p.Workbook.Properties.Comments = "This workbook has been create with EPPlus, licensed under the Polyform Non-Commercial License.\r\nSee https://polyformproject.org/licenses/noncommercial/1.0.0";
+                p.Workbook.Properties.Company = "EPPlus Software AB";
+                p.Workbook.Properties.AppVersion = "8.0";                
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
