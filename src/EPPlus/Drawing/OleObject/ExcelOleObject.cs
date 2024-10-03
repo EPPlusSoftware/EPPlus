@@ -307,26 +307,45 @@ namespace OfficeOpenXml.Drawing.OleObject
                 CompObj.CreateCompObjDataStream(_oleDataStructures, _document);
                 OleDataFile.CreateDataFileObject(_oleDataStructures, fileData);
                 OleDataFile.CreateDataFileDataStream(_document, OleDataFile.CONTENTS_STREAM_NAME, fileData);
-                ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO PDF GUID?
+                ClsId = OleObjectGUIDCollection.keyValuePairs["PDF"];
             }
             else if (fileType == ".odp" || fileType == ".odt" || fileType == ".ods")
             {
+                string UserType = "", Reserved = "", key = "";
+                if (fileType == ".odp")
+                {
+                    UserType = "OpenDocument Presentation";
+                    Reserved = "Word.OpenDocumentPresentation.12";
+                    key = "ODP";
+                }
+                else if (fileType == ".odt")
+                {
+                    UserType = "OpenDocument Text";
+                    Reserved = "Word.OpenDocumentText.12";
+                    key = "ODT";
+                }
+                else if (fileType == "ods")
+                {
+                    UserType = "OpenDocument Spreadsheet";
+                    Reserved = "Word.OpenDocumentSpreadsheet.12";
+                    key = "ODS";
+                }
                 Ole.CreateOleObject(_oleDataStructures, IsExternalLink);
                 Ole.CreateOleDataStream(_oleDataStructures, _document, IsExternalLink);
-                CompObj.CreateCompObjObject(_oleDataStructures, "OpenDocument Text", "Word.OpenDocumentText.12"); //This has different values depending on if is spreadsheet, presentation or text
-                CompObj.CreateCompObjDataStream(_oleDataStructures, _document);
                 OleDataFile.CreateDataFileObject(_oleDataStructures, fileData);
                 OleDataFile.CreateDataFileDataStream(_document, OleDataFile.EMBEDDEDODF_STREAM_NAME, fileData);
-                ClsId = new Guid(new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }); //CHANGE TO ODF GUID?
+                CompObj.CreateCompObjObject(_oleDataStructures, UserType, Reserved);
+                CompObj.CreateCompObjDataStream(_oleDataStructures, _document);
+                ClsId = OleObjectGUIDCollection.keyValuePairs[key];
             }
-            else if (fileType == ".docx" || fileType == ".pptx" || fileType == ".xlsx" )
+            else if (fileType == ".docx" || fileType == ".pptx" || fileType == ".xlsx")
             {
                 //Embedd as is
                 string name = "";
                 if (fileType == ".docx")
                 {
                     name = "Microsoft_Word_Document";
-                     CompObj.CreateCompObjObject(_oleDataStructures, "Document", "Document");
+                    CompObj.CreateCompObjObject(_oleDataStructures, "Document", "Document");
                 }
                 else if (fileType == ".xlsx")
                 {
@@ -443,16 +462,15 @@ namespace OfficeOpenXml.Drawing.OleObject
  * [ ] Copy OleObject
  * [X] ODF, PDF, DOCX, PPTX, XLSX Detection.
  * [X] Prepare excel file to read for tests
- * [ ] CLSID för PDF
- * [ ] CLSID för ODF
+ * [X] CLSID för PDF
+ * [X] CLSID för ODF
  * [ ] CompObj Strings för ODF
  * [X] spara msoff part för åtkomst
  * 
  * Tests
  * Delete Ole
  * Copy Ole
- * Write Ole
- * 
+ * ODP
  * 
  * TEST for EMF
  * change picture

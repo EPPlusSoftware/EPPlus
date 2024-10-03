@@ -479,22 +479,31 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void ReadExcelEmbedded_ODS()
         {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\ODS.xlsx");
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\Old\ODS.xlsx");
             var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
             ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
         }
         [TestMethod]
         public void ReadExcelEmbedded_ODT()
         {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\ODT.xlsx");
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\Old\ODT.xlsx");
             var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
             ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
         }
         [TestMethod]
         public void ReadExcelEmbedded_PDF()
         {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\PDF.xlsx");
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\Old\PDF.xlsx");
             var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
+            var clsid = ole._document.RootItem.ClsID;
+            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
+        }
+        [TestMethod]
+        public void ReadExcelEmbedded_PDF2()
+        {
+            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\OleObjectTest_Embed_PDF.xlsx");
+            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
+            var clsid = ole._document.RootItem.ClsID;
             ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
         }
         [TestMethod]

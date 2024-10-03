@@ -81,6 +81,10 @@ namespace OfficeOpenXml.Utils.CompundDocument
         {
             using (var doc = new CompoundDocumentFile(ms))
             {
+                if (RootItem == null && doc.RootItem.ObjectType == 5)
+                {
+                    RootItem = doc.RootItem;
+                }
                 Storage = new StoragePart();
                 GetStorageAndStreams(Storage, doc.RootItem);
                 Directories = doc.Directories;
