@@ -1,6 +1,8 @@
 ﻿using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.RichData.RichValues.Errors;
+using OfficeOpenXml.RichData.Structures;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -9,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace OfficeOpenXml.RichData
+namespace OfficeOpenXml.RichData.RichValues
 {
     //MS-XLSX - 2.3.6.1
     internal partial class ExcelRichValueCollection
@@ -62,10 +64,13 @@ namespace OfficeOpenXml.RichData
 
         private ExcelRichValue ReadItem(XmlReader xr)
         {
-            var item = new ExcelRichValue(int.Parse(xr.GetAttribute("s")));
-            item.Structure = _structures.StructureItems[item.StructureId];
+            var structureId = int.Parse(xr.GetAttribute("s"));
+            var structure = _structures.StructureItems[structureId];
+            //var item = new ExcelRichValue(int.Parse(xr.GetAttribute("s")));
+            var item = ExcelRichValueFactory.Create(structure.StructureType, _wb);
+            //item.Structure = _structures.StructureItems[item.StructureId];
 
-            while (xr.IsEndElementWithName("rv")==false)
+            while (xr.IsEndElementWithName("rv") == false)
             {
                 if (xr.IsElementWithName("v"))
                 {
@@ -76,7 +81,7 @@ namespace OfficeOpenXml.RichData
                     item.Fallback = GetFBType(xr.GetAttribute("t"));
                     xr.Read();
                 }
-                else 
+                else
                 {
                     xr.Read();
                 }
@@ -86,7 +91,7 @@ namespace OfficeOpenXml.RichData
         }
         private RichValueFallbackType GetFBType(string t)
         {
-            switch(t)
+            switch (t)
             {
                 case "b":
                     return RichValueFallbackType.Boolean;
@@ -102,7 +107,7 @@ namespace OfficeOpenXml.RichData
         internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
         {
             stream.PutNextEntry(fileName);
-            stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
+            stream.CompressionLevel = (Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
             var sw = new StreamWriter(stream);
             sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
             sw.Write($"<rvData xmlns=\"{Schemas.schemaRichData}\" count=\"{Items.Count}\">");
@@ -124,67 +129,93 @@ namespace OfficeOpenXml.RichData
             _part.SaveHandler = Save;
         }
 
-        internal void UpdateStructure(ExcelRichValue rv, int structureId)
-        {
-            rv.StructureId = structureId;
-            rv.Structure = _structures.StructureItems[structureId];
-        }
+        //internal void UpdateStructure(ExcelRichValue rv, int structureId)
+        //{
+        //    rv.StructureId = structureId;
+        //    rv.Structure = _structures.StructureItems[structureId];
+        //}
 
         internal void AddErrorSpill(ExcelRichDataErrorValue spillError)
         {
-            var structureId = _structures.GetStructureId(RichDataStructureFlags.ErrorSpill);
-            var item = new ExcelRichValue(structureId);            
-            item.Structure = _structures.StructureItems[item.StructureId];                        
-            item.AddSpillError(spillError.SpillRowOffset, spillError.SpillColOffset, "1");
+            //var structureId = _structures.GetStructureId(RichDataStructureTypes.ErrorSpill);
+            //var item = new ExcelRichValue(structureId);
+            var item = new ErrorSpillRichValue(_wb)
+            {
+                ColOffset = spillError.SpillColOffset,
+                RwOffset = spillError.SpillRowOffset,
+                SubType = 1,
+                ErrorType = RichDataErrorType.Spill
+            };
+            //item.Structure = _structures.StructureItems[item.StructureId];
+            //item.AddSpillError(spillError.SpillRowOffset, spillError.SpillColOffset, "1");
             Items.Add(item);
         }
 
         internal void AddPropagated(eErrorType errorType)
         {
-            var structureId = _structures.GetStructureId(RichDataStructureFlags.ErrorPropagated);
-            var item = new ExcelRichValue(structureId);
-            item.Structure = _structures.StructureItems[item.StructureId];
+            //var structureId = _structures.GetStructureId(RichDataStructureTypes.ErrorPropagated);
+            //var item = new ExcelRichValue(structureId);
+            //item.Structure = _structures.StructureItems[item.StructureId];
+            //switch (errorType)
+            //{
+            //    case eErrorType.Calc:
+            //        item.AddPropagatedError(RichDataErrorType.Calc, true);
+            //        break;
+            //    case eErrorType.Spill:
+            //        item.AddPropagatedError(RichDataErrorType.Spill, true);
+            //        break;
+            //}
+            var item = new ErrorPropagatedRichValue(_wb)
+            {
+                Propagated = "1"
+            };
             switch (errorType)
             {
                 case eErrorType.Calc:
-                    item.AddPropagatedError(RichDataErrorType.Calc, true);
+                    item.ErrorType = RichDataErrorType.Calc;
                     break;
                 case eErrorType.Spill:
-                    item.AddPropagatedError(RichDataErrorType.Spill, true);
-                    break;
-            }
-            Items.Add(item);
-        }
-        internal void AddError(eErrorType errorType, string subType)
-        {
-            var structureId = _structures.GetStructureId(RichDataStructureFlags.ErrorWithSubType);
-            var item = new ExcelRichValue(structureId);
-            item.Structure = _structures.StructureItems[item.StructureId];
-            switch (errorType)
-            {
-                case eErrorType.Calc:
-                    item.AddError(RichDataErrorType.Calc, subType);
-                    break;
-                case eErrorType.Spill:
-                    item.AddError(RichDataErrorType.Spill, subType);
-                    break;
-                case eErrorType.Name:
-                    item.AddError(RichDataErrorType.Name, subType);
+                    item.ErrorType = RichDataErrorType.Spill;
                     break;
 
             }
             Items.Add(item);
         }
-
-        internal void AddLocalImage(int imageIdentifier, int calcOrigin)
+        internal void AddError(eErrorType errorType, int subType)
         {
-            var structureId = _structures.GetStructureId(RichDataStructureFlags.LocalImage);
-            var item = new ExcelRichValue(structureId);
-            item.Structure = _structures.StructureItems[item.StructureId];
-            item.AddLocalImage(imageIdentifier, calcOrigin, string.Empty);
+            //var structureId = _structures.GetStructureId(RichDataStructureTypes.ErrorWithSubType);
+            //var item = new ExcelRichValue(structureId);
+            //item.Structure = _structures.StructureItems[item.StructureId];
+            //switch (errorType)
+            //{
+            //    case eErrorType.Calc:
+            //        item.AddError(RichDataErrorType.Calc, subType);
+            //        break;
+            //    case eErrorType.Spill:
+            //        item.AddError(RichDataErrorType.Spill, subType);
+            //        break;
+            //    case eErrorType.Name:
+            //        item.AddError(RichDataErrorType.Name, subType);
+            //        break;
+            //}
+            var item = new ErrorWithSubTypeRichValue(_wb)
+            {
+                SubType = subType
+            };
+            switch (errorType)
+            {
+                case eErrorType.Calc:
+                    item.ErrorType = RichDataErrorType.Calc;
+                    break;
+                case eErrorType.Spill:
+                    item.ErrorType = RichDataErrorType.Spill;
+                    break;
+
+            }
+            Items.Add(item);
         }
 
-        public List<ExcelRichValue> Items { get; }=new List<ExcelRichValue>();
+        public List<ExcelRichValue> Items { get; } = new List<ExcelRichValue>();
         public string ExtLstXml { get; internal set; }
     }
 }

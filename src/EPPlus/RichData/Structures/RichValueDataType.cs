@@ -10,34 +10,39 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace OfficeOpenXml.CellPictures
+internal enum RichValueDataType
 {
-    internal enum CalcOrigins
-    {
-        None = 0,
-        /// <summary>
-        /// RichValue created directly by formula (ex, =IMAGE)
-        /// </summary>
-        Formula,
-        ComplexFormula,
-        DotNotation,
-        Reference,
-        /// <summary>
-        /// Standalone RichValue directly stored in a cell without formula dependency (copy/paste as value or LocalImageValue)
-        /// </summary>
-        StandAlone = 5,
-        /// <summary>
-        /// Standalone RichValue created from the alt text pane after selecting "decorative"
-        /// </summary>
-        StandaloneDecorative = 6,
-        Nested = 7,
-        JSApi = 8,
-        PythonResult = 9,
-        Max = PythonResult
-    }
+    /// <summary>
+    /// Indicates that the value is a decimal number.
+    /// </summary>
+    Decimal,
+    /// <summary>
+    /// Indicates that the value is an Integer
+    /// </summary>
+    Integer,
+    /// <summary>
+    ///  Indicates that the value is a Boolean.
+    /// </summary>
+    Bool,
+    /// <summary>
+    /// Indicates that the value is an Error. 
+    /// </summary>
+    Error,
+    /// <summary>
+    ///  Indicates that the value is a String.
+    /// </summary>
+    String,
+    /// <summary>
+    /// Indicates that the value is a Rich Value.
+    /// </summary>
+    RichValue,
+    /// <summary>
+    /// Indicates that the value is a Rich Array.
+    /// </summary>
+    Array,
+    /// <summary>
+    /// Indicates that the value is a Supporting Property Bag.
+    /// </summary>
+    SupportingPropertyBag
 }

@@ -10,34 +10,18 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace OfficeOpenXml.CellPictures
+namespace OfficeOpenXml.RichData.RichValues.Errors
 {
-    internal enum CalcOrigins
+    internal static class RichDataErrorType
     {
-        None = 0,
-        /// <summary>
-        /// RichValue created directly by formula (ex, =IMAGE)
-        /// </summary>
-        Formula,
-        ComplexFormula,
-        DotNotation,
-        Reference,
-        /// <summary>
-        /// Standalone RichValue directly stored in a cell without formula dependency (copy/paste as value or LocalImageValue)
-        /// </summary>
-        StandAlone = 5,
-        /// <summary>
-        /// Standalone RichValue created from the alt text pane after selecting "decorative"
-        /// </summary>
-        StandaloneDecorative = 6,
-        Nested = 7,
-        JSApi = 8,
-        PythonResult = 9,
-        Max = PythonResult
+        internal const int Name = 4;
+        internal const int Spill = 8;
+        internal const int Connect = 9;
+        internal const int Blocked = 10;
+        internal const int Unknown = 11;
+        internal const int Field = 12;
+        internal const int Calc = 13;
+        internal const int Busy = 14;
     }
 }

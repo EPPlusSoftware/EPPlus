@@ -627,7 +627,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     }
                     break;
                 case eErrorType.Calc:
-                    richData.Values.AddError(eErrorType.Calc, "1");
+                    richData.Values.AddError(eErrorType.Calc, 1);
                     break;
                 default:
                     return;
@@ -641,12 +641,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
         {
             if (md.vm==0 || md.vm>=metadata.ValueMetadata.Count) return false;
             var vm = metadata.ValueMetadata[md.vm-1];
-            if (vm.Records.Count > 0 && vm.Records[0].ValueTypeIndex >=0)
+            if (vm.Records.Count > 0 && vm.Records[0].ValueIndex >=0)
             {
                 var richData = _package.Workbook.RichData;
-                if (richData.Values.Items.Count > vm.Records[0].ValueTypeIndex)
+                if (richData.Values.Items.Count > vm.Records[0].ValueIndex)
                 {
-                    var rd = richData.Values.Items[vm.Records[0].ValueTypeIndex];
+                    var rd = richData.Values.Items[vm.Records[0].ValueIndex];
                     if (rd.Structure.Type.Equals("_error"))
                     {
                         switch (error.Type)

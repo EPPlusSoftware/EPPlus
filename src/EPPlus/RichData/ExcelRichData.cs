@@ -1,4 +1,8 @@
 ﻿using OfficeOpenXml.Constants;
+using OfficeOpenXml.Metadata;
+using OfficeOpenXml.RichData.RichValues;
+using OfficeOpenXml.RichData.RichValues.Relations;
+using OfficeOpenXml.RichData.Structures;
 using OfficeOpenXml.RichData.Types;
 using System;
 using System.Collections.Generic;
@@ -26,11 +30,24 @@ namespace OfficeOpenXml.RichData
             Structures = new ExcelRichValueStructureCollection(wb);
             Values = new ExcelRichValueCollection(wb, Structures);
             RichValueRels = new RichValueRelCollection(wb);
+            _richDataDeletions = new ExcelRichDataDeletions();
         }
+
+
+
         internal ExcelRichDataValueTypeInfo ValueTypes { get; }
         internal ExcelRichValueStructureCollection Structures { get; }
         internal ExcelRichValueCollection Values { get; }
         internal RichValueRelCollection RichValueRels { get; }
+
+        private ExcelRichDataDeletions _richDataDeletions;
+
+        internal ExcelRichDataDeletions Deletions { 
+            get 
+            {
+                return _richDataDeletions;
+            } 
+        }
         internal void CreateParts()
         {
             //Creates the rich data parts and add the parts to the package. 
@@ -58,7 +75,7 @@ namespace OfficeOpenXml.RichData
 
         internal RichValueRel GetRelation(string target, string type)
         {
-            return RichValueRels.Items.FirstOrDefault(x => x.Target == target && x.Type == type);
+            return RichValueRels.Items.FirstOrDefault(x => x.TargetUri.OriginalString == target && x.Type == type);
         }
     }
 }

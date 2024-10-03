@@ -10,34 +10,43 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+
+using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.CellPictures
+namespace OfficeOpenXml.RichData.RichValues.Errors
 {
-    internal enum CalcOrigins
+    internal class ErrorPropagatedRichValue : ExcelRichValue
     {
-        None = 0,
-        /// <summary>
-        /// RichValue created directly by formula (ex, =IMAGE)
-        /// </summary>
-        Formula,
-        ComplexFormula,
-        DotNotation,
-        Reference,
-        /// <summary>
-        /// Standalone RichValue directly stored in a cell without formula dependency (copy/paste as value or LocalImageValue)
-        /// </summary>
-        StandAlone = 5,
-        /// <summary>
-        /// Standalone RichValue created from the alt text pane after selecting "decorative"
-        /// </summary>
-        StandaloneDecorative = 6,
-        Nested = 7,
-        JSApi = 8,
-        PythonResult = 9,
-        Max = PythonResult
+        public ErrorPropagatedRichValue(ExcelWorkbook workbook) : base(workbook, RichDataStructureTypes.ErrorPropagated)
+        {
+        }
+
+        public int? ErrorType
+        {
+            get
+            {
+                return GetValueInt(StructureKeyNames.Errors.PropagatedError.ErrorType);
+            }
+            set
+            {
+                SetValue(StructureKeyNames.Errors.PropagatedError.ErrorType, value);
+            }
+        }
+
+        public string Propagated
+        {
+            get
+            {
+                return GetValue(StructureKeyNames.Errors.PropagatedError.Propagated);
+            }
+            set
+            {
+                SetValue(StructureKeyNames.Errors.PropagatedError.Propagated, value);
+            }
+        }
     }
 }

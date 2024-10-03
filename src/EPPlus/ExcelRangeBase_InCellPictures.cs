@@ -39,7 +39,7 @@ namespace OfficeOpenXml
         /// <param name="markAsDecorative">Set to true if the picture should be marked as decorative (for accessability).</param>
         public void SetCellPicture(byte[] imageBytes, string altText = null, bool markAsDecorative = false)
         {
-            var calcOrigin = markAsDecorative ? CalcOrigins.AddedByUserDecorative : CalcOrigins.AddedByUserAltText;
+            var calcOrigin = markAsDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
             _worksheet._cellPicturesManager.SetCellPicture(_fromRow, _fromCol, imageBytes, altText, calcOrigin);
         }
         /// <summary>
@@ -62,7 +62,7 @@ namespace OfficeOpenXml
         /// <param name="markAsDecorative">Set to true if the picture should be marked as decorative (for accessability).</param>
         public void SetCellPicture(Stream imageStream, string altText = null, bool markAsDecorative = false)
         {
-            var calcOrigin = markAsDecorative ? CalcOrigins.AddedByUserDecorative : CalcOrigins.AddedByUserAltText;
+            var calcOrigin = markAsDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
             _worksheet._cellPicturesManager.SetCellPicture(_fromRow, _fromCol, imageStream, altText, calcOrigin);
         }
 
@@ -74,7 +74,7 @@ namespace OfficeOpenXml
         /// <param name="markAsDecorative">Set to true if the picture should be marked as decorative (for accessability).</param>
         public void SetCellPicture(ExcelImage image, string altText = null, bool markAsDecorative = false)
         {
-            var calcOrigin = markAsDecorative ? CalcOrigins.AddedByUserDecorative : CalcOrigins.AddedByUserAltText;
+            var calcOrigin = markAsDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
             _worksheet._cellPicturesManager.SetCellPicture(_fromRow, _fromCol, image, altText, calcOrigin);
         }
     }

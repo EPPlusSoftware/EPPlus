@@ -1825,11 +1825,11 @@ namespace OfficeOpenXml
             var metaData = Workbook.Metadata;
             var valueMetaData = metaData.ValueMetadata[md.vm - 1];
             var valueRecord = valueMetaData.Records[0];
-            var type = metaData.MetadataTypes[valueRecord.RecordTypeIndex - 1];
+            var type = metaData.MetadataTypes[valueRecord.TypeIndex - 1];
             if (type.Name.Equals("XLRICHVALUE"))
             {
                 var fmd = metaData.FutureMetadata[type.Name];
-                var ix = fmd.Types[valueRecord.ValueTypeIndex].AsRichData.Index;
+                var ix = fmd.Types[valueRecord.ValueIndex].AsRichData.Index;
 
                 var rdValue = Workbook.RichData.Values.Items[ix];
 

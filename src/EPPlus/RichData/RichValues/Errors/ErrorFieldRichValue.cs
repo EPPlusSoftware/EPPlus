@@ -10,24 +10,43 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+
+using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.RichData
+namespace OfficeOpenXml.RichData.RichValues.Errors
 {
-    internal class RichValueRel
+    internal class ErrorFieldRichValue : ExcelRichValue
     {
-        public string Id { get; set; }
-        public string Type { get; set; }
-
-        public string Target { get; set; }
-
-        internal void WriteXml(StreamWriter sw)
+        public ErrorFieldRichValue(ExcelWorkbook workbook) : base(workbook, RichDataStructureTypes.ErrorField)
         {
-            sw.Write($"<rel r:id=\"{Id}\" />");
+        }
+
+        public int? ErrorType
+        {
+            get
+            {
+                return GetValueInt(StructureKeyNames.Errors.FieldError.ErrorType);
+            }
+            set
+            {
+                SetValue(StructureKeyNames.Errors.FieldError.ErrorType, value);
+            }
+        }
+
+        public string Field
+        {
+            get
+            {
+                return GetValue(StructureKeyNames.Errors.FieldError.Field);
+            }
+            set
+            {
+                SetValue(StructureKeyNames.Errors.FieldError.Field, value);
+            }
         }
     }
 }

@@ -35,11 +35,42 @@ namespace OfficeOpenXml.Drawing
         ExcelPackage _pck;
         internal static int _id = 1;
         internal Dictionary<string, ImageInfo> _images;
+        internal Dictionary<string, string> _uriToHashIndex;
+
         public PictureStore(ExcelPackage pck)
         {
             _pck = pck;
             _images = _pck.Workbook._images;
+            _uriToHashIndex = new Dictionary<string, string>();
+            InitiateUriToHashIndex();
         }
+
+        private void InitiateUriToHashIndex()
+        {
+            if (_images == null) return;
+            foreach(var hash in _images.Keys)
+            {
+                var img = _images[hash];
+                var uri = img.Uri.OriginalString.Trim('.');
+                _uriToHashIndex[uri] = img.Hash;
+            }
+        }
+
+        private ImageInfo GetImageInfoByUri(string uri, out string indexUri)
+        {
+            indexUri = uri.Trim('.');
+            if(!indexUri.StartsWith("/xl"))
+            {
+                indexUri = $"/xl{indexUri}";
+            }
+            if(_uriToHashIndex.ContainsKey(indexUri))
+            {
+                var hash = _uriToHashIndex[indexUri];
+                return _images[hash];
+            }
+            return null;
+        }
+
         internal ImageInfo AddImage(byte[] image)
         {
             return AddImage(image, null, null);
@@ -104,6 +135,11 @@ namespace OfficeOpenXml.Drawing
                             Part = imagePart,
                             Bounds = GetImageBounds(image, pictureType.Value, _pck)
                         });
+                    var sUri = uri.OriginalString.Trim('.');
+                    if (!_uriToHashIndex.ContainsKey(sUri))
+                    {  
+                        _uriToHashIndex.Add(sUri, hash);
+                    }
                 }
             }
             return _images[hash];
@@ -174,6 +210,11 @@ namespace OfficeOpenXml.Drawing
                     {
                         _pck.ZipPackage.DeletePart(ii.Uri);
                         _images.Remove(hash);
+                        var sUri = ii.Uri.OriginalString.Trim('.');
+                        if (_uriToHashIndex.ContainsKey(sUri))
+                        {
+                            _uriToHashIndex.Remove(sUri);
+                        }
                     }
                 }
                 if(container.RelationDocument.Hashes.ContainsKey(hash))
@@ -187,6 +228,20 @@ namespace OfficeOpenXml.Drawing
                 }
             }
         }
+
+        internal void RemoveReference(Uri imageUri)
+        {
+            var imgInfo = GetImageInfoByUri(imageUri.OriginalString, out string indexUri);
+            if (imgInfo == null) return;
+            imgInfo.RefCount--;
+            if (imgInfo.RefCount == 0)
+            {
+                _pck.ZipPackage.DeletePart(imgInfo.Uri);
+                _images.Remove(imgInfo.Hash);
+                _uriToHashIndex.Remove(indexUri);    
+            }
+        }
+
         internal ImageInfo GetImageInfo(byte[] image)
         {
             var hash = GetHash(image);

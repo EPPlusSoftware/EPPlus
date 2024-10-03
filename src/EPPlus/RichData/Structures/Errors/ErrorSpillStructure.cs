@@ -8,18 +8,20 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  07/25/2024         EPPlus Software AB       EPPlus 7
+  11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-namespace OfficeOpenXml.Metadata
+using OfficeOpenXml.RichData.Structures.Constants;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace OfficeOpenXml.RichData.Structures.Errors
 {
-    internal class ExcelMetadataRecord
+    internal class ErrorSpillStructure : ErrorBaseStructure
     {
-        public ExcelMetadataRecord(int recordTypeIndex, int valueTypeIndex)
-        {
-            RecordTypeIndex= recordTypeIndex;
-            ValueTypeIndex = valueTypeIndex;
-        }
-        public int RecordTypeIndex { get; private set; }
-        public int ValueTypeIndex { get; private set; }
+        internal override List<ExcelRichValueStructureKey> Keys => StructureKeys.Errors.Spill;
+
+        public override RichDataStructureTypes StructureType => RichDataStructureTypes.ErrorSpill;
     }
 }

@@ -35,19 +35,26 @@ namespace OfficeOpenXml.CellPictures
             
         }
 
-        public string ImagePath
+        /// <summary>
+        /// Internal uri in the workbook of the image.
+        /// </summary>
+        public Uri ImageUri
         {
             get; set;
         }
 
+        /// <summary>
+        /// Alt text of the image
+        /// </summary>
         public string AltText
         {
             get; set;
         }
 
+        /// <summary>
+        /// Indicates the calculation context in which this image was created.
+        /// </summary>
         internal int CalcOrigin { get; set; }
-
-        internal const string LocalImageStructureType = "_localImage";
 
         public ExcelAddress CellAddress { get; set;  }
 

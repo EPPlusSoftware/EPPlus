@@ -10,34 +10,18 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.CellPictures
+namespace OfficeOpenXml.RichData.Structures.LocalImages
 {
-    internal enum CalcOrigins
+    internal class LocalImageStructure : LocalImageBaseStructure
     {
-        None = 0,
-        /// <summary>
-        /// RichValue created directly by formula (ex, =IMAGE)
-        /// </summary>
-        Formula,
-        ComplexFormula,
-        DotNotation,
-        Reference,
-        /// <summary>
-        /// Standalone RichValue directly stored in a cell without formula dependency (copy/paste as value or LocalImageValue)
-        /// </summary>
-        StandAlone = 5,
-        /// <summary>
-        /// Standalone RichValue created from the alt text pane after selecting "decorative"
-        /// </summary>
-        StandaloneDecorative = 6,
-        Nested = 7,
-        JSApi = 8,
-        PythonResult = 9,
-        Max = PythonResult
+        internal override List<ExcelRichValueStructureKey> Keys => StructureKeys.LocalImage.Image;
+
+        public override RichDataStructureTypes StructureType => RichDataStructureTypes.LocalImage;
     }
 }

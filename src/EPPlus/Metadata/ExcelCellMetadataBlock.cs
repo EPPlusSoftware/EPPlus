@@ -10,17 +10,33 @@
  *************************************************************************************************
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
-using System;
+using OfficeOpenXml.Utils;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Xml;
 
-namespace OfficeOpenXml.Metadata.FutureMetadata
+namespace OfficeOpenXml.Metadata
 {
-    internal class ExcelFutureMetadata
+    /// <summary>
+    /// Corresponds to a bk-element in the valueMetadata section of the metadata.xml file.
+    /// </summary>
+    internal class ExcelMetadataBlock
     {
-        public int Index { get; set; }
-        public string Name { get; set; }
-        public List<ExcelFutureMetadataType> Types { get; } = new List<ExcelFutureMetadataType>();
+        public ExcelMetadataBlock()
+        {
+
+        }
+        public ExcelMetadataBlock(XmlReader xr)
+        {
+            while(xr.IsEndElementWithName("bk")==false && xr.EOF==false)
+            {
+                if(xr.IsElementWithName("rc"))
+                {
+                    Records.Add(new ExcelMetadataRecord(int.Parse(xr.GetAttribute("t")), int.Parse(xr.GetAttribute("v"))));
+                }
+                xr.Read();
+            }
+        }
+
+        public List<ExcelMetadataRecord> Records { get;}= new List<ExcelMetadataRecord>();
     }
 }

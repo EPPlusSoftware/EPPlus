@@ -21,7 +21,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace OfficeOpenXml.RichData
+namespace OfficeOpenXml.RichData.RichValues.Relations
 {
     internal class RichValueRelCollection
     {
@@ -84,7 +84,7 @@ namespace OfficeOpenXml.RichData
 
             item.Id = id;
             item.Type = rel.RelationshipType;
-            item.Target = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri).OriginalString;
+            item.TargetUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
 
             return item;
         }
@@ -108,19 +108,19 @@ namespace OfficeOpenXml.RichData
             }
         }
 
-        internal RichValueRel AddItem(string target, string type, out int relIx)
+        internal RichValueRel AddItem(Uri targetUri, string type, out int relIx)
         {
             EnsurePartExists(out bool partNotLoaded);
-            if(partNotLoaded)
+            if (partNotLoaded)
             {
                 ReadXml(_part.GetStream());
             }
-            
-            var relationship = _part.CreateRelationship(target, TargetMode.Internal, type);
+
+            var relationship = _part.CreateRelationship(targetUri, TargetMode.Internal, type);
             var rel = new RichValueRel
             {
                 Id = relationship.Id,
-                Target = relationship.Target,
+                TargetUri = relationship.TargetUri,
                 Type = relationship.RelationshipType
             };
             relIx = Items.Count;
@@ -132,16 +132,16 @@ namespace OfficeOpenXml.RichData
         {
             ix = -1;
             var item = Items.FirstOrDefault(x => x.Id == relId);
-            if(item != null)
+            if (item != null)
             {
-                ix = Items.IndexOf(item); 
+                ix = Items.IndexOf(item);
             }
             return item;
         }
 
         public RichValueRel GetItem(int relIx)
         {
-            if(relIx < 0 || relIx >= Items.Count)
+            if (relIx < 0 || relIx >= Items.Count)
             {
                 throw new ArgumentOutOfRangeException(nameof(relIx));
             }
@@ -155,13 +155,13 @@ namespace OfficeOpenXml.RichData
             var relationship = _part.GetRelationship(rel.Id);
             relationship.TargetUri = targetUri;
             relationship.Target = targetUri.OriginalString;
-            rel.Target = targetUri.OriginalString;
+            rel.TargetUri = targetUri;
         }
 
         internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
         {
             stream.PutNextEntry(fileName);
-            stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
+            stream.CompressionLevel = (Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
             var sw = new StreamWriter(stream);
             sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
             sw.Write($"<richValueRels xmlns=\"{Schemas.schemaRichValueRel}\" xmlns:r=\"{ExcelPackage.schemaRelationships}\">");

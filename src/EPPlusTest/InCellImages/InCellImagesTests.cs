@@ -66,6 +66,13 @@ namespace EPPlusTest.InCellImages
         }
 
         [TestMethod]
+        public void ReadMetadataWorkbook()
+        {
+            using var package = new ExcelPackage(@"C:\Temp\MetadataTestxlsx.xlsx");
+            var sheet = package.Workbook.Worksheets[0];
+        }
+
+        [TestMethod]
         public void TestImageFormats()
         {
             var imageDirectory = @"C:\Users\MatsAlm\dev\EPPlusSoftware\Pics";
@@ -74,8 +81,8 @@ namespace EPPlusTest.InCellImages
 
             //var images = new List<string> { "jpg1.jpg", "png1.png", "gif1.gif", "bmp1.bmp", "ico1.ico", "tif1.tif", "emf1.emf", "wmf1.wmf" };
             // doesn't work: emf, wmf
-            //var images = new List<string> { "jpg1.jpg", "png1.png", "gif1.gif", "bmp1.bmp", "ico1.ico", "tif1.tif", "webp1.webp"};
-            var images = new List<string> { "svg1.svg" };
+            var images = new List<string> { "jpg1.jpg", "png1.png", "gif1.gif", "bmp1.bmp", "ico1.ico", "tif1.tif", "webp1.webp"};
+            //var images = new List<string> { "svg1.svg" };
             for (var i = 1; i <= images.Count; i++)
             {
                 sheet.Cells[i, 1].Value = images[i - 1];

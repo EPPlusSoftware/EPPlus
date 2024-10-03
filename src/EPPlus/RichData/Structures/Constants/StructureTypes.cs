@@ -8,32 +8,18 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  07/25/2024         EPPlus Software AB       EPPlus 7
+  11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
-using System.Xml;
+using System.Linq;
+using System.Text;
 
-namespace OfficeOpenXml.Metadata
+namespace OfficeOpenXml.RichData.Structures.Constants
 {
-    internal class ExcelMetadataItem
+    internal static class StructureTypes
     {
-        public ExcelMetadataItem()
-        {
-
-        }
-        public ExcelMetadataItem(XmlReader xr)
-        {
-            while(xr.IsEndElementWithName("bk")==false && xr.EOF==false)
-            {
-                if(xr.IsElementWithName("rc"))
-                {
-                    Records.Add(new ExcelMetadataRecord(int.Parse(xr.GetAttribute("t")), int.Parse(xr.GetAttribute("v"))));
-                }
-                xr.Read();
-            }
-        }
-
-        public List<ExcelMetadataRecord> Records { get;}= new List<ExcelMetadataRecord>();
+        public const string Error = "_error";
+        public const string LocalImage = "_localImage";
     }
 }

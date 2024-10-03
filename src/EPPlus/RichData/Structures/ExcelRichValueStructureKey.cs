@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OfficeOpenXml.RichData
+namespace OfficeOpenXml.RichData.Structures
 {
     internal class ExcelRichValueStructureKey
     {
@@ -10,9 +10,15 @@ namespace OfficeOpenXml.RichData
             DataType = GetDataType(dt);
         }
 
+        internal ExcelRichValueStructureKey(string name, RichValueDataType dt)
+        {
+            Name = name;
+            DataType = dt;
+        }
+
         private RichValueDataType GetDataType(string dt)
         {
-            switch(dt)
+            switch (dt)
             {
                 case "spb":
                     return RichValueDataType.SupportingPropertyBag;
@@ -24,7 +30,7 @@ namespace OfficeOpenXml.RichData
                     return RichValueDataType.Error;
                 case "s":
                     return RichValueDataType.String;
-                case "r": 
+                case "r":
                     return RichValueDataType.RichValue;
                 case "a":
                     return RichValueDataType.Array;

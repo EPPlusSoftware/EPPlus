@@ -8,36 +8,29 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  11/11/2024         EPPlus Software AB       Initial release EPPlus 8
+  07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.CellPictures
+namespace OfficeOpenXml.Metadata
 {
-    internal enum CalcOrigins
+    /// <summary>
+    /// Corresponds to a rc-element in the valueMetadata section of the metadata.xml file.
+    /// </summary>
+    internal class ExcelMetadataRecord
     {
-        None = 0,
+        public ExcelMetadataRecord(int recordTypeIndex, int valueTypeIndex)
+        {
+            TypeIndex= recordTypeIndex;
+            ValueIndex = valueTypeIndex;
+        }
+
         /// <summary>
-        /// RichValue created directly by formula (ex, =IMAGE)
+        /// Corresponds to the t-attribute of the bk element
         /// </summary>
-        Formula,
-        ComplexFormula,
-        DotNotation,
-        Reference,
+        public int TypeIndex { get; private set; }
+
         /// <summary>
-        /// Standalone RichValue directly stored in a cell without formula dependency (copy/paste as value or LocalImageValue)
+        /// Corresponds to the v-attribute of the bk element
         /// </summary>
-        StandAlone = 5,
-        /// <summary>
-        /// Standalone RichValue created from the alt text pane after selecting "decorative"
-        /// </summary>
-        StandaloneDecorative = 6,
-        Nested = 7,
-        JSApi = 8,
-        PythonResult = 9,
-        Max = PythonResult
+        public int ValueIndex { get; private set; }
     }
 }

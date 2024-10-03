@@ -15,29 +15,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.CellPictures
+namespace OfficeOpenXml.RichData.Structures
 {
-    internal enum CalcOrigins
+    internal class RichDataPreserveStructure : ExcelRichValueStructure
     {
-        None = 0,
-        /// <summary>
-        /// RichValue created directly by formula (ex, =IMAGE)
-        /// </summary>
-        Formula,
-        ComplexFormula,
-        DotNotation,
-        Reference,
-        /// <summary>
-        /// Standalone RichValue directly stored in a cell without formula dependency (copy/paste as value or LocalImageValue)
-        /// </summary>
-        StandAlone = 5,
-        /// <summary>
-        /// Standalone RichValue created from the alt text pane after selecting "decorative"
-        /// </summary>
-        StandaloneDecorative = 6,
-        Nested = 7,
-        JSApi = 8,
-        PythonResult = 9,
-        Max = PythonResult
+        public RichDataPreserveStructure(string typeName, List<ExcelRichValueStructureKey> keys)
+            : base(typeName)
+        {
+            _keys = keys;
+        }
+
+        private readonly List<ExcelRichValueStructureKey> _keys;
+
+        public override RichDataStructureTypes StructureType => RichDataStructureTypes.Preserve;
+
+        internal override List<ExcelRichValueStructureKey> Keys => _keys;
     }
 }
