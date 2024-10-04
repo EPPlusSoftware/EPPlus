@@ -26,4 +26,24 @@ namespace OfficeOpenXml
 
         }
     }
+    /// <summary>
+    /// An exception thrown when the license key cannot be validated.
+    /// </summary>
+    public class InvalidLicenseKeyException : Exception
+    {
+        internal InvalidLicenseKeyException(string message) : base(message)
+        {
+
+        }
+    }
+    /// <summary>
+    /// An exception thrown when the license has expired for the version used.
+    /// </summary>
+    public class LicenseHasExpiredException : Exception
+    {
+        internal LicenseHasExpiredException(string message) : base(message)
+        {
+
+        }
+    }    
 }

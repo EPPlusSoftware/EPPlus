@@ -29,9 +29,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
         
         public FunctionCompilerFactory(FunctionRepository repository)
         {
-            //foreach (var key in repository.CustomCompilers.Keys)
+            //foreach (var _key in repository.CustomCompilers.Keys)
             //{
-            //  _specialCompilers.Add(key, repository.CustomCompilers[key]);
+            //  _specialCompilers.Add(_key, repository.CustomCompilers[_key]);
             //}
         }
 

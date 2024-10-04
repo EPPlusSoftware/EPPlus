@@ -653,7 +653,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 var key = items[items.Count - 1];
                 if (cacheLookup.TryGetValue(key, out int index))
                 {
-                    //items._list.Remove(key);
+                    //items._list.Remove(_key);
                     _duplicateCacheItems.Add(items.Count - 1, index);
                 }
                 else

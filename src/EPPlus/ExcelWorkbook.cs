@@ -38,6 +38,7 @@ using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
+using System.ComponentModel;
 
 namespace OfficeOpenXml
 {
@@ -1279,6 +1280,17 @@ namespace OfficeOpenXml
 			if (Worksheets.Count == 0)
 				throw new InvalidOperationException("The workbook must contain at least one worksheet");
 
+			switch(ExcelPackage.License.LicenseType)
+			{
+				case EPPlusLicenseType.Commercial:
+					LicenseHandler.ValidateLicenseKey(ExcelPackage.License.LicenseKey);
+					break;
+				case EPPlusLicenseType.NonCommercialOrganization:
+                case EPPlusLicenseType.NonCommercialPersonal:
+					LicenseHandler.TagDocument(this);
+					break;
+            }
+
 			DeleteCalcChain();
 
             SetXmlNodeBool("d:calcPr/@fullPrecision", FullPrecision, false);
@@ -1381,7 +1393,7 @@ namespace OfficeOpenXml
 			}
 		}
 
-		private void SaveExternalLinks()
+        private void SaveExternalLinks()
 		{
 			var packageFile = _package.File;
 			foreach (var er in _externalLinks)

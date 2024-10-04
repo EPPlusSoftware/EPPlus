@@ -52,9 +52,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 var lowerKey = key.ToLower(CultureInfo.InvariantCulture);
                 _functions[lowerKey] = module.Functions[key];
             }
-            //foreach (var key in module.CustomCompilers.Keys)
+            //foreach (var _key in module.CustomCompilers.Keys)
             //{
-            //    CustomCompilers[key] = module.CustomCompilers[key];
+            //    CustomCompilers[_key] = module.CustomCompilers[_key];
             //}
             _namespaceFunctions = null;
         }
