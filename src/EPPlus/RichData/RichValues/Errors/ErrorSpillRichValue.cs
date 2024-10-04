@@ -19,7 +19,7 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.RichValues.Errors
 {
-    internal class ErrorSpillRichValue : ExcelRichValue
+    internal class ErrorSpillRichValue : ErrorRichValueBase
     {
         public ErrorSpillRichValue(ExcelWorkbook workbook) : base(workbook, RichDataStructureTypes.ErrorSpill)
         {
@@ -34,18 +34,6 @@ namespace OfficeOpenXml.RichData.RichValues.Errors
             set
             {
                 SetValue(StructureKeyNames.Errors.Spill.ColOffset, value);
-            }
-        }
-
-        public int? ErrorType
-        {
-            get
-            {
-                return GetValueInt(StructureKeyNames.Errors.Spill.ErrorType);
-            }
-            set
-            {
-                SetValue(StructureKeyNames.Errors.Spill.ErrorType, value);
             }
         }
 
@@ -71,6 +59,15 @@ namespace OfficeOpenXml.RichData.RichValues.Errors
             {
                 SetValue(StructureKeyNames.Errors.Spill.SubType, value);
             }
+        }
+
+        public bool AreEqual(int errorType, int colOffset, int rwOffset, int? subType = default)
+        {
+            if (subType.HasValue)
+            {
+                return errorType == ErrorType && colOffset == ColOffset && rwOffset == RwOffset && subType.Value == (SubType ?? int.MinValue);
+            }
+            return errorType == ErrorType && colOffset == ColOffset && rwOffset == RwOffset;
         }
     }
 }

@@ -10,7 +10,6 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
@@ -19,21 +18,21 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.RichValues.Errors
 {
-    internal class ErrorFieldRichValue : ExcelRichValue
+    internal class ErrorRichValueBase : ExcelRichValue
     {
-        public ErrorFieldRichValue(ExcelWorkbook workbook) : base(workbook, RichDataStructureTypes.ErrorField)
+        public ErrorRichValueBase(ExcelWorkbook workbook, RichDataStructureTypes structureType) : base(workbook, structureType)
         {
         }
 
-        public string Field
+        public int? ErrorType
         {
             get
             {
-                return GetValue(StructureKeyNames.Errors.FieldError.Field);
+                return GetValueInt(StructureKeyNames.Errors.FieldError.ErrorType);
             }
             set
             {
-                SetValue(StructureKeyNames.Errors.FieldError.Field, value);
+                SetValue(StructureKeyNames.Errors.FieldError.ErrorType, value);
             }
         }
     }

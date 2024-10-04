@@ -8,56 +8,50 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  11/11/2024         EPPlus Software AB       Initial release EPPlus 8
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Packaging;
-using OfficeOpenXml.RichData;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-
-namespace OfficeOpenXml.CellPictures
+namespace OfficeOpenXml
 {
     /// <summary>
-    /// Represents an in-cell picture
+    /// Represents the errortypes in excel
     /// </summary>
-    internal class ExcelCellPicture
+    public enum eErrorType
     {
         /// <summary>
-        /// Constructor
+        /// Division by zero
         /// </summary>
-        public ExcelCellPicture()
-        {
-            
-        }
-
+        Div0,
         /// <summary>
-        /// Internal uri in the workbook of the image.
+        /// Not applicable
         /// </summary>
-        public Uri ImageUri
-        {
-            get; set;
-        }
-
+        NA,
         /// <summary>
-        /// Alt text of the image
+        /// Name error
         /// </summary>
-        public string AltText
-        {
-            get; set;
-        }
-
+        Name,
         /// <summary>
-        /// Indicates the calculation context in which this image was created.
+        /// Null error
         /// </summary>
-        internal CalcOrigins CalcOrigin { get; set; }
-
-        public ExcelAddress CellAddress { get; set;  }
-
-       
+        Null,
+        /// <summary>
+        /// Num error
+        /// </summary>
+        Num,
+        /// <summary>
+        /// Reference error
+        /// </summary>
+        Ref,
+        /// <summary>
+        /// Value error
+        /// </summary>
+        Value,
+        /// <summary>
+        /// Calc error
+        /// </summary>
+        Calc,
+        /// <summary>
+        /// Spill error from a dynamic array formula.
+        /// </summary>
+        Spill,
     }
 }

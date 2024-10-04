@@ -8,33 +8,26 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  11/11/2024         EPPlus Software AB       Initial release EPPlus 8
+  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-
-using OfficeOpenXml.RichData.Structures.Constants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.RichData.RichValues.Errors
+namespace OfficeOpenXml
 {
-    internal class ErrorFieldRichValue : ExcelRichValue
+    /// <summary>
+    /// Represents spill errors 
+    /// </summary>
+    public class ExcelRichDataErrorValue : ExcelErrorValue
     {
-        public ErrorFieldRichValue(ExcelWorkbook workbook) : base(workbook, RichDataStructureTypes.ErrorField)
+        internal ExcelRichDataErrorValue(int rowOffset, int colOffset) : base(eErrorType.Spill)
         {
+            SpillRowOffset = rowOffset;
+            SpillColOffset = colOffset;
         }
-
-        public string Field
+        internal int SpillRowOffset { get; set; }
+        internal int SpillColOffset { get; set; }
+        internal bool IsPropagated
         {
-            get
-            {
-                return GetValue(StructureKeyNames.Errors.FieldError.Field);
-            }
-            set
-            {
-                SetValue(StructureKeyNames.Errors.FieldError.Field, value);
-            }
+            get;
+            set;
         }
     }
 }

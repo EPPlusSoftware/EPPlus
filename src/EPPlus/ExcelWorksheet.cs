@@ -31,12 +31,10 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
-using System.Text.RegularExpressions;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.ThreadedComments;
@@ -46,14 +44,10 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 using System.Collections;
 using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.Core.RichValues;
 
 namespace OfficeOpenXml
 {
@@ -72,7 +66,7 @@ namespace OfficeOpenXml
     /// <summary>
 	/// Represents an Excel worksheet and provides access to its properties and methods
 	/// </summary>
-    public class ExcelWorksheet : XmlHelper, IEqualityComparer<ExcelWorksheet>, IDisposable, IPictureRelationDocument
+    public partial class ExcelWorksheet : XmlHelper, IEqualityComparer<ExcelWorksheet>, IDisposable, IPictureRelationDocument
     {
         /// <summary>
         /// Keeps track of meta data referencing cells or values.
@@ -113,188 +107,6 @@ namespace OfficeOpenXml
             }
         }
 
-        /// <summary>
-        /// Collection containing merged cell addresses
-        /// </summary>
-        public class MergeCellsCollection : IEnumerable<string>
-        {
-            internal MergeCellsCollection()
-            {
-
-            }
-            internal CellStore<int> _cells = new CellStore<int>();
-            internal List<string> _list = new List<string>();
-            /// <summary>
-            /// Indexer for the collection
-            /// </summary>
-            /// <param name="row">The Top row of the merged cells</param>
-            /// <param name="column">The Left column of the merged cells</param>
-            /// <returns></returns>
-            public string this[int row, int column]
-            {
-                get
-                {
-                    int ix = -1;
-                    if (_cells.Exists(row, column, ref ix) && ix >= 0 && ix < _list.Count)  //Fixes issue 15075
-                    {
-                        return _list[ix];
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-            }
-            /// <summary>
-            /// Indexer for the collection
-            /// </summary>
-            /// <param name="index">The index in the collection</param>
-            /// <returns></returns>
-            public string this[int index]
-            {
-                get
-                {
-                    return _list[index];
-                }
-            }
-            internal void Add(ExcelAddressBase address, bool doValidate)
-            {
-                //Validate
-                if (doValidate && Validate(address) == false)
-                {
-                    throw (new ArgumentException("Can't merge and already merged range"));
-                }
-                lock (this)
-                {
-                    var ix = _list.Count;
-                    _list.Add(address.Address);
-                    SetIndex(address, ix);
-                }
-            }
-
-            private bool Validate(ExcelAddressBase address)
-            {
-                int ix = 0;
-                if (_cells.Exists(address._fromRow, address._fromCol, ref ix))
-                {
-                    if (ix >= 0 && ix < _list.Count && _list[ix] != null && address.Address == _list[ix])
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-
-                var cse = new CellStoreEnumerator<int>(_cells, address._fromRow, address._fromCol, address._toRow, address._toCol);
-                //cells
-                while (cse.Next())
-                {
-                    return false;
-                }
-                //Entire column
-                cse = new CellStoreEnumerator<int>(_cells, 0, address._fromCol, 0, address._toCol);
-                while (cse.Next())
-                {
-                    return false;
-                }
-                //Entire row
-                cse = new CellStoreEnumerator<int>(_cells, address._fromRow, 0, address._toRow, 0);
-                while (cse.Next())
-                {
-                    return false;
-                }
-                return true;
-            }
-            internal void SetIndex(ExcelAddressBase address, int ix)
-            {
-                if (address._fromRow == 1 && address._toRow == ExcelPackage.MaxRows) //Entire row
-                {
-                    for (int col = address._fromCol; col <= address._toCol; col++)
-                    {
-                        _cells.SetValue(0, col, ix);
-                    }
-                }
-                else if (address._fromCol == 1 && address._toCol == ExcelPackage.MaxColumns) //Entire row
-                {
-                    for (int row = address._fromRow; row <= address._toRow; row++)
-                    {
-                        _cells.SetValue(row, 0, ix);
-                    }
-                }
-                else
-                {
-                    for (int col = address._fromCol; col <= address._toCol; col++)
-                    {
-                        for (int row = address._fromRow; row <= address._toRow; row++)
-                        {
-                            _cells.SetValue(row, col, ix);
-                        }
-                    }
-                }
-            }
-            /// <summary>
-            /// Number of items in the collection
-            /// </summary>
-            public int Count
-            {
-                get
-                {
-                    return _list.Count;
-                }
-            }
-            #region IEnumerable<string> Members
-
-            /// <summary>
-            /// Gets the enumerator for the collection
-            /// </summary>
-            /// <returns>The enumerator</returns>
-            public IEnumerator<string> GetEnumerator()
-            {
-                return _list.GetEnumerator();
-            }
-
-            #endregion
-
-            #region IEnumerable Members
-
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-            {
-                return _list.GetEnumerator();
-            }
-
-            #endregion
-            internal void Clear(ExcelAddressBase Destination)
-            {
-                var cse = new CellStoreEnumerator<int>(_cells, Destination._fromRow, Destination._fromCol, Destination._toRow, Destination._toCol);
-                var used = new HashSet<int>();
-                while (cse.Next())
-                {
-                    var v = cse.Value;
-                    if (!used.Contains(v) && _list[v] != null)
-                    {
-                        var adr = new ExcelAddressBase(_list[v]);
-                        if (!(Destination.Collide(adr) == ExcelAddressBase.eAddressCollition.Inside || Destination.Collide(adr) == ExcelAddressBase.eAddressCollition.Equal))
-                        {
-                            throw (new InvalidOperationException(string.Format("Can't delete/overwrite merged cells. A range is partly merged with the another merged range. {0}", adr._address)));
-                        }
-                        used.Add(v);
-                    }
-                }
-
-                _cells.Clear(Destination._fromRow, Destination._fromCol, Destination._toRow - Destination._fromRow + 1, Destination._toCol - Destination._fromCol + 1);
-                foreach (var i in used)
-                {
-                    _list[i] = null;
-                }
-            }
-
-            internal void CleanupMergedCells()
-            {
-                _list = _list.Where(x => x != null).ToList();
-            }
-        }
         internal CellStoreValue _values;
         internal CellStore<object> _formulas;
         internal FlagCellStore _flags;
@@ -306,6 +118,7 @@ namespace OfficeOpenXml
         internal CellStore<int?> _dataValidationsStore;
         internal CellStore<MetaDataReference> _metadataStore;
         internal CellPicturesManager _cellPicturesManager;
+        internal RichValueErrorManager _richValueErrorManager;
 
         internal Dictionary<int, SharedFormula> _sharedFormulas = new Dictionary<int, SharedFormula>();
         internal RangeSorter _rangeSorter;
@@ -369,6 +182,7 @@ namespace OfficeOpenXml
 
             _rangeSorter = new RangeSorter(this);
             _cellPicturesManager = new CellPicturesManager(this);
+            _richValueErrorManager = new RichValueErrorManager(_package, this);
             FullPrecision = Workbook.FullPrecision;
 
             CreateXml();
@@ -1813,64 +1627,13 @@ namespace OfficeOpenXml
                     var md = _metadataStore.GetValue(row, col);
                     if(md.vm > 0)
                     {
-                        v = GetErrorFromMetaData(md, v);
+                        v = _richValueErrorManager.GetErrorFromMetaData(md, v);
                     }
                 }
                 SetValueInner(row, col, v);
             }
         }
 
-        private object GetErrorFromMetaData(MetaDataReference md, object v)
-        {
-            var metaData = Workbook.Metadata;
-            var valueMetaData = metaData.ValueMetadata[md.vm - 1];
-            var valueRecord = valueMetaData.Records[0];
-            var type = metaData.MetadataTypes[valueRecord.TypeIndex - 1];
-            if (type.Name.Equals("XLRICHVALUE"))
-            {
-                var fmd = metaData.FutureMetadata[type.Name];
-                var ix = fmd.Types[valueRecord.ValueIndex].AsRichData.Index;
-
-                var rdValue = Workbook.RichData.Values.Items[ix];
-
-                var errorTypeIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("errorType"));
-                if (errorTypeIndex>=0)
-                {
-                    switch(int.Parse(rdValue.Values[errorTypeIndex]))
-                    {
-                        case 4:
-                            return ErrorValues.NameError;
-                        case 8:
-                            var rowOffsetIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("rwOffset"));
-                            var colOffsetIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("colOffset"));
-                            if (rowOffsetIndex > -1 && colOffsetIndex > 0)
-                            {
-                                return new ExcelRichDataErrorValue(int.Parse(rdValue.Values[rowOffsetIndex]), int.Parse(rdValue.Values[colOffsetIndex]));
-                            }
-                            else
-                            {
-                                return new ExcelRichDataErrorValue(0, 0);
-                            }
-                        case 13:
-                            return ErrorValues.CalcError;
-                        default:    //We can implement other error types here later, See MS-XLSX 2.3.6.1.3
-                            return v;
-
-                    }
-                }
-            }
-            return v;
-        }
-
-        //private string GetSharedString(int stringID)
-        //{
-        //    string retValue = null;
-        //    XmlNodeList stringNodes = xlPackage.Workbook.SharedStringsXml.SelectNodes(string.Format("//d:si", stringID), NameSpaceManager);
-        //    XmlNode stringNode = stringNodes[stringID];
-        //    if (stringNode != null)
-        //        retValue = stringNode.InnerText;
-        //    return (retValue);
-        //}
         #endregion
         #region HeaderFooter
         /// <summary>

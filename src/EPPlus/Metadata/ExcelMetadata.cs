@@ -15,6 +15,7 @@ using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.RichData;
+using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -249,10 +250,12 @@ namespace OfficeOpenXml.Metadata
             {
                 var ix = FutureMetadata[metadataType.Name].Types[record.ValueIndex].AsRichData.Index;
                 var rd = _wb.RichData.Values.Items[ix];
-                var fieldIx = rd.Structure.Keys.FindIndex(x => x.Name == "errorType");
-                if (fieldIx >= 0)
+                var erd = rd.As.Type<ErrorRichValueBase>();
+                //var fieldIx = rd.Structure.Keys.FindIndex(x => x.Name == "errorType");
+                if (erd != null && erd.ErrorType.HasValue)
                 {
-                    return int.Parse(rd.Values[fieldIx]);
+                    //return int.Parse(rd.Values[fieldIx]);
+                    return erd.ErrorType.Value;
                 }
             }
             return -1;

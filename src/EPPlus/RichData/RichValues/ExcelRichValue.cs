@@ -19,13 +19,16 @@ namespace OfficeOpenXml.RichData.RichValues
             _workbook = workbook;
             StructureId = workbook.RichData.Structures.GetStructureId(structureType);
             Structure = _workbook.RichData.Structures.StructureItems[StructureId];
+            As = new ExcelRichValueAsType(this);
         }
 
 
         private readonly ExcelWorkbook _workbook;
         public int StructureId { get; set; }
         public ExcelRichValueStructure Structure { get; set; }
-        public List<string> Values { get; } = new List<string>();
+        //public List<string> Values { get; } = new List<string>();
+
+        public ExcelRichValueAsType As { get; private set; }
 
         private Dictionary<string, string> _keysAndValues = new Dictionary<string, string>();
 
@@ -38,9 +41,9 @@ namespace OfficeOpenXml.RichData.RichValues
             {
                 sw.Write($"<fb t=\"{GetFallbackAsString()}\" />");
             }
-            foreach (var v in Values)
+            foreach (var key in Structure.Keys.ToNameArray())
             {
-                sw.Write($"<v>{ConvertUtil.ExcelEscapeString(v)}</v>");
+                sw.Write($"<v>{ConvertUtil.ExcelEscapeString(_keysAndValues[key])}</v>");
             }
             sw.Write("</rv>");
         }
@@ -204,26 +207,26 @@ namespace OfficeOpenXml.RichData.RichValues
             return null;
         }
 
-        Dictionary<string, string> _keyValues = null;
-        internal bool HasValue(string[] keys, string[] values)
-        {
-            if (_keyValues == null)
-            {
-                _keyValues = new Dictionary<string, string>();
-                for (int i = 0; i < Structure.Keys.Count; i++)
-                {
-                    _keyValues.Add(Structure.Keys[i].Name, Values[i]);
-                }
-            }
+        //Dictionary<string, string> _keyValues = null;
+        //internal bool HasValue(string[] keys, string[] values)
+        //{
+        //    if (_keyValues == null)
+        //    {
+        //        _keyValues = new Dictionary<string, string>();
+        //        for (int i = 0; i < Structure.Keys.Count; i++)
+        //        {
+        //            _keyValues.Add(Structure.Keys[i].Name, Values[i]);
+        //        }
+        //    }
 
-            for (int i = 0; i < keys.Length; i++)
-            {
-                if (_keyValues.TryGetValue(keys[i], out string s) == false || s != values[i])
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+        //    for (int i = 0; i < keys.Length; i++)
+        //    {
+        //        if (_keyValues.TryGetValue(keys[i], out string s) == false || s != values[i])
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    return true;
+        //}
     }
 }

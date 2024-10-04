@@ -23,10 +23,10 @@ namespace OfficeOpenXml.CellPictures
         /// <summary>
         /// RichValue created directly by formula (ex, =IMAGE)
         /// </summary>
-        Formula,
-        ComplexFormula,
-        DotNotation,
-        Reference,
+        Formula = 1,
+        ComplexFormula = 2,
+        DotNotation = 3,
+        Reference = 4,
         /// <summary>
         /// Standalone RichValue directly stored in a cell without formula dependency (copy/paste as value or LocalImageValue)
         /// </summary>

@@ -52,27 +52,33 @@ namespace OfficeOpenXml.CellPictures
             var richData = _richDataStore.GetRichValue(row, col, out int? rvIx, StructureTypes.LocalImage);
             if (richData != null)
             {
-                var relationIndex = int.Parse(richData.Values.First());
-                var relation = _richDataStore.GetRelation(relationIndex);
-                var sourceUri = _sheet.Workbook.RichData.RichValueRels.Part.Uri;
-                if (richData.Structure.Keys.Count == 2)
+                var relationIndex = richData.Structure.GetFirstRelationIndex();
+                if (!relationIndex.HasValue)
                 {
+                    return null;
+                }
+                var relation = _richDataStore.GetRelation(relationIndex.Value);
+                var sourceUri = _sheet.Workbook.RichData.RichValueRels.Part.Uri;
+                if (richData.Structure.StructureType == RichDataStructureTypes.LocalImage)
+                {
+                    var rdLi = richData.As.LocalImage;
                     var pic = new ExcelCellPicture
                     {
                         CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
                         ImageUri = UriHelper.ResolvePartUri(sourceUri, relation.TargetUri),
-                        CalcOrigin = int.Parse(richData.Values.Last())
+                        CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
                     };
                     return pic;
                 }
-                else if(richData.Structure.Keys.Count == 3)
+                else if(richData.Structure.StructureType == RichDataStructureTypes.LocalImageWithAltText)
                 {
+                    var rdLia = richData.As.LocalImageAltText;
                     var pic = new ExcelCellPicture
                     {
                         CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
                         ImageUri = UriHelper.ResolvePartUri(sourceUri, relation.TargetUri),
-                        CalcOrigin = int.Parse(richData.Values[1]),
-                        AltText = richData.Values.Last()
+                        CalcOrigin = rdLia.CalcOrigin ?? CalcOrigins.None,
+                        AltText = rdLia.Text
                     };
                     return pic;
                 }
@@ -109,18 +115,60 @@ namespace OfficeOpenXml.CellPictures
 
         public void SetCellPicture(int row, int col, byte[] imageBytes, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
         {
-            using var ms = new MemoryStream(imageBytes);
+            // Add image to picture store and create relation
+            var imageInfo = HandleCellPicture(imageBytes, out RichValueRel relation);
+            
+            var structureType = string.IsNullOrEmpty(altText) ? RichDataStructureTypes.LocalImage : RichDataStructureTypes.LocalImageWithAltText;
+            var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
+            var imageUri = UriHelper.GetRelativeUri(rdUri, imageInfo.Uri);
+            var relIx = _richDataStore.CreateRichValueRelation(structureType, imageUri);
+
+            var hasRv = _richDataStore.HasRichData(row, col, out MetaDataReference md);
+            if(!hasRv)
+            {
+                // there should be a #VALUE error in the cell that contains the picture...
+                // TODO: we should probably make our own ErrorValue for images
+                _sheet.Cells[row, col].Value = ExcelErrorValue.Create(eErrorType.Value);
+                // no existing rich data, add new
+                var imageRichValue = GetImageRichValue(relIx, calcOrigin, altText);
+                _richDataStore.AddRichData(imageRichValue, out int vm);
+                md.vm = vm;
+                _sheet._metadataStore.SetValue(row, col, md);
+            }
+            else
+            {
+                // get existing rich data of the cell
+                var richDataValue = _richDataStore.GetRichValue(row, col, out int? rvIndex);
+                if (richDataValue.Structure.StructureType != RichDataStructureTypes.LocalImage
+                    && richDataValue.Structure.StructureType != RichDataStructureTypes.LocalImageWithAltText)
+                {
+                    // The rich data value was not an image.
+                    // TODO:  delete relations if any?
+                }
+                var existingPic = GetCellPicture(row, col);
+                var imageRichValue = GetImageRichValue(relIx, calcOrigin, altText);
+                _richDataStore.UpdateRichData(rvIndex.Value, imageRichValue, imageUri);
+                if (existingPic != null)
+                {
+                    _pictureStore.RemoveReference(existingPic.ImageUri);
+                }
+            }
+        }
+
+        private ImageInfo HandleCellPicture(byte[] imageBytes, out RichValueRel relation)
+        {
             ImageInfo imageInfo;
-            RichValueRel relation = default;
-            if(_pictureStore.ImageExists(imageBytes))
+            relation = null;
+            if (_pictureStore.ImageExists(imageBytes))
             {
                 imageInfo = _pictureStore.GetImageInfo(imageBytes);
                 relation = _richDataStore.GetRelation(imageInfo.Uri, ExcelPackage.schemaImage);
             }
             else
             {
+                using var ms = new MemoryStream(imageBytes);
                 var pictureType = ImageReader.GetPictureType(ms, true);
-                if(pictureType == null)
+                if (pictureType == null)
                 {
                     throw new ArgumentException("Image type not supported/identified.");
                 }
@@ -130,36 +178,8 @@ namespace OfficeOpenXml.CellPictures
                 }
                 imageInfo = _pictureStore.AddImage(imageBytes, null, pictureType);
             }
-            var richDataValue = _richDataStore.GetRichValue(row, col, out int? rvIndex, StructureTypes.LocalImage);
-            var structureType = string.IsNullOrEmpty(altText) ? RichDataStructureTypes.LocalImage : RichDataStructureTypes.LocalImageWithAltText;
-            var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
-            var imageUri = UriHelper.GetRelativeUri(rdUri, imageInfo.Uri);
-            var md = _sheet._metadataStore.GetValue(row, col);
 
-            var relIx = _richDataStore.CreateRichValueRelation(structureType, imageUri);
-
-            int? valueMetadataIndex = default;
-            if (richDataValue == null)
-            {
-                var imageRichValue = GetImageRichValue(relIx, calcOrigin, altText);
-                _richDataStore.AddRichData(imageRichValue, structureType, out int vm);
-                valueMetadataIndex = vm;
-            }
-            else
-            {
-                var existingPic = GetCellPicture(row, col);
-                var imageRichValue = GetImageRichValue(relIx, calcOrigin, altText);
-                _richDataStore.UpdateRichData(rvIndex.Value, imageRichValue, imageUri);
-                valueMetadataIndex = md.vm;
-                if (existingPic != null)
-                {
-                    _pictureStore.RemoveReference(existingPic.ImageUri);
-                }
-            }
-            md.vm = valueMetadataIndex ?? 0;
-            // there should be a #VALUE error in the cell that contains the picture...
-            _sheet.Cells[row, col].Value = ExcelErrorValue.Create(eErrorType.Value);
-            _sheet._metadataStore.SetValue(row, col, md);
+            return imageInfo;
         }
 
         public void SetCellPicture(int row, int col, Stream imageStream, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)

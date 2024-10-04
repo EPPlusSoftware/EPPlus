@@ -19,24 +19,11 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.RichValues.Errors
 {
-    internal class ErrorPropagatedRichValue : ExcelRichValue
+    internal class ErrorPropagatedRichValue : ErrorRichValueBase
     {
         public ErrorPropagatedRichValue(ExcelWorkbook workbook) : base(workbook, RichDataStructureTypes.ErrorPropagated)
         {
         }
-
-        public int? ErrorType
-        {
-            get
-            {
-                return GetValueInt(StructureKeyNames.Errors.PropagatedError.ErrorType);
-            }
-            set
-            {
-                SetValue(StructureKeyNames.Errors.PropagatedError.ErrorType, value);
-            }
-        }
-
         public string Propagated
         {
             get

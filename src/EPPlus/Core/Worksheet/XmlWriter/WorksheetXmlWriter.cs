@@ -14,6 +14,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.RichValues;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
@@ -46,6 +47,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
     {
         ExcelWorksheet _ws;
         ExcelPackage _package;
+        RichValueErrorManager _richValueErrors;
         private Dictionary<int, int> columnStyles = null;
 
         /// <summary>
@@ -57,6 +59,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
         {
             _ws = worksheet;
             _package = package;
+            _richValueErrors = new RichValueErrorManager(package, worksheet);
         }
 
         /// <summary>
@@ -409,7 +412,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             if (error.Type == eErrorType.Spill || error.Type == eErrorType.Calc)
                             {
                                 v = ErrorValues.ValueError;
-                                SetMetaDataForError(cse, error);
+                               _richValueErrors.SetMetaDataForError(cse, error);
                                 hasRd = true;
                             }
                         }
@@ -602,73 +605,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             {
                 _ws.Workbook.RichData.SetHasValuesOnParts();
             }
-        }
-
-        private void SetMetaDataForError(CellStoreEnumerator<ExcelValue> cse, ExcelErrorValue error)
-        {
-            var richData = _package.Workbook.RichData;
-            var metadata = _package.Workbook.Metadata;
-            var md = _ws._metadataStore.GetValue(cse.Row, cse.Column);
-            if (md.vm >= 0 && IsMdSameError(metadata, md, error, cse.Row, cse.Column))
-            {
-                return;
-            }
-            switch (error.Type)
-            {
-                case eErrorType.Spill:
-                    var spillError = (ExcelRichDataErrorValue)error;
-                    if (spillError.IsPropagated)
-                    {
-                        richData.Values.AddPropagated(eErrorType.Spill);
-                    }
-                    else
-                    {
-                        richData.Values.AddErrorSpill(spillError);
-                    }
-                    break;
-                case eErrorType.Calc:
-                    richData.Values.AddError(eErrorType.Calc, 1);
-                    break;
-                default:
-                    return;
-            }
-            metadata.CreateRichValueMetadata(richData, out int vm);
-            md.vm = vm;
-            _ws._metadataStore.SetValue(cse.Row, cse.Column, md);
-        }
-
-        private bool IsMdSameError(ExcelMetadata metadata, MetaDataReference md, ExcelErrorValue error, int row, int column)
-        {
-            if (md.vm==0 || md.vm>=metadata.ValueMetadata.Count) return false;
-            var vm = metadata.ValueMetadata[md.vm-1];
-            if (vm.Records.Count > 0 && vm.Records[0].ValueIndex >=0)
-            {
-                var richData = _package.Workbook.RichData;
-                if (richData.Values.Items.Count > vm.Records[0].ValueIndex)
-                {
-                    var rd = richData.Values.Items[vm.Records[0].ValueIndex];
-                    if (rd.Structure.Type.Equals("_error"))
-                    {
-                        switch (error.Type)
-                        {
-                            case eErrorType.Calc:
-                                if (rd.Values[0] == "13")
-                                {
-                                    return true;
-                                }
-                                break;
-                            case eErrorType.Spill:
-                                var rdError = (ExcelRichDataErrorValue)error; 
-                                if (rd.HasValue(["errorType", "colOffset", "rwOffset"], ["8", rdError.SpillColOffset.ToString(CultureInfo.InvariantCulture), rdError.SpillColOffset.ToString(CultureInfo.InvariantCulture)]))
-                                {
-                                    return true;
-                                }
-                                break;
-                        }
-                    }
-                }
-            }
-            return false;
         }
 
         /// <summary>

@@ -19,22 +19,10 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.RichValues.Errors
 {
-    internal class ErrorWithSubTypeRichValue : ExcelRichValue
+    internal class ErrorWithSubTypeRichValue : ErrorRichValueBase
     {
         public ErrorWithSubTypeRichValue(ExcelWorkbook workbook) : base(workbook, RichDataStructureTypes.ErrorWithSubType)
         {
-        }
-
-        public int? ErrorType
-        {
-            get
-            {
-                return GetValueInt(StructureKeyNames.Errors.WithSubType.ErrorType);
-            }
-            set
-            {
-                SetValue(StructureKeyNames.Errors.WithSubType.ErrorType, value);
-            }
         }
 
         public int? SubType

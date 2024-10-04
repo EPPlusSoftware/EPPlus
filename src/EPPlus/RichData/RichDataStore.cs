@@ -43,30 +43,47 @@ namespace OfficeOpenXml.RichData
 
         internal bool HasRichData(int row, int col)
         {
-            return HasRichData(row, col, out int vm, out ExcelMetadataRecord valueRecord);
+            return HasRichData(row, col, out MetaDataReference mdr);
         }
 
         internal bool HasRichData(int row, int col, out int vm)
         {
-            return HasRichData(row, col, out vm, out ExcelMetadataRecord valueRecord);
+            var result = HasRichData(row, col, out MetaDataReference mdr);
+            vm = mdr.vm;
+            return result;
         }
 
-        internal bool HasRichData(int row, int col, out int vm, out ExcelMetadataRecord valueRecord)
+        internal bool HasRichData(int row, int col, out MetaDataReference mdr)
         {
-            vm = 0;
-            valueRecord = null;
-            var valueMetadataIx = _metadataStore.GetValue(row, col).vm;
+            mdr = _metadataStore.GetValue(row, col);
+            var valueMetadataIx = mdr.vm;
             if (valueMetadataIx == 0 || !_metadata.IsRichData(valueMetadataIx)) return false;
-            vm = valueMetadataIx;
+            var vm = valueMetadataIx;
             // vm is a 1-based index pointer
             var vmIx = vm - 1;
             var valueMd = _metadata.ValueMetadata[vmIx];
-            valueRecord = valueMd.Records.First();
+            var valueRecord = valueMd.Records.First();
             var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
             var futureMetadata = _metadata.MetadataTypes.First(x => x.Name == type.Name);
             var ix = _metadata.FutureMetadata[type.Name].Types[valueRecord.ValueIndex].AsRichData.Index;
             if (_workbook.RichData.Deletions.IsDeleted(vmIx, ix)) return false;
             return true;
+        }
+
+        /// <summary>
+        /// Gets a rich value by its value metadata index
+        /// </summary>
+        /// <param name="vm">1 based index</param>
+        /// <returns>An <see cref="ExcelRichValue"/> instance corresponding to <paramref name="vm"/></returns>
+        internal ExcelRichValue GetRichValue(int vm)
+        {
+            var valueMetaData = _metadata.ValueMetadata[vm - 1];
+            var valueRecord = valueMetaData.Records[0];
+            var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
+            if (type.Name != "XLRICHVALUE") return null;
+            var fmd = _metadata.FutureMetadata[type.Name];
+            var ix = fmd.Types[valueRecord.ValueIndex].AsRichData.Index;
+            return _workbook.RichData.Values.Items[ix];
         }
 
         internal ExcelRichValue GetRichValue(int row, int col, params string[] structuretypesFilter)
@@ -77,11 +94,15 @@ namespace OfficeOpenXml.RichData
         internal ExcelRichValue GetRichValue(int row, int col, out int? richValueIndex, params string[] structureTypesFilter)
         {
             richValueIndex = null;
-            if (!HasRichData(row, col, out int vm, out ExcelMetadataRecord valueRecord)) return null;
+            if (!HasRichData(row, col, out int vm)) return null;
+            var valueMetaData = _metadata.ValueMetadata[vm - 1];
+            var valueRecord = valueMetaData.Records[0];
             var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
             var futureMetadata = _metadata.MetadataTypes.First(x => x.Name == type.Name);
             var rdv = _workbook.RichData.Values.Items[valueRecord.ValueIndex];
-            if(structureTypesFilter != null && !structureTypesFilter.Contains(rdv.Structure.Type))
+            if(structureTypesFilter != null 
+                && structureTypesFilter.Any()
+                && !structureTypesFilter.Contains(rdv.Structure.Type))
             {
                 return null;
             }
@@ -109,7 +130,7 @@ namespace OfficeOpenXml.RichData
             return relIx;
         }
 
-        internal void AddRichData(ExcelRichValue richValue, RichDataStructureTypes structureType, out int vmIndex)
+        internal void AddRichData(ExcelRichValue richValue, out int vmIndex)
         {
             _workbook.RichData.Values.Items.Add(richValue);
 
@@ -118,11 +139,17 @@ namespace OfficeOpenXml.RichData
             vmIndex = vm;
         }
 
-        internal void UpdateRichData(int richValueIndex, ExcelRichValue richValue, Uri targetUri)
+        /// <summary>
+        /// Overwrites an existing rich data
+        /// </summary>
+        /// <param name="richValueIndex">Index of the rich data to update in the _workbook.RichData.Values.Items collection</param>
+        /// <param name="richValue">The new rich data that will replace the existing</param>
+        /// <param name="targetUri"></param>
+        internal void UpdateRichData(int richValueIndex, ExcelRichValue richValue, Uri targetUri = null)
         {
             var existingValue = _workbook.RichData.Values.Items[richValueIndex];
 
-            if(existingValue.StructureId == richValue.StructureId)
+            if(existingValue.StructureId == richValue.StructureId && targetUri != null)
             {
                 // at this stage we only support one relation per rich value
                 var existingRelation = existingValue.Structure.GetFirstRelationIndex();

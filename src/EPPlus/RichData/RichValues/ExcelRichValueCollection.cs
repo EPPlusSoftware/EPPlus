@@ -70,11 +70,15 @@ namespace OfficeOpenXml.RichData.RichValues
             var item = ExcelRichValueFactory.Create(structure.StructureType, _wb);
             //item.Structure = _structures.StructureItems[item.StructureId];
 
+            var keys = structure.Keys.ToNameArray();
+            int keyIx = 0;
             while (xr.IsEndElementWithName("rv") == false)
             {
                 if (xr.IsElementWithName("v"))
                 {
-                    item.Values.Add(xr.ReadElementContentAsString());
+                    if (keyIx >= keys.Length) continue;
+                    item.SetValue(keys[keyIx++], xr.ReadElementContentAsString());
+                    //item.Values.Add(xr.ReadElementContentAsString());
                 }
                 else if (xr.IsElementWithName("fb"))
                 {
