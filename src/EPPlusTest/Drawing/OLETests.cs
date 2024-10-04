@@ -65,6 +65,24 @@ namespace EPPlusTest.Drawing
             Assert.IsTrue(isExcelOleObject);
             embededOle = odsOle as ExcelOleObject;
             Assert.IsFalse(embededOle.IsExternalLink);
+
+            //Read ODP Object
+            var odpOlePackage = OpenTemplatePackage("OleObjectTest_Embed_ODP.xlsx");
+            var odpOleWs = odpOlePackage.Workbook.Worksheets[0];
+            var odpOle = odpOleWs.Drawings[0];
+            isExcelOleObject = odpOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            embededOle = odpOle as ExcelOleObject;
+            Assert.IsFalse(embededOle.IsExternalLink);
+
+            //Read ODT Object
+            var odtOlePackage = OpenTemplatePackage("OleObjectTest_Embed_ODT.xlsx");
+            var odtOleWs = odtOlePackage.Workbook.Worksheets[0];
+            var odtOle = odtOleWs.Drawings[0];
+            isExcelOleObject = odtOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            embededOle = odtOle as ExcelOleObject;
+            Assert.IsFalse(embededOle.IsExternalLink);
         }
 
         [TestMethod]
@@ -123,6 +141,24 @@ namespace EPPlusTest.Drawing
             Assert.IsTrue(isExcelOleObject);
             linkedOle = odsOle as ExcelOleObject;
             Assert.IsTrue(linkedOle.IsExternalLink);
+
+            //Read ODT Object
+            var odtOlePackage = OpenTemplatePackage("OleObjectTest_Link_ODT.xlsx");
+            var odtOleWs = odtOlePackage.Workbook.Worksheets[0];
+            var odtOle = odtOleWs.Drawings[0];
+            isExcelOleObject = odtOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            linkedOle = odtOle as ExcelOleObject;
+            Assert.IsTrue(linkedOle.IsExternalLink);
+
+            //Read ODP Object
+            var odpOlePackage = OpenTemplatePackage("OleObjectTest_Link_ODP.xlsx");
+            var odpOleWs = odpOlePackage.Workbook.Worksheets[0];
+            var odpOle = odpOleWs.Drawings[0];
+            isExcelOleObject = odpOle is ExcelOleObject;
+            Assert.IsTrue(isExcelOleObject);
+            linkedOle = odpOle as ExcelOleObject;
+            Assert.IsTrue(linkedOle.IsExternalLink);
         }
 
         [TestMethod]
@@ -180,6 +216,26 @@ namespace EPPlusTest.Drawing
             Assert.IsTrue(odsOle._document.Storage.DataStreams.ContainsKey(OleDataFile.EMBEDDEDODF_STREAM_NAME));
             Assert.IsFalse(odsOle.IsExternalLink);
             SaveAndCleanup(odsOlePackage);
+
+            //Write ODT Object
+            using var odtOlePackage = OpenPackage("EpplusOleObject_Embed_ODT.xlsx", true);
+            var odtWs = odtOlePackage.Workbook.Worksheets.Add("Sheet 1");
+            var odtOle = odtWs.Drawings.AddOleObject(@"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDoc.odt");
+            Assert.IsTrue(odtOle._document.Storage.DataStreams.ContainsKey(Ole.OLE_STREAM_NAME));
+            Assert.IsTrue(odtOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
+            Assert.IsTrue(odtOle._document.Storage.DataStreams.ContainsKey(OleDataFile.EMBEDDEDODF_STREAM_NAME));
+            Assert.IsFalse(odtOle.IsExternalLink);
+            SaveAndCleanup(odtOlePackage);
+
+            //Write ODP Object
+            using var odpOlePackage = OpenPackage("EpplusOleObject_Embed_ODP.xlsx", true);
+            var odpWs = odpOlePackage.Workbook.Worksheets.Add("Sheet 1");
+            var odpOle = odpWs.Drawings.AddOleObject(@"C:\epplusTest\Workbooks\OleObjectFiles\MyPresents.odp");
+            Assert.IsTrue(odpOle._document.Storage.DataStreams.ContainsKey(Ole.OLE_STREAM_NAME));
+            Assert.IsTrue(odpOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
+            Assert.IsTrue(odpOle._document.Storage.DataStreams.ContainsKey(OleDataFile.EMBEDDEDODF_STREAM_NAME));
+            Assert.IsFalse(odpOle.IsExternalLink);
+            SaveAndCleanup(odpOlePackage);
         }
         [TestMethod]
         public void WriteLinkedOleObject()
@@ -231,6 +287,22 @@ namespace EPPlusTest.Drawing
             Assert.IsNotNull(odsOle._externalLink);
             Assert.IsTrue(odsOle.IsExternalLink);
             SaveAndCleanup(odsOlePackage);
+
+            //Write ODT Object
+            using var odtOlePackage = OpenPackage("EpplusOleObject_Link_ODT.xlsx", true);
+            var odtWs = odtOlePackage.Workbook.Worksheets.Add("Sheet 1");
+            var odtOle = odtWs.Drawings.AddOleObject(@"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDoc.odt", true);
+            Assert.IsNotNull(odtOle._externalLink);
+            Assert.IsTrue(odtOle.IsExternalLink);
+            SaveAndCleanup(odtOlePackage);
+
+            //Write ODS Object
+            using var odpOlePackage = OpenPackage("EpplusOleObject_Link_ODP.xlsx", true);
+            var odpWs = odpOlePackage.Workbook.Worksheets.Add("Sheet 1");
+            var odpOle = odpWs.Drawings.AddOleObject(@"C:\epplusTest\Workbooks\OleObjectFiles\MyPresents.odp", true);
+            Assert.IsNotNull(odpOle._externalLink);
+            Assert.IsTrue(odpOle.IsExternalLink);
+            SaveAndCleanup(odpOlePackage);
         }
 
         [TestMethod]
@@ -301,290 +373,6 @@ namespace EPPlusTest.Drawing
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
             var genericOle = generiWs.Drawings.AddOleObject(@"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt", true, true, @"C:\epplusTest\Workbooks\OleObjectFiles\TestIcon.bmp");
             //Nothing To Assert just check the excel file and see if it has a different picture.
-        }
-
-
-
-        //OLD TESTS FOR INSPIRATION
-
-
-
-
-
-        // <summary>
-        // LINKED FILES
-        // </summary>
-
-        [TestMethod]
-        public void ReadExcelExternal_MP3()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\MP3_LINK.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-        }
-
-        [TestMethod]
-        public void WriteExternal_MP3()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3", true);
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusExternal_MP3.xlsx");
-        }
-
-        [TestMethod]
-        public void WriteExternal_ZIP()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\Audio-Sample-files-master.zip", true, true, @"C:\epplusTest\OleTest\EMF\BigMaskTest.bmp");
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusExternal_ZIP.xlsx");
-        }
-
-
-
-
-        // <summary>
-        // EMBEDDED FILES
-        // </summary>
-
-        [TestMethod]
-        public void ReadXlsx()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_XLSX.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-        }
-        [TestMethod]
-        public void ReadDocx()
-        {
-            using var p = new ExcelPackage();
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-        }
-        [TestMethod]
-        public void ReadPptx()
-        {
-            using var p = new ExcelPackage();
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-        }
-        [TestMethod]
-        public void WriteXlsx()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MySheet.xlsx", false, false, ""/*, OleObjectType.DOC*/);
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_XLSX.xlsx");
-        }
-        [TestMethod]
-        public void WriteDocx()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyWord.docx", false, false, ""/*, OleObjectType.DOC*/);
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_DOCX.xlsx");
-        }
-        [TestMethod]
-        public void WritePptx()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyPresent.pptx", false, false, ""/*, OleObjectType.DOC*/);
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_PPTX.xlsx");
-        }
-
-
-
-        //WRITE FILES
-
-        [TestMethod]
-        public void WriteEmbedded_MP3()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.mp3");
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_MP3.xlsx");
-        }
-        [TestMethod]
-        public void WriteEmbedded_MP4()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\Bathory - One Rode To Asa Bay -Official Music Video-.mp4");
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_MP4.xlsx");
-        }
-        [TestMethod]
-        public void WriteEmbedded_ODS()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MySheets.ods");
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_ODS.xlsx");
-        }
-        [TestMethod]
-        public void WriteEmbedded_ODT()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyTextDoc.odt");
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_ODT.xlsx");
-        }
-        [TestMethod]
-        public void WriteEmbedded_PDF()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\aeldari.pdf");
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_PDF.xlsx");
-        }
-        [TestMethod]
-        public void WriteEmbedded_TXT()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\MyTextDocument.txt");
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_TXT.xlsx");
-        }
-        [TestMethod]
-        public void WriteEmbedded_WAV()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\sample.wav");
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_WAV.xlsx");
-        }
-        [TestMethod]
-        public void WriteEmbedded_ZIP()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var ole = ws.Drawings.AddOleObject(@"C:\epplusTest\OleTest\Files\Audio-Sample-files-master.zip");
-            p.SaveAs(@"C:\epplusTest\OleTest\EPPlusEmbedded_ZIP.xlsx");
-        }
-
-
-        //READ EXCEL FILES
-
-        [TestMethod]
-        public void ReadExcelEmbedded_MP3()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\MP3.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadExcelEmbedded_MP4()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\MP4.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadExcelEmbedded_ODS()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\Old\ODS.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadExcelEmbedded_ODT()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\Old\ODT.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadExcelEmbedded_PDF()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\Old\PDF.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            var clsid = ole._document.RootItem.ClsID;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadExcelEmbedded_PDF2()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\OleObjectTest_Embed_PDF.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            var clsid = ole._document.RootItem.ClsID;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadExcelEmbedded_TXT()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\TXT.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadExcelEmbedded_WAV()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\WAV.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadExcelEmbedded_ZIP()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\Excels\ZIP.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-
-        //READ EPPLUS FILES
-
-        [TestMethod]
-        public void ReadEPPlusEmbedded_MP3()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_MP3.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadEPPlusEmbedded_MP4()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_MP4.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadEPPlusEmbedded_ODS()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_ODS.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadEPPlusEmbedded_ODT()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_ODT.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadEPPlusEmbedded_PDF()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_PDF.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadEPPlusEmbedded_TXT()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_TXT.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadEPPlusEmbedded_WAV()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_WAV.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
-        }
-        [TestMethod]
-        public void ReadEPPlusEmbedded_ZIP()
-        {
-            using var p = new ExcelPackage(@"C:\epplusTest\OleTest\EPPlusEmbedded_\ZIP.xlsx");
-            var ole = p.Workbook.Worksheets[0].Drawings[0] as ExcelOleObject;
-            ole.ExportOleObjectData(@"C:\epplusTest\OleTest\Results.xlsx");
         }
     }
 }

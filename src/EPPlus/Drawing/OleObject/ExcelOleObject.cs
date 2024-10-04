@@ -315,7 +315,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 if (fileType == ".odp")
                 {
                     UserType = "OpenDocument Presentation";
-                    Reserved = "Word.OpenDocumentPresentation.12";
+                    Reserved = "PowerPoint.OpenDocumentPresentation.12";
                     key = "ODP";
                 }
                 else if (fileType == ".odt")
@@ -324,10 +324,10 @@ namespace OfficeOpenXml.Drawing.OleObject
                     Reserved = "Word.OpenDocumentText.12";
                     key = "ODT";
                 }
-                else if (fileType == "ods")
+                else if (fileType == ".ods")
                 {
                     UserType = "OpenDocument Spreadsheet";
-                    Reserved = "Word.OpenDocumentSpreadsheet.12";
+                    Reserved = "Excel.OpenDocumentSpreadsheet.12";
                     key = "ODS";
                 }
                 Ole.CreateOleObject(_oleDataStructures, IsExternalLink);
@@ -460,20 +460,8 @@ namespace OfficeOpenXml.Drawing.OleObject
 /* TODO:
  * [ ] DELETE OleObject
  * [ ] Copy OleObject
- * [X] ODF, PDF, DOCX, PPTX, XLSX Detection.
- * [X] Prepare excel file to read for tests
- * [X] CLSID för PDF
- * [X] CLSID för ODF
- * [ ] CompObj Strings för ODF
- * [X] spara msoff part för åtkomst
  * 
  * Tests
  * Delete Ole
  * Copy Ole
- * ODP
- * 
- * TEST for EMF
- * change picture
- * change text
- *
  */
