@@ -47,7 +47,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ZlibCodec
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InputBuffer
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -126,7 +126,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextIn
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AvailableBytesIn
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalBytesIn
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutputBuffer
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextOut
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -292,7 +292,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AvailableBytesOut
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -326,7 +326,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalBytesOut
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -359,7 +359,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Message
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -392,7 +392,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompressLevel
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -425,7 +425,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WindowBits
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -459,7 +459,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Strategy
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -493,7 +493,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Adler32
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -530,7 +530,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -563,7 +563,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -599,7 +599,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializeInflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -635,7 +635,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializeInflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -678,7 +678,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializeInflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -717,7 +717,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializeInflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -760,7 +760,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Inflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -801,7 +801,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndInflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -837,7 +837,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SyncInflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -872,7 +872,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializeDeflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -909,7 +909,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializeDeflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -949,7 +949,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializeDeflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -992,7 +992,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializeDeflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -1035,7 +1035,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializeDeflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -1080,7 +1080,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Deflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -1121,7 +1121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndDeflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -1157,7 +1157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResetDeflate
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -1190,7 +1190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetDeflateParams
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
@@ -1232,7 +1232,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetDictionary
     path: ../src/EPPlus/Packaging/DotNetZip/Zlib/ZlibCodec.cs

@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillParams.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillParams
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillParams.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillParams.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartPosition
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillParams.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillParams.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Direction
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillParams.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillParams.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormat
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillParams.cs

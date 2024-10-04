@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBACollectionBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVBACollectionBase
     path: ../src/EPPlus/Vba/ExcelVBACollectionBase.cs
@@ -82,7 +82,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBACollectionBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _list
     path: ../src/EPPlus/Vba/ExcelVBACollectionBase.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBACollectionBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Vba/ExcelVBACollectionBase.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBACollectionBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Vba/ExcelVBACollectionBase.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBACollectionBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Vba/ExcelVBACollectionBase.cs
@@ -234,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBACollectionBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Vba/ExcelVBACollectionBase.cs
@@ -278,7 +278,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBACollectionBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Vba/ExcelVBACollectionBase.cs
@@ -317,7 +317,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBACollectionBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Exists
     path: ../src/EPPlus/Vba/ExcelVBACollectionBase.cs
@@ -358,7 +358,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBACollectionBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Vba/ExcelVBACollectionBase.cs
@@ -396,7 +396,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBACollectionBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/Vba/ExcelVBACollectionBase.cs

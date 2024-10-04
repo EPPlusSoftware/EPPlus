@@ -77,7 +77,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyles
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Custom
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -178,7 +178,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light1
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light2
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -246,7 +246,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light3
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -280,7 +280,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light4
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -314,7 +314,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light5
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -348,7 +348,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light6
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -382,7 +382,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light7
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -416,7 +416,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light8
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -450,7 +450,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light9
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -484,7 +484,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light10
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -518,7 +518,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light11
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -552,7 +552,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light12
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -586,7 +586,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light13
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -620,7 +620,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light14
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -654,7 +654,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light15
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -688,7 +688,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light16
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -722,7 +722,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light17
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -756,7 +756,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light18
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -790,7 +790,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light19
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -824,7 +824,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light20
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -858,7 +858,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light21
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -892,7 +892,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium1
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -926,7 +926,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium2
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -960,7 +960,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium3
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -994,7 +994,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium4
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1028,7 +1028,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium5
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1062,7 +1062,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium6
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1096,7 +1096,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium7
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1130,7 +1130,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium8
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1164,7 +1164,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium9
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1198,7 +1198,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium10
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1232,7 +1232,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium11
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1266,7 +1266,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium12
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1300,7 +1300,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium13
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1334,7 +1334,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium14
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1368,7 +1368,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium15
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1402,7 +1402,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium16
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1436,7 +1436,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium17
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1470,7 +1470,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium18
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1504,7 +1504,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium19
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1538,7 +1538,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium20
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1572,7 +1572,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium21
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1606,7 +1606,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium22
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1640,7 +1640,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium23
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1674,7 +1674,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium24
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1708,7 +1708,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium25
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1742,7 +1742,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium26
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1776,7 +1776,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium27
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1810,7 +1810,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Medium28
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1844,7 +1844,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark1
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1878,7 +1878,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark2
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1912,7 +1912,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark3
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1946,7 +1946,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark4
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -1980,7 +1980,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark5
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -2014,7 +2014,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark6
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -2048,7 +2048,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark7
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -2082,7 +2082,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark8
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -2116,7 +2116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark9
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -2150,7 +2150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark10
     path: ../src/EPPlus/Table/enums/TableStyles.cs
@@ -2184,7 +2184,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/enums/TableStyles.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark11
     path: ../src/EPPlus/Table/enums/TableStyles.cs

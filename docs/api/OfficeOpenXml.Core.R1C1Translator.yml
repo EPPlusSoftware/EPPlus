@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/R1C1Translator.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: R1C1Translator
     path: ../src/EPPlus/Core/R1C1Translator.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/R1C1Translator.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromR1C1Formula
     path: ../src/EPPlus/Core/R1C1Translator.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/R1C1Translator.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToR1C1Formula
     path: ../src/EPPlus/Core/R1C1Translator.cs
@@ -160,7 +160,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/R1C1Translator.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromR1C1
     path: ../src/EPPlus/Core/R1C1Translator.cs
@@ -210,7 +210,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/R1C1Translator.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToR1C1
     path: ../src/EPPlus/Core/R1C1Translator.cs

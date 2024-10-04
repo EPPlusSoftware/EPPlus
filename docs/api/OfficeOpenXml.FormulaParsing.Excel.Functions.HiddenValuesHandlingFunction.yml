@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HiddenValuesHandlingFunction
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
@@ -125,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IgnoreHiddenValues
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
@@ -194,7 +194,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IgnoreErrors
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
@@ -231,7 +231,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IgnoreNestedSubtotalsAndAggregates
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
@@ -268,7 +268,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgsToDoubleEnumerable
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
@@ -319,7 +319,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgsToDoubleEnumerable
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
@@ -376,7 +376,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShouldIgnore
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
@@ -418,7 +418,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShouldIgnore
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/HiddenValuesHandlingFunction.cs

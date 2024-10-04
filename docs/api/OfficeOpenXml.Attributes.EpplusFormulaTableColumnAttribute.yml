@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusFormulaTableColumnAttribute.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EpplusFormulaTableColumnAttribute
     path: ../src/EPPlus/Attributes/EpplusFormulaTableColumnAttribute.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusFormulaTableColumnAttribute.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/Attributes/EpplusFormulaTableColumnAttribute.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusFormulaTableColumnAttribute.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaR1C1
     path: ../src/EPPlus/Attributes/EpplusFormulaTableColumnAttribute.cs

@@ -169,7 +169,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// If the column is collapsed in outline mode. 
         /// Setting this property will not hide the children. 
-        /// Use the <see cref="ExcelRangeColumn.CollapseChildren(bool)" /> or <see cref="ExcelRangeColumn.SetVisibleOutlineLevel(int, bool)"/> methods to collapse and hide columns/rows via the <see cref="ExcelWorksheet.Columns" collection/>.
+        /// Use the <see cref="ExcelRangeColumn.CollapseChildren(bool)" /> or <see cref="ExcelRangeColumn.SetVisibleOutlineLevel(int, bool)"/> methods to collapse and hide columns/rows via the <see cref="ExcelWorksheet.Columns"/> collection.
         /// </summary>
         public bool Collapsed { get; set; }
         /// <summary>

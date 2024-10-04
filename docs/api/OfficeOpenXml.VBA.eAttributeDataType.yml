@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/enums/eAttributeDataType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eAttributeDataType
     path: ../src/EPPlus/Vba/enums/eAttributeDataType.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/enums/eAttributeDataType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: String
     path: ../src/EPPlus/Vba/enums/eAttributeDataType.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/enums/eAttributeDataType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NonString
     path: ../src/EPPlus/Vba/enums/eAttributeDataType.cs

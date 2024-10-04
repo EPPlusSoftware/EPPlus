@@ -1332,7 +1332,14 @@ namespace OfficeOpenXml.Drawing
             return clientDataNode;
         }
 
-
+        /// <summary>
+        /// Copies the drawing to the supplied worksheets. The copy will be positioned using the <paramref name="row"/> and <paramref name="col"/> parameters
+        /// </summary>
+        /// <param name="worksheet">The worksheet where the drawing will be placed.</param>
+        /// <param name="row">The top row where the drawing will be placed.</param>
+        /// <param name="col">The left column where the drawing will be placed.</param>
+        /// <param name="rowOffset">Row offset in pixels from the row start positions. int.MinValue </param>
+        /// <param name="colOffset">Column offset in pixels fromp the column start position</param>
         public void Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = int.MinValue, int colOffset = int.MinValue)
         {
             XmlNode drawNode = null;

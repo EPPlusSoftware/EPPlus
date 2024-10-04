@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eLayoutFlow
     path: ../src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Horizontal
     path: ../src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Vertical
     path: ../src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalIdeographic
     path: ../src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalIdeographic
     path: ../src/EPPlus/Drawing/Controls/enums/eLayoutFlow.cs

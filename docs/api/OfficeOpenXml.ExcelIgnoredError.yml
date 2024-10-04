@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelIgnoredError
     path: ../src/EPPlus/ExcelIgnoredError.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberStoredAsText
     path: ../src/EPPlus/ExcelIgnoredError.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalculatedColumn
     path: ../src/EPPlus/ExcelIgnoredError.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EmptyCellReference
     path: ../src/EPPlus/ExcelIgnoredError.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EvaluationError
     path: ../src/EPPlus/ExcelIgnoredError.cs
@@ -219,7 +219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ExcelIgnoredError.cs
@@ -256,7 +256,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaRange
     path: ../src/EPPlus/ExcelIgnoredError.cs
@@ -293,7 +293,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ListDataValidation
     path: ../src/EPPlus/ExcelIgnoredError.cs
@@ -330,7 +330,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/ExcelIgnoredError.cs
@@ -367,7 +367,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TwoDigitTextYear
     path: ../src/EPPlus/ExcelIgnoredError.cs
@@ -404,7 +404,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredError.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnlockedFormula
     path: ../src/EPPlus/ExcelIgnoredError.cs

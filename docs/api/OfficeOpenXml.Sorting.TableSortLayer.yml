@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/TableSortLayer.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableSortLayer
     path: ../src/EPPlus/Sorting/TableSortLayer.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/TableSortLayer.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/Sorting/TableSortLayer.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/TableSortLayer.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/Sorting/TableSortLayer.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/TableSortLayer.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnNamed
     path: ../src/EPPlus/Sorting/TableSortLayer.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/TableSortLayer.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnNamed
     path: ../src/EPPlus/Sorting/TableSortLayer.cs

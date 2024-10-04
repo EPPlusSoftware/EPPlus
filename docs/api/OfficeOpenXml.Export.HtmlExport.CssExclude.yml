@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CssExclude
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
@@ -142,7 +142,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalAlignment
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalAlignment
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
@@ -253,7 +253,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WrapText
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
@@ -290,7 +290,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextRotation
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
@@ -327,7 +327,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indent
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
@@ -364,7 +364,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResetToDefault
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
@@ -396,7 +396,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExclude.cs

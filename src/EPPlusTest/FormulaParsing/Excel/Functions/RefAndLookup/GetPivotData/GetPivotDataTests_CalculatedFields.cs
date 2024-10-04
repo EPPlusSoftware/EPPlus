@@ -15,7 +15,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 	[TestClass]
 	public class GetPivotDataTests_CalculatedFields : TestBase
 	{
-		private static ExcelWorksheet _dateWs1, _dateWs2, _dateWs3;
+		private static ExcelWorksheet _dateWs1;
 		private static ExcelPackage _package;
 		[ClassInitialize]
 		public static void TestInitialize(TestContext context)

@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalWorksheet
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SheetId
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RefreshError
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CachedNames
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
@@ -217,7 +217,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellValues
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
@@ -254,7 +254,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ExternalReferences/ExcelExternalWorksheet.cs

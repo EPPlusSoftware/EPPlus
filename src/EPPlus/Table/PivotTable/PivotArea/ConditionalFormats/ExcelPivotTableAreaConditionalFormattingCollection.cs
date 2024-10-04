@@ -22,7 +22,6 @@ namespace OfficeOpenXml.Table.PivotTable
     {
         readonly ExcelPivotTable _pt;
         readonly XmlNamespaceManager _nsm;
-        readonly XmlNode _topNode;
         readonly XmlHelper _helper;
         internal ExcelPivotTableAreaConditionalFormattingCollection(ExcelPivotTable pt, XmlNode topNode)
         {

@@ -43,7 +43,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRangeColumn
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartColumn
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -133,7 +133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndColumn
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -170,7 +170,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Collapsed
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -207,7 +207,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Group
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -239,7 +239,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnGroup
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -271,7 +271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CollapseChildren
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -306,7 +306,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExpandChildren
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -341,7 +341,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetVisibleOutlineLevel
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -380,7 +380,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineLevel
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -417,7 +417,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Phonetic
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -454,7 +454,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BestFit
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -491,7 +491,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -528,7 +528,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -565,7 +565,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageBreak
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -602,7 +602,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -639,7 +639,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -676,7 +676,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -713,7 +713,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -753,7 +753,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -792,7 +792,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -825,7 +825,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -862,7 +862,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -902,7 +902,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Range
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -939,7 +939,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -976,7 +976,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -1010,7 +1010,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -1047,7 +1047,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/ExcelRangeColumn.cs
@@ -1081,7 +1081,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelRangeColumn.cs

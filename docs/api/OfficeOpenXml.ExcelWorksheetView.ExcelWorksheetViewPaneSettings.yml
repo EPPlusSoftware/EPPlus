@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWorksheetViewPaneSettings
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: State
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActivePanePosition
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XSplit
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -177,7 +177,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: YSplit
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -214,7 +214,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopLeftCell
     path: ../src/EPPlus/ExcelWorksheetView.cs

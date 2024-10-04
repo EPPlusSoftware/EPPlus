@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeSortLayerBuilder.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeSortLayerBuilder
     path: ../src/EPPlus/Sorting/RangeSortLayerBuilder.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeSortLayerBuilder.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThenSortBy
     path: ../src/EPPlus/Sorting/RangeSortLayerBuilder.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeSortLayerBuilder.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UsingCustomList
     path: ../src/EPPlus/Sorting/RangeSortLayerBuilder.cs

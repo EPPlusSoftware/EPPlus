@@ -30,7 +30,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eShowDataAs
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Difference
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -131,7 +131,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Normal
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -165,7 +165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -199,7 +199,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PercentDifference
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PercentOfColumn
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -267,7 +267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PercentOfRow
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -301,7 +301,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PercentOfTotal
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -335,7 +335,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RunningTotal
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -369,7 +369,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PercentOfParentRow
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -403,7 +403,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PercentOfParentColumn
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -437,7 +437,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PercentOfParent
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -471,7 +471,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RankAscending
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -505,7 +505,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RankDescending
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
@@ -539,7 +539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PercentOfRunningTotal
     path: ../src/EPPlus/Table/PivotTable/enums/eShowDataAs.cs

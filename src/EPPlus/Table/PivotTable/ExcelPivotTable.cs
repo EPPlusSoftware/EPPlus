@@ -52,18 +52,27 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// The hash value for the object 
         /// </summary>
-        /// <param name="obj"></param>
         /// <returns></returns>
-        public int GetHashCode(PivotNull obj)
+        public override int GetHashCode()
 		{
 			return 0;
 		}
 
-		/// <summary>
-		/// Return the string representation of the pivot null value
-		/// </summary>
-		/// <returns>An empty string</returns>
-		public override string ToString()
+        /// <summary>
+        /// The hash value for the object 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int GetHashCode(PivotNull obj)
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// Return the string representation of the pivot null value
+        /// </summary>
+        /// <returns>An empty string</returns>
+        public override string ToString()
 		{
 			return "";
 		}
@@ -1622,6 +1631,9 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
+        /// <summary>
+        /// A collection of Conditional Formatting's to apply to the pivot table.
+        /// </summary>
         public ExcelPivotTableConditionalFormattingCollection ConditionalFormattings { get; private set; } 
 
         internal int ChangeCacheId(int oldCacheId)

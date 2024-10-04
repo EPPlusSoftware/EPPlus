@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDynamicFilterType
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -83,7 +83,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AboveAverage
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BelowAverage
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -151,7 +151,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastMonth
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastQuarter
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -219,7 +219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastWeek
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -253,7 +253,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastYear
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -287,7 +287,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M1
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -321,7 +321,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M2
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -355,7 +355,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M3
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -389,7 +389,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M4
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -423,7 +423,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M5
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -457,7 +457,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M6
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -491,7 +491,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M7
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -525,7 +525,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M8
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -559,7 +559,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M9
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -593,7 +593,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M10
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -627,7 +627,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M11
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -661,7 +661,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M12
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -695,7 +695,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextMonth
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -729,7 +729,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextQuarter
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -763,7 +763,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextWeek
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -797,7 +797,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextYear
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -831,7 +831,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: "Null"
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -865,7 +865,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Q1
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -899,7 +899,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Q2
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -933,7 +933,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Q3
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -967,7 +967,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Q4
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -1001,7 +1001,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThisMonth
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -1035,7 +1035,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThisQuarter
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -1069,7 +1069,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThisWeek
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -1103,7 +1103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThisYear
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -1137,7 +1137,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Today
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -1171,7 +1171,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tomorrow
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -1205,7 +1205,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: YearToDate
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs
@@ -1239,7 +1239,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/enums/eDynamicFilterType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Yesterday
     path: ../src/EPPlus/Filter/enums/eDynamicFilterType.cs

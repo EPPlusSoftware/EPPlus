@@ -12,6 +12,8 @@
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core;
+using System;
+using System.Linq;
 using System.Xml;
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -38,9 +40,8 @@ namespace OfficeOpenXml.Table.PivotTable
         /// Note that only conditional formattings for data is support. Conditional formattings for Lables, data buttons and other pivot areas must be added using the <see cref="ExcelWorksheet.ConditionalFormatting" /> collection.
         /// </summary>
         /// <param name="ruleType">The type of conditional formatting rule</param>
-        /// <param name="fields">The data field(cf) in the pivot table to apply the rule. If no data field is provided, all data field in the collection will be added to the area.The area will be added to the <see cref="ExcelPivotTableConditionalFormatting.Areas" collection/></param>
+        /// <param name="fields">The data field(cf) in the pivot table to apply the rule. If no data field is provided, all data field in the collection will be added to the area.The area will be added to the <see cref="ExcelPivotTableConditionalFormatting.Areas" /> collection</param>
         /// <returns>The rule</returns>
-        /// <exception cref="InvalidOperationException">If no data fields exist in the data fields collection.</exception>
         public ExcelPivotTableConditionalFormatting Add(eExcelPivotTableConditionalFormattingRuleType ruleType, params ExcelPivotTableDataField[] fields)
         {
             var cfFormatNode = GetTopNode();
