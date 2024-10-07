@@ -627,6 +627,72 @@ namespace OfficeOpenXml
         }
         public static EPPlusLicense License { get; } = new EPPlusLicense();
             
+//        internal static bool IsLicenseSet(List<ExcelInitializationError> initErrors)
+//        {
+//            if (_licenseSet == true)
+//            {
+//                return true;
+//            }
+//            else
+//            {
+//                if (Debugger.IsAttached == false)   //This check is only performed if a debugger is attached. 
+//                {
+//                    _licenseSet = true;
+//                    return true;
+//                }
+//                var v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.User, _configuration, initErrors);
+//                if (string.IsNullOrEmpty(v))
+//                {
+//                    v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.Process, _configuration, initErrors);
+//                }
+//                bool inEnvironment;
+//                if (string.IsNullOrEmpty(v))
+//                {
+//#if (Core)
+//                    v = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
+
+//#else
+//                    v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
+//                    if(string.IsNullOrEmpty(v))
+//                    {
+//                        v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.LicenseContext", _configuration, initErrors);
+//                    }
+//#endif
+//                    inEnvironment = false;
+//                }
+//                else
+//                {
+//                    inEnvironment = true;
+//                }
+
+//                if (string.IsNullOrEmpty(v))
+//                {
+//                    inEnvironment = false;
+//                    return false;
+//                }
+//                else
+//                {
+//                    v = v.Trim();
+//                    if (v.Equals("commercial", StringComparison.OrdinalIgnoreCase))
+//                    {
+//                        LicenseContext = OfficeOpenXml.LicenseContext.Commercial;
+//                        _licenseSet = true;
+//                        return _licenseSet;
+//                    }
+//                    else if (v.Equals("noncommercial", StringComparison.OrdinalIgnoreCase))
+//                    {
+//                        LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+//                        _licenseSet = true;
+//                        return _licenseSet;
+//                    }
+//                }
+
+//                if (inEnvironment)
+//                    throw new LicenseException("LicenseContext is set to an invalid value in the environment variable 'EPPlusLicenseContext'. Please use Commercial or Noncommercial");
+//                else
+//                    throw new LicenseException("LicenseContext is set to an invalid value in the configuration file, Key: ExcelPackage.LicenseContext. Please use Commercial or Noncommercial");
+//            }
+//        }
         internal static bool IsLicenseSet(List<ExcelInitializationError> initErrors)
         {
             if (_licenseSet == true)
@@ -635,136 +701,10 @@ namespace OfficeOpenXml
             }
             else
             {
-                if (Debugger.IsAttached == false)   //This check is only performed if a debugger is attached. 
-                {
-                    _licenseSet = true;
-                    return true;
-                }
-                var v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.User, _configuration, initErrors);
-                if (string.IsNullOrEmpty(v))
-                {
-                    v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.Process, _configuration, initErrors);
-                }
-                bool inEnvironment;
-                if (string.IsNullOrEmpty(v))
-                {
-#if (Core)
-                    v = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
-
-#else
-                    v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
-                    if(string.IsNullOrEmpty(v))
-                    {
-                        v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.LicenseContext", _configuration, initErrors);
-                    }
-#endif
-                    inEnvironment = false;
-                }
-                else
-                {
-                    inEnvironment = true;
-                }
-
-                if (string.IsNullOrEmpty(v))
-                {
-                    inEnvironment = false;
-                    return false;
-                }
-                else
-                {
-                    v = v.Trim();
-                    if (v.Equals("commercial", StringComparison.OrdinalIgnoreCase))
-                    {
-                        LicenseContext = OfficeOpenXml.LicenseContext.Commercial;
-                        _licenseSet = true;
-                        return _licenseSet;
-                    }
-                    else if (v.Equals("noncommercial", StringComparison.OrdinalIgnoreCase))
-                    {
-                        LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-                        _licenseSet = true;
-                        return _licenseSet;
-                    }
-                }
-
-                if (inEnvironment)
-                    throw new LicenseException("LicenseContext is set to an invalid value in the environment variable 'EPPlusLicenseContext'. Please use Commercial or Noncommercial");
-                else
-                    throw new LicenseException("LicenseContext is set to an invalid value in the configuration file, Key: ExcelPackage.LicenseContext. Please use Commercial or Noncommercial");
+                _licenseSet = License.SetLicenseFromConfig(initErrors);
+                return _licenseSet;
             }
         }
-        internal static bool IsLicenseSetNew(List<ExcelInitializationError> initErrors)
-        {
-            if (_licenseSet == true)
-            {
-                return true;
-            }
-            else
-            {
-                if (Debugger.IsAttached == false)   //This check is only performed if a debugger is attached. 
-                {
-                    _licenseSet = true;
-                    return true;
-                }
-                var v=GetConfigValue("EPPlusLicenseType", initErrors, out bool inEnvironment);
-
-                if (string.IsNullOrEmpty(v))
-                {
-                    inEnvironment = false;
-                    return false;
-                }
-                else
-                {
-                    v = v.Trim();
-                    if (v.Equals("commercial", StringComparison.OrdinalIgnoreCase))
-                    {
-                        LicenseContext = OfficeOpenXml.LicenseContext.Commercial;
-                        _licenseSet = true;
-                        return _licenseSet;
-                    }
-                    else if (v.Equals("noncommercial", StringComparison.OrdinalIgnoreCase))
-                    {
-                        LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-                        _licenseSet = true;
-                        return _licenseSet;
-                    }
-                }
-
-                if (inEnvironment)
-                    throw new LicenseException("LicenseContext is set to an invalid value in the environment variable 'EPPlusLicenseContext'. Please use Commercial or Noncommercial");
-                else
-                    throw new LicenseException("LicenseContext is set to an invalid value in the configuration file, Key: ExcelPackage.LicenseContext. Please use Commercial or Noncommercial");
-            }
-        }
-
-        private static string GetConfigValue(string key, List<ExcelInitializationError> initErrors, out bool inEnvironment)
-        {
-            var v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlus"+key, EnvironmentVariableTarget.User, _configuration, initErrors);
-            if (string.IsNullOrEmpty(v))
-            {
-                v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlus" + key, EnvironmentVariableTarget.Process, _configuration, initErrors);
-            }
-            if (string.IsNullOrEmpty(v))
-            {
-#if (Core)
-                v = ExcelConfigurationReader.GetJsonConfigValue($"EPPlus:ExcelPackage:{key}", _configuration, initErrors);
-
-#else
-                    v = ExcelConfigurationReader.GetValueFromAppSettings($"EPPlus:ExcelPackage:{key}", _configuration, initErrors);
-                    if(string.IsNullOrEmpty(v))
-                    {
-                        v = ExcelConfigurationReader.GetValueFromAppSettings($"EPPlus:ExcelPackage.{key}", _configuration, initErrors);
-                    }
-#endif
-                inEnvironment = false;
-            }
-            else
-            {
-                inEnvironment = true;
-            }
-            return v;
-        }
-
         /// <summary>
         /// Returns a reference to the workbook component within the package.
         /// All worksheets and cells can be accessed through the workbook.

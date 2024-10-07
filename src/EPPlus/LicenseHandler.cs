@@ -18,7 +18,7 @@ namespace OfficeOpenXml
         {
             var version = Assembly.GetExecutingAssembly().GetName().Version;
             wb.Properties.Keywords = "EPPlus Non-Commercial Use";
-            wb.Properties.Comments = "This workbook has been created with EPPlus licensed under The Polyform Non-Commercial License: See https://polyformproject.org/licenses/noncommercial/1.0.0";
+            wb.Properties.Comments = $"This workbook has been created with EPPlus licensed to {ExcelPackage.License?.LegalName} under The Polyform Non-Commercial License: See https://polyformproject.org/licenses/noncommercial/1.0.0";
             wb.Properties.Application = "EPPlus";
             wb.Properties.AppVersion = $"{version.Major}.{version.Minor}";
 
@@ -34,7 +34,7 @@ namespace OfficeOpenXml
             var part = wb._package.ZipPackage.CreatePart(new Uri("/EPPlusLicense.txt", UriKind.Relative), "text/plain");
             var stream = part.GetStream();            
             var sw=new StreamWriter(stream);
-            sw.WriteLine("This workbook was created by the EPPlus library licensed under the Polyform Non-Commercial license, see https://polyformproject.org/licenses/noncommercial/1.0.0");
+            sw.WriteLine($"This workbook was created by the EPPlus library licensed to {ExcelPackage.License?.LegalName} under the Polyform Non-Commercial license, see https://polyformproject.org/licenses/noncommercial/1.0.0");
             sw.WriteLine("For more information about EPPlus, see https://epplussoftware.com/");
             sw.Flush();            
         }
