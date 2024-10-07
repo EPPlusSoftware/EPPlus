@@ -2,6 +2,7 @@
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 
@@ -14,6 +15,7 @@ namespace OfficeOpenXml
     {
         //ExcelPackage _pck;
         private static ExcelPackageConfiguration _configuration = new ExcelPackageConfiguration();
+        static bool _licenseSet = false;
         //internal EPPlusLicense(ExcelPackage pck)
         //{
         //    _pck = pck;
@@ -23,25 +25,15 @@ namespace OfficeOpenXml
         /// The license key used for a commercial license.
         /// </summary>
         public string LicenseKey { get; private set; }
-        private string _legalName="";
         /// <summary>
         /// The name used for a commercial organization
         /// </summary>
         public string LegalName 
         {
-            get
-            {
-                return _legalName;
-            }
-            private set
-            {
-                if(value==null || value.RemoveAllWhiteSpaces().Length<4)
-                {
-                    throw new LicenseException("License: Legal name must contain more than 3 non-whitespace characters.");
-                }
-                _legalName = value.Trim();
-            }
+            get;
+            private set;
         }
+        public EPPlusLicenseSource Source { get; private set; }
         /// <summary>
         /// The type of license used.
         /// </summary>
@@ -50,6 +42,18 @@ namespace OfficeOpenXml
         /// License information from the license key. If no license key has been set, this propery contains null;
         /// </summary>
         public EPPlusLicenseInfo LicenseInfo { get; internal set; }
+        internal bool IsLicenseSet(List<ExcelInitializationError> initErrors)
+        {
+            if (_licenseSet == true)
+            {
+                return true;
+            }
+            else
+            {
+                _licenseSet = SetLicenseFromConfig(initErrors);
+                return _licenseSet;
+            }
+        }
 
         /// <summary>
         /// Use this license if you use EPPlus for personal non-commercial usage.
@@ -61,7 +65,9 @@ namespace OfficeOpenXml
         {
             LegalName = fullName;
             LicenseType = EPPlusLicenseType.NonCommercialPersonal;
+            Source = EPPlusLicenseSource.Code;
             LicenseInfo = null;
+            _licenseSet = true;
         }
         /// <summary>
         /// User this option if you use EPPlus within a non-commercial organization.
@@ -73,7 +79,9 @@ namespace OfficeOpenXml
         {
             LegalName = organizationName;
             LicenseType = EPPlusLicenseType.NonCommercialOrganization;
+            Source = EPPlusLicenseSource.Code;
             LicenseInfo = null;
+            _licenseSet = true;
         }
         /// <summary>
         /// If you use EPPlus within a commercial organization or for commercial purposes.
@@ -87,7 +95,9 @@ namespace OfficeOpenXml
             {
                 LicenseKey = licenseKey;
                 LicenseType = EPPlusLicenseType.Commercial;
-                if(LicenseInfo.LicenseValidFrom > DateTime.Today)
+                Source = EPPlusLicenseSource.Code;
+                _licenseSet = true;
+                if (LicenseInfo.LicenseValidFrom > DateTime.Today)
                 {
                     throw new LicenseException($"This license is not valid until {LicenseInfo.LicenseValidFrom:d}.");
                 }
@@ -101,15 +111,11 @@ namespace OfficeOpenXml
 
         internal bool SetLicenseFromConfig(List<ExcelInitializationError> initErrors)
         {
-            if (Debugger.IsAttached == false)   //This check is only performed if a debugger is attached. 
-            {
-                return true;
-            }
             var v = GetConfigValue("License", initErrors, out bool inEnvironment);
 
             if (string.IsNullOrEmpty(v))
             {
-                inEnvironment = false;
+                ExcelPackage.License.Source = EPPlusLicenseSource.NotSet;
                 return false;
             }
             else
@@ -124,6 +130,7 @@ namespace OfficeOpenXml
                     }
                     v = v.Substring(v.IndexOfAny([':', ',']) + 1);
                     SetLicenseNonCommercialOrganization(v.Trim());
+                    ExcelPackage.License.Source = inEnvironment ? EPPlusLicenseSource.EnvironmentVariable : EPPlusLicenseSource.ConfigFile;
                     return true;
                 }
 
@@ -135,6 +142,7 @@ namespace OfficeOpenXml
                     }
                     v = v.Substring(v.IndexOfAny([':', ',']) + 1);
                     SetLicenseNonCommercialPersonal(v.Trim());
+                    ExcelPackage.License.Source = inEnvironment ? EPPlusLicenseSource.EnvironmentVariable : EPPlusLicenseSource.ConfigFile;
                     return true;
                 }
                 else
@@ -144,6 +152,7 @@ namespace OfficeOpenXml
                         v = v.Substring(v.IndexOfAny([':',',']) + 1);
                     }
                     SetLicenseCommercial(v.Trim());
+                    ExcelPackage.License.Source = inEnvironment ? EPPlusLicenseSource.EnvironmentVariable : EPPlusLicenseSource.ConfigFile;
                     return true;
                 }
             }
@@ -176,6 +185,15 @@ namespace OfficeOpenXml
             return v;
         }
 
+        internal void RemoveActiveLicense()
+        {
+            LicenseType = null;
+            LicenseKey = null;
+            Source = EPPlusLicenseSource.NotSet;
+            LegalName = null;
+            LicenseInfo = null;
+            _licenseSet = false;
+        }
     }
     /// <summary>
     /// The type of license used.

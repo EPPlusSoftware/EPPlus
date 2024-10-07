@@ -47,12 +47,30 @@ namespace EPPlusTest
         [TestMethod]
         public void CommercialConfigFileTest()
         {
+            ExcelPackage.License.RemoveActiveLicense();
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 Assert.AreEqual("CGNCoSa1GgSHYvcsjVTU1W3ege0vwtl/9gFYj7qsBXsuVj9iqIHa9Deej4N/ZHnSkpNySdq7AQP0hCnfuTiMVQAGQjAxMTYw6AcAAG4BAQIA",ExcelPackage.License.LicenseKey);
-                SaveWorkbook("LicenseKeyComercial.xlsx", p);
+                Assert.AreEqual(EPPlusLicenseSource.ConfigFile, ExcelPackage.License.Source);
+                Assert.AreEqual(EPPlusLicenseType.Commercial, ExcelPackage.License.LicenseType);
+                SaveWorkbook("LicenseKeyComercialConfig.xlsx", p);
             }
+        }
+        [TestMethod]
+        public void CommercialConfigEnvironmentTest()
+        {
+            ExcelPackage.License.RemoveActiveLicense();
+            Environment.SetEnvironmentVariable("EPPlusLicense", "NonCommercialPersonal:Jan Källman", EnvironmentVariableTarget.Process);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                Assert.AreEqual(EPPlusLicenseType.NonCommercialPersonal, ExcelPackage.License.LicenseType);
+                Assert.AreEqual(EPPlusLicenseSource.EnvironmentVariable, ExcelPackage.License.Source);
+                Assert.AreEqual("Jan Källman", ExcelPackage.License.LegalName);
+                SaveWorkbook("LicenseKeyEnvironment.xlsx", p);
+            }
+            Environment.SetEnvironmentVariable("EPPlusLicense", null);
         }
     }
 }

@@ -606,7 +606,6 @@ namespace OfficeOpenXml
             }
         }
         private static LicenseContext? _licenseType = null;
-        internal static bool _licenseSet = false;
         /// <summary>
         /// To use the EPPlus library in debug mode a Licensetype must be specified.
         /// Use LicenseContext.NonCommercial if you use EPPlus in an non commercial context.
@@ -622,7 +621,7 @@ namespace OfficeOpenXml
             set
             {
                 _licenseType = value;
-                _licenseSet = _licenseType != null;
+                //_licenseSet = _licenseType != null;
             }
         }
         public static EPPlusLicense License { get; } = new EPPlusLicense();
@@ -693,18 +692,6 @@ namespace OfficeOpenXml
 //                    throw new LicenseException("LicenseContext is set to an invalid value in the configuration file, Key: ExcelPackage.LicenseContext. Please use Commercial or Noncommercial");
 //            }
 //        }
-        internal static bool IsLicenseSet(List<ExcelInitializationError> initErrors)
-        {
-            if (_licenseSet == true)
-            {
-                return true;
-            }
-            else
-            {
-                _licenseSet = License.SetLicenseFromConfig(initErrors);
-                return _licenseSet;
-            }
-        }
         /// <summary>
         /// Returns a reference to the workbook component within the package.
         /// All worksheets and cells can be accessed through the workbook.
@@ -716,7 +703,7 @@ namespace OfficeOpenXml
                 CheckNotDisposed();
                 if (_workbook == null)
                 {
-                    if (IsLicenseSet(_initErrors) == false)
+                    if (License.IsLicenseSet(_initErrors) == false)
                     {
                         throw (new LicenseException("Please set the ExcelPackage.LicenseContext property. See https://epplussoftware.com/developers/licenseexception"));
                     }

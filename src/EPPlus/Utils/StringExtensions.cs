@@ -25,18 +25,6 @@ namespace OfficeOpenXml.Utils
 
             return string.Empty;
         }
-        internal static string RemoveAllWhiteSpaces(this string s)
-        {
-            var sb = new StringBuilder();
-            foreach (var c in s)
-            {
-                if(!char.IsWhiteSpace(c))
-                {
-                    sb.Append(c);
-                }
-            }
-
-        }
         internal static bool ContainsOnlyCharacter(this string s, char theCharacter, bool ignoreCase=true)
         {
             if (string.IsNullOrEmpty(s)) return false;
