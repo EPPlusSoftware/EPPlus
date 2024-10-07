@@ -26,15 +26,16 @@ namespace OfficeOpenXml.RichData.RichValues.LocalImage
         {
         }
 
-        public int? RelLocalImageIdentifier
+        public Uri ImageUri
         {
             get
             {
-                return GetValueInt(StructureKeyNames.LocalImages.Image.RelLocalImageIdentifier);
+                return GetRelation(StructureKeyNames.LocalImages.Image.RelLocalImageIdentifier);
             }
             set
             {
-                SetValue(StructureKeyNames.LocalImages.Image.RelLocalImageIdentifier, value);
+                SetRelation(StructureKeyNames.LocalImages.Image.RelLocalImageIdentifier, "LocalImageIdentifier", value);
+                
             }
         }
 

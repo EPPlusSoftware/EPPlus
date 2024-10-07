@@ -8,12 +8,23 @@ namespace OfficeOpenXml.RichData.Structures
         {
             Name = name;
             DataType = GetDataType(dt);
+            CheckRelation();
         }
 
         internal ExcelRichValueStructureKey(string name, RichValueDataType dt)
         {
             Name = name;
             DataType = dt;
+            CheckRelation();
+        }
+
+        private void CheckRelation()
+        {
+            if (!string.IsNullOrEmpty(Name) && Name.StartsWith("_rvRel:"))
+            {
+                IsRelation = true;
+                RelationName = Name.Split(':')[1];
+            }
         }
 
         private RichValueDataType GetDataType(string dt)
@@ -63,5 +74,15 @@ namespace OfficeOpenXml.RichData.Structures
 
         public string Name { get; set; }
         public RichValueDataType DataType { get; set; }
+
+        public bool IsRelation
+        {
+            get; private set;
+        }
+
+        public string RelationName
+        {
+            get; private set;
+        }
     }
 }

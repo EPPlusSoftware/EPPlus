@@ -13,15 +13,15 @@ namespace OfficeOpenXml.RichData.RichValues.LocalImage
         {
         }
 
-        public int? RelLocalImageIdentifier
+        public Uri ImageUri
         {
             get
             {
-                return GetValueInt(StructureKeyNames.LocalImages.ImageAltText.RelLocalImageIdentifier);
+                return GetRelation(StructureKeyNames.LocalImages.ImageAltText.RelLocalImageIdentifier);
             }
             set
             {
-                SetValue(StructureKeyNames.LocalImages.ImageAltText.RelLocalImageIdentifier, value);
+                SetRelation(StructureKeyNames.LocalImages.ImageAltText.RelLocalImageIdentifier, "LocalImageIdentifier", value);
             }
         }
 

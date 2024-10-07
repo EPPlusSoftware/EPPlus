@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace OfficeOpenXml.RichData.Structures
 {
@@ -79,6 +80,24 @@ namespace OfficeOpenXml.RichData.Structures
             if(indexes.Count > 0)
             {
                 return indexes.First();
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the 0-based index of a key that is a Rich Value relation and its property Name is equal to <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>index of the found key or null if no such key exists</returns>
+        internal int? GetRelationIndexByName(string name)
+        {
+            for(var i = 0; i < Keys.Count;i++)
+            {
+                var key = Keys[i];
+                if(key.IsRelation && key.RelationName == name)
+                {
+                    return i;
+                }
             }
             return null;
         }

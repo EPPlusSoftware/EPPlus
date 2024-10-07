@@ -52,20 +52,21 @@ namespace OfficeOpenXml.CellPictures
             var richData = _richDataStore.GetRichValue(row, col, out int? rvIx, StructureTypes.LocalImage);
             if (richData != null)
             {
-                var relationIndex = richData.Structure.GetFirstRelationIndex();
-                if (!relationIndex.HasValue)
-                {
-                    return null;
-                }
-                var relation = _richDataStore.GetRelation(relationIndex.Value);
-                var sourceUri = _sheet.Workbook.RichData.RichValueRels.Part.Uri;
+                //var relationIndex = richData.Structure.GetFirstRelationIndex();
+                //if (!relationIndex.HasValue)
+                //{
+                //    return null;
+                //}
+                //var relation = _richDataStore.GetRelation(relationIndex.Value);
+                //var sourceUri = _sheet.Workbook.RichData.RichValueRels.Part.Uri;
                 if (richData.Structure.StructureType == RichDataStructureTypes.LocalImage)
                 {
                     var rdLi = richData.As.LocalImage;
                     var pic = new ExcelCellPicture
                     {
                         CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
-                        ImageUri = UriHelper.ResolvePartUri(sourceUri, relation.TargetUri),
+                        //ImageUri = UriHelper.ResolvePartUri(sourceUri, relation.TargetUri),
+                        ImageUri = rdLi.ImageUri,
                         CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
                     };
                     return pic;
@@ -76,7 +77,8 @@ namespace OfficeOpenXml.CellPictures
                     var pic = new ExcelCellPicture
                     {
                         CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
-                        ImageUri = UriHelper.ResolvePartUri(sourceUri, relation.TargetUri),
+                        //ImageUri = UriHelper.ResolvePartUri(sourceUri, relation.TargetUri),
+                        ImageUri = rdLia.ImageUri,
                         CalcOrigin = rdLia.CalcOrigin ?? CalcOrigins.None,
                         AltText = rdLia.Text
                     };
@@ -92,13 +94,13 @@ namespace OfficeOpenXml.CellPictures
             return _validPictureTypes.Any(x => x == type);
         }
 
-        private ExcelRichValue GetImageRichValue(int relIx, CalcOrigins calcOrigin, string altText)
+        private ExcelRichValue GetImageRichValue(Uri imageUri, CalcOrigins calcOrigin, string altText)
         {
             if (!string.IsNullOrEmpty(altText))
             {
                 return new LocalImageAltTextRichValue(_sheet.Workbook)
                 {
-                    RelLocalImageIdentifier = relIx,
+                    ImageUri = imageUri,
                     CalcOrigin = calcOrigin,
                     Text = altText
                 };
@@ -107,7 +109,7 @@ namespace OfficeOpenXml.CellPictures
             {
                 return new LocalImageRichValue(_sheet.Workbook)
                 {
-                    RelLocalImageIdentifier = relIx,
+                    ImageUri = imageUri,
                     CalcOrigin = calcOrigin
                 };
             }
@@ -121,7 +123,7 @@ namespace OfficeOpenXml.CellPictures
             var structureType = string.IsNullOrEmpty(altText) ? RichDataStructureTypes.LocalImage : RichDataStructureTypes.LocalImageWithAltText;
             var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
             var imageUri = UriHelper.GetRelativeUri(rdUri, imageInfo.Uri);
-            var relIx = _richDataStore.CreateRichValueRelation(structureType, imageUri);
+            //var relIx = _richDataStore.CreateRichValueRelation(structureType, imageUri);
 
             var hasRv = _richDataStore.HasRichData(row, col, out MetaDataReference md);
             if(!hasRv)
@@ -130,7 +132,7 @@ namespace OfficeOpenXml.CellPictures
                 // TODO: we should probably make our own ErrorValue for images
                 _sheet.Cells[row, col].Value = ExcelErrorValue.Create(eErrorType.Value);
                 // no existing rich data, add new
-                var imageRichValue = GetImageRichValue(relIx, calcOrigin, altText);
+                var imageRichValue = GetImageRichValue(imageUri, calcOrigin, altText);
                 _richDataStore.AddRichData(imageRichValue, out int vm);
                 md.vm = vm;
                 _sheet._metadataStore.SetValue(row, col, md);
@@ -146,7 +148,7 @@ namespace OfficeOpenXml.CellPictures
                     // TODO:  delete relations if any?
                 }
                 var existingPic = GetCellPicture(row, col);
-                var imageRichValue = GetImageRichValue(relIx, calcOrigin, altText);
+                var imageRichValue = GetImageRichValue(imageUri, calcOrigin, altText);
                 _richDataStore.UpdateRichData(rvIndex.Value, imageRichValue, imageUri);
                 if (existingPic != null)
                 {

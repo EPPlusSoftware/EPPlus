@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.RichData.Mappings;
 using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.RichData.Structures;
 using OfficeOpenXml.RichData.Structures.Constants;
@@ -155,6 +156,27 @@ namespace OfficeOpenXml.RichData.RichValues
         //        }
         //    });
         //}
+
+        public void SetRelation(string key, string relationName, Uri relUri)
+        {
+            var index = Structure.GetRelationIndexByName(relationName);
+            if (!index.HasValue)
+            {
+                throw new InvalidOperationException($"Cannot create a relation from structure {Structure.Type}/{Structure.StructureType}");
+            }
+            var rel = Structure.Keys[index.Value].Name;
+            var relationshipType = RichValueRelationMappings.GetSchema(rel);
+            _workbook.RichData.RichValueRels.AddItem(relUri, relationshipType, out int relIx);
+            SetValue(key, relIx);
+        }
+
+        public Uri GetRelation(string key)
+        {
+            var relIndex = GetValueInt(key);
+            if (!relIndex.HasValue) return null;
+            var rdRel = _workbook.RichData.RichValueRels.Items[relIndex.Value];
+            return rdRel.TargetUri;
+        }
 
         public void SetValue(string key, string value)
         {
