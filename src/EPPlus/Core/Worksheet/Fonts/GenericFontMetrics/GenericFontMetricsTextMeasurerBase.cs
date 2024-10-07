@@ -85,27 +85,131 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             return new TextMeasurement(width, height);
         }
 
+        static Dictionary<char, uint> AlphabetChars = new Dictionary<char, uint>
+        {
+            {'a', 0x06 },
+            {'b', 0x07 },
+            {'c', 0x05 },
+            {'d', 0x07 },
+            {'e', 0x06 },
+            {'f', 0x04 },
+            {'g', 0x07 },
+            {'h', 0x07 },
+            {'i', 0x03 },
+            {'j', 0x03 },
+            {'k', 0x06 },
+            {'l', 0x03 },
+            {'m', 0x09 },
+            {'n', 0x07 },
+            {'o', 0x07 },
+            {'p', 0x07 },
+            {'q', 0x07 },
+            {'r', 0x04 },
+            {'s', 0x05 },
+            {'t', 0x04 },
+            {'u', 0x07 },
+            {'v', 0x05 },
+            {'w', 0x09 },
+            {'x', 0x05 },
+            {'y', 0x05 },
+            {'z', 0x05 },
+            {'A', 0x07 },
+            {'B', 0x06 },
+            {'C', 0x07 },
+            {'D', 0x08 },
+            {'E', 0x06 },
+            {'F', 0x06 },
+            {'G', 0x08 },
+            {'H', 0x08 },
+            {'I', 0x03 },
+            {'J', 0x04 },
+            {'K', 0x06 },
+            {'L', 0x05 },
+            {'M', 0x0A },
+            {'N', 0x08 },
+            {'O', 0x09 },
+            {'P', 0x06 },
+            {'Q', 0x08 },
+            {'R', 0x07 },
+            {'S', 0x06 },
+            {'T', 0x06 },
+            {'U', 0x08 },
+            {'V', 0x07 },
+            {'W', 0x0B },
+            {'X', 0x06 },
+            {'Y', 0x05 },
+            {'Z', 0x06 }
+        };
+
+        public Dictionary<FontMetricsClass, uint> roundedClasses = new Dictionary<FontMetricsClass, uint>();
+        public Dictionary<char, FontMetricsClass> simplifiedChar = new Dictionary<char, FontMetricsClass>();
+
         internal List<uint> MeasureTextSpacingInternal(string text, uint fontKey, MeasurementFontStyles style, float size)
         {
             var sFont = _fonts[fontKey];
             var chars = text.ToCharArray();
 
             var spacingBuffer = new List<uint>();
+            var ptSize = size * (72f/96f);
+            //var ptSize = size;
+
+
+            List<float> offsetsFromCorrect = new List<float>();
+            float sum = 0;
+            float width = 0;
+
+            var widthDefault = sFont.ClassWidths[sFont.DefaultWidthClass];
+
+            foreach(var widthTest in sFont.ClassWidths)
+            {
+                roundedClasses.Add(widthTest.Key, (uint)Math.Round(widthTest.Value * 10, MidpointRounding.AwayFromZero));
+            }
 
             for (var x = 0; x < chars.Length; x++)
             {
                 var fnt = sFont;
                 var c = chars[x];
 
+
+                if (sFont.CharMetrics.ContainsKey(c))
+                {
+                    simplifiedChar.Add(c, sFont.CharMetrics[c]);
+                }
+                else
+                {
+                    simplifiedChar.Add(c, fnt.DefaultWidthClass);
+
+                }
+
                 if (sFont.CharMetrics.ContainsKey(c))
                 {
                     var metrics = sFont.CharMetrics[c];
+                    //simpleChar.Add(c, metrics);
+                    var test = fnt.ClassWidths[fnt.DefaultWidthClass] * ptSize;
                     var classWidth = fnt.ClassWidths[sFont.CharMetrics[c]];
 
-                    var width = classWidth * size;
-                    uint simplifiedWidth = (uint)Math.Round(width, MidpointRounding.AwayFromZero);
-                    spacingBuffer.Add(simplifiedWidth);
+                    width = (classWidth) * ptSize;
+                    float diff = AlphabetChars[c] - width;
+                    sum += diff;
+                    offsetsFromCorrect.Add(width);
+
+                    //width = roundedClasses[sFont.CharMetrics[c]];
+
+                    //width += 0.219586328f;
+
+                    //width = width * _fontScaleFactors.GetScaleFactor(fontKey, width);
+                    //uint simplifiedWidth = (uint)Math.Round(width, MidpointRounding.AwayFromZero);
+                    //spacingBuffer.Add(simplifiedWidth);
                 }
+                else
+                {
+                    //width = sFont.ClassWidths[fnt.DefaultWidthClass]*10;
+                    //simpleChar.Add(c, fnt.DefaultWidthClass);
+                    width = fnt.ClassWidths[fnt.DefaultWidthClass] * ptSize;
+                    //var stuff = "what";
+                }
+                uint simplifiedWidth = (uint)Math.Round(width, MidpointRounding.AwayFromZero);
+                spacingBuffer.Add(simplifiedWidth);
 
                 //// if east asian char use default regardless of actual font.
                 //if (IsEastAsianChar(c))
@@ -127,6 +231,10 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                 //}
 
             }
+
+            var avg = sum / offsetsFromCorrect.Count();
+
+
             return spacingBuffer;
         }
 

@@ -34,6 +34,10 @@ namespace OfficeOpenXml.Drawing.EMF
             {
                 suggestedTitleObject.Text = AdjustText(39, value);
             }
+            get
+            {
+                return suggestedTitleObject.Text;
+            }
         }
 
         string AdjustText(int length, string inputString)

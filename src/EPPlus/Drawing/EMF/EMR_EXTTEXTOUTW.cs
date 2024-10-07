@@ -1,7 +1,10 @@
 ﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
+using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Utils;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Text;
 
@@ -87,10 +90,6 @@ namespace OfficeOpenXml.Drawing.EMF
             br.BaseStream.Position = position + offDx;
             DxBuffer = br.ReadBytes((int)(Size - offDx));
 
-            byte[] prevBuff = new byte[DxBuffer.Length];
-            DxBuffer.CopyTo(prevBuff, 0);
-            CalculateDxSpacing();
-
             var changedSize = offDx - offString;
             changedSize -= (Chars * 2);
             if (changedSize > 0)
@@ -107,8 +106,9 @@ namespace OfficeOpenXml.Drawing.EMF
             //    //if( Font.elw.FaceName)
             //}
 
+            var test = textSettings.GenericTextMeasurer;
             var aMesurement = (GenericFontMetricsTextMeasurer)textSettings.GenericTextMeasurer;
-
+            aMesurement.MeasureTextInternal(stringBuffer, GenericFontMetricsTextMeasurerBase.GetKey(Font.elw.mFont.FontFamily, Font.elw.mFont.Style), Font.elw.mFont.Style, Font.elw.mFont.Size);
             var values = aMesurement.MeasureIndividualCharacters(stringBuffer, Font.elw.mFont);
 
             int index = 0;
@@ -130,6 +130,62 @@ namespace OfficeOpenXml.Drawing.EMF
             //}
             return DxBuffer;
         }
+
+        static Dictionary<char, uint> AlphabetChars = new Dictionary<char, uint>
+        {
+            {'a', 0x06 },
+            {'b', 0x07 },
+            {'c', 0x05 },
+            {'d', 0x07 },
+            {'e', 0x06 },
+            {'f', 0x04 },
+            {'g', 0x07 },
+            {'h', 0x07 },
+            {'i', 0x03 },
+            {'j', 0x03 },
+            {'k', 0x06 },
+            {'l', 0x03 },
+            {'m', 0x09 },
+            {'n', 0x07 },
+            {'o', 0x07 },
+            {'p', 0x07 },
+            {'q', 0x07 },
+            {'r', 0x04 },
+            {'s', 0x05 },
+            {'t', 0x04 },
+            {'u', 0x07 },
+            {'v', 0x05 },
+            {'w', 0x09 },
+            {'x', 0x05 },
+            {'y', 0x05 },
+            {'z', 0x05 },
+            {'A', 0x07 },
+            {'B', 0x06 },
+            {'C', 0x07 },
+            {'D', 0x08 },
+            {'E', 0x06 },
+            {'F', 0x06 },
+            {'G', 0x08 },
+            {'H', 0x08 },
+            {'I', 0x03 },
+            {'J', 0x04 },
+            {'K', 0x06 },
+            {'L', 0x05 },
+            {'M', 0x0A },
+            {'N', 0x08 },
+            {'O', 0x09 },
+            {'P', 0x06 },
+            {'Q', 0x08 },
+            {'R', 0x07 },
+            {'S', 0x06 },
+            {'T', 0x06 },
+            {'U', 0x08 },
+            {'V', 0x07 },
+            {'W', 0x0B },
+            {'X', 0x06 },
+            {'Y', 0x05 },
+            {'Z', 0x06 }
+        };
 
         //static int GetSpacingForChar(char aChar)
         //{
@@ -444,6 +500,9 @@ namespace OfficeOpenXml.Drawing.EMF
             padding = (int)offDx;
             offDx += 4 - (offDx % 4);
             padding = (int)(offDx) - padding;
+
+            byte[] prevBuff = new byte[DxBuffer.Length];
+            DxBuffer.CopyTo(prevBuff, 0);
 
             DxBuffer = new byte[stringBuffer.Length * 4];
             CalculateDxSpacing();

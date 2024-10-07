@@ -9,6 +9,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System.Drawing;
+using System.Globalization;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System.Collections;
 
 
 namespace OfficeOpenXml.Drawing.EMF
@@ -87,11 +90,36 @@ namespace OfficeOpenXml.Drawing.EMF
             //Assuming output pixel width is equal to height
             CalculatedAverageWidth = Width != 0 ? Width : (int)Math.Round((DefinedHeight / 2d),MidpointRounding.AwayFromZero);
 
+            TextInfo textInfo = CultureInfo.InvariantCulture.TextInfo;
+            var changedFaceName = textInfo.ToTitleCase(FaceName);
+
+            if(changedFaceName.Contains("Ui"))
+            {
+                changedFaceName = changedFaceName.Replace("Ui", "UI");
+            }
+
+
+            //Thin 100
+            //Extra Light(Ultra Light) 200
+            //Light 300
+            //Normal(Regular) 400
+            //Medium 500
+            //Semi - Bold(Demi - Bold) 600
+            //Bold 700
+            //Extra Bold(Ultra Bold) 800
+            //Heavy(Black) 900
+
+            var fontStyle = MeasurementFontStyles.Regular;
+            if(Weight == 700)
+            {
+                fontStyle = MeasurementFontStyles.Bold;
+            }
+
             mFont = new MeasurementFont()
             {
-                FontFamily = FaceName,
+                FontFamily = changedFaceName,
                 Size = FontPointSize,
-                Style = MeasurementFontStyles.Regular
+                Style = fontStyle
             };
         }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.EMF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -87,11 +88,11 @@ namespace EPPlusTest
 
             var width = FontSize.GetFontSize("SegoeUI", true);
 
-            validTemplate.timeStamp.Text = "TimeStamp";
-            validTemplate.signTextObject.Text = "TemplateSignature";
-            validTemplate.suggestedSignerObject.Text = "TemplateSigner";
-            validTemplate.suggestedTitleObject.Text = "TemplateTitle";
-            validTemplate.Signers = "TemplateName";
+            //validTemplate.timeStamp.Text = "TimeStamp";
+            //validTemplate.signTextObject.Text = "TemplateSignature";
+            //validTemplate.suggestedSignerObject.Text = "TemplateSigner";
+            //validTemplate.suggestedTitleObject.Text = validTemplate.suggestedTitleObject.Text;
+            //validTemplate.Signers = "TemplateName";
 
             validTemplate.Save("C:\\epplusTest\\Testoutput\\testTemp.emf");
         }
@@ -103,7 +104,9 @@ namespace EPPlusTest
             var validTemplate = new EMF();
             //validTemplate.Read("C:\\Users\\OssianEdström\\Documents\\presentationEmf.emf");
             //validTemplate.Read("C:\\Users\\OssianEdström\\Pictures\\Segoe_UI_pt10.emf");
-            validTemplate.Read("C:\\epplusTest\\Testoutput\\ValidImageOriginal.emf");
+            //validTemplate.Read("C:\\epplusTest\\Testoutput\\ValidImageOriginal.emf");
+            validTemplate.Read(@"C:\Users\OssianEdström\Desktop\AlphabetEmf.emf");
+
             var records = validTemplate.records;
 
             //var clipRect = (EMR_INTERSECTCLIPRECT)records[121];
@@ -113,18 +116,43 @@ namespace EPPlusTest
             //clipRect.Clip.Bottom = 72;
             var fontRecordArr = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTCREATEFONTINDIRECTW);
             var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).ToArray();
-            ((EMR_EXTTEXTOUTW)textRecords[0]).Text = "DifferentText";
+            ((EMR_EXTTEXTOUTW)textRecords[1]).Text = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            ((EMR_EXTTEXTOUTW)textRecords[2]).Text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
             //var timeStamp = (EMR_EXTTEXTOUTW)textRecords[0];
             //var signTextObject = (EMR_EXTTEXTOUTW)textRecords[2];
             //var suggestedSignerObject = (EMR_EXTTEXTOUTW)textRecords[3];
             //var suggestedTitleObject = (EMR_EXTTEXTOUTW)textRecords[4];
             //var signedBy = (EMR_EXTTEXTOUTW)textRecords[5];
+            var header = ((EMR_HEADER)records[0]);
+            var cx = BitConverter.ToUInt32(header.Device, 0);
+            var cy = BitConverter.ToUInt32(header.Device, 4);
 
+            var cxMili = BitConverter.ToUInt32(header.Millimeters, 0);
+            var cyMili = BitConverter.ToUInt32(header.Millimeters, 4);
+
+            var inchesX = cxMili * 0.0393700787f;
+            var inchesY = cyMili * 0.0393700787f;
             //timeStamp.Text = "TimeStamp";
             //signTextObject.Text = "TemplateSignature";
             //suggestedSignerObject.Text = "TemplateSigner";
             //suggestedTitleObject.Text = "TemplateTitle";
             //signedBy.Text = "Signed by: TemplateName";
+
+            validTemplate.Save("C:\\epplusTest\\Testoutput\\testTempPresentation.emf");
+        }
+
+        [TestMethod]
+        public void CheckFontStuff2()
+        {
+            var validTemplate = new EMF();
+
+            validTemplate.Read("C:\\Users\\OssianEdström\\Pictures\\TestStuff.emf");
+            var records = validTemplate.records;
+
+            var fontRecordArr = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTCREATEFONTINDIRECTW);
+            var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).ToArray();
+            ((EMR_EXTTEXTOUTW)textRecords[1]).Text = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
             validTemplate.Save("C:\\epplusTest\\Testoutput\\testTempPresentation.emf");
         }
