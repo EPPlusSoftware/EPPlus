@@ -974,6 +974,9 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.NameError:
                         s.Push(ErrorExpression.NameError);
                         break;
+                    case TokenType.Null:
+                        s.Push(ErrorExpression.NullError);
+                        break;
                 }
 
                 f._tokenIndex++;
