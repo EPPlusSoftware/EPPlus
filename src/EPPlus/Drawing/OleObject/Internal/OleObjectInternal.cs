@@ -165,11 +165,21 @@ namespace OfficeOpenXml.Drawing.OleObject
             var node = TopNode.ParentNode?.ParentNode;
             if (node?.LocalName == "AlternateContent")
             {
+                var parent = node.ParentNode;
                 node.ParentNode.RemoveChild(node);
+                if(!parent.HasChildNodes)
+                {
+                    parent.ParentNode.RemoveChild(parent);
+                }
             }
             else
             {
+                var parent = TopNode.ParentNode;
                 TopNode.ParentNode.RemoveChild(TopNode);
+                if (!parent.HasChildNodes)
+                {
+                    parent.ParentNode.RemoveChild(parent);
+                }
             }
         }
     }

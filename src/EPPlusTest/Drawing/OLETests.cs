@@ -187,7 +187,7 @@ namespace EPPlusTest.Drawing
             using var docxOlePackage = OpenPackage("EpplusOleObject_Embed_DOCX.xlsx", true);
             var docxWs = docxOlePackage.Workbook.Worksheets.Add("Sheet 1");
             var docxOle = docxWs.Drawings.AddOleObject(@"C:\epplusTest\Workbooks\OleObjectFiles\MyWord.docx");
-            Assert.IsTrue(docxOle.oleObjectPart.Uri.ToString().Contains(".docx"));
+            Assert.IsTrue(docxOle._oleObjectPart.Uri.ToString().Contains(".docx"));
             Assert.IsFalse(docxOle.IsExternalLink);
             SaveAndCleanup(docxOlePackage);
 
@@ -195,7 +195,7 @@ namespace EPPlusTest.Drawing
             using var pptxOlePackage = OpenPackage("EpplusOleObject_Embed_PPTX.xlsx", true);
             var pptxWs = pptxOlePackage.Workbook.Worksheets.Add("Sheet 1");
             var pptxOle = pptxWs.Drawings.AddOleObject(@"C:\epplusTest\Workbooks\OleObjectFiles\MyPresent.pptx");
-            Assert.IsTrue(pptxOle.oleObjectPart.Uri.ToString().Contains(".pptx"));
+            Assert.IsTrue(pptxOle._oleObjectPart.Uri.ToString().Contains(".pptx"));
             Assert.IsFalse(pptxOle.IsExternalLink);
             SaveAndCleanup(pptxOlePackage);
 
@@ -203,7 +203,7 @@ namespace EPPlusTest.Drawing
             using var xlsxOlePackage = OpenPackage("EpplusOleObject_Embed_XLSX.xlsx", true);
             var xlsxWs = xlsxOlePackage.Workbook.Worksheets.Add("Sheet 1");
             var xlsxOle = xlsxWs.Drawings.AddOleObject(@"C:\epplusTest\Workbooks\OleObjectFiles\MySheet.xlsx");
-            Assert.IsTrue(xlsxOle.oleObjectPart.Uri.ToString().Contains(".xlsx"));
+            Assert.IsTrue(xlsxOle._oleObjectPart.Uri.ToString().Contains(".xlsx"));
             Assert.IsFalse(xlsxOle.IsExternalLink);
             SaveAndCleanup(xlsxOlePackage);
 
@@ -339,7 +339,7 @@ namespace EPPlusTest.Drawing
             var p = OpenTemplatePackage("OleObjectTest_Embed_DOCX.xlsx");
             var ws = p.Workbook.Worksheets[0];
             var ole = ws.Drawings[0] as ExcelOleObject;
-            Assert.IsTrue(ole.oleObjectPart.Uri.ToString().Contains(".docx"));
+            Assert.IsTrue(ole._oleObjectPart.Uri.ToString().Contains(".docx"));
         }
         [TestMethod]
         public void CheckMsOff_PPTX()
@@ -347,7 +347,7 @@ namespace EPPlusTest.Drawing
             var p = OpenTemplatePackage("OleObjectTest_Embed_PPTX.xlsx");
             var ws = p.Workbook.Worksheets[0];
             var ole = ws.Drawings[0] as ExcelOleObject;
-            Assert.IsTrue(ole.oleObjectPart.Uri.ToString().Contains(".pptx"));
+            Assert.IsTrue(ole._oleObjectPart.Uri.ToString().Contains(".pptx"));
         }
         [TestMethod]
         public void CheckMsOff_XLSX()
@@ -355,7 +355,7 @@ namespace EPPlusTest.Drawing
             var p = OpenTemplatePackage("OleObjectTest_Embed_XLSX.xlsx");
             var ws = p.Workbook.Worksheets[0];
             var ole = ws.Drawings[0] as ExcelOleObject;
-            Assert.IsTrue(ole.oleObjectPart.Uri.ToString().Contains(".xlsx"));
+            Assert.IsTrue(ole._oleObjectPart.Uri.ToString().Contains(".xlsx"));
         }
 
         [TestMethod]
@@ -373,6 +373,23 @@ namespace EPPlusTest.Drawing
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
             var genericOle = generiWs.Drawings.AddOleObject(@"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt", true, true, @"C:\epplusTest\Workbooks\OleObjectFiles\TestIcon.bmp");
             //Nothing To Assert just check the excel file and see if it has a different picture.
+        }
+
+        [TestMethod]
+        public void DeleteEmbeddedOleObjectTest()
+        {
+            var p = OpenTemplatePackage("OleObjectTest_Embed_DeleteMe.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            Assert.AreEqual(1, ws.Drawings.Count);
+            ws.Drawings.Remove(ole);
+            Assert.AreEqual(0, ws.Drawings.Count);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void DeleteLinkedOleObjectTest()
+        {
+            var p = OpenTemplatePackage("OleObjectTest_Link_DeleteMe.xlsx");
         }
     }
 }
