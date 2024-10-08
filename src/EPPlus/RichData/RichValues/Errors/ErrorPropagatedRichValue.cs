@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 
+using OfficeOpenXml.RichData.Structures;
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,11 @@ namespace OfficeOpenXml.RichData.RichValues.Errors
 {
     internal class ErrorPropagatedRichValue : ErrorRichValueBase
     {
-        public ErrorPropagatedRichValue(ExcelWorkbook workbook) : base(workbook, RichDataStructureTypes.ErrorPropagated)
+        public ErrorPropagatedRichValue(ExcelWorkbook workbook) : this(workbook.RichData)
+        {
+            
+        }
+        public ErrorPropagatedRichValue(ExcelRichData richData) : base(richData, RichDataStructureTypes.ErrorPropagated)
         {
         }
         public string Propagated

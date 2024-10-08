@@ -61,7 +61,7 @@ namespace OfficeOpenXml.RichData.Structures.Constants
                 [
                     new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.RelLocalImageIdentifier, RichValueDataType.Integer),
                     new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.CalcOrigin, RichValueDataType.Integer),
-                    new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.Text, RichValueDataType.Integer)
+                    new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.Text, RichValueDataType.String)
                 ];
         }
        

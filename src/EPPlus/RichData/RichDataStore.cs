@@ -86,6 +86,13 @@ namespace OfficeOpenXml.RichData
             return _workbook.RichData.Values.Items[ix];
         }
 
+        private ExcelRichValue GetRichValue(int row, int col, out int? richValueIndex)
+        {
+            var result = GetRichValue(row, col, out int? rvIndex, null);
+            richValueIndex = rvIndex;
+            return result;
+        }
+
         internal ExcelRichValue GetRichValue(int row, int col, params string[] structuretypesFilter)
         {
             return GetRichValue(row, col, out int? rvIx, structuretypesFilter);
@@ -130,13 +137,15 @@ namespace OfficeOpenXml.RichData
             return relIx;
         }
 
-        internal void AddRichData(ExcelRichValue richValue, out int vmIndex)
+        internal void AddRichData(int row, int col, ExcelRichValue richValue)
         {
             _workbook.RichData.Values.Items.Add(richValue);
 
             // update the metadata
             _metadata.CreateRichValueMetadata(_workbook.RichData, out int vm);
-            vmIndex = vm;
+            var md = _sheet._metadataStore.GetValue(row, col);
+            md.vm = vm;
+            _sheet._metadataStore.SetValue(row, col, md);
         }
 
         /// <summary>
@@ -145,17 +154,35 @@ namespace OfficeOpenXml.RichData
         /// <param name="richValueIndex">Index of the rich data to update in the _workbook.RichData.Values.Items collection</param>
         /// <param name="richValue">The new rich data that will replace the existing</param>
         /// <param name="targetUri"></param>
-        internal void UpdateRichData(int richValueIndex, ExcelRichValue richValue, Uri targetUri = null)
+        internal void UpdateRichData(int row, int col, ExcelRichValue richValue)
         {
-            var existingValue = _workbook.RichData.Values.Items[richValueIndex];
-
-            if(existingValue.StructureId == richValue.StructureId && targetUri != null)
+            var existingValue = GetRichValue(row, col, out int? rvIndex);
+            if(!rvIndex.HasValue)
             {
-                // at this stage we only support one relation per rich value
-                var existingRelation = existingValue.Structure.GetFirstRelationIndex();
-                if (existingRelation.HasValue && targetUri != null)
+                AddRichData(row, col, richValue);
+            }
+            var richValueIndex = rvIndex.Value;
+            //var existingValue = _workbook.RichData.Values.Items[richValueIndex];
+
+            //if(existingValue.StructureId == richValue.StructureId && targetUri != null)
+            //{
+            //    // at this stage we only support one relation per rich value
+            //    var existingRelation = existingValue.Structure.GetFirstRelationIndex();
+            //    if (existingRelation.HasValue && targetUri != null)
+            //    {
+            //        _workbook.RichData.RichValueRels.SetNewTarget(existingRelation.Value, targetUri);
+            //    }
+            //}
+            foreach(var key in richValue.Structure.Keys)
+            {
+                if(key.IsRelation)
                 {
-                    _workbook.RichData.RichValueRels.SetNewTarget(existingRelation.Value, targetUri);
+                    var targetUri = richValue.GetRelation(key.Name, out int? relIx);
+                    if(targetUri != null && relIx.HasValue)
+                    {
+                        _workbook.RichData.RichValueRels.SetNewTarget(relIx.Value, targetUri);
+                    }
+
                 }
             }
             _workbook.RichData.Values.Items[richValueIndex] = richValue;

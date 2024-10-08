@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.RichData.Structures;
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,11 @@ namespace OfficeOpenXml.RichData.RichValues.LocalImage
 {
     internal class LocalImageAltTextRichValue : ExcelRichValue
     {
-        public LocalImageAltTextRichValue(ExcelWorkbook workbook) : base(workbook, RichDataStructureTypes.LocalImageWithAltText)
+        public LocalImageAltTextRichValue(ExcelWorkbook workbook) : this(workbook.RichData)
+        {
+        }
+
+        public LocalImageAltTextRichValue(ExcelRichData richData) : base(richData, RichDataStructureTypes.LocalImageWithAltText)
         {
         }
 

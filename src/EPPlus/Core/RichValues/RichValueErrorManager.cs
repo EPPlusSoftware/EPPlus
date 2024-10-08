@@ -21,13 +21,26 @@ namespace OfficeOpenXml.Core.RichValues
             _ws = ws;
             _richData = _package.Workbook.RichData;
             _richDataStore = new RichDataStore(ws);
+            _metadataStore = _ws._metadataStore;
         }
 
         private readonly ExcelPackage _package;
         private readonly ExcelWorksheet _ws;
         private readonly ExcelRichData _richData;
         private readonly RichDataStore _richDataStore;
+        private readonly CellStore<MetaDataReference> _metadataStore;
 
+        internal object GetErrorFromMetaData(int row, int col, object v)
+        {
+            var md = _metadataStore.GetValue(row, col);
+            if (md.vm > 0)
+            {
+                v = GetErrorFromMetaData(md, v);
+            }
+            return v;
+        }
+
+        //
         internal object GetErrorFromMetaData(MetaDataReference md, object v)
         {
             var rdValue = _richDataStore.GetRichValue(md.vm);
@@ -131,9 +144,9 @@ namespace OfficeOpenXml.Core.RichValues
             }
             if(newRv != null)
             {
-                _richDataStore.AddRichData(newRv, out int vm);
-                md.vm = vm;
-                _ws._metadataStore.SetValue(cse.Row, cse.Column, md);
+                _richDataStore.AddRichData(cse.Row, cse.Column, newRv);
+                //md.vm = vm;
+                //_ws._metadataStore.SetValue(cse.Row, cse.Column, md);
             }
             //metadata.CreateRichValueMetadata(_richData, out int newVm);
             //md.vm = newVm;

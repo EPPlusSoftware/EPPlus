@@ -36,7 +36,7 @@ namespace OfficeOpenXml.RichData.Types
 
         private void ReadPart(ExcelWorkbook wb)
         {
-            if (wb._package.ZipPackage.PartExists(_uri))
+            if(wb._package.ZipPackage.PartExists(_uri))
             {
                 _part = wb._package.ZipPackage.GetPart(_uri);
                 ReadXml(_part.GetStream());

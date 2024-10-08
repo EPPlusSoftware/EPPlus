@@ -56,6 +56,9 @@ namespace OfficeOpenXml.CellPictures
         /// </summary>
         internal CalcOrigins CalcOrigin { get; set; }
 
+        /// <summary>
+        /// Address of the cell picture
+        /// </summary>
         public ExcelAddress CellAddress { get; set;  }
 
        

@@ -28,8 +28,8 @@ namespace OfficeOpenXml.RichData
                 }
             }
             Structures = new ExcelRichValueStructureCollection(wb);
-            Values = new ExcelRichValueCollection(wb, Structures);
             RichValueRels = new RichValueRelCollection(wb);
+            Values = new ExcelRichValueCollection(wb, this);
             _richDataDeletions = new ExcelRichDataDeletions();
         }
 
@@ -48,6 +48,7 @@ namespace OfficeOpenXml.RichData
                 return _richDataDeletions;
             } 
         }
+
         internal void CreateParts()
         {
             //Creates the rich data parts and add the parts to the package. 

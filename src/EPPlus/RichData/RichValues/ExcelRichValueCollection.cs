@@ -19,12 +19,14 @@ namespace OfficeOpenXml.RichData.RichValues
         private ExcelWorkbook _wb;
         ZipPackagePart _part;
         ExcelRichValueStructureCollection _structures;
+        ExcelRichData _richData;
         Uri _uri;
         internal const string PART_URI_PATH = "/xl/richData/rdrichvalue.xml";
-        public ExcelRichValueCollection(ExcelWorkbook wb, ExcelRichValueStructureCollection structures)
+        public ExcelRichValueCollection(ExcelWorkbook wb, ExcelRichData richData)
         {
             _wb = wb;
-            _structures = structures;
+            _richData = richData;
+            _structures = richData.Structures;
             var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataValueRelationship).FirstOrDefault();
             if (r == null)
             {
@@ -67,7 +69,7 @@ namespace OfficeOpenXml.RichData.RichValues
             var structureId = int.Parse(xr.GetAttribute("s"));
             var structure = _structures.StructureItems[structureId];
             //var item = new ExcelRichValue(int.Parse(xr.GetAttribute("s")));
-            var item = ExcelRichValueFactory.Create(structure.StructureType, _wb);
+            var item = ExcelRichValueFactory.Create(structure.StructureType, _richData);
             //item.Structure = _structures.StructureItems[item.StructureId];
 
             var keys = structure.Keys.ToNameArray();

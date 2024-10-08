@@ -1624,11 +1624,7 @@ namespace OfficeOpenXml
             {
                 if(type=="e")
                 {
-                    var md = _metadataStore.GetValue(row, col);
-                    if(md.vm > 0)
-                    {
-                        v = _richValueErrorManager.GetErrorFromMetaData(md, v);
-                    }
+                    v = _richValueErrorManager.GetErrorFromMetaData(row, col, v);
                 }
                 SetValueInner(row, col, v);
             }

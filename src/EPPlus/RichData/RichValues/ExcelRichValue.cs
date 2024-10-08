@@ -15,16 +15,19 @@ namespace OfficeOpenXml.RichData.RichValues
 {
     internal abstract class ExcelRichValue
     {
-        public ExcelRichValue(ExcelWorkbook workbook, RichDataStructureTypes structureType)
+        public ExcelRichValue(ExcelRichData richData, RichDataStructureTypes structureType)
         {
-            _workbook = workbook;
-            StructureId = workbook.RichData.Structures.GetStructureId(structureType);
-            Structure = _workbook.RichData.Structures.StructureItems[StructureId];
+            //_workbook = workbook;
+            //StructureId = workbook.RichData.Structures.GetStructureId(structureType);
+            //Structure = _workbook.RichData.Structures.StructureItems[StructureId];
+            StructureId = richData.Structures.GetStructureId(structureType);
+            Structure = richData.Structures.StructureItems[StructureId];
+            _richData = richData;
             As = new ExcelRichValueAsType(this);
         }
 
 
-        private readonly ExcelWorkbook _workbook;
+        private readonly ExcelRichData _richData;
         public int StructureId { get; set; }
         public ExcelRichValueStructure Structure { get; set; }
         //public List<string> Values { get; } = new List<string>();
@@ -166,15 +169,20 @@ namespace OfficeOpenXml.RichData.RichValues
             }
             var rel = Structure.Keys[index.Value].Name;
             var relationshipType = RichValueRelationMappings.GetSchema(rel);
-            _workbook.RichData.RichValueRels.AddItem(relUri, relationshipType, out int relIx);
+            _richData.RichValueRels.AddItem(relUri, relationshipType, out int relIx);
             SetValue(key, relIx);
         }
 
         public Uri GetRelation(string key)
         {
-            var relIndex = GetValueInt(key);
-            if (!relIndex.HasValue) return null;
-            var rdRel = _workbook.RichData.RichValueRels.Items[relIndex.Value];
+            return GetRelation(key, out int? relIx);
+        }
+
+        public Uri GetRelation(string key, out int? relIx)
+        {
+            relIx = GetValueInt(key);
+            if (!relIx.HasValue) return null;
+            var rdRel = _richData.RichValueRels.Items[relIx.Value];
             return rdRel.TargetUri;
         }
 
