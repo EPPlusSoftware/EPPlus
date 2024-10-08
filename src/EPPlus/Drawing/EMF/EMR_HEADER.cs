@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using System.Text;
 using OfficeOpenXml.Utils;
+using System;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -32,6 +34,10 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal string headerType = "Emf_MetafileHeader";
         internal uint headerSize;
+
+        internal float inchesX;
+        internal float inchesY;
+        internal float Ppi;
 
         public EMR_HEADER(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
@@ -109,6 +115,18 @@ namespace OfficeOpenXml.Drawing.EMF
                         br.BaseStream.Position = Size;
                     }
                 }
+
+                var cxMili = BitConverter.ToUInt32(Millimeters, 0);
+                var cyMili = BitConverter.ToUInt32(Millimeters, 4);
+
+                //Convert milimeters to inches
+                inchesX = cxMili * 0.0393700787f;
+                inchesY = cyMili * 0.0393700787f;
+
+                var cx = BitConverter.ToUInt32(Device, 0);
+                var cy = BitConverter.ToUInt32(Device, 4);
+
+                Ppi = cx / inchesX;
             }
             else
             {

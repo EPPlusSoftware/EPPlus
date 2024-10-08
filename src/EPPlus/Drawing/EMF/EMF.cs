@@ -17,6 +17,8 @@ namespace OfficeOpenXml.Drawing.EMF
         internal Dictionary<uint, EMR_EXTCREATEFONTINDIRECTW> Fonts = new Dictionary<uint, EMR_EXTCREATEFONTINDIRECTW>();
         EMR_EXTCREATEFONTINDIRECTW lastFont;
         internal uint currentlySelectedId;
+        float ppi;
+        float unitsPerEm;
 
         public void Read(string emf)
         {
@@ -52,7 +54,9 @@ namespace OfficeOpenXml.Drawing.EMF
                 switch (TypeValue)
                 {
                     case 0x00000001:
-                        record = new EMR_HEADER(br, TypeValue);
+                        var header = new EMR_HEADER(br, TypeValue);
+                        ppi = header.Ppi;
+                        record = header;
                         break;
                     case 0x00000011:
                         var mapMode = new EMR_SETMAPMODE(br, TypeValue);
@@ -101,10 +105,11 @@ namespace OfficeOpenXml.Drawing.EMF
                         {
                             text.Font = Fonts[currentlySelectedId];
                         }
-                        //if (Fonts.ContainsKey(id))
-                        //{
-                        //    text.InternalFontId = id;
-                        //}
+                        //text.Ppi = 
+                        ////if (Fonts.ContainsKey(id))
+                        ////{
+                        ////    text.InternalFontId = id;
+                        ////}
                         record = text;
                         break;
                     default:
