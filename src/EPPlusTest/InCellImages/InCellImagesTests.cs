@@ -7,6 +7,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml;
 using System.IO;
+using EPPlusTest.Properties;
 
 namespace EPPlusTest.InCellImages
 {
@@ -32,49 +33,50 @@ namespace EPPlusTest.InCellImages
         [TestMethod]
         public void SetCellPicture()
         {
-            var path = @"C:\Users\MatsAlm\OneDrive - EPPlus Software AB\ImagesInCells\ImagesInCells2\purchase-license-thb.png";
-            using var package = new ExcelPackage();
+            var package = OpenPackage("InCellPictureSetPng.xlsx", delete: true);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
-            sheet.Cells["A1"].SetCellPicture(path);
-            //var pic1 = package.Workbook.Worksheets[0].Cells["A1"].GetCellPicture();
-            //Assert.IsNotNull(pic1, "Cell A1 picture was not present");
-            package.SaveAs(@"c:\temp\CellPictureEPPlus.xlsx");
+            var imageBytes = Resources.Png2ByteArray;
+            sheet.Cells["A1"].SetCellPicture(imageBytes);
+            SaveWorkbook("InCellPictureSetPng.xlsx", package);
         }
 
         [TestMethod]
         public void OverwriteCellPicture()
         {
-            var path = @"C:\Users\MatsAlm\OneDrive - EPPlus Software AB\ImagesInCells\ImagesInCells2\purchase-license-thb.png";
-            var path2 = @"C:\Users\MatsAlm\OneDrive - EPPlus Software AB\ImagesInCells\ImagesInCells2\register-customer-thb.png";
-            using var package = new ExcelPackage();
+            var pic1Bytes = Resources.Png2ByteArray;
+            var pic2Bytes = Resources.Png3ByteArray;
+            using var package = OpenPackage("InCellPictureOverwrite.xlsx", delete: true);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
-            sheet.Cells["A1"].SetCellPicture(path);
+            sheet.Cells["A1"].SetCellPicture(pic1Bytes);
             var pic1 = package.Workbook.Worksheets[0].Cells["A1"].GetCellPicture();
             Assert.IsNotNull(pic1, "Cell A1 picture was not present");
-            sheet.Cells["A1"].SetCellPicture(path2);
+            sheet.Cells["A1"].SetCellPicture(pic2Bytes);
             sheet.Row(1).Height = 25;
             sheet.Column(1).Width = 50;
-            package.SaveAs(@"c:\temp\CellPictureEPPlusOverwrite.xlsx");
+            SaveWorkbook("InCellPictureOverwrite.xlsx", package);
         }
 
         [TestMethod]
         public void SetCellPictureWithAltText()
         {
-            var path = @"C:\Users\MatsAlm\OneDrive - EPPlus Software AB\ImagesInCells\ImagesInCells2\purchase-license-thb.png";
-            using var package = new ExcelPackage();
+            using var package = OpenPackage("InCellPicturesAlt1.xlsx", delete: true);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
-            sheet.Cells["A1"].SetCellPicture(path, "This is an alt-text");
-            package.SaveAs(@"c:\temp\CellPictureEPPlusAlt1.xlsx");
+            var pictureBytes = Resources.Test1JpgByteArray;
+            sheet.Cells["A1"].SetCellPicture(pictureBytes, "This is an alt-text");
+            SaveWorkbook("InCellPicturesAlt1.xlsx", package);
         }
 
         [TestMethod]
-        public void ReadMetadataWorkbook()
+        public void SetCellPictureMarkAsDecorative()
         {
-            using var package = new ExcelPackage(@"C:\Temp\MetadataTestxlsx.xlsx");
-            var sheet = package.Workbook.Worksheets[0];
+            using var package = OpenPackage("InCellPicturesDecorative.xlsx", delete: true);
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            var pictureBytes = Resources.CodeBmp;
+            sheet.Cells["A1"].SetCellPicture(pictureBytes, markAsDecorative: true);
+            SaveWorkbook("InCellPicturesDecorative.xlsx", package);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void TestImageFormats()
         {
             var imageDirectory = @"C:\Users\MatsAlm\dev\EPPlusSoftware\Pics";
