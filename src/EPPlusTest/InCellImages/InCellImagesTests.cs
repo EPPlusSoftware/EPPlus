@@ -76,6 +76,18 @@ namespace EPPlusTest.InCellImages
             SaveWorkbook("InCellPicturesDecorative.xlsx", package);
         }
 
+        [TestMethod]
+        public void PreserveGeoDataType()
+        {
+            using var package = OpenTemplatePackage("RichDataPreserve1.xlsx");
+            var path = @"c:\Temp\RichDataPreserve1.xlsx";
+            if(File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            package.SaveAs(path);
+        }
+
         [TestMethod, Ignore]
         public void TestImageFormats()
         {

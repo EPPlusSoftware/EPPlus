@@ -20,7 +20,15 @@ namespace OfficeOpenXml.RichData.Structures.Errors
 {
     internal class ErrorPropagatedStructure : ErrorBaseStructure
     {
-        internal override List<ExcelRichValueStructureKey> Keys => StructureKeys.Errors.Propagated;
+        public ErrorPropagatedStructure() : this(StructureKeys.Errors.Propagated)
+        {
+
+        }
+
+        public ErrorPropagatedStructure(List<ExcelRichValueStructureKey> keys) : base(keys)
+        {
+
+        }
 
         public override RichDataStructureTypes StructureType => RichDataStructureTypes.ErrorPropagated;
     }

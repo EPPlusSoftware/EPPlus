@@ -20,7 +20,15 @@ namespace OfficeOpenXml.RichData.Structures.LocalImages
 {
     internal class LocalImageStructure : LocalImageBaseStructure
     {
-        internal override List<ExcelRichValueStructureKey> Keys => StructureKeys.LocalImage.Image;
+        public LocalImageStructure() : this(StructureKeys.LocalImage.Image)
+        {
+
+        }
+
+        public LocalImageStructure(List<ExcelRichValueStructureKey> keys) : base(keys)
+        {
+
+        }
 
         public override RichDataStructureTypes StructureType => RichDataStructureTypes.LocalImage;
     }

@@ -52,16 +52,28 @@ namespace OfficeOpenXml.RichData.Structures.Constants
         {
             internal static class Image
             {
-                public const string RelLocalImageIdentifier = "_rvRel:LocalImageIdentifier";
+                public const string RelLocalImageIdentifier = $"{SpecialKeyNames.Prefixes.RvRel}:LocalImageIdentifier";
                 public const string CalcOrigin = "CalcOrigin";
             }
 
             internal static class ImageAltText
             {
-                public const string RelLocalImageIdentifier = "_rvRel:LocalImageIdentifier";
+                public const string RelLocalImageIdentifier = $"{SpecialKeyNames.Prefixes.RvRel}:LocalImageIdentifier";
                 public const string CalcOrigin = "CalcOrigin";
                 public const string Text = "Text";
             }
+        }
+
+        internal static class WebImage
+        {
+            public const string WebImageIdentifier = "WebImageIdentifier";
+            public const string Attribution = "Attribution";
+            public const string Text = "Text";
+            public const string ComputedImage = "ComputedImage";
+            public const string ImageSizing = "ImageSizing";
+            public const string ImageHeight = "ImageHeight";
+            public const string ImageWidth = "ImageWidth";
+            public const string CalcOrigin = "CalcOrigin";
         }
     }
 }

@@ -21,5 +21,13 @@ namespace OfficeOpenXml.RichData.Structures.Constants
     {
         public const string Error = "_error";
         public const string LocalImage = "_localImage";
+        public const string WebImage = "_webimage";
+        public const string LinkedEntity = "_linkedentity";
+        public const string LinkedEntity2 = "_linkedentity2";
+        public const string LinkedEntityCore = "_linkedentitycore";
+        public const string LinkedEntity2Core = "_linkedentity2core";
+        public const string FormattedNumber = "_formattednumber";
+        public const string Hyperlink = "_hyperlink";
+        public const string Array = "_array";
     }
 }

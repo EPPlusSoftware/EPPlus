@@ -10,9 +10,9 @@ namespace OfficeOpenXml.RichData.RichValues
 {
     internal static class ExcelRichValueFactory
     {
-        public static ExcelRichValue Create(RichDataStructureTypes type, ExcelRichData richData)
+        public static ExcelRichValue Create(ExcelRichValueStructure structure, int structureId, ExcelRichData richData)
         {
-            switch(type)
+            switch(structure.StructureType)
             {
                 case RichDataStructureTypes.ErrorSpill:
                     return new ErrorSpillRichValue(richData);
@@ -27,7 +27,7 @@ namespace OfficeOpenXml.RichData.RichValues
                 case RichDataStructureTypes.LocalImageWithAltText:
                     return new LocalImageAltTextRichValue(richData);
                 default:
-                    return new ExcelPreserveRichValue(richData);
+                    return new ExcelPreserveRichValue(richData, structureId, structure);
             }
         }
     }

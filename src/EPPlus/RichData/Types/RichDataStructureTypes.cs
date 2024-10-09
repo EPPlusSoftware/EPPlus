@@ -20,6 +20,14 @@ namespace OfficeOpenXml.RichData
         ErrorField,
         LocalImage,
         LocalImageWithAltText,
+        WebImage,
+        LinkedEntity,
+        LinkedEntityCore,
+        LinkedEntity2,
+        LinkedEntity2Core,
+        FormattedNumber,
+        Hyperlink,
+        Array,
         Preserve
     }
 }

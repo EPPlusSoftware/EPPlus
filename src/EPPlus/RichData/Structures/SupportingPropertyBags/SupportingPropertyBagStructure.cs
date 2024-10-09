@@ -10,26 +10,44 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.RichData.Structures.Constants;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.RichData.Structures.LocalImages
+namespace OfficeOpenXml.RichData.Structures.SupportingPropertyBags
 {
-    internal class LocalImageWithAltTextStructure : LocalImageBaseStructure
+    [DebuggerDisplay("keys: {Keys.Count}")]
+    internal class SupportingPropertyBagStructure
     {
-        public LocalImageWithAltTextStructure() : this(StructureKeys.LocalImage.ImageAltText)
+        public SupportingPropertyBagStructure(List<ExcelRichValueStructureKey> keys)
         {
-
+            Keys = keys;
         }
 
-        public LocalImageWithAltTextStructure(List<ExcelRichValueStructureKey> keys) : base(keys)
-        {
+        internal string Type { get; }
+        internal List<ExcelRichValueStructureKey> Keys { get; }
 
+        internal void WriteXml(StreamWriter sw)
+        {
+            sw.Write($"<s>");
+            foreach (var key in Keys)
+            {
+                sw.Write($"<k n=\"{key.Name.EncodeXMLAttribute()}\" {GetTypeAttribute(key)}/>");
+            }
+            sw.Write("</s>");
         }
 
-        public override RichDataStructureTypes StructureType => RichDataStructureTypes.LocalImageWithAltText;
+        private string GetTypeAttribute(ExcelRichValueStructureKey key)
+        {
+            if (key.DataType != RichValueDataType.Decimal)
+            {
+                return $"t =\"{key.GetDataTypeString()}\"";
+            }
+            return "";
+        }
     }
 }

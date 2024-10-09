@@ -44,5 +44,17 @@ internal enum RichValueDataType
     /// <summary>
     /// Indicates that the value is a Supporting Property Bag.
     /// </summary>
-    SupportingPropertyBag
+    SupportingPropertyBag,
+    /// <summary>
+    /// Indicates that the value is a Supporting Property Bag Array.
+    /// </summary>
+    SupportingPropertyBagArray,
+    /// <summary>
+    /// Just preserve the value
+    /// </summary>
+    Preserve,
+    /// <summary>
+    /// If this value exists, remove the key/value pair
+    /// </summary>
+    Remove
 }

@@ -33,9 +33,42 @@ namespace OfficeOpenXml.RichData.Structures
             }
             return true;
         }
-        private static RichDataStructureTypes? GetFlag(string type, List<ExcelRichValueStructureKey> keys)
+
+        private static RichDataStructureTypes? GetFlagPreservedTypes(string type)
         {
-            if (string.IsNullOrEmpty(type) || keys == null || keys.Count == 0) return null;
+            switch (type)
+            {
+                case StructureTypes.WebImage:
+                    return RichDataStructureTypes.WebImage;
+                case StructureTypes.LinkedEntity:
+                    return RichDataStructureTypes.LinkedEntity;
+                case StructureTypes.LinkedEntityCore:
+                    return RichDataStructureTypes.LinkedEntityCore;
+                case StructureTypes.LinkedEntity2:
+                    return RichDataStructureTypes.LinkedEntity2;
+                case StructureTypes.LinkedEntity2Core:
+                    return RichDataStructureTypes.LinkedEntity2Core;
+                case StructureTypes.FormattedNumber:
+                    return RichDataStructureTypes.FormattedNumber;
+                case StructureTypes.Array:
+                    return RichDataStructureTypes.Array;
+                case StructureTypes.Hyperlink:
+                    return RichDataStructureTypes.Hyperlink;
+                default:
+                    return null;
+            }
+        }
+
+        private static RichDataStructureTypes? GetFlag(string type, out bool preserveType, List<ExcelRichValueStructureKey> keys = null)
+        {
+            preserveType = false;
+            if (string.IsNullOrEmpty(type)) return null;
+            var pType = GetFlagPreservedTypes(type);
+            if (pType.HasValue)
+            {
+                preserveType = true;
+                return pType.Value;
+            }
             if (type == StructureTypes.Error)
             {
                 if (AllKeysAreEqual(keys, StructureKeys.Errors.Spill))
@@ -76,11 +109,22 @@ namespace OfficeOpenXml.RichData.Structures
         public static ExcelRichValueStructure Create(string type, List<ExcelRichValueStructureKey> keys)
         {
             if(string.IsNullOrEmpty(type) || keys == null || keys.Count == 0) return null;
-            var flag = GetFlag(type, keys);
+            var flag = GetFlag(type, out bool preserveType, keys);
             if(!flag.HasValue) return null;
-            if(flag == RichDataStructureTypes.Preserve)
+            if(preserveType)
             {
-                return new RichDataPreserveStructure(type, keys);
+                return new RichDataPreserveStructure(type, flag.Value, keys);
+            }
+            return Create(flag.Value, keys);
+        }
+
+        public static ExcelRichValueStructure Create(string type)
+        {
+            if (string.IsNullOrEmpty(type))throw new ArgumentNullException("type");
+            var flag = GetFlag(type, out bool preserveType, null);
+            if (!flag.HasValue || preserveType)
+            {
+                throw new ArgumentException("No keys was supplied for the rich data structure");
             }
             return Create(flag.Value);
         }
@@ -101,6 +145,27 @@ namespace OfficeOpenXml.RichData.Structures
                     return new LocalImageStructure();
                 case RichDataStructureTypes.LocalImageWithAltText:
                     return new LocalImageWithAltTextStructure();
+                default:
+                    throw new ArgumentException($"Not supported structure type: {structureType}");
+            }
+        }
+
+        public static ExcelRichValueStructure Create(RichDataStructureTypes structureType, List<ExcelRichValueStructureKey> keys)
+        {
+            switch (structureType)
+            {
+                case RichDataStructureTypes.ErrorSpill:
+                    return new ErrorSpillStructure(keys);
+                case RichDataStructureTypes.ErrorPropagated:
+                    return new ErrorPropagatedStructure(keys);
+                case RichDataStructureTypes.ErrorWithSubType:
+                    return new ErrorWithSubTypeStructure(keys);
+                case RichDataStructureTypes.ErrorField:
+                    return new ErrorWithSubTypeStructure(keys);
+                case RichDataStructureTypes.LocalImage:
+                    return new LocalImageStructure(keys);
+                case RichDataStructureTypes.LocalImageWithAltText:
+                    return new LocalImageWithAltTextStructure(keys);
                 default:
                     throw new ArgumentException($"Not supported structure type: {structureType}");
             }

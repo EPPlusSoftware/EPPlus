@@ -3,6 +3,7 @@ using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData.RichValues;
 using OfficeOpenXml.RichData.RichValues.Relations;
 using OfficeOpenXml.RichData.Structures;
+using OfficeOpenXml.RichData.Structures.SupportingPropertyBags;
 using OfficeOpenXml.RichData.Types;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,7 @@ namespace OfficeOpenXml.RichData
             Structures = new ExcelRichValueStructureCollection(wb);
             RichValueRels = new RichValueRelCollection(wb);
             Values = new ExcelRichValueCollection(wb, this);
+            SupportingPropertyBagStructures = new SupportingPropertyBagStructureCollection(wb);
             _richDataDeletions = new ExcelRichDataDeletions();
         }
 
@@ -39,6 +41,8 @@ namespace OfficeOpenXml.RichData
         internal ExcelRichValueStructureCollection Structures { get; }
         internal ExcelRichValueCollection Values { get; }
         internal RichValueRelCollection RichValueRels { get; }
+
+        internal SupportingPropertyBagStructureCollection SupportingPropertyBagStructures { get; }
 
         private ExcelRichDataDeletions _richDataDeletions;
 

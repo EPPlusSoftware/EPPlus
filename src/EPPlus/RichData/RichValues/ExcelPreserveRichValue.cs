@@ -8,8 +8,10 @@ namespace OfficeOpenXml.RichData.RichValues
 {
     internal class ExcelPreserveRichValue : ExcelRichValue
     {
-        public ExcelPreserveRichValue(ExcelRichData richData) : base(richData, RichDataStructureTypes.Preserve)
+        public ExcelPreserveRichValue(ExcelRichData richData, int structureId, ExcelRichValueStructure structure) : base(richData, structure.StructureType)
         {
+            StructureId = structureId;
+            Structure = structure;
         }
     }
 }

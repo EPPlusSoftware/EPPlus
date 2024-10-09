@@ -19,16 +19,14 @@ namespace OfficeOpenXml.RichData.Structures
 {
     internal class RichDataPreserveStructure : ExcelRichValueStructure
     {
-        public RichDataPreserveStructure(string typeName, List<ExcelRichValueStructureKey> keys)
-            : base(typeName)
+        public RichDataPreserveStructure(string typeName, RichDataStructureTypes structureType, List<ExcelRichValueStructureKey> keys)
+            : base(typeName, keys)
         {
-            _keys = keys;
+            _structureType = structureType;
         }
 
-        private readonly List<ExcelRichValueStructureKey> _keys;
+        private readonly RichDataStructureTypes _structureType;
+        public override RichDataStructureTypes StructureType => _structureType;
 
-        public override RichDataStructureTypes StructureType => RichDataStructureTypes.Preserve;
-
-        internal override List<ExcelRichValueStructureKey> Keys => _keys;
     }
 }

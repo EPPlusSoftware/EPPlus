@@ -69,7 +69,7 @@ namespace OfficeOpenXml.RichData.RichValues
             var structureId = int.Parse(xr.GetAttribute("s"));
             var structure = _structures.StructureItems[structureId];
             //var item = new ExcelRichValue(int.Parse(xr.GetAttribute("s")));
-            var item = ExcelRichValueFactory.Create(structure.StructureType, _richData);
+            var item = ExcelRichValueFactory.Create(structure, structureId, _richData);
             //item.Structure = _structures.StructureItems[item.StructureId];
 
             var keys = structure.Keys.ToNameArray();

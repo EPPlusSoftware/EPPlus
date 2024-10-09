@@ -20,8 +20,15 @@ namespace OfficeOpenXml.RichData.Structures.Errors
 {
     internal class ErrorWithSubTypeStructure : ErrorBaseStructure
     {
+        public ErrorWithSubTypeStructure() : this(StructureKeys.Errors.WithSubType)
+        {
 
-        internal override List<ExcelRichValueStructureKey> Keys => StructureKeys.Errors.WithSubType;
+        }
+
+        public ErrorWithSubTypeStructure(List<ExcelRichValueStructureKey> keys) : base(keys)
+        {
+
+        }
 
         public override RichDataStructureTypes StructureType => RichDataStructureTypes.ErrorWithSubType;
     }

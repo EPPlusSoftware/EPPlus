@@ -1,7 +1,10 @@
-﻿using System;
+﻿using OfficeOpenXml.RichData.Structures.Constants;
+using System;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.RichData.Structures
 {
+    [DebuggerDisplay("Name: {Name}, Type: {DataType}")]
     internal class ExcelRichValueStructureKey
     {
         internal ExcelRichValueStructureKey(string name, string dt)
@@ -20,7 +23,7 @@ namespace OfficeOpenXml.RichData.Structures
 
         private void CheckRelation()
         {
-            if (!string.IsNullOrEmpty(Name) && Name.StartsWith("_rvRel:"))
+            if (!string.IsNullOrEmpty(Name) && Name.StartsWith($"{SpecialKeyNames.Prefixes.RvRel}:"))
             {
                 IsRelation = true;
                 RelationName = Name.Split(':')[1];
@@ -33,6 +36,8 @@ namespace OfficeOpenXml.RichData.Structures
             {
                 case "spb":
                     return RichValueDataType.SupportingPropertyBag;
+                case "spba":
+                    return RichValueDataType.SupportingPropertyBagArray;
                 case "i":
                     return RichValueDataType.Integer;
                 case "b":
@@ -55,6 +60,8 @@ namespace OfficeOpenXml.RichData.Structures
             {
                 case RichValueDataType.SupportingPropertyBag:
                     return "spb";
+                case RichValueDataType.SupportingPropertyBagArray:
+                    return "spba";
                 case RichValueDataType.Integer:
                     return "i";
                 case RichValueDataType.Bool:

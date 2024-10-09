@@ -10,25 +10,29 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.RichData.Structures.Constants;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace OfficeOpenXml.RichData.Structures
 {
+    [DebuggerDisplay("Type: {Type}")]
     internal abstract class ExcelRichValueStructure
     {
-        public ExcelRichValueStructure(string typeName)
+        public ExcelRichValueStructure(string typeName, List<ExcelRichValueStructureKey> keys)
         {
             Type = typeName;
+            Keys = keys;
         }
 
         public abstract RichDataStructureTypes StructureType { get; }
 
-        internal abstract List<ExcelRichValueStructureKey> Keys { get; }
+        internal List<ExcelRichValueStructureKey> Keys { get; private set; }
 
         public string Type { get; private set; }
 
@@ -66,7 +70,7 @@ namespace OfficeOpenXml.RichData.Structures
             var result = new List<int>();
             for(var i = 0; i < Keys.Count; i++)
             {
-                if (Keys[i].Name.StartsWith("_rvRel:"))
+                if (Keys[i].Name.StartsWith($"{SpecialKeyNames.Prefixes.RvRel}:"))
                 {
                     result.Add(i);
                 }
