@@ -37,12 +37,12 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
             return true;
         }
 
-        internal List<uint> MeasureIndividualCharacters(string text, MeasurementFont font, float unitsPerEm = 2295f, float ppi = 108.73578912433f)
+        internal List<uint> MeasureIndividualCharacters(string text, MeasurementFont font, float ppi = 108.73578912433f)
         {
             var fontKey = GetKey(font.FontFamily, font.Style);
             if (IsValidFont(fontKey))
             {
-                return MeasureTextSpacingInternal(text, fontKey, font.Style, font.Size, unitsPerEm, ppi);
+                return MeasureTextSpacingInternal(text, fontKey, font.Style, font.Size, ppi);
             }
             else
             {

@@ -146,18 +146,16 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
         public Dictionary<char, uint> simplifiedCharCheck = new Dictionary<char, uint>();
         public Dictionary<char, float> diffCheck = new Dictionary<char, float>();
 
-        internal List<uint> MeasureTextSpacingInternal(string text, uint fontKey, MeasurementFontStyles style, float size, float unitsPerEm = 2295f, float ppi = 108.73578912433f)
+        internal List<uint> MeasureTextSpacingInternal(string text, uint fontKey, MeasurementFontStyles style, float size, float ppi = 108.73578912433f)
         {
             var sFont = _fonts[fontKey];
             var chars = text.ToCharArray();
 
             var spacingBuffer = new List<uint>();
             var ptSize = size * (72f/96f);
-            //var ptSize = size;
 
             List<float> offsetsFromCorrect = new List<float>();
             float sum = 0;
-            float width = 0;
 
             var widthDefault = sFont.ClassWidths[sFont.DefaultWidthClass];
 
@@ -166,33 +164,19 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                 roundedClasses.Add(widthTest.Key, (uint)Math.Round(widthTest.Value * 10, MidpointRounding.AwayFromZero));
             }
 
-            float factor = 2048f / unitsPerEm;
             float resolutionDifference = ppi / 96f;
 
-            float finalFactor = factor * resolutionDifference * 8;
+            float finalFactor = resolutionDifference * ptSize;
 
             for (var x = 0; x < chars.Length; x++)
             {
                 var fnt = sFont;
                 var c = chars[x];
 
-                float deviceUnits;
+                var fntClass = sFont.CharMetrics.ContainsKey(c) ? sFont.CharMetrics[c] : fnt.DefaultWidthClass;
+                float adjustmentFactor = 0.012f * ptSize * ((int)fntClass);
 
-                if (sFont.CharMetrics.ContainsKey(c))
-                {
-                    var adjustmentFactor = 0;
-                    //var adjustmentFactor = 1.25 / (int)sFont.CharMetrics[c];
-                    simplifiedChar.Add(c, sFont.CharMetrics[c]);
-                    deviceUnits = fnt.ClassWidths[sFont.CharMetrics[c]] * finalFactor + adjustmentFactor;
-                }
-                else
-                {
-                    //var adjustmentFactor = 1.25 /(int)fnt.DefaultWidthClass;
-                    var adjustmentFactor = 0;
-
-                    simplifiedChar.Add(c, fnt.DefaultWidthClass);
-                    deviceUnits = fnt.ClassWidths[fnt.DefaultWidthClass] * finalFactor + adjustmentFactor;
-                }
+                float deviceUnits = fnt.ClassWidths[fntClass] * finalFactor - adjustmentFactor;
 
                 offsetsFromCorrect.Add((float)deviceUnits);
                 uint simplifiedWidth = (uint)Math.Round(deviceUnits, MidpointRounding.AwayFromZero);
@@ -202,56 +186,6 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                 float diff = (deviceUnits - AlphabetChars[c]);
                 diffCheck.Add(c,diff);
                 sum += diff;
-
-                //if (sFont.CharMetrics.ContainsKey(c))
-                //{
-                //    var metrics = sFont.CharMetrics[c];
-                //    //simpleChar.Add(c, metrics);
-                //    var test = fnt.ClassWidths[fnt.DefaultWidthClass] * ptSize;
-                //    var classWidth = fnt.ClassWidths[sFont.CharMetrics[c]];
-
-                //    width = (classWidth) * ptSize;
-                //    float diff = AlphabetChars[c] - width;
-                //    sum += diff;
-                //    //offsetsFromCorrect.Add(width);
-
-                //    //width = roundedClasses[sFont.CharMetrics[c]];
-
-                //    //width += 0.219586328f;
-
-                //    //width = width * _fontScaleFactors.GetScaleFactor(fontKey, width);
-                //    //uint simplifiedWidth = (uint)Math.Round(width, MidpointRounding.AwayFromZero);
-                //    //spacingBuffer.Add(simplifiedWidth);
-                //}
-                //else
-                //{
-                //    //width = sFont.ClassWidths[fnt.DefaultWidthClass]*10;
-                //    //simpleChar.Add(c, fnt.DefaultWidthClass);
-                //    width = fnt.ClassWidths[fnt.DefaultWidthClass] * ptSize;
-                //    //var stuff = "what";
-                //}
-                //uint simplifiedWidth = (uint)Math.Round(width, MidpointRounding.AwayFromZero);
-                //spacingBuffer.Add(simplifiedWidth);
-
-                ////// if east asian char use default regardless of actual font.
-                ////if (IsEastAsianChar(c))
-                ////{
-                ////    widthEA += GetEastAsianCharWidth(c, style);
-                ////}
-                ////else
-                ////{
-                ////    if (sFont.CharMetrics.ContainsKey(c))
-                ////    {
-                ////        var fw = fnt.ClassWidths[sFont.CharMetrics[c]];
-                ////        if (Char.IsDigit(c)) fw *= FontScaleFactors.DigitsScalingFactor;
-                ////        width += fw;
-                ////    }
-                ////    else
-                ////    {
-                ////        width += sFont.ClassWidths[fnt.DefaultWidthClass];
-                ////    }
-                ////}
-
             }
             //0.36234977555334741
             var avg = sum / offsetsFromCorrect.Count();

@@ -43,6 +43,10 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
         TwCenMT = 22,
         TwCenMTCondensed = 23,
         Verdana = 24,
-        SegoeUI = 25
+        Aptos = 25,
+        AptosNarrow = 26,
+        AptosDisplay = 27,
+        SegoeUI = 28,
+        Tahoma = 29,
     }
 }

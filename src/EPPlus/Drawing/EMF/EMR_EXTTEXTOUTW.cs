@@ -3,7 +3,6 @@ using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -32,8 +31,8 @@ namespace OfficeOpenXml.Drawing.EMF
         internal MapMode mode = MapMode.MM_TEXT;
         internal ITextMeasurer Measurer;
 
-        internal float UnitsPerEm = 108.73578912433f;
-        internal float Ppi = 2295f;
+        internal float Ppi = 108.73578912433f;
+        internal float UnitsPerEm = 2295f;
 
         /// <summary>
         /// Minimum spacing is 0x01 which should be correct at fontsize 2
@@ -101,18 +100,10 @@ namespace OfficeOpenXml.Drawing.EMF
 
         byte[] CalculateDxSpacing()
         {
-            //if(Font != null)
-            //{
-            //    GenericFontMetricsTextMeasurerBase
-            //    //if( Font.elw.FaceName)
-            //}
-
-
-
             var test = textSettings.GenericTextMeasurer;
             var aMesurement = (GenericFontMetricsTextMeasurer)textSettings.GenericTextMeasurer;
             aMesurement.MeasureTextInternal(stringBuffer, GenericFontMetricsTextMeasurerBase.GetKey(Font.elw.mFont.FontFamily, Font.elw.mFont.Style), Font.elw.mFont.Style, Font.elw.mFont.Size);
-            var values = aMesurement.MeasureIndividualCharacters(stringBuffer, Font.elw.mFont);
+            var values = aMesurement.MeasureIndividualCharacters(stringBuffer, Font.elw.mFont, Ppi);
 
             int index = 0;
             foreach (uint val in values)
@@ -121,16 +112,6 @@ namespace OfficeOpenXml.Drawing.EMF
                 bytes.CopyTo(DxBuffer, index);
                 index += bytes.Length;
             }
-
-            //int j = 0;
-            //for (int i = 0; i < stringBuffer.Length; i++)
-            //{
-
-            //    DxBuffer[j++] = (byte)GetSpacingForChar(stringBuffer[i]);
-            //    DxBuffer[j++] = 0x00;
-            //    DxBuffer[j++] = 0x00;
-            //    DxBuffer[j++] = 0x00;
-            //}
             return DxBuffer;
         }
         public EMR_EXTTEXTOUTW(string Text)

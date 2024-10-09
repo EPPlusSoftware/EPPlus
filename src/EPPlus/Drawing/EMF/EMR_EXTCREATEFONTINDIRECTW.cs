@@ -1,9 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using System;
-using System.Drawing.Imaging;
+﻿using System;
 using System.IO;
-using OfficeOpenXml.Interfaces.Drawing.Text;
 using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.Drawing.EMF

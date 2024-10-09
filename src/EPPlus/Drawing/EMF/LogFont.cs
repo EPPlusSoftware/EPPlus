@@ -57,6 +57,7 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal int CalculatedAverageWidth;
         internal int DefinedHeight;
+        //internal float OneDesignUnit;
 
         private bool recalculateWidth = false;
 
@@ -110,7 +111,7 @@ namespace OfficeOpenXml.Drawing.EMF
             //Heavy(Black) 900
 
             var fontStyle = MeasurementFontStyles.Regular;
-            if(Weight == 700)
+            if(Weight >= 700)
             {
                 fontStyle = MeasurementFontStyles.Bold;
             }
@@ -122,6 +123,13 @@ namespace OfficeOpenXml.Drawing.EMF
                 Style = fontStyle
             };
         }
+
+        //internal void CalculateUnitsPerEm(float ppi)
+        //{
+        //    var height = DefineHeight();
+        //    float heightInPt = height * 0.75f;
+        //    OneDesignUnit = ((heightInPt / 72f) * ppi) / height;
+        //}
 
         int DefineHeight()
         {
