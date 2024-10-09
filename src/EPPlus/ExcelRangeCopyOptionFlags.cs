@@ -73,5 +73,9 @@ namespace OfficeOpenXml
         /// EPPlus will only copy pivot tables within the same workbooks.
         /// </summary>
         ExcludePivotTables = 0x1000,
+        /// <summary>
+        /// Exclude hidden cells in the range.
+        /// </summary>
+        ExcludeHiddenCells = 0x2000,
     }
 }

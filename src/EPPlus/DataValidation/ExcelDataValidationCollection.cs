@@ -395,7 +395,24 @@ namespace OfficeOpenXml.DataValidation
             get
             {
                 var searchedAddress = new ExcelAddress(address);
-                return _validations.Find(x => x.Address.Collide(searchedAddress) != ExcelAddressBase.eAddressCollition.No);
+                return _validations.Find(x =>
+                {
+                    if(x.Address.Addresses!=null)
+                    {
+                        foreach (var a in x.Address.Addresses)
+                        {
+                            if(a.Collide(searchedAddress) != ExcelAddressBase.eAddressCollition.No)
+                            {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                    else
+                    {
+                        return x.Address.Collide(searchedAddress) != ExcelAddressBase.eAddressCollition.No;
+                    }
+                });
             }
         }
 

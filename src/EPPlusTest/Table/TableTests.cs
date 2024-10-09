@@ -1110,5 +1110,32 @@ namespace EPPlusTest.Table
             Assert.AreEqual("SourceTableCopy5", wsDest.Tables[0].Name);
             Assert.AreEqual("B1:F11", wsDest.Tables[0].Address.Address);
         }
+        public void Extend_Table()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("name");
+                ws.Cells[1, 1].Value = "A";
+                ws.Cells[1, 2].Value = "B";
+                ws.Cells[1, 3].Value = "C";
+
+                ws.Cells[2, 1].Value = 1;
+                ws.Cells[2, 2].Value = 1;
+                ws.Cells[2, 3, 3, 3].Formula = "SUM($A2:$B2)";
+
+                ws.Cells[3, 1].Value = 1;
+                ws.Cells[3, 2].Value = 1;
+                //ws.Cells[3, 3].Formula = "SUM($A3:$B3)";
+
+                var range = ws.Cells[1, 1, 3, 3];
+                ws.Names.Add("range", range);
+                SaveWorkbook("TableExtendFormula.xlsx", package);
+                ws.InsertRow(3, 1, 4);
+
+                Assert.IsNotNull(ws.Cells[2, 3].Formula); //True
+                Assert.IsNotNull(ws.Cells[3, 3].Formula); //False
+                Assert.IsNotNull(ws.Cells[4, 3].Formula); //True
+            }
+        }
     }
 }
