@@ -71,7 +71,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
             var input = "-'worksheet2'!E4";
             var tokens = _tokenizer.Tokenize(input);
 
-            Assert.AreEqual(4, tokens.Count());
+            Assert.AreEqual(6, tokens.Count());
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Negator));
         }
 
