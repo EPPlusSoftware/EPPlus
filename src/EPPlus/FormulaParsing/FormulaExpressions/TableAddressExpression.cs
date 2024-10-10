@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -44,9 +45,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             get;
             set;
         } = ExpressionStatus.CanCompile;
-        public override FormulaRangeAddress GetAddress() 
+        public override FormulaRangeAddress[] GetAddress() 
         { 
-            return _addressInfo.Clone();
+            return [_addressInfo.Clone()];
         }
     }
 }

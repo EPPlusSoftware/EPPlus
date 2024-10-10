@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToCollection/ToCollectionValueType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionConversionFailureStrategy
     path: ../src/EPPlus/Export/ToCollection/ToCollectionValueType.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToCollection/ToCollectionValueType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Exception
     path: ../src/EPPlus/Export/ToCollection/ToCollectionValueType.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToCollection/ToCollectionValueType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetDefaultValue
     path: ../src/EPPlus/Export/ToCollection/ToCollectionValueType.cs

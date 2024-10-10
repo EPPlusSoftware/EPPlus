@@ -23,7 +23,7 @@ namespace EPPlusTest
                 var path = "C:\\epplusTest\\Workbooks\\UnsignedWithDescriptorsOrigBackup.emf";
 
 
-                var emf = new EMF();
+                var emf = new EmfImage();
                 emf.Read(path);
 
                 var record = (EMR_EXTTEXTOUTW)emf.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).First();
@@ -41,7 +41,7 @@ namespace EPPlusTest
 
                 var path = "C:\\epplusTest\\Workbooks\\Generated.emf";
 
-                var emf = new EMF();
+                var emf = new EmfImage();
                 emf.Read(path);
 
                 emf.Save("C:\\epplusTest\\Workbooks\\GeneratedTwo.emf");
@@ -51,7 +51,7 @@ namespace EPPlusTest
         [TestMethod]
         public void ReadEmfAlt()
         {
-            var emfImage = new EMF();
+            var emfImage = new EmfImage();
             emfImage.Read("C:\\epplusTest\\Testoutput\\LongName.emf");
 
             var textRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Skip(2);

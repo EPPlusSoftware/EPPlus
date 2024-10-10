@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eChartStyle
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -132,7 +132,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style1
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -166,7 +166,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style2
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -200,7 +200,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style3
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -234,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style4
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -268,7 +268,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style5
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -302,7 +302,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style6
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -336,7 +336,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style7
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -370,7 +370,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style8
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -404,7 +404,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style9
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -438,7 +438,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style10
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -472,7 +472,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style11
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -506,7 +506,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style12
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -540,7 +540,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style13
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -574,7 +574,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style14
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -608,7 +608,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style15
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -642,7 +642,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style16
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -676,7 +676,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style17
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -710,7 +710,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style18
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -744,7 +744,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style19
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -778,7 +778,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style20
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -812,7 +812,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style21
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -846,7 +846,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style22
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -880,7 +880,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style23
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -914,7 +914,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style24
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -948,7 +948,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style25
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -982,7 +982,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style26
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1016,7 +1016,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style27
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1050,7 +1050,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style28
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1084,7 +1084,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style29
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1118,7 +1118,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style30
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1152,7 +1152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style31
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1186,7 +1186,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style32
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1220,7 +1220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style33
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1254,7 +1254,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style34
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1288,7 +1288,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style35
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1322,7 +1322,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style36
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1356,7 +1356,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style37
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1390,7 +1390,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style38
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1424,7 +1424,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style39
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1458,7 +1458,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style40
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1492,7 +1492,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style41
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1526,7 +1526,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style42
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1560,7 +1560,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style43
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1594,7 +1594,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style44
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1628,7 +1628,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style45
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1662,7 +1662,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style46
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1696,7 +1696,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style47
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1730,7 +1730,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style48
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
@@ -1764,7 +1764,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style102
     path: ../src/EPPlus/Drawing/Chart/enums/eChartStyle.cs

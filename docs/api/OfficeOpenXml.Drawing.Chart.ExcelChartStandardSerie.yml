@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartStandardSerie
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -81,7 +81,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Header
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderAddress
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -201,7 +201,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XSeries
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -241,7 +241,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TrendLines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -281,7 +281,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfItems
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
@@ -321,7 +321,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateCache
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs

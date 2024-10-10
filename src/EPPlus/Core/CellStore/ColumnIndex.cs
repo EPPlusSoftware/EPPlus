@@ -163,6 +163,7 @@ namespace OfficeOpenXml.Core.CellStore
         {
             lock (_syncRoot)
             {
+                row--;
                 var p = GetPagePosition(row);
                 if (p < 0)
                 {
@@ -195,16 +196,27 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     if (p < PageCount)
                     {
-                        var r = _pages[p].GetNextRow(row);
+                        var page = _pages[p];
+                        var r = page.GetRowPosition(row);
                         if (r >= 0)
                         {
-                            return _pages[p].IndexOffset + _pages[p].Rows[r].Index;
+                            return page.IndexOffset + page.Rows[r].Index;
                         }
                         else
                         {
-                            if (++p < PageCount)
+                            r = ~r;
+                            if (r > 0) r--;
+                            if(page.RowCount > r && page.IndexOffset + page.Rows[r].Index <= row)
                             {
-                                return _pages[p].IndexOffset + _pages[p].Rows[0].Index;
+                                return page.IndexOffset + page.Rows[r].Index;
+                            }
+                            else if(--p >= 0)
+                            {
+                                
+                                page = _pages[p];
+                                while(page.RowCount==0 && p > 0) page = _pages[--p];
+                                if (p < 0) return -1;
+                                return page.IndexOffset + page.Rows[page.RowCount-1].Index;
                             }
                             else
                             {
@@ -222,40 +234,37 @@ namespace OfficeOpenXml.Core.CellStore
 
         internal int GetPointer(int Row)
         {
-            //lock (_syncRoot)
-            //{
-                var pos = GetPagePosition(Row);
-                if (pos >= 0 && pos < PageCount)
+            var pos = GetPagePosition(Row);
+            if (pos >= 0 && pos < PageCount)
+            {
+                var pageItem = _pages[pos];
+                if (pageItem.MinIndex > Row)
                 {
-                    var pageItem = _pages[pos];
-                    if (pageItem.MinIndex > Row)
-                    {
-                        pos--;
-                        if (pos < 0)
-                        {
-                            return -1;
-                        }
-                        else
-                        {
-                            pageItem = _pages[pos];
-                        }
-                    }
-                    int ix = Row - pageItem.IndexOffset;
-                    var cellPos = ArrayUtil.OptimizedBinarySearch(pageItem.Rows, ix, pageItem.RowCount);
-                    if (cellPos >= 0)
-                    {
-                        return pageItem.Rows[cellPos].IndexPointer;
-                    }
-                    else //Cell does not exist
+                    pos--;
+                    if (pos < 0)
                     {
                         return -1;
                     }
+                    else
+                    {
+                        pageItem = _pages[pos];
+                    }
                 }
-                else //Page does not exist
+                int ix = Row - pageItem.IndexOffset;
+                var cellPos = ArrayUtil.OptimizedBinarySearch(pageItem.Rows, ix, pageItem.RowCount);
+                if (cellPos >= 0)
+                {
+                    return pageItem.Rows[cellPos].IndexPointer;
+                }
+                else //Cell does not exist
                 {
                     return -1;
                 }
-           // }
+            }
+            else //Page does not exist
+            {
+                return -1;
+            }
         }
         public void Dispose()
         {

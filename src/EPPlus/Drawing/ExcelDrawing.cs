@@ -11,31 +11,19 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
-using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Chart.ChartEx;
-using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Controls;
-using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Packaging.Ionic;
-using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
-using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -577,7 +565,9 @@ namespace OfficeOpenXml.Drawing
                 case "sp":
                     return GetShapeOrControl(drawings, node, drawNode, parent);
                 case "pic":
-                    return new ExcelPicture(drawings, node, parent);
+                    var aPic = new ExcelPicture(drawings, node, parent);
+                    aPic.RecalcWidthHeight();
+                    return aPic;
                 case "graphicFrame":
                     return ExcelChart.GetChart(drawings, node, parent);
                 case "grpSp":
@@ -1342,7 +1332,14 @@ namespace OfficeOpenXml.Drawing
             return clientDataNode;
         }
 
-
+        /// <summary>
+        /// Copies the drawing to the supplied worksheets. The copy will be positioned using the <paramref name="row"/> and <paramref name="col"/> parameters
+        /// </summary>
+        /// <param name="worksheet">The worksheet where the drawing will be placed.</param>
+        /// <param name="row">The top row where the drawing will be placed.</param>
+        /// <param name="col">The left column where the drawing will be placed.</param>
+        /// <param name="rowOffset">Row offset in pixels from the row start positions. int.MinValue </param>
+        /// <param name="colOffset">Column offset in pixels fromp the column start position</param>
         public void Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = int.MinValue, int colOffset = int.MinValue)
         {
             XmlNode drawNode = null;

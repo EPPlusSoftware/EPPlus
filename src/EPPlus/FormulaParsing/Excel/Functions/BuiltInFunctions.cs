@@ -261,8 +261,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["expondist"] = new Expondist();
             Functions["expon.dist"] = new ExponDotDist();
             Functions["steyx"] = new Steyx();
-            Functions["t.dist"] = new TDist();
-            Functions["tdist"] = new TDotDist();
+            Functions["t.dist"] = new TDotDist();
+            Functions["tdist"] = new TDist();
             Functions["t.dist.2t"] = new TDist2t();
             Functions["t.inv"] = new TInv();
             Functions["t.dist.rt"] = new TDistRt();
@@ -323,6 +323,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["let"] = new LetFunction();
             // Reference and lookup
             Functions["address"] = new Address();
+            Functions["areas"] = new Areas();
             Functions["hlookup"] = new HLookup();
             Functions["vlookup"] = new VLookup();
             Functions["xlookup"] = new Xlookup();

@@ -262,7 +262,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Engineering.Convert
             _worksheet.Cells["A2"].Calculate();
             Assert.AreEqual("11101", _worksheet.Cells["A2"].Value, "1D was not 11101");
         }
-
         [TestMethod]
         public void Hex2Dec_Tests()
         {

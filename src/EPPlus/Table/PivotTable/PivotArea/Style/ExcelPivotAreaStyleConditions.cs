@@ -49,20 +49,31 @@ namespace OfficeOpenXml.Table.PivotTable
             get;  
         }
         /// <summary>
-        /// The data field that the conditions will apply to. 
+        /// The data field that the conditions will apply too. 
         /// </summary>
         public ExcelPivotAreaDataFieldReference DataFields
         {
             get;
         }
-
-        internal void UpdateXml()
+        /// <summary>
+        /// Updates the xml. Returns false if all conditions are deleted and the items should be removed.
+        /// </summary>
+        /// <returns>Returns false if the items should be deleted.</returns>
+        internal bool UpdateXml()
         {
-            DataFields.UpdateXml();
+            var ret = false;
+            if(DataFields.UpdateXml())
+            {
+                ret = true;
+            }
             foreach (ExcelPivotAreaReference r in Fields)
             {
-                r.UpdateXml();
+                if(r.UpdateXml())
+                {
+                    ret = true;
+                }
             }
+            return ret;
         }
     }
 }

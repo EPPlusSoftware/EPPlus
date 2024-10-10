@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePicturePosition
     path: ../src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DontSet
     path: ../src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Absolute
     path: ../src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Relative
     path: ../src/EPPlus/Export/HtmlExport/Enums/ePicturePosition.cs

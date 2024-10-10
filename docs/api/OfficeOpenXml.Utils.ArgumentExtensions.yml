@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/ArgumentExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArgumentExtensions
     path: ../src/EPPlus/Utils/ArgumentExtensions.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/ArgumentExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNotNull
     path: ../src/EPPlus/Utils/ArgumentExtensions.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/ArgumentExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNotNullOrEmpty
     path: ../src/EPPlus/Utils/ArgumentExtensions.cs
@@ -170,7 +170,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/ArgumentExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsInRange
     path: ../src/EPPlus/Utils/ArgumentExtensions.cs

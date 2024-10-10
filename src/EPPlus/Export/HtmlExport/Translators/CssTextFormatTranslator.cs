@@ -22,7 +22,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
         bool _wrapText;
         int _indent;
         int _textRotation;
-        bool _rightDefault;
 
         internal CssTextFormatTranslator(StyleXml xfs) : base(xfs)
         {
@@ -33,7 +32,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             _applyAlignment = xfs._style.ApplyAlignment;
 
             _horizontalAlignment = xfs._style.HorizontalAlignment;
-            _verticalAlignment = xfs._style.VerticalAlignment;
+            _verticalAlignment = xfs._style.VerticalAlignment;            
         }
 
         internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
@@ -56,10 +55,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
                 vAlign = GetVerticalAlignment();
             }
 
-            if ((string.IsNullOrEmpty(hAlign)) && _rightDefault)
-            {
-                hAlign = "right";
-            }
 
             if ((string.IsNullOrEmpty(hAlign) == false) && (context.Exclude.HorizontalAlignment == false))
             {

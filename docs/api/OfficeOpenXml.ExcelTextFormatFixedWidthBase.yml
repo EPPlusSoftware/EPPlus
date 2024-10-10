@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTextFormatFixedWidthBase
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Columns
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -122,7 +122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormatErrorStrategy
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PaddingCharacter
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PaddingCharacterNumeric
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineLength
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -270,7 +270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearColumnFormats
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -302,7 +302,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColumnLengths
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -341,7 +341,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColumnPositions
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -383,7 +383,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColumnDataTypes
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -422,7 +422,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColumnPaddingAlignmentType
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -461,7 +461,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetUseColumns
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -500,7 +500,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColumnsNames
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs

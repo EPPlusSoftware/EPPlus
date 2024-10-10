@@ -219,6 +219,23 @@ namespace OfficeOpenXml
             SchemaNodeOrder = new string[] { "numFmts", "fonts", "fills", "borders", "cellStyleXfs", "cellXfs", "cellStyles", "dxfs" };
             LoadFromDocument();
         }
+
+        private void EnsureValidFills()
+        {
+            if (Fills.Count == 0)
+            {
+                var patternFill1 = new ExcelFillXml(_nameSpaceManager);
+                patternFill1.PatternType = ExcelFillStyle.None;
+                Fills.Add(patternFill1.Id, patternFill1);
+            }
+            if (Fills.Count < 2 && Fills[0].PatternType == ExcelFillStyle.None)
+            {
+                var patternFill2 = new ExcelFillXml(_nameSpaceManager);
+                patternFill2.PatternType = ExcelFillStyle.Gray125;
+                Fills.Add(patternFill2.Id, patternFill2);
+            }
+        }
+
         /// <summary>
         /// Loads the style XML to memory
         /// </summary>
@@ -273,6 +290,7 @@ namespace OfficeOpenXml
                 }
                 Fills.Add(f.Id, f);
             }
+            EnsureValidFills();
 
             //Borders
             XmlNode borderNode = GetNode(BordersPath);

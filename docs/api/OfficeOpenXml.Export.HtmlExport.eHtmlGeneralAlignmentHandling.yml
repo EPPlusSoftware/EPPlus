@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eHtmlGeneralAlignmentHandling
     path: ../src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DontSet
     path: ../src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnDataType
     path: ../src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellDataType
     path: ../src/EPPlus/Export/HtmlExport/Enums/eHtmlGeneralAlignmentHandling.cs

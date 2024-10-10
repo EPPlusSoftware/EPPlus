@@ -570,12 +570,11 @@ namespace OfficeOpenXml.ExternalReferences
             {
                 if(e.ExpressionType == ExpressionType.CellAddress)
                 {
-                    var adr = e.GetAddress();
-                    if(adr.ExternalReferenceIx>0)
+                    var adresses = e.GetAddress();
+                    foreach(var adr in adresses)
+                    if (adr.ExternalReferenceIx > 0)
                     {
-                        //ExcelAddressBase a = new ExcelAddressBase(t.Value);
-                        //var ix = _wb.ExternalLinks.GetExternalLink(a._wb);
-                        if (_wb.ExternalLinks[adr.ExternalReferenceIx-1] == this)
+                        if (_wb.ExternalLinks[adr.ExternalReferenceIx - 1] == this)
                         {
                             UpdateCacheForAddress(adr.ToExcelAddressBase(), address);
                         }
@@ -593,58 +592,6 @@ namespace OfficeOpenXml.ExternalReferences
                     }
                 }
             }
-            //new RpnFormula()
-            //var currentAddress = "";
-            //var isExternal = false;
-            //var isNameValue = false;
-            //foreach (var t in tokens)
-            //{
-            //    if(t.TokenTypeIsAddressToken)
-            //    {
-            //        currentAddress += t.Value;
-            //        if(t.TokenTypeIsSet(TokenType.ExternalReference))
-            //        {
-            //            isExternal = true;
-            //        }
-            //        else if(t.TokenTypeIsSet(TokenType.NameValue))
-            //        {
-            //            isNameValue = true; ;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (isExternal)
-            //        {
-            //            if(isNameValue)
-            //            {
-            //                ExcelAddressBase.SplitAddress(t.Value, out string wbRef, out string wsRef, out string nameRef);
-            //                if (!string.IsNullOrEmpty(wbRef))
-            //                {
-            //                    var ix = _wb.ExternalLinks.GetExternalLink(wbRef);
-            //                    if (ix >= 0 && _wb.ExternalLinks[ix] == this)
-            //                    {
-            //                        string name;
-            //                        if (string.IsNullOrEmpty(wsRef))
-            //                        {
-            //                            name = nameRef;
-            //                        }
-            //                        else
-            //                        {
-            //                            name = ExcelCellBase.GetQuotedWorksheetName(wsRef) + "!" + nameRef;
-            //                        }
-            //                        UpdateCacheForName(name);
-            //                    }
-            //                }
-            //            }
-            //            else
-            //            {
-            //            }
-            //        }
-            //        isExternal= false;
-            //        isNameValue = false;
-            //        currentAddress = "";
-            //    }
-            //}
         }
 
         private void UpdateCacheForName(int wsIx, string name)

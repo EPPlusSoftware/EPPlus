@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameParsingStrategy
     path: ../src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Preserve
     path: ../src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SpaceToUnderscore
     path: ../src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveSpace
     path: ../src/EPPlus/Export/ToDataTable/NameParsingStrategy.cs

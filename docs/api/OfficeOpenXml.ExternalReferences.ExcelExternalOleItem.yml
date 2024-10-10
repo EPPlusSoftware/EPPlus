@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalOleItem
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Advise
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PreferPicture
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
@@ -136,7 +136,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Icon
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
@@ -173,7 +173,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleItem.cs

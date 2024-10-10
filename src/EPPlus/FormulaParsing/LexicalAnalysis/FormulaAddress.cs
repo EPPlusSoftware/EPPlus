@@ -232,10 +232,8 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 AddressExpressionIndex = 0,
                 Tokens = Tokens,
                 RpnTokens = RpnTokens,                
-                //ExpressionTree = GetExpressionTree(row, col),
                 StartRow = row,
                 StartCol = col,
-                //_compiler = _compiler,
             };
         }
         private Dictionary<int, Expression> _compiledExpressions;
@@ -936,6 +934,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// Address
         /// </summary>
         public FormulaRangeAddress Address => this;
+
+        /// <summary>
+        /// If the address contains multiple comma separated addresses, the individual addresses are stored here.
+        /// </summary>
+        public FormulaRangeAddress[] Addresses => [this];
     }
     /// <summary>
     /// Formula table address

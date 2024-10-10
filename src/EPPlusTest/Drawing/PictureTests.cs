@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -175,6 +176,61 @@ namespace EPPlusTest.Drawing
 			var ws = wb.Worksheets.Add("jpgCalibri18");
 			var pic = ws.Drawings.AddPicture("jpgFile2", GetResourceFile("Test1.jpg"));			
 		}
-		#endregion
-	}
+        #endregion
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
+        public void AddPictureWithIllegalCharsShouldFail()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+
+                var pic = sheet.Drawings.AddPicture("ImageName", "testafhkai/[/\\|stuff", PictureLocation.Link);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
+        public void AddPictureWithFaultyPathShouldFail()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+
+                var pic = sheet.Drawings.AddPicture("ImageName", "C:\\temp\\\test???", PictureLocation.Link);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
+        public void AddPictureWithFaultyPathShouldFail2()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+
+                var pic = sheet.Drawings.AddPicture("ImageName", "C:\\temp\\test???", PictureLocation.Link);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
+        public void AddPictureWithIllegalCharsAndHyperlinkShouldFail()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+
+                var pic = sheet.Drawings.AddPicture("ImageName", "testafhkai/[/\\|stuff", new ExcelHyperLink("https://www.google.com/"), PictureLocation.Link);
+
+                SaveAndCleanup(package);
+            }
+        }
+    }
 }

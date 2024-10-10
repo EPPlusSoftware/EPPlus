@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAxisOrientation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eAxisOrientation
     path: ../src/EPPlus/Drawing/Chart/enums/eAxisOrientation.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAxisOrientation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxMin
     path: ../src/EPPlus/Drawing/Chart/enums/eAxisOrientation.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAxisOrientation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinMax
     path: ../src/EPPlus/Drawing/Chart/enums/eAxisOrientation.cs

@@ -2515,8 +2515,8 @@ namespace OfficeOpenXml
             }
             else if(d is ExcelOleObject o)
             {
-                if(o.LinkedOleObjectPart != null && o.LinkedOleObjectXml != null)
-                    o.LinkedOleObjectXml.Save(o.LinkedOleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+                if(o.oleObjectPart != null && o.LinkedOleObjectXml != null)
+                    o.LinkedOleObjectXml.Save(o.oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
             }
             if (d is ExcelGroupShape grp)
             {
@@ -2962,13 +2962,12 @@ namespace OfficeOpenXml
                             }
                             r++;
                         }
-                        //fromRow = r;
                         fromCol = c;
                     }
 
-                    if (fvc._toCol == tc)
+                    if (lvc._toCol == tc)
                     {
-                        toCol = fvc._toCol;
+                        toCol = lvc._toCol;
                     }
                     else
                     {
@@ -2981,7 +2980,6 @@ namespace OfficeOpenXml
                             }
                             r--;
                         }
-                        //toRow = r;
                         toCol = c;
                     }
 
