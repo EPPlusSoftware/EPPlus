@@ -141,11 +141,6 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             {'Z', 0x06 }
         };
 
-        public Dictionary<FontMetricsClass, uint> roundedClasses = new Dictionary<FontMetricsClass, uint>();
-        public Dictionary<char, FontMetricsClass> simplifiedChar = new Dictionary<char, FontMetricsClass>();
-        public Dictionary<char, uint> simplifiedCharCheck = new Dictionary<char, uint>();
-        public Dictionary<char, float> diffCheck = new Dictionary<char, float>();
-
         internal List<uint> MeasureTextSpacingInternal(string text, uint fontKey, MeasurementFontStyles style, float size, float ppi = 108.73578912433f)
         {
             var sFont = _fonts[fontKey];
@@ -154,15 +149,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             var spacingBuffer = new List<uint>();
             var ptSize = size * (72f/96f);
 
-            List<float> offsetsFromCorrect = new List<float>();
-            float sum = 0;
-
             var widthDefault = sFont.ClassWidths[sFont.DefaultWidthClass];
-
-            foreach(var widthTest in sFont.ClassWidths)
-            {
-                roundedClasses.Add(widthTest.Key, (uint)Math.Round(widthTest.Value * 10, MidpointRounding.AwayFromZero));
-            }
 
             float resolutionDifference = ppi / 96f;
 
@@ -178,23 +165,12 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 
                 float deviceUnits = fnt.ClassWidths[fntClass] * finalFactor - adjustmentFactor;
 
-                offsetsFromCorrect.Add((float)deviceUnits);
                 uint simplifiedWidth = (uint)Math.Round(deviceUnits, MidpointRounding.AwayFromZero);
                 spacingBuffer.Add(simplifiedWidth);
-                simplifiedCharCheck.Add(c, simplifiedWidth);
-
-                float diff = (deviceUnits - AlphabetChars[c]);
-                diffCheck.Add(c,diff);
-                sum += diff;
             }
-            //0.36234977555334741
-            var avg = sum / offsetsFromCorrect.Count();
 
             return spacingBuffer;
         }
-
-
-
 
         internal static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)
         {

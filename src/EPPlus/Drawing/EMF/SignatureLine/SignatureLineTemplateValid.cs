@@ -9,9 +9,9 @@ namespace OfficeOpenXml.Drawing.EMF
     {
         internal EMR_EXTTEXTOUTW timeStamp;
         internal EMR_EXTTEXTOUTW signedBy;
-        const string filePath = "C:\\epplusTest\\Testoutput\\ValidImageOriginal.emf";
+        const string filePath = "C:\\epplusTest\\Testoutput\\ValidSignatureTemplate.emf";
 
-        internal string Signers
+        internal string SignedBy
         {
             set
             {

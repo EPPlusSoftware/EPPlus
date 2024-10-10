@@ -7,8 +7,16 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class SignatureLineTemplateInvalid : SignatureLineTemplateEmf
     {
-        internal EMR_EXTTEXTOUTW signedBy;
-        const string invalidPath = "C:\\epplusTest\\Testoutput\\InvalidImageOriginal.emf";
+        const string invalidPath = "C:\\epplusTest\\Testoutput\\InvalidSignatureTemplate.emf";
+
+        private EMR_EXTTEXTOUTW signedBy;
+        internal string SignedBy
+        {
+            set
+            {
+                signedBy.Text = $"Signed by:{value}";
+            }
+        }
 
         internal SignatureLineTemplateInvalid(): base(invalidPath)
         {
