@@ -15,6 +15,7 @@ using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
@@ -147,11 +148,11 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             var chars = text.ToCharArray();
 
             var spacingBuffer = new List<uint>();
-            var ptSize = size * (72f/96f);
 
             var widthDefault = sFont.ClassWidths[sFont.DefaultWidthClass];
 
             float resolutionDifference = ppi / 96f;
+            float ptSize = size * (72f / 96f);
 
             float finalFactor = resolutionDifference * ptSize;
 
@@ -170,6 +171,20 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             }
 
             return spacingBuffer;
+        }
+
+        internal uint MeasureCharacter(char c, uint fontKey, MeasurementFontStyles style, float ptSize, float finalFactor)
+        {
+            var sFont = _fonts[fontKey];
+            var fnt = sFont;
+
+            var fntClass = sFont.CharMetrics.ContainsKey(c) ? sFont.CharMetrics[c] : fnt.DefaultWidthClass;
+            float adjustmentFactor = 0.012f * ptSize * ((int)fntClass);
+
+            float deviceUnits = fnt.ClassWidths[fntClass] * finalFactor - adjustmentFactor;
+
+            uint simplifiedWidth = (uint)Math.Round(deviceUnits, MidpointRounding.AwayFromZero);
+            return simplifiedWidth;
         }
 
         internal static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -10,7 +12,7 @@ namespace OfficeOpenXml.Drawing.EMF
         ExcelTextSettings textSettings;
         uint size = 0;
         MapMode currentMapMode = MapMode.MM_TEXT;
-        public EMF() { }
+        internal EmfImage() { }
 
         internal ExcelPackage pck = new ExcelPackage();
 
@@ -19,8 +21,6 @@ namespace OfficeOpenXml.Drawing.EMF
         internal uint currentlySelectedId;
         float ppi;
         float unitsPerEm;
-
-        internal EmfImage() { }
 
         internal void Read(string emf)
         {
@@ -107,11 +107,6 @@ namespace OfficeOpenXml.Drawing.EMF
                         {
                             text.Font = Fonts[currentlySelectedId];
                         }
-                        //text.Ppi = 
-                        ////if (Fonts.ContainsKey(id))
-                        ////{
-                        ////    text.InternalFontId = id;
-                        ////}
                         record = text;
                         break;
                     default:
@@ -125,7 +120,10 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal void SetNewTextInDefaultEMFImage(string Text)
         {
-            EmfCalculateTextLength ectl = new EmfCalculateTextLength(Text);
+            ExcelTextSettings textSettings = new ExcelTextSettings();
+            var measurer = (GenericFontMetricsTextMeasurer)textSettings.GenericTextMeasurer;
+
+            EmfCalculateTextLength ectl = new EmfCalculateTextLength(Text, measurer, lastFont, ppi);
             records.RemoveRange(17, 6);
             records.InsertRange(17, ectl.TextRecords);
         }

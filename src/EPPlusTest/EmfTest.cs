@@ -1,10 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml;
 using OfficeOpenXml.Drawing.EMF;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.IO;
 
 namespace EPPlusTest
 {
@@ -68,6 +64,16 @@ namespace EPPlusTest
             //emfImage.records[140].data = new byte[] { 3, 0, 0, 0 };
 
             emfImage.Save("C:\\epplusTest\\Testoutput\\ChangeFontOutput.emf");
+        }
+
+        [TestMethod]
+        public void CheckOGImage()
+        {
+            var emfImage = new EmfImage();
+            emfImage.Read("C:\\epplusTest\\Testoutput\\OG_image1.emf");
+
+            var textRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW);
+            var fontRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTCREATEFONTINDIRECTW);
         }
 
         [TestMethod]

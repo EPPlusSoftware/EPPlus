@@ -5,9 +5,6 @@ using System;
 using System.IO;
 using System.Text;
 using OfficeOpenXml.Utils;
-using System;
-using System.IO;
-using System.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -101,12 +98,11 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        byte[] CalculateDxSpacing()
+        internal byte[] CalculateDxSpacing(string targetString)
         {
-            var test = textSettings.GenericTextMeasurer;
             var aMesurement = (GenericFontMetricsTextMeasurer)textSettings.GenericTextMeasurer;
-            aMesurement.MeasureTextInternal(stringBuffer, GenericFontMetricsTextMeasurerBase.GetKey(Font.elw.mFont.FontFamily, Font.elw.mFont.Style), Font.elw.mFont.Style, Font.elw.mFont.Size);
-            var values = aMesurement.MeasureIndividualCharacters(stringBuffer, Font.elw.mFont, Ppi);
+            aMesurement.MeasureTextInternal(targetString, GenericFontMetricsTextMeasurerBase.GetKey(Font.elw.mFont.FontFamily, Font.elw.mFont.Style), Font.elw.mFont.Style, Font.elw.mFont.Size);
+            var values = aMesurement.MeasureIndividualCharacters(targetString, Font.elw.mFont, Ppi);
 
             int index = 0;
             foreach (uint val in values)
@@ -117,8 +113,21 @@ namespace OfficeOpenXml.Drawing.EMF
             }
             return DxBuffer;
         }
-        internal EMR_EXTTEXTOUTW(string Text)
+
+        internal int GetSpacingForChar(char c)
         {
+            return GetSpacingForChar(c, (GenericFontMetricsTextMeasurer)textSettings.GenericTextMeasurer, Font.elw.mFont, Ppi);
+        }
+
+        internal static int GetSpacingForChar(char c, GenericFontMetricsTextMeasurer aMesurement, MeasurementFont mFont, float ppi)
+        {
+            return (int)aMesurement.MeasureIndividualCharacter(c, mFont, ppi);
+        }
+
+        internal EMR_EXTTEXTOUTW(string Text, EMR_EXTCREATEFONTINDIRECTW font)
+        {
+            Font = font;
+
             Type = RECORD_TYPES.EMR_EXTTEXTOUTW;
             Bounds = new byte[16] { 0x13, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x4b, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00 };
             iGraphicsMode = new byte[4] { 0x02, 0x00, 0x00, 0x00 };
@@ -132,8 +141,10 @@ namespace OfficeOpenXml.Drawing.EMF
             CalculateOffsets();
         }
 
-        internal EMR_EXTTEXTOUTW(string Text, int x, int y)
+        internal EMR_EXTTEXTOUTW(string Text, int x, int y, EMR_EXTCREATEFONTINDIRECTW font)
         {
+            Font = font;
+
             Type = RECORD_TYPES.EMR_EXTTEXTOUTW;
             Bounds = new byte[16] { 0x13, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x4b, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00 };
             iGraphicsMode = new byte[4] { 0x02, 0x00, 0x00, 0x00 };
@@ -150,6 +161,7 @@ namespace OfficeOpenXml.Drawing.EMF
             Rectangle = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
             offString = 4 + 4 + 16 + 4 + 4 + 4 + 8 + 4 + 4 + 4 + 16 + 4;
             stringBuffer = Text;
+
             CalculateOffsets();
         }
 
@@ -162,11 +174,8 @@ namespace OfficeOpenXml.Drawing.EMF
             offDx += 4 - (offDx % 4);
             padding = (int)(offDx) - padding;
 
-            byte[] prevBuff = new byte[DxBuffer.Length];
-            DxBuffer.CopyTo(prevBuff, 0);
-
             DxBuffer = new byte[stringBuffer.Length * 4];
-            CalculateDxSpacing();
+            CalculateDxSpacing(stringBuffer);
             Size = offDx + (uint)DxBuffer.Length;
         }
 

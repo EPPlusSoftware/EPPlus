@@ -6,7 +6,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
-    internal class SignatureLineTemplateEmf : EMF
+    internal class SignatureLineTemplateEmf : EmfImage
     {
         internal EMR_EXTTEXTOUTW signTextObject;
         internal EMR_EXTTEXTOUTW suggestedSignerObject;
