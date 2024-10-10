@@ -49,10 +49,6 @@
 	<ItemGroup>
 		<Compile Remove="FormulaParsing\ExpressionGraph\EnumerableExpressionTests.cs" />
 		<Compile Remove="FormulaParsing\ExpressionGraph\ExpressionCompilerTests.cs" />
-		<Compile Remove="WorkSheetTests_BACKUP_2009.cs" />
-		<Compile Remove="WorkSheetTests_BASE_2009.cs" />
-		<Compile Remove="WorkSheetTests_LOCAL_2009.cs" />
-		<Compile Remove="WorkSheetTests_REMOTE_2009.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
