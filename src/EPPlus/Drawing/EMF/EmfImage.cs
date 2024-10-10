@@ -184,5 +184,26 @@ namespace OfficeOpenXml.Drawing.EMF
                 }
             }
         }
+
+        public virtual void SaveToStream(MemoryStream ms)
+        {
+            var header = (EMR_HEADER)records[0];
+            var last = (EMR_EOF)records[records.Count - 1];
+            var preBytes = header.Bytes;
+
+            header.Bytes = 0;
+
+            foreach (var record in records)
+            {
+                header.Bytes += record.Size;
+            }
+
+            BinaryWriter br = new BinaryWriter(ms);
+
+            foreach (var record in records)
+            {
+                record.WriteBytes(br);
+            }
+        }
     }
 }

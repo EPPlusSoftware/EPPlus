@@ -158,6 +158,7 @@ namespace OfficeOpenXml
         /// Relationship schema name
         /// </summary>
         internal const string schemaRelationships = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+        internal const string packageSchemaRelationships = @"http://schemas.openxmlformats.org/package/2006/relationships";
 
         internal const string schemaDrawings = @"http://schemas.openxmlformats.org/drawingml/2006/main";
         internal const string schemaSheetDrawings = @"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing";

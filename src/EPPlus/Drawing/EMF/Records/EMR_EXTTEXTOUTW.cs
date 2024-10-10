@@ -176,8 +176,26 @@ namespace OfficeOpenXml.Drawing.EMF
 
             DxBuffer = new byte[stringBuffer.Length * 4];
             CalculateDxSpacing(stringBuffer);
+
+            //var aValue = BitConverter.GetBytes(240);
+            //for (int i = 0; i < aValue.Length; i++)
+            //{
+            //    Bounds[i + 8] = aValue[i];
+            //    Rectangle[i + 8] = aValue[i];
+            //}
+
             Size = offDx + (uint)DxBuffer.Length;
         }
+
+        //private int RightRectangleX()
+        //{
+        //    //var rightBytes = new byte[] { Rectangle[8], Rectangle[9], Rectangle[10], Rectangle[11] };
+        //    //BitConverter.ToInt32(rightBytes, 8);
+        //    int testStuff = BitConverter.ToInt32(Bounds, 8);
+        //    return testStuff;
+        //}
+
+
 
         internal override void WriteBytes(BinaryWriter bw)
         {

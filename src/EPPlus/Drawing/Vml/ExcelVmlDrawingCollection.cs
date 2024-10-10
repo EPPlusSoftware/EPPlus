@@ -27,6 +27,8 @@ using OfficeOpenXml.Drawing.OleObject;
 using System.Data.SqlTypes;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Drawing.EMF;
+using OfficeOpenXml.DigitalSignatures;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -196,6 +198,118 @@ namespace OfficeOpenXml.Drawing.Vml
 
             node.InnerXml = vml;
             return node;
+        }
+
+        internal ExcelVmlDrawingSignatureLine AddSignatureLine()
+        {
+            var xmlNode = VmlDrawingXml.ChildNodes[0];
+            var shapeTypeNode = VmlDrawingXml.DocumentElement.SelectSingleNode("v:shapetype[@id='_x0000_t75']", NameSpaceManager);
+            if (shapeTypeNode == null)
+            {
+                shapeTypeNode = VmlDrawingXml.CreateElement("v", "shapetype", ExcelPackage.schemaMicrosoftVml);
+                var shapeTypeElement = ((XmlElement)shapeTypeNode);
+                shapeTypeElement.SetAttribute("id", "_x0000_t75");
+                shapeTypeElement.SetAttribute("coordsize", "21600,21600");
+                shapeTypeElement.SetAttribute("spt", ExcelPackage.schemaMicrosoftOffice, "75");
+                shapeTypeElement.SetAttribute("preferrelative", ExcelPackage.schemaMicrosoftOffice, "t");
+                shapeTypeElement.SetAttribute("path", "m@4@5l@4@11@9@11@9@5xe");
+                shapeTypeElement.SetAttribute("filled", "f");
+                shapeTypeElement.SetAttribute("stroked", "f");
+
+                var stroke = VmlDrawingXml.CreateElement("v", "stroke", ExcelPackage.schemaMicrosoftVml);
+                stroke.SetAttribute("joinstyle", "miter");
+                shapeTypeNode.AppendChild(stroke);
+
+                DigitalSignatureLine.CreateFormulaElementAsChildOf(shapeTypeNode);
+
+                var pathElement = VmlDrawingXml.CreateElement("v", "path", ExcelPackage.schemaMicrosoftVml);
+                pathElement.SetAttribute("extrusionok", ExcelPackage.schemaMicrosoftOffice, "f");
+                pathElement.SetAttribute("gradientshapeok", "t");
+                pathElement.SetAttribute("connecttype", ExcelPackage.schemaMicrosoftOffice, "rect");
+
+                shapeTypeElement.AppendChild(pathElement);
+
+                var lockShapeTypeEl = VmlDrawingXml.CreateElement("o", "lock", ExcelPackage.schemaMicrosoftOffice);
+                lockShapeTypeEl.SetAttribute("ext", ExcelPackage.schemaMicrosoftVml, "edit");
+                lockShapeTypeEl.SetAttribute("aspectratio", "t");
+
+                shapeTypeElement.AppendChild(lockShapeTypeEl);
+
+                VmlDrawingXml.DocumentElement.AppendChild(shapeTypeElement);
+            }
+
+            Guid lineId = new Guid();
+            XmlNode node = AddDigitalSignatureLineDrawing(lineId);
+            VmlDrawingXml.DocumentElement.AppendChild(node);
+
+            var signatureLine = new ExcelVmlDrawingSignatureLine(node, NameSpaceManager, lineId);
+            _drawings.Add(signatureLine);
+
+            return signatureLine;
+        }
+        public XmlNode AddDigitalSignatureLineDrawing(Guid id)
+        {
+            CreateVmlPart(false); //Create the vml part to be able to create related parts (like signatureLine).
+            //var vmlRel = Part.CreateRelationship(mediaUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+
+            var shapeElement = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
+            VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
+
+            shapeElement.SetAttribute("id", "_x0000_s1025");
+            shapeElement.SetAttribute("type", "#_x0000_t75");
+            shapeElement.SetAttribute("alt", "Microsoft Office Signature Line...");
+            shapeElement.SetAttribute("style", "position:absolute;margin-left:0;margin-top:0;width:192pt;height:96pt;z-index:1");
+
+            var imagedata = VmlDrawingXml.CreateElement("v", "imagedata", ExcelPackage.schemaMicrosoftVml);
+            imagedata.SetAttribute("relid", ExcelPackage.schemaMicrosoftOffice, RelId ?? "rId1");
+            imagedata.SetAttribute("title", ExcelPackage.schemaMicrosoftOffice, "");
+            shapeElement.AppendChild(imagedata);
+
+            var lockShapeEl = VmlDrawingXml.CreateElement("o", "lock", ExcelPackage.schemaMicrosoftOffice);
+            lockShapeEl.SetAttribute("ext", ExcelPackage.schemaMicrosoftVml, "edit");
+            lockShapeEl.SetAttribute("ungrouping", "t");
+            lockShapeEl.SetAttribute("rotation", "t");
+            lockShapeEl.SetAttribute("cropping", "t");
+            lockShapeEl.SetAttribute("verticies", "t");
+            lockShapeEl.SetAttribute("text", "t");
+            lockShapeEl.SetAttribute("grouping", "t");
+            shapeElement.AppendChild(lockShapeEl);
+
+            var sigLine = VmlDrawingXml.CreateElement("o", "signatureline", ExcelPackage.schemaMicrosoftOffice);
+            shapeElement.AppendChild(sigLine);
+
+            sigLine.SetAttribute("ext", ExcelPackage.schemaMicrosoftVml, "edit");
+
+            string provId = "00000000-0000-0000-0000-000000000000";
+
+            sigLine.SetAttribute("id", $"{{{id}}}");
+            sigLine.SetAttribute("provid", $"{{{provId}}}");
+            sigLine.SetAttribute("suggestedsigner", ExcelPackage.schemaMicrosoftOffice, "");
+            sigLine.SetAttribute("suggestedsigner2", ExcelPackage.schemaMicrosoftOffice, "");
+            sigLine.SetAttribute("suggestedsigneremail", ExcelPackage.schemaMicrosoftOffice, "");
+            sigLine.SetAttribute("issignatureline", "t");
+
+            var clientData = VmlDrawingXml.CreateElement("x", "ClientData", ExcelPackage.schemaMicrosoftExcel);
+            shapeElement.AppendChild(clientData);
+
+            clientData.SetAttribute("ObjectType", "Pict");
+
+            var sizeWCells = VmlDrawingXml.CreateElement("x", "SizeWithCells", ExcelPackage.schemaMicrosoftExcel);
+
+            var anchor = VmlDrawingXml.CreateElement("x", "Anchor", ExcelPackage.schemaMicrosoftExcel);
+            anchor.InnerText = "0, 0, 0, 0, 4, 0, 6, 8";
+
+            var CF = VmlDrawingXml.CreateElement("x", "CF", ExcelPackage.schemaMicrosoftExcel);
+            CF.InnerText = "Pict";
+
+            var autoPict = VmlDrawingXml.CreateElement("x", "AutoPict", ExcelPackage.schemaMicrosoftExcel);
+
+            clientData.AppendChild(sizeWCells);
+            clientData.AppendChild(anchor);
+            clientData.AppendChild(CF);
+            clientData.AppendChild(autoPict);
+
+            return shapeElement;
         }
 
         internal ExcelVmlDrawingPicture AddPicture(ExcelOleObject oleObject, string name, Uri mediaUri)
