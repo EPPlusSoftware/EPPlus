@@ -43,5 +43,9 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             Root.GetIntersectingRanges(range, ref ranges);
             return ranges;
         }
+        public void InsertRow(int fromRow, int rows)
+        {
+            Root.InsertRow(fromRow, rows);
+        }
     }
 }

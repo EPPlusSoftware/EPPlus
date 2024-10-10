@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Windows.Documents;
 
 namespace OfficeOpenXml.Core.RangeQuadTree
 {
@@ -132,5 +133,18 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             }
         }
 
+        internal void InsertRow(int fromRow, int rows)
+        {
+            Dimension.InsertRow(fromRow, rows);
+            foreach (var r in Ranges)
+            {
+                r.Range.InsertRow(fromRow, rows);
+            }
+
+            foreach (var q in Quads)
+            {
+                q.InsertRow(fromRow, rows);
+            }
+        }
     }
 }

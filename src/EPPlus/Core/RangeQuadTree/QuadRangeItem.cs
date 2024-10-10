@@ -1,4 +1,6 @@
-﻿namespace OfficeOpenXml.Core.RangeQuadTree
+﻿using System;
+
+namespace OfficeOpenXml.Core.RangeQuadTree
 {
     internal struct QuadRangeItem<T>
     {

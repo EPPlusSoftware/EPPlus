@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace OfficeOpenXml.Core.RangeQuadTree
 {
-    internal struct QuadRange
+    internal class QuadRange
     {
         public const int MinSize = 30;
-        public int FromRow { get; }
-        public int FromCol { get; }
-        public int ToRow { get; }
-        public int ToCol { get; }
+        public int FromRow { get; set; }
+        public int FromCol { get; set; }
+        public int ToRow { get; set; }
+        public int ToCol { get; set; }
         public bool IsMinimumSize
         {
             get
@@ -56,5 +56,43 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             }
             return IntersectType.OutSide;
         }
+
+        internal void InsertRow(int fromRow, int rows)
+        {
+            if (ToRow < fromRow) return;
+            if (FromRow >= fromRow)
+            {
+                FromRow += rows;
+            }
+            ToRow += rows;
         }
+        internal void InsertColumn(int fromCol, int cols)
+        {
+            if (ToCol < fromCol) return;
+            if (FromCol >= fromCol)
+            {
+                FromCol += cols;
+            }
+            ToCol += cols;
+        }
+        internal void DeleteRow(int fromRow, int rows)
+        {
+            if (ToRow < fromRow) return;
+            if (FromRow >= fromRow)
+            {
+                FromRow -= rows;
+            }
+            ToRow -= rows;
+        }
+        internal void DeleteColumn(int fromCol, int cols)
+        {
+            if (ToCol < fromCol) return;
+            if (FromCol >= fromCol)
+            {
+                FromCol -= cols;
+            }
+            ToCol -= cols;
+        }
+
+    }
 }
