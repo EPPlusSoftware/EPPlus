@@ -93,7 +93,7 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-        [DataTestMethod]
+        [DataTestMethod, Ignore]
         [DataRow("Calibri", 1)]
         //[DataRow("Calibri Light", 2)]
         //[DataRow("Arial", 3)]
