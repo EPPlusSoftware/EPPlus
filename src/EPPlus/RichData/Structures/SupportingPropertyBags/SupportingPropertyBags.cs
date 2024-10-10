@@ -23,18 +23,19 @@ using System.Xml;
 
 namespace OfficeOpenXml.RichData.Structures.SupportingPropertyBags
 {
-    internal class SupportingPropertyBagStructureCollection
+    internal class SupportingPropertyBags
     {
         private ExcelWorkbook _wb;
         private ZipPackagePart _part;
         private Uri _uri;
-        private const string PART_URI_PATH = "/xl/richData/rdsupportingpropertybagstructure.xml";
-        private List<SupportingPropertyBagStructure> _structures = new List<SupportingPropertyBagStructure>();
+        private const string PART_URI_PATH = "/xl/richData/rdsupportingpropertybag.xml";
+        private List<SupportingPropertyBagArray> _arrays = new List<SupportingPropertyBagArray>();
+        private List<SupportingPropertyBagData> _data = new List<SupportingPropertyBagData>();
 
-        internal SupportingPropertyBagStructureCollection(ExcelWorkbook wb)
+        internal SupportingPropertyBags(ExcelWorkbook wb)
         {
             _wb = wb;
-            var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataSupportingPropertyBagStructureRelationship).FirstOrDefault();
+            var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataSupportingPropertyBagRelationship).FirstOrDefault();
             if (r == null)
             {
                 _uri = new Uri(PART_URI_PATH, UriKind.Relative);
@@ -55,38 +56,54 @@ namespace OfficeOpenXml.RichData.Structures.SupportingPropertyBags
             }
         }
 
-        internal ZipPackagePart Part { get { return _part; } }
         private void ReadXml(Stream stream)
         {
             var xr = XmlReader.Create(stream);
             while (xr.Read())
             {
-                if (xr.IsElementWithName("s"))
+                if (xr.IsElementWithName("spbArrays"))
                 {
-                    _structures.Add(ReadItem(xr));
+                    ReadArrays(xr);
                 }
-                else if (xr.IsEndElementWithName("s"))
+                else if(xr.IsElementWithName("spbData"))
                 {
-                    break;
+                    ReadData(xr);
                 }
             }
         }
 
-        private SupportingPropertyBagStructure ReadItem(XmlReader xr)
+        private void ReadArrays(XmlReader xr)
         {
-            var keys = new List<ExcelRichValueStructureKey>();
+            _arrays.Clear();
             while (xr.Read())
             {
-                if (xr.IsElementWithName("k"))
+                if(xr.IsElementWithName("a"))
                 {
-                    keys.Add(new ExcelRichValueStructureKey(xr.GetAttribute("n"), xr.GetAttribute("t")));
+                    var arr = SupportingPropertyBagArray.CreateFromXml(xr);
+                    _arrays.Add(arr);
                 }
-                else if (xr.IsEndElementWithName("s"))
+                if (xr.IsEndElementWithName("spbArrays"))
+                {
+                    break;   
+                }
+            }
+        }
+
+        private void ReadData(XmlReader xr)
+        {
+            _data.Clear();
+            while (xr.Read())
+            {
+                var data = SupportingPropertyBagData.CreateFromXml(xr);
+                if(data != null)
+                {
+                    _data.Add(data);
+                }
+                if (xr.IsEndElementWithName("spbData"))
                 {
                     break;
                 }
             }
-            return new SupportingPropertyBagStructure(keys);
         }
 
         internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
@@ -96,14 +113,27 @@ namespace OfficeOpenXml.RichData.Structures.SupportingPropertyBags
             var sw = new StreamWriter(stream);
 
             sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
-            sw.Write($"<spbStructures xmlns=\"{Schemas.schemaRichData}\" count=\"{_structures.Count}\">");
-            foreach (var item in _structures)
+            sw.Write($"<supportingPropertyBags xmlns=\"{Schemas.schemaRichData}\">");
+            if(_arrays.Count > 0)
             {
-                item.WriteXml(sw);
+                sw.Write($"<spbArrays count=\"{_arrays.Count}\">");
+                foreach (var array in _arrays)
+                {
+                    array.WriteXml(sw);
+                }
+                sw.Write("</spbArrays>");
             }
-            sw.Write("</spbStructures>");
+            if(_data.Count > 0)
+            {
+                sw.Write($"<spbData count=\"{_arrays.Count}\">");
+                foreach(var data in _data)
+                {
+                    data.WriteXml(sw);
+                }
+                sw.Write("</spbData>");
+            }
+            sw.Write("</supportingPropertyBags>");
             sw.Flush();
         }
-
     }
 }

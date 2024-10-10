@@ -8,43 +8,33 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  12/26/2021         EPPlus Software AB       EPPlus 6.0
+  11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
+namespace OfficeOpenXml.RichData.Structures.SupportingPropertyBags
 {
-    internal enum FontMetricsFamilies : ushort
+    [DebuggerDisplay("Type: {Type}, Value: {Value}")]
+    internal class SupportingPropertyBagArrayItem
     {
-        Arial = 0,
-        ArialBlack = 1,
-        ArialNarrow = 2,
-        BookmanOldStyle = 3,
-        Calibri = 4,
-        CalibriLight = 5,
-        CalistoMT = 6,
-        Cambria = 7,
-        CenturyGothic = 9,
-        CenturySchoolbook = 10,
-        Corbel = 11,
-        CourierNew = 12,
-        Garamond = 13,
-        Georgia = 14,
-        GillSansMT = 15,
-        Impact = 16,
-        LiberationSerif = 17,
-        Rockwell = 18,
-        RockwellCondensed = 19,
-        TimesNewRoman = 20,
-        TrebuchetMS = 21,
-        TwCenMT = 22,
-        TwCenMTCondensed = 23,
-        Verdana = 24,
-        Aptos = 25,
-        AptosNarrow = 26,
-        AptosDisplay = 27
+        public SupportingPropertyBagArrayItem(string type, string val)
+        {
+            Type = type;
+            Value = val;
+        }
+
+        public string Type { get; set; }
+
+        public string Value { get; set; }
+
+        internal void WriteXml(StreamWriter sw)
+        {
+            sw.Write($"<v t=\"{Type}\">{Value}</v>");
+        }
     }
 }

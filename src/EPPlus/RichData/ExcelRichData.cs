@@ -32,6 +32,7 @@ namespace OfficeOpenXml.RichData
             RichValueRels = new RichValueRelCollection(wb);
             Values = new ExcelRichValueCollection(wb, this);
             SupportingPropertyBagStructures = new SupportingPropertyBagStructureCollection(wb);
+            SupportingPropertyBags = new SupportingPropertyBags(wb);
             _richDataDeletions = new ExcelRichDataDeletions();
         }
 
@@ -43,6 +44,8 @@ namespace OfficeOpenXml.RichData
         internal RichValueRelCollection RichValueRels { get; }
 
         internal SupportingPropertyBagStructureCollection SupportingPropertyBagStructures { get; }
+
+        internal SupportingPropertyBags SupportingPropertyBags { get; }
 
         private ExcelRichDataDeletions _richDataDeletions;
 
