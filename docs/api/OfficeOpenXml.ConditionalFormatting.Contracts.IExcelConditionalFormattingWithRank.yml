@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithRank.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingWithRank
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithRank.cs
@@ -49,7 +49,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithRank.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rank
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithRank.cs

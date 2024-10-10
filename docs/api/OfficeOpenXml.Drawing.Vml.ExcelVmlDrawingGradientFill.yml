@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVmlDrawingGradientFill
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorsString
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetGradientColors
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
@@ -142,7 +142,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Angle
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Focus
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Method
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingGradientFill.cs

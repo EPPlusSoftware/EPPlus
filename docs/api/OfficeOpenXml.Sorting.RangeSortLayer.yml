@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeSortLayer.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeSortLayer
     path: ../src/EPPlus/Sorting/RangeSortLayer.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeSortLayer.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/Sorting/RangeSortLayer.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeSortLayer.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/Sorting/RangeSortLayer.cs

@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingControl.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVmlDrawingControl
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingControl.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingControl.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingControl.cs

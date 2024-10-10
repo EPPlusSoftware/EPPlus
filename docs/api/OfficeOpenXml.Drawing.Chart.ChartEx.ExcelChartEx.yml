@@ -38,7 +38,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartEx
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteTitle
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -194,7 +194,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PlotArea
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -234,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Axis
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -271,7 +271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Title
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -308,7 +308,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Legend
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -345,7 +345,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -385,7 +385,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -425,7 +425,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -465,7 +465,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -505,7 +505,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -545,7 +545,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextBody
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -585,7 +585,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -622,7 +622,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VaryColors
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -662,7 +662,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -702,7 +702,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasTitle
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -742,7 +742,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasLegend
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -782,7 +782,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: View3D
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -822,7 +822,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayBlanksAs
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -862,7 +862,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RoundedCorners
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -902,7 +902,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDataLabelsOverMaximum
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -942,7 +942,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowHiddenData
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -982,7 +982,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XAxis
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
@@ -1019,7 +1019,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: YAxis
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartEx.cs

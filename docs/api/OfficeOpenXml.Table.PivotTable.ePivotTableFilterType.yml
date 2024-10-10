@@ -81,7 +81,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePivotTableFilterType
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -114,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionBeginsWith
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionBetween
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionContains
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionEndsWith
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -250,7 +250,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -284,7 +284,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionGreaterThan
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -318,7 +318,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionGreaterThanOrEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -352,7 +352,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionLessThan
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -386,7 +386,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionLessThanOrEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -420,7 +420,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionNotBeginsWith
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -454,7 +454,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionNotBetween
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -488,7 +488,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionNotContains
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -522,7 +522,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionNotEndsWith
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -556,7 +556,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CaptionNotEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -590,7 +590,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateBetween
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -624,7 +624,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -658,7 +658,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateNewerThan
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -692,7 +692,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateNewerThanOrEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -726,7 +726,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateNotBetween
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -760,7 +760,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateNotEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -794,7 +794,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateOlderThan
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -828,7 +828,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateOlderThanOrEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -862,7 +862,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastMonth
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -896,7 +896,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastQuarter
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -930,7 +930,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastWeek
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -964,7 +964,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastYear
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -998,7 +998,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M1
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1032,7 +1032,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M2
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1066,7 +1066,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M3
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1100,7 +1100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M4
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1134,7 +1134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M5
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1168,7 +1168,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M6
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1202,7 +1202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M7
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1236,7 +1236,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M8
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1270,7 +1270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M9
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1304,7 +1304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M10
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1338,7 +1338,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M11
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1372,7 +1372,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: M12
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1406,7 +1406,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextMonth
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1440,7 +1440,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextQuarter
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1474,7 +1474,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextWeek
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1508,7 +1508,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextYear
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1542,7 +1542,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Q1
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1576,7 +1576,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Q2
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1610,7 +1610,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Q3
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1644,7 +1644,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Q4
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1678,7 +1678,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThisMonth
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1712,7 +1712,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThisQuarter
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1746,7 +1746,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThisWeek
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1780,7 +1780,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThisYear
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1814,7 +1814,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Today
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1848,7 +1848,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tomorrow
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1882,7 +1882,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: YearToDate
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1916,7 +1916,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Yesterday
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1950,7 +1950,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Unknown
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -1984,7 +1984,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueBetween
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -2018,7 +2018,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -2052,7 +2052,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueGreaterThan
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -2086,7 +2086,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueGreaterThanOrEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -2120,7 +2120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueLessThan
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -2154,7 +2154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueLessThanOrEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -2188,7 +2188,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueNotBetween
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -2222,7 +2222,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueNotEqual
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -2256,7 +2256,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -2290,7 +2290,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sum
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
@@ -2324,7 +2324,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/Table/PivotTable/enums/ePivotTableFilterType.cs

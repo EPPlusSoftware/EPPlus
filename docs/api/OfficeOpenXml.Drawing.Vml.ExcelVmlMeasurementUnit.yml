@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlMeasurementUnit.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVmlMeasurementUnit
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlMeasurementUnit.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlMeasurementUnit.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlMeasurementUnit.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlMeasurementUnit.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Unit
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlMeasurementUnit.cs

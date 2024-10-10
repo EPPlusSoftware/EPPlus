@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFunctionParametersInfo
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasNormalArguments
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
@@ -177,7 +177,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetParameterInfo
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/ExcelFunctionParametersInfo.cs

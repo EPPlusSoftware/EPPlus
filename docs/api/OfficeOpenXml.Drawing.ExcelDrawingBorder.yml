@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingBorder
     path: ../src/EPPlus/Drawing/ExcelDrawingBorder.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/ExcelDrawingBorder.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineStyle
     path: ../src/EPPlus/Drawing/ExcelDrawingBorder.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompoundLineStyle
     path: ../src/EPPlus/Drawing/ExcelDrawingBorder.cs
@@ -184,7 +184,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Alignment
     path: ../src/EPPlus/Drawing/ExcelDrawingBorder.cs
@@ -221,7 +221,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineCap
     path: ../src/EPPlus/Drawing/ExcelDrawingBorder.cs
@@ -258,7 +258,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/Drawing/ExcelDrawingBorder.cs
@@ -295,7 +295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Join
     path: ../src/EPPlus/Drawing/ExcelDrawingBorder.cs
@@ -332,7 +332,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MiterJoinLimit
     path: ../src/EPPlus/Drawing/ExcelDrawingBorder.cs
@@ -369,7 +369,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeadEnd
     path: ../src/EPPlus/Drawing/ExcelDrawingBorder.cs
@@ -406,7 +406,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TailEnd
     path: ../src/EPPlus/Drawing/ExcelDrawingBorder.cs

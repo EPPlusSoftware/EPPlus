@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eChartType
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -129,7 +129,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area3D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -163,7 +163,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaStacked3D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaStacked1003D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -231,7 +231,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarClustered3D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -265,7 +265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarStacked3D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -299,7 +299,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarStacked1003D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -333,7 +333,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column3D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -367,7 +367,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnClustered3D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -401,7 +401,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnStacked3D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -435,7 +435,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnStacked1003D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -469,7 +469,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Line3D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -503,7 +503,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie3D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -537,7 +537,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieExploded3D
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -571,7 +571,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -605,7 +605,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -639,7 +639,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -673,7 +673,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -707,7 +707,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarOfPie
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -741,7 +741,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -775,7 +775,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -809,7 +809,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -843,7 +843,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bubble3DEffect
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -877,7 +877,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -911,7 +911,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -945,7 +945,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -979,7 +979,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeBarClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1013,7 +1013,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeBarStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1047,7 +1047,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeBarStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1081,7 +1081,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeCol
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1115,7 +1115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeColClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1149,7 +1149,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeColStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1183,7 +1183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConeColStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1217,7 +1217,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderBarClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1251,7 +1251,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderBarStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1285,7 +1285,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderBarStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1319,7 +1319,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderCol
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1353,7 +1353,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderColClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1387,7 +1387,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderColStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1421,7 +1421,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CylinderColStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1455,7 +1455,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Doughnut
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1489,7 +1489,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoughnutExploded
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1523,7 +1523,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Line
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1557,7 +1557,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineMarkers
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1591,7 +1591,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineMarkersStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1625,7 +1625,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineMarkersStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1659,7 +1659,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1693,7 +1693,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1727,7 +1727,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1761,7 +1761,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieExploded
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1795,7 +1795,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieOfPie
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1829,7 +1829,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidBarClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1863,7 +1863,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidBarStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1897,7 +1897,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidBarStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1931,7 +1931,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidCol
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1965,7 +1965,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidColClustered
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -1999,7 +1999,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidColStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2033,7 +2033,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PyramidColStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2067,7 +2067,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Radar
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2101,7 +2101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarFilled
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2135,7 +2135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RadarMarkers
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2169,7 +2169,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StockHLC
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2203,7 +2203,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StockOHLC
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2237,7 +2237,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StockVHLC
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2271,7 +2271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StockVOHLC
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2305,7 +2305,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Surface
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2339,7 +2339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SurfaceTopView
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2373,7 +2373,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SurfaceTopViewWireframe
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2407,7 +2407,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SurfaceWireframe
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2441,7 +2441,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XYScatter
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2475,7 +2475,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XYScatterLines
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2509,7 +2509,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XYScatterLinesNoMarkers
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2543,7 +2543,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XYScatterSmooth
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2577,7 +2577,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XYScatterSmoothNoMarkers
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2611,7 +2611,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Treemap
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2645,7 +2645,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Histogram
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2679,7 +2679,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Waterfall
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2713,7 +2713,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sunburst
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2747,7 +2747,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BoxWhisker
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2781,7 +2781,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pareto
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2815,7 +2815,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Funnel
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs
@@ -2849,7 +2849,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RegionMap
     path: ../src/EPPlus/Drawing/Chart/enums/eChartType.cs

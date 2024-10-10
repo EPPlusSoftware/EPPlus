@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTable
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -123,7 +123,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableXml
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -160,7 +160,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableUri
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -234,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorkSheet
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -271,7 +271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -308,7 +308,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Range
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -345,7 +345,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -383,7 +383,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateHtmlExporter
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -418,7 +418,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -460,7 +460,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -498,7 +498,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -539,7 +539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -581,7 +581,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -623,7 +623,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -668,7 +668,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -713,7 +713,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJsonAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -753,7 +753,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJsonAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -799,7 +799,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -837,7 +837,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToJson
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -872,7 +872,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToJson
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -914,7 +914,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJson
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -950,7 +950,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJson
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -992,7 +992,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1033,7 +1033,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1077,7 +1077,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1118,7 +1118,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1163,7 +1163,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1208,7 +1208,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1253,7 +1253,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1301,7 +1301,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1349,7 +1349,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Columns
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1386,7 +1386,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1423,7 +1423,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SyncColumnNames
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1462,7 +1462,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowHeader
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1499,7 +1499,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFilter
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1536,7 +1536,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowFilter
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1573,7 +1573,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowTotal
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1610,7 +1610,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1647,7 +1647,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowFirstColumn
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1684,7 +1684,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLastColumn
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1721,7 +1721,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowRowStripes
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1758,7 +1758,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowColumnStripes
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1795,7 +1795,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowCellStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1832,7 +1832,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataCellStyleName
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1869,7 +1869,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRowCellStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1906,7 +1906,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1950,7 +1950,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -1991,7 +1991,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRow
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -2030,7 +2030,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertRow
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -2075,7 +2075,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteRow
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -2117,7 +2117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRowBorderStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -2154,7 +2154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableBorderStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -2191,7 +2191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SortState
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -2228,7 +2228,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/Table/ExcelTable.cs
@@ -2265,7 +2265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/Table/ExcelTable.cs

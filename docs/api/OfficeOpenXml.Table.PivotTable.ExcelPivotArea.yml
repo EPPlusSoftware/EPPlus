@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
@@ -28,7 +29,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotArea
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -48,6 +49,7 @@ items:
   - OfficeOpenXml.XmlHelper
   derivedClasses:
   - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
   inheritedMembers:
   - System.Object.Equals(System.Object)
@@ -63,6 +65,43 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+  id: Conditions
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  langs:
+  - csharp
+  - vb
+  name: Conditions
+  nameWithType: ExcelPivotArea.Conditions
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Conditions
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
+    startLine: 32
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nConditions for the pivot table. Conditions can be set for specific row-, column- or data fields. Specify labels, data grand totals and more.\n"
+  example: []
+  syntax:
+    content: public ExcelPivotAreaStyleConditions Conditions { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
+    content.vb: Public ReadOnly Property Conditions As ExcelPivotAreaStyleConditions
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
   commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
   id: FieldIndex
@@ -77,11 +116,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FieldIndex
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 31
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -114,11 +153,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FieldPosition
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 49
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -151,11 +190,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValuesField
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 64
+    startLine: 73
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -188,11 +227,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotAreaType
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 78
+    startLine: 87
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -225,11 +264,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Axis
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 99
+    startLine: 108
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -262,11 +301,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataOnly
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 115
+    startLine: 124
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -299,11 +338,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LabelOnly
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 138
+    startLine: 147
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -336,11 +375,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GrandRow
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 156
+    startLine: 165
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -373,11 +412,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GrandColumn
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 170
+    startLine: 179
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -410,11 +449,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheIndex
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 184
+    startLine: 193
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -447,11 +486,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Outline
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 198
+    startLine: 207
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -484,11 +523,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Offset
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 213
+    startLine: 222
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -521,11 +560,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CollapsedLevelsAreSubtotals
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-    startLine: 227
+    startLine: 236
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -853,6 +892,17 @@ references:
   name: OfficeOpenXml
   nameWithType: OfficeOpenXml
   fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+  name: Conditions
+  nameWithType: ExcelPivotArea.Conditions
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotAreaStyleConditions
+  nameWithType: ExcelPivotAreaStyleConditions
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex*
   commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
   name: FieldIndex

@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eExcelConditionalFormattingOperatorType
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BeginsWith
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -94,7 +94,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Between
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ContainsText
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -162,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndsWith
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equal
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThan
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -264,7 +264,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GreaterThanOrEqual
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThan
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -332,7 +332,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LessThanOrEqual
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -366,7 +366,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NotBetween
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -400,7 +400,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NotContains
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
@@ -434,7 +434,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NotEqual
     path: ../src/EPPlus/ConditionalFormatting/ExcelConditionalFormattingEnums.cs

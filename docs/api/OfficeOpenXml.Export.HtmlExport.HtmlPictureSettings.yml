@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HtmlPictureSettings
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Include
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
@@ -141,7 +141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddMarginTop
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
@@ -178,7 +178,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddMarginLeft
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
@@ -215,7 +215,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: KeepOriginalSize
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
@@ -252,7 +252,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CssExclude
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
@@ -289,7 +289,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNameAsId
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
@@ -326,7 +326,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResetToDefault
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
@@ -358,7 +358,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlPictureSettings.cs

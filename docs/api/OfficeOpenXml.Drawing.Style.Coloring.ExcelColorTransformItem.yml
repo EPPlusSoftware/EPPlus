@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelColorTransformItem
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
@@ -184,7 +184,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelColorTransformItem.cs

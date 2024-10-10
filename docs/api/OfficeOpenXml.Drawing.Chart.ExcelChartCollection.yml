@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartCollection
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLineChart
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBarChart
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAreaChart
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -232,7 +232,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPieChart
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -271,7 +271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOfPieChart
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -310,7 +310,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDoughnutChart
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -349,7 +349,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRadarChart
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -388,7 +388,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddScatterChart
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -427,7 +427,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -465,7 +465,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.Chart.ExcelChart>.GetEnumerator
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -498,7 +498,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
@@ -530,7 +530,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/Chart/ExcelChartCollection.cs

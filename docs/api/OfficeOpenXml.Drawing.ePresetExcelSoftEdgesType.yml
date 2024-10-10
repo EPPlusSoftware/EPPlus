@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePresetExcelSoftEdgesType
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
@@ -55,7 +55,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SoftEdge1Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
@@ -123,7 +123,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SoftEdge2_5Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SoftEdge5Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SoftEdge10Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SoftEdge25Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SoftEdge50Pt
     path: ../src/EPPlus/Drawing/Enums/ePresetExcelSoftEdgesType.cs

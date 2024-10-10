@@ -36,7 +36,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingThemeColorManager
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -81,7 +81,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _nameSpaceManager
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -114,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _topNode
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _pathNode
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _colorNode
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _initMethod
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -246,7 +246,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _path
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -279,7 +279,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _schemaNodeOrder
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -312,7 +312,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorType
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -351,7 +351,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Transforms
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -388,7 +388,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RgbColor
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -425,7 +425,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RgbPercentageColor
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -462,7 +462,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HslColor
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -499,7 +499,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PresetColor
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -536,7 +536,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SystemColor
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -573,7 +573,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetRgbColor
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -612,7 +612,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetRgbPercentageColor
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -654,7 +654,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetHslColor
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -696,7 +696,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPresetColor
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -732,7 +732,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPresetColor
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -768,7 +768,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSystemColor
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
@@ -804,7 +804,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResetColors
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingThemeColorManager.cs

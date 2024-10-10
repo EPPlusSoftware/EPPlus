@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSparklineColor
     path: ../src/EPPlus/Sparkline/ExcelSparklineColor.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed
     path: ../src/EPPlus/Sparkline/ExcelSparklineColor.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rgb
     path: ../src/EPPlus/Sparkline/ExcelSparklineColor.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Theme
     path: ../src/EPPlus/Sparkline/ExcelSparklineColor.cs
@@ -181,7 +181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tint
     path: ../src/EPPlus/Sparkline/ExcelSparklineColor.cs
@@ -218,7 +218,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Auto
     path: ../src/EPPlus/Sparkline/ExcelSparklineColor.cs
@@ -255,7 +255,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Sparkline/ExcelSparklineColor.cs
@@ -291,7 +291,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Sparkline/ExcelSparklineColor.cs
@@ -327,7 +327,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Sparkline/ExcelSparklineColor.cs
@@ -363,7 +363,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sparkline/ExcelSparklineColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetAuto
     path: ../src/EPPlus/Sparkline/ExcelSparklineColor.cs

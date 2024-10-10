@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableColumn
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -187,7 +187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowLabel
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFunction
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFormula
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataCellStyleName
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -335,7 +335,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Slicer
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -372,7 +372,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSlicer
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -407,7 +407,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalculatedColumnFormula
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -444,7 +444,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Table
     path: ../src/EPPlus/Table/ExcelTableColumn.cs

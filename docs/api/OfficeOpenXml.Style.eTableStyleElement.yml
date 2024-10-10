@@ -43,7 +43,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eTableStyleElement
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BlankRow
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstColumn
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstColumnStripe
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -178,7 +178,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstColumnSubheading
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstHeaderCell
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -246,7 +246,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstRowStripe
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -280,7 +280,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstRowSubheading
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -314,7 +314,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstSubtotalColumn
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -348,7 +348,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstSubtotalRow
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -382,7 +382,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRow
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -416,7 +416,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastColumn
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -450,7 +450,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageFieldLabels
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -484,7 +484,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageFieldValues
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -518,7 +518,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondColumnStripe
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -552,7 +552,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondColumnSubheading
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -586,7 +586,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondRowStripe
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -620,7 +620,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondRowSubheading
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -654,7 +654,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondSubtotalColumn
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -688,7 +688,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondSubtotalRow
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -722,7 +722,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThirdColumnSubheading
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -756,7 +756,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThirdRowSubheading
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -790,7 +790,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThirdSubtotalColumn
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -824,7 +824,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThirdSubtotalRow
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -858,7 +858,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalRow
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -892,7 +892,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WholeTable
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -926,7 +926,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastHeaderCell
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -960,7 +960,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstTotalCell
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs
@@ -994,7 +994,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastTotalCell
     path: ../src/EPPlus/Style/enums/eTableStyleElement.cs

@@ -23,7 +23,7 @@ items:
   - OfficeOpenXml.ExcelRangeBase.Copy(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
   - OfficeOpenXml.ExcelRangeBase.Copy(OfficeOpenXml.ExcelRangeBase,System.Nullable{OfficeOpenXml.ExcelRangeCopyOptionFlags})
   - OfficeOpenXml.ExcelRangeBase.CopyStyles(OfficeOpenXml.ExcelRangeBase)
-  - OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String)
+  - OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String,System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.CreateHtmlExporter
   - OfficeOpenXml.ExcelRangeBase.Current
   - OfficeOpenXml.ExcelRangeBase.DataValidation
@@ -166,7 +166,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRangeBase
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -272,7 +272,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _worksheet
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -305,7 +305,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChangeAddress
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -340,11 +340,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 436
+    startLine: 448
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -377,11 +377,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 463
+    startLine: 475
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -414,11 +414,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 638
+    startLine: 650
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -451,11 +451,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 660
+    startLine: 672
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -488,11 +488,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetErrorValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 725
+    startLine: 737
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -524,11 +524,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 804
+    startLine: 816
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -561,11 +561,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFitColumns
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 826
+    startLine: 848
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -594,11 +594,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFitColumns
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 839
+    startLine: 861
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -631,11 +631,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFitColumns
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 854
+    startLine: 876
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -671,11 +671,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 877
+    startLine: 899
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -710,11 +710,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaR1C1
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1002
+    startLine: 1024
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -747,11 +747,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateHtmlExporter
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1051
+    startLine: 1073
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -782,11 +782,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hyperlink
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1063
+    startLine: 1085
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -819,11 +819,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetHyperlink
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1079
+    startLine: 1101
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -855,11 +855,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetHyperlink
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1087
+    startLine: 1109
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -891,11 +891,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetHyperlink
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1096
+    startLine: 1118
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -930,11 +930,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetHyperlink
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1108
+    startLine: 1130
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -966,11 +966,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Merge
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1134
+    startLine: 1156
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1003,11 +1003,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFilter
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1196
+    startLine: 1218
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1040,11 +1040,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRichText
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1276
+    startLine: 1298
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1077,11 +1077,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTable
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1305
+    startLine: 1327
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1114,11 +1114,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetTable
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1317
+    startLine: 1339
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1148,11 +1148,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Insert
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1330
+    startLine: 1352
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1184,11 +1184,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1349
+    startLine: 1371
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1220,11 +1220,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsArrayFormula
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1368
+    startLine: 1390
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1257,11 +1257,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _rtc
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1379
+    startLine: 1401
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1290,11 +1290,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RichText
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1384
+    startLine: 1406
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1327,11 +1327,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Comment
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1400
+    startLine: 1422
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1364,11 +1364,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreadedComment
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1419
+    startLine: 1441
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1401,11 +1401,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1438
+    startLine: 1460
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1438,11 +1438,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullAddress
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1448
+    startLine: 1470
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1475,11 +1475,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullAddressAbsolute
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1470
+    startLine: 1492
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1512,11 +1512,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulas
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1713
+    startLine: 1735
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1544,11 +1544,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulaValues
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1762
+    startLine: 1784
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1576,11 +1576,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConditionalFormatting
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1848
+    startLine: 1870
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1613,11 +1613,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataValidation
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1860
+    startLine: 1882
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1650,11 +1650,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1893
+    startLine: 1915
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1699,11 +1699,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Offset
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1905
+    startLine: 1927
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1741,11 +1741,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Offset
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1922
+    startLine: 1944
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1789,11 +1789,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddComment
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1945
+    startLine: 1967
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1831,11 +1831,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddThreadedComment
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1959
+    startLine: 1981
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1866,11 +1866,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1973
+    startLine: 1995
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1902,11 +1902,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1984
+    startLine: 2006
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1944,11 +1944,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 1994
+    startLine: 2016
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1986,11 +1986,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CopyStyles
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2009
+    startLine: 2031
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2022,11 +2022,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2017
+    startLine: 2039
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2040,37 +2040,40 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String)
-  commentId: M:OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String)
-  id: CreateArrayFormula(System.String)
+- uid: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String,System.Boolean)
+  id: CreateArrayFormula(System.String,System.Boolean)
   parent: OfficeOpenXml.ExcelRangeBase
   langs:
   - csharp
   - vb
-  name: CreateArrayFormula(String)
-  nameWithType: ExcelRangeBase.CreateArrayFormula(String)
-  fullName: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String)
+  name: CreateArrayFormula(String, Boolean)
+  nameWithType: ExcelRangeBase.CreateArrayFormula(String, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String, System.Boolean)
   type: Method
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateArrayFormula
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2025
+    startLine: 2053
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
   summary: "\nCreates an array-formula.\n"
   example: []
   syntax:
-    content: public void CreateArrayFormula(string ArrayFormula)
+    content: public void CreateArrayFormula(string ArrayFormula, bool isDynamic = false)
     parameters:
     - id: ArrayFormula
       type: System.String
       description: The formula
-    content.vb: Public Sub CreateArrayFormula(ArrayFormula As String)
+    - id: isDynamic
+      type: System.Boolean
+      description: "If the array formula is dynamic. \nSetting this argument to true will only add the dynamic array formula cell meta data flag to the formula. \nIf you calculate the formula it is not be necessary to set this flag. If you set this flag, you are responsible to set the correct range for the dynamic array formula, so in most cases calculating is a better approach.\nIf you calculate the formula this flag will be overwritten with the value the EPPlus decides for the formula.\nAlso see <xref href=\"OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelRangeBase)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+    content.vb: Public Sub CreateArrayFormula(ArrayFormula As String, isDynamic As Boolean = False)
   overload: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula*
   modifiers.csharp:
   - public
@@ -2090,11 +2093,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaRange
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2040
+    startLine: 2068
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2128,11 +2131,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2203
+    startLine: 2231
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2162,11 +2165,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2215
+    startLine: 2243
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2200,11 +2203,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2221
+    startLine: 2249
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2232,11 +2235,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2230
+    startLine: 2258
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2272,11 +2275,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2245
+    startLine: 2273
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2311,11 +2314,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2264
+    startLine: 2292
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2348,11 +2351,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2297
+    startLine: 2325
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2382,11 +2385,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2307
+    startLine: 2335
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2414,11 +2417,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2316
+    startLine: 2344
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2451,11 +2454,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2327
+    startLine: 2355
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2499,11 +2502,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2411
+    startLine: 2439
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2539,11 +2542,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2432
+    startLine: 2460
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2576,11 +2579,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EntireColumn
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2467
+    startLine: 2495
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2613,11 +2616,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EntireRow
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2483
+    startLine: 2511
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2650,11 +2653,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2499
+    startLine: 2527
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2691,11 +2694,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2508
+    startLine: 2536
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2735,11 +2738,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2518
+    startLine: 2546
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2782,11 +2785,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2553
+    startLine: 2581
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2824,11 +2827,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UseImplicitItersection
     path: ../src/EPPlus/ExcelRangeBase.cs
-    startLine: 2587
+    startLine: 2615
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2861,7 +2864,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillNumber
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -2893,7 +2896,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillNumber
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -2935,7 +2938,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillNumber
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -2974,7 +2977,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillDateTime
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3006,7 +3009,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillDateTime
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3048,7 +3051,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillDateTime
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3087,7 +3090,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillList
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3129,7 +3132,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillList
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3174,7 +3177,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReader
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3222,7 +3225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReader
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3273,7 +3276,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReader
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3315,7 +3318,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReader
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3360,7 +3363,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3415,7 +3418,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3473,7 +3476,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3516,7 +3519,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3562,7 +3565,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3608,7 +3611,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3657,7 +3660,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3705,7 +3708,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3756,7 +3759,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3798,7 +3801,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3837,7 +3840,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3883,7 +3886,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromArrays
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3924,7 +3927,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromArraysTransposed
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3966,7 +3969,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4011,7 +4014,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4059,7 +4062,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4110,7 +4113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4164,7 +4167,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4221,7 +4224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4281,7 +4284,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4330,7 +4333,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4369,7 +4372,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4411,7 +4414,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4462,7 +4465,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4501,7 +4504,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4543,7 +4546,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4594,7 +4597,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4636,7 +4639,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4678,7 +4681,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4718,7 +4721,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4761,7 +4764,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4810,7 +4813,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4853,7 +4856,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4899,7 +4902,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4948,7 +4951,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5000,7 +5003,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5052,7 +5055,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5097,7 +5100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5142,7 +5145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5177,7 +5180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5219,7 +5222,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5258,7 +5261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5303,7 +5306,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5342,7 +5345,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5384,7 +5387,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5419,7 +5422,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5458,7 +5461,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5497,7 +5500,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5536,7 +5539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5575,7 +5578,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5614,7 +5617,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5653,7 +5656,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5689,7 +5692,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5729,7 +5732,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5771,7 +5774,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5813,7 +5816,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5853,7 +5856,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5895,7 +5898,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5937,7 +5940,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToJson
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5972,7 +5975,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToJson
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6014,7 +6017,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJson
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6050,7 +6053,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJson
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6092,7 +6095,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJsonAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6132,7 +6135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJsonAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6178,7 +6181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6223,7 +6226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6271,7 +6274,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6319,7 +6322,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6360,7 +6363,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6405,7 +6408,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -10089,6 +10092,76 @@ references:
   name: Clear
   nameWithType: ExcelRangeBase.Clear
   fullName: OfficeOpenXml.ExcelRangeBase.Clear
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  name: Calculate(ExcelWorkbook)
+  nameWithType: CalculationExtension.Calculate(ExcelWorkbook)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorkbook
+    name: ExcelWorkbook
+    nameWithType: ExcelWorkbook
+    fullName: OfficeOpenXml.ExcelWorkbook
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorkbook
+    name: ExcelWorkbook
+    nameWithType: ExcelWorkbook
+    fullName: OfficeOpenXml.ExcelWorkbook
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  name: Calculate(ExcelWorksheet)
+  nameWithType: CalculationExtension.Calculate(ExcelWorksheet)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorksheet)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula*
   commentId: Overload:OfficeOpenXml.ExcelRangeBase.CreateArrayFormula
   name: CreateArrayFormula

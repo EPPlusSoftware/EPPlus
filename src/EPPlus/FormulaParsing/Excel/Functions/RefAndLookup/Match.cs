@@ -64,7 +64,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             {
                 return CompileResult.GetErrorResult(eErrorType.NA);
             }
-            return CreateResult(index + 1, DataType.Integer);
+            var max = LookupBinarySearch.GetMaxIndex(lookupRange);
+            return CreateResult(index >= max ? index : index + 1, DataType.Integer);
         }
 		/// <summary>
 		/// If the function is allowed in a pivot table calculated field

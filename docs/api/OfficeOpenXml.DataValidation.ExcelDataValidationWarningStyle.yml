@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationWarningStyle
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: undefined
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: stop
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: warning
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: information
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWarningStyle.cs

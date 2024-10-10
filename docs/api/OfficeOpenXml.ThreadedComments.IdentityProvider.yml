@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/IdentityProvider.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IdentityProvider
     path: ../src/EPPlus/ThreadedComments/IdentityProvider.cs
@@ -53,7 +53,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/IdentityProvider.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NoProvider
     path: ../src/EPPlus/ThreadedComments/IdentityProvider.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/IdentityProvider.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActiveDirectory
     path: ../src/EPPlus/ThreadedComments/IdentityProvider.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/IdentityProvider.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WindowsLiveId
     path: ../src/EPPlus/ThreadedComments/IdentityProvider.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/IdentityProvider.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Office365
     path: ../src/EPPlus/ThreadedComments/IdentityProvider.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/IdentityProvider.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PeoplePicker
     path: ../src/EPPlus/ThreadedComments/IdentityProvider.cs

@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eErrorValueType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eErrorValueType
     path: ../src/EPPlus/Drawing/Enums/eErrorValueType.cs
@@ -53,7 +53,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eErrorValueType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Custom
     path: ../src/EPPlus/Drawing/Enums/eErrorValueType.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eErrorValueType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FixedValue
     path: ../src/EPPlus/Drawing/Enums/eErrorValueType.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eErrorValueType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percentage
     path: ../src/EPPlus/Drawing/Enums/eErrorValueType.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eErrorValueType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StandardDeviation
     path: ../src/EPPlus/Drawing/Enums/eErrorValueType.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eErrorValueType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StandardError
     path: ../src/EPPlus/Drawing/Enums/eErrorValueType.cs

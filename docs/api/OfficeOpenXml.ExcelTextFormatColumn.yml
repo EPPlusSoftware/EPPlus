@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTextFormatColumn
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Length
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PaddingType
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
@@ -249,7 +249,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UseColumn
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatColumn.cs

@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IColorTransformItem
     path: ../src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/Drawing/Style/Coloring/IColorTransformItem.cs

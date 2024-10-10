@@ -406,18 +406,49 @@ namespace EPPlusTest.Issues
                 ws.Cells["B1:B3"].FillNumber(1, 1);
                 ws.Cells["C1:C3"].FillNumber(10, 10);
 				ws.Cells["E1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";							//Should be set as an array formula
-                ws.Cells["E2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";					//Should be set as an array formula
-                ws.Cells["F1"].CreateArrayFormula("SUM(If(A:A=\"A\",B:B,C:C))", true);
-                ws.Cells["F2"].CreateArrayFormula("SUM(If(A1:A3=\"A\",B1:B3,C1:C3))", true);
+                ws.Cells["E2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
+                ws.Cells["F1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";							//Should be set as an array formula
+                ws.Cells["F2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
+                ws.Cells["F1:F2"].UseImplicitItersection = true;
 
-				ws.Calculate();
-                //Assert.AreEqual(6D, ws.Cells["E1"].Value); //Will be handled as a dynamic formula when calculated, not as in Excel where implicit intersections seems to be applied inside the sum.
-                //Assert.AreEqual(60D, ws.Cells["E2"].Value);
-                Assert.AreEqual(51D, ws.Cells["F1"].Value);
-                Assert.AreEqual(51D, ws.Cells["F2"].Value);
+                ws.Cells["G1"].CreateArrayFormula("SUM(If(A:A=\"A\",B:B,C:C))", true);
+                ws.Cells["G2"].CreateArrayFormula("SUM(If(A1:A3=\"A\",B1:B3,C1:C3))", true);
+
+				ws.Cells["E1:G2"].Calculate();
+
+                Assert.AreEqual(51D, ws.Cells["E1"].Value); //Will be handled as a dynamic formula when calculated, not as in Excel where implicit intersections seems to be applied inside the sum.
+                Assert.AreEqual(51D, ws.Cells["E2"].Value);
+                Assert.AreEqual(6D, ws.Cells["F1"].Value);
+                Assert.AreEqual(60D, ws.Cells["F2"].Value);
 
                 SaveAndCleanup(p);
 			}
 		}
-	}
+        [TestMethod]
+        public void i1566()
+        {
+            using (var package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                /* 
+                This reference to a custom function is a simulation of my use-case.
+                It doesn't appear to matter what the formula is, it just has to be set to something
+                ws.Cells["A3"].Formula = "1"; // this works just as well as "@SomeCustomVbaFunction(A1,A2)"
+                */
+                ws.Cells["A3"].Formula = "@SomeCustomVbaFunction(A1,A2)";
+                /* 
+                 * clear the formulas so that EPPlus doesn't go looking for SomeCustomVbaFunction
+                 I have purposefully chosen not to implement this function as a class extending ExcelFunction                
+                */
+                ws.Cells["A3"].ClearFormulas();
+                //ws.Cells["A3"].Formula = "0"; //This may be a workaround for now
+                ws.Cells["A3"].Value = "2000";
+                ws.Cells["A4"].Formula = "ROUNDUP(A3/1609.334,0)";
+
+                ws.Calculate();
+                Assert.AreEqual(2D, ws.Cells["A4"].Value);
+
+            }
+        }
+    }
 }

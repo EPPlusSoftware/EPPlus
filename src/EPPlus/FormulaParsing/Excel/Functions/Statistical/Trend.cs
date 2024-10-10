@@ -24,7 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical
 
     [FunctionMetadata(
     Category = ExcelFunctionCategory.Statistical,
-    EPPlusVersion = "7.0",
+    EPPlusVersion = "7.2",
     Description = "Returns the y-values along a linear trend that fits the inputted data. If new_x's is given, it returns the y-values" +
                   "along those x-values. Trend can also find the trend values for a model with multiple predictor variables.")]
     internal class Trend : ExcelFunction

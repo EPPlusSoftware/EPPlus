@@ -58,9 +58,9 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             Size = new RangeDefinition(range.Count, (short)range[0].Count);
             _cells = new ICellInfo[Size.NumberOfRows, Size.NumberOfCols];
-            for(int c=0;c < Size.NumberOfCols; c++)
+            for (int c = 0; c < Size.NumberOfCols; c++)
             {
-                for(int r=0;r< Size.NumberOfRows; r++)
+                for (int r = 0; r < Size.NumberOfRows; r++)
                 {
                     _cells[r, c] = new InMemoryCellInfo(range[r][c]);
                 }
@@ -103,7 +103,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         private int _rowIndex = 0;
 
         private static InMemoryRange _empty = new InMemoryRange(new RangeDefinition(0, 0));
-        
+
         /// <summary>
         /// An empty range
         /// </summary>
@@ -187,6 +187,11 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 return _cells[_rowIndex, _colIx] ?? new InMemoryCellInfo(null);
             }
         }
+        /// <summary>
+        /// The addresses for the range, if more than one.
+        /// </summary>
+        public FormulaRangeAddress[] Addresses => [_address];
+
         /// <summary>
         /// Dispose
         /// </summary>

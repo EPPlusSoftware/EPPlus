@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelHorizontalAlignment
     path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: General
     path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Left
     path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Center
     path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CenterContinuous
     path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Right
     path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Distributed
     path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Justify
     path: ../src/EPPlus/Style/enums/ExcelHorizontalAlignment.cs

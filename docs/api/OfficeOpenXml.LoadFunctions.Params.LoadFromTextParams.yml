@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromTextParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromTextParams
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromTextParams.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromTextParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstRowIsHeader
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromTextParams.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromTextParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromTextParams.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromTextParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Format
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromTextParams.cs

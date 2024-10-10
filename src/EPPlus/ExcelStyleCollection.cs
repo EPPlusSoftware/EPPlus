@@ -95,10 +95,11 @@ namespace OfficeOpenXml
         {
             get
             {
-                if(PositionID < 0) return default;
+                if (PositionID < 0 || PositionID > _list.Count - 1) return default;
                 return _list[PositionID];
             }
         }
+
         /// <summary>
         /// Number of items in the collection
         /// </summary>

@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eGeoMappingLevel
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
@@ -56,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Automatic
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataOnly
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PostalCode
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: County
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: State
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CountryRegion
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CountryRegionList
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: World
     path: ../src/EPPlus/Drawing/Chart/ChartEx/enums/eGeoMappingLevel.cs

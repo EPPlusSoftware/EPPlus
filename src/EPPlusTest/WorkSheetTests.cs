@@ -1122,7 +1122,7 @@ namespace EPPlusTest
             ws.Cells["G53"].Value = new DateTime(1899, 12, 30, 3, 4, 10);
             ws.Cells["G54"].Value = new DateTime(1899, 12, 30, 4, 5, 10);
 
-            ws.Cells["G51:G55"].Style.Numberformat.Format = "HH:MM:SS";
+            ws.Cells["G51:G55"].Style.Numberformat.Format = "hh:mm:ss";
             tbl = ws.Tables.Add(ws.Cells["G50:G54"], "");
             tbl.ShowTotal = true;
             tbl.ShowFilter = false;
@@ -2193,6 +2193,17 @@ namespace EPPlusTest
             {
                 Assert.AreEqual(ExcelCalcMode.Manual, p.Workbook.CalcMode);
                 p.Workbook.CalcMode = ExcelCalcMode.Manual;
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void AddWorksheetWithSpaceName()
+        {
+            using (var p = OpenPackage("SpaceName.xlsx", true))
+            {
+                var spaceName = " ";
+                var ws = p.Workbook.Worksheets.Add(spaceName);
+                Assert.AreEqual(" ", ws.Name);
                 SaveAndCleanup(p);
             }
         }

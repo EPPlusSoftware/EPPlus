@@ -30,7 +30,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelThreadedCommentPersonCollection
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -77,7 +77,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PersonsXml
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -187,7 +187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -231,7 +231,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -275,7 +275,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Find
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -317,7 +317,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FindAll
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -359,7 +359,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -397,7 +397,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -442,7 +442,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -490,7 +490,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -528,7 +528,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -563,7 +563,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -599,7 +599,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
@@ -631,7 +631,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentPersonCollection.cs

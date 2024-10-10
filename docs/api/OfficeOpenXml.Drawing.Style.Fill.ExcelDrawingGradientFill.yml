@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingGradientFill
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
@@ -75,7 +75,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TileFlip
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
@@ -112,7 +112,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RotateWithShape
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
@@ -149,7 +149,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Colors
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
@@ -186,7 +186,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShadePath
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FocusPoint
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
@@ -300,7 +300,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LinearSettings
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingGradientFill.cs

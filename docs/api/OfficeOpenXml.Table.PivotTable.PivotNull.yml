@@ -6,6 +6,8 @@ items:
   parent: OfficeOpenXml.Table.PivotTable
   children:
   - OfficeOpenXml.Table.PivotTable.PivotNull.Equals(OfficeOpenXml.Table.PivotTable.PivotNull,OfficeOpenXml.Table.PivotTable.PivotNull)
+  - OfficeOpenXml.Table.PivotTable.PivotNull.Equals(System.Object)
+  - OfficeOpenXml.Table.PivotTable.PivotNull.GetHashCode
   - OfficeOpenXml.Table.PivotTable.PivotNull.GetHashCode(OfficeOpenXml.Table.PivotTable.PivotNull)
   - OfficeOpenXml.Table.PivotTable.PivotNull.ToString
   langs:
@@ -18,11 +20,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotNull
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 38
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -36,8 +38,6 @@ items:
   implements:
   - System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.PivotTable.PivotNull}
   inheritedMembers:
-  - System.ValueType.Equals(System.Object)
-  - System.ValueType.GetHashCode
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetType
   - System.Object.ReferenceEquals(System.Object,System.Object)
@@ -61,23 +61,28 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 40
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCheck equals. Always true\n"
+  example: []
   syntax:
     content: public bool Equals(PivotNull x, PivotNull y)
     parameters:
     - id: x
       type: OfficeOpenXml.Table.PivotTable.PivotNull
+      description: 'The first object '
     - id: y
       type: OfficeOpenXml.Table.PivotTable.PivotNull
+      description: 'The second object '
     return:
       type: System.Boolean
+      description: ''
     content.vb: Public Function Equals(x As PivotNull, y As PivotNull) As Boolean
   overload: OfficeOpenXml.Table.PivotTable.PivotNull.Equals*
   implements:
@@ -86,6 +91,86 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Table.PivotTable.PivotNull.Equals(System.Object)
+  commentId: M:OfficeOpenXml.Table.PivotTable.PivotNull.Equals(System.Object)
+  id: Equals(System.Object)
+  parent: OfficeOpenXml.Table.PivotTable.PivotNull
+  langs:
+  - csharp
+  - vb
+  name: Equals(Object)
+  nameWithType: PivotNull.Equals(Object)
+  fullName: OfficeOpenXml.Table.PivotTable.PivotNull.Equals(System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Equals
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCheck equals with another object\n"
+  example: []
+  syntax:
+    content: public override bool Equals(object obj)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: The object
+    return:
+      type: System.Boolean
+      description: True if the obj is null
+    content.vb: Public Overrides Function Equals(obj As Object) As Boolean
+  overridden: System.ValueType.Equals(System.Object)
+  overload: OfficeOpenXml.Table.PivotTable.PivotNull.Equals*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.Table.PivotTable.PivotNull.GetHashCode
+  commentId: M:OfficeOpenXml.Table.PivotTable.PivotNull.GetHashCode
+  id: GetHashCode
+  parent: OfficeOpenXml.Table.PivotTable.PivotNull
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: PivotNull.GetHashCode()
+  fullName: OfficeOpenXml.Table.PivotTable.PivotNull.GetHashCode()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHashCode
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe hash value for the object \n"
+  example: []
+  syntax:
+    content: public override int GetHashCode()
+    return:
+      type: System.Int32
+      description: ''
+    content.vb: Public Overrides Function GetHashCode As Integer
+  overridden: System.ValueType.GetHashCode
+  overload: OfficeOpenXml.Table.PivotTable.PivotNull.GetHashCode*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
 - uid: OfficeOpenXml.Table.PivotTable.PivotNull.GetHashCode(OfficeOpenXml.Table.PivotTable.PivotNull)
   commentId: M:OfficeOpenXml.Table.PivotTable.PivotNull.GetHashCode(OfficeOpenXml.Table.PivotTable.PivotNull)
   id: GetHashCode(OfficeOpenXml.Table.PivotTable.PivotNull)
@@ -100,21 +185,25 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 45
+    startLine: 65
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe hash value for the object \n"
+  example: []
   syntax:
     content: public int GetHashCode(PivotNull obj)
     parameters:
     - id: obj
       type: OfficeOpenXml.Table.PivotTable.PivotNull
+      description: ''
     return:
       type: System.Int32
+      description: ''
     content.vb: Public Function GetHashCode(obj As PivotNull) As Integer
   overload: OfficeOpenXml.Table.PivotTable.PivotNull.GetHashCode*
   implements:
@@ -137,11 +226,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTable.cs
-    startLine: 54
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -206,78 +295,6 @@ references:
     name: PivotNull
     nameWithType: PivotNull
     fullName: OfficeOpenXml.Table.PivotTable.PivotNull
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.ValueType.Equals(System.Object)
-  commentId: M:System.ValueType.Equals(System.Object)
-  parent: System.ValueType
-  isExternal: true
-  name: Equals(Object)
-  nameWithType: ValueType.Equals(Object)
-  fullName: System.ValueType.Equals(System.Object)
-  spec.csharp:
-  - uid: System.ValueType.Equals(System.Object)
-    name: Equals
-    nameWithType: ValueType.Equals
-    fullName: System.ValueType.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.ValueType.Equals(System.Object)
-    name: Equals
-    nameWithType: ValueType.Equals
-    fullName: System.ValueType.Equals
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.ValueType.GetHashCode
-  commentId: M:System.ValueType.GetHashCode
-  parent: System.ValueType
-  isExternal: true
-  name: GetHashCode()
-  nameWithType: ValueType.GetHashCode()
-  fullName: System.ValueType.GetHashCode()
-  spec.csharp:
-  - uid: System.ValueType.GetHashCode
-    name: GetHashCode
-    nameWithType: ValueType.GetHashCode
-    fullName: System.ValueType.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.ValueType.GetHashCode
-    name: GetHashCode
-    nameWithType: ValueType.GetHashCode
-    fullName: System.ValueType.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -471,13 +488,6 @@ references:
   name: System.Collections.Generic
   nameWithType: System.Collections.Generic
   fullName: System.Collections.Generic
-- uid: System.ValueType
-  commentId: T:System.ValueType
-  parent: System
-  isExternal: true
-  name: ValueType
-  nameWithType: ValueType
-  fullName: System.ValueType
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -614,11 +624,97 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.ValueType.Equals(System.Object)
+  commentId: M:System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: ValueType.Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    nameWithType: ValueType.Equals
+    fullName: System.ValueType.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.ValueType
+  commentId: T:System.ValueType
+  parent: System
+  isExternal: true
+  name: ValueType
+  nameWithType: ValueType
+  fullName: System.ValueType
+- uid: System.ValueType.GetHashCode
+  commentId: M:System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: ValueType.GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    nameWithType: ValueType.GetHashCode
+    fullName: System.ValueType.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.Table.PivotTable.PivotNull.GetHashCode*
   commentId: Overload:OfficeOpenXml.Table.PivotTable.PivotNull.GetHashCode
   name: GetHashCode
   nameWithType: PivotNull.GetHashCode
   fullName: OfficeOpenXml.Table.PivotTable.PivotNull.GetHashCode
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
 - uid: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.PivotTable.PivotNull}.GetHashCode(OfficeOpenXml.Table.PivotTable.PivotNull)
   commentId: M:System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.PivotTable.PivotNull}.GetHashCode(OfficeOpenXml.Table.PivotTable.PivotNull)
   parent: System.Collections.Generic.IEqualityComparer{OfficeOpenXml.Table.PivotTable.PivotNull}
@@ -660,13 +756,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Int32
-  commentId: T:System.Int32
-  parent: System
-  isExternal: true
-  name: Int32
-  nameWithType: Int32
-  fullName: System.Int32
 - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
   commentId: M:System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
   isExternal: true

@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eMeasurementUnits
     path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
@@ -55,7 +55,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Inches
     path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Centimeters
     path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
@@ -123,7 +123,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Millimeters
     path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Points
     path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Picas
     path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pixels
     path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMUs
     path: ../src/EPPlus/Drawing/Controls/enums/eMeasurementUnits.cs

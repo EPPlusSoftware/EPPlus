@@ -38,7 +38,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWorksheetView
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SheetViewElement
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActiveCell
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopLeftCell
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SelectedRange
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -232,7 +232,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PaneSettings
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -269,7 +269,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TabSelected
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -306,7 +306,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TabSelectedMulti
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -343,7 +343,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetTabSelected
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -382,7 +382,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageLayoutView
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -419,7 +419,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageBreakView
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -456,7 +456,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowGridLines
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -493,7 +493,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowHeaders
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -530,7 +530,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ZoomScale
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -567,7 +567,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightToLeft
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -604,7 +604,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Panes
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -641,7 +641,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopLeftPane
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -678,7 +678,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopRightPane
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -715,7 +715,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomLeftPane
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -752,7 +752,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomRightPane
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -789,7 +789,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FreezePanes
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -828,7 +828,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SplitPanesPixels
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -867,7 +867,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SplitPanes
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -906,7 +906,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnFreezePanes
     path: ../src/EPPlus/ExcelWorksheetView.cs

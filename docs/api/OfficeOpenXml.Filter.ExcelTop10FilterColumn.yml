@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelTop10FilterColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTop10FilterColumn
     path: ../src/EPPlus/Filter/ExcelTop10FilterColumn.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelTop10FilterColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FilterValue
     path: ../src/EPPlus/Filter/ExcelTop10FilterColumn.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelTop10FilterColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/Filter/ExcelTop10FilterColumn.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelTop10FilterColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Top
     path: ../src/EPPlus/Filter/ExcelTop10FilterColumn.cs
@@ -181,7 +181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelTop10FilterColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/Filter/ExcelTop10FilterColumn.cs

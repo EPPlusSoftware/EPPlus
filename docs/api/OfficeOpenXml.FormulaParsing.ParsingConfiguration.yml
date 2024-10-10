@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParsingConfiguration
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowCircularReferences
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheExpressions
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrecisionAndRoundingStrategy
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -176,7 +176,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Logger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionRepository
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -250,7 +250,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AttachLogger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs
@@ -289,7 +289,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingConfiguration.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DetachLogger
     path: ../src/EPPlus/FormulaParsing/ParsingConfiguration.cs

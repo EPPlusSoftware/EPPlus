@@ -16,11 +16,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompileResultBase
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 50
+    startLine: 54
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -63,11 +63,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 55
+    startLine: 59
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions

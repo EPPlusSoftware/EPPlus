@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImageInfo.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelImageInfo
     path: ../src/EPPlus/Drawing/ExcelImageInfo.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImageInfo.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/Drawing/ExcelImageInfo.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImageInfo.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Height
     path: ../src/EPPlus/Drawing/ExcelImageInfo.cs
@@ -136,7 +136,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImageInfo.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalResolution
     path: ../src/EPPlus/Drawing/ExcelImageInfo.cs
@@ -173,7 +173,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImageInfo.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalResolution
     path: ../src/EPPlus/Drawing/ExcelImageInfo.cs

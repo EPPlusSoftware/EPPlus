@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3DCamera.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingScene3DCamera
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3DCamera.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3DCamera.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _path
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3DCamera.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3DCamera.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rotation
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3DCamera.cs
@@ -136,7 +136,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3DCamera.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FieldOfViewAngle
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3DCamera.cs
@@ -173,7 +173,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3DCamera.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CameraType
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3DCamera.cs
@@ -210,7 +210,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3DCamera.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Zoom
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawingScene3DCamera.cs

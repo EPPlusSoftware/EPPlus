@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eLineStyle
     path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
@@ -59,7 +59,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dash
     path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DashDot
     path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dot
     path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LongDash
     path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LongDashDot
     path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LongDashDotDot
     path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Solid
     path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
@@ -297,7 +297,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SystemDash
     path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
@@ -331,7 +331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SystemDashDot
     path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
@@ -365,7 +365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SystemDashDotDot
     path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs
@@ -399,7 +399,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SystemDot
     path: ../src/EPPlus/Drawing/Enums/eLineStyle.cs

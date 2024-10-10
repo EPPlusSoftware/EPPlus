@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/enums/eModuleType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eModuleType
     path: ../src/EPPlus/Vba/enums/eModuleType.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/enums/eModuleType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Document
     path: ../src/EPPlus/Vba/enums/eModuleType.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/enums/eModuleType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Module
     path: ../src/EPPlus/Vba/enums/eModuleType.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/enums/eModuleType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Class
     path: ../src/EPPlus/Vba/enums/eModuleType.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/enums/eModuleType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Designer
     path: ../src/EPPlus/Vba/enums/eModuleType.cs

@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingBlurEffect.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingBlurEffect
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingBlurEffect.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingBlurEffect.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Radius
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingBlurEffect.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingBlurEffect.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GrowBounds
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingBlurEffect.cs

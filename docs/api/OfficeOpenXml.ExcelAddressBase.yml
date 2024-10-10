@@ -42,11 +42,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAddressBase
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 27
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -108,11 +108,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 60
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -153,11 +153,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 78
+    startLine: 79
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -201,11 +201,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 99
+    startLine: 100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -252,11 +252,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 139
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -309,11 +309,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 184
+    startLine: 185
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -352,11 +352,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 196
+    startLine: 197
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -395,11 +395,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetAddress
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 412
+    startLine: 413
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -437,11 +437,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BeforeChangeAddress
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 466
+    startLine: 467
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -471,11 +471,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChangeAddress
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 472
+    startLine: 473
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -505,11 +505,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Start
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 620
+    startLine: 621
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -543,11 +543,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: End
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 636
+    startLine: 637
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -581,11 +581,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalReferenceIndex
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 650
+    startLine: 651
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -618,11 +618,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Table
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 675
+    startLine: 676
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -655,11 +655,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 686
+    startLine: 687
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -694,11 +694,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddressAbsolute
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 696
+    startLine: 697
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -731,11 +731,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullAddress
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 706
+    startLine: 707
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -768,11 +768,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsName
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 729
+    startLine: 730
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -805,11 +805,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 740
+    startLine: 741
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -843,11 +843,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 748
+    startLine: 749
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -881,11 +881,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 795
+    startLine: 796
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -913,11 +913,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rows
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 1556
+    startLine: 1557
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -950,11 +950,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Columns
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 1566
+    startLine: 1567
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -987,11 +987,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsFullRow
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 1577
+    startLine: 1578
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1025,11 +1025,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsFullColumn
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 1588
+    startLine: 1589
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1063,11 +1063,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LocalAddress
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 1607
+    startLine: 1608
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1100,11 +1100,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 1883
+    startLine: 1884
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1142,11 +1142,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelAddressBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsExternal
     path: ../src/EPPlus/ExcelAddressBase.cs
-    startLine: 1921
+    startLine: 1922
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

@@ -30,7 +30,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartTrendline
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Order
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -187,7 +187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Period
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Forward
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Backward
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Intercept
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -335,7 +335,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayRSquaredValue
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -372,7 +372,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayEquation
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -409,7 +409,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -446,7 +446,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -483,7 +483,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -520,7 +520,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -557,7 +557,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Label
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -594,7 +594,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasLbl
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs

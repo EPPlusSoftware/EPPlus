@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: JsonTableExportSettings
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RootElementName
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDataTypesOn
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WriteColumnsElement
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WriteNameAttribute
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WriteShowHeaderAttribute
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs
@@ -267,7 +267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/JsonExport/JsonExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WriteShowTotalsAttribute
     path: ../src/EPPlus/Export/JsonExport/JsonExportSettings.cs

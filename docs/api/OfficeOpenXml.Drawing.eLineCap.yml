@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineCap.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eLineCap
     path: ../src/EPPlus/Drawing/Enums/eLineCap.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineCap.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Flat
     path: ../src/EPPlus/Drawing/Enums/eLineCap.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineCap.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Round
     path: ../src/EPPlus/Drawing/Enums/eLineCap.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eLineCap.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Square
     path: ../src/EPPlus/Drawing/Enums/eLineCap.cs

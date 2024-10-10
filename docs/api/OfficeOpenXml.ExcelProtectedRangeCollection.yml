@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtectedRangeCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelProtectedRangeCollection
     path: ../src/EPPlus/ExcelProtectedRangeCollection.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtectedRangeCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelProtectedRangeCollection.cs
@@ -118,7 +118,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtectedRangeCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/ExcelProtectedRangeCollection.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtectedRangeCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Contains
     path: ../src/EPPlus/ExcelProtectedRangeCollection.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtectedRangeCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CopyTo
     path: ../src/EPPlus/ExcelProtectedRangeCollection.cs
@@ -231,7 +231,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtectedRangeCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExcelProtectedRangeCollection.cs
@@ -268,7 +268,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtectedRangeCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/ExcelProtectedRangeCollection.cs
@@ -307,7 +307,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtectedRangeCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IndexOf
     path: ../src/EPPlus/ExcelProtectedRangeCollection.cs
@@ -346,7 +346,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtectedRangeCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/ExcelProtectedRangeCollection.cs
@@ -382,7 +382,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtectedRangeCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelProtectedRangeCollection.cs
@@ -427,7 +427,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtectedRangeCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExcelProtectedRange>.GetEnumerator
     path: ../src/EPPlus/ExcelProtectedRangeCollection.cs
@@ -463,7 +463,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelProtectedRangeCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelProtectedRangeCollection.cs

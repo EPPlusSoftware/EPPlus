@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eSizeRepresents.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eSizeRepresents
     path: ../src/EPPlus/Drawing/Chart/enums/eSizeRepresents.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eSizeRepresents.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area
     path: ../src/EPPlus/Drawing/Chart/enums/eSizeRepresents.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eSizeRepresents.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/Drawing/Chart/enums/eSizeRepresents.cs

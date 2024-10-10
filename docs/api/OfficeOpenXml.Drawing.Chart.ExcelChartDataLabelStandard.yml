@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartDataLabelStandard
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
@@ -125,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowValue
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
@@ -165,7 +165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowCategory
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
@@ -205,7 +205,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowSeriesName
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
@@ -245,7 +245,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowPercent
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
@@ -285,7 +285,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLeaderLines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
@@ -325,7 +325,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowBubbleSize
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
@@ -365,7 +365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLegendKey
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
@@ -405,7 +405,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Separator
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelStandard.cs

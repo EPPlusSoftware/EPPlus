@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RangeExtensions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeExtensions
     path: ../src/EPPlus/RangeExtensions.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RangeExtensions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SkipColumns
     path: ../src/EPPlus/RangeExtensions.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RangeExtensions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SkipRows
     path: ../src/EPPlus/RangeExtensions.cs
@@ -165,7 +165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RangeExtensions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TakeColumns
     path: ../src/EPPlus/RangeExtensions.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RangeExtensions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TakeRows
     path: ../src/EPPlus/RangeExtensions.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RangeExtensions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TakeSingleColumn
     path: ../src/EPPlus/RangeExtensions.cs
@@ -309,7 +309,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RangeExtensions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TakeColumnsBetween
     path: ../src/EPPlus/RangeExtensions.cs
@@ -360,7 +360,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RangeExtensions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TakeSingleRow
     path: ../src/EPPlus/RangeExtensions.cs
@@ -408,7 +408,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RangeExtensions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TakeRowsBetween
     path: ../src/EPPlus/RangeExtensions.cs
@@ -459,7 +459,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RangeExtensions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TakeSingleCell
     path: ../src/EPPlus/RangeExtensions.cs

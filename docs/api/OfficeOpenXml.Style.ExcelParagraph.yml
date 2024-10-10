@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelParagraph.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelParagraph
     path: ../src/EPPlus/Style/RichText/ExcelParagraph.cs
@@ -81,7 +81,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelParagraph.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Style/RichText/ExcelParagraph.cs
@@ -118,7 +118,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelParagraph.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsFirstInParagraph
     path: ../src/EPPlus/Style/RichText/ExcelParagraph.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelParagraph.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsLastInParagraph
     path: ../src/EPPlus/Style/RichText/ExcelParagraph.cs

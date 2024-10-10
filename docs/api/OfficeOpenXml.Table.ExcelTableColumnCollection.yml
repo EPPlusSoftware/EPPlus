@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumnCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableColumnCollection
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumnCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Table
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumnCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumnCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumnCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumnCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.ExcelTableColumn>.GetEnumerator
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
@@ -268,7 +268,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumnCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
@@ -300,7 +300,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumnCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
@@ -339,7 +339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumnCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Insert
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs
@@ -381,7 +381,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumnCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/ExcelTableColumnCollection.cs

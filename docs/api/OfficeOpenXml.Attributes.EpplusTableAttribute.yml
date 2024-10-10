@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EpplusTableAttribute
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrintHeaders
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
@@ -222,7 +222,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowFirstColumn
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLastColumn
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
@@ -296,7 +296,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowTotal
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
@@ -333,7 +333,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutofitColumns
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
@@ -370,7 +370,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoCalculate
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs
@@ -407,7 +407,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormatProviderType
     path: ../src/EPPlus/Attributes/EpplusTableAttribute.cs

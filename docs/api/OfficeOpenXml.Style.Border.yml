@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Style/ExcelBorder.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Left
     path: ../src/EPPlus/Style/ExcelBorder.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Right
     path: ../src/EPPlus/Style/ExcelBorder.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Top
     path: ../src/EPPlus/Style/ExcelBorder.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bottom
     path: ../src/EPPlus/Style/ExcelBorder.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Diagonal
     path: ../src/EPPlus/Style/ExcelBorder.cs
@@ -257,7 +257,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DiagonalUp
     path: ../src/EPPlus/Style/ExcelBorder.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DiagonalDown
     path: ../src/EPPlus/Style/ExcelBorder.cs
@@ -331,7 +331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BorderAround
     path: ../src/EPPlus/Style/ExcelBorder.cs
@@ -367,7 +367,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BorderAround
     path: ../src/EPPlus/Style/ExcelBorder.cs

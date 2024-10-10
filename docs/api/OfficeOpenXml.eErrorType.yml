@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eErrorType
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -57,7 +57,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Div0
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -91,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NA
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -125,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: "Null"
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Num
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -227,7 +227,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ref
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -295,7 +295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calc
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Spill
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs

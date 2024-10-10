@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPosition.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPosition
     path: ../src/EPPlus/Drawing/ExcelPosition.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPosition.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/Drawing/ExcelPosition.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPosition.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/Drawing/ExcelPosition.cs
@@ -141,7 +141,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPosition.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnOff
     path: ../src/EPPlus/Drawing/ExcelPosition.cs
@@ -178,7 +178,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPosition.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowOff
     path: ../src/EPPlus/Drawing/ExcelPosition.cs
@@ -215,7 +215,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPosition.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/ExcelPosition.cs
@@ -247,7 +247,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPosition.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateXml
     path: ../src/EPPlus/Drawing/ExcelPosition.cs

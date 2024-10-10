@@ -194,6 +194,8 @@
     name: LicenseContext
   - uid: OfficeOpenXml.LicenseException
     name: LicenseException
+  - uid: OfficeOpenXml.NumberFormatToTextArgs
+    name: NumberFormatToTextArgs
   - uid: OfficeOpenXml.OfficeProperties
     name: OfficeProperties
   - uid: OfficeOpenXml.PaddingAlignmentType
@@ -261,6 +263,8 @@
     name: eExcelConditionalFormattingValueObjectType
   - uid: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
     name: eExcelDatabarAxisPosition
+  - uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+    name: eExcelPivotTableConditionalFormattingRuleType
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAsType
     name: ExcelConditionalFormattingAsType
   - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
@@ -1449,8 +1453,6 @@
     name: INameInfo
   - uid: OfficeOpenXml.FormulaParsing.INameValueProvider
     name: INameValueProvider
-  - uid: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
-    name: IParsingLifetimeEventHandler
   - uid: OfficeOpenXml.FormulaParsing.IRangeInfo
     name: IRangeInfo
   - uid: OfficeOpenXml.FormulaParsing.NameValueProvider
@@ -1459,10 +1461,6 @@
     name: ParsingConfiguration
   - uid: OfficeOpenXml.FormulaParsing.ParsingContext
     name: ParsingContext
-  - uid: OfficeOpenXml.FormulaParsing.ParsingScope
-    name: ParsingScope
-  - uid: OfficeOpenXml.FormulaParsing.ParsingScopes
-    name: ParsingScopes
   - uid: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
     name: PrecisionAndRoundingStrategy
 - uid: OfficeOpenXml.FormulaParsing.Excel
@@ -1965,6 +1963,10 @@
 - uid: OfficeOpenXml.Table.PivotTable
   name: OfficeOpenXml.Table.PivotTable
   items:
+  - uid: OfficeOpenXml.Table.PivotTable.ConditionScope
+    name: ConditionScope
+  - uid: OfficeOpenXml.Table.PivotTable.ConditionType
+    name: ConditionType
   - uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
     name: DataFieldFunctions
   - uid: OfficeOpenXml.Table.PivotTable.eDateGroupBy
@@ -2019,6 +2021,10 @@
     name: ExcelPivotCacheDefinition
   - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
     name: ExcelPivotTable
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+    name: ExcelPivotTableAreaConditionalFormatting
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection
+    name: ExcelPivotTableAreaConditionalFormattingCollection
   - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
     name: ExcelPivotTableAreaStyle
   - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
@@ -2029,6 +2035,10 @@
     name: ExcelPivotTableCalculatedData
   - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
     name: ExcelPivotTableCollection
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableConditionalFormatting
+    name: ExcelPivotTableConditionalFormatting
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableConditionalFormattingCollection
+    name: ExcelPivotTableConditionalFormattingCollection
   - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
     name: ExcelPivotTableDataField
   - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection

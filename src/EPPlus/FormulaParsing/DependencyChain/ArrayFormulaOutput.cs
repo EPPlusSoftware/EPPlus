@@ -88,7 +88,7 @@ namespace OfficeOpenXml.FormulaParsing
             var startCol = f._column;
             var wsIx = ws.IndexInList;
             
-            f._isDynamic = true;
+            f._flags |= FormulaFlags.IsDynamic;
             var md = depChain._parsingContext.Package.Workbook.Metadata;
             md.GetDynamicArrayIndex(out int cm);
             var metaData = f._ws._metadataStore.GetValue(startRow, startCol);
@@ -141,7 +141,7 @@ namespace OfficeOpenXml.FormulaParsing
             var startCol = f._column;
             var wsIx = ws.IndexInList;
 
-            f._isDynamic = true;
+            f._flags |= FormulaFlags.IsDynamic;
             var md = depChain._parsingContext.Package.Workbook.Metadata;
             md.GetDynamicArrayIndex(out int cm);
             var metaData = f._ws._metadataStore.GetValue(startRow, startCol);

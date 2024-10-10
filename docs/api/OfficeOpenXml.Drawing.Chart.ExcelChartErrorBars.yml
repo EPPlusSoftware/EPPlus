@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartErrorBars
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Direction
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BarType
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueType
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
@@ -184,7 +184,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NoEndCap
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
@@ -221,7 +221,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
@@ -258,7 +258,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Plus
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
@@ -295,7 +295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Minus
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
@@ -332,7 +332,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
@@ -369,7 +369,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
@@ -406,7 +406,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
@@ -443,7 +443,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
@@ -480,7 +480,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/Chart/ExcelChartErrorBar.cs

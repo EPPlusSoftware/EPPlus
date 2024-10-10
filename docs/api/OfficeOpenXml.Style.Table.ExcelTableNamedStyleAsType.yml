@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableNamedStyleAsType
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTableStyle
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
@@ -181,7 +181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableAndPivotTableStyle
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleAsType.cs

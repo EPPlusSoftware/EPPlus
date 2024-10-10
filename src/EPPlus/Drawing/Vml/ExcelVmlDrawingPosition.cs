@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -94,7 +95,15 @@ namespace OfficeOpenXml.Drawing.Vml
             }
             else
             {
-                throw (new Exception("Anchor element is invalid in vmlDrawing"));
+                var size = numbers.Length;
+                Array.Resize<string>(ref numbers, 8);
+                for (int i = 0; i < 8; i++)
+                {
+                    if(string.IsNullOrEmpty(numbers[i]))
+                    {
+                        numbers[i] = "0";
+                    }
+                }
             }
             SetXmlNodeString("x:Anchor", string.Join(",",numbers));
         }
@@ -111,7 +120,7 @@ namespace OfficeOpenXml.Drawing.Vml
                     return ret;
                 }
             }
-            throw(new Exception("Anchor element is invalid in vmlDrawing"));
+            return 0;
         }
     }
 }

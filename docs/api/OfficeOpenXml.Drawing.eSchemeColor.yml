@@ -32,7 +32,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eSchemeColor
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Background1
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text1
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -133,7 +133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Background2
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -167,7 +167,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text2
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -201,7 +201,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent1
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent2
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -269,7 +269,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent3
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent4
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -337,7 +337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent5
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -371,7 +371,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent6
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -405,7 +405,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hyperlink
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -439,7 +439,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FollowedHyperlink
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -473,7 +473,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -507,7 +507,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark1
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -541,7 +541,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light1
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -575,7 +575,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dark2
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs
@@ -609,7 +609,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eSchemeColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Light2
     path: ../src/EPPlus/Drawing/Enums/eSchemeColor.cs

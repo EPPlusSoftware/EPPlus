@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartExSerieBinning
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
@@ -142,7 +142,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IntervalClosed
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderflowAutomatic
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Underflow
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
@@ -253,7 +253,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OverflowAutomatic
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
@@ -290,7 +290,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Overflow
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelChartExSerieBinning.cs

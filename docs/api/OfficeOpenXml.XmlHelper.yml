@@ -15,11 +15,11 @@ items:
   source:
     remote:
       path: src/EPPlus/XmlHelper.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XmlHelper
     path: ../src/EPPlus/XmlHelper.cs
-    startLine: 30
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -159,6 +159,7 @@ items:
   - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceBase
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableConditionalFormatting
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldGroup

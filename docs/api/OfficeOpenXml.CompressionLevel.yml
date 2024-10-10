@@ -29,7 +29,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompressionLevel
     path: ../src/EPPlus/Enums.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Level0
     path: ../src/EPPlus/Enums.cs
@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Enums.cs
@@ -130,7 +130,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Level1
     path: ../src/EPPlus/Enums.cs
@@ -164,7 +164,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BestSpeed
     path: ../src/EPPlus/Enums.cs
@@ -198,7 +198,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Level2
     path: ../src/EPPlus/Enums.cs
@@ -232,7 +232,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Level3
     path: ../src/EPPlus/Enums.cs
@@ -266,7 +266,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Level4
     path: ../src/EPPlus/Enums.cs
@@ -300,7 +300,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Level5
     path: ../src/EPPlus/Enums.cs
@@ -334,7 +334,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Level6
     path: ../src/EPPlus/Enums.cs
@@ -368,7 +368,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default
     path: ../src/EPPlus/Enums.cs
@@ -402,7 +402,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Level7
     path: ../src/EPPlus/Enums.cs
@@ -436,7 +436,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Level8
     path: ../src/EPPlus/Enums.cs
@@ -470,7 +470,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BestCompression
     path: ../src/EPPlus/Enums.cs
@@ -504,7 +504,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Enums.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Level9
     path: ../src/EPPlus/Enums.cs

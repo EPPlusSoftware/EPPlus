@@ -48,7 +48,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawing
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_PIXEL
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_POINT
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_CM
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -209,7 +209,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_MM
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -244,7 +244,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_US_INCH
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -279,7 +279,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_PICA
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -314,7 +314,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -353,7 +353,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -392,7 +392,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Description
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -429,7 +429,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EditAs
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -466,7 +466,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Locked
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -505,7 +505,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Print
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -544,7 +544,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: From
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -581,7 +581,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -618,7 +618,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -655,7 +655,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: To
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -692,7 +692,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hyperlink
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -729,7 +729,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
@@ -766,11 +766,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPosition
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 963
+    startLine: 965
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -805,11 +805,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellAnchor
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1000
+    startLine: 1002
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -844,11 +844,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChangeCellAnchor
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1013
+    startLine: 1015
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -892,11 +892,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChangeCellAnchor
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1023
+    startLine: 1025
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -928,11 +928,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPosition
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1113
+    startLine: 1115
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -973,11 +973,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSize
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1143
+    startLine: 1145
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1011,11 +1011,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSize
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1165
+    startLine: 1167
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1050,11 +1050,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SendToBack
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1179
+    startLine: 1181
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1082,11 +1082,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BringToFront
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1186
+    startLine: 1188
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1114,11 +1114,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Group
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1197
+    startLine: 1199
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1156,11 +1156,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnGroup
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1245
+    startLine: 1247
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1192,11 +1192,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParentGroup
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1264
+    startLine: 1266
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1229,11 +1229,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1279
+    startLine: 1281
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1265,11 +1265,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdjustPositionAndSize
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1295
+    startLine: 1297
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1297,27 +1297,34 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawing.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/Drawing/ExcelDrawing.cs
-    startLine: 1339
+    startLine: 1348
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
+  summary: "\nCopies the drawing to the supplied worksheets. The copy will be positioned using the <code data-dev-comment-type=\"paramref\" class=\"paramref\">row</code> and <code data-dev-comment-type=\"paramref\" class=\"paramref\">col</code> parameters\n"
+  example: []
   syntax:
     content: public void Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = -2147483648, int colOffset = -2147483648)
     parameters:
     - id: worksheet
       type: OfficeOpenXml.ExcelWorksheet
+      description: The worksheet where the drawing will be placed.
     - id: row
       type: System.Int32
+      description: The top row where the drawing will be placed.
     - id: col
       type: System.Int32
+      description: The left column where the drawing will be placed.
     - id: rowOffset
       type: System.Int32
+      description: 'Row offset in pixels from the row start positions. int.MinValue '
     - id: colOffset
       type: System.Int32
+      description: Column offset in pixels fromp the column start position
     content.vb: Public Sub Copy(worksheet As ExcelWorksheet, row As Integer, col As Integer, rowOffset As Integer = -2147483648, colOffset As Integer = -2147483648)
   overload: OfficeOpenXml.Drawing.ExcelDrawing.Copy*
   modifiers.csharp:

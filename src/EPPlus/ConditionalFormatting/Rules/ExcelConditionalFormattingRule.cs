@@ -1,4 +1,4 @@
-﻿/*************************************************************************************************
+﻿    /*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
   and may only be used for noncommercial purposes 
@@ -12,18 +12,16 @@
   07/07/2023         EPPlus Software AB       Epplus 7
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
-using OfficeOpenXml.FormulaParsing.Utilities;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Style.Dxf;
-using System;
-using System.Xml;
-using OfficeOpenXml.Utils.Extensions;
-using OfficeOpenXml.Style;
-using System.Globalization;
-using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Extensions;
+using System;
 using System.Collections.Generic;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using System.Globalization;
+using System.Xml;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -50,8 +48,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             set
             {
                 _address = value;
-                //QuadItem = new QuadItem<ExcelConditionalFormattingRule>(){ this, _address }
-                //QuadRange = new QuadRange(value);
             }
         }
 
@@ -199,8 +195,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 _uid = value;
             }
-
-
         }
 
         bool _isExtLst = false;
@@ -224,6 +218,8 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
         }
 
+        internal string Prefix = "";
+
         #region Constructors
         /// <summary> 
         /// Initalize <see cref="ExcelConditionalFormattingRule"/> from file
@@ -234,6 +230,8 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// <param name="ws"></param>
         internal ExcelConditionalFormattingRule(eExcelConditionalFormattingRuleType type, ExcelAddress address, ExcelWorksheet ws, XmlReader xr)
         {
+            Prefix = xr.Prefix;
+
             _ws = ws;
 
             Address = address;
@@ -252,10 +250,9 @@ namespace OfficeOpenXml.ConditionalFormatting
                 StopIfTrue = int.Parse(xr.GetAttribute("stopIfTrue")) == 1;
             }
 
-
             if (!string.IsNullOrEmpty(xr.GetAttribute("id")))
             {
-                Uid = xr.GetAttribute("id");
+                Uid = xr.GetAttribute("id").Trim('{','}');
             }
 
             if (!string.IsNullOrEmpty(xr.GetAttribute("dxfId")))

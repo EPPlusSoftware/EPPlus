@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingSize.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingSize
     path: ../src/EPPlus/Drawing/ExcelDrawingSize.cs
@@ -64,11 +64,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingSize.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateXml
     path: ../src/EPPlus/Drawing/ExcelDrawingSize.cs
-    startLine: 38
+    startLine: 39
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -96,11 +96,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingSize.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Height
     path: ../src/EPPlus/Drawing/ExcelDrawingSize.cs
-    startLine: 52
+    startLine: 53
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -133,11 +133,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingSize.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/Drawing/ExcelDrawingSize.cs
-    startLine: 73
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

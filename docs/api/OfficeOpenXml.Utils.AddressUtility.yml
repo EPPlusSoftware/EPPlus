@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/AddressUtility.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddressUtility
     path: ../src/EPPlus/Utils/AddressUtility.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/AddressUtility.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParseEntireColumnSelections
     path: ../src/EPPlus/Utils/AddressUtility.cs

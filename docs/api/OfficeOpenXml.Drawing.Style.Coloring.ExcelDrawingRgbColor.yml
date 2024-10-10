@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingRgbColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingRgbColor
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingRgbColor.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/ExcelDrawingRgbColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Drawing/Style/Coloring/ExcelDrawingRgbColor.cs

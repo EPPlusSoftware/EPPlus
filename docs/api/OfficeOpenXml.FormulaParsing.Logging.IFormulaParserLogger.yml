@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IFormulaParserLogger
     path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
@@ -58,7 +58,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Log
     path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Log
     path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Log
     path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
@@ -160,7 +160,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LogCellCounted
     path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
@@ -188,7 +188,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LogFunction
     path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LogFunction
     path: ../src/EPPlus/FormulaParsing/Logging/IFormulaParserLogger.cs

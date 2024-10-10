@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/EPPlusReadOnlyList.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EPPlusReadOnlyList
     path: ../src/EPPlus/Core/EPPlusReadOnlyList.cs
@@ -48,7 +48,9 @@ items:
   - OfficeOpenXml.ExternalReferences.ExcelExternalWorksheetCollection
   - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceCollection
   - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaReferenceItems
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableConditionalFormattingCollection
   implements:
   - System.Collections.Generic.IEnumerable{{T}}
   - System.Collections.IEnumerable
@@ -84,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/EPPlusReadOnlyList.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<T>.GetEnumerator
     path: ../src/EPPlus/Core/EPPlusReadOnlyList.cs
@@ -118,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/EPPlusReadOnlyList.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Core/EPPlusReadOnlyList.cs
@@ -154,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/EPPlusReadOnlyList.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Core/EPPlusReadOnlyList.cs
@@ -198,7 +200,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/EPPlusReadOnlyList.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetIndexByValue
     path: ../src/EPPlus/Core/EPPlusReadOnlyList.cs
@@ -239,7 +241,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/EPPlusReadOnlyList.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Core/EPPlusReadOnlyList.cs

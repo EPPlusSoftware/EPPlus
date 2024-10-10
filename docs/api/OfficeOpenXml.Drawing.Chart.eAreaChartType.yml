@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eAreaChartType
     path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
@@ -54,7 +54,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area
     path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
@@ -88,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaStacked
     path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
@@ -122,7 +122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaStacked100
     path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Area3D
     path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaStacked3D
     path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AreaStacked1003D
     path: ../src/EPPlus/Drawing/Chart/enums/eAreaChartType.cs

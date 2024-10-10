@@ -1227,6 +1227,18 @@ namespace OfficeOpenXml
             }
             return uri;
         }
+        internal T GetXmlEnum<T>(string path, T defaultValue) where T : struct, Enum
+        {
+            var v = GetXmlNodeString(path);
+            if (string.IsNullOrEmpty(v))
+            {
+                return defaultValue;
+            }
+            else
+            {
+                return v.ToEnum(default(T));
+            }
+        }
         internal T? GetXmlEnumNull<T>(string path, T? defaultValue = null) where T : struct, Enum
         {
             var v = GetXmlNodeString(path);

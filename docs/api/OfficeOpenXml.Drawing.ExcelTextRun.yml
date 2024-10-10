@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTextRun
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Capitalization
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Kerning
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontSize
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
@@ -181,7 +181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Spacing
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
@@ -218,7 +218,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Baseline
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
@@ -255,7 +255,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bold
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
@@ -292,7 +292,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Italic
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Strike
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
@@ -366,7 +366,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLine
     path: ../src/EPPlus/Drawing/Style/Text/ExcelTextRun.cs

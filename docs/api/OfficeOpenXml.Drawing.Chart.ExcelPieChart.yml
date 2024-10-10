@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelPieChart.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPieChart
     path: ../src/EPPlus/Drawing/Chart/ExcelPieChart.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelPieChart.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelPieChart.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelPieChart.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelPieChart.cs
@@ -236,7 +236,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelPieChart.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ExcelPieChart.cs

@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextVerticalType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eTextVerticalType
     path: ../src/EPPlus/Drawing/Enums/eTextVerticalType.cs
@@ -55,7 +55,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextVerticalType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EastAsianVertical
     path: ../src/EPPlus/Drawing/Enums/eTextVerticalType.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextVerticalType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Horizontal
     path: ../src/EPPlus/Drawing/Enums/eTextVerticalType.cs
@@ -123,7 +123,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextVerticalType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MongolianVertical
     path: ../src/EPPlus/Drawing/Enums/eTextVerticalType.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextVerticalType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Vertical
     path: ../src/EPPlus/Drawing/Enums/eTextVerticalType.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextVerticalType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Vertical270
     path: ../src/EPPlus/Drawing/Enums/eTextVerticalType.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextVerticalType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WordArtVertical
     path: ../src/EPPlus/Drawing/Enums/eTextVerticalType.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eTextVerticalType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WordArtVerticalRightToLeft
     path: ../src/EPPlus/Drawing/Enums/eTextVerticalType.cs

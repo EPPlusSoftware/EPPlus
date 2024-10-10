@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableStyleElement
     path: ../src/EPPlus/Style/Table/ExcelTableStyleElement.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Style/Table/ExcelTableStyleElement.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableStyleElement.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Style/Table/ExcelTableStyleElement.cs

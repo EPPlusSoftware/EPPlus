@@ -134,3 +134,8 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 ### Breaking changes from EPPlus 7.2
 * Changed class ExcelTextFormatBase to abstract
 * OfficeOpenXml.FormulaParsing.ExcelUtilities.ExcelReferenceType RelativeRowAbsolutColumn corrected to RelativeRowAbsoluteColumn
+
+### Breaking changes from EPPlus 7.4
+* Removed unused class ParsingScope and ParsingScopes.
+* Removed unused interface IParsingLifetimeEventHandler and implemetation.
+* Removed implementation of IParsingLifetimeEventHandler.ParsingCompleted in the ParsingContext class.

@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillDateParams
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartValue
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndValue
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StepValue
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateTimeUnit
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
@@ -219,7 +219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetExcludedWeekdays
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
@@ -258,7 +258,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetExcludedDates
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
@@ -297,7 +297,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetExcludedDates
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillDateParams.cs

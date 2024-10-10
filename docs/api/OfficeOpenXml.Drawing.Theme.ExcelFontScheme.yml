@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelFontScheme.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFontScheme
     path: ../src/EPPlus/Drawing/Theme/ExcelFontScheme.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelFontScheme.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Drawing/Theme/ExcelFontScheme.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelFontScheme.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorFont
     path: ../src/EPPlus/Drawing/Theme/ExcelFontScheme.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelFontScheme.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorFont
     path: ../src/EPPlus/Drawing/Theme/ExcelFontScheme.cs

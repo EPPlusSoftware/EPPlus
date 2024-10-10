@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusNestedTableColumnAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EpplusNestedTableColumnAttribute
     path: ../src/EPPlus/Attributes/EpplusNestedTableColumnAttribute.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusNestedTableColumnAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Order
     path: ../src/EPPlus/Attributes/EpplusNestedTableColumnAttribute.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusNestedTableColumnAttribute.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderPrefix
     path: ../src/EPPlus/Attributes/EpplusNestedTableColumnAttribute.cs

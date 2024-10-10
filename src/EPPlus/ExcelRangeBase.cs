@@ -309,7 +309,12 @@ namespace OfficeOpenXml
                 for (int row = address.Start.Row; row <= address.End.Row; row++)
                 {
                     ws._formulas.SetValue(row, col, f.Index);
-                    ws._flags.SetFlagValue(row, col, true, CellFlags.ArrayFormula);
+                    var flags = CellFlags.ArrayFormula;
+                    if(isDynamic)
+                    {
+                        flags |= CellFlags.CanBeDynamicArray;                        
+                    }
+                    ws._flags.SetFlagValue(row, col, true, flags);
                     ws.SetValueInner(row, col, null);
                     if(isDynamic)
                     {
@@ -2040,7 +2045,12 @@ namespace OfficeOpenXml
         /// Creates an array-formula.
         /// </summary>
         /// <param name="ArrayFormula">The formula</param>
-        /// <param name="isDynamic">If the array formula is dynamic. In most cases this is determined by the calculation when calculating the formula, so it is not be necessary to set this flag if you calculate the range. Setting this argument to true will only add the dynamic array formula cell meta data flag to the range.</param>
+        /// <param name="isDynamic">If the array formula is dynamic. 
+        /// Setting this argument to true will only add the dynamic array formula cell meta data flag to the formula. 
+        /// If you calculate the formula it is not be necessary to set this flag. If you set this flag, you are responsible to set the correct range for the dynamic array formula, so in most cases calculating is a better approach.
+        /// If you calculate the formula this flag will be overwritten with the value the EPPlus decides for the formula.
+        /// Also see <see cref="CalculationExtension.Calculate(ExcelWorkbook)" />, <seealso cref="CalculationExtension.Calculate(ExcelWorksheet)"/>, <seealso cref="CalculationExtension.Calculate(ExcelRangeBase)"/>
+        /// </param>
         public void CreateArrayFormula(string ArrayFormula, bool isDynamic=false)
         {
             if (Addresses != null)

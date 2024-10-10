@@ -34,6 +34,7 @@ namespace OfficeOpenXml.FormulaParsing
     {
 
         private readonly ExcelPackage _package;
+        private readonly ExcelWorkbook _workbook;
         private readonly ParsingContext _context;
         private ExcelWorksheet _currentWorksheet;
         private RangeAddressFactory _rangeAddressFactory;
@@ -49,6 +50,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             if (package == null) throw new ArgumentNullException(nameof(package));
             _package = package;
+            _workbook = package.Workbook;
             _context = ctx;
             _rangeAddressFactory = new RangeAddressFactory(this, ctx);
         }
@@ -615,21 +617,30 @@ namespace OfficeOpenXml.FormulaParsing
         }
         public override string GetFormat(object value, string format)
         {
-            var styles = _package.Workbook.Styles;
-            ExcelFormatTranslator ft=null;
-            foreach(var f in styles.NumberFormats)
+            if (_workbook.NumberFormatToTextHandler == null)
             {
-                if(f.Format==format)
+                var styles = _package.Workbook.Styles;
+                ExcelFormatTranslator ft = null;
+                foreach (var f in styles.NumberFormats)
                 {
-                    ft=f.FormatTranslator;
-                    break;
+                    if (f.Format == format)
+                    {
+                        ft = f.FormatTranslator;
+                        break;
+                    }
                 }
+                if (ft == null)
+                {
+                    ft = new ExcelFormatTranslator(format, -1);
+                }
+
+                return ValueToTextHandler.FormatValue(value, false, ft, null);
             }
-            if(ft==null)
+            else
             {
-                ft=new ExcelFormatTranslator(format, -1);
+                var arg = new NumberFormatToTextArgs(_currentWorksheet, _context.CurrentCell.Row, _context.CurrentCell.Column, value, _currentWorksheet.GetStyleInner(_context.CurrentCell.Row, _context.CurrentCell.Column));
+                return _workbook.NumberFormatToTextHandler(arg);
             }
-            return ValueToTextHandler.FormatValue(value,false, ft, null);
         }
         public override IList<Token> GetRangeFormulaTokens(string worksheetName, int row, int column)
         {

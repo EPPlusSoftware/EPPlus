@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExcludeStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CssExcludeStyle
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExcludeStyle.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExcludeStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExcludeStyle.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExcludeStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellStyle
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExcludeStyle.cs

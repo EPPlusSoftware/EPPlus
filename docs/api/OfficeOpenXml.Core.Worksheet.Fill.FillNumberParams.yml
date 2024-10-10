@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillNumberParams
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartValue
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndValue
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
@@ -142,7 +142,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StepValue
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
@@ -179,7 +179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalculationMethod
     path: ../src/EPPlus/Core/Worksheet/Fill/Params/FillNumberParams.cs

@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/LookupValueMatcher.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LookupValueMatcher
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/LookupValueMatcher.cs
@@ -36,9 +36,9 @@ items:
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
   inheritedMembers:
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IncompatibleOperands
-  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object)
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object,System.Boolean)
   - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToString(System.String,System.String)
-  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object)
+  - OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object,System.Boolean)
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelUtilities/LookupValueMatcher.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareObjectToString
     path: ../src/EPPlus/FormulaParsing/ExcelUtilities/LookupValueMatcher.cs
@@ -122,15 +122,15 @@ references:
   name: IncompatibleOperands
   nameWithType: ValueMatcher.IncompatibleOperands
   fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IncompatibleOperands
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object)
-  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object)
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object,System.Boolean)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object,System.Boolean)
   parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
   isExternal: true
-  name: IsMatch(Object, Object)
-  nameWithType: ValueMatcher.IsMatch(Object, Object)
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object, System.Object)
+  name: IsMatch(Object, Object, Boolean)
+  nameWithType: ValueMatcher.IsMatch(Object, Object, Boolean)
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object, System.Object, System.Boolean)
   spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object)
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object,System.Boolean)
     name: IsMatch
     nameWithType: ValueMatcher.IsMatch
     fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch
@@ -149,12 +149,20 @@ references:
     name: Object
     nameWithType: Object
     fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
     isExternal: true
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object)
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch(System.Object,System.Object,System.Boolean)
     name: IsMatch
     nameWithType: ValueMatcher.IsMatch
     fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.IsMatch
@@ -173,6 +181,14 @@ references:
     name: Object
     nameWithType: Object
     fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
     isExternal: true
   - name: )
     nameWithType: )
@@ -232,15 +248,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object)
-  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object)
+- uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object,System.Boolean)
+  commentId: M:OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object,System.Boolean)
   parent: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher
   isExternal: true
-  name: CompareStringToObject(String, Object)
-  nameWithType: ValueMatcher.CompareStringToObject(String, Object)
-  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String, System.Object)
+  name: CompareStringToObject(String, Object, Boolean)
+  nameWithType: ValueMatcher.CompareStringToObject(String, Object, Boolean)
+  fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String, System.Object, System.Boolean)
   spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object)
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object,System.Boolean)
     name: CompareStringToObject
     nameWithType: ValueMatcher.CompareStringToObject
     fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject
@@ -259,12 +275,20 @@ references:
     name: Object
     nameWithType: Object
     fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
     isExternal: true
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object)
+  - uid: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject(System.String,System.Object,System.Boolean)
     name: CompareStringToObject
     nameWithType: ValueMatcher.CompareStringToObject
     fullName: OfficeOpenXml.FormulaParsing.ExcelUtilities.ValueMatcher.CompareStringToObject
@@ -283,6 +307,14 @@ references:
     name: Object
     nameWithType: Object
     fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
     isExternal: true
   - name: )
     nameWithType: )

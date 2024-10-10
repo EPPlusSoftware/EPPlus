@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelOutputTextFormat
     path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
@@ -83,7 +83,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Header
     path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Footer
     path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UseCellFormat
     path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formats
     path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DecimalSeparator
     path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
@@ -300,7 +300,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThousandsSeparator
     path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
@@ -337,7 +337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EncodedTextQualifiers
     path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
@@ -374,7 +374,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataIsTransposed
     path: ../src/EPPlus/ExcelTextFormats/ExcelOutputTextFormat.cs

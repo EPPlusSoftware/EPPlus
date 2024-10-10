@@ -4,8 +4,7 @@ items:
   commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort
   id: ExcelPivotAreaAutoSort
   parent: OfficeOpenXml.Table.PivotTable
-  children:
-  - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort.Conditions
+  children: []
   langs:
   - csharp
   - vb
@@ -16,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/AutoSort/ExcelPivotAreaAutoSort.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotAreaAutoSort
     path: ../src/EPPlus/Table/PivotTable/PivotArea/AutoSort/ExcelPivotAreaAutoSort.cs
@@ -36,6 +35,7 @@ items:
   - OfficeOpenXml.XmlHelper
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea
   inheritedMembers:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField
@@ -62,43 +62,6 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort.Conditions
-  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort.Conditions
-  id: Conditions
-  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort
-  langs:
-  - csharp
-  - vb
-  name: Conditions
-  nameWithType: ExcelPivotAreaAutoSort.Conditions
-  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort.Conditions
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Table/PivotTable/PivotArea/AutoSort/ExcelPivotAreaAutoSort.cs
-      branch: develop7
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Conditions
-    path: ../src/EPPlus/Table/PivotTable/PivotArea/AutoSort/ExcelPivotAreaAutoSort.cs
-    startLine: 29
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Table.PivotTable
-  summary: "\nConditions for the auto sort scope. Conditions can be set for specific data fields. Specify labels, data grand totals and more.\n"
-  example: []
-  syntax:
-    content: public ExcelPivotAreaStyleConditions Conditions { get; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
-    content.vb: Public ReadOnly Property Conditions As ExcelPivotAreaStyleConditions
-  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort.Conditions*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
 references:
 - uid: OfficeOpenXml.Table.PivotTable
   commentId: N:OfficeOpenXml.Table.PivotTable
@@ -124,6 +87,12 @@ references:
   name: ExcelPivotArea
   nameWithType: ExcelPivotArea
   fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: Conditions
+  nameWithType: ExcelPivotArea.Conditions
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
   commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
   parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
@@ -492,14 +461,3 @@ references:
   name: OfficeOpenXml
   nameWithType: OfficeOpenXml
   fullName: OfficeOpenXml
-- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort.Conditions*
-  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort.Conditions
-  name: Conditions
-  nameWithType: ExcelPivotAreaAutoSort.Conditions
-  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort.Conditions
-- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
-  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
-  parent: OfficeOpenXml.Table.PivotTable
-  name: ExcelPivotAreaStyleConditions
-  nameWithType: ExcelPivotAreaStyleConditions
-  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions

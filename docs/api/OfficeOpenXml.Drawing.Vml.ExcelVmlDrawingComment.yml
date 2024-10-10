@@ -29,7 +29,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVmlDrawingComment
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -82,7 +82,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalAlignment
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalAlignment
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Visible
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BackgroundColor
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -267,7 +267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineStyle
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -304,7 +304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineColor
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -341,7 +341,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineWidth
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -378,7 +378,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -415,7 +415,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Locked
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -452,7 +452,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LockText
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -489,7 +489,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: From
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -526,7 +526,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: To
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
@@ -563,7 +563,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingComment.cs

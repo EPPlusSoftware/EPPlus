@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaReferenceCollection
     path: ../src/EPPlus/Vba/ExcelVbaReferenceCollection.cs
@@ -75,7 +75,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Vba/ExcelVbaReferenceCollection.cs

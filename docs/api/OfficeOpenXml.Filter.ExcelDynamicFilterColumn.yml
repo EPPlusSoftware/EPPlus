@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDynamicFilterColumn
     path: ../src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelDynamicFilterColumn.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxValue
     path: ../src/EPPlus/Filter/ExcelDynamicFilterColumn.cs

@@ -24,13 +24,31 @@ namespace OfficeOpenXml
         private Stream _stream;
         private StreamReader _streamReader;
         private Encoding _encoding;
-        public WorksheetZipStream(Stream zip, bool writeToBuffer, long size = -1)
+        private long _size;
+        private long _position;
+        public WorksheetZipStream(Stream stream, bool writeToBuffer, long size = -1)
         {
-            _stream = zip;
-            _streamReader = new StreamReader(zip);
-            _streamReader.Read();
-            _encoding = _streamReader.CurrentEncoding;
-            _stream.Position = 0;
+            _stream = stream;
+            _streamReader = new StreamReader(stream);
+            if (_stream.Position == 0)
+            {
+                _streamReader.Read();
+                _encoding = _streamReader.CurrentEncoding;
+                _stream.Position = 0;
+            }
+            else
+            {
+                _encoding = _streamReader.CurrentEncoding;
+            }
+            _position = 0;
+            if (size > 0)
+            {
+                _size = size;
+            }
+            else
+            {
+                _size =  _stream.Length;
+            }
             WriteToBuffer = writeToBuffer;
         }
         
@@ -40,9 +58,9 @@ namespace OfficeOpenXml
 
         public override bool CanWrite => _stream.CanWrite;
 
-        public override long Length => _stream.Length;
+        public override long Length => _size;
 
-        public override long Position { get => _stream.Position; set => _stream.Position = value; }
+        public override long Position { get => _position; set { _position = value; _stream.Position = value; } }
 
         public override void Flush()
         {
@@ -50,9 +68,9 @@ namespace OfficeOpenXml
         }
         public override int Read(byte[] buffer, int offset, int count)
         {
-            if(_stream.Length > 0 && _stream.Position + count > _stream.Length)
+            if(_size > 0 && _position + count > _size)
             {
-                count = (int)(_stream.Length - _stream.Position);
+                count = (int)(_size - _position);
             }
 
             var r = _stream.Read(buffer, offset, count);
@@ -64,6 +82,7 @@ namespace OfficeOpenXml
                 }
                 _rollingBuffer.Write(buffer, r);
             }
+            _position += count;
             return r;
         }
 
@@ -75,6 +94,7 @@ namespace OfficeOpenXml
         public override void SetLength(long value)
         {
             _stream.SetLength(value);
+            _size = value;
         }
 
         public override void Write(byte[] buffer, int offset, int count)
@@ -190,9 +210,9 @@ namespace OfficeOpenXml
 
         internal void ReadToEnd()
         {
-            if (_stream.Position < _stream.Length)
+            if (_position < _size)
             {
-                var sizeToEnd = (int)(_stream.Length - _stream.Position);
+                var sizeToEnd = (int)(_size - _position);
                 byte[] buffer = new byte[sizeToEnd];
                 var r = _stream.Read(buffer, 0, sizeToEnd);
                 Buffer.Write(buffer);
@@ -201,27 +221,19 @@ namespace OfficeOpenXml
 
         internal string ReadFromEndElement(string endElement, string startXml = "", string readToElement = null, bool writeToBuffer = true, string xmlPrefix = "", string attribute = "", bool addEmptyNode = true)
         {
-            if (string.IsNullOrEmpty(readToElement) && _stream.Position < _stream.Length)
+            if (string.IsNullOrEmpty(readToElement) && _position < _size)
             {
                 ReadToEnd();
             }
 
             Buffer.Flush();
             var xml = _encoding.GetString(((MemoryStream)Buffer.BaseStream).ToArray());
-
-            int endElementIx;
-            if(endElement == "conditionalFormatting")
-            {
-               endElementIx = FindLastElementPosWithoutPrefix(xml, endElement, false);
-            }
-            else
-            {
-                endElementIx = FindElementPos(xml, endElement, false);
-            }
+            int endElementIx = FindLastElementPos(xml, endElement, xmlPrefix, false);
 
             if (endElementIx < 0) return startXml;
             if (string.IsNullOrEmpty(readToElement))
             {
+                endElementIx = FindLastElementPos(xml, endElement, xmlPrefix, false);
                 xml = xml.Substring(endElementIx);
             }
             else
@@ -381,6 +393,80 @@ namespace OfficeOpenXml
                     }
                 }
                 if (ix < 0) return -1;
+                ix += element.Length;
+            }
+        }
+
+        /// <summary>
+        /// Returns the position of the last instance of an element in the xml document. Either returns the position of the start element or the end element.
+        /// </summary>
+        /// <param name="xml">The xml to search</param>
+        /// <param name="element">The element</param>
+        /// <param name="prefix">The namespace prefix, if any</param>
+        /// <param name="returnStartPos">If the position before the start element is returned. If false the end of the end element is returned.</param>
+        /// <param name="ix">The index</param>
+        /// <returns>The position of the element in the input xml</returns>
+        private int FindLastElementPos(string xml, string element, string prefix = "", bool returnStartPos = true, int ix = 0)
+        {
+            if(!string.IsNullOrEmpty(prefix))
+            {
+                element = prefix + ":" + element;
+            }
+
+            ix = xml.LastIndexOf(element, xml.Length - 1);
+            if (ix < 0) return -1;
+
+            while (xml[ix - 1] == ':')
+            {
+                ix = xml.LastIndexOf(element, ix);
+
+                if (ix - 1 <= 0)
+                {
+                    return -1;
+                }
+            }
+
+            bool first = false;
+            while (true)
+            {
+                if (!first)
+                {
+                    first = true;
+                }
+                else
+                {
+                    ix = xml.IndexOf(element, ix);
+                }
+
+                if (ix > 0 && ix < xml.Length - 1)
+                {
+                    var c = xml[ix + element.Length];
+                    if (c == '>' || c == ' ' || c == '/')
+                    {
+                        c = xml[ix - 1];
+                        if (c == '/' || c == ':' || xml[ix - 1] == '<')
+                        {
+                            if (returnStartPos)
+                            {
+                                return xml.LastIndexOf('<', ix);
+                            }
+                            else
+                            {
+                                //Return the end element, either </element> or <element/>
+                                var startIx = xml.LastIndexOf("<", ix);
+                                if (ix > 0)
+                                {
+                                    var end = xml.IndexOf(">", ix + element.Length - 1);
+                                    if (xml[startIx + 1] == '/' || xml[end - 1] == '/')
+                                    {
+                                        return end + 1;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (ix <= 0) return -1;
                 ix += element.Length;
             }
         }

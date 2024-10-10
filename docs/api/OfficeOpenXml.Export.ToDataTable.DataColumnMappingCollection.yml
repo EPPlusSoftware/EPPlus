@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataColumnMappingCollection
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -272,7 +272,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -314,7 +314,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -359,7 +359,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -401,7 +401,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
@@ -446,7 +446,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Export/ToDataTable/DataColumnMappingCollection.cs

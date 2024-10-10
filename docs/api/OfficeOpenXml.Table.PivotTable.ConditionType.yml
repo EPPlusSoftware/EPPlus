@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ConditionType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ConditionType
+  id: ConditionType
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ConditionType.All
+  - OfficeOpenXml.Table.PivotTable.ConditionType.Column
+  - OfficeOpenXml.Table.PivotTable.ConditionType.None
+  - OfficeOpenXml.Table.PivotTable.ConditionType.Row
+  langs:
+  - csharp
+  - vb
+  name: ConditionType
+  nameWithType: ConditionType
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ConditionType.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConditionType
+    path: ../src/EPPlus/Table/PivotTable/enums/ConditionType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nConditional Formatting Evaluation Type\n"
+  example: []
+  syntax:
+    content: public enum ConditionType
+    content.vb: Public Enum ConditionType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.ConditionType.None
+  commentId: F:OfficeOpenXml.Table.PivotTable.ConditionType.None
+  id: None
+  parent: OfficeOpenXml.Table.PivotTable.ConditionType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: ConditionType.None
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ConditionType.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Table/PivotTable/enums/ConditionType.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe conditional formatting is not evaluated\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ConditionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ConditionType.All
+  commentId: F:OfficeOpenXml.Table.PivotTable.ConditionType.All
+  id: All
+  parent: OfficeOpenXml.Table.PivotTable.ConditionType
+  langs:
+  - csharp
+  - vb
+  name: All
+  nameWithType: ConditionType.All
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionType.All
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ConditionType.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: All
+    path: ../src/EPPlus/Table/PivotTable/enums/ConditionType.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe Top N conditional formatting is evaluated across the entire scope range.\n"
+  example: []
+  syntax:
+    content: All = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ConditionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ConditionType.Row
+  commentId: F:OfficeOpenXml.Table.PivotTable.ConditionType.Row
+  id: Row
+  parent: OfficeOpenXml.Table.PivotTable.ConditionType
+  langs:
+  - csharp
+  - vb
+  name: Row
+  nameWithType: ConditionType.Row
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionType.Row
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ConditionType.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Row
+    path: ../src/EPPlus/Table/PivotTable/enums/ConditionType.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe Top N conditional formatting is evaluated for each row§.\n"
+  example: []
+  syntax:
+    content: Row = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ConditionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ConditionType.Column
+  commentId: F:OfficeOpenXml.Table.PivotTable.ConditionType.Column
+  id: Column
+  parent: OfficeOpenXml.Table.PivotTable.ConditionType
+  langs:
+  - csharp
+  - vb
+  name: Column
+  nameWithType: ConditionType.Column
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionType.Column
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ConditionType.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Column
+    path: ../src/EPPlus/Table/PivotTable/enums/ConditionType.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe Top N conditional formatting is evaluated for each column.\n"
+  example: []
+  syntax:
+    content: Column = 3
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ConditionType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.ConditionType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ConditionType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ConditionType
+  nameWithType: ConditionType
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionType

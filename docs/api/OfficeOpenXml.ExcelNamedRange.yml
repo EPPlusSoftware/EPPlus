@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelNamedRange
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -99,7 +99,7 @@ items:
   - OfficeOpenXml.ExcelRangeBase.Copy(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
   - OfficeOpenXml.ExcelRangeBase.CopyStyles(OfficeOpenXml.ExcelRangeBase)
   - OfficeOpenXml.ExcelRangeBase.Clear
-  - OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String)
+  - OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String,System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.FormulaRange
   - OfficeOpenXml.ExcelRangeBase.Dispose
   - OfficeOpenXml.ExcelRangeBase.GetEnumerator
@@ -276,7 +276,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -313,7 +313,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LocalSheetId
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -350,7 +350,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNameHidden
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -387,7 +387,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameComment
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -424,7 +424,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -462,7 +462,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -504,7 +504,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -1833,15 +1833,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String)
-  commentId: M:OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String)
+- uid: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String,System.Boolean)
   parent: OfficeOpenXml.ExcelRangeBase
   isExternal: true
-  name: CreateArrayFormula(String)
-  nameWithType: ExcelRangeBase.CreateArrayFormula(String)
-  fullName: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String)
+  name: CreateArrayFormula(String, Boolean)
+  nameWithType: ExcelRangeBase.CreateArrayFormula(String, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String, System.Boolean)
   spec.csharp:
-  - uid: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String)
+  - uid: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String,System.Boolean)
     name: CreateArrayFormula
     nameWithType: ExcelRangeBase.CreateArrayFormula
     fullName: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula
@@ -1853,11 +1853,19 @@ references:
     nameWithType: String
     fullName: System.String
     isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String)
+  - uid: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String,System.Boolean)
     name: CreateArrayFormula
     nameWithType: ExcelRangeBase.CreateArrayFormula
     fullName: OfficeOpenXml.ExcelRangeBase.CreateArrayFormula
@@ -1868,6 +1876,14 @@ references:
     name: String
     nameWithType: String
     fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
     isExternal: true
   - name: )
     nameWithType: )

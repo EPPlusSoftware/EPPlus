@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RoundingMethod
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Convert
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Floor
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/RoundingMethod.cs

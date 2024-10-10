@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssTableExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CssTableExportSettings
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssTableExportSettings.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssTableExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncludeTableStyles
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssTableExportSettings.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssTableExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncludeCellStyles
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssTableExportSettings.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssTableExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Exclude
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssTableExportSettings.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssTableExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResetToDefault
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssTableExportSettings.cs
@@ -215,7 +215,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssTableExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssTableExportSettings.cs

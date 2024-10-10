@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableFieldFilterCollection
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddCaptionFilter
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDateValueFilter
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
@@ -173,7 +173,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDatePeriodFilter
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddValueFilter
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
@@ -267,7 +267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddValueFilter
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
@@ -322,7 +322,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTop10Filter
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
@@ -370,7 +370,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTop10Filter
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFieldFilterCollection.cs

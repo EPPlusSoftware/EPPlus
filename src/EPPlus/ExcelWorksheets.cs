@@ -318,7 +318,7 @@ namespace OfficeOpenXml
 
         internal void GetSheetURI(ref string Name, out int sheetID, out Uri uriWorksheet, bool isChart)
         {
-            Name = ValidateFixSheetName(Name);
+            Name = RemoveInvalidCharactersAndTruncate(Name);
             sheetID = this.Any() ? this.Max(ws => ws.SheetId) + 1 : 1;
             var uriId = sheetID;
 
@@ -339,35 +339,42 @@ namespace OfficeOpenXml
             } while (_pck.ZipPackage.PartExists(uriWorksheet));
         }
 
-        internal string ValidateFixSheetName(string Name)
+        internal string ValidateFixSheetName(string name)
         {
-            if (string.IsNullOrEmpty(Name) || Name.Trim() == "")
+            if (string.IsNullOrEmpty(name))
             {
                 throw new ArgumentException("The worksheet cannot have an empty name");
             }
 
-            //remove invalid characters
-            if (ValidateName(Name))
-            {
-                if (Name.IndexOf(':') > -1) Name = Name.Replace(':', ' ');
-                if (Name.IndexOf('/') > -1) Name = Name.Replace('/', ' ');
-                if (Name.IndexOf('\\') > -1) Name = Name.Replace('\\', ' ');
-                if (Name.IndexOf('?') > -1) Name = Name.Replace('?', ' ');
-                if (Name.IndexOf('[') > -1) Name = Name.Replace('[', ' ');
-                if (Name.IndexOf(']') > -1) Name = Name.Replace(']', ' ');
-            }
+            name = RemoveInvalidCharactersAndTruncate(name);
 
-            if (Name.StartsWith("'", StringComparison.OrdinalIgnoreCase) || Name.EndsWith("'", StringComparison.OrdinalIgnoreCase))
+            if (name.StartsWith("'", StringComparison.OrdinalIgnoreCase) || name.EndsWith("'", StringComparison.OrdinalIgnoreCase))
             {
                 throw new ArgumentException("The worksheet name cannot start or end with an apostrophe (').", "Name");
             }
-            if (Name.Length > 31) Name = Name.Substring(0, 31);   //A sheet can have max 31 char's            
-            return Name;
+            return name;
         }
+
+        private string RemoveInvalidCharactersAndTruncate(string name)
+        {
+            //remove invalid characters
+            if (ValidateName(name))
+            {
+                if (name.IndexOf(':') > -1) name = name.Replace(':', ' ');
+                if (name.IndexOf('/') > -1) name = name.Replace('/', ' ');
+                if (name.IndexOf('\\') > -1) name = name.Replace('\\', ' ');
+                if (name.IndexOf('?') > -1) name = name.Replace('?', ' ');
+                if (name.IndexOf('[') > -1) name = name.Replace('[', ' ');
+                if (name.IndexOf(']') > -1) name = name.Replace(']', ' ');
+            }
+            if (name.Length > 31) name = name.Substring(0, 31);   //A sheet can have max 31 char's            
+            return name;
+        }
+
         /// <summary>
         /// Validate the sheetname
         /// </summary>
-        /// <param name="Name">The Name</param>
+        /// <param name="Name">The name</param>
         /// <returns>True if valid</returns>
         private bool ValidateName(string Name)
         {
@@ -638,7 +645,7 @@ namespace OfficeOpenXml
         internal ExcelWorksheet GetByName(string name)
         {
             if (string.IsNullOrEmpty(name)) return null;
-            name = ValidateFixSheetName(name);
+            name = RemoveInvalidCharactersAndTruncate(name);
             ExcelWorksheet ws = null;
             foreach (ExcelWorksheet worksheet in _worksheets)
             {
@@ -651,8 +658,8 @@ namespace OfficeOpenXml
         /// <summary>
         /// Return a worksheet by its name. Can throw an exception if the worksheet does not exist.
         /// </summary>
-        /// <param name="worksheetName">Name of the reqested worksheet</param>
-        /// <param name="paramName">Name of the parameter</param>
+        /// <param name="worksheetName">name of the reqested worksheet</param>
+        /// <param name="paramName">name of the parameter</param>
         /// <param name="throwIfNull">Throws an <see cref="ArgumentNullException"></see> if the worksheet doesn't exist.</param>
         /// <returns></returns>
         private ExcelWorksheet GetWorksheetByName(string worksheetName, string paramName = null, bool throwIfNull = true)

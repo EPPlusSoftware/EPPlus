@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionCompiler
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Function
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BuildFunctionArguments
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BuildFunctionArguments
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compile
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/FunctionCompilers/FunctionCompiler.cs

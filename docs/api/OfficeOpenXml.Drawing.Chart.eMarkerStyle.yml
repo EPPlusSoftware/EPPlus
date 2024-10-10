@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eMarkerStyle
     path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
@@ -59,7 +59,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Circle
     path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dash
     path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Diamond
     path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dot
     path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Picture
     path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Plus
     path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
@@ -297,7 +297,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Square
     path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
@@ -331,7 +331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Star
     path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
@@ -365,7 +365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Triangle
     path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
@@ -399,7 +399,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: X
     path: ../src/EPPlus/Drawing/Chart/enums/eMarkerStyle.cs

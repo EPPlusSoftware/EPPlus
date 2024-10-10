@@ -48,6 +48,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             {'\'',  new Token("\'", TokenType.SingleQuote) },
             //{'#',  new Token("#'", TokenType.HashMark) },
         };
+        private static readonly Token _negatorToken = new ("-", TokenType.Negator);
         private static readonly Dictionary<string, Token> _stringTokens = new Dictionary<string, Token>
         {
             {">=", new Token(">=", TokenType.Operator)},
@@ -124,7 +125,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             isNumeric = 0x10,
             isDecimal = 0x20,
             isPercent = 0x40,
-            isNegator = 0x80,
+            //isNegator = 0x80, //Removed, in 7.4.1
             isColon = 0x100,
             isTableRef = 0x200,
             isExtRef = 0x400,
@@ -191,14 +192,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         {
 							if (current.Length == 0)
 							{
-                                if(flags == statFlags.isNegator && l.Count == 0)
-                                {
-                                    current.Append(c);
-                                }
-                                else
-                                {
-                                    l.Add(_charTokens['\'']);
-                                }
+                                l.Add(_charTokens['\'']);
 							}
 							else
 							{
@@ -230,16 +224,13 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             wsCnt++;
 
                         }
-                        if ((flags & statFlags.isNegator) != statFlags.isNegator)
+                        var pt = GetLastToken(l);
+                        if (pt.TokenType == TokenType.CellAddress ||
+                            pt.TokenType == TokenType.ClosingParenthesis ||
+                            pt.TokenType == TokenType.NameValue ||
+                            pt.TokenType == TokenType.InvalidReference)
                         {
-                            var pt = GetLastToken(l);
-                            if (pt.TokenType == TokenType.CellAddress ||
-                                pt.TokenType == TokenType.ClosingParenthesis ||
-                                pt.TokenType == TokenType.NameValue ||
-                                pt.TokenType == TokenType.InvalidReference)
-                            {
-                                flags |= statFlags.isIntersect;
-                            }
+                            flags |= statFlags.isIntersect;
                         }
 
                         if (_keepWhitespace)
@@ -266,11 +257,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             {
                                 l.Add(new Token("#NULL!", TokenType.Null));
                             }
-                            else
+                            else if(currentString.Equals("#REF", StringComparison.OrdinalIgnoreCase))
                             {
                                 l.Add(new Token("#REF!", TokenType.InvalidReference));
                             }
-                            flags &= statFlags.isTableRef;
+                            else
+                            {
+                                flags &= statFlags.isTableRef;
+                            }
+
                             current = new StringBuilder();
                         }
                         else if (c == '/' && current.Length == 2 && current[0] == '#' && (current[1] == 'n' || current[1] == 'N'))
@@ -287,10 +282,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             current.Append(c);
                             if (ix == input.Length - 1)
                             {
-                                if ((flags & statFlags.isNegator) == statFlags.isNegator)
-                                {
-                                    HandleNegator(l, current, flags);
-                                }
                                 l.Add(new Token(current.ToString(), TokenType.ExcelAddressR1C1));
                                 return l;
                             }
@@ -299,11 +290,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                         {
                             HandleToken(l, c, ref current, ref flags, ref variableFuncPositions);
 
-                            if (c == '-')
-                            {
-                                flags |= statFlags.isNegator;
-                            }
-                            else if (c == '[')
+                            if (c == '[')
                             {
                                 if (bracketCount > 0 && pc == '\'')
                                 {
@@ -322,7 +309,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                             {
                                 var pt = GetLastToken(l);
 
-                                //Remove prefixing +
                                 if (!(pt.TokenType == TokenType.Operator
                                     ||
                                     pt.TokenType == TokenType.Negator
@@ -343,8 +329,33 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                                 l.Add(_stringTokens[input.Substring(ix, 2)]);
                                 ix++;
                             }
-                            else
+                            else if(c=='-')
                             {
+                                var pt = GetLastToken(l);
+                                if ((
+                                    pt.TokenType == default 
+                                    ||
+                                    pt.TokenType == TokenType.Operator
+                                    ||
+                                    pt.TokenType == TokenType.Negator
+                                    ||
+                                    pt.TokenType == TokenType.OpeningParenthesis
+                                    ||
+                                    pt.TokenType == TokenType.Comma
+                                    ||
+                                    pt.TokenType == TokenType.SemiColon
+                                    ||
+                                    pt.TokenType == TokenType.OpeningEnumerable))
+                                {
+                                    l.Add(_negatorToken);
+                                }
+                                else
+                                {
+                                    l.Add(_charTokens[c]);
+                                }
+                            }
+                            else
+                            {                                
                                 l.Add(_charTokens[c]);
                             }
 
@@ -381,9 +392,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                                 flags |= statFlags.isColon;
                             }
                             else if ((flags == statFlags.isNumeric || 
-                                      flags == (statFlags.isNumeric | statFlags.isDecimal) || 
-                                      flags == (statFlags.isNumeric | statFlags.isDecimal | statFlags.isNegator) || 
-                                      flags == (statFlags.isNumeric | statFlags.isNegator)) 
+                                      flags == (statFlags.isNumeric | statFlags.isDecimal)) //|| 
                                       && 
                                       (flags & statFlags.isNonNumeric) != statFlags.isNonNumeric 
                                       && 
@@ -510,10 +519,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         }
         private void HandleToken(List<Token> l, char c, ref StringBuilder current, ref statFlags flags, ref List<int> variableFuncPositions)
         {
-            if ((flags & statFlags.isNegator) == statFlags.isNegator)
-            {
-                HandleNegator(l, current, flags);
-            }
             if (current.Length == 0)
             {
                 if ((flags & statFlags.isIntersect) == statFlags.isIntersect)
@@ -693,6 +698,15 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
             else
             {
+                if (l.Count>0 && (flags & statFlags.isNumeric) == statFlags.isNumeric && c != ':')
+                {                                        
+                    if (l[l.Count-1].TokenType == TokenType.Negator)
+                    {
+                        currentString = "-" + currentString;
+                        l.RemoveAt(l.Count - 1);
+                    }
+                }
+
                 if ((flags & statFlags.isPercent) == statFlags.isPercent)
                 {
                     l.Add(new Token(currentString, TokenType.Percent));
@@ -852,11 +866,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 }
             }
             int col;
-            //if (numPos == -1) //Column reference only, for exampel A:A
-            //{
-            //    col = ExcelAddressBase.GetColumnNumber(address);
-            //    return col > 0 && col <= ExcelPackage.MaxColumns;
-            //}
             if (numPos < 1 || numPos > 3)
             {
                 return false;

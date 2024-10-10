@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableNamedStyleBase
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -79,7 +79,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AppliesTo
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -118,7 +118,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WholeTable
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstColumnStripe
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondColumnStripe
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -266,7 +266,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstRowStripe
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondRowStripe
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -340,7 +340,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastColumn
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -377,7 +377,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstColumn
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -414,7 +414,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRow
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -451,7 +451,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalRow
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -488,7 +488,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstHeaderCell
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
@@ -525,7 +525,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/Style/Table/ExcelTableNamedStyleBase.cs

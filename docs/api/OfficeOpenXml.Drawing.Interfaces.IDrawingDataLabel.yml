@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Interfaces/IDrawingDataLabel.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IDrawingDataLabel
     path: ../src/EPPlus/Drawing/Interfaces/IDrawingDataLabel.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Interfaces/IDrawingDataLabel.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataLabel
     path: ../src/EPPlus/Drawing/Interfaces/IDrawingDataLabel.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Interfaces/IDrawingDataLabel.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDataLabel
     path: ../src/EPPlus/Drawing/Interfaces/IDrawingDataLabel.cs

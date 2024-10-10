@@ -18,15 +18,15 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelNumberFormatXml.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelNumberFormatXml
     path: ../src/EPPlus/Style/XmlAccess/ExcelNumberFormatXml.cs
-    startLine: 25
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.XmlAccess
-  summary: "\nXml access class for number formats\n"
+  summary: "\nXml access class for number customFormats\n"
   example: []
   syntax:
     content: 'public sealed class ExcelNumberFormatXml : StyleXmlHelper'
@@ -67,11 +67,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelNumberFormatXml.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BuildIn
     path: ../src/EPPlus/Style/XmlAccess/ExcelNumberFormatXml.cs
-    startLine: 44
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.XmlAccess
@@ -104,11 +104,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelNumberFormatXml.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumFmtId
     path: ../src/EPPlus/Style/XmlAccess/ExcelNumberFormatXml.cs
-    startLine: 80
+    startLine: 88
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.XmlAccess
@@ -141,11 +141,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelNumberFormatXml.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Format
     path: ../src/EPPlus/Style/XmlAccess/ExcelNumberFormatXml.cs
-    startLine: 103
+    startLine: 111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style.XmlAccess

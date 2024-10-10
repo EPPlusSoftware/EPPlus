@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         //ParsingContext _context;
         //int _fromRow, _toRow, _fromCol, _toCol;
         int _cellCount = 0;
-        FormulaRangeAddress _address;
+        FormulaRangeAddress[] _addresses;
         ICellInfo _cell;
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// </summary>
         public RangeInfo(FormulaRangeAddress address)
         {
-            _address = address;
+            _addresses = [address];
             if(address.WorksheetIx==-1)
             {
                 return;
@@ -68,7 +68,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             var address = new ExcelAddressBase(fromRow, fromCol, toRow, toCol);
             address._ws = ws.Name;
             SetAddress(ws, address, ctx);
-            _address.ExternalReferenceIx = extRef;
+            _addresses[0].ExternalReferenceIx = extRef;
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <param name="ctx">Parsing context</param>
         public RangeInfo(ExcelWorksheet ws, ParsingContext ctx)
         {
-            _address = new FormulaRangeAddress(ctx) { WorksheetIx = (short)ws.PositionId };
+            _addresses = [new FormulaRangeAddress(ctx) { WorksheetIx = (short)ws.PositionId }];
         }
 
         /// <summary>
@@ -95,25 +95,48 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         private void SetAddress(ExcelWorksheet ws, ExcelAddressBase address, ParsingContext ctx)
         {
             _ws = ws;
-            _address = new FormulaRangeAddress(ctx, address) 
-            { 
-                WorksheetIx = (short)ws.PositionId,
-            };
+            if (address.Addresses == null)
+            {
+                _addresses = [
+                    new FormulaRangeAddress(ctx, address)
+                {
+                    WorksheetIx = (short)ws.PositionId,
+                }
+                ];
+            }
+            else
+            {
+                var i = 0;
+                _addresses=new FormulaRangeAddress[address.Addresses.Count];
+                foreach (var a in address.Addresses)
+                {
+                    _addresses[i++] = new FormulaRangeAddress(ctx, a)
+                    {
+                        WorksheetIx = (short)ws.PositionId,
+                    };
+                }
+            }
+
             if (_ws != null && _ws.IsDisposed == false)
             {
-                _values = new CellStoreEnumerator<ExcelValue>(_ws._values, address._fromRow, address._fromCol, address._toRow, address._toCol);
+                _values = new CellStoreEnumerator<ExcelValue>(_ws._values, address);
                 _cell = new CellInfo(_ws, _values);
             }
+
             _size = new RangeDefinition(address._toRow - address._fromRow + 1, (short)(address._toCol - address._fromCol + 1));
         }
-
         /// <summary>
         /// The total number of cells (including empty) of the range
         /// </summary>
         /// <returns></returns>
         public int GetNCells()
         {
-            return ((_address.ToRow - _address.FromRow) + 1) * ((_address.ToCol - _address.FromCol) + 1);
+            var cells = 0;
+            foreach(var a in _addresses)
+            {
+                cells += ((a.ToRow - a.FromRow) + 1) * ((a.ToCol - a.FromCol) + 1);
+            }
+            return cells;
         }
 
         /// <summary>
@@ -123,7 +146,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             get
             {
-                return _ws == null || _address.FromRow < 0 || _address.ToRow < 0;
+                return _ws == null || _addresses[0].FromRow < 0 || _addresses[0].ToRow < 0;
             }
         }
         /// <summary>
@@ -262,7 +285,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// 
         /// </summary>
         public void Reset()
-        {
+        {           
             _cellCount = 0;
             _values?.Init();
         }
@@ -300,14 +323,19 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
 
         //public ExcelAddressBase Address
         //{
-        //    get { return _address; }
+        //    get { return _addresses; }
         //}
 
 
         /// <summary>
-        /// Address of the range
+        /// The first address of the range
         /// </summary>
-        public FormulaRangeAddress Address { get { return _address; } }
+        public FormulaRangeAddress Address { get { return _addresses[0]; } }
+        ///
+        /// <summary>
+        /// If the address contains more the one address (i.e A1:A2,A4), this array contains all addresses
+        /// </summary>
+        public FormulaRangeAddress[] Addresses { get { return _addresses; } }
 
         /// <summary>
         /// Returns the cell value by 0-based index
@@ -329,7 +357,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         public object GetOffset(int rowOffset, int colOffset)
         {
             if (_values == null) return null;
-            return _ws.GetValue(_address.FromRow + rowOffset, _address.FromCol + colOffset);
+            return _ws.GetValue(_addresses[0].FromRow + rowOffset, _addresses[0].FromCol + colOffset);
         }
 
         /// <summary>
@@ -344,9 +372,10 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             if (_values == null) return null;
 
-            var sr = _address.FromRow;
-            var sc = _address.FromCol;
-            return new RangeInfo(_ws, sr + rowOffsetStart, sc + colOffsetStart, sr + rowOffsetEnd, sc + colOffsetEnd, _address._context, _address.ExternalReferenceIx);
+            var a = _addresses[0];
+            var sr = a.FromRow;
+            var sc = a.FromCol;
+            return new RangeInfo(_ws, sr + rowOffsetStart, sc + colOffsetStart, sr + rowOffsetEnd, sc + colOffsetEnd, a._context, a.ExternalReferenceIx);
         }
         /// <summary>
         /// Is hidden
@@ -356,7 +385,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <returns></returns>
         public bool IsHidden(int rowOffset, int colOffset)
         {
-            var row = _ws.GetValueInner(_address.FromRow + rowOffset, 0) as RowInternal;
+            var row = _ws.GetValueInner(_addresses[0].FromRow + rowOffset, 0) as RowInternal;
             if (row != null)
             {
                 return row.Hidden || row.Height == 0;

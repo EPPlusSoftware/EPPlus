@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelEncryption
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEncrypted
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Password
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Algorithm
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Version
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EncryptPackage
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -262,7 +262,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DecryptPackage
     path: ../src/EPPlus/ExcelEncryption.cs

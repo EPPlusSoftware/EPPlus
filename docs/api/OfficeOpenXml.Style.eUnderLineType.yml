@@ -33,7 +33,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eUnderLineType
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dash
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DashHeavy
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -134,7 +134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DashLong
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -168,7 +168,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DashLongHeavy
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -202,7 +202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Double
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -236,7 +236,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DotDash
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -270,7 +270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DotDashHeavy
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -304,7 +304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DotDotDash
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -338,7 +338,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DotDotDashHeavy
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -372,7 +372,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dotted
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -406,7 +406,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DottedHeavy
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -440,7 +440,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Heavy
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -474,7 +474,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -508,7 +508,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Single
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -542,7 +542,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Wavy
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -576,7 +576,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WavyDbl
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -610,7 +610,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WavyHeavy
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs
@@ -644,7 +644,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/enums/eUnderLineType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Words
     path: ../src/EPPlus/Style/enums/eUnderLineType.cs

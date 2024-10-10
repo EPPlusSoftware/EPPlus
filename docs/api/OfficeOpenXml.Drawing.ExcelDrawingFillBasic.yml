@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingFillBasic
     path: ../src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
@@ -77,7 +77,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _fillPath
     path: ../src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
@@ -110,7 +110,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _fillNode
     path: ../src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _drawing
     path: ../src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
@@ -176,7 +176,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _fillTypeNode
     path: ../src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
@@ -209,7 +209,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFill
     path: ../src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
@@ -243,7 +243,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
@@ -280,7 +280,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
@@ -317,7 +317,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SolidFill
     path: ../src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
@@ -354,7 +354,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GradientFill
     path: ../src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
@@ -391,7 +391,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Transparancy
     path: ../src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
@@ -428,7 +428,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingFillBasic.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelDrawingFillBasic.cs

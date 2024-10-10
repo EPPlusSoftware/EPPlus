@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml
   children:
   - OfficeOpenXml.ExcelWorkbook.CalcMode
+  - OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables(System.Boolean)
   - OfficeOpenXml.ExcelWorkbook.ClearFormulas
   - OfficeOpenXml.ExcelWorkbook.ClearFormulaValues
   - OfficeOpenXml.ExcelWorkbook.CodeModule
@@ -17,9 +18,11 @@ items:
   - OfficeOpenXml.ExcelWorkbook.ExternalLinks
   - OfficeOpenXml.ExcelWorkbook.FormulaParserManager
   - OfficeOpenXml.ExcelWorkbook.FullCalcOnLoad
+  - OfficeOpenXml.ExcelWorkbook.FullPrecision
   - OfficeOpenXml.ExcelWorkbook.HasLoadedPivotTables
   - OfficeOpenXml.ExcelWorkbook.MaxFontWidth
   - OfficeOpenXml.ExcelWorkbook.Names
+  - OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler
   - OfficeOpenXml.ExcelWorkbook.Properties
   - OfficeOpenXml.ExcelWorkbook.Protection
   - OfficeOpenXml.ExcelWorkbook.RemoveVBAProject
@@ -41,7 +44,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWorkbook
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -96,11 +99,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheets
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 608
+    startLine: 610
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -133,11 +136,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateHtmlExporter
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 637
+    startLine: 639
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -178,11 +181,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Names
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 663
+    startLine: 665
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -215,11 +218,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalLinks
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 675
+    startLine: 677
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -252,11 +255,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaParserManager
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 707
+    startLine: 709
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -289,11 +292,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreadedCommentPersons
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 722
+    startLine: 724
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -326,11 +329,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxFontWidth
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 737
+    startLine: 739
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -363,11 +366,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Protection
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 803
+    startLine: 805
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -400,11 +403,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: View
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 819
+    startLine: 821
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -437,11 +440,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VbaProject
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 836
+    startLine: 838
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -474,11 +477,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveVBAProject
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 857
+    startLine: 859
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -506,11 +509,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateVBAProject
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 870
+    startLine: 872
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -520,6 +523,42 @@ items:
     content: public void CreateVBAProject()
     content.vb: Public Sub CreateVBAProject
   overload: OfficeOpenXml.ExcelWorkbook.CreateVBAProject*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables(System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables(System.Boolean)
+  id: CalculateAllPivotTables(System.Boolean)
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: CalculateAllPivotTables(Boolean)
+  nameWithType: ExcelWorkbook.CalculateAllPivotTables(Boolean)
+  fullName: OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables(System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CalculateAllPivotTables
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 888
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nCalculate all pivot tables in the workbook. \nAlso see <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public void CalculateAllPivotTables(bool refresh = false)
+    parameters:
+    - id: refresh
+      type: System.Boolean
+      description: If the cache should be refreshed.
+    content.vb: Public Sub CalculateAllPivotTables(refresh As Boolean = False)
+  overload: OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -538,11 +577,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorkbookXml
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 908
+    startLine: 937
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -575,11 +614,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CodeModule
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 939
+    startLine: 968
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -612,11 +651,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Date1904
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 963
+    startLine: 992
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -649,11 +688,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StylesXml
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1033
+    startLine: 1062
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -686,11 +725,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Styles
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1083
+    startLine: 1112
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -723,11 +762,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Properties
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1100
+    startLine: 1129
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -760,11 +799,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalcMode
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1120
+    startLine: 1149
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -797,11 +836,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullCalcOnLoad
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1160
+    startLine: 1188
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -834,11 +873,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThemeManager
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1176
+    startLine: 1204
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -871,11 +910,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultThemeVersion
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1191
+    startLine: 1219
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -888,6 +927,43 @@ items:
       type: System.Nullable{System.Int32}
     content.vb: Public Property DefaultThemeVersion As Integer?
   overload: OfficeOpenXml.ExcelWorkbook.DefaultThemeVersion*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.ExcelWorkbook.FullPrecision
+  commentId: P:OfficeOpenXml.ExcelWorkbook.FullPrecision
+  id: FullPrecision
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: FullPrecision
+  nameWithType: ExcelWorkbook.FullPrecision
+  fullName: OfficeOpenXml.ExcelWorkbook.FullPrecision
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: FullPrecision
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 1242
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf false, EPPlus will round cell values to the number of decimals as displayed in the cell by using the cells number format when calculating the workbook. \nIf true, full precision will be used on calculation.\n"
+  example: []
+  syntax:
+    content: public bool FullPrecision { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property FullPrecision As Boolean
+  overload: OfficeOpenXml.ExcelWorkbook.FullPrecision*
   modifiers.csharp:
   - public
   - get
@@ -908,11 +984,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulas
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1643
+    startLine: 1704
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -940,11 +1016,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulaValues
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1655
+    startLine: 1716
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -972,11 +1048,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1731
+    startLine: 1792
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1006,11 +1082,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasLoadedPivotTables
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1761
+    startLine: 1822
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1029,6 +1105,43 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler
+  commentId: P:OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler
+  id: NumberFormatToTextHandler
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: NumberFormatToTextHandler
+  nameWithType: ExcelWorkbook.NumberFormatToTextHandler
+  fullName: OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NumberFormatToTextHandler
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 2036
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nHandler for the <xref href=\"OfficeOpenXml.ExcelRangeBase.Text\" data-throw-if-not-resolved=\"false\"></xref> property to override the default behaviour.\nThis can be used to handle localized number formats or formats where EPPlus differs from the spread sheet application.\n"
+  example: []
+  syntax:
+    content: public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; set; }
+    parameters: []
+    return:
+      type: System.Func{OfficeOpenXml.NumberFormatToTextArgs,System.String}
+    content.vb: Public Property NumberFormatToTextHandler As Func(Of NumberFormatToTextArgs, String)
+  overload: OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml
   commentId: N:OfficeOpenXml
@@ -1816,6 +1929,24 @@ references:
   name: CreateVBAProject
   nameWithType: ExcelWorkbook.CreateVBAProject
   fullName: OfficeOpenXml.ExcelWorkbook.CreateVBAProject
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate(System.Boolean)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate(System.Boolean)
+  isExternal: true
+- uid: OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables
+  name: CalculateAllPivotTables
+  nameWithType: ExcelWorkbook.CalculateAllPivotTables
+  fullName: OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
 - uid: OfficeOpenXml.ExcelWorkbook.WorkbookXml*
   commentId: Overload:OfficeOpenXml.ExcelWorkbook.WorkbookXml
   name: WorkbookXml
@@ -1853,13 +1984,6 @@ references:
   name: Date1904
   nameWithType: ExcelWorkbook.Date1904
   fullName: OfficeOpenXml.ExcelWorkbook.Date1904
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  name: Boolean
-  nameWithType: Boolean
-  fullName: System.Boolean
 - uid: OfficeOpenXml.ExcelWorkbook.StylesXml*
   commentId: Overload:OfficeOpenXml.ExcelWorkbook.StylesXml
   name: StylesXml
@@ -2007,6 +2131,11 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelWorkbook.FullPrecision*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.FullPrecision
+  name: FullPrecision
+  nameWithType: ExcelWorkbook.FullPrecision
+  fullName: OfficeOpenXml.ExcelWorkbook.FullPrecision
 - uid: OfficeOpenXml.ExcelWorkbook.ClearFormulas*
   commentId: Overload:OfficeOpenXml.ExcelWorkbook.ClearFormulas
   name: ClearFormulas
@@ -2058,3 +2187,129 @@ references:
   name: HasLoadedPivotTables
   nameWithType: ExcelWorkbook.HasLoadedPivotTables
   fullName: OfficeOpenXml.ExcelWorkbook.HasLoadedPivotTables
+- uid: OfficeOpenXml.ExcelRangeBase.Text
+  commentId: P:OfficeOpenXml.ExcelRangeBase.Text
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: Text
+  nameWithType: ExcelRangeBase.Text
+  fullName: OfficeOpenXml.ExcelRangeBase.Text
+- uid: OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler
+  name: NumberFormatToTextHandler
+  nameWithType: ExcelWorkbook.NumberFormatToTextHandler
+  fullName: OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler
+- uid: System.Func{OfficeOpenXml.NumberFormatToTextArgs,System.String}
+  commentId: T:System.Func{OfficeOpenXml.NumberFormatToTextArgs,System.String}
+  parent: System
+  definition: System.Func`2
+  name: Func<NumberFormatToTextArgs, String>
+  nameWithType: Func<NumberFormatToTextArgs, String>
+  fullName: System.Func<OfficeOpenXml.NumberFormatToTextArgs, System.String>
+  nameWithType.vb: Func(Of NumberFormatToTextArgs, String)
+  fullName.vb: System.Func(Of OfficeOpenXml.NumberFormatToTextArgs, System.String)
+  name.vb: Func(Of NumberFormatToTextArgs, String)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.NumberFormatToTextArgs
+    name: NumberFormatToTextArgs
+    nameWithType: NumberFormatToTextArgs
+    fullName: OfficeOpenXml.NumberFormatToTextArgs
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.NumberFormatToTextArgs
+    name: NumberFormatToTextArgs
+    nameWithType: NumberFormatToTextArgs
+    fullName: OfficeOpenXml.NumberFormatToTextArgs
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: )
+    nameWithType: )
+    fullName: )

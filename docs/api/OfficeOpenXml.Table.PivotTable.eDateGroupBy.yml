@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDateGroupBy
     path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Years
     path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Quarters
     path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
@@ -133,7 +133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Months
     path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
@@ -167,7 +167,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Days
     path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
@@ -201,7 +201,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hours
     path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Minutes
     path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
@@ -269,7 +269,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Seconds
     path: ../src/EPPlus/Table/PivotTable/enums/eDateGroupBy.cs

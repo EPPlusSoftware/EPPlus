@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalCellValue
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
@@ -137,7 +137,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MetaDataReference
     path: ../src/EPPlus/ExternalReferences/ExcelExternalCellValue.cs

@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFilterCollectionBase
     path: ../src/EPPlus/Filter/ExcelFilterCollection.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Filter/ExcelFilterCollection.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Filter/ExcelFilterCollection.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Filter/ExcelFilterCollection.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Filter/ExcelFilterCollection.cs

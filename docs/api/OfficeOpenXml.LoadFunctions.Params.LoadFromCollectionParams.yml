@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollectionParams
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultBindingFlags
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BindingFlags
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Members
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderParsingType
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
@@ -219,7 +219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RegisterDictionaryKeys
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RegisterDictionaryKeys
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
@@ -300,7 +300,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetNumberFormatProvider
     path: ../src/EPPlus/LoadFunctions/Params/LoadFromCollectionParams.cs

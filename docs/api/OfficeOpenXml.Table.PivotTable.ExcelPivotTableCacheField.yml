@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableCacheField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SharedItems
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GroupItems
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
@@ -217,11 +217,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateGrouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 124
+    startLine: 125
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -254,11 +254,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Grouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 128
+    startLine: 129
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -291,11 +291,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Format
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 132
+    startLine: 133
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -328,11 +328,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCacheField.cs
-    startLine: 266
+    startLine: 267
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable

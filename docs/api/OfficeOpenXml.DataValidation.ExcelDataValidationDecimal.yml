@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationDecimal.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationDecimal
     path: ../src/EPPlus/DataValidation/ExcelDataValidationDecimal.cs
@@ -91,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationDecimal.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidationDecimal.cs

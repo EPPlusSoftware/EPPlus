@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PmtDue
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndOfPeriod
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BeginningOfPeriod
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/PmtDue.cs

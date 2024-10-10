@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSlicerNamedStyle
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WholeTable
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRow
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SelectedItemWithData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SelectedItemWithNoData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
@@ -257,7 +257,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnselectedItemWithData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnselectedItemWithNoData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
@@ -331,7 +331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HoveredSelectedItemWithData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
@@ -368,7 +368,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HoveredSelectedItemWithNoData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
@@ -405,7 +405,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HoveredUnselectedItemWithData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
@@ -442,7 +442,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HoveredUnselectedItemWithNoData
     path: ../src/EPPlus/Drawing/Slicer/Style/ExcelSlicerNamedStyle.cs

@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeSortOptions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeSortOptions
     path: ../src/EPPlus/Sorting/RangeSortOptions.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeSortOptions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/Sorting/RangeSortOptions.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeSortOptions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SortBy
     path: ../src/EPPlus/Sorting/RangeSortOptions.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/RangeSortOptions.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SortLeftToRightBy
     path: ../src/EPPlus/Sorting/RangeSortOptions.cs

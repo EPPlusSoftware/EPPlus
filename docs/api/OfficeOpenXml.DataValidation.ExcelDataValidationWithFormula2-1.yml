@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationWithFormula2
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula2
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs

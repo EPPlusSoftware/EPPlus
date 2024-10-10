@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichTextColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRichTextColor
     path: ../src/EPPlus/Style/RichText/ExcelRichTextColor.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichTextColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasAttributes
     path: ../src/EPPlus/Style/RichText/ExcelRichTextColor.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichTextColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rgb
     path: ../src/EPPlus/Style/RichText/ExcelRichTextColor.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichTextColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Theme
     path: ../src/EPPlus/Style/RichText/ExcelRichTextColor.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichTextColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tint
     path: ../src/EPPlus/Style/RichText/ExcelRichTextColor.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichTextColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Auto
     path: ../src/EPPlus/Style/RichText/ExcelRichTextColor.cs
@@ -249,7 +249,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichTextColor.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed
     path: ../src/EPPlus/Style/RichText/ExcelRichTextColor.cs

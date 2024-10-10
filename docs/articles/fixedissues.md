@@ -1,4 +1,55 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.4.0
+### Features
+* Support for Conditional Formattings in Pivot tables via Pivot Areas.
+* Added support for multiple addresses in function arguments, i.e Sum((A1:A2,A4:A5)) should be handled as a single argument.
+* Added support for linked pictures in the ExcelDrawings.AddPicture method using the 'PictureLocation' argument.
+* Added new function
+	* AREAS
+	* TDIST
+
+### Fixed issues
+* Loading a vml drawing without the Anchor element caused EPPlus to throw an Exception.
+* Removed unused classes ParsingScope and ParsingScopes and the interface IParsingLifetimeEventHandler
+
+## Version 7.3.2
+### Fixed issues
+* Upgraded System.Text.Json to version 8.0.4 and System.Formats.Asn1 to version 8.0.1 to address vulnerabilities in previous versions of these libraries. See our [Security Policy](https://github.com/EPPlusSoftware/EPPlus/blob/develop7/SECURITY.md)
+* Upgraded Microsoft.IO.RecyclableMemoryStream from version 3.0.0 to 3.0.1. 
+* Fixed an issue with the MATCH function when a range was sorted in descending order.
+* When inserting columns, shifting right into a range, an Exception was thrown in rare cases.
+
+## Version 7.3.1
+### Fixed issues
+* Fixed duplication of conditional formatting’s which could occur on repeated saves in some cases.
+* Fixed issues with Boolean values in functions COUNTIFS, SUMIFS and AVERAGEIFS.
+* ExcelWorksheet.DimensionByValue sometimes gave an incorrect address.
+* EPPlus crashed on loading a workbook, if style Fills contained less than 2 items.
+* ExcelRange.Insert did not shift formula address on other worksheets.
+* The formula tokenizer failed when having a minus before an Error value (i.e. #REF!) in some cases.
+* Accessing PivotTables when "Save source data with file" was off caused a NullReferenceException.
+* The Dec2Hex, Dec2Oct and Dec2Bin functions rounded values instead of truncating them.
+
+## Version 7.3.0
+### Features
+* Add support for Precision As Displayed when calculating formulas, via the 'ExcelWorkbook.FullPrecision' property.
+* Added new functions 
+	* GROWTH 
+	* DPRODUCT
+	* DSTDEV
+	* DSTDEVP
+
+### Fixed issues
+* EPPlus now supports reading workbooks encoded with other encodings than UTF8.
+* Added new parameter to ExcelRangeBase.CreateArrayFormula for dynamic array formulas, to set meta data for the cell. 
+* Deleting all pivot tables in a workbook caused the workbook to become corrupt as the pivotCache element was not deleted.
+* MinIfs and MaxIfs returned an incorrect value if the criteria's was an error like #NUM! or #REF!.
+* EPPlus failed to load a workbook containing a worksheet with a space as name.
+* Loading a workbook with a part exceeding 2GB failed to load.
+* EPPlus failed to load a workbook when the worksheet xml had a xml prefix for the default namespace and had conditional formatting's or data validations.
+* Loading pivot tables with date grouping sometimes did not convert the grouped values to dates.
+* Fixed issue were EPPlus only allowed 253 characters in Data Validation List, We now allow 255 characters.
+ 
 ## Version 7.2.2
 ### Fixed issues and minor features
 * Worksheet references in formulas proceeded by `-` now work as expected.

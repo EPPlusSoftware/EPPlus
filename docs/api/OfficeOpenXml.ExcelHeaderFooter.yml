@@ -37,7 +37,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelHeaderFooter
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageNumber
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfPages
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontColor
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SheetName
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FilePath
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FileName
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -295,7 +295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurrentDate
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -330,7 +330,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurrentTime
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -365,7 +365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Image
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -400,7 +400,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineStyle
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -435,7 +435,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShadowStyle
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -470,7 +470,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AlignWithMargins
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -507,7 +507,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: differentOddEven
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -544,7 +544,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: differentFirst
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -581,7 +581,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ScaleWithDocument
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -618,7 +618,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OddHeader
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -655,7 +655,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OddFooter
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -692,7 +692,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EvenHeader
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -729,7 +729,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EvenFooter
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -766,7 +766,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstHeader
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -803,7 +803,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstFooter
     path: ../src/EPPlus/ExcelHeaderFooter.cs
@@ -840,7 +840,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHeaderFooter.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pictures
     path: ../src/EPPlus/ExcelHeaderFooter.cs

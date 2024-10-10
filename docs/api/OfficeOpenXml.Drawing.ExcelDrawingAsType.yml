@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingAsType
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Shape
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Picture
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Chart
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Slicer
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs
@@ -257,7 +257,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingAsType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Control
     path: ../src/EPPlus/Drawing/ExcelDrawingAsType.cs

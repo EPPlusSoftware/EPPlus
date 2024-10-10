@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelThemeManager
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurrentTheme
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateDefaultTheme
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
@@ -133,7 +133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteCurrentTheme
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
@@ -165,7 +165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
@@ -201,7 +201,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
@@ -237,7 +237,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeManager.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeManager.cs

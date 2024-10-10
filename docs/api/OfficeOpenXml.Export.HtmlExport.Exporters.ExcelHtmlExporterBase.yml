@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Exporters/ExcelHtmlExporterBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelHtmlExporterBase
     path: ../src/EPPlus/Export/HtmlExport/Exporters/ExcelHtmlExporterBase.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Exporters/ExcelHtmlExporterBase.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ranges
     path: ../src/EPPlus/Export/HtmlExport/Exporters/ExcelHtmlExporterBase.cs

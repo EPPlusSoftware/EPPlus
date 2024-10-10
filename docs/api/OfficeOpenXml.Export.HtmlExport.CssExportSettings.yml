@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CssExportSettings
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncludeSharedClasses
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncludeNormalFont
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncludeCssReset
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdditionalCssElements
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
@@ -217,7 +217,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IndentValue
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
@@ -254,7 +254,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IndentUnit
     path: ../src/EPPlus/Export/HtmlExport/Settings/CssExportSettings.cs

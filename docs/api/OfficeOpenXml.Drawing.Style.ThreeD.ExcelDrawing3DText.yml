@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3DText.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawing3DText
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3DText.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3DText.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlatTextZCoordinate
     path: ../src/EPPlus/Drawing/Style/ThreeD/ExcelDrawing3DText.cs

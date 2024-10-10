@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.ExcelRangeBase,System.String)
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.Table.ExcelTable,System.String)
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Add(OfficeOpenXml.ExcelAddressBase,OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition,System.String)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate(System.Boolean)
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Count
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(OfficeOpenXml.Table.PivotTable.ExcelPivotTable,System.Boolean)
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete(System.Int32,System.Boolean)
@@ -26,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableCollection
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -74,7 +75,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -119,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -164,7 +165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -209,7 +210,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -246,7 +247,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -290,7 +291,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -334,7 +335,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -372,7 +373,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -404,7 +405,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -443,7 +444,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -482,7 +483,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
@@ -503,6 +504,42 @@ items:
       description: Clear the table range
     content.vb: Public Sub Delete(PivotTable As ExcelPivotTable, ClearRange As Boolean = False)
   overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Delete*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate(System.Boolean)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate(System.Boolean)
+  id: Calculate(System.Boolean)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  langs:
+  - csharp
+  - vb
+  name: Calculate(Boolean)
+  nameWithType: ExcelPivotTableCollection.Calculate(Boolean)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate(System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Calculate
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableCollection.cs
+    startLine: 271
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nCalculate all pivot tables in the collection.\nAlso see <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public void Calculate(bool refresh = false)
+    parameters:
+    - id: refresh
+      type: System.Boolean
+      description: If the cache should be refreshed.
+    content.vb: Public Sub Calculate(refresh As Boolean = False)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1182,3 +1219,14 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTable.Calculate(System.Boolean)
+  isExternal: true
+- uid: OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables(System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelWorkbook.CalculateAllPivotTables(System.Boolean)
+  isExternal: true
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate
+  name: Calculate
+  nameWithType: ExcelPivotTableCollection.Calculate
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection.Calculate

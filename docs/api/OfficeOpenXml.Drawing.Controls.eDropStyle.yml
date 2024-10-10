@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDropStyle
     path: ../src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Combo
     path: ../src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ComboEdit
     path: ../src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/enums/eDropStyle.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Simple
     path: ../src/EPPlus/Drawing/Controls/enums/eDropStyle.cs

@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingBlipFillTile
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlipMode
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Alignment
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalRatio
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalRatio
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalOffset
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
@@ -249,7 +249,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalOffset
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipFillTile.cs

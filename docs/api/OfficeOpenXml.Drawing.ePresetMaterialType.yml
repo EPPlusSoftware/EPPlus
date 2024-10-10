@@ -30,7 +30,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePresetMaterialType
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DkEdge
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -131,7 +131,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Flat
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -165,7 +165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyMatte
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -199,7 +199,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyMetal
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyPlastic
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -267,7 +267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyWireframe
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -301,7 +301,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Matte
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -335,7 +335,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Metal
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -369,7 +369,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Plastic
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -403,7 +403,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Powder
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -437,7 +437,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SoftEdge
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -471,7 +471,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Softmetal
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -505,7 +505,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TranslucentPowder
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
@@ -539,7 +539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/ePresetMaterialType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WarmMatte
     path: ../src/EPPlus/Drawing/Enums/ePresetMaterialType.cs

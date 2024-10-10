@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelManualLayout
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
@@ -73,11 +73,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftMode
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-    startLine: 40
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -110,11 +110,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopMode
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-    startLine: 55
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -147,11 +147,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WidthMode
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-    startLine: 72
+    startLine: 94
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -184,11 +184,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeightMode
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-    startLine: 89
+    startLine: 111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -221,11 +221,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyWidthMode
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-    startLine: 107
+    startLine: 129
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -258,11 +258,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyHeightMode
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-    startLine: 124
+    startLine: 146
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -295,11 +295,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Left
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-    startLine: 140
+    startLine: 162
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -332,11 +332,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Top
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-    startLine: 156
+    startLine: 178
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -369,11 +369,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-    startLine: 170
+    startLine: 192
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -406,11 +406,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Height
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-    startLine: 188
+    startLine: 210
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -443,11 +443,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyWidth
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-    startLine: 207
+    startLine: 229
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -480,11 +480,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegacyHeight
     path: ../src/EPPlus/Drawing/Chart/ExcelManualLayout.cs
-    startLine: 226
+    startLine: 248
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart

@@ -1314,7 +1314,6 @@ namespace OfficeOpenXml
                 }
                 finally
                 {
-                    ms.Dispose();
 				}
             }            
             //Clear the workbook so that it gets reinitialized next time

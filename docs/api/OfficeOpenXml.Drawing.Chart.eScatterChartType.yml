@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eScatterChartType
     path: ../src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
@@ -53,7 +53,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XYScatter
     path: ../src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XYScatterLines
     path: ../src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XYScatterLinesNoMarkers
     path: ../src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XYScatterSmooth
     path: ../src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XYScatterSmoothNoMarkers
     path: ../src/EPPlus/Drawing/Chart/enums/eScatterChartType.cs

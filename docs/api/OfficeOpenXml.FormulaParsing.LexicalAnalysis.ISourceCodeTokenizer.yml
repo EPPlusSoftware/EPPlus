@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ISourceCodeTokenizer
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs
@@ -88,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/ISourceCodeTokenizer.cs

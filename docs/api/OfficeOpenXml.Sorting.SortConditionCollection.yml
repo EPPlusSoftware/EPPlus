@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/SortConditionCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SortConditionCollection
     path: ../src/EPPlus/Sorting/SortConditionCollection.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/SortConditionCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Sorting/SortConditionCollection.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Sorting/SortConditionCollection.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Sorting/SortConditionCollection.cs

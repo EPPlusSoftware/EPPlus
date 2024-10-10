@@ -81,7 +81,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePaperSize
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -114,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Letter
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LetterSmall
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tabloid
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ledger
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -250,7 +250,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Legal
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -284,7 +284,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Statement
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -318,7 +318,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Executive
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -352,7 +352,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A3
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -386,7 +386,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A4
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -420,7 +420,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A4Small
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -454,7 +454,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A5
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -488,7 +488,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: B4
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -522,7 +522,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: B5
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -556,7 +556,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Folio
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -590,7 +590,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Quarto
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -624,7 +624,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Standard10_14
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -658,7 +658,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Standard11_17
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -692,7 +692,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Note
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -726,7 +726,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Envelope9
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -760,7 +760,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Envelope10
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -794,7 +794,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Envelope11
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -828,7 +828,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Envelope12
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -862,7 +862,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Envelope14
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -896,7 +896,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: C
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -930,7 +930,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: D
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -964,7 +964,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: E
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -998,7 +998,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DLEnvelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1032,7 +1032,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: C5Envelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1066,7 +1066,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: C3Envelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1100,7 +1100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: C4Envelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1134,7 +1134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: C6Envelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1168,7 +1168,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: C65Envelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1202,7 +1202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: B4Envelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1236,7 +1236,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: B5Envelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1270,7 +1270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: B6Envelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1304,7 +1304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ItalyEnvelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1338,7 +1338,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MonarchEnvelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1372,7 +1372,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Six3_4Envelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1406,7 +1406,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: USStandard
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1440,7 +1440,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GermanStandard
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1474,7 +1474,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GermanLegal
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1508,7 +1508,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ISOB4
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1542,7 +1542,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: JapaneseDoublePostcard
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1576,7 +1576,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Standard9
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1610,7 +1610,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Standard10
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1644,7 +1644,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Standard15
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1678,7 +1678,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InviteEnvelope
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1712,7 +1712,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LetterExtra
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1746,7 +1746,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LegalExtra
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1780,7 +1780,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TabloidExtra
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1814,7 +1814,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A4Extra
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1848,7 +1848,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LetterTransverse
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1882,7 +1882,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A4Transverse
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1916,7 +1916,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LetterExtraTransverse
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1950,7 +1950,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SuperA
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -1984,7 +1984,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SuperB
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -2018,7 +2018,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LetterPlus
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -2052,7 +2052,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A4Plus
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -2086,7 +2086,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A5Transverse
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -2120,7 +2120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: JISB5Transverse
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -2154,7 +2154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A3Extra
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -2188,7 +2188,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A5Extra
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -2222,7 +2222,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ISOB5
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -2256,7 +2256,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A2
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -2290,7 +2290,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A3Transverse
     path: ../src/EPPlus/ExcelPrinterSettings.cs
@@ -2324,7 +2324,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPrinterSettings.cs
-      branch: develop7
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: A3ExtraTransverse
     path: ../src/EPPlus/ExcelPrinterSettings.cs

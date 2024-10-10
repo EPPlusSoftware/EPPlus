@@ -4,6 +4,8 @@ items:
   commentId: N:OfficeOpenXml.Table.PivotTable
   id: OfficeOpenXml.Table.PivotTable
   children:
+  - OfficeOpenXml.Table.PivotTable.ConditionScope
+  - OfficeOpenXml.Table.PivotTable.ConditionType
   - OfficeOpenXml.Table.PivotTable.DataFieldFunctions
   - OfficeOpenXml.Table.PivotTable.eDateGroupBy
   - OfficeOpenXml.Table.PivotTable.eItemType
@@ -31,11 +33,15 @@ items:
   - OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
   - OfficeOpenXml.Table.PivotTable.ExcelPivotCacheDefinition
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTable
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyleCollection
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCacheField
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCalculatedData
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableCollection
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableConditionalFormatting
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableConditionalFormattingCollection
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldCollection
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataFieldShowDataAs
@@ -61,6 +67,18 @@ items:
   assemblies:
   - EPPlus
 references:
+- uid: OfficeOpenXml.Table.PivotTable.ConditionScope
+  commentId: T:OfficeOpenXml.Table.PivotTable.ConditionScope
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ConditionScope
+  nameWithType: ConditionScope
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionScope
+- uid: OfficeOpenXml.Table.PivotTable.ConditionType
+  commentId: T:OfficeOpenXml.Table.PivotTable.ConditionType
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ConditionType
+  nameWithType: ConditionType
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionType
 - uid: OfficeOpenXml.Table.PivotTable.DataFieldFunctions
   commentId: T:OfficeOpenXml.Table.PivotTable.DataFieldFunctions
   parent: OfficeOpenXml.Table.PivotTable
@@ -311,6 +329,30 @@ references:
   name: ExcelPivotAreaAutoSort
   nameWithType: ExcelPivotAreaAutoSort
   fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaAutoSort
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableAreaConditionalFormatting
+  nameWithType: ExcelPivotTableAreaConditionalFormatting
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableAreaConditionalFormattingCollection
+  nameWithType: ExcelPivotTableAreaConditionalFormattingCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableConditionalFormatting
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableConditionalFormatting
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableConditionalFormatting
+  nameWithType: ExcelPivotTableConditionalFormatting
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableConditionalFormatting
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableConditionalFormattingCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableConditionalFormattingCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableConditionalFormattingCollection
+  nameWithType: ExcelPivotTableConditionalFormattingCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableConditionalFormattingCollection
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
   commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotArea
   parent: OfficeOpenXml.Table.PivotTable
