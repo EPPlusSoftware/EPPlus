@@ -87,6 +87,17 @@ namespace EPPlusTest.Core
             Debug.WriteLine($"Queried {ir1.Count} items in {sw.ElapsedMilliseconds} ms");
 
         }
+        [TestMethod]
+        public void QuadTreeInsertRows()
+        {
+            var qt = new QuadTree<int>(1, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
+
+            var r = new QuadRange(5, 5,10, 10);
+            qt.Add(r, 1);
+            qt.InsertRow(5, 2);
+            //qt.InsertColumn(5, 2);
+            var ranges = qt.GetIntersectingRanges(new QuadRange(5, 5, 5, 5));
+        }
         private static int AddRangeItems(int rows, int cols, QuadTree<int> qt, int rowsIntervall, int colIntervall)
         {
             var count = 0;

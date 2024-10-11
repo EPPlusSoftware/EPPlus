@@ -724,8 +724,6 @@ namespace EPPlusTest.Core.Range
                 Assert.AreEqual("B2:D5,F6:H7", dv.Address.Address);
             }
         }
-
-
         [TestMethod]
         public void TransposeCopyDataOntoExistingData()
         {
@@ -769,8 +767,6 @@ namespace EPPlusTest.Core.Range
                 SaveAndCleanup(p);
             }
         }
-
-
         private static ExcelWorksheet SetupCopyRange(ExcelPackage p)
         {
             var ws = p.Workbook.Worksheets.Add("Sheet1");
