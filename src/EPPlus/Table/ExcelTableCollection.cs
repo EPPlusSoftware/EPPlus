@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 namespace OfficeOpenXml.Table
 {
@@ -57,24 +58,29 @@ namespace OfficeOpenXml.Table
         /// <returns>The table object</returns>
         public ExcelTable Add(ExcelAddressBase Range, string Name)
         {
+            return AddInternal(Range, Name, null);
+        }
+
+        internal ExcelTable AddInternal(ExcelAddressBase Range, string name, ExcelTable copy)
+        {
             if (Range.WorkSheetName != null && Range.WorkSheetName != _ws.Name)
             {
                 throw new ArgumentException("Range does not belong to a worksheet", "Range");
             }
 
-            if (string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(name))
             {
-                Name = GetNewTableName();
+                name = GetNewTableName();
             }
             else
             {
-                if (_ws.Workbook.ExistsTableName(Name))
+                if (_ws.Workbook.ExistsTableName(name))
                 {
                     throw (new ArgumentException("Tablename is not unique"));
                 }
             }
 
-            ValidateName(Name);
+            ValidateName(name);
 
             foreach (var t in _tables)
             {
@@ -83,6 +89,7 @@ namespace OfficeOpenXml.Table
                     throw (new ArgumentException(string.Format("Table range collides with table {0}", t.Name)));
                 }
             }
+
             foreach (var mc in _ws.MergedCells)
             {
                 if (mc == null) continue; // Issue 780: this happens if a merged cell has been removed
@@ -92,7 +99,7 @@ namespace OfficeOpenXml.Table
                 }
             }
 
-            return Add(new ExcelTable(_ws, Range, Name, _ws.Workbook._nextTableID));
+            return Add(new ExcelTable(_ws, Range, name, _ws.Workbook._nextTableID, copy));
         }
 
         private void ValidateName(string name)
@@ -175,20 +182,20 @@ namespace OfficeOpenXml.Table
                 {
                     var range = _ws.Cells[Table.Address.Address];
                     range.Clear();
-                }                
+                }
             }
-
         }
 
-        internal string GetNewTableName()
-        {
-            string name = "Table1";
+        internal string GetNewTableName(string name = "Table{0}")
+        {            
+            var newName = string.Format(name, 1);
+            if (newName == name) name += "{0}";
             int i = 2;
-            while (_ws.Workbook.ExistsTableName(name))
+            while (_ws.Workbook.ExistsTableName(newName))
             {
-                name = string.Format("Table{0}", i++);
+                newName = string.Format(name, i++);
             }
-            return name;
+            return newName;
         }
         /// <summary>
         /// Number of items in the collection

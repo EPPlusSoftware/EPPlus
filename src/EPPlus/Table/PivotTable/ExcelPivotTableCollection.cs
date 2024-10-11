@@ -133,15 +133,16 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             return Add(new ExcelPivotTable(_ws, Range, PivotCacheDefinition._cacheReference, Name, _ws.Workbook._nextPivotTableID++));
         }
-        internal string GetNewTableName()
+        internal string GetNewTableName(string name = "Pivottable{0}")
         {
-            string name = "Pivottable1";
+            var newName = string.Format(name, 1);
+            if(newName == name) name += "{0}";
             int i = 2;
-            while (_ws.Workbook.ExistsPivotTableName(name))
+            while (_ws.Workbook.ExistsPivotTableName(newName))
             {
-                name = string.Format("Pivottable{0}", i++);
+                newName = string.Format(name, i++);
             }
-            return name;
+            return newName;
         }
         /// <summary>
         /// Number of items in the collection
@@ -286,6 +287,17 @@ namespace OfficeOpenXml.Table.PivotTable
                     pt.Calculate(false);
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns the first pivot table within the range.
+        /// If no pivot table intersects with the range, null is returned.
+        /// </summary>
+        /// <param name="range">The range containing the pivot table</param>
+        /// <returns>The first pivot table in the range</returns>
+        internal ExcelPivotTable GetByAddress(ExcelRange range)
+        {
+            return _pivotTables.FirstOrDefault(x => x.Address.Collide(range) != ExcelAddressBase.eAddressCollition.No);
         }
     }
 }

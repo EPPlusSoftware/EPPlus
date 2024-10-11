@@ -27,6 +27,8 @@ using OfficeOpenXml.Style.Dxf;
 using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using System.Linq;
+
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -54,16 +56,29 @@ namespace OfficeOpenXml.Table
             Address = new ExcelAddressBase(GetXmlNodeString("@ref"));
             _tableStyle = GetTableStyle(StyleName);            
         }
-        internal ExcelTable(ExcelWorksheet sheet, ExcelAddressBase address, string name, int tblId) : 
+        internal ExcelTable(ExcelWorksheet sheet, ExcelAddressBase address, string name, int tblId, ExcelTable copy = null) : 
             base(sheet.NameSpaceManager)
 	    {
             WorkSheet = sheet;
             _address = address;
 
             TableXml = new XmlDocument();
-            LoadXmlSafe(TableXml, GetStartXml(name, tblId), Encoding.UTF8); 
-
-            Init();
+            if (copy == null)
+            {
+                LoadXmlSafe(TableXml, GetStartXml(name, tblId), Encoding.UTF8);
+                Init();
+            }
+            else
+            {
+                LoadXmlSafe(TableXml, copy.TableXml.OuterXml, Encoding.UTF8);
+                Init();
+                Address = address;
+                SetNameAndDisplayName(name);
+                if(copy.WorkSheet._package != WorkSheet._package)
+                {
+                    DxfStyleHandler.CopyDxfStylesTable(copy, this);
+                }
+            }
 
             //If the table is just one row we cannot have a header.
             if (address._fromRow == address._toRow)
@@ -75,7 +90,6 @@ namespace OfficeOpenXml.Table
                 SetAutoFilter();
             }
         }
-
         private void Init()
         {
             TopNode = TableXml.DocumentElement;
@@ -194,26 +208,31 @@ namespace OfficeOpenXml.Table
             {
                 return GetXmlNodeString(NAME_PATH);
             }
-            set 
+            set
             {
-                if(Name.Equals(value, StringComparison.CurrentCultureIgnoreCase)==false && WorkSheet.Workbook.ExistsTableName(value))
+                if (Name.Equals(value, StringComparison.CurrentCultureIgnoreCase) == false && WorkSheet.Workbook.ExistsTableName(value))
                 {
                     throw (new ArgumentException("Tablename is not unique"));
                 }
                 string prevName = Name;
                 if (WorkSheet.Tables._tableNames.ContainsKey(prevName))
                 {
-                    int ix=WorkSheet.Tables._tableNames[prevName];
+                    int ix = WorkSheet.Tables._tableNames[prevName];
                     WorkSheet.Tables._tableNames.Remove(prevName);
-                    WorkSheet.Tables._tableNames.Add(value,ix);
+                    WorkSheet.Tables._tableNames.Add(value, ix);
                 }
                 var ta = new TableAdjustFormula(this);
                 ta.AdjustFormulas(prevName, value);
-                SetXmlNodeString(NAME_PATH, value);
-                SetXmlNodeString(DISPLAY_NAME_PATH, ExcelAddressUtil.GetValidName(value));
+                SetNameAndDisplayName(value);
             }
         }
-        
+
+        internal void SetNameAndDisplayName(string value)
+        {
+            SetXmlNodeString(NAME_PATH, value);
+            SetXmlNodeString(DISPLAY_NAME_PATH, ExcelAddressUtil.GetValidName(value));
+        }
+
         internal void DeleteMe()
         {
             if (RelationshipID != null)
@@ -1413,6 +1432,37 @@ namespace OfficeOpenXml.Table
             _tableSorter.Sort(configuration);
         }
 
-#endregion
+        #endregion
+        /// <summary>
+        /// Copies the table to the top left cell of the provided range.
+        /// </summary>
+        /// <param name="range">The range</param>
+        /// <param name="newTableName">The name new table name.</param>
+        /// <exception cref="ArgumentException">If a table with the name already exists in the workbook.</exception>
+        public ExcelTable Copy(ExcelRangeBase range, string newTableName)
+        {
+            if(newTableName.Equals(Name, StringComparison.OrdinalIgnoreCase) && range._workbook.ExistsTableName(newTableName))
+            {
+                throw new ArgumentException($"A table with name {newTableName} already exists in the workbook.", nameof(newTableName));
+            }
+
+            Range.Copy(range);
+            var ws = range._worksheet;
+            var tblCopy = WorkSheet.Tables.FirstOrDefault(x => x.Address.Collide(range) == ExcelAddressBase.eAddressCollition.No);
+            if (tblCopy != null)
+            {
+                tblCopy.Name = newTableName;
+            }
+            return tblCopy;
+        }
+        /// <summary>
+        /// Copies the table to the top left cell of the provided range.
+        /// </summary>
+        /// <param name="range">The range</param>
+        public ExcelTable Copy(ExcelRangeBase range)
+        {
+            Range.Copy(range);
+            return WorkSheet.Tables.FirstOrDefault(x => x.Address.Collide(range) != ExcelAddressBase.eAddressCollition.No);
+        }
     }
 }

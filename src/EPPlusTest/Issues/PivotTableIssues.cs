@@ -96,7 +96,6 @@ namespace EPPlusTest.Issues
                 SaveWorkbook("i1554-SecondDate.xlsx",package);
             }
         }
-
         private static void AddTableRow(ExcelPackage package, int days)
         {
             var workbook = package.Workbook;

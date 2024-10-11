@@ -104,6 +104,13 @@ namespace OfficeOpenXml.Table.PivotTable
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this);
             LoadFields();
 
+            LoadFromXml();
+
+            Styles = new ExcelPivotTableAreaStyleCollection(this);
+        }
+
+        private void LoadFromXml()
+        {
             var pos = 0;
             //Add row fields.
             foreach (XmlElement rowElem in TopNode.SelectNodes("d:rowFields/d:field", NameSpaceManager))
@@ -165,10 +172,9 @@ namespace OfficeOpenXml.Table.PivotTable
                     DataFields.AddInternal(dataField);
                 }
             }
-
-            Styles = new ExcelPivotTableAreaStyleCollection(this);
             ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
         }
+
         /// <summary>
         /// Add a new pivottable
         /// </summary>
@@ -180,7 +186,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotTable(ExcelWorksheet sheet, ExcelAddressBase address, PivotTableCacheInternal pivotTableCache, string name, int tblId) :
         base(sheet.NameSpaceManager)
         {
-            CreatePivotTable(sheet, address, pivotTableCache.Fields.Count, name, tblId);
+            CreatePivotTable(sheet, address, pivotTableCache.Fields.Count, name, tblId, null);
 
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, pivotTableCache);
             CacheId = pivotTableCache.ExtLstCacheId;
@@ -189,6 +195,20 @@ namespace OfficeOpenXml.Table.PivotTable
             Styles = new ExcelPivotTableAreaStyleCollection(this);
             ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
         }
+        internal ExcelPivotTable(ExcelWorksheet sheet, ExcelAddressBase address, ExcelPivotTable ptCopy, string name, int tblId) :
+        base(sheet.NameSpaceManager)
+        {
+            var cache = ptCopy.CacheDefinition._cacheReference;
+            CreatePivotTable(sheet, address, cache.Fields.Count, name, tblId, ptCopy);
+
+            CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, cache);
+            CacheId = cache.ExtLstCacheId;
+
+            LoadFields();
+            LoadFromXml();
+            Styles = new ExcelPivotTableAreaStyleCollection(this);
+        }
+
         /// <summary>
         /// Add a new pivottable
         /// </summary>
@@ -200,7 +220,7 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotTable(ExcelWorksheet sheet, ExcelAddressBase address, ExcelRangeBase sourceAddress, string name, int tblId) :
         base(sheet.NameSpaceManager)
         {
-            CreatePivotTable(sheet, address, sourceAddress._toCol - sourceAddress._fromCol + 1, name, tblId);
+            CreatePivotTable(sheet, address, sourceAddress._toCol - sourceAddress._fromCol + 1, name, tblId, null);
 
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, sourceAddress);
             CacheId = CacheDefinition._cacheReference.ExtLstCacheId;
@@ -211,17 +231,26 @@ namespace OfficeOpenXml.Table.PivotTable
 
         }
 
-        private void CreatePivotTable(ExcelWorksheet sheet, ExcelAddressBase address, int fields, string name, int tblId)
+        private void CreatePivotTable(ExcelWorksheet sheet, ExcelAddressBase address, int fields, string name, int tblId, ExcelPivotTable copy)
         {
             WorkSheet = sheet;
             Address = address;
             var pck = sheet._package.ZipPackage;
 
-            PivotTableXml = new XmlDocument();
-            LoadXmlSafe(PivotTableXml, GetStartXml(name, address, fields), Encoding.UTF8);
-            TopNode = PivotTableXml.DocumentElement;
-            PivotTableUri = GetNewUri(pck, "/xl/pivotTables/pivotTable{0}.xml", ref tblId);
             Init();
+            PivotTableXml = new XmlDocument();
+            if(copy==null)
+            {
+                LoadXmlSafe(PivotTableXml, GetStartXml(name, address, fields), Encoding.UTF8);
+                TopNode = PivotTableXml.DocumentElement;
+            }
+            else
+            {
+                LoadXmlSafe(PivotTableXml, copy.PivotTableXml.OuterXml, Encoding.UTF8);
+                TopNode = PivotTableXml.DocumentElement;
+                Name = name;
+            }
+            PivotTableUri = GetNewUri(pck, "/xl/pivotTables/pivotTable{0}.xml", ref tblId);
 
             Part = pck.CreatePart(PivotTableUri, ContentTypes.contentTypePivotTable);
             PivotTableXml.Save(Part.GetStream());
@@ -1879,6 +1908,36 @@ namespace OfficeOpenXml.Table.PivotTable
         internal List<int[]> GetTableColumnKeys()
         {
             return _colItems.OrderBy(x => x, ArrayComparer.Instance).ToList<int[]>();
+        }
+
+        /// <summary>
+        /// Copies the pivot table to another range. The range must be within the same workbook.
+        /// </summary>
+        /// <param name="destinationRange">The destination range.</param>
+        /// <param name="name">The name of the new pivot table.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public ExcelPivotTable Copy(ExcelRange destinationRange, string name)
+        {
+            if(name.Equals(Name, StringComparison.OrdinalIgnoreCase) == false && WorkSheet.PivotTables._pivotTableNames.ContainsKey(name))
+            {
+                throw new ArgumentException($"A pivot table with name {name} already exists in the workbook.", nameof(name));
+            }
+            var pt = Copy(destinationRange);
+            pt.Name = name;
+            return pt;
+        }
+        /// <summary>
+        /// Copies the pivot table to another range. The range must be within the same workbook.
+        /// </summary>
+        /// <param name="destinationRange">The destination range.</param>
+        /// <returns>The new copy of the <see cref="ExcelPivotTable" /></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public ExcelPivotTable Copy(ExcelRange destinationRange)
+        {
+            var range = WorkSheet.Cells[Address.Address];
+            range.Copy(destinationRange);
+            return WorkSheet.PivotTables.GetByAddress(destinationRange);
         }
     }
 }

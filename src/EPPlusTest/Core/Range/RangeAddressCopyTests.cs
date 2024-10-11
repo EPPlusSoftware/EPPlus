@@ -769,7 +769,254 @@ namespace EPPlusTest.Core.Range
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void CopyExcludingHiddenCells_Values()
+        {
+            using(var p=new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
 
+                ws.Cells["A1:A5"].FillNumber(1, 1);
+                ws.Cells["B1:B5"].FillNumber(10, 10);
+                ws.Cells["C1:C5"].FillNumber(15, 15);
+
+                ws.Row(3).Hidden = true;
+                ws.Column(2).Hidden=true;
+
+                ws.Cells["A1:C5"].Copy(ws.Cells["G1"], ExcelRangeCopyOptionFlags.ExcludeHiddenCells);
+
+                Assert.AreEqual(1D, ws.GetValue(1, 7));
+                Assert.AreEqual(2D, ws.GetValue(2, 7));
+                Assert.AreEqual(4D, ws.GetValue(3, 7));
+                Assert.AreEqual(5D, ws.GetValue(4, 7));
+                Assert.AreEqual(15D, ws.GetValue(1, 8));
+                Assert.AreEqual(30D, ws.GetValue(2, 8));
+                Assert.AreEqual(60D, ws.GetValue(3, 8));
+                Assert.AreEqual(75D, ws.GetValue(4, 8));
+                Assert.IsNull(ws.GetValue(5, 7));
+                Assert.IsNull(ws.GetValue(5, 8));
+                Assert.IsNull(ws.GetValue(1, 9));
+            }
+        }
+        [TestMethod]
+        public void CopyExcludingHiddenCells_Formulas()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                for(var r = 1; r <= 5; r++)
+                {
+                    for (var c = 1; c <= 5; c++)
+                    {
+                        ws.SetFormula(r,c, ExcelCellBase.GetAddress(r,c));
+                    }
+                }
+
+                ws.Row(3).Hidden = true;
+                ws.Column(2).Hidden = true;
+
+                ws.Cells["A1:C5"].Copy(ws.Cells["G1"], ExcelRangeCopyOptionFlags.ExcludeHiddenCells);
+
+                Assert.AreEqual("G1", ws.GetFormula(1, 7));
+                Assert.AreEqual("G2", ws.GetFormula(2, 7));
+                Assert.AreEqual("G3", ws.GetFormula(3, 7));
+                Assert.AreEqual("G4", ws.GetFormula(4, 7));
+                Assert.AreEqual("H1", ws.GetFormula(1, 8));
+                Assert.AreEqual("H2", ws.GetFormula(2, 8));
+                Assert.AreEqual("H3", ws.GetFormula(3, 8));
+                Assert.AreEqual("H4", ws.GetFormula(4, 8));
+                Assert.IsNull(ws.GetValue(5, 7));
+                Assert.IsNull(ws.GetValue(5, 8));
+                Assert.IsNull(ws.GetValue(1, 9));
+            }
+        }
+        [TestMethod]
+        public void CopyExcludingHiddenCells_Comments()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                for (var r = 1; r <= 5; r++)
+                {
+                    for (var c = 1; c <= 5; c++)
+                    {
+                        ws.Cells[r,c].AddComment($"R{r}C{c}");
+                    }
+                }
+
+                ws.Row(3).Hidden = true;
+                ws.Column(2).Hidden = true;
+
+                ws.Cells["A1:C5"].Copy(ws.Cells["G1"], ExcelRangeCopyOptionFlags.ExcludeHiddenCells);
+
+                Assert.AreEqual("R1C1", ws.Cells[1, 7].Comment.Text);
+                Assert.AreEqual("R2C1", ws.Cells[2, 7].Comment.Text);
+                Assert.AreEqual("R4C1", ws.Cells[3, 7].Comment.Text);
+                Assert.AreEqual("R5C1", ws.Cells[4, 7].Comment.Text);
+                Assert.AreEqual("R1C3", ws.Cells[1, 8].Comment.Text);
+                Assert.AreEqual("R2C3", ws.Cells[2, 8].Comment.Text);
+                Assert.AreEqual("R4C3", ws.Cells[3, 8].Comment.Text);
+                Assert.AreEqual("R5C3", ws.Cells[4, 8].Comment.Text);
+                Assert.IsNull(ws.GetValue(5, 7));
+                Assert.IsNull(ws.GetValue(5, 8));
+                Assert.IsNull(ws.GetValue(1, 9));
+            }
+        }
+        [TestMethod]
+        public void CopyExcludingHiddenCells_TheadedComments()
+        {            
+            using (var p = new ExcelPackage())
+            {
+                p.Workbook.ThreadedCommentPersons.Add("JK");
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                for (var r = 1; r <= 5; r++)
+                {
+                    for (var c = 1; c <= 5; c++)
+                    {
+                        var tc = ws.Cells[r, c].AddThreadedComment();
+                        tc.AddComment("1", $"R{r}C{c}");
+                    }
+                }
+
+                ws.Row(3).Hidden = true;
+                ws.Column(2).Hidden = true;
+
+                ws.Cells["A1:C5"].Copy(ws.Cells["G1"], ExcelRangeCopyOptionFlags.ExcludeHiddenCells);
+
+                Assert.AreEqual("R1C1", ws.Cells[1, 7].ThreadedComment.Comments[0].Text);
+                Assert.AreEqual("R2C1", ws.Cells[2, 7].ThreadedComment.Comments[0].Text);
+                Assert.AreEqual("R4C1", ws.Cells[3, 7].ThreadedComment.Comments[0].Text);
+                Assert.AreEqual("R5C1", ws.Cells[4, 7].ThreadedComment.Comments[0].Text);
+                Assert.AreEqual("R1C3", ws.Cells[1, 8].ThreadedComment.Comments[0].Text);
+                Assert.AreEqual("R2C3", ws.Cells[2, 8].ThreadedComment.Comments[0].Text);
+                Assert.AreEqual("R4C3", ws.Cells[3, 8].ThreadedComment.Comments[0].Text);
+                Assert.AreEqual("R5C3", ws.Cells[4, 8].ThreadedComment.Comments[0].Text);
+                Assert.IsNull(ws.GetValue(5, 7));
+                Assert.IsNull(ws.GetValue(5, 8));
+                Assert.IsNull(ws.GetValue(1, 9));
+            }
+        }
+        [TestMethod]
+        public void CopyExcludingHiddenCells_DataValidation()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                for (var r = 1; r <= 5; r++)
+                {
+                    for (var c = 1; c <= 5; c++)
+                    {
+                        if (r % 2 == c % 2)
+                        {
+                            var dv = ws.Cells[r, c].DataValidation.AddIntegerDataValidation();
+                            dv.Operator = ExcelDataValidationOperator.equal;
+                            dv.Formula.Value = 5;
+                        }
+                        else
+                        {
+                            var dv = ws.Cells[r, c].DataValidation.AddListDataValidation();
+                            dv.Formula.Values.Add("");
+                            dv.Formula.Values.Add("a");
+                        }
+                    }
+                }
+
+                ws.Row(3).Hidden = true;
+                ws.Column(2).Hidden = true;
+
+                ws.Cells["A1:C5"].Copy(ws.Cells["G1"], ExcelRangeCopyOptionFlags.ExcludeHiddenCells);
+
+                Assert.IsNotNull(ws.DataValidations["G1"].As.IntegerValidation);
+                Assert.IsNotNull(ws.DataValidations["G2"].As.ListValidation);
+                Assert.IsNotNull(ws.DataValidations["G3"].As.ListValidation);
+                Assert.IsNotNull(ws.DataValidations["G4"].As.IntegerValidation);
+                Assert.IsNotNull(ws.DataValidations["H1"].As.IntegerValidation);
+                Assert.IsNotNull(ws.DataValidations["H2"].As.ListValidation);
+                Assert.IsNotNull(ws.DataValidations["H3"].As.ListValidation);
+                Assert.IsNotNull(ws.DataValidations["H4"].As.IntegerValidation);
+                Assert.IsNull(ws.GetValue(5, 7));
+                Assert.IsNull(ws.GetValue(5, 8));
+                Assert.IsNull(ws.GetValue(1, 9));
+            }
+        }
+        [TestMethod]
+        public void CopyExcludingHiddenCells_ConditionalFormatting()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                for (var r = 1; r <= 5; r++)
+                {
+                    for (var c = 1; c <= 5; c++)
+                    {
+                        if (r % 2 == c % 2)
+                        {
+                            var dv = ws.Cells[r, c].ConditionalFormatting.AddBeginsWith();
+                            dv.Formula="A";
+                        }
+                        else
+                        {
+                            var dv = ws.Cells[r, c].ConditionalFormatting.AddEndsWith();
+                            dv.Formula = "B";
+                        }
+                    }
+                }
+
+                ws.Row(3).Hidden = true;
+                ws.Column(2).Hidden = true;
+
+                ws.Cells["A1:C5"].Copy(ws.Cells["G1"], ExcelRangeCopyOptionFlags.ExcludeHiddenCells);
+
+                Assert.IsNotNull(ws.Cells["G1"].ConditionalFormatting.GetConditionalFormattings()[0].As.BeginsWith);
+                Assert.IsNotNull(ws.Cells["G2"].ConditionalFormatting.GetConditionalFormattings()[0].As.EndsWith);
+                Assert.IsNotNull(ws.Cells["G3"].ConditionalFormatting.GetConditionalFormattings()[0].As.EndsWith);
+                Assert.IsNotNull(ws.Cells["G4"].ConditionalFormatting.GetConditionalFormattings()[0].As.BeginsWith);
+                Assert.IsNotNull(ws.Cells["H1"].ConditionalFormatting.GetConditionalFormattings()[0].As.BeginsWith);
+                Assert.IsNotNull(ws.Cells["H2"].ConditionalFormatting.GetConditionalFormattings()[0].As.EndsWith);
+                Assert.IsNotNull(ws.Cells["H3"].ConditionalFormatting.GetConditionalFormattings()[0].As.EndsWith);
+                Assert.IsNotNull(ws.Cells["H4"].ConditionalFormatting.GetConditionalFormattings()[0].As.BeginsWith);
+
+                Assert.IsNull(ws.GetValue(5, 7));
+                Assert.IsNull(ws.GetValue(5, 8));
+                Assert.IsNull(ws.GetValue(1, 9));
+            }
+        }
+
+
+        [TestMethod]
+        public void CopyExcludingHiddenCells_Styling()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+                ws.Cells["A1:A5"].Style.Fill.SetBackground(Color.Red);
+                ws.Cells["B1:B5"].Style.Fill.SetBackground(Color.Green);
+                ws.Cells["C1:C5"].Style.Fill.SetBackground(Color.Blue);
+
+                ws.Row(3).Hidden = true;
+                ws.Column(2).Hidden = true;
+
+                ws.Cells["A1:C5"].Copy(ws.Cells["G1"], ExcelRangeCopyOptionFlags.ExcludeHiddenCells);
+
+                Assert.AreEqual("FFFF0000", ws.Cells[1, 7].Style.Fill.BackgroundColor.Rgb);
+                Assert.AreEqual("FFFF0000", ws.Cells[2, 7].Style.Fill.BackgroundColor.Rgb);
+                Assert.AreEqual("FFFF0000", ws.Cells[3, 7].Style.Fill.BackgroundColor.Rgb);
+                Assert.AreEqual("FFFF0000", ws.Cells[4, 7].Style.Fill.BackgroundColor.Rgb);
+                Assert.AreEqual("FF0000FF", ws.Cells[1, 8].Style.Fill.BackgroundColor.Rgb);
+                Assert.AreEqual("FF0000FF", ws.Cells[2, 8].Style.Fill.BackgroundColor.Rgb);
+                Assert.AreEqual("FF0000FF", ws.Cells[3, 8].Style.Fill.BackgroundColor.Rgb);
+                Assert.AreEqual("FF0000FF", ws.Cells[4, 8].Style.Fill.BackgroundColor.Rgb);
+                Assert.AreEqual(0, ws.GetStyleInner(5, 7));
+                Assert.AreEqual(0, ws.GetStyleInner(5, 8));
+                Assert.AreEqual(0, ws.GetStyleInner(1, 9));
+            }
+        }
 
         private static ExcelWorksheet SetupCopyRange(ExcelPackage p)
         {

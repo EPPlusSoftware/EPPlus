@@ -517,9 +517,22 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             foreach (var cf in _worksheet.ConditionalFormatting)
             {
-                if(cf.Address.Collide(_address) != ExcelAddressBase.eAddressCollition.No)
+                if(cf.Address.Addresses==null)
                 {
-                    retList.Add((ExcelConditionalFormattingRule)cf);
+                    if (cf.Address.Collide(_address) != ExcelAddressBase.eAddressCollition.No)
+                    {
+                        retList.Add((ExcelConditionalFormattingRule)cf);
+                    }
+                }
+                else
+                {
+                    foreach (var a in cf.Address.Addresses)
+                    {
+                        if (a.Collide(_address) != ExcelAddressBase.eAddressCollition.No)
+                        {
+                            retList.Add((ExcelConditionalFormattingRule)cf);
+                        }
+                    }
                 }
             }
             return retList;
