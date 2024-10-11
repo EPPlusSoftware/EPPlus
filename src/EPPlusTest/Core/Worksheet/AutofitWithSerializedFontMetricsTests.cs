@@ -33,6 +33,7 @@ namespace EPPlusTest.Core.Worksheet
         [DataRow("Trebuchet MS")]
         [DataRow("Tw Cen MT")]
         [DataRow("Tw Cen MT Condensed")]
+        [DataRow("Segoe UI")]
         public void AutofitWithSerializedFonts(string fontFamily)
         {
             using (var package = new ExcelPackage())

@@ -1,15 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
     internal class EmfImage
     {
         internal List<EMR_RECORD> records = new List<EMR_RECORD>();
-
+        ExcelTextSettings textSettings;
         uint size = 0;
-
+        MapMode currentMapMode = MapMode.MM_TEXT;
         internal EmfImage() { }
+
+        internal ExcelPackage pck = new ExcelPackage();
+
+        internal Dictionary<uint, EMR_EXTCREATEFONTINDIRECTW> Fonts = new Dictionary<uint, EMR_EXTCREATEFONTINDIRECTW>();
+        EMR_EXTCREATEFONTINDIRECTW lastFont;
+        internal uint currentlySelectedId;
+        float ppi;
+        float unitsPerEm;
 
         internal void Read(string emf)
         {
@@ -35,6 +46,9 @@ namespace OfficeOpenXml.Drawing.EMF
 
         private void ReadEmfRecords(BinaryReader br)
         {
+            textSettings = new ExcelTextSettings();
+            var Measurer = textSettings.GenericTextMeasurer;
+
             while (br.BaseStream.Position < br.BaseStream.Length)
             {
                 EMR_RECORD record;
@@ -42,13 +56,25 @@ namespace OfficeOpenXml.Drawing.EMF
                 switch (TypeValue)
                 {
                     case 0x00000001:
-                        record = new EMR_HEADER(br, TypeValue);
+                        var header = new EMR_HEADER(br, TypeValue);
+                        ppi = header.Ppi;
+                        record = header;
+                        break;
+                    case 0x00000011:
+                        var mapMode = new EMR_SETMAPMODE(br, TypeValue);
+                        currentMapMode = mapMode.MapMode;
+                        record = mapMode;
                         break;
                     case 0x0000000E:
                         record = new EMR_EOF(br, TypeValue);
                         break;
                     case 0x00000016:
                         record = new EMR_SETTEXTALIGN(br, TypeValue);
+                        break;
+                    case 0x00000025:
+                        var obj = new EMR_SELECTOBJECT(br, TypeValue);
+                        currentlySelectedId = obj.ihObject;
+                        record = obj;
                         break;
                     case 0x0000004D:
                         record = new EMR_STRETCHBLT(br, TypeValue);
@@ -60,10 +86,28 @@ namespace OfficeOpenXml.Drawing.EMF
                         record = new EMR_INTERSECTCLIPRECT(br, TypeValue);
                         break;
                     case 0x00000052:
-                        record = new EMR_EXTCREATEFONTINDIRECTW(br, TypeValue);
+                        var font = new EMR_EXTCREATEFONTINDIRECTW(br, TypeValue);
+                        if (Fonts.ContainsKey(font.ihFonts) == false)
+                        {
+                            Fonts.Add(font.ihFonts, font);
+                        }
+                        lastFont = font;
+                        record = font;
                         break;
                     case 0x00000054:
-                        record = new EMR_EXTTEXTOUTW(br, TypeValue);
+                        var text = new EMR_EXTTEXTOUTW(br, TypeValue);
+                        var lastRecord = records.Last();
+                        text.InternalFontId = currentlySelectedId;
+                        text.mode = currentMapMode;
+                        if (lastFont.ihFonts == currentlySelectedId)
+                        {
+                            text.Font = lastFont;
+                        }
+                        else if (Fonts.ContainsKey(currentlySelectedId))
+                        {
+                            text.Font = Fonts[currentlySelectedId];
+                        }
+                        record = text;
                         break;
                     default:
                         record = new EMR_RECORD(br, TypeValue, true);
@@ -76,7 +120,10 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal void SetNewTextInDefaultEMFImage(string Text)
         {
-            EmfCalculateTextLength ectl = new EmfCalculateTextLength(Text);
+            ExcelTextSettings textSettings = new ExcelTextSettings();
+            var measurer = (GenericFontMetricsTextMeasurer)textSettings.GenericTextMeasurer;
+
+            EmfCalculateTextLength ectl = new EmfCalculateTextLength(Text, measurer, lastFont, ppi);
             records.RemoveRange(17, 6);
             records.InsertRange(17, ectl.TextRecords);
         }

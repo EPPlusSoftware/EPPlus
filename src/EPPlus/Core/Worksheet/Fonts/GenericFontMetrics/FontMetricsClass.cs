@@ -34,6 +34,22 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         Class13,
         Class14,
         Class15,
-        Class16
+        Class16,
+        Class17,
+        Class18,
+        Class19,
+        Class20,
+        Class21,
+        Class22,
+        Class23,
+        Class24,
+        Class25,
+        Class26,
+        Class27,
+        Class28,
+        Class29,
+        Class30,
+        Class31,
+        Class32,
     }
 }
