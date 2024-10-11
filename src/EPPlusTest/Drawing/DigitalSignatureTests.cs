@@ -1151,7 +1151,7 @@ namespace EPPlusTest.Drawing
 
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadOnly);
-                foreach (var cert in store.Certificates)
+                foreach (var cert in store.Certificates) 
                 {
                     var typa = cert.GetType();
                     if (cert.HasPrivateKey && cert.NotBefore <= DateTime.Today && cert.NotAfter >= DateTime.Today)

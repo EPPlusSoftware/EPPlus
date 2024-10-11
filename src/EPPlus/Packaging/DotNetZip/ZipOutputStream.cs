@@ -1285,8 +1285,8 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             if (_needToWriteEntryHeader)
                 _InitiateCurrentEntry(false);
 
-            if (count != 0)
-                _entryOutputStream.Write(buffer, offset, count);
+            //if (count != 0)
+            _entryOutputStream.Write(buffer, offset, count);
         }
         
         /// <summary>

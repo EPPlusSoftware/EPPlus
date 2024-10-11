@@ -98,6 +98,10 @@ namespace OfficeOpenXml.Packaging
                             ExtractEntryToPart(_zip, e);
                         }                            
                     }
+                    else if (e.FileName == "_xmlsignatures/origin.sigs")
+                    {
+                        ExtractEntryToPart(_zip, e);
+                    }
                     e = _zip.GetNextEntry();
                 }
                 if (_dirSeparator == '0') _dirSeparator = '/';
@@ -444,7 +448,7 @@ namespace OfficeOpenXml.Packaging
             os.Flush();
             
             os.Close();
-            os.Dispose();  
+            //os.Dispose();  
             
             //return ms;
         }

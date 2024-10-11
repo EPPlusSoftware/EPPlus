@@ -74,12 +74,22 @@ namespace OfficeOpenXml.Packaging
             return ret;
         }
 
+        internal string savedFileName = null;
+
         internal void WriteZip(ZipOutputStream os, string fileName)
+        {
+            os.PutNextEntry(fileName);
+            savedFileName = fileName;
+            byte[] b = Encoding.UTF8.GetBytes(GetRelsXML());
+            os.Write(b, 0, b.Length);
+        }
+
+        internal string GetRelsXML()
         {
             StringBuilder xml = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\">");
             foreach (var rel in _rels.Values)
             {
-                if(rel.TargetUri==null || rel.TargetUri.OriginalString.StartsWith("Invalid:URI", StringComparison.OrdinalIgnoreCase))
+                if (rel.TargetUri == null || rel.TargetUri.OriginalString.StartsWith("Invalid:URI", StringComparison.OrdinalIgnoreCase))
                 {
                     xml.AppendFormat("<Relationship Id=\"{0}\" Type=\"{1}\" Target=\"{2}\"{3}/>", SecurityElement.Escape(rel.Id), rel.RelationshipType, ConvertUtil.CropString(SecurityElement.Escape(rel.Target), 2079), rel.TargetMode == TargetMode.External ? " TargetMode=\"External\"" : "");
                 }
@@ -90,9 +100,7 @@ namespace OfficeOpenXml.Packaging
             }
             xml.Append("</Relationships>");
 
-            os.PutNextEntry(fileName);
-            byte[] b = Encoding.UTF8.GetBytes(xml.ToString());
-            os.Write(b, 0, b.Length);
+            return xml.ToString();
         }
 
         /// <summary>
