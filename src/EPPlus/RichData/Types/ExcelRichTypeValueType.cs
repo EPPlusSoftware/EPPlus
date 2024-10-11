@@ -10,49 +10,47 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.Encryption;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
-using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.RichData.Types
 {
-    internal class ExcelRichTypeValueKey
+    internal class ExcelRichTypeValueType
     {
-        public ExcelRichTypeValueKey(string name)
+        public ExcelRichTypeValueType(string name) 
         {
-            Name = name;
-            Flags = new List<ExcelRichTypeValueKeyFlag>();
+            _name = name;
         }
-        public string Name { get; set; }
-        public List<ExcelRichTypeValueKeyFlag> Flags { get; set; }
+
+        public readonly string _name;
+
+        public string Name => _name;
+
+        public string ExtLstXml { get; set; }
+
+        public List<ExcelRichTypeValueKey> _keyFlags = new List<ExcelRichTypeValueKey>();
+
+        public List<ExcelRichTypeValueKey> KeyFlags = new List<ExcelRichTypeValueKey>();
 
         internal void WriteXml(StreamWriter sw)
         {
-            sw.Write($"<key name=\"{Name.EncodeXMLAttribute()}\">");
-            foreach (var flag in Flags)
+            sw.Write($"<type name=\"{Name.EncodeXMLAttribute()}\">");
+            sw.Write("<keyFlags>");
+            foreach (var flag in KeyFlags)
             {
                 flag.WriteXml(sw);
-
             }
-            sw.Write("</key>");
-        }
-
-        private IEnumerable<T> GetEnumFlags<T>(T flags) where T : Enum
-        {
-            var l=new List<T>();
-            var fAll = Convert.ToInt32(flags); 
-            foreach (T f in Enum.GetValues(typeof(T)))
+            sw.Write("</keyFlags>");
+            if(!string.IsNullOrEmpty(ExtLstXml))
             {
-                var i = Convert.ToInt32(f);
-                if((i & fAll)==i)
-                {
-                    l.Add(f);
-                }
+                sw.Write(ExtLstXml);
             }
-            return l;
+            sw.Write("</type>");
         }
     }
 }
