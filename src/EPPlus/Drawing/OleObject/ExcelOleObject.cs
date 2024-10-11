@@ -29,6 +29,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal ExcelWorksheet _worksheet;
         internal ZipPackagePart _oleObjectPart;
         internal XmlDocument _linkedOleObjectXml;
+        internal string _linkedObjectFilepath;
         internal Uri _mediaUri;
 
         /// <summary>
@@ -196,7 +197,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             To.Row = 3;       To.RowOff = 114300;//133350;
 
             //Create vml
-            _vml = drawings.Worksheet.VmlDrawings.AddPicture(this, name, rel.TargetUri);
+            _vml = drawings.Worksheet.VmlDrawings.AddOlePicture(this, rel.TargetUri);
             _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
 
             //Create worksheet xml
@@ -369,7 +370,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 }
                 int newID = 1;
                 var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
-                _oleObjectPart = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeControlProperties); //Change content type or add content type for the doc type?
+                _oleObjectPart = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeOleObject); //Change content type or add content type for the doc type?
                 var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
                 relId = rel.Id;
                 MemoryStream ms = (MemoryStream)_oleObjectPart.GetStream(FileMode.Create, FileAccess.Write);
@@ -408,6 +409,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             var rel = wb.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
             //Create relation to external file
             var fileRel = _oleObjectPart.CreateRelationship("file:///" + filePath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
+            _linkedObjectFilepath = filePath;
             //Create externalLink xml
             var xml = new StringBuilder();
             xml.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");

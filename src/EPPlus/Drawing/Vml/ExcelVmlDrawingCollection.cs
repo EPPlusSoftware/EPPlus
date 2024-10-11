@@ -198,10 +198,10 @@ namespace OfficeOpenXml.Drawing.Vml
             return node;
         }
 
-        internal ExcelVmlDrawingPicture AddPicture(ExcelOleObject oleObject, string name, Uri mediaUri)
+        internal ExcelVmlDrawingPicture AddOlePicture(ExcelOleObject oleObject, Uri mediaUri)
         {
             UpdateShapeTypeForOleObject();
-            XmlNode node = AddOleObjectDrawing(oleObject, name, mediaUri);
+            XmlNode node = AddOleObjectDrawing(oleObject, mediaUri);
             var draw = new ExcelVmlDrawingPicture(node, NameSpaceManager, _ws);
             _drawings.Add(draw);
             if (_drawingsDict.ContainsKey(draw.Id) == false)
@@ -245,7 +245,7 @@ namespace OfficeOpenXml.Drawing.Vml
             VmlDrawingXml.LoadXml(vml);
         }
 
-        private XmlNode AddOleObjectDrawing(ExcelOleObject oleObject, string name, Uri mediaUri)
+        internal XmlNode AddOleObjectDrawing(ExcelOleObject oleObject, Uri mediaUri)
         {
             CreateVmlPart(false); //Create the vml part to be able to create related parts (like blip fill images).
             var shapeElement = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);

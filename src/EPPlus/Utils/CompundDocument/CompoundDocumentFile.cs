@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Utils.CompundDocument
             using (var ms = RecyclableMemory.GetStream(file))
             {
                 LoadFromMemoryStream(ms);
-			}
+            }
         }
         internal CompoundDocumentFile(MemoryStream ms)
         {
@@ -983,7 +983,6 @@ namespace OfficeOpenXml.Utils.CompundDocument
         {
             ms.Seek(0, SeekOrigin.Begin);   //Fixes issue #60
             Read(new BinaryReader(ms));
-            ms.Dispose();
         }
 
         public void Dispose()

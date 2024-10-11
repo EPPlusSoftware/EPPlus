@@ -14,6 +14,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.Core.Worksheet;
@@ -1371,6 +1372,9 @@ namespace OfficeOpenXml.Drawing
                 case eDrawingType.GroupShape:
                     drawNode = CopyGroupShape(worksheet);
                     break;
+                case eDrawingType.OleObject:
+                    drawNode = CopyOleObject(worksheet, row, col, rowOffset, colOffset);
+                    break;
             }
             //Set position of the drawing copy.
             var copy = GetDrawing(worksheet._drawings, drawNode);
@@ -1417,6 +1421,10 @@ namespace OfficeOpenXml.Drawing
             else if (sourceDrawing is ExcelPivotTableSlicer ptSlicer)
             {
                 sourceDrawing.CopySlicer(targetWorksheet, true, targetDrawNode);
+            }
+            else if( sourceDrawing is ExcelOleObject ole)
+            {
+                sourceDrawing.CopyOleObject(targetWorksheet, 0, 0, 0, 0, true, targetDrawNode);
             }
             else if (sourceDrawing is ExcelGroupShape groupShape)
             {
@@ -1619,6 +1627,92 @@ namespace OfficeOpenXml.Drawing
                                         copy.To.Column + ", " + copy.To.ColumnOff + ", " + copy.To.Row + ", " + copy.To.RowOff;
             }
            return drawNode;
+        }
+
+        private XmlNode CopyOleObject(ExcelWorksheet worksheet, int row, int col, int rowOffset, int colOffset, bool isGroupShape = false, XmlNode groupDrawNode = null)
+        {
+            //copy media
+            var ole = this as ExcelOleObject;
+            var emfStream = (MemoryStream)ole._worksheet._package.ZipPackage.GetPart(ole._mediaUri).GetStream();
+            byte[] image = emfStream.ToArray();
+            int newID = 1;
+            var _mediaUri = GetNewUri(worksheet._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
+            var part = worksheet._package.ZipPackage.CreatePart(_mediaUri, "image/x-emf", CompressionLevel.None, "emf");
+            var rel = worksheet.Part.CreateRelationship(_mediaUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+            MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+            ms.Write(image, 0, image.Length);
+            var imgRelId = rel.Id;
+
+            //copy drawing
+            XmlNode drawNode = null;
+            if (isGroupShape && groupDrawNode != null)
+            {
+                drawNode = groupDrawNode.FirstChild;
+            }
+            else
+            {
+                //Create node in drawing.xml
+                drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, true);
+                drawNode.InnerXml = TopNode.InnerXml;
+            }
+
+            //Update DrawNode Id
+            var oleId = (++worksheet._nextControlId).ToString();
+            var drawIdNode = drawNode.SelectSingleNode("xdr:sp/xdr:nvSpPr/xdr:cNvPr", worksheet.NameSpaceManager);
+            drawIdNode.Attributes["id"].Value = oleId;
+            var drawSpIdNode = drawIdNode.SelectSingleNode("a:extLst/a:ext/a14:compatExt", _drawings.NameSpaceManager);
+            var spid = drawSpIdNode.Attributes["spid"].Value = "_x0000_s" + oleId;
+
+            //create vml
+            worksheet.VmlDrawings.AddOlePicture(ole, rel.TargetUri);
+            var vmlId = worksheet.VmlDrawings._drawings[worksheet.VmlDrawings._drawings.Count - 1].TopNode;
+            vmlId.Attributes["id"].Value = spid;
+
+            //create worksheet node
+            XmlNode oleNode = worksheet.CreateOleContainerNode();
+            ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:xdr", ExcelPackage.schemaSheetDrawings);   //Make sure the namespace exists
+            ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:x14", ExcelPackage.schemaMainX14);   //Make sure the namespace exists
+            ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);   //Make sure the namespace exists
+            XmlNode newNode = ole._oleObject.TopNode.ParentNode.ParentNode.CloneNode(true);
+            newNode.FirstChild.FirstChild.Attributes["shapeId"].Value = oleId;
+            newNode.FirstChild.FirstChild.FirstChild.Attributes["r:id"].Value = imgRelId;
+            //Fallback
+            newNode.ChildNodes[1].FirstChild.Attributes["shapeId"].Value = oleId;
+            newNode.ChildNodes[1].FirstChild.Attributes["r:id"].Value = imgRelId;
+            WorksheetCopyHelper.CopyOleObject(worksheet._package, worksheet, ole, newNode);
+            oleNode.AppendChild(newNode);
+
+            if (!isGroupShape)
+            {
+                //Create the copy
+                var copy = GetDrawing(worksheet._drawings, drawNode);
+                var width = GetPixelWidth();
+                var height = GetPixelHeight();
+                copy.SetPosition(row, rowOffset, col, colOffset);
+                copy.SetPixelWidth(width);
+                copy.SetPixelHeight(height);
+                copy.GetPositionSize();
+
+                //Update position in worksheet xml
+                var fromCol = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:from/xdr:col", worksheet.NameSpaceManager);
+                var fromColOff = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:from/xdr:colOff", worksheet.NameSpaceManager);
+                var fromRow = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:from/xdr:row", worksheet.NameSpaceManager);
+                var fromRowOff = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:from/xdr:rowOff", worksheet.NameSpaceManager);
+                fromCol.InnerText = copy.From.Column.ToString();
+                fromColOff.InnerText = copy.From.ColumnOff.ToString();
+                fromRow.InnerText = copy.From.Row.ToString();
+                fromRowOff.InnerText = copy.From.RowOff.ToString();
+                var toCol = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:to/xdr:col", worksheet.NameSpaceManager);
+                var toColOff = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:to/xdr:colOff", worksheet.NameSpaceManager);
+                var toRow = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:to/xdr:row", worksheet.NameSpaceManager);
+                var toRowOff = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:to/xdr:rowOff", worksheet.NameSpaceManager);
+                toCol.InnerText = copy.To.Column.ToString();
+                toColOff.InnerText = copy.To.ColumnOff.ToString();
+                toRow.InnerText = copy.To.Row.ToString();
+                toRowOff.InnerText = copy.To.RowOff.ToString();
+            }
+
+            return drawNode;
         }
 
         private XmlNode CopyChart(ExcelWorksheet worksheet, bool isGroupShape = false, XmlNode groupDrawNode = null)

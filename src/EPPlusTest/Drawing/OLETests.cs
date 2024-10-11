@@ -390,6 +390,48 @@ namespace EPPlusTest.Drawing
         public void DeleteLinkedOleObjectTest()
         {
             var p = OpenTemplatePackage("OleObjectTest_Link_DeleteMe.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            Assert.AreEqual(1, ws.Drawings.Count);
+            ws.Drawings.Remove(ole);
+            Assert.AreEqual(0, ws.Drawings.Count);
+            SaveAndCleanup(p);
+        }
+
+        [TestMethod]
+        public void CopyEmbeddedOleObjectTestSameWorksheet()
+        {
+            var p = OpenTemplatePackage("OleObjectTest_Embed_CopyMe.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            ws.Drawings[0].Copy(ws, 5, 0);
+            SaveAndCleanup (p);
+        }
+        [TestMethod]
+        public void CopyEmbeddedOleObjectTestSameWorkbook()
+        {
+
+        }
+        [TestMethod]
+        public void CopyEmbeddedOleObjectTestOtherWorkbook()
+        {
+
+        }
+
+        [TestMethod]
+        public void CopyLinkedOleObjectTestSameWorksheet()
+        {
+
+        }
+        [TestMethod]
+        public void CopyELinkedOleObjectTestSameWorkbook()
+        {
+
+        }
+        [TestMethod]
+        public void CopyLinkedOleObjectTestOtherWorkbook()
+        {
+
         }
     }
 }

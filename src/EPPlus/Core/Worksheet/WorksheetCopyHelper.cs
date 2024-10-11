@@ -31,6 +31,10 @@ using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Linq;
+using OfficeOpenXml.Drawing.OleObject;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.Drawing.OleObject.Structures;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -430,8 +434,60 @@ namespace OfficeOpenXml.Core.Worksheet
             var prevRelID = ctrl._control.RelationshipId;
             var rel = target.Part.CreateRelationship(UriHelper.GetRelativeUri(target.WorksheetUri, UriCtrl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/ctrlProp");
             var relAtts = target.WorksheetXml.SelectNodes(string.Format("//d:control/@r:id[.='{0}']", prevRelID), target.NameSpaceManager);
-            XmlAttribute relAtt = relAtts.Item(relAtts.Count-1) as XmlAttribute; //target.WorksheetXml.SelectSingleNode(string.Format("//d:control/@r:id[.='{0}']", prevRelID), target.NameSpaceManager) as XmlAttribute;
+            XmlAttribute relAtt = relAtts.Item(relAtts.Count-1) as XmlAttribute;
             relAtt.Value = rel.Id;
+        }
+
+        internal static void CopyOleObject(ExcelPackage package, ExcelWorksheet target, ExcelOleObject SourceOle, XmlNode oleNode)
+        {
+            string relId = "";
+            if (SourceOle.IsExternalLink)
+            {
+                //Copy linked object
+                var UriLinked = XmlHelper.GetNewUri(package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml");
+                var linkPart = package.ZipPackage.CreatePart(UriLinked, ContentTypes.contentTypeExternalLink);
+                StreamWriter streamChart = new StreamWriter(linkPart.GetStream(FileMode.Create, FileAccess.Write));
+                streamChart.Write(SourceOle._linkedOleObjectXml.OuterXml);
+                streamChart.Flush();
+                var fileRel = linkPart.CreateRelationship("file:///" + SourceOle._linkedObjectFilepath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
+
+                //copy workbook node
+                var rel = target.Workbook.Part.CreateRelationship(UriLinked, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
+                var er = (XmlElement)target.Workbook.CreateNode("d:externalReferences/d:externalReference", false, true);
+                er.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
+                relId = rel.Id;
+            }
+            else
+            {
+                //copy embeded object
+                var orgUri = SourceOle._oleObjectPart.Uri.OriginalString;
+                string name;
+                var fileType = Path.GetExtension(orgUri).ToLower();
+                if (fileType == ".docx")
+                {
+                    name = "Microsoft_Word_Document";
+                }
+                else if (fileType == ".xlsx")
+                {
+                    name = "Microsoft_Excel_Worksheet";
+                }
+                else if (fileType == ".pptx")
+                {
+                    name = "Microsoft_PowerPoint_Presentation";
+                }
+                else
+                {
+                    name = "oleObject";
+                }
+                int newID = 1;
+                var oleUri = XmlHelper.GetNewUri(target._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
+                var part = target._package.ZipPackage.CreatePart(oleUri, ContentTypes.contentTypeOleObject);
+                var rel = target.Part.CreateRelationship(oleUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/oleObject");
+                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+                SourceOle._document.Save(ms);
+                relId = rel.Id;
+            }
+            oleNode.FirstChild.Attributes["r:id"].Value = relId;
         }
 
         internal static void CopyChartRelations(ExcelChart chart, ExcelWorksheet target, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet source)
