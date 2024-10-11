@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,6 +15,10 @@ namespace OfficeOpenXml.Core.RangeQuadTree
         }
         public void Add(QuadRange range, T value)
         {
+            Add(new QuadRangeItem<T>(range, value));
+        }
+        public void Add(QuadRangeItem<T> item)
+        {
             if (!Dimension.IsMinimumSize)
             {
                 if (Quads == null)
@@ -24,10 +29,10 @@ namespace OfficeOpenXml.Core.RangeQuadTree
 
                 foreach (var q in Quads)
                 {
-                    var intersectType = q.Intersect(range);
+                    var intersectType = q.Intersect(item.Range);
                     if (intersectType == IntersectType.Inside)
                     {
-                        q.Add(range, value);
+                        q.Add(item);
                         return;
                     }
                     else if (intersectType == IntersectType.Partial)
@@ -36,9 +41,8 @@ namespace OfficeOpenXml.Core.RangeQuadTree
                     }
                 }
             }
-            Ranges.Add(new QuadRangeItem<T>(range, value));
+            Ranges.Add(item);
         }
-
         public IntersectType Intersect(QuadRange range)
         {
             return Dimension.Intersect(range);
@@ -132,18 +136,57 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             }
         }
 
-        internal void InsertRow(int fromRow, int rows)
+        internal bool InsertRow(int fromRow, int rows)
         {
-            Dimension.InsertRow(fromRow, rows);
-            foreach (var r in Ranges)
+            if(fromRow > Dimension.ToRow)
             {
-                r.Range.InsertRow(fromRow, rows);
+                return false;
             }
 
-            foreach (var q in Quads)
+            var ret = false;
+            for (int i = 0; i < Ranges.Count; i++)
             {
-                q.InsertRow(fromRow, rows);
+                var r = Ranges[i];
+                if (r.Range.InsertRow(fromRow, rows))
+                {
+                    if (r.Range.ToRow > Dimension.ToRow)
+                    {
+                        AddParentInsertRow(i, r);
+                        i--;
+                        ret = true;
+                    }
+                }
             }
+
+            if (Quads != null)
+            {
+                foreach (var q in Quads)
+                {
+                    if (q.InsertRow(fromRow, rows))
+                    {
+                        ret = true;
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+        private void AddParentInsertRow(int i, QuadRangeItem<T> r)
+        {
+            var p = Parent;
+            while (p!=null && p.Dimension.ToRow <= r.Range.ToRow) 
+            {
+                p = Parent;
+            }            
+            
+            if(p==null)
+            {
+                throw new IndexOutOfRangeException("Quadtree out of range");
+            }
+
+            p.Add(r);
+            Ranges.RemoveAt(i);
         }
     }
 }

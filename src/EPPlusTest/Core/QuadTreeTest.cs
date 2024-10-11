@@ -95,8 +95,7 @@ namespace EPPlusTest.Core
             var r = new QuadRange(5, 5,10, 10);
             qt.Add(r, 1);
             qt.InsertRow(5, 2);
-            //qt.InsertColumn(5, 2);
-            var ranges = qt.GetIntersectingRanges(new QuadRange(5, 5, 5, 5));
+            var ranges = qt.GetIntersectingRanges(new QuadRange(13, 5, 11, 5));
         }
         private static int AddRangeItems(int rows, int cols, QuadTree<int> qt, int rowsIntervall, int colIntervall)
         {

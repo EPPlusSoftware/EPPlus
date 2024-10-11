@@ -57,14 +57,15 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             return IntersectType.OutSide;
         }
 
-        internal void InsertRow(int fromRow, int rows)
+        internal bool InsertRow(int fromRow, int rows)
         {
-            if (ToRow < fromRow) return;
+            if (ToRow < fromRow) return false;
             if (FromRow >= fromRow)
             {
                 FromRow += rows;
             }
             ToRow += rows;
+            return true;
         }
         internal void InsertColumn(int fromCol, int cols)
         {
