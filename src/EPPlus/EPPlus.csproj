@@ -428,8 +428,9 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
+			7.4.1			20241011 Updated System.Text.Json
 			7.4.0			20241002 Conditional Formatting's in Pivot tables. Linked image files in Pictures. See https://epplussoftware.com/Developers/MinorFeaturesAndIssues
-			7.3.2			20240917 Minor features and bug fixes. 
+			7.3.2			20240917 Minor features and bug fixes.
 			7.3.1			20240905 Minor features and bug fixes.
 			7.3.0			20240820 Precision as displayed support in formula calculation.
 			7.2.2			20240724 Minor features and bug fixes.
