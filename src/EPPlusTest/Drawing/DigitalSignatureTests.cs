@@ -95,7 +95,7 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void ReadEmfSpacing()
         {
-            var emfImage = new EMF();
+            var emfImage = new EmfImage();
             emfImage.Read("C:\\epplusTest\\Testoutput\\ValidImageAlternateSize.emf");
         }
 
@@ -109,7 +109,7 @@ namespace EPPlusTest.Drawing
             validTemplate.signTextObject.Text = "TemplateSignature";
             validTemplate.suggestedSignerObject.Text = "TemplateSigner";
             validTemplate.suggestedTitleObject.Text = "TemplateTitle";
-            validTemplate.Signers = "TemplateName";
+            validTemplate.SignedBy = "TemplateName";
 
             validTemplate.Save("C:\\epplusTest\\Testoutput\\testTemp.emf");
         }
@@ -161,7 +161,7 @@ namespace EPPlusTest.Drawing
             inValidTemplate.SignText = "IHaveAVeryVeryVeryVerylon";
             inValidTemplate.suggestedSignerObject.Text = "TemplateSigner";
             inValidTemplate.suggestedTitleObject.Text = "TemplateTitle";
-            inValidTemplate.signedBy.Text = "Signed by: TemplateName";
+            inValidTemplate.SignedBy = "TemplateName";
 
             inValidTemplate.Save("C:\\epplusTest\\Testoutput\\TempTest.emf");
         }
@@ -169,7 +169,7 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void ReadEmf()
         {
-            var emfImage = new EMF();
+            var emfImage = new EmfImage();
             emfImage.Read("C:\\epplusTest\\Testoutput\\LongName.emf");
 
             var textRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Skip(2);

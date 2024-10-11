@@ -19,6 +19,7 @@ using System.Xml;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.DigitalSignatures;
 
 namespace OfficeOpenXml.Packaging
 {
@@ -306,6 +307,66 @@ namespace OfficeOpenXml.Packaging
             Parts.Remove(GetUriKey(Uri.OriginalString));
             
         }
+
+        internal DigSigManifest Manifest = null;
+
+        private void CreateDigitalSignatureManifest(Stream stream)
+        {
+            stream.Seek(0, SeekOrigin.Begin);
+            var inputStream = new ZipInputStream(stream, true);
+
+            Manifest = new DigSigManifest();
+
+            var e = inputStream.GetNextEntry();
+            if (e == null)
+            {
+                throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
+            }
+            var startPos = inputStream.Position;
+
+            while (e != null)
+            {
+                startPos = inputStream.Position;
+                if (e.UncompressedSize > 0)
+                {
+                    if (e.FileName.StartsWith("_rels", StringComparison.OrdinalIgnoreCase) || e.FileName.StartsWith("xl", StringComparison.OrdinalIgnoreCase))
+                    {
+                        GetDirSeparator(e);
+                        var uri = new Uri(GetUriKey(e.FileName), UriKind.Relative);
+                        var bArr = GetZipEntryAsByteArray(inputStream, e);
+
+                        if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
+                        {
+                            Manifest.AddRelsPartToManifest(GetUriKey(e.FileName), Encoding.UTF8.GetString(bArr));
+                        }
+                        else
+                        {
+                            var partStream = new MemoryStream();
+                            partStream.Write(bArr, 0, bArr.Length);
+                            partStream.Seek(0, SeekOrigin.Begin);
+
+                            var part = GetPart(uri);
+                            Manifest.AddPartToManifest(part, partStream);
+                        }
+                    }
+                }
+
+                //Assume last entry name since inputStream cannot read last entry of an open outputstream
+                if (e.FileName == "_xmlsignatures/origin.sigs")
+                {
+                    e = null;
+                    continue;
+                }
+
+                e = inputStream.GetNextEntry();
+            }
+
+            inputStream.Close();
+            stream.Position = stream.Length;
+
+            Manifest.SortReferencesAndAddToDoc();
+        }
+
         internal void Save(Stream stream)
         {
             var enc = Encoding.UTF8;
@@ -321,7 +382,9 @@ namespace OfficeOpenXml.Packaging
             _rels.WriteZip(os, $"_rels/.rels");
             List<ZipPackagePart> saveAfterParts = new List<ZipPackagePart>();
             var partsToSave = Parts.Values.ToList();
-            for(int i=0;i < partsToSave.Count;i++)            
+            List<ZipPackagePart> digSigParts = new List<ZipPackagePart>();
+            ZipPackagePart digSigOriginPart = null;
+            for (int i=0;i < partsToSave.Count;i++)            
             {
                 var part = partsToSave[i];
                 //Shared strings, metadata and rich data must be saved after the cells have been saved as references to are updated while saving the worksheets.
@@ -337,7 +400,18 @@ namespace OfficeOpenXml.Packaging
                 }
                 else
                 {
-                    part.WriteZip(os);
+                    if (part.ContentType == ContentTypes.xmlSignatures)
+                    {
+                        digSigParts.Add(part);
+                    }
+                    else if (part.ContentType == ContentTypes.signatureOrigin)
+                    {
+                        digSigOriginPart = part;
+                    }
+                    else
+                    {
+                        part.WriteZip(os);
+                    }
                 }
             }
 
@@ -354,6 +428,19 @@ namespace OfficeOpenXml.Packaging
             {
                 part.WriteZip(os);
             }
+
+            if (digSigParts.Count > 0)
+            {
+                digSigOriginPart.WriteZip(os);
+                CreateDigitalSignatureManifest(stream);
+
+                foreach (var part in digSigParts)
+                {
+                    //Add last entry
+                    part.WriteZip(os);
+                }
+            }
+
             os.Flush();
             
             os.Close();
