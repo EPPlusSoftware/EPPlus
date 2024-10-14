@@ -186,25 +186,15 @@ namespace OfficeOpenXml.RichData.Types
         internal void CreateDefault()
         {
             Global.Add("_Self", CreateKey("_Self", RichValueKeyFlags.ExcludeFromFile, RichValueKeyFlags.ExcludeFromCalcComparison));
-            //Global.Add("_self", new ExcelRichTypeValueKey("_Self") { Flags = RichValueKeyFlags.ExcludeFromFile | RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_DisplayString", CreateKey("_DisplayString", RichValueKeyFlags.ExcludeFromCalcComparison));
-            //Global.Add("_DisplayString", new ExcelRichTypeValueKey("_DisplayString") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_Flags", CreateKey("_Flags", RichValueKeyFlags.ExcludeFromCalcComparison));
-            //Global.Add("_Flags", new ExcelRichTypeValueKey("_Flags") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_Format", CreateKey("_Format", RichValueKeyFlags.ExcludeFromCalcComparison));
-            //Global.Add("_Format", new ExcelRichTypeValueKey("_Format") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_SubLabel", CreateKey("_SubLabel", RichValueKeyFlags.ExcludeFromCalcComparison));
-            //Global.Add("_SubLabel", new ExcelRichTypeValueKey("_SubLabel") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_Attribution", CreateKey("_Attribution", RichValueKeyFlags.ExcludeFromCalcComparison));
-            //Global.Add("_Attribution", new ExcelRichTypeValueKey("_Attribution") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_Icon", CreateKey("_Icon", RichValueKeyFlags.ExcludeFromCalcComparison));
-            //Global.Add("_Icon", new ExcelRichTypeValueKey("_Icon") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_Display", CreateKey("_Display", RichValueKeyFlags.ExcludeFromCalcComparison));
-            //Global.Add("_Display", new ExcelRichTypeValueKey("_Display") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_CanonicalPropertyNames", CreateKey("_CanonicalPropertyNames", RichValueKeyFlags.ExcludeFromCalcComparison));
-            //Global.Add("_CanonicalPropertyNames", new ExcelRichTypeValueKey("_CanonicalPropertyNames") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_ClassificationId", CreateKey("_ClassificationId", RichValueKeyFlags.ExcludeFromCalcComparison));
-            //Global.Add("_ClassificationId", new ExcelRichTypeValueKey("_ClassificationId") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
         }
         public Dictionary<string, ExcelRichTypeValueKey>  Global { get; set; } = new Dictionary<string, ExcelRichTypeValueKey>();
         public Dictionary<string, ExcelRichTypeValueKey> Types { get; set; } = new Dictionary<string, ExcelRichTypeValueKey>();
