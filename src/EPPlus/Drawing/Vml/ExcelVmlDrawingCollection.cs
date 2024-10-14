@@ -38,7 +38,9 @@ namespace OfficeOpenXml.Drawing.Vml
         internal CellStore<int> _drawingsCellStore;
         internal Dictionary<string, int> _drawingsDict = new Dictionary<string, int>();
         internal List<ExcelVmlDrawingBase> _drawings = new List<ExcelVmlDrawingBase>();
+        public List<ExcelSignatureLine> SignatureLines = new List<ExcelSignatureLine>();
         Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
+
         internal ExcelVmlDrawingCollection(ExcelWorksheet ws, Uri uri) :
             base(ws, uri, "d:legacyDrawing/@r:id")
         {
@@ -200,7 +202,7 @@ namespace OfficeOpenXml.Drawing.Vml
             return node;
         }
 
-        internal ExcelVmlDrawingSignatureLine AddSignatureLine()
+        internal ExcelSignatureLine AddSignatureLine()
         {
             var xmlNode = VmlDrawingXml.ChildNodes[0];
             var shapeTypeNode = VmlDrawingXml.DocumentElement.SelectSingleNode("v:shapetype[@id='_x0000_t75']", NameSpaceManager);
@@ -220,7 +222,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 stroke.SetAttribute("joinstyle", "miter");
                 shapeTypeNode.AppendChild(stroke);
 
-                DigitalSignatureLine.CreateFormulaElementAsChildOf(shapeTypeNode);
+                ExcelSignatureLine.CreateFormulaElementAsChildOf(shapeTypeNode);
 
                 var pathElement = VmlDrawingXml.CreateElement("v", "path", ExcelPackage.schemaMicrosoftVml);
                 pathElement.SetAttribute("extrusionok", ExcelPackage.schemaMicrosoftOffice, "f");
@@ -242,10 +244,11 @@ namespace OfficeOpenXml.Drawing.Vml
             XmlNode node = AddDigitalSignatureLineDrawing(lineId);
             VmlDrawingXml.DocumentElement.AppendChild(node);
 
-            var signatureLine = new ExcelVmlDrawingSignatureLine(node, NameSpaceManager, lineId);
-            _drawings.Add(signatureLine);
+            var sLine = new ExcelSignatureLine(_ws, node, NameSpaceManager, lineId);
+            SignatureLines.Add(sLine);
+            _drawings.Add(sLine);
 
-            return signatureLine;
+            return sLine;
         }
         public XmlNode AddDigitalSignatureLineDrawing(Guid id)
         {

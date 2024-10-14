@@ -45,14 +45,14 @@ namespace OfficeOpenXml.Drawing.EMF
 
         public override void SaveToStream(MemoryStream ms)
         {
-            //if (textObjects.Count > 0)
-            //{
-            //    textObjects[0].Text = SignerName;
-            //}
-            //if (textObjects.Count > 1)
-            //{
-            //    textObjects[1].Text = SignerTitle;
-            //}
+            if (textObjects.Count > 0)
+            {
+                textObjects[0].Text = SignerName;
+            }
+            if (textObjects.Count > 1)
+            {
+                textObjects[1].Text = SignerTitle;
+            }
             base.SaveToStream(ms);
         }
     }

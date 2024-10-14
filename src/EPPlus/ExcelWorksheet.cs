@@ -1029,6 +1029,17 @@ namespace OfficeOpenXml
                 return _vmlDrawings;
             }
         }
+        /// <summary>
+        /// Collection of signatureLines
+        /// </summary>
+        public List<ExcelSignatureLine> SignatureLines
+        {
+            get
+            {
+                return VmlDrawings.SignatureLines;
+            }
+        }
+
         internal ExcelCommentCollection _comments = null;
         /// <summary>
         /// Collection of comments
@@ -3974,6 +3985,16 @@ namespace OfficeOpenXml
         {
             return Workbook.Styles.RoundValueFromNumberFormat(c);
         }
+
+        /// <summary>
+        /// Add an empty signatureLine to the worksheet
+        /// </summary>
+        /// <returns></returns>
+        public ExcelSignatureLine AddSignatureLine()
+        {
+            return VmlDrawings.AddSignatureLine();
+        }
+
         #endregion
     }  // END class Worksheet
 }

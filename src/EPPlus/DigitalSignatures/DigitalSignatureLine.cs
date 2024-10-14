@@ -1,5 +1,4 @@
-﻿using OfficeOpenXml.Drawing.OleObject;
-using OfficeOpenXml.Drawing.Vml;
+﻿using OfficeOpenXml.Drawing.Vml;
 using System.IO;
 using System.Xml;
 using OfficeOpenXml.Packaging;
@@ -33,8 +32,6 @@ namespace OfficeOpenXml.DigitalSignatures
             //var rel = ws.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
 
             part.SaveHandler = Save;
-
-            VmlDrawing = ws.VmlDrawings.AddSignatureLine();
 
             ws.VmlDrawings.Part.CreateRelationship(UriHelper.GetRelativeUri(ws.VmlDrawings.Uri,Uri), TargetMode.Internal, ExcelPackage.schemaImage);
             _emf = VmlDrawing.Emf;

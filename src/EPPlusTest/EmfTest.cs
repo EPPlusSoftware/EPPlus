@@ -67,6 +67,15 @@ namespace EPPlusTest
         }
 
         [TestMethod]
+        public void ReadStamp()
+        {
+            var emfImage = new EmfImage();
+            emfImage.Read("C:\\epplusTest\\Testoutput\\ValidStamp.emf");
+
+            var records = emfImage.records;
+        }
+
+        [TestMethod]
         public void CheckOGImage()
         {
             var emfImage = new EmfImage();

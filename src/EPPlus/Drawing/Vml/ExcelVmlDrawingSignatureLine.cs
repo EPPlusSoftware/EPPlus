@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Packaging;
 using System;
@@ -25,6 +26,7 @@ namespace OfficeOpenXml.Drawing.Vml
             Emf.SignerTitle = Title;
             LineId = lineID;
             SetXmlNodeString("o:signatureline/@id", LineId.ToString());
+            AlternativeText = "Microsoft Office Signature Line...";
         }
 
         /// <summary>
@@ -99,6 +101,51 @@ namespace OfficeOpenXml.Drawing.Vml
                 }
             }
         }
+
+        /// <summary>
+        /// Instructions for the suggested signer
+        /// </summary>
+        public bool AllowComments
+        {
+            get
+            {
+                return GetXmlNodeBool("o:signatureline/@showsigndate");
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(GetXmlNodeString("o:signatureline/@showsigndate")))
+                {
+                    SetXmlNodeBoolVml("o:signatureline/@showsigndate", value);
+                }
+                else
+                {
+                    SetXmlNodeBoolVml("o:signatureline/@showsigndate", value);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Instructions for the suggested signer
+        /// </summary>
+        public bool ShowSignDate
+        {
+            get
+            {
+                return GetXmlNodeBool("o:signatureline/@allowcomments");
+            }
+            set
+            {
+                if (string.IsNullOrEmpty(GetXmlNodeString("o:signatureline/@allowcomments")))
+                {
+                    SetXmlNodeBoolVml("o:signatureline/@allowcomments", value);
+                }
+                else
+                {
+                    SetXmlNodeBoolVml("o:signatureline/@allowcomments", value);
+                }
+            }
+        }
+
         /// <summary>
         /// True if digital signature is stamp type. False by default
         /// </summary>
@@ -111,6 +158,7 @@ namespace OfficeOpenXml.Drawing.Vml
             set
             {
                 SetXmlNodeString("o:signatureline/@provId", value ? provIdStamp : provID);
+                AlternativeText = value ? "Stamp Signature Line..." : "Microsoft Office Signature Line...";
                 Anchor = value ? "0, 0, 0, 0, 2, 0, 8, 0" : "0, 0, 0, 0, 4, 0, 6, 8";
             }
         }

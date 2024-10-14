@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using OfficeOpenXml.Interfaces.Drawing.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -75,6 +74,9 @@ namespace OfficeOpenXml.Drawing.EMF
                         var obj = new EMR_SELECTOBJECT(br, TypeValue);
                         currentlySelectedId = obj.ihObject;
                         record = obj;
+                        break;
+                    case 0x00000046:
+                        record = new EMR_COMMENT(br);
                         break;
                     case 0x0000004D:
                         record = new EMR_STRETCHBLT(br, TypeValue);

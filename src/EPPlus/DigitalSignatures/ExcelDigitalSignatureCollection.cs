@@ -6,6 +6,7 @@ using System.Xml;
 using System.Security.Cryptography.X509Certificates;
 using OfficeOpenXml.Drawing.Vml;
 using System.Linq;
+using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
@@ -17,7 +18,7 @@ namespace OfficeOpenXml.DigitalSignatures
         XmlNamespaceManager _ns;
 
         List<ExcelDigitalSignature> _signatures;
-        List<DigitalSignatureLine> _signatureLines = new List<DigitalSignatureLine>();
+        List<ExcelSignatureLine> _signatureLines = new List<ExcelSignatureLine>();
 
         internal ExcelDigitalSignatureCollection(ExcelWorkbook wb, XmlNamespaceManager ns)
         {
@@ -93,11 +94,11 @@ namespace OfficeOpenXml.DigitalSignatures
             return digSig;
         }
 
-        public DigitalSignatureLine AddSignatureLine(X509Certificate2 certificate, ExcelWorksheet ws, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
-        {
-            _signatureLines.Add(new DigitalSignatureLine(ws));
-            return _signatureLines.Last();
-        }
+        //public ExcelSignatureLine AddSignatureLine(X509Certificate2 certificate, ExcelWorksheet ws, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        //{
+        //    _signatureLines.Add(new ExcelSignatureLine(ws));
+        //    return _signatureLines.Last();
+        //}
 
         internal ExcelDigitalSignature GetSignatureByFileName(string fileName)
         {
