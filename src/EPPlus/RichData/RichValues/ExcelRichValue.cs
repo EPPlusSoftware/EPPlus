@@ -36,14 +36,25 @@ namespace OfficeOpenXml.RichData.RichValues
 
         private Dictionary<string, string> _keysAndValues = new Dictionary<string, string>();
 
-        public RichValueFallbackType Fallback { get; internal set; } = RichValueFallbackType.Decimal;
+        public RichValueFallbackType FallbackType { get; internal set; } = RichValueFallbackType.Decimal;
+
+        public string FallbackValue { get; set; }
 
         internal void WriteXml(StreamWriter sw)
         {
             sw.Write($"<rv s=\"{StructureId}\">");
-            if (Fallback != RichValueFallbackType.Decimal)
+            if(!string.IsNullOrEmpty(FallbackValue))
             {
-                sw.Write($"<fb t=\"{GetFallbackAsString()}\" />");
+                if (FallbackType != RichValueFallbackType.Decimal)
+                {
+                    sw.Write($"<fb t=\"{GetFallbackAsString()}\">");
+                }
+                else
+                {
+                    sw.Write("<fb>");
+                }
+                sw.Write(FallbackValue);
+                sw.Write("</fb>");
             }
             foreach (var key in Structure.Keys.ToNameArray())
             {
@@ -53,7 +64,7 @@ namespace OfficeOpenXml.RichData.RichValues
         }
         private string GetFallbackAsString()
         {
-            switch (Fallback)
+            switch (FallbackType)
             {
                 case RichValueFallbackType.Boolean:
                     return "b";

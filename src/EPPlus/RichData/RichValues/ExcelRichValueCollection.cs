@@ -80,12 +80,11 @@ namespace OfficeOpenXml.RichData.RichValues
                 {
                     if (keyIx >= keys.Length) continue;
                     item.SetValue(keys[keyIx++], xr.ReadElementContentAsString());
-                    //item.Values.Add(xr.ReadElementContentAsString());
                 }
                 else if (xr.IsElementWithName("fb"))
                 {
-                    item.Fallback = GetFBType(xr.GetAttribute("t"));
-                    xr.Read();
+                    item.FallbackType = GetFBType(xr.GetAttribute("t"));
+                    item.FallbackValue = xr.ReadElementContentAsString();
                 }
                 else
                 {

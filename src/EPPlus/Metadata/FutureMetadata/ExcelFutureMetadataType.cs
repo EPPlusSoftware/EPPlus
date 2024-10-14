@@ -24,6 +24,8 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         public abstract FutureMetadataType Type { get; }
         public abstract string Uri { get; }
         public ExcelFutureMetadataDynamicArray AsDynamicArray { get { return this as ExcelFutureMetadataDynamicArray; } }
+
+        public bool IsDynamicArray { get; set; }
         public ExcelFutureMetadataRichData AsRichData { get { return this as ExcelFutureMetadataRichData; } }
 
         internal abstract void WriteXml(StreamWriter sw);

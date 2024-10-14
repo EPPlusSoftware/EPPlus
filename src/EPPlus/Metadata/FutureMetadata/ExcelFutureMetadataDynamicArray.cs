@@ -58,7 +58,6 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         }
         public override FutureMetadataType Type => FutureMetadataType.DynamicArray;
         public override string Uri => ExtLstUris.DynamicArrayPropertiesUri;
-        public bool IsDynamicArray { get; set; }
         public bool IsCollapsed { get; set; }
         public string ExtLstXml { get; set; }
     }

@@ -226,7 +226,7 @@ namespace OfficeOpenXml.Metadata
                 var metadataType = MetadataTypes[record.TypeIndex - 1];
                 if (metadataType.Name == FUTURE_METADATA_DYNAMIC_ARRAY_NAME)
                 {
-                    return FutureMetadata[FUTURE_METADATA_DYNAMIC_ARRAY_NAME].Types[record.ValueIndex].AsDynamicArray.IsDynamicArray;
+                    return FutureMetadata[FUTURE_METADATA_DYNAMIC_ARRAY_NAME].Types[record.ValueIndex].IsDynamicArray;
                 }
             }
             return false;
@@ -385,7 +385,7 @@ namespace OfficeOpenXml.Metadata
                     var fmdt = fmd.Types[cm.Records[0].ValueIndex];
                     if (fmdt.Type==FutureMetadataType.DynamicArray)
                     {
-                        return fmdt.AsDynamicArray.IsDynamicArray;
+                        return fmdt.IsDynamicArray;
                     }
                 }
             }
