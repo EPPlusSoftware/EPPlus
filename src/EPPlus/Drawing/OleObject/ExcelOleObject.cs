@@ -197,7 +197,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             To.Row = 3;       To.RowOff = 114300;//133350;
 
             //Create vml
-            _vml = drawings.Worksheet.VmlDrawings.AddOlePicture(this, rel.TargetUri);
+            _vml = drawings.Worksheet.VmlDrawings.AddOlePicture(this.Id.ToString(), rel.TargetUri);
             _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
 
             //Create worksheet xml
@@ -285,6 +285,10 @@ namespace OfficeOpenXml.Drawing.OleObject
 
         private void LoadLinkedObject()
         {
+            ////Add this code here. need to read the linkedOleObjectXml
+            //_linkedOleObjectXml = new XmlDocument();
+            //_linkedOleObjectXml.LoadXml(xml.ToString());
+
             var els = _worksheet.Workbook.ExternalLinks;
             foreach (var el in els)
             {
@@ -296,6 +300,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                     if (splitLink[0].Contains(splitFilename[0]))
                     {
                         _externalLink = el as ExcelExternalOleLink;
+                        
                         break;
                     }
                 }

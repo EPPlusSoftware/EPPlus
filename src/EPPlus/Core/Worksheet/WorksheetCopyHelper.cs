@@ -35,6 +35,7 @@ using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.Drawing.OleObject.Structures;
 using System.Xml.Linq;
+using OfficeOpenXml.Utils.CompundDocument;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -443,6 +444,8 @@ namespace OfficeOpenXml.Core.Worksheet
             string relId = "";
             if (SourceOle.IsExternalLink)
             {
+                if (target == SourceOle._worksheet)
+                    return;
                 //Copy linked object
                 var UriLinked = XmlHelper.GetNewUri(package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml");
                 var linkPart = package.ZipPackage.CreatePart(UriLinked, ContentTypes.contentTypeExternalLink);
@@ -484,10 +487,18 @@ namespace OfficeOpenXml.Core.Worksheet
                 var part = target._package.ZipPackage.CreatePart(oleUri, ContentTypes.contentTypeOleObject);
                 var rel = target.Part.CreateRelationship(oleUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/oleObject");
                 MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-                SourceOle._document.Save(ms);
+                CompoundDocument cd = new CompoundDocument();
+                foreach (var ds in SourceOle._document.Storage.DataStreams)
+                {
+                    cd.Storage.DataStreams.Add(ds.Key, ds.Value);
+                }
+                cd.RootItem.ClsID = SourceOle._document.RootItem.ClsID;
+                cd.Save(ms);
                 relId = rel.Id;
             }
-            oleNode.FirstChild.Attributes["r:id"].Value = relId;
+            oleNode.FirstChild.FirstChild.Attributes["r:id"].Value = relId;
+            //Fallback
+            oleNode.ChildNodes[1].FirstChild.Attributes["r:id"].Value = relId;
         }
 
         internal static void CopyChartRelations(ExcelChart chart, ExcelWorksheet target, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet source)

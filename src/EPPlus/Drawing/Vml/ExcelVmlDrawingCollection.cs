@@ -20,13 +20,6 @@ using OfficeOpenXml.Drawing.Controls;
 using System.Text;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Constants;
-using System.IO;
-using OfficeOpenXml.Drawing.OleObject;
-using System.Data.SqlTypes;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -198,17 +191,17 @@ namespace OfficeOpenXml.Drawing.Vml
             return node;
         }
 
-        internal ExcelVmlDrawingPicture AddOlePicture(ExcelOleObject oleObject, Uri mediaUri)
+        internal ExcelVmlDrawingPicture AddOlePicture(string spid, Uri mediaUri)
         {
-            UpdateShapeTypeForOleObject();
-            XmlNode node = AddOleObjectDrawing(oleObject, mediaUri);
+            if(VmlDrawingXml == null)
+                UpdateShapeTypeForOleObject();
+            XmlNode node = AddOleObjectDrawing(spid, mediaUri);
             var draw = new ExcelVmlDrawingPicture(node, NameSpaceManager, _ws);
             _drawings.Add(draw);
             if (_drawingsDict.ContainsKey(draw.Id) == false)
             {
                 _drawingsDict.Add(draw.Id, _drawings.Count - 1);
             }
-
             return draw;
         }
 
@@ -245,16 +238,28 @@ namespace OfficeOpenXml.Drawing.Vml
             VmlDrawingXml.LoadXml(vml);
         }
 
-        internal XmlNode AddOleObjectDrawing(ExcelOleObject oleObject, Uri mediaUri)
+        internal XmlNode AddOleObjectDrawing(string spid, Uri mediaUri)
         {
             CreateVmlPart(false); //Create the vml part to be able to create related parts (like blip fill images).
             var shapeElement = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
             VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
 
             //Create relationship to image here
-            var vmlRel = Part.CreateRelationship(mediaUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+            bool exsists = false;
+            ZipPackageRelationship vmlRel = new ZipPackageRelationship(); ;
+            foreach(var rel in Part._rels)
+            {
+                if(rel.TargetUri == mediaUri)
+                {
+                    exsists = true;
+                    vmlRel.Id = rel.Id;
+                    break;
+                }
+            }
+            if(!exsists)
+                vmlRel = Part.CreateRelationship(mediaUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
 
-            shapeElement.SetAttribute("id", "_x0000_s" + oleObject.Id);
+            shapeElement.SetAttribute("id", "_x0000_s" + spid);
             shapeElement.SetAttribute("type", "#_x0000_t75");
             shapeElement.SetAttribute("style", "position:absolute; margin-left:0;margin-top:0;width:61.5pt;height40.5pt:; z-index:1"); //SET VALUE BASED ON MEDIA ;mso-wrap-style:tight
             shapeElement.SetAttribute("filled", "t");

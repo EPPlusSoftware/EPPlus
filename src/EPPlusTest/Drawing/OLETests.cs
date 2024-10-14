@@ -410,28 +410,54 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void CopyEmbeddedOleObjectTestSameWorkbook()
         {
-
+            var p = OpenTemplatePackage("OleObjectTest_Embed_CopyMe.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            var ws2 = p.Workbook.Worksheets.Add("Sheet 2");
+            ws.Drawings[0].Copy(ws2, 5, 0);
+            p.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Embed_CopyMe2.xlsx");
         }
         [TestMethod]
         public void CopyEmbeddedOleObjectTestOtherWorkbook()
         {
-
+            var p = OpenTemplatePackage("OleObjectTest_Embed_CopyMe.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            var p2 = new ExcelPackage();
+            var ws2 = p2.Workbook.Worksheets.Add("Sheet1");
+            ws.Drawings[0].Copy(ws2, 5, 0);
+            p2.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Embed_CopyMe3.xlsx");
         }
 
         [TestMethod]
         public void CopyLinkedOleObjectTestSameWorksheet()
         {
-
+            var p = OpenTemplatePackage("OleObjectTest_Link_CopyMe.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            ws.Drawings[0].Copy(ws, 5, 0);
+            SaveAndCleanup(p);
         }
         [TestMethod]
         public void CopyELinkedOleObjectTestSameWorkbook()
         {
-
+            var p = OpenTemplatePackage("OleObjectTest_Link_CopyMe.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            var ws2 = p.Workbook.Worksheets.Add("Sheet 2");
+            ws.Drawings[0].Copy(ws2, 5, 0);
+            p.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Link_CopyMe2.xlsx");
         }
         [TestMethod]
         public void CopyLinkedOleObjectTestOtherWorkbook()
         {
-
+            var p = OpenTemplatePackage("OleObjectTest_Link_CopyMe.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+            var p2 = new ExcelPackage();
+            var ws2 = p2.Workbook.Worksheets.Add("Sheet1");
+            ws.Drawings[0].Copy(ws2, 5, 0);
+            p2.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Link_CopyMe3.xlsx");
         }
     }
 }
