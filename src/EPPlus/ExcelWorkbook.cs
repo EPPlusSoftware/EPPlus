@@ -872,7 +872,11 @@ namespace OfficeOpenXml
                 {
                     if (SignatureOriginUri == null)
                     {
-                        var rel = _package.ZipPackage.CreateRelationship("_xmlsignatures/origin.sigs", TargetMode.Internal, ExcelPackage.packageSchemaRelationships + "/digital-signature/origin");
+                        var originSigsUri = new Uri("_xmlsignatures/origin.sigs", UriKind.Relative);
+						var originPart = _package.ZipPackage.CreatePart(originSigsUri, ContentTypes.signatureOrigin, CompressionLevel.Default, "sigs");
+						var stream = originPart.GetStream();
+						stream.Write([], 0, 0);
+						var rel = _package.ZipPackage.CreateRelationship(originSigsUri, TargetMode.Internal, ExcelPackage.packageSchemaRelationships + "/digital-signature/origin");
                         SignatureOriginUri = rel.TargetUri;
                     }
 

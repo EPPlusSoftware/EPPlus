@@ -104,18 +104,19 @@ namespace OfficeOpenXml.DigitalSignatures
             PartUri = string.Format(PartUriBase, num);
 
             _part = wb._package.ZipPackage.CreatePart(new Uri(PartUri, UriKind.Relative), ContentTypes.xmlSignatures);
-            var uri = new Uri(_originPartUri, UriKind.Relative);
-            if (!wb._package.ZipPackage.PartExists(uri))
-            {
-                _originPart = wb._package.ZipPackage.CreatePart(uri, ContentTypes.signatureOrigin, CompressionLevel.Default, "sigs");
-                wb._package.ZipPackage.CreateRelationship(_originPartUri, TargetMode.Internal, relTypeOrigin);
-                var stream = _originPart.GetStream();
-                stream.Write([], 0, 0);
-            }
-            else
-            {
-                _originPart = wb._package.ZipPackage.GetPart(uri);
-            }
+            //var uri = new Uri(_originPartUri, UriKind.Relative);
+            //if (!wb._package.ZipPackage.PartExists(uri))
+            //{
+            //    _originPart = wb._package.ZipPackage.CreatePart(uri, ContentTypes.signatureOrigin, CompressionLevel.Default, "sigs");
+            //    wb._package.ZipPackage.CreateRelationship(_originPartUri, TargetMode.Internal, relTypeOrigin);
+            //    var stream = _originPart.GetStream();
+            //    stream.Write([], 0, 0);
+            //}
+            //else
+            //{
+            //    _originPart = wb._package.ZipPackage.GetPart(uri);
+            //}
+            _originPart = wb._package.ZipPackage.GetPart(wb.SignatureOriginUri);
             _originPart.CreateRelationship(string.Format("sig{0}.xml", num), TargetMode.Internal, relType);
         }
 
