@@ -1667,7 +1667,7 @@ namespace OfficeOpenXml.Drawing
             }
 
             //Update DrawNode Id
-            var oleId = (worksheet._nextControlId).ToString();
+            var oleId = (++worksheet._nextControlId).ToString();
             var drawIdNode = drawNode.SelectSingleNode("xdr:sp/xdr:nvSpPr/xdr:cNvPr", worksheet.NameSpaceManager);
             drawIdNode.Attributes["id"].Value = oleId;
             var drawSpIdNode = drawIdNode.SelectSingleNode("a:extLst/a:ext/a14:compatExt", _drawings.NameSpaceManager);

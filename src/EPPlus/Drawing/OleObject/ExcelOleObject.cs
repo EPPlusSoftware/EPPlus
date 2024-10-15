@@ -361,7 +361,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 {
                     name = "Microsoft_Word_Document";
                     CompObj.CreateCompObjObject(_oleDataStructures, "Document", "Document");
-                    contentType = ContentTypes.contentTypeOleDocx;
+                    
                     ext = "docx";
                 }
                 else if (fileType == ".xlsx")

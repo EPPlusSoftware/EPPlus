@@ -486,7 +486,6 @@ namespace EPPlusTest.Drawing
             {
                 ole.Copy(ws2, ole.From.Row, ole.From.Column + 10);
             }
-            SaveAndCleanup(p);
             //Copy to new workbook
             var p1 = new ExcelPackage();
             var ws1 = p1.Workbook.Worksheets.Add("New Workbook");
@@ -494,6 +493,7 @@ namespace EPPlusTest.Drawing
             {
                 ole.Copy(ws1, ole.From.Row, ole.From.Column + 10);
             }
+            SaveAndCleanup(p);
             p1.SaveAs(@"C:\epplusTest\Testoutput\NewOleObjects.xlsx");
         }
     }

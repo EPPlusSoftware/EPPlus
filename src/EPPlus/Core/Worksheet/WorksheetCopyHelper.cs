@@ -466,34 +466,56 @@ namespace OfficeOpenXml.Core.Worksheet
                 string name;
                 string relId = "";
                 var fileType = Path.GetExtension(orgUri).ToLower();
+                bool isMsOffDoc = true;
+                string schemaRelEnding = "/package";
+                string contentType = "";
+                string ext = null;
                 if (fileType == ".docx")
                 {
                     name = "Microsoft_Word_Document";
+                    contentType = ContentTypes.contentTypeOleDocx;
+                    ext = "docx";
                 }
                 else if (fileType == ".xlsx")
                 {
                     name = "Microsoft_Excel_Worksheet";
+                    contentType = ContentTypes.contentTypeOleXlsx;
+                    ext = "xlsx";
                 }
                 else if (fileType == ".pptx")
                 {
                     name = "Microsoft_PowerPoint_Presentation";
+                    contentType = ContentTypes.contentTypeOlePptx;
+                    ext = "pptx";
                 }
                 else
                 {
                     name = "oleObject";
+                    schemaRelEnding = "/oleObject";
+                    isMsOffDoc = false;
+                    contentType = ContentTypes.contentTypeOleObject;
                 }
                 int newID = 1;
                 var oleUri = XmlHelper.GetNewUri(target._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
-                var part = target._package.ZipPackage.CreatePart(oleUri, ContentTypes.contentTypeOleObject);
-                var rel = target.Part.CreateRelationship(oleUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/oleObject");
+                var part = target._package.ZipPackage.CreatePart(oleUri, contentType, CompressionLevel.None, ext);
+                var rel = target.Part.CreateRelationship(oleUri, TargetMode.Internal, ExcelPackage.schemaRelationships + schemaRelEnding);
                 MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-                CompoundDocument cd = new CompoundDocument();
-                foreach (var ds in SourceOle._document.Storage.DataStreams)
+                if(isMsOffDoc)
                 {
-                    cd.Storage.DataStreams.Add(ds.Key, ds.Value);
+                    var p = (MemoryStream)SourceOle._oleObjectPart.GetStream();
+                    var arr = p.ToArray();
+                    ms.Write(arr,0, arr.Length);
                 }
-                cd.RootItem.ClsID = SourceOle._document.RootItem.ClsID;
-                cd.Save(ms);
+                else
+                {
+                    CompoundDocument cd = new CompoundDocument();
+                    foreach (var ds in SourceOle._document.Storage.DataStreams)
+                    {
+                        cd.Storage.DataStreams.Add(ds.Key, ds.Value);
+                    }
+                    cd.RootItem.ClsID = SourceOle._document.RootItem.ClsID;
+                    cd.Save(ms);
+                }
                 relId = rel.Id;
                 oleNode.FirstChild.FirstChild.Attributes["r:id"].Value = relId;
                 //Fallback
