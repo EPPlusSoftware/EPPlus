@@ -1,6 +1,9 @@
-﻿using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq.Expressions;
 
 namespace OfficeOpenXml.Core.RangeQuadTree
 {
@@ -57,6 +60,12 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             return IntersectType.OutSide;
         }
 
+        /// <summary>
+        /// Inserts row(s) into the quad tree. Intersecting ranges will be expanded. Ranges after the row will be shifted.
+        /// </summary>
+        /// <param name="fromRow">Insert from this row.</param>
+        /// <param name="rows">Insert this number of cols.</param>
+        /// <returns>True if affected</returns>
         internal bool InsertRow(int fromRow, int rows)
         {
             if (ToRow < fromRow) return false;
@@ -67,33 +76,101 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             ToRow += rows;
             return true;
         }
-        internal void InsertColumn(int fromCol, int cols)
+        /// <summary>
+        /// Inserts columns(s) into the quad tree. Intersecting ranges will be expanded. Ranges after the column will be shifted.
+        /// </summary>
+        /// <param name="fromCol">Insert from this column.</param>
+        /// <param name="cols">Insert this number of column.</param>
+        /// <returns>True if affected</returns>        
+        internal bool InsertColumn(int fromCol, int cols)
         {
-            if (ToCol < fromCol) return;
+            if (ToCol < fromCol) return false;
             if (FromCol >= fromCol)
             {
                 FromCol += cols;
             }
             ToCol += cols;
+            return true;
         }
-        internal void DeleteRow(int fromRow, int rows)
+        internal bool DeleteRow(int fromRow, int rows)
         {
-            if (ToRow < fromRow) return;
-            if (FromRow >= fromRow)
+            if (ToRow < fromRow) return false;
+
+            var toRow = fromRow + rows-1;
+            if (fromRow <= FromRow && toRow >= ToRow) //Within, delete
+            {
+                FromRow = -1;
+                ToRow =-1;
+                return true;
+            }
+            
+            if(FromRow >= fromRow+rows) //Adjust FromRow/ToRow
             {
                 FromRow -= rows;
             }
-            ToRow -= rows;
+            else if(FromRow > fromRow)
+            {
+                FromRow=fromRow;
+            }
+
+            if (ToRow >= fromRow + rows) //Adjust FromRow/ToRow
+            {
+                ToRow -= rows;
+            }
+            else if (ToRow > fromRow)
+            {
+                ToRow = fromRow;
+            }
+
+            return true;
+            
         }
-        internal void DeleteColumn(int fromCol, int cols)
+        internal bool DeleteColumn(int fromCol, int cols)
         {
-            if (ToCol < fromCol) return;
-            if (FromCol >= fromCol)
+            if (ToCol < fromCol) return false;
+
+            var toCol = fromCol + cols - 1;
+            if (fromCol <= FromCol && toCol >= ToCol) //Within, delete
+            {
+                FromCol = -1;
+                ToCol = -1;
+                return true;
+            }
+
+            if (FromCol >= fromCol + cols) //Adjust FromRow/ToRow
             {
                 FromCol -= cols;
             }
-            ToCol -= cols;
+            else if (FromCol > fromCol)
+            {
+                FromCol = fromCol;
+            }
+
+            if (ToCol >= fromCol + cols) //Adjust FromRow/ToRow
+            {
+                ToCol -= cols;
+            }
+            else if (ToCol > fromCol)
+            {
+                ToCol = fromCol;
+            }
+
+            return true;
         }
 
+        internal bool IsOutsideOfBounds(QuadRange range)
+        {
+            return ToRow < range.ToRow || ToCol < range.ToCol;
+        }
+
+        internal bool IsInside(QuadRange r)
+        {
+            return 
+               FromRow <= r.FromRow &&
+               FromCol <= r.FromCol &&
+               ToRow >= r.ToRow &&
+               ToCol >= r.ToCol;
+        }
+        
     }
 }
