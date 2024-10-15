@@ -293,6 +293,29 @@ namespace OfficeOpenXml.Core.Worksheet
                 var c = target.Drawings[i];
                 if (c != null)
                 {
+                    if(c is ExcelPicture)
+                    {
+                        var pic = (ExcelPicture)c;
+                        pic.RecalcWidthHeight();
+
+                        if(draw.CellAnchor == eEditAs.TwoCell)
+                        {
+                            pic.From.Row = draw.From.Row;
+                            pic.From.RowOff = draw.From.RowOff;
+                            pic.From.Column = draw.From.Column;
+                            pic.From.ColumnOff = draw.From.ColumnOff;
+
+                            pic.To.Row = draw.To.Row;
+                            pic.To.RowOff = draw.To.RowOff;
+                            pic.To.Column = draw.To.Column;
+                            pic.To.ColumnOff = draw.To.ColumnOff;
+                        }
+                        else
+                        {
+                            pic.SetSize((int)draw.GetPixelWidth(), (int)draw.GetPixelHeight());
+                        }
+                    }
+
                     c._left = draw._left;
                     c._top = draw._top;
                     c._height = draw._height;

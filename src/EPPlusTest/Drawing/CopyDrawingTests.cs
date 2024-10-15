@@ -6,6 +6,7 @@ using OfficeOpenXml.Drawing.Chart.Style;
 using System;
 using System.Collections.Generic;
 using OfficeOpenXml.Drawing;
+using System.Linq;
 
 namespace EPPlusTest.Drawing
 {
@@ -391,6 +392,27 @@ namespace EPPlusTest.Drawing
                 Assert.AreEqual(pic._width, picCopied._width);
                 Assert.AreEqual(pic.Size.Width, picCopied.Size.Width);
 
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void AddAndCopyImage2()
+        {
+            using (var package = OpenTemplatePackage("SizeCopyTest.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.First();
+                //var uri = GetResourceFile("EPPlus.png").FullName;
+
+                var pic = sheet.Drawings.First();
+
+                sheet.Drawings.ReadPositionsAndSize();
+
+                var copiedWs = package.Workbook.Worksheets.Copy(sheet.Name, "Copy");
+                var picCopied = (ExcelPicture)copiedWs.Drawings[0];
+
+                Assert.AreEqual(pic._width, picCopied._width);
+                //Assert.AreEqual(pic.Size.Width, picCopied.Size.Width);
+                
                 SaveAndCleanup(package);
             }
         }

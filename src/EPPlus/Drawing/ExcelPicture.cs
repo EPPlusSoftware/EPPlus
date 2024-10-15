@@ -21,6 +21,8 @@ using OfficeOpenXml.Packaging;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Globalization;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+
 
 
 
@@ -268,12 +270,18 @@ namespace OfficeOpenXml.Drawing
 
         internal void RecalcWidthHeight()
         {
+            //Ensure image has a size.width and size.height based on 100% orignal image
             if(Image != null && Image.ImageBytes != null)
             {
+                //Recalculates width/height and bounds to 100% width/height relative to original image size
                 Image.Bounds = PictureStore.GetImageBounds(Image.ImageBytes, Image.Type.Value, _drawings._package);
+
                 var width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
                 var height = Image.Bounds.Height / (Image.Bounds.VerticalResolution / STANDARD_DPI);
                 SetPosDefaults((float)width, (float)height);
+
+                //Image.Bounds.Height = origHeight;
+                //Image.Bounds.Width = origWidth;
             }
         }
 
@@ -299,8 +307,10 @@ namespace OfficeOpenXml.Drawing
             {
                 EditAs = eEditAs.OneCell;
             }
+
             SetPixelWidth(width);
             SetPixelHeight(height);
+
             _width = GetPixelWidth();
             _height = GetPixelHeight();
         }
