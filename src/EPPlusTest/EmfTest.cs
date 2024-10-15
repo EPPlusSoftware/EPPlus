@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing.EMF;
+using System.IO;
 using System.Linq;
 
 namespace EPPlusTest
@@ -74,7 +76,19 @@ namespace EPPlusTest
 
             var records = emfImage.records;
 
-            //emfImage.Save("C:\\epplusTest\\Testoutput\\ValidStampPostRead.emf");
+            var dibits = (EMR_STRETCHDIBITS)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            var fileBytes = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\BMPTest.bmp");
+
+            //dibits.bitMapHeader.ReadCompression = BitmapHeader.CompressionMethod.BI_PNG;
+            dibits.BitsSrc = fileBytes;
+
+            emfImage.Save("C:\\epplusTest\\Testoutput\\ValidStampAltered.emf");
+
+            var readImage = new EmfImage();
+            readImage.Read("C:\\epplusTest\\Testoutput\\ValidStampAltered.emf");
+
+            var records2 = readImage.records;
         }
 
         [TestMethod]

@@ -11,17 +11,35 @@ namespace OfficeOpenXml.Drawing.EMF
         internal int ySrc;
         internal int cxSrc;
         internal int cySrc;
-        internal uint   offBmiSrc;
-        internal uint   cbBmiSrc;
-        internal uint   offBitsSrc;
-        internal uint   cbBitsSrc;
+        internal uint offBmiSrc;
+        internal uint cbBmiSrc;
+        internal uint offBitsSrc;
+        internal uint cbBitsSrc;
         internal uint UsageSrc;
         internal uint InternalBltRasterOperation;
         internal int cxDest;
         internal int cyDest;
         internal byte[] BmiSrc;
-        internal byte[] BitsSrc;
-        //internal byte[] Padding;
+        internal byte[] _bitsSrc;
+
+        internal byte[] BitsSrc
+        {
+            get
+            {
+                return _bitsSrc;
+            }
+            set
+            {
+                Size -= (uint)_bitsSrc.Length;
+                _bitsSrc = value;
+                cbBitsSrc = (uint)_bitsSrc.Length;
+                Size += (uint)_bitsSrc.Length;
+            }
+        }
+        internal BitmapHeader bitMapHeader;
+
+        internal byte[] Padding1;
+        internal byte[] Padding2;
 
         internal EMR_STRETCHDIBITS(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
@@ -45,26 +63,30 @@ namespace OfficeOpenXml.Drawing.EMF
 
             //There's undefined variable space here, ensure we reach the header
             var startOfHeader = startOfRecord + offBmiSrc;
-            br.BaseStream.Position = startOfHeader;
-            //BitmapHeader
-            //BmiSrc = br.ReadBytes((int)cbBmiSrc);
+            if(br.BaseStream.Position < startOfHeader)
+            {
+                int padding = (int)(startOfHeader - br.BaseStream.Position);
+                br.Read(Padding1, 0, padding);
+            }
 
-            var bh = new BitmapHeader(br, cbBmiSrc);
+            //Should not be neccesary
+            br.BaseStream.Position = startOfHeader;
+
+            bitMapHeader = new BitmapHeader(br, cbBmiSrc);
 
             //There's undefined variable space here, ensure we reach the bitmapSpace
             var startOfBitmapBits = startOfRecord + offBitsSrc;
+            if (br.BaseStream.Position < startOfBitmapBits)
+            {
+                int padding = (int)(startOfBitmapBits - br.BaseStream.Position);
+                br.Read(Padding2, 0, padding);
+            }
+
+            //Should not be neccesary
             br.BaseStream.Position = startOfBitmapBits;
 
             //Source bitmap bits
-            BitsSrc = br.ReadBytes((int)cbBitsSrc);
-
-            //int padding = (int)((position + Size) - br.BaseStream.Position);
-            //if (padding < 0)
-            //{
-            //    Padding = new byte[0];
-            //    return;
-            //}
-            //Padding = br.ReadBytes(padding);
+            _bitsSrc = br.ReadBytes((int)cbBitsSrc);
         }
 
         internal override void WriteBytes(BinaryWriter bw)
@@ -85,9 +107,16 @@ namespace OfficeOpenXml.Drawing.EMF
             bw.Write(InternalBltRasterOperation);
             bw.Write(cxDest);
             bw.Write(cyDest);
-            bw.Write(BmiSrc);
+            if(Padding1 != null)
+            {
+                bw.Write(Padding1);
+            }
+            bitMapHeader.WriteBytes(bw);
+            if (Padding2 != null)
+            {
+                bw.Write(Padding2);
+            }
             bw.Write(BitsSrc);
-            //bw.Write(Padding);
         }
     }
 }

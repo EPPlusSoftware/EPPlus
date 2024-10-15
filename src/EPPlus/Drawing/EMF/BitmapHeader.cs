@@ -19,16 +19,16 @@ namespace OfficeOpenXml.Drawing.EMF
         }
         internal enum CompressionMethod
         {
-            BI_RGB,
-            BI_RLE8,
-            BI_RLE4,
-            BI_BITFIELDS,
-            BI_JPEG,
-            BI_PNG,
-            BI_ALPHABITFIELDS,
-            BI_CMYK,
-            BI_CMYKRLE8,
-            BI_CMYKRLE4
+            BI_RGB = 0,
+            BI_RLE8 = 1,
+            BI_RLE4 = 2,
+            BI_BITFIELDS = 3,
+            BI_JPEG = 4,
+            BI_PNG = 5,
+            BI_ALPHABITFIELDS = 6,
+            BI_CMYK = 7,
+            BI_CMYKRLE8 = 8,
+            BI_CMYKRLE4 = 9
         }
 
         //byte[] type = new byte[2];
@@ -70,12 +70,28 @@ namespace OfficeOpenXml.Drawing.EMF
             {
                 ByteArrIfUnhandled = br.ReadBytes((int)HeaderSize);
             }
+        }
 
-            //br.Read(type, 0, 2);
-
-            //var strType = Encoding.ASCII.GetString(type);
-            //sizeOfFile = br.ReadUInt32();
-
+        internal void WriteBytes(BinaryWriter bw)
+        {
+            if(ByteArrIfUnhandled == null)
+            {
+                bw.Write(sizeOfHeader);
+                bw.Write(pixelWidth);
+                bw.Write(pixelHeight);
+                bw.Write(colorPlanes);
+                bw.Write(colorDepth);
+                bw.Write((uint)ReadCompression);
+                bw.Write(imageSize);
+                bw.Write(hRes);
+                bw.Write(vRes);
+                bw.Write(nColors);
+                bw.Write(nImportantColors);
+            }
+            else
+            {
+                bw.Write(ByteArrIfUnhandled);
+            }
         }
     }
 }
