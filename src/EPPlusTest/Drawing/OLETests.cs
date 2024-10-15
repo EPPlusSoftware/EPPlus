@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.OleObject.Structures;
+using System.Collections.Generic;
 
 namespace EPPlusTest.Drawing
 {
@@ -458,6 +459,42 @@ namespace EPPlusTest.Drawing
             var ws2 = p2.Workbook.Worksheets.Add("Sheet1");
             ws.Drawings[0].Copy(ws2, 5, 0);
             p2.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Link_CopyMe3.xlsx");
+        }
+
+        [TestMethod]
+        public void BiggusCoppiusTestus()
+        {
+            var p = OpenTemplatePackage("OleObjects.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            List<ExcelOleObject> oleObjects = new List<ExcelOleObject>();
+            foreach(var ole in ws.Drawings)
+            {
+                if(ole is ExcelOleObject)
+                {
+                    oleObjects.Add(ole as ExcelOleObject);
+                }
+            }
+
+            //Copy to same worksheet
+            foreach(var ole in oleObjects)
+            {
+                ole.Copy(ws, ole.From.Row, ole.From.Column + 10);
+            }
+            //Copy to new worksheet
+            var ws2 = p.Workbook.Worksheets.Add("Copies");
+            foreach (var ole in oleObjects)
+            {
+                ole.Copy(ws2, ole.From.Row, ole.From.Column + 10);
+            }
+            SaveAndCleanup(p);
+            //Copy to new workbook
+            var p1 = new ExcelPackage();
+            var ws1 = p1.Workbook.Worksheets.Add("New Workbook");
+            foreach (var ole in oleObjects)
+            {
+                ole.Copy(ws1, ole.From.Row, ole.From.Column + 10);
+            }
+            p1.SaveAs(@"C:\epplusTest\Testoutput\NewOleObjects.xlsx");
         }
     }
 }

@@ -285,22 +285,19 @@ namespace OfficeOpenXml.Drawing.OleObject
 
         private void LoadLinkedObject()
         {
-            ////Add this code here. need to read the linkedOleObjectXml
-            //_linkedOleObjectXml = new XmlDocument();
-            //_linkedOleObjectXml.LoadXml(xml.ToString());
-
             var els = _worksheet.Workbook.ExternalLinks;
             foreach (var el in els)
             {
                 if (el.ExternalLinkType == eExternalLinkType.OleLink)
                 {
-                    var filename = el.Part.Entry.ToString();
-                    var splitFilename = filename.Split("ZipEntry::xl/externalLinks/externalLink.xml".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    var filename = el.Part.Uri.ToString();
+                    var splitFilename = filename.Split("/xl/externalLinks/externalLink.xml".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                     var splitLink = _oleObject.Link.Split("[]".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                     if (splitLink[0].Contains(splitFilename[0]))
                     {
                         _externalLink = el as ExcelExternalOleLink;
-                        
+                        _linkedOleObjectXml = _externalLink.ExternalOleXml;
+                        _linkedObjectFilepath = _externalLink.Relation.TargetUri.OriginalString;
                         break;
                     }
                 }
@@ -374,7 +371,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                     CompObj.CreateCompObjObject(_oleDataStructures, "Presentation", "Presentation");
                 }
                 int newID = 1;
-                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
+                var Uri = GetNewUri(_worksheet._package.ZipPackage, "xl/embeddings/" + name + "{0}" + fileType, ref newID);
                 _oleObjectPart = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeOleObject); //Change content type or add content type for the doc type?
                 var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
                 relId = rel.Id;
@@ -413,8 +410,8 @@ namespace OfficeOpenXml.Drawing.OleObject
             _oleObjectPart = wb._package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
             var rel = wb.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
             //Create relation to external file
-            var fileRel = _oleObjectPart.CreateRelationship("file:///" + filePath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
-            _linkedObjectFilepath = filePath;
+            _linkedObjectFilepath = "file:///" + filePath;
+            var fileRel = _oleObjectPart.CreateRelationship(_linkedObjectFilepath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
             //Create externalLink xml
             var xml = new StringBuilder();
             xml.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");

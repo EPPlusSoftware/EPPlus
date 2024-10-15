@@ -441,7 +441,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyOleObject(ExcelPackage package, ExcelWorksheet target, ExcelOleObject SourceOle, XmlNode oleNode)
         {
-            string relId = "";
+
             if (SourceOle.IsExternalLink)
             {
                 if (target == SourceOle._worksheet)
@@ -452,19 +452,19 @@ namespace OfficeOpenXml.Core.Worksheet
                 StreamWriter streamChart = new StreamWriter(linkPart.GetStream(FileMode.Create, FileAccess.Write));
                 streamChart.Write(SourceOle._linkedOleObjectXml.OuterXml);
                 streamChart.Flush();
-                var fileRel = linkPart.CreateRelationship("file:///" + SourceOle._linkedObjectFilepath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
-
+                Uri targetUri = new Uri(SourceOle._linkedObjectFilepath);
+                var fileRel = linkPart.CreateRelationship(targetUri, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
                 //copy workbook node
                 var rel = target.Workbook.Part.CreateRelationship(UriLinked, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
                 var er = (XmlElement)target.Workbook.CreateNode("d:externalReferences/d:externalReference", false, true);
                 er.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
-                relId = rel.Id;
             }
             else
             {
                 //copy embeded object
                 var orgUri = SourceOle._oleObjectPart.Uri.OriginalString;
                 string name;
+                string relId = "";
                 var fileType = Path.GetExtension(orgUri).ToLower();
                 if (fileType == ".docx")
                 {
@@ -495,10 +495,10 @@ namespace OfficeOpenXml.Core.Worksheet
                 cd.RootItem.ClsID = SourceOle._document.RootItem.ClsID;
                 cd.Save(ms);
                 relId = rel.Id;
+                oleNode.FirstChild.FirstChild.Attributes["r:id"].Value = relId;
+                //Fallback
+                oleNode.ChildNodes[1].FirstChild.Attributes["r:id"].Value = relId;
             }
-            oleNode.FirstChild.FirstChild.Attributes["r:id"].Value = relId;
-            //Fallback
-            oleNode.ChildNodes[1].FirstChild.Attributes["r:id"].Value = relId;
         }
 
         internal static void CopyChartRelations(ExcelChart chart, ExcelWorksheet target, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet source)

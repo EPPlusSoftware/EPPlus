@@ -11,12 +11,8 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.IO;
 using System.Xml;
-using OfficeOpenXml.Packaging.Ionic.Zlib;
 namespace OfficeOpenXml.Packaging
 {
     /// <summary>
@@ -27,7 +23,7 @@ namespace OfficeOpenXml.Packaging
         /// <summary>
         /// Relationships collection
         /// </summary>
-        protected internal ZipPackageRelationshipCollection _rels = new ZipPackageRelationshipCollection();        
+        protected internal ZipPackageRelationshipCollection _rels = new ZipPackageRelationshipCollection();
         int _maxRId = 1;
         internal void DeleteRelationship(string id)
         {
