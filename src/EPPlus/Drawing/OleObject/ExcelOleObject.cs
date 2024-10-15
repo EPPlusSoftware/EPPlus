@@ -355,25 +355,33 @@ namespace OfficeOpenXml.Drawing.OleObject
             {
                 //Embedd as is
                 string name = "";
+                string contentType = "";
+                string ext = "";
                 if (fileType == ".docx")
                 {
                     name = "Microsoft_Word_Document";
                     CompObj.CreateCompObjObject(_oleDataStructures, "Document", "Document");
+                    contentType = ContentTypes.contentTypeOleDocx;
+                    ext = "docx";
                 }
                 else if (fileType == ".xlsx")
                 {
                     name = "Microsoft_Excel_Worksheet";
                     CompObj.CreateCompObjObject(_oleDataStructures, "Worksheet", "Worksheet");
+                    contentType = ContentTypes.contentTypeOleXlsx;
+                    ext = "xlsx";
                 }
                 else if (fileType == ".pptx")
                 {
                     name = "Microsoft_PowerPoint_Presentation";
                     CompObj.CreateCompObjObject(_oleDataStructures, "Presentation", "Presentation");
+                    contentType = ContentTypes.contentTypeOlePptx;
+                    ext = "pptx";
                 }
                 int newID = 1;
-                var Uri = GetNewUri(_worksheet._package.ZipPackage, "xl/embeddings/" + name + "{0}" + fileType, ref newID);
-                _oleObjectPart = _worksheet._package.ZipPackage.CreatePart(Uri, ContentTypes.contentTypeOleObject); //Change content type or add content type for the doc type?
-                var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/embeddings");
+                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
+                _oleObjectPart = _worksheet._package.ZipPackage.CreatePart(Uri, contentType, CompressionLevel.None, ext);
+                var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/package");
                 relId = rel.Id;
                 MemoryStream ms = (MemoryStream)_oleObjectPart.GetStream(FileMode.Create, FileAccess.Write);
                 ms.Write(fileData, 0, fileData.Length);

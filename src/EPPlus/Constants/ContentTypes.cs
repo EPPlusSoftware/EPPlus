@@ -53,5 +53,8 @@ namespace OfficeOpenXml.Constants
 
         //Ole Object
         internal const string contentTypeOleObject = "application/vnd.openxmlformats-officedocument.oleObject";
+        internal const string contentTypeOleDocx = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        internal const string contentTypeOlePptx = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+        internal const string contentTypeOleXlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
     }
 }
