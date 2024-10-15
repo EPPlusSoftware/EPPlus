@@ -20,12 +20,12 @@ namespace OfficeOpenXml.RichData.Structures.LocalImages
 {
     internal class LocalImageWithAltTextStructure : LocalImageBaseStructure
     {
-        public LocalImageWithAltTextStructure() : this(StructureKeys.LocalImage.ImageAltText)
+        public LocalImageWithAltTextStructure(ExcelRichData richData) : this(StructureKeys.LocalImage.ImageAltText, richData)
         {
 
         }
 
-        public LocalImageWithAltTextStructure(List<ExcelRichValueStructureKey> keys) : base(keys)
+        public LocalImageWithAltTextStructure(List<ExcelRichValueStructureKey> keys, ExcelRichData richData) : base(keys, richData)
         {
 
         }

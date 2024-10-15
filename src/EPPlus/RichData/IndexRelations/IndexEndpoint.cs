@@ -5,22 +5,16 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
-    internal class IndexEndpoint
+    internal class IndexEndpoint : IdentityItem
     {
-        public IndexEndpoint(IndexPointer pointer, int originalIndex)
+        public IndexEndpoint(RichDataIndexStore store, RichDataEntities entity)
         {
-            _entity = pointer.EntityType;
-            _id = IdGenerator.GetNewId();
-            _originalIndex = originalIndex;
-        }
-
-        public IndexEndpoint(IndexedValue indexedValue, int originalIndex)
-        {
-
+            _entity = entity;
+            _originalIndex = store.GetNextIndex(entity);
+            SubRelations = new List<IndexRelation>();
         }
 
         private readonly RichDataEntities _entity;
-        private readonly int _id;
         private readonly int _originalIndex;
 
         public RichDataEntities Entity => _entity;
@@ -29,6 +23,8 @@ namespace OfficeOpenXml.RichData.IndexRelations
         public int OriginalIndex => _originalIndex;
 
         public int CurrentIndex { get; set; }
+
+        public List<IndexRelation> SubRelations { get;}
 
 
     }

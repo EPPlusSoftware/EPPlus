@@ -7,8 +7,10 @@ namespace OfficeOpenXml.RichData.IndexRelations
 {
     internal enum RichDataEntities
     {
-        ValueMetadata,
+        ValueMetadataBlock,
+        ValueMetadataRecord,
         FutureMetadataBlock,
+        MetadataType,
         RichValue,
         RichStructure,
         RichValueRel

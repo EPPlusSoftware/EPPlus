@@ -5,12 +5,18 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
-    internal class IndexRelation
+    internal class IndexRelation : IdentityItem
     {
-        public IndexPointer From { get; set; }
+        public IndexRelation(IndexEndpoint from, IndexEndpoint to, IndexType indexType)
+        {
+            From = from;
+            To = to;
+            IndexType = indexType;
+        }
+        public IndexEndpoint From { get; set; }
 
-        public IndexedValue To { get; set; }
+        public IndexEndpoint To { get; set; }
 
-        public int NumberOfPointers { get; set; }
+        public IndexType IndexType { get; set; }
     }
 }

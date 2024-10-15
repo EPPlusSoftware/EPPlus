@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.RichData.Structures;
 using OfficeOpenXml.Utils;
@@ -14,7 +15,7 @@ using System.Xml;
 namespace OfficeOpenXml.RichData.RichValues
 {
     //MS-XLSX - 2.3.6.1
-    internal partial class ExcelRichValueCollection
+    internal partial class ExcelRichValueCollection : IndexedCollection<ExcelRichValue>
     {
         private ExcelWorkbook _wb;
         ZipPackagePart _part;
@@ -23,6 +24,7 @@ namespace OfficeOpenXml.RichData.RichValues
         Uri _uri;
         internal const string PART_URI_PATH = "/xl/richData/rdrichvalue.xml";
         public ExcelRichValueCollection(ExcelWorkbook wb, ExcelRichData richData)
+            : base(richData, RichDataEntities.RichValue)
         {
             _wb = wb;
             _richData = richData;
@@ -67,9 +69,9 @@ namespace OfficeOpenXml.RichData.RichValues
         private ExcelRichValue ReadItem(XmlReader xr)
         {
             var structureId = int.Parse(xr.GetAttribute("s"));
-            var structure = _structures.StructureItems[structureId];
+            var structure = _structures[structureId];
             //var item = new ExcelRichValue(int.Parse(xr.GetAttribute("s")));
-            var item = ExcelRichValueFactory.Create(structure, structureId, _richData);
+            var item = ExcelRichValueFactory.Create(structure, structure.Id, _richData);
             //item.Structure = _structures.StructureItems[item.StructureId];
 
             var keys = structure.Keys.ToNameArray();
@@ -222,5 +224,7 @@ namespace OfficeOpenXml.RichData.RichValues
 
         public List<ExcelRichValue> Items { get; } = new List<ExcelRichValue>();
         public string ExtLstXml { get; internal set; }
+
+        public override RichDataEntities EntityType => RichDataEntities.RichValue;
     }
 }

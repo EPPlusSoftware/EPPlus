@@ -19,8 +19,8 @@ namespace OfficeOpenXml.RichData.Structures
 {
     internal class RichDataPreserveStructure : ExcelRichValueStructure
     {
-        public RichDataPreserveStructure(string typeName, RichDataStructureTypes structureType, List<ExcelRichValueStructureKey> keys)
-            : base(typeName, keys)
+        public RichDataPreserveStructure(string typeName, RichDataStructureTypes structureType, List<ExcelRichValueStructureKey> keys, ExcelRichData richData)
+            : base(typeName, keys, richData)
         {
             _structureType = structureType;
         }

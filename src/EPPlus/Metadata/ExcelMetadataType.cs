@@ -10,6 +10,7 @@
  *************************************************************************************************
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
@@ -19,13 +20,15 @@ using System.Xml;
 
 namespace OfficeOpenXml.Metadata
 {
-    internal partial class ExcelMetadataType
+    internal partial class ExcelMetadataType : IndexEndpoint
     {
-        public ExcelMetadataType()
+        public ExcelMetadataType(RichDataIndexStore store)
+            : base(store, RichDataEntities.MetadataType)
         {
 
         }
-        public ExcelMetadataType(XmlReader xr) 
+        public ExcelMetadataType(XmlReader xr, RichDataIndexStore store) 
+            : base(store, RichDataEntities.MetadataType)
         {
             Name = xr.GetAttribute("name");            
             MinSupportedVersion = int.Parse(xr.GetAttribute("minSupportedVersion"));

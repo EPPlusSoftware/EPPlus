@@ -23,7 +23,7 @@ namespace EPPlusTest.Core
             using (var p = OpenTemplatePackage("RichData.xlsx"))
             {
                 Assert.AreEqual(10, p.Workbook.RichData.ValueTypes.Global.Count);
-                Assert.AreEqual(3, p.Workbook.RichData.Structures.StructureItems.Count);
+                Assert.AreEqual(3, p.Workbook.RichData.Structures.Count);
                 Assert.AreEqual(4, p.Workbook.RichData.Values.Items.Count);
                 
                 Assert.AreEqual(2, p.Workbook.Metadata.MetadataTypes.Count);

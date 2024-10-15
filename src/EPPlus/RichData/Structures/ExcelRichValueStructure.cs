@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.Structures.Constants;
 using OfficeOpenXml.Utils;
 using System;
@@ -22,9 +23,10 @@ using System.Runtime.InteropServices;
 namespace OfficeOpenXml.RichData.Structures
 {
     [DebuggerDisplay("Type: {Type}")]
-    internal abstract class ExcelRichValueStructure
+    internal abstract class ExcelRichValueStructure : IndexEndpoint
     {
-        public ExcelRichValueStructure(string typeName, List<ExcelRichValueStructureKey> keys)
+        public ExcelRichValueStructure(string typeName, List<ExcelRichValueStructureKey> keys, ExcelRichData richData)
+            : base(richData.IndexStore, RichDataEntities.RichStructure)
         {
             Type = typeName;
             Keys = keys;

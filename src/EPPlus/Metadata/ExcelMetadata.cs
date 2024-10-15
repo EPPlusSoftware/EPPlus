@@ -48,6 +48,8 @@ namespace OfficeOpenXml.Metadata
         {
             _wb = workbook;
             var p = _wb._package;
+            ValueMetadata = new ValueMetadataBlockCollection(_wb.RichData);
+            MetadataTypes = new MetadataTypesCollection(_wb.RichData);
             var rel = _wb.Part.GetRelationshipsByType(ExcelPackage.schemaMetadata).FirstOrDefault();
             if(rel!=null)
             {
@@ -87,10 +89,10 @@ namespace OfficeOpenXml.Metadata
                             ReadFutureMetadata(xr);
                             break;
                         case "cellMetadata":
-                            ReadMetadataItems(xr, xr.Name, CellMetadata);
+                            ReadCellMetadataItems(xr, xr.Name, CellMetadata);
                             break;
                         case "valueMetadata":
-                            ReadMetadataItems(xr, xr.Name, ValueMetadata);
+                            ReadValueMetadataItems(xr, xr.Name, ValueMetadata);
                             break;
                         case "extLst":
                             _extLstXml = xr.ReadInnerXml();
@@ -101,7 +103,7 @@ namespace OfficeOpenXml.Metadata
             }
         }
 
-        private void ReadMetadataItems(XmlReader xr, string elementName, List<ExcelMetadataBlock> collection)
+        private void ReadCellMetadataItems(XmlReader xr, string elementName, List<ExcelCellMetadataBlock> collection)
         {
             xr.Read();
             while(xr.IsEndElementWithName(elementName) ==false && xr.EOF==false)
@@ -111,7 +113,24 @@ namespace OfficeOpenXml.Metadata
                     xr.Read();
                     while(xr.IsEndElementWithName("bk")==false)
                     {
-                        collection.Add(new ExcelMetadataBlock(xr));
+                        collection.Add(new ExcelCellMetadataBlock(xr));
+                    }
+                }
+                xr.Read();
+            }
+        }
+
+        private void ReadValueMetadataItems(XmlReader xr, string elementName, ValueMetadataBlockCollection collection)
+        {
+            xr.Read();
+            while (xr.IsEndElementWithName(elementName) == false && xr.EOF == false)
+            {
+                if (xr.IsElementWithName("bk"))
+                {
+                    xr.Read();
+                    while (xr.IsEndElementWithName("bk") == false)
+                    {
+                        collection.Add(new ExcelValueMetadataBlock(xr, this, _wb.RichData.IndexStore));
                     }
                 }
                 xr.Read();
@@ -149,7 +168,7 @@ namespace OfficeOpenXml.Metadata
             {
                 if(xr.IsElementWithName("metadataType"))
                 {
-                    var item = new ExcelMetadataType(xr);
+                    var item = new ExcelMetadataType(xr, _wb.RichData.IndexStore);
                     switch(item.Name)
                     {
                         case FUTURE_METADATA_DYNAMIC_ARRAY_NAME:
@@ -169,13 +188,13 @@ namespace OfficeOpenXml.Metadata
 
         internal int CreateDefaultXmlDynamicArray()
         {
-            MetadataTypes.Add(new ExcelMetadataType() { Name = FUTURE_METADATA_DYNAMIC_ARRAY_NAME, MinSupportedVersion=120000, Flags=MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce | MetadataFlags.CellMeta });
+            MetadataTypes.Add(new ExcelMetadataType(_wb.RichData.IndexStore) { Name = FUTURE_METADATA_DYNAMIC_ARRAY_NAME, MinSupportedVersion=120000, Flags=MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce | MetadataFlags.CellMeta });
             var fmd = new ExcelFutureMetadata() { Name = FUTURE_METADATA_DYNAMIC_ARRAY_NAME };
             fmd.Types.Add(new ExcelFutureMetadataDynamicArray(true));
             FutureMetadata.Add(fmd.Name, fmd);
             DynamicArrayTypeIndex = 1;
 
-            var item = new ExcelMetadataBlock();
+            var item = new ExcelCellMetadataBlock();
             item.Records.Add(new ExcelMetadataRecord(1, 0));
             CellMetadata.Add(item);
             return CellMetadata.Count;
@@ -187,7 +206,7 @@ namespace OfficeOpenXml.Metadata
             {
                 return fm;
             }
-            var mdt = new ExcelMetadataType() { Name = FUTURE_METADATA_RICHDATA_NAME, MinSupportedVersion = 120000, Flags = MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce };
+            var mdt = new ExcelMetadataType(_wb.RichData.IndexStore) { Name = FUTURE_METADATA_RICHDATA_NAME, MinSupportedVersion = 120000, Flags = MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce };
             MetadataTypes.Add(mdt);
             RichDataTypeIndex = MetadataTypes.Count;
             fm = new ExcelFutureMetadata() { Index = FutureMetadata.Count, Name = FUTURE_METADATA_RICHDATA_NAME };
@@ -200,8 +219,9 @@ namespace OfficeOpenXml.Metadata
             var fmdRichDataCollection = GetFutureMetadataRichDataCollection();
             var rdItem = new ExcelFutureMetadataRichData(richData.Values.Items.Count - 1);
             fmdRichDataCollection.Types.Add(rdItem);
-            var mdItem = new ExcelMetadataBlock();
+            var mdItem = new ExcelValueMetadataBlock(this, _wb.RichData.IndexStore);
             mdItem.Records.Add(new ExcelMetadataRecord(RichDataTypeIndex, fmdRichDataCollection.Types.Count - 1));
+            mdItem.CreateRelations();
             ValueMetadata.Add(mdItem);
             valueMetadataIndex = ValueMetadata.Count;
         }
@@ -210,10 +230,10 @@ namespace OfficeOpenXml.Metadata
         {
             return MetadataTypes.Count==0;
         }
-        internal List<ExcelMetadataType> MetadataTypes { get; } = new List<ExcelMetadataType>();
+        internal MetadataTypesCollection MetadataTypes { get; }
         internal Dictionary<string, ExcelFutureMetadata> FutureMetadata{ get; } = new Dictionary<string, ExcelFutureMetadata>();
-        internal List<ExcelMetadataBlock> CellMetadata { get; } = new List<ExcelMetadataBlock>();
-        internal List<ExcelMetadataBlock> ValueMetadata { get; } = new List<ExcelMetadataBlock>();
+        internal List<ExcelCellMetadataBlock> CellMetadata { get; } = new List<ExcelCellMetadataBlock>();
+        internal ValueMetadataBlockCollection ValueMetadata { get; }
         internal int RichDataTypeIndex { get; private set; }
         internal int DynamicArrayTypeIndex { get; private set; }
         internal ZipPackagePart Part { get { return _part; } }
@@ -275,7 +295,7 @@ namespace OfficeOpenXml.Metadata
                     if(cm<=0)
                     {
                         var mtIx = MetadataTypes.FindIndex(x => x.Name == FUTURE_METADATA_DYNAMIC_ARRAY_NAME) + 1;
-                        var item = new ExcelMetadataBlock();
+                        var item = new ExcelCellMetadataBlock();
                         item.Records.Add(new ExcelMetadataRecord(mtIx, tIx));
                         CellMetadata.Add(item);
                         cm = CellMetadata.Count;
@@ -300,8 +320,8 @@ namespace OfficeOpenXml.Metadata
             WriteMetadataStrings(sw);
             WriteMdxMetadata(sw);
             WriteFutureMetadata(sw);
-            WriteMetadataItems(sw, "cellMetadata", CellMetadata);
-            WriteMetadataItems(sw, "valueMetadata", ValueMetadata);
+            WriteCellMetadataItems(sw, "cellMetadata", CellMetadata);
+            WriteValueMetadataItems(sw, "valueMetadata", ValueMetadata);
             sw.Write("</metadata>");
             sw.Flush();
 
@@ -317,7 +337,23 @@ namespace OfficeOpenXml.Metadata
             _part.SaveHandler = Save;
         }
 
-        private void WriteMetadataItems(StreamWriter sw, string element, List<ExcelMetadataBlock> collection)
+        private void WriteValueMetadataItems(StreamWriter sw, string element, ValueMetadataBlockCollection collection)
+        {
+            if (collection.Count == 0) return;
+            sw.Write($"<{element} count=\"{collection.Count}\">");
+            foreach (var item in collection)
+            {
+                sw.Write("<bk>");
+                foreach (var r in item.Records)
+                {
+                    sw.Write($"<rc t=\"{r.TypeIndex}\" v=\"{r.ValueIndex}\"/>");
+                }
+                sw.Write("</bk>");
+            }
+            sw.Write($"</{element}>");
+        }
+
+        private void WriteCellMetadataItems(StreamWriter sw, string element, List<ExcelCellMetadataBlock> collection)
         {
             if (collection.Count == 0) return;
             sw.Write($"<{element} count=\"{collection.Count}\">");

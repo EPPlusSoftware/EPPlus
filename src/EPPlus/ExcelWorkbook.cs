@@ -38,6 +38,7 @@ using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.RichData.IndexRelations;
 
 namespace OfficeOpenXml
 {
@@ -306,7 +307,7 @@ namespace OfficeOpenXml
 		internal ExcelThreadedCommentPersonCollection _threadedCommentPersons = null;
 		internal FormulaParserManager _parserManager;
 		internal CellStore<IList<Token>> _formulaTokens;
-		internal class PivotTableCacheRangeInfo
+        internal class PivotTableCacheRangeInfo
 		{
 			public string Address { get; set; }
 			public List<PivotTableCacheInternal> PivotCaches { get; set; }

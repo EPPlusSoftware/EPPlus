@@ -24,8 +24,8 @@ namespace OfficeOpenXml.RichData.Structures.Errors
     internal abstract class ErrorBaseStructure : ExcelRichValueStructure
     {
 
-        protected ErrorBaseStructure(List<ExcelRichValueStructureKey> keys)
-            : base(StructureTypes.Error, keys)
+        protected ErrorBaseStructure(List<ExcelRichValueStructureKey> keys, ExcelRichData richData)
+            : base(StructureTypes.Error, keys, richData)
         {
             
         }

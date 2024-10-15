@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.Mappings;
 using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.RichData.Structures;
@@ -13,17 +14,20 @@ using System.Linq;
 
 namespace OfficeOpenXml.RichData.RichValues
 {
-    internal abstract class ExcelRichValue
+    internal abstract class ExcelRichValue : IndexEndpoint
     {
         public ExcelRichValue(ExcelRichData richData, RichDataStructureTypes structureType)
+            : base(richData.IndexStore, RichDataEntities.RichValue)
         {
             //_workbook = workbook;
             //StructureId = workbook.RichData.Structures.GetStructureId(structureType);
             //Structure = _workbook.RichData.Structures.StructureItems[StructureId];
-            StructureId = richData.Structures.GetStructureId(structureType);
-            Structure = richData.Structures.StructureItems[StructureId];
+            var structure = richData.Structures.GetByType(structureType);
+            StructureId = structure.Id;
+            Structure = structure;
             _richData = richData;
             As = new ExcelRichValueAsType(this);
+            richData.Structures.CreateRelation(this, structure, IndexType.ZeroBasedPointer);
         }
 
 
@@ -42,7 +46,10 @@ namespace OfficeOpenXml.RichData.RichValues
 
         internal void WriteXml(StreamWriter sw)
         {
-            sw.Write($"<rv s=\"{StructureId}\">");
+            var id = _richData.Structures.GetIndexById(StructureId);
+            // TODO: check this, id should not be null
+            if (!id.HasValue) return;
+            sw.Write($"<rv s=\"{id}\">");
             if(!string.IsNullOrEmpty(FallbackValue))
             {
                 if (FallbackType != RichValueFallbackType.Decimal)

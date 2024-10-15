@@ -20,12 +20,12 @@ namespace OfficeOpenXml.RichData.Structures.Errors
 {
     internal class ErrorSpillStructure : ErrorBaseStructure
     {
-        public ErrorSpillStructure() : this(StructureKeys.Errors.Spill)
+        public ErrorSpillStructure(ExcelRichData richData) : this(StructureKeys.Errors.Spill, richData)
         {
 
         }
 
-        public ErrorSpillStructure(List<ExcelRichValueStructureKey> keys) : base(keys)
+        public ErrorSpillStructure(List<ExcelRichValueStructureKey> keys, ExcelRichData richData) : base(keys, richData)
         {
             
         }

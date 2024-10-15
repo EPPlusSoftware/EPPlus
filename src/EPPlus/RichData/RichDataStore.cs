@@ -119,8 +119,9 @@ namespace OfficeOpenXml.RichData
 
         internal ExcelRichValueStructure GetStructure(RichDataStructureTypes structureType)
         {
-            var structureId = _workbook.RichData.Structures.GetStructureId(structureType);
-            return _workbook.RichData.Structures.StructureItems[structureId];
+            //var structureId = _workbook.RichData.Structures.GetStructureId(structureType);
+            //return _workbook.RichData.Structures.StructureItems[structureId];
+            return _workbook.RichData.Structures.GetByType(structureType);
         }
 
         internal int CreateRichValueRelation(RichDataStructureTypes structureType, Uri rvRelUri)

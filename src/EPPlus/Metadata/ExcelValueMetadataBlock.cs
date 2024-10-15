@@ -13,6 +13,7 @@
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
@@ -20,26 +21,46 @@ namespace OfficeOpenXml.Metadata
     /// <summary>
     /// Corresponds to a bk-element in the valueMetadata section of the metadata.xml file.
     /// </summary>
-    internal class ExcelCellMetadataBlock
+    internal class ExcelValueMetadataBlock : IndexEndpoint
     {
-        public ExcelCellMetadataBlock()
+        public ExcelValueMetadataBlock(ExcelMetadata metadata, RichDataIndexStore store) : base(store, RichDataEntities.ValueMetadataBlock)
         {
-
+            _metadata = metadata;
         }
-        public ExcelCellMetadataBlock(XmlReader xr)
+        public ExcelValueMetadataBlock(XmlReader xr, ExcelMetadata metadata, RichDataIndexStore store)
+            : base(store, RichDataEntities.ValueMetadataBlock)
         {
-            while (xr.IsEndElementWithName("bk") == false && xr.EOF == false)
+            _metadata = metadata;
+            while(xr.IsEndElementWithName("bk")==false && xr.EOF==false)
             {
-                if (xr.IsElementWithName("rc"))
+                if(xr.IsElementWithName("rc"))
                 {
                     var t = int.Parse(xr.GetAttribute("t"));
                     var v = int.Parse(xr.GetAttribute("v"));
                     Records.Add(new ExcelMetadataRecord(t, v));
+                    var metadataType = metadata.MetadataTypes[t - 1];
+                    metadata.MetadataTypes.CreateRelation(this, metadataType, IndexType.OneBasedPointer);
                 }
                 xr.Read();
             }
         }
 
-        public List<ExcelMetadataRecord> Records { get; } = new List<ExcelMetadataRecord>();
+        private readonly ExcelMetadata _metadata;
+
+        public ExcelValueMetadataBlock(RichDataIndexStore store, RichDataEntities entity) : base(store, entity)
+        {
+        }
+
+        public List<ExcelMetadataRecord> Records { get;}= new List<ExcelMetadataRecord>();
+
+        public void CreateRelations()
+        {
+            if(Records != null && Records.Any())
+            {
+                var pointer = Records.First();
+                var relation = _metadata.MetadataTypes.CreateRelation(this, _metadata.MetadataTypes[pointer.TypeIndex - 1], IndexType.OneBasedPointer);
+                var item = _metadata.MetadataTypes.GetItem(relation.To.Id);
+            }
+        }
     }
 }

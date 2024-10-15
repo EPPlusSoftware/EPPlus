@@ -10,17 +10,25 @@
  *************************************************************************************************
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.RichData.IndexRelations;
+
 namespace OfficeOpenXml.Metadata
 {
     /// <summary>
     /// Corresponds to a rc-element in the valueMetadata section of the metadata.xml file.
     /// </summary>
-    internal class ExcelMetadataRecord
+    internal class ExcelMetadataRecord : IndexEndpoint
     {
-        public ExcelMetadataRecord(int recordTypeIndex, int valueTypeIndex)
+        public ExcelMetadataRecord(ExcelMetadata metadata, IndexEndpoint parent, int recordTypeIndex, int valueTypeIndex, RichDataIndexStore store)
+            : base(store, RichDataEntities.ValueMetadataRecord)
         {
             TypeIndex= recordTypeIndex;
             ValueIndex = valueTypeIndex;
+            // 1. Add metadata type relation
+            var rel1 = new IndexRelation(this, metadata.MetadataTypes[TypeIndex - 1], IndexType.OneBasedPointer);
+            store.AddRelation(rel1);
+            parent.SubRelations.Add(rel1);
+            var type = metadata.MetadataTypes.GetItem(rel1.To.Id);
         }
 
         /// <summary>
