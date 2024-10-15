@@ -73,6 +73,8 @@ namespace EPPlusTest
             emfImage.Read("C:\\epplusTest\\Testoutput\\ValidStamp.emf");
 
             var records = emfImage.records;
+
+            //emfImage.Save("C:\\epplusTest\\Testoutput\\ValidStampPostRead.emf");
         }
 
         [TestMethod]

@@ -4,57 +4,73 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class EMR_STRETCHDIBITS : EMR_RECORD
     {
-        internal byte[] Bounds;
-        internal byte[] xDest;
-        internal byte[] yDest;
-        internal byte[] xSrc;
-        internal byte[] ySrc;
-        internal byte[] cxSrc;
-        internal byte[] cySrc;
+        internal RectLObject Bounds;
+        internal int xDest;
+        internal int yDest;
+        internal int xSrc;
+        internal int ySrc;
+        internal int cxSrc;
+        internal int cySrc;
         internal uint   offBmiSrc;
         internal uint   cbBmiSrc;
         internal uint   offBitsSrc;
         internal uint   cbBitsSrc;
-        internal byte[] UsageSrc;
-        internal byte[] InternalBltRasterOperation;
-        internal byte[] cxDest;
-        internal byte[] cyDest;
+        internal uint UsageSrc;
+        internal uint InternalBltRasterOperation;
+        internal int cxDest;
+        internal int cyDest;
         internal byte[] BmiSrc;
         internal byte[] BitsSrc;
-        internal byte[] Padding;
+        //internal byte[] Padding;
 
         internal EMR_STRETCHDIBITS(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
-            Bounds = br.ReadBytes(16);
-            xDest = br.ReadBytes(4);
-            yDest = br.ReadBytes(4);
-            xSrc = br.ReadBytes(4);
-            ySrc = br.ReadBytes(4);
-            cxSrc = br.ReadBytes(4);
-            cySrc = br.ReadBytes(4);
+            var startOfRecord = br.BaseStream.Position - 8;
+
+            Bounds = new RectLObject(br);
+            xDest = br.ReadInt32();
+            yDest = br.ReadInt32();
+            xSrc = br.ReadInt32();
+            ySrc = br.ReadInt32();
+            cxSrc = br.ReadInt32();
+            cySrc = br.ReadInt32();
             offBmiSrc = br.ReadUInt32();
             cbBmiSrc = br.ReadUInt32();
             offBitsSrc = br.ReadUInt32();
             cbBitsSrc = br.ReadUInt32();
-            UsageSrc = br.ReadBytes(4);
-            InternalBltRasterOperation = br.ReadBytes(4);
-            cxDest = br.ReadBytes(4);
-            cyDest = br.ReadBytes(4);
-            BmiSrc = br.ReadBytes((int)cbBmiSrc);
+            UsageSrc = br.ReadUInt32();
+            InternalBltRasterOperation = br.ReadUInt32();
+            cxDest = br.ReadInt32();
+            cyDest = br.ReadInt32();
+
+            //There's undefined variable space here, ensure we reach the header
+            var startOfHeader = startOfRecord + offBmiSrc;
+            br.BaseStream.Position = startOfHeader;
+            //BitmapHeader
+            //BmiSrc = br.ReadBytes((int)cbBmiSrc);
+
+            var bh = new BitmapHeader(br, cbBmiSrc);
+
+            //There's undefined variable space here, ensure we reach the bitmapSpace
+            var startOfBitmapBits = startOfRecord + offBitsSrc;
+            br.BaseStream.Position = startOfBitmapBits;
+
+            //Source bitmap bits
             BitsSrc = br.ReadBytes((int)cbBitsSrc);
-            int padding = (int)((position + Size) - br.BaseStream.Position);
-            if (padding < 0)
-            {
-                Padding = new byte[0];
-                return;
-            }
-            Padding = br.ReadBytes(padding);
+
+            //int padding = (int)((position + Size) - br.BaseStream.Position);
+            //if (padding < 0)
+            //{
+            //    Padding = new byte[0];
+            //    return;
+            //}
+            //Padding = br.ReadBytes(padding);
         }
 
         internal override void WriteBytes(BinaryWriter bw)
         {
             base.WriteBytes(bw);
-            bw.Write(Bounds);
+            Bounds.WriteBytes(bw);
             bw.Write(xDest);
             bw.Write(yDest);
             bw.Write(xSrc);
@@ -71,7 +87,7 @@ namespace OfficeOpenXml.Drawing.EMF
             bw.Write(cyDest);
             bw.Write(BmiSrc);
             bw.Write(BitsSrc);
-            bw.Write(Padding);
+            //bw.Write(Padding);
         }
     }
 }
