@@ -17,13 +17,14 @@ namespace OfficeOpenXml.Metadata
     /// <summary>
     /// Corresponds to a rc-element in the valueMetadata section of the metadata.xml file.
     /// </summary>
-    internal class ExcelMetadataRecord : IndexEndpoint
+    internal class ExcelValueMetadataRecord : IndexEndpoint
     {
-        public ExcelMetadataRecord(ExcelMetadata metadata, IndexEndpoint parent, int recordTypeIndex, int valueTypeIndex, RichDataIndexStore store)
+        public ExcelValueMetadataRecord(ExcelMetadata metadata, IndexEndpoint parent, int recordTypeIndex, int valueTypeIndex, RichDataIndexStore store)
             : base(store, RichDataEntities.ValueMetadataRecord)
         {
-            TypeIndex= recordTypeIndex;
+            TypeIndex = recordTypeIndex;
             ValueIndex = valueTypeIndex;
+            var mainRelation = new IndexRelation(parent, IndexEndpoint.GetSubRelationsEndpoint(store), IndexType.SubRelations);
             // 1. Add metadata type relation
             var rel1 = new IndexRelation(this, metadata.MetadataTypes[TypeIndex - 1], IndexType.OneBasedPointer);
             store.AddRelation(rel1);

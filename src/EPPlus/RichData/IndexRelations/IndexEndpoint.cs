@@ -9,13 +9,19 @@ namespace OfficeOpenXml.RichData.IndexRelations
     {
         public IndexEndpoint(RichDataIndexStore store, RichDataEntities entity)
         {
+            _store = store;
             _entity = entity;
             _originalIndex = store.GetNextIndex(entity);
-            SubRelations = new List<IndexRelation>();
+        }
+
+        private IndexEndpoint(RichDataEntities entity)
+        {
+            _entity = entity;
         }
 
         private readonly RichDataEntities _entity;
         private readonly int _originalIndex;
+        private readonly RichDataIndexStore _store;
 
         public RichDataEntities Entity => _entity;
 
@@ -24,8 +30,13 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         public int CurrentIndex { get; set; }
 
-        public List<IndexRelation> SubRelations { get;}
+        public List<IndexRelation> SubRelations { get; private set; }
 
-
+        public static IndexEndpoint GetSubRelationsEndpoint(RichDataIndexStore store)
+        {
+            var endpoint = new IndexEndpoint(store, RichDataEntities.SubRelations);
+            endpoint.SubRelations = new List<IndexRelation>();
+            return endpoint;
+        }
     }
 }

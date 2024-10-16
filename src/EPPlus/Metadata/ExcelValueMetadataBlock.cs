@@ -10,57 +10,48 @@
  *************************************************************************************************
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
 {
     /// <summary>
-    /// Corresponds to a bk-element in the valueMetadata section of the metadata.xml file.
+    /// Corresponds to a rc-element in the valueMetadata section of the metadata.xml file.
     /// </summary>
     internal class ExcelValueMetadataBlock : IndexEndpoint
     {
-        public ExcelValueMetadataBlock(ExcelMetadata metadata, RichDataIndexStore store) : base(store, RichDataEntities.ValueMetadataBlock)
+        public ExcelValueMetadataBlock(ExcelMetadata metadata, int recordTypeIndex, int valueTypeIndex, ExcelRichData richData)
+            : base(richData.IndexStore, RichDataEntities.ValueMetadataRecord)
         {
-            _metadata = metadata;
+            var mainRelation = new IndexRelation(this, IndexEndpoint.GetSubRelationsEndpoint(richData.IndexStore), IndexType.SubRelations);
+            var record = new ExcelValueMetadataRecord(metadata, this, recordTypeIndex, valueTypeIndex, richData.IndexStore);
+            // 1. Add metadata type relation
+            var rel1 = new IndexRelation(this, metadata.MetadataTypes[recordTypeIndex], IndexType.OneBasedPointer);
+            mainRelation.To.SubRelations.Add(rel1);
+            var type = metadata.MetadataTypes.GetItem(rel1.To.Id);
+            // 2. Add rich value relation
+            var rel2 = richData.Values.CreateRelation(this, valueTypeIndex, IndexType.ZeroBasedPointer);
+
         }
+
         public ExcelValueMetadataBlock(XmlReader xr, ExcelMetadata metadata, RichDataIndexStore store)
-            : base(store, RichDataEntities.ValueMetadataBlock)
+            : base(store, RichDataEntities.ValueMetadataRecord)
         {
-            _metadata = metadata;
-            while(xr.IsEndElementWithName("bk")==false && xr.EOF==false)
+            while (xr.IsEndElementWithName("bk") == false && xr.EOF == false)
             {
-                if(xr.IsElementWithName("rc"))
+                if (xr.IsElementWithName("rc"))
                 {
                     var t = int.Parse(xr.GetAttribute("t"));
                     var v = int.Parse(xr.GetAttribute("v"));
-                    Records.Add(new ExcelMetadataRecord(t, v));
-                    var metadataType = metadata.MetadataTypes[t - 1];
-                    metadata.MetadataTypes.CreateRelation(this, metadataType, IndexType.OneBasedPointer);
+                    Records.Add(new ExcelValueMetadataRecord(metadata, this, t, v, store));
                 }
                 xr.Read();
             }
         }
 
-        private readonly ExcelMetadata _metadata;
-
-        public ExcelValueMetadataBlock(RichDataIndexStore store, RichDataEntities entity) : base(store, entity)
-        {
-        }
-
-        public List<ExcelMetadataRecord> Records { get;}= new List<ExcelMetadataRecord>();
-
-        public void CreateRelations()
-        {
-            if(Records != null && Records.Any())
-            {
-                var pointer = Records.First();
-                var relation = _metadata.MetadataTypes.CreateRelation(this, _metadata.MetadataTypes[pointer.TypeIndex - 1], IndexType.OneBasedPointer);
-                var item = _metadata.MetadataTypes.GetItem(relation.To.Id);
-            }
-        }
+        public List<ExcelValueMetadataRecord> Records { get; } = new List<ExcelValueMetadataRecord>();
     }
 }

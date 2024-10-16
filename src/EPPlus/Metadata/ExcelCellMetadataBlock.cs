@@ -34,12 +34,12 @@ namespace OfficeOpenXml.Metadata
                 {
                     var t = int.Parse(xr.GetAttribute("t"));
                     var v = int.Parse(xr.GetAttribute("v"));
-                    Records.Add(new ExcelMetadataRecord(t, v));
+                    Records.Add(new ExcelCellMetadataRecord(t, v));
                 }
                 xr.Read();
             }
         }
 
-        public List<ExcelMetadataRecord> Records { get; } = new List<ExcelMetadataRecord>();
+        public List<ExcelCellMetadataRecord> Records { get; } = new List<ExcelCellMetadataRecord>();
     }
 }

@@ -10,6 +10,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         ZeroBasedPointer,
         OneBasedPointer,
         IndexedValue,
-        String
+        String,
+        SubRelations
     }
 }

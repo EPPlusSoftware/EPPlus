@@ -131,6 +131,14 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return relation;
         }
 
+        public IndexRelation CreateRelation(IndexEndpoint from, int toIndex, IndexType indexType)
+        {
+            var to = this[toIndex];
+            var relation = new IndexRelation(from, to, indexType);
+            _richData.IndexStore.AddRelation(relation);
+            return relation;
+        }
+
         public T GetItem(int id)
         {
             var ix = _idToIndex[id];

@@ -140,10 +140,11 @@ namespace OfficeOpenXml.RichData
 
         internal void AddRichData(int row, int col, ExcelRichValue richValue)
         {
+            var rvIx = _workbook.RichData.Values.Count;
             _workbook.RichData.Values.Items.Add(richValue);
 
             // update the metadata
-            _metadata.CreateRichValueMetadata(_workbook.RichData, out int vm);
+            _metadata.CreateRichValueMetadata(_workbook.RichData, rvIx, out int vm);
             var md = _sheet._metadataStore.GetValue(row, col);
             md.vm = vm;
             _sheet._metadataStore.SetValue(row, col, md);

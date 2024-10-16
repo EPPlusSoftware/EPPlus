@@ -9,10 +9,12 @@ namespace OfficeOpenXml.RichData.IndexRelations
     {
         ValueMetadataBlock,
         ValueMetadataRecord,
-        FutureMetadataBlock,
+        FutureMetadata,
+        FutureMetadataRichDataBlock,
         MetadataType,
         RichValue,
         RichStructure,
-        RichValueRel
+        RichValueRel,
+        SubRelations
     }
 }

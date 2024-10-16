@@ -10,24 +10,27 @@
  *************************************************************************************************
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.Utils;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml;
-
-namespace OfficeOpenXml.Metadata.FutureMetadata
+namespace OfficeOpenXml.Metadata
 {
+    /// <summary>
+    /// Corresponds to a rc-element in the valueMetadata section of the metadata.xml file.
+    /// </summary>
+    internal class ExcelCellMetadataRecord
+    {
+        public ExcelCellMetadataRecord(int recordTypeIndex, int valueTypeIndex)
+        {
+            TypeIndex= recordTypeIndex;
+            ValueIndex = valueTypeIndex;
+        }
 
-    //internal abstract class ExcelFutureMetadataType
-    //{
-    //    public abstract FutureMetadataType Type { get; }
-    //    public abstract string Uri { get; }
-    //    public ExcelFutureMetadataDynamicArray AsDynamicArray { get { return this as ExcelFutureMetadataDynamicArray; } }
+        /// <summary>
+        /// Corresponds to the t-attribute of the bk element
+        /// </summary>
+        public int TypeIndex { get; private set; }
 
-    //    public bool IsDynamicArray { get; set; }
-    //    public ExcelFutureMetadataRichData AsRichData { get { return this as ExcelFutureMetadataRichData; } }
-
-    //    internal abstract void WriteXml(StreamWriter sw);
-    //}
+        /// <summary>
+        /// Corresponds to the v-attribute of the bk element
+        /// </summary>
+        public int ValueIndex { get; private set; }
+    }
 }
