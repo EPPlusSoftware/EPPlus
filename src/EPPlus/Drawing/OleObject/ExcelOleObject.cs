@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal ZipPackagePart _oleObjectPart;
         internal XmlDocument _linkedOleObjectXml;
         internal string _linkedObjectFilepath;
-        internal Uri _mediaUri;
+        internal ImageInfo _mediaImage;
 
         /// <summary>
         /// True: File is displayed as Icon.
@@ -97,7 +97,8 @@ namespace OfficeOpenXml.Drawing.OleObject
             //read emf file uri
             var v = _oleObject.TopNode.ChildNodes[0].Attributes["r:id"].Value;
             var rel = _worksheet.Part.GetRelationship(v);
-            _mediaUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+            _mediaImage = new ImageInfo();
+            _mediaImage.Uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
 
             if (IsExternalLink)
             {
@@ -155,10 +156,10 @@ namespace OfficeOpenXml.Drawing.OleObject
 
             }
             //Create Media
-            int newID = 1;
-            _mediaUri = GetNewUri(_worksheet._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
-            var part = _worksheet._package.ZipPackage.CreatePart(_mediaUri, "image/x-emf", CompressionLevel.None, "emf");
-            var rel = _worksheet.Part.CreateRelationship(_mediaUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+            //int newID = 1;
+            //_mediaUri = GetNewUri(_worksheet._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
+            //var part = _worksheet._package.ZipPackage.CreatePart(_mediaUri, "image/x-emf", CompressionLevel.None, "emf");
+            //var rel = _worksheet.Part.CreateRelationship(_mediaUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
             byte[] image = OleObjectIcon.DefaultIcon;
             EmfImage emf = new EmfImage();
             emf.Read(image);
@@ -182,9 +183,13 @@ namespace OfficeOpenXml.Drawing.OleObject
             string filename = Path.GetFileName(filePath);
             emf.SetNewTextInDefaultEMFImage(filename);
             image = emf.GetBytes();
-            MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-            ms.Write(image, 0, image.Length);
-            var imgRelId = rel.Id;
+
+            //use PictureStore here?
+            _mediaImage = _worksheet._package.PictureStore.AddImage(image, null, ePictureType.Emf);
+            var imgRelId = _mediaImage.Part.CreateRelationship(_mediaImage.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+
+            //MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+            //ms.Write(image, 0, image.Length);
 
             //Create drawings xml
             string name = _drawings.GetUniqueDrawingName("Object 1");
@@ -193,11 +198,11 @@ namespace OfficeOpenXml.Drawing.OleObject
             CreateClientData();
             From.Column = 0;  From.ColumnOff = 0;
             From.Row = 0;     From.RowOff = 0;
-            To.Column = 1;    To.ColumnOff = 304800;//171450;
-            To.Row = 3;       To.RowOff = 114300;//133350;
+            To.Column = 1;    To.ColumnOff = 304800;
+            To.Row = 3;       To.RowOff = 114300;
 
             //Create vml
-            _vml = drawings.Worksheet.VmlDrawings.AddOlePicture(this.Id.ToString(), rel.TargetUri);
+            _vml = drawings.Worksheet.VmlDrawings.AddOlePicture(this.Id.ToString(), imgRelId.TargetUri);
             _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
 
             //Create worksheet xml
@@ -209,9 +214,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             //Create object node
             sb.Append(oleObjectNode);
             if(linkToFile)
-                sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\" dde=\"1\">", imgRelId);
+                sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\" dde=\"1\">", imgRelId.Id);
             else
-                sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\">", imgRelId);
+                sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\">", imgRelId.Id);
             sb.Append("<anchor moveWithCells=\"1\">");
             sb.AppendFormat("<from><xdr:col>{0}</xdr:col><xdr:colOff>{1}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></from>", From.Column, From.ColumnOff, From.Row, From.RowOff);
             sb.AppendFormat("<to><xdr:col>{0}</xdr:col><xdr:colOff>{1}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></to>", To.Column, To.ColumnOff, To.Row, To.RowOff);
@@ -463,7 +468,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             //Delete worksheet & Internal Representation
             _oleObject.DeleteMe();
             //delete media
-            _worksheet._package.ZipPackage.DeletePart(_mediaUri);
+            _worksheet._package.ZipPackage.DeletePart(_mediaImage.Uri);
             //Delete drawing
             base.DeleteMe();
         }

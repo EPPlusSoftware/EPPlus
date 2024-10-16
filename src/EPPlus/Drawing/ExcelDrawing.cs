@@ -1633,26 +1633,6 @@ namespace OfficeOpenXml.Drawing
         private XmlNode CopyOleObject(ExcelWorksheet worksheet, int row, int col, int rowOffset, int colOffset, bool isGroupShape = false, XmlNode groupDrawNode = null)
         {
             var ole = this as ExcelOleObject;
-            //copy media
-            string imgRelId = "";
-            ZipPackageRelationship rel = new ZipPackageRelationship();
-            if (worksheet == ole._worksheet)
-            {
-                rel.TargetUri = ole._mediaUri;
-            }
-            else
-            {
-                var emfStream = (MemoryStream)ole._worksheet._package.ZipPackage.GetPart(ole._mediaUri).GetStream();
-                byte[] image = emfStream.ToArray();
-                int newID = 1;
-                var _mediaUri = GetNewUri(worksheet._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
-                var part = worksheet._package.ZipPackage.CreatePart(_mediaUri, "image/x-emf", CompressionLevel.None, "emf");
-                rel = worksheet.Part.CreateRelationship(_mediaUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
-                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-                ms.Write(image, 0, image.Length);
-                imgRelId = rel.Id;
-            }
-
             //copy drawing
             XmlNode drawNode = null;
             if (isGroupShape && groupDrawNode != null)
@@ -1677,6 +1657,11 @@ namespace OfficeOpenXml.Drawing
             worksheet.VmlDrawings.AddOlePicture(oleId, rel.TargetUri);
             var vmlId = worksheet.VmlDrawings._drawings[worksheet.VmlDrawings._drawings.Count - 1].TopNode;
 
+            //Copy OleObject
+            string relId = null;
+            string imgRelId = null;
+            WorksheetCopyHelper.CopyOleObject(worksheet._package, worksheet, ole, ref relId, ref imgRelId);
+
             //create worksheet node
             XmlNode oleNode = worksheet.CreateOleContainerNode();
             ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:xdr", ExcelPackage.schemaSheetDrawings);   //Make sure the namespace exists
@@ -1695,7 +1680,12 @@ namespace OfficeOpenXml.Drawing
             newNode.FirstChild.FirstChild.Attributes["shapeId"].Value = oleId;
             //Fallback
             newNode.ChildNodes[1].FirstChild.Attributes["shapeId"].Value = oleId;
-            WorksheetCopyHelper.CopyOleObject(worksheet._package, worksheet, ole, newNode);
+            if (!ole.IsExternalLink && relId != null)
+            {
+                newNode.FirstChild.FirstChild.Attributes["r:id"].Value = relId;
+                //Fallback
+                newNode.ChildNodes[1].FirstChild.Attributes["r:id"].Value = relId;
+            }
             oleNode.AppendChild(newNode);
 
             if (!isGroupShape)

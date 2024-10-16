@@ -493,8 +493,20 @@ namespace EPPlusTest.Drawing
             {
                 ole.Copy(ws1, ole.From.Row, ole.From.Column + 10);
             }
+
+            //p.Workbook.Worksheets.Add("Worksheet Copy", ws);
+
             SaveAndCleanup(p);
             p1.SaveAs(@"C:\epplusTest\Testoutput\NewOleObjects.xlsx");
+        }
+
+        [TestMethod]
+        public void CopyWorksheetTest()
+        {
+            var p = OpenTemplatePackage("OleObjectTest_Embed_CopyMe.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            p.Workbook.Worksheets.Add("Worksheet Copy", ws);
+            SaveAndCleanup(p);
         }
     }
 }

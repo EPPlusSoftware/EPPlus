@@ -392,6 +392,10 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 CopyBlipFillDrawing(target, partDraw, drawXml, sourceDraw, shp.Fill, uriDraw);
             }
+            else if(sourceDraw is ExcelOleObject ole)
+            {
+                CopyOleObject(pck, target, ole, ref null, ref null);
+            }
             else if (sourceDraw is ExcelGroupShape grpDraw)
             {
                 for (int j = 0; j < grpDraw.Drawings.Count; j++)
@@ -439,8 +443,26 @@ namespace OfficeOpenXml.Core.Worksheet
             relAtt.Value = rel.Id;
         }
 
-        internal static void CopyOleObject(ExcelPackage package, ExcelWorksheet target, ExcelOleObject SourceOle, XmlNode oleNode)
+        internal static void CopyOleObject(ExcelPackage package, ExcelWorksheet target, ExcelOleObject SourceOle, ref string oleRel, ref string imgRel )
         {
+            //copy image here
+            //ZipPackageRelationship rel = new ZipPackageRelationship();
+            //if (target == SourceOle._worksheet)
+            //{
+            //    rel.TargetUri = SourceOle._mediaImage.Uri;
+            //}
+            //else
+            //{
+            //    //var emfStream = (MemoryStream)SourceOle._worksheet._package.ZipPackage.GetPart(SourceOle._mediaImage.Uri).GetStream();
+            //    //byte[] image = emfStream.ToArray();
+            //    //int newID = 1;
+            //    //var _mediaUri = GetNewUri(target._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
+            //    //var part = target._package.ZipPackage.CreatePart(_mediaUri, "image/x-emf", CompressionLevel.None, "emf");
+            //    //rel = target.Part.CreateRelationship(_mediaUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+            //    //MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+            //    //ms.Write(image, 0, image.Length);
+            //    //imgRel = rel.Id;
+            //}
 
             if (SourceOle.IsExternalLink)
             {
@@ -517,9 +539,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     cd.Save(ms);
                 }
                 relId = rel.Id;
-                oleNode.FirstChild.FirstChild.Attributes["r:id"].Value = relId;
-                //Fallback
-                oleNode.ChildNodes[1].FirstChild.Attributes["r:id"].Value = relId;
+                oleRel = relId;
             }
         }
 
@@ -732,7 +752,7 @@ namespace OfficeOpenXml.Core.Worksheet
             if (Copy._vmlDrawings.Part == null) return;
             foreach (var r in Copy._vmlDrawings.Part.GetRelationships())
             {
-                var newRel = added._vmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
+                var newRel = added.VmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
                 if (newRel.Id != r.Id) //Make sure the id's are the same.
                 {
                     newRel.Id = r.Id;
