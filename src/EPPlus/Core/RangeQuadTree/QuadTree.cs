@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,14 @@ namespace OfficeOpenXml.Core.RangeQuadTree
         }
 
         public QuadItem<T> Root { get; private set; }
+        /// <summary>
+        /// The maximum column of all ranges in the tree. -1 if not ranges exist.
+        /// </summary>
+        public int MaxCol { get; private set; }
+        /// <summary>
+        /// The maximum row of all ranges in the tree. -1 if not ranges exist.
+        /// </summary>
+        public int MaxRow { get; private set; }
 
         public void Add(QuadRange quadRange, T item)
         {
@@ -39,6 +48,16 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             }
 
             Root.Add(quadRange, item);
+
+            if (quadRange.ToRow > MaxRow)
+            { 
+                MaxRow = quadRange.ToRow; 
+            }
+
+            if(quadRange.ToCol > MaxCol)
+            {
+                MaxCol = quadRange.ToCol;
+            }
         }
         private void ExpandTree(QuadRange range)
         {
@@ -52,11 +71,11 @@ namespace OfficeOpenXml.Core.RangeQuadTree
                     throw new InvalidOperationException($"Quad tree can not expand over worksheet max limits (rows:{ExcelPackage.MaxRows}, columns {ExcelPackage.MaxColumns})");
                 }
 
-                if (d.ToCol == ExcelPackage.MaxColumns)
+                if (d.ToCol == ExcelPackage.MaxColumns || (d.ToCol * 2) < MaxCol)
                 {
                     quadItem = new QuadItem<T>(null, new QuadRange(d.FromRow, d.FromCol, d.ToRow * 4, d.ToCol));
                 }
-                else if (d.ToRow == ExcelPackage.MaxRows)
+                else if (d.ToRow == ExcelPackage.MaxRows || (d.ToRow * 2) < MaxRow)
                 {
                     quadItem = new QuadItem<T>(null, new QuadRange(d.FromRow, d.FromCol, d.ToRow, d.ToCol * 4));
                 }
@@ -65,7 +84,7 @@ namespace OfficeOpenXml.Core.RangeQuadTree
                     quadItem = new QuadItem<T>(null, new QuadRange(d.FromRow, d.FromCol, d.ToRow * 2, d.ToCol * 2));
                 }
 
-                if(quadItem.Dimension.ToRow>ExcelPackage.MaxRows)
+                if(quadItem.Dimension.ToRow > ExcelPackage.MaxRows)
                 {
                    quadItem.Dimension.ToRow = ExcelPackage.MaxRows;
                 }
@@ -94,39 +113,31 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             Root.GetIntersectingRanges(range, ref ranges);
             return ranges;
         }
-        public void InsertRow(int fromRow, int rows)
+        public void InsertRow(int fromRow, int rows, int fromCol=1, int toCol = ExcelPackage.MaxColumns)
         {
-            if (fromRow <= Root.Dimension.ToRow)
+            Root.InsertRow(fromRow, rows, fromCol, toCol, out bool overflow);
+            if(overflow)
             {
                 var cr = new QuadRange(1, 1, Root.Dimension.ToRow + rows, Root.Dimension.ToCol);
-                if (Root.Dimension.IsOutsideOfBounds(cr))
-                {
-                    ExpandTree(cr);
-                }
+                ExpandTree(cr);
             }
-
-            Root.InsertRow(fromRow, rows);
         }
-        public void InsertColumn(int fromCol, int cols)
+        public void InsertColumn(int fromCol, int cols, int fromRow=1, int toRow = ExcelPackage.MaxRows)
         {
-            if (fromCol <= Root.Dimension.ToCol)
+            Root.InsertCol(fromCol, cols, fromRow, toRow, out bool overflow);
+            if(overflow)
             {
                 var cr = new QuadRange(1, 1, Root.Dimension.ToRow, Root.Dimension.ToCol + cols);
-                if (Root.Dimension.IsOutsideOfBounds(cr))
-                {
-                    ExpandTree(cr);
-                }
+                ExpandTree(cr);
             }
-
-            Root.InsertCol(fromCol, cols);
         }
-        public void DeleteRow(int fromRow, int rows)
+        public void DeleteRow(int fromRow, int rows, int fromCol = 1, int toCol = ExcelPackage.MaxRows)
         {
-            Root.DeleteRow(fromRow, rows);
+            Root.DeleteRow(fromRow, rows, fromCol, toCol);
         }
-        public void DeleteCol(int fromCol, int cols)
+        public void DeleteCol(int fromCol, int cols, int fromRow = 1, int toRow = ExcelPackage.MaxRows)
         {
-            Root.DeleteCol(fromCol, cols);
+            Root.DeleteCol(fromCol, cols, fromRow, toRow);
         }
         public void Clear(int fromRow, int fromCol, int toRow, int toCol)
         {

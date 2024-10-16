@@ -37,7 +37,6 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             ToRow = toRow;
             ToCol = toCol;
         }
-
         public override string ToString()
         {
             return ExcelCellBase.GetAddress(FromRow, FromCol, ToRow, ToCol);

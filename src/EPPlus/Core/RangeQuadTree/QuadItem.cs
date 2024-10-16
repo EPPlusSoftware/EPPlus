@@ -142,7 +142,7 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             }
         }
 
-        internal bool DeleteRow(int fromRow, int rows)
+        internal bool DeleteRow(int fromRow, int rows, int fromCol, int toCol)
         {
             if(fromRow > Dimension.ToRow)
             {
@@ -150,10 +150,24 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             }
 
             var qadd = new Dictionary<int, QuadRangeItem<T>>();
+            var l = new List<QuadRangeItem<T>>();
             var ret = false;
             for (int i = 0; i < Ranges.Count; i++)
             {
                 var r = Ranges[i];
+                if (r.Range.FromCol < fromCol)
+                {
+                    l.Add(
+                        r.CloneWithNewAddress(r.Range.FromRow, r.Range.FromCol, r.Range.ToRow, fromCol - 1));
+                    r.Range.FromCol = fromCol;
+                }
+                if (r.Range.ToCol > toCol)
+                {
+                    l.Add(
+                        r.CloneWithNewAddress(r.Range.FromRow, toCol + 1, r.Range.ToRow, r.Range.ToCol));
+                    r.Range.ToCol = toCol;
+                }
+
                 if (r.Range.DeleteRow(fromRow, rows))
                 {
                     ret = true;
@@ -180,20 +194,21 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             {
                 foreach (var q in Quads)
                 {
-                    if (q.DeleteRow(fromRow, rows))
+                    if (q.DeleteRow(fromRow, rows, fromCol, toCol))
                     {
                         ret = true;
                     }
                 }
             }
 
-            foreach(var q in qadd)
+            Ranges.AddRange(l);
+            foreach (var q in qadd)
             {
                 Quads[q.Key].Add(q.Value);
             }
             return ret;
         }
-        internal bool DeleteCol(int fromCol, int cols)
+        internal bool DeleteCol(int fromCol, int cols, int fromRow = 1, int toRow = ExcelPackage.MaxRows)
         {
             if (fromCol > Dimension.ToCol)
             {
@@ -201,10 +216,25 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             }
 
             var qadd = new Dictionary<int, QuadRangeItem<T>>();
+            var l = new List<QuadRangeItem<T>>();
             var ret = false;
             for (int i = 0; i < Ranges.Count; i++)
             {
                 var r = Ranges[i];
+                if (r.Range.FromRow < fromRow)
+                {
+                    l.Add(
+                        r.CloneWithNewAddress(r.Range.FromRow, r.Range.FromCol, fromRow - 1, r.Range.ToCol));
+                    r.Range.FromRow = fromRow;
+                }
+
+                if (r.Range.ToRow > toRow)
+                {
+                    l.Add(
+                        r.CloneWithNewAddress(toRow + 1, r.Range.FromCol, r.Range.ToRow, r.Range.ToCol));
+                    r.Range.ToRow = toRow;
+                }
+
                 if (r.Range.DeleteColumn(fromCol, cols))
                 {
                     ret = true;
@@ -238,6 +268,7 @@ namespace OfficeOpenXml.Core.RangeQuadTree
                 }
             }
 
+            Ranges.AddRange(l);
             foreach (var q in qadd)
             {
                 Quads[q.Key].Add(q.Value);
@@ -260,33 +291,58 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             return false;
         }
 
-        internal bool InsertRow(int fromRow, int rows)
+        internal bool InsertRow(int fromRow, int rows, int fromCol, int toCol, out bool overflow)
         {
-            if(fromRow > Dimension.ToRow)
+            overflow = false;
+            if (fromRow > Dimension.ToRow)
             {
                 return false;
             }
 
+            var l=new List<QuadRangeItem<T>>();
             var ret = false;
             for (int i = 0; i < Ranges.Count; i++)
             {
                 var r = Ranges[i];
-                if (r.Range.InsertRow(fromRow, rows))
+                if(r.Range.ToRow >= fromRow && (r.Range.ToCol > fromCol && r.Range.FromCol < toCol))
                 {
-                    if (r.Range.ToRow > Dimension.ToRow)
+                    if (r.Range.FromCol < fromCol)
                     {
-                        AddParentInsertRow(i, r);
-                        i--;
-                        ret = true;
+                        l.Add(
+                            r.CloneWithNewAddress(r.Range.FromRow, r.Range.FromCol, r.Range.ToRow, fromCol - 1));
+                        r.Range.FromCol = fromCol;
+                    }
+                    if(r.Range.ToCol > toCol)
+                    {
+                        l.Add(
+                            r.CloneWithNewAddress(r.Range.FromRow, toCol+1, r.Range.ToRow, r.Range.ToCol));
+                        r.Range.ToCol = toCol;
+                    }
+
+                    if (r.Range.InsertRow(fromRow, rows))
+                    {
+                        if (r.Range.ToRow > Dimension.ToRow)
+                        {
+                            if(AddParentInsertRow(i, r))
+                            {
+                                overflow = true;
+                            }
+                            else
+                            {
+                                i--;
+                                ret = true;
+                            }
+                        }
                     }
                 }
             }
+            Ranges.AddRange(l);
 
             if (Quads != null)
             {
                 foreach (var q in Quads)
                 {
-                    if (q.InsertRow(fromRow, rows))
+                    if (q.InsertRow(fromRow, rows, fromCol, toCol, out overflow))
                     {
                         ret = true;
                     }
@@ -295,33 +351,56 @@ namespace OfficeOpenXml.Core.RangeQuadTree
 
             return ret;
         }
-        internal bool InsertCol(int fromCol, int cols)
+        internal bool InsertCol(int fromCol, int cols, int fromRow, int toRow, out bool overflow)
         {
+            overflow = false;
             if (fromCol > Dimension.ToCol)
             {
                 return false;
             }
 
+            var l = new List<QuadRangeItem<T>>();
             var ret = false;
             for (int i = 0; i < Ranges.Count; i++)
             {
                 var r = Ranges[i];
-                if (r.Range.InsertColumn(fromCol, cols))
+                if (r.Range.ToRow >= fromRow && (r.Range.ToRow > fromRow && r.Range.FromRow < toRow))
                 {
-                    if (r.Range.ToCol > Dimension.ToCol)
+                    if (r.Range.FromRow < fromRow)
                     {
-                        AddParentInsertCol(i, r);
-                        i--;
-                        ret = true;
+                        l.Add(
+                            r.CloneWithNewAddress(r.Range.FromRow, r.Range.FromCol, fromRow - 1, r.Range.ToCol));
+                        r.Range.FromRow = fromRow;
+                    }
+
+                    if (r.Range.ToRow > toRow)
+                    {
+                        l.Add(
+                            r.CloneWithNewAddress(toRow + 1, r.Range.FromCol, r.Range.ToRow, r.Range.ToCol));
+                        r.Range.ToRow = toRow;
+                    }
+
+                    if (r.Range.InsertColumn(fromCol, cols))
+                    {
+                        if (r.Range.ToCol > Dimension.ToCol)
+                        {
+                            if (AddParentInsertCol(i, r))
+                            {
+                                overflow = true;
+                            }
+                            i--;
+                            ret = true;
+                        }
                     }
                 }
             }
+            Ranges.AddRange(l);
 
             if (Quads != null)
             {
                 foreach (var q in Quads)
                 {
-                    if (q.InsertRow(fromCol, cols))
+                    if (q.InsertCol(fromCol, cols, fromRow, toRow, out overflow))
                     {
                         ret = true;
                     }
@@ -331,22 +410,47 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             return ret;
         }
 
-        private void AddParentInsertRow(int i, QuadRangeItem<T> r)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="r"></param>
+        /// <returns>Returns true if overflow occurres</returns>
+        private bool AddParentInsertRow(int i, QuadRangeItem<T> r)
         {
             var p = Parent;
             while (p!=null && p.Dimension.ToRow <= r.Range.ToRow) 
             {
-                p = Parent;
+                p = p.Parent;
             }            
             
             if(p==null)
             {
-                throw new IndexOutOfRangeException("Quadtree out of range");
+                return true;
             }
 
             p.Add(r);
             Ranges.RemoveAt(i);
+            return false;
         }
+        private bool AddParentInsertCol(int i, QuadRangeItem<T> r)
+        {
+            var p = Parent;
+            while (p != null && p.Dimension.ToCol <= r.Range.ToCol)
+            {
+                p = Parent;
+            }
+
+            if (p == null)
+            {
+                return true;
+            }
+
+            p.Add(r);
+            Ranges.RemoveAt(i);
+            return false;
+        }
+
         private void AddParentDeleteRow(int i, QuadRangeItem<T> r)
         {
             var p = Parent;
@@ -379,23 +483,6 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             p.Add(r);
             Ranges.RemoveAt(i);
         }
-        private void AddParentInsertCol(int i, QuadRangeItem<T> r)
-        {
-            var p = Parent;
-            while (p != null && p.Dimension.ToCol <= r.Range.ToCol)
-            {
-                p = Parent;
-            }
-
-            if (p == null)
-            {
-                throw new IndexOutOfRangeException("Quadtree out of range");
-            }
-
-            p.Add(r);
-            Ranges.RemoveAt(i);
-        }
-
         internal void Clear(QuadRange clearedRange)
         {
             if (Quads != null)

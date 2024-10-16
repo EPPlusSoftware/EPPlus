@@ -85,6 +85,7 @@ namespace EPPlusTest.Table
             ws.Cells["C3"].Value = 3;
             ws.Cells["C4"].Value = 4;
             var table = ws.Tables.Add(ws.Cells["B2:C4"], "TestTableBracketHeader");
+
             table.ShowTotal = true;
             table.ShowHeader = true;
             table.Columns[0].TotalsRowFunction = OfficeOpenXml.Table.RowFunctions.Sum;

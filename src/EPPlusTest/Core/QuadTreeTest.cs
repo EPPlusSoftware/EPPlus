@@ -97,10 +97,62 @@ namespace EPPlusTest.Core
             var ranges = qt.GetIntersectingRanges(new QuadRange(13, 5, 11, 5));
         }
         [TestMethod]
+        public void QuadTree_InsertRows_InRange()
+        {
+            var qt = new QuadTree<int>();
+            var r = new QuadRange(5, 5, 10, 10);
+            qt.Add(r, 1);
+            qt.InsertRow(5, 2, 6, 9);
+            var ranges = qt.GetIntersectingRangeItems(new QuadRange(10, 5, 13, 10));
+            Assert.AreEqual(3, ranges.Count);
+            Assert.AreEqual("F7:I12", ranges[0].Range.ToString());
+            Assert.AreEqual("E5:E10", ranges[1].Range.ToString());
+            Assert.AreEqual("J5:J10", ranges[2].Range.ToString());
+        }
+        [TestMethod]
+        public void QuadTree_DeleteRows_InRange()
+        {
+            var qt = new QuadTree<int>();
+            var r = new QuadRange(5, 5, 10, 10);
+            qt.Add(r, 1);
+            qt.DeleteRow(5, 2, 6, 9);
+            var ranges = qt.GetIntersectingRangeItems(new QuadRange(8, 5, 13, 10));
+            Assert.AreEqual(3, ranges.Count);
+            Assert.AreEqual("F5:I8", ranges[0].Range.ToString());
+            Assert.AreEqual("E5:E10", ranges[1].Range.ToString());
+            Assert.AreEqual("J5:J10", ranges[2].Range.ToString());
+        }
+        [TestMethod]
+        public void QuadTree_InsertCol_InRange()
+        {
+            var qt = new QuadTree<int>();
+            var r = new QuadRange(5, 5, 10, 10);
+            qt.Add(r, 1);
+            qt.InsertColumn(5, 2, 6, 9);
+            var ranges = qt.GetIntersectingRangeItems(new QuadRange(5, 10, 10, 13));
+            Assert.AreEqual(3, ranges.Count);
+            Assert.AreEqual("G6:L9", ranges[0].Range.ToString());
+            Assert.AreEqual("E5:J5", ranges[1].Range.ToString());
+            Assert.AreEqual("E10:J10", ranges[2].Range.ToString());
+        }
+        [TestMethod]
+        public void QuadTree_DeleteCols_InRange()
+        {
+            var qt = new QuadTree<int>();
+            var r = new QuadRange(5, 5, 10, 10);
+            qt.Add(r, 1);
+            qt.DeleteCol(5, 2, 6, 9);
+            var ranges = qt.GetIntersectingRangeItems(new QuadRange(3, 5, 13, 10));
+            Assert.AreEqual(3, ranges.Count);
+            Assert.AreEqual("E6:H9", ranges[0].Range.ToString());
+            Assert.AreEqual("E5:J5", ranges[1].Range.ToString());
+            Assert.AreEqual("E10:J10", ranges[2].Range.ToString());
+        }
+        [TestMethod]
         public void QuadTree_InsertRows_Expand()
         {
             var qt = new QuadTree<int>();
-            var r = new QuadRange(30, 1, 35, 5);
+            var r = new QuadRange(27, 1, 29, 5);
             qt.Add(r, 1);
             qt.InsertRow(5, 2);
             var ranges = qt.GetIntersectingRanges(new QuadRange(30, 5, 32, 5));
@@ -279,6 +331,7 @@ namespace EPPlusTest.Core
             Assert.AreEqual("I8:J10", qt.Root.Ranges[2].Range.ToString());
             Assert.AreEqual("H9:H10", qt.Root.Ranges[3].Range.ToString());
         }
+
         [TestMethod]
         public void QuadTree_ClearAll()
         {
