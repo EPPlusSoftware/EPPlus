@@ -394,7 +394,8 @@ namespace OfficeOpenXml.Core.Worksheet
             }
             else if(sourceDraw is ExcelOleObject ole)
             {
-                CopyOleObject(pck, target, ole, ref null, ref null);
+                string imgRelId = null; 
+                CopyOleObject(pck, target, ole, ref imgRelId);
             }
             else if (sourceDraw is ExcelGroupShape grpDraw)
             {
@@ -443,7 +444,7 @@ namespace OfficeOpenXml.Core.Worksheet
             relAtt.Value = rel.Id;
         }
 
-        internal static void CopyOleObject(ExcelPackage package, ExcelWorksheet target, ExcelOleObject SourceOle, ref string oleRel, ref string imgRel )
+        internal static void CopyOleObject(ExcelPackage package, ExcelWorksheet target, ExcelOleObject SourceOle, ref string imgRelId)
         {
             //copy image here
             //ZipPackageRelationship rel = new ZipPackageRelationship();
@@ -453,16 +454,22 @@ namespace OfficeOpenXml.Core.Worksheet
             //}
             //else
             //{
-            //    //var emfStream = (MemoryStream)SourceOle._worksheet._package.ZipPackage.GetPart(SourceOle._mediaImage.Uri).GetStream();
-            //    //byte[] image = emfStream.ToArray();
+            var emfStream = (MemoryStream)SourceOle._worksheet._package.ZipPackage.GetPart(SourceOle._mediaImage.Uri).GetStream();
+            byte[] image = emfStream.ToArray();
+            var ii = target._package.PictureStore.AddImage(image, null, ePictureType.Emf);
+            var imgRel = target.Part.CreateRelationship(UriHelper.GetRelativeUri(target.WorksheetUri, ii.Uri), TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
             //    //int newID = 1;
             //    //var _mediaUri = GetNewUri(target._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
             //    //var part = target._package.ZipPackage.CreatePart(_mediaUri, "image/x-emf", CompressionLevel.None, "emf");
             //    //rel = target.Part.CreateRelationship(_mediaUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
             //    //MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
             //    //ms.Write(image, 0, image.Length);
-            //    //imgRel = rel.Id;
             //}
+
+            //Uppdate relation in worksheet node.
+            var imgNode = target.WorksheetXml.SelectSingleNode($"//*[@r:id='{ SourceOle._oleObject.TopNode.FirstChild.Attributes["r:id"].Value}']", target.NameSpaceManager);
+            imgNode.Attributes["r:id"].Value = imgRel.Id;
+            imgRelId = imgRel.Id;
 
             if (SourceOle.IsExternalLink)
             {
@@ -486,7 +493,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 //copy embeded object
                 var orgUri = SourceOle._oleObjectPart.Uri.OriginalString;
                 string name;
-                string relId = "";
                 var fileType = Path.GetExtension(orgUri).ToLower();
                 bool isMsOffDoc = true;
                 string schemaRelEnding = "/package";
@@ -538,8 +544,10 @@ namespace OfficeOpenXml.Core.Worksheet
                     cd.RootItem.ClsID = SourceOle._document.RootItem.ClsID;
                     cd.Save(ms);
                 }
-                relId = rel.Id;
-                oleRel = relId;
+                var oleNode = target.WorksheetXml.SelectSingleNode($"//*[@r:id='{SourceOle._oleObject.TopNode.Attributes["r:id"].Value}']", target.NameSpaceManager);
+                oleNode.Attributes["r:id"].Value = rel.Id;
+                //Fallback
+                oleNode.ParentNode.NextSibling.FirstChild.Attributes["r:id"].Value = rel.Id;
             }
         }
 

@@ -508,5 +508,29 @@ namespace EPPlusTest.Drawing
             p.Workbook.Worksheets.Add("Worksheet Copy", ws);
             SaveAndCleanup(p);
         }
+        [TestMethod]
+        public void ReadWorksheetTest()
+        {
+            var p = new ExcelPackage(@"C:\epplusTest\Testoutput\OleObjectTest_Embed_CopyMe.xlsx");
+            var ws = p.Workbook.Worksheets[1];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+        }
+        [TestMethod]
+        public void CopyWorksheetTestOther()
+        {
+            var p = OpenTemplatePackage("OleObjectTest_Embed_CopyMe.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var p1 = new ExcelPackage();
+            p1.Workbook.Worksheets.Add("Worksheet Copy", ws);
+            p1.SaveAs(@"C:\epplusTest\Testoutput\WsCopyOtherBook.xlsx");
+        }
+        [TestMethod]
+        public void CopyWorksheetTest2()
+        {
+            var p = OpenTemplatePackage("OleObjectTest_Link_CopyMe.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            p.Workbook.Worksheets.Add("Worksheet Copy", ws);
+            SaveAndCleanup(p);
+        }
     }
 }

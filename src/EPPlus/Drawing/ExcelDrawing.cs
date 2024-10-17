@@ -1653,15 +1653,6 @@ namespace OfficeOpenXml.Drawing
             var drawSpIdNode = drawIdNode.SelectSingleNode("a:extLst/a:ext/a14:compatExt", _drawings.NameSpaceManager);
             var spid = drawSpIdNode.Attributes["spid"].Value = "_x0000_s" + oleId;
 
-            //create vml
-            worksheet.VmlDrawings.AddOlePicture(oleId, rel.TargetUri);
-            var vmlId = worksheet.VmlDrawings._drawings[worksheet.VmlDrawings._drawings.Count - 1].TopNode;
-
-            //Copy OleObject
-            string relId = null;
-            string imgRelId = null;
-            WorksheetCopyHelper.CopyOleObject(worksheet._package, worksheet, ole, ref relId, ref imgRelId);
-
             //create worksheet node
             XmlNode oleNode = worksheet.CreateOleContainerNode();
             ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:xdr", ExcelPackage.schemaSheetDrawings);   //Make sure the namespace exists
@@ -1675,18 +1666,20 @@ namespace OfficeOpenXml.Drawing
             else
             {
                 newNode = oleNode.OwnerDocument.ImportNode(ole._oleObject.TopNode.ParentNode.ParentNode, true);
-                newNode.FirstChild.FirstChild.FirstChild.Attributes["r:id"].Value = imgRelId;
             }
+            oleNode.AppendChild(newNode);
+            //Copy OleObject & Image
+            string imgRelId = null;
+            WorksheetCopyHelper.CopyOleObject(worksheet._package, worksheet, ole, ref imgRelId);
+
+            //create vml
+            worksheet.VmlDrawings.AddOlePicture(oleId, worksheet.Part.GetRelationship(imgRelId).TargetUri);
+            var vmlId = worksheet.VmlDrawings._drawings[worksheet.VmlDrawings._drawings.Count - 1].TopNode;
+
+            //Update Shape Id.
             newNode.FirstChild.FirstChild.Attributes["shapeId"].Value = oleId;
             //Fallback
             newNode.ChildNodes[1].FirstChild.Attributes["shapeId"].Value = oleId;
-            if (!ole.IsExternalLink && relId != null)
-            {
-                newNode.FirstChild.FirstChild.Attributes["r:id"].Value = relId;
-                //Fallback
-                newNode.ChildNodes[1].FirstChild.Attributes["r:id"].Value = relId;
-            }
-            oleNode.AppendChild(newNode);
 
             if (!isGroupShape)
             {
