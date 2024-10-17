@@ -9,26 +9,26 @@ using System.Xml;
 
 namespace OfficeOpenXml.Metadata.FutureMetadata
 {
-    internal class FutureMetadataRichDataBlockCollection : IndexedCollection<FutureMetadataRichDataBlock>
+    internal class FutureMetadataRichValueBlockCollection : IndexedCollection<FutureMetadataBlock>
     {
-        public FutureMetadataRichDataBlockCollection(ExcelRichData richData) : base(richData, RichDataEntities.FutureMetadataRichDataBlock)
+        public FutureMetadataRichValueBlockCollection(RichDataIndexStore store) : base(store, RichDataEntities.FutureMetadataRichDataBlock)
         {
-            _richData = richData;
+            _store = store;
         }
 
-        public FutureMetadataRichDataBlockCollection(XmlReader xr, ExcelRichData richData)
-            : base(richData, RichDataEntities.FutureMetadataRichDataBlock)
+        public FutureMetadataRichValueBlockCollection(XmlReader xr, RichDataIndexStore store)
+            : base(store, RichDataEntities.FutureMetadataRichDataBlock)
         {
-            _richData = richData;
+            _store = store;
         }
 
-        private readonly ExcelRichData _richData;
+        private readonly RichDataIndexStore _store;
 
         private void ReadXml(XmlReader xr)
         {
             while(!xr.EOF)
             {
-                Add(new FutureMetadataRichDataBlock(xr, _richData));
+                Add(new FutureMetadataRichValueBlock(xr, _store));
                 if(xr.IsEndElementWithName("futureMetadata"))
                 {
                     break;
@@ -39,6 +39,5 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
 
         public override RichDataEntities EntityType => RichDataEntities.FutureMetadataRichDataBlock;
 
-        public 
     }
 }

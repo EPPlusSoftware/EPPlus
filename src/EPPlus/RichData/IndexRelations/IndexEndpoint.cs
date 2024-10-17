@@ -30,6 +30,15 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         public int CurrentIndex { get; set; }
 
+        private bool _deleted;
+        public bool Deleted => _deleted;
+
+        public void DeleteMe()
+        {
+            _deleted = true;
+            // TODO: follow relations and delete depending entities
+        }
+
         public List<IndexRelation> SubRelations { get; private set; }
 
         public static IndexEndpoint GetSubRelationsEndpoint(RichDataIndexStore store)
@@ -37,6 +46,63 @@ namespace OfficeOpenXml.RichData.IndexRelations
             var endpoint = new IndexEndpoint(store, RichDataEntities.SubRelations);
             endpoint.SubRelations = new List<IndexRelation>();
             return endpoint;
+        }
+
+        public int? GetIndex()
+        {
+            return _store.GetIndexById(Id, Entity);
+        }
+
+        public virtual void InitRelations()
+        {
+
+        }
+
+        public int? FirstTargetIndex
+        {
+            get
+            {
+                var targets = _store.GetRelationTargets(Id);
+                if (targets != null && targets.Any())
+                {
+                    var target = targets.First();
+                    return target.To.GetIndex();
+                }
+                return default;
+            }
+        }
+
+        public int? FirstTargetId
+        {
+            get
+            {
+                var targets = _store.GetRelationTargets(Id);
+                if (targets != null && targets.Any())
+                {
+                    var target = targets.First();
+                    if (target.To.Deleted) return default;
+                    return target.To.Id;
+                }
+                return default;
+            }
+        }
+
+        public T GetFirstTargetByType<T>()
+            where T : IndexEndpoint
+        {
+            var entityType = _store.GetEntityByType(typeof(T));
+            var targets = _store.GetRelationTargets(Id);
+            
+            if (targets != null && targets.Any())
+            {
+                var target = targets.FirstOrDefault(x => x.To.Entity == entityType && !x.To.Deleted);
+                if(target != null)
+                {
+                    return target.To as T;
+                }
+                
+            }
+            return default;
         }
     }
 }

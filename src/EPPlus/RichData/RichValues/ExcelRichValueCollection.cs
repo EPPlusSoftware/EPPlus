@@ -24,7 +24,7 @@ namespace OfficeOpenXml.RichData.RichValues
         Uri _uri;
         internal const string PART_URI_PATH = "/xl/richData/rdrichvalue.xml";
         public ExcelRichValueCollection(ExcelWorkbook wb, ExcelRichData richData)
-            : base(richData, RichDataEntities.RichValue)
+            : base(wb.IndexStore, RichDataEntities.RichValue)
         {
             _wb = wb;
             _richData = richData;
@@ -57,7 +57,7 @@ namespace OfficeOpenXml.RichData.RichValues
             {
                 if (xr.IsElementWithName("rv"))
                 {
-                    Items.Add(ReadItem(xr));
+                    Add(ReadItem(xr));
                 }
                 else if (xr.IsElementWithName("extLst"))
                 {
@@ -117,8 +117,8 @@ namespace OfficeOpenXml.RichData.RichValues
             stream.CompressionLevel = (Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
             var sw = new StreamWriter(stream);
             sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
-            sw.Write($"<rvData xmlns=\"{Schemas.schemaRichData}\" count=\"{Items.Count}\">");
-            foreach (var item in Items)
+            sw.Write($"<rvData xmlns=\"{Schemas.schemaRichData}\" count=\"{this.Count}\">");
+            foreach (var item in this)
             {
                 item.WriteXml(sw);
             }
@@ -155,7 +155,7 @@ namespace OfficeOpenXml.RichData.RichValues
             };
             //item.Structure = _structures.StructureItems[item.StructureId];
             //item.AddSpillError(spillError.SpillRowOffset, spillError.SpillColOffset, "1");
-            Items.Add(item);
+            Add(item);
         }
 
         internal void AddPropagated(eErrorType errorType)
@@ -186,7 +186,7 @@ namespace OfficeOpenXml.RichData.RichValues
                     break;
 
             }
-            Items.Add(item);
+            Add(item);
         }
         internal void AddError(eErrorType errorType, int subType)
         {
@@ -219,10 +219,8 @@ namespace OfficeOpenXml.RichData.RichValues
                     break;
 
             }
-            Items.Add(item);
+            Add(item);
         }
-
-        public List<ExcelRichValue> Items { get; } = new List<ExcelRichValue>();
         public string ExtLstXml { get; internal set; }
 
         public override RichDataEntities EntityType => RichDataEntities.RichValue;

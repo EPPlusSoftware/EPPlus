@@ -2014,10 +2014,12 @@ namespace OfficeOpenXml
 				if (_metadata == null)
 				{
 					_metadata = new ExcelMetadata(this);
+					_metadata.InitRelations(RichData);
 				}
 				return _metadata;
 			}
 		}
+
 		ExcelRichData _richData = null;
 
 		internal ExcelRichData RichData
@@ -2031,6 +2033,11 @@ namespace OfficeOpenXml
 				return _richData;
 			}
 		}
+
+		private readonly RichDataIndexStore _indexStore = new RichDataIndexStore();
+
+		internal RichDataIndexStore IndexStore => _indexStore;
+
         /// <summary>
 		/// Handler for the <see cref="ExcelRangeBase.Text" /> property to override the default behaviour.
 		/// This can be used to handle localized number formats or formats where EPPlus differs from the spread sheet application.

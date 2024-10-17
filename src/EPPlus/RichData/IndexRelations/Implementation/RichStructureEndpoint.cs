@@ -7,7 +7,7 @@ namespace OfficeOpenXml.RichData.IndexRelations.Implementation
 {
     internal class RichStructureEndpoint : IndexEndpoint
     {
-        public RichStructureEndpoint(ExcelRichData richData) : base(richData.IndexStore, RichDataEntities.RichStructure)
+        public RichStructureEndpoint(RichDataIndexStore store) : base(store, RichDataEntities.RichStructure)
         {
         }
     }

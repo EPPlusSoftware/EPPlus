@@ -9,7 +9,7 @@ namespace OfficeOpenXml.Metadata
 {
     internal class ValueMetadataBlockCollection : IndexedCollection<ExcelValueMetadataBlock>
     {
-        public ValueMetadataBlockCollection(ExcelRichData richData) : base(richData, RichDataEntities.ValueMetadataBlock)
+        public ValueMetadataBlockCollection(RichDataIndexStore store) : base(store, RichDataEntities.ValueMetadataBlock)
         {
         }
 

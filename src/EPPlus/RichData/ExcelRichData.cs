@@ -16,8 +16,9 @@ namespace OfficeOpenXml.RichData
     {
         internal ExcelRichData(ExcelWorkbook wb)
         {
+            _indexStore = wb.IndexStore;
             var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataValueTypeRelationship).FirstOrDefault();
-            if(r != null)
+            if (r != null)
             {
                 ValueTypes = new ExcelRichDataValueTypeInfo(wb, r);
             }
@@ -29,7 +30,8 @@ namespace OfficeOpenXml.RichData
                     ValueTypes.CreateDefault();
                 }
             }
-            IndexStore = new RichDataIndexStore();
+            // this will initialize the metadata, it is needed for the Rich data...
+
             Structures = new ExcelRichValueStructureCollection(wb, this);
             RichValueRels = new RichValueRelCollection(wb);
             Values = new ExcelRichValueCollection(wb, this);
@@ -50,8 +52,10 @@ namespace OfficeOpenXml.RichData
         internal SupportingPropertyBags SupportingPropertyBags { get; }
 
         private ExcelRichDataDeletions _richDataDeletions;
+        //private ExcelMetadata _metadata;
+        private RichDataIndexStore _indexStore;
 
-        internal RichDataIndexStore IndexStore { get; }
+        internal RichDataIndexStore IndexStore => _indexStore;
 
         internal ExcelRichDataDeletions Deletions { 
             get 

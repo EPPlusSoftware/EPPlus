@@ -23,18 +23,15 @@ namespace OfficeOpenXml.Metadata
     /// </summary>
     internal class ExcelValueMetadataBlock : IndexEndpoint
     {
-        public ExcelValueMetadataBlock(ExcelMetadata metadata, int recordTypeIndex, int valueTypeIndex, ExcelRichData richData)
-            : base(richData.IndexStore, RichDataEntities.ValueMetadataRecord)
+        public ExcelValueMetadataBlock(ExcelMetadata metadata, int recordTypeIndex, int valueTypeIndex, RichDataIndexStore store)
+            : base(store, RichDataEntities.ValueMetadataRecord)
         {
-            var mainRelation = new IndexRelation(this, IndexEndpoint.GetSubRelationsEndpoint(richData.IndexStore), IndexType.SubRelations);
-            var record = new ExcelValueMetadataRecord(metadata, this, recordTypeIndex, valueTypeIndex, richData.IndexStore);
+            var mainRelation = new IndexRelation(this, IndexEndpoint.GetSubRelationsEndpoint(store), IndexType.SubRelations);
+            var record = new ExcelValueMetadataRecord(metadata, this, recordTypeIndex, valueTypeIndex, store);
             // 1. Add metadata type relation
             var rel1 = new IndexRelation(this, metadata.MetadataTypes[recordTypeIndex], IndexType.OneBasedPointer);
             mainRelation.To.SubRelations.Add(rel1);
             var type = metadata.MetadataTypes.GetItem(rel1.To.Id);
-            // 2. Add rich value relation
-            var rel2 = richData.Values.CreateRelation(this, valueTypeIndex, IndexType.ZeroBasedPointer);
-
         }
 
         public ExcelValueMetadataBlock(XmlReader xr, ExcelMetadata metadata, RichDataIndexStore store)

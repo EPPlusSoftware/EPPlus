@@ -10,24 +10,31 @@
  *************************************************************************************************
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.RichData.IndexRelations;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml;
+using System.Linq;
+using System.Text;
 
 namespace OfficeOpenXml.Metadata.FutureMetadata
 {
+    internal abstract class FutureMetadataBase : IndexEndpoint
+    {
+        internal const string DYNAMIC_ARRAY_NAME = "XLDAPR";
+        internal const string RICHDATA_NAME = "XLRICHVALUE";
 
-    //internal abstract class ExcelFutureMetadataType
-    //{
-    //    public abstract FutureMetadataType Type { get; }
-    //    public abstract string Uri { get; }
-    //    public ExcelFutureMetadataDynamicArray AsDynamicArray { get { return this as ExcelFutureMetadataDynamicArray; } }
+        protected FutureMetadataBase(RichDataIndexStore store) : base(store, RichDataEntities.FutureMetadata)
+        {
+        }
 
-    //    public bool IsDynamicArray { get; set; }
-    //    public ExcelFutureMetadataRichData AsRichData { get { return this as ExcelFutureMetadataRichData; } }
+        public int Index { get; set; }
+        public string Name { get; set; }
 
-    //    internal abstract void WriteXml(StreamWriter sw);
-    //}
+        public abstract string Uri { get; set; }
+
+        public abstract IndexedCollection<FutureMetadataBlock> Blocks { get; set; }
+
+        public abstract void Save(StreamWriter sw);
+    }
 }

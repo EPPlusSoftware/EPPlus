@@ -12,29 +12,33 @@ using System.Xml.Linq;
 
 namespace OfficeOpenXml.Metadata.FutureMetadata
 {
-    internal class FutureMetadataRichValue : ExcelFutureMetadata
+    internal class FutureMetadataRichValue : FutureMetadataBase
     {
-        public FutureMetadataRichValue(string name, ExcelRichData richData, ExcelMetadata metadata)
-            : base(richData.IndexStore)
+        public FutureMetadataRichValue(string name, RichDataIndexStore store, ExcelMetadata metadata)
+            : base(store)
         {
             Name = name;
+            _indexStore = store;
+            Blocks = new FutureMetadataRichValueBlockCollection(store);
             var type = metadata.MetadataTypes.FirstOrDefault(t => t.Name == name);
             if(type != null)
             {
                 var rel = new IndexRelation(type, this, IndexType.String);
-                richData.IndexStore.AddRelation(rel);
+                store.AddRelation(rel);
             }
         }
-        public FutureMetadataRichValue(XmlReader xr, ExcelRichData richData, ExcelMetadata metadata)
-            : base(richData.IndexStore)
+        public FutureMetadataRichValue(XmlReader xr, RichDataIndexStore store, ExcelMetadata metadata)
+            : base(store)
         {
-            Blocks = new FutureMetadataRichDataBlockCollection(richData);
-            ReadXml(xr, richData, metadata);
+            Blocks = new FutureMetadataRichValueBlockCollection(store);
+            ReadXml(xr,_indexStore, metadata);
         }
+
+        private readonly RichDataIndexStore _indexStore;
 
         public override string Uri { get; set; } = ExtLstUris.RichValueDataUri;
 
-        private void ReadXml(XmlReader xr, ExcelRichData richData, ExcelMetadata metadata)
+        private void ReadXml(XmlReader xr, RichDataIndexStore store, ExcelMetadata metadata)
         {
             while(!xr.EOF)
             {
@@ -45,21 +49,22 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
                     if (type != null)
                     {
                         var rel = new IndexRelation(type, this, IndexType.String);
-                        richData.IndexStore.AddRelation(rel);
+                        store.AddRelation(rel);
                     }
                     xr.Read();
                 }
                 else if(xr.IsElementWithName("bk"))
                 {
-                    Blocks.Add(new FutureMetadataRichDataBlock(xr, richData));
+                    Blocks.Add(new FutureMetadataRichValueBlock(xr, store));
                 }
             }
         }
 
-        public FutureMetadataRichDataBlockCollection Blocks { get; set; }
-        protected override void Save(StreamWriter sw)
+        public override IndexedCollection<FutureMetadataBlock> Blocks { get; set; }
+
+        public override void Save(StreamWriter sw)
         {
-            sw.Write("<futureMetadata name=\"XLRICHVALUE\" count=\"1\">");
+            sw.Write($"<futureMetadata name=\"XLRICHVALUE\" count=\"{Blocks.Count}\">");
             foreach(var block in Blocks)
             {
                 block.Save(sw);

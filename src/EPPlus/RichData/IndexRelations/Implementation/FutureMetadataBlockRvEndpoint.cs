@@ -7,7 +7,7 @@ namespace OfficeOpenXml.RichData.IndexRelations.Implementation
 {
     internal abstract class FutureMetadataBlockRvEndpoint : IndexEndpoint
     {
-        protected FutureMetadataBlockRvEndpoint(ExcelRichData richData) : base(richData.IndexStore, RichDataEntities.FutureMetadataRichDataBlock)
+        protected FutureMetadataBlockRvEndpoint(RichDataIndexStore store) : base(store, RichDataEntities.FutureMetadataRichDataBlock)
         {
         }
     }

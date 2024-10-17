@@ -36,10 +36,9 @@ namespace OfficeOpenXml.RichData.Structures
         private const string PART_URI_PATH = "/xl/richData/rdrichvaluestructure.xml";
         private Dictionary<RichDataStructureTypes, int> _structures = new Dictionary<RichDataStructureTypes, int>();
         internal ExcelRichValueStructureCollection(ExcelWorkbook wb, ExcelRichData richData)
-            : base(richData, RichDataEntities.RichStructure)
+            : base(wb.IndexStore, RichDataEntities.RichStructure)
         {
             _wb = wb;
-            _richData = richData;
             var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataValueStructureRelationship).FirstOrDefault();
             if (r == null)
             {
@@ -151,7 +150,9 @@ namespace OfficeOpenXml.RichData.Structures
             {
                 return GetItemById(id);
             }
-            return default;
+            var id2 = AddStructure(structure);
+            return GetItemById(id2);
+            //return default;
         }
         private int AddStructure(RichDataStructureTypes structureType)
         {

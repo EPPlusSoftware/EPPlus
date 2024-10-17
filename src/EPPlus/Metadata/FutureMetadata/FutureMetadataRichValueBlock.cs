@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.RichValues;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -10,21 +11,32 @@ using System.Xml;
 
 namespace OfficeOpenXml.Metadata.FutureMetadata
 {
-    internal class FutureMetadataRichDataBlock : IndexEndpoint
+    internal class FutureMetadataRichValueBlock : FutureMetadataBlock
     {
-        public FutureMetadataRichDataBlock(ExcelRichData richData)
-            : base(richData.IndexStore, RichDataEntities.FutureMetadataRichDataBlock)
+        public FutureMetadataRichValueBlock(RichDataIndexStore store)
+            : base(store, RichDataEntities.FutureMetadataRichDataBlock)
         {
             
         }
-        public FutureMetadataRichDataBlock(XmlReader xr, ExcelRichData richData)
-            : base(richData.IndexStore, RichDataEntities.FutureMetadataRichDataBlock)
+        public FutureMetadataRichValueBlock(XmlReader xr, RichDataIndexStore store)
+            : base(store, RichDataEntities.FutureMetadataRichDataBlock)
         {
-            _richData = richData;
             ReadXml(xr);
         }
 
-        private readonly ExcelRichData _richData;
+        private int? _indexFromRead;
+
+        public override void InitRelations(ExcelRichData richData)
+        {
+            if(_indexFromRead.HasValue)
+            {
+                base.InitRelations();
+                var rel = richData.Values.CreateRelation(this, richData.Values[_indexFromRead.Value], IndexType.ZeroBasedPointer);
+                RichDataId = rel.To.Id;
+            }
+           
+        }
+
 
         private void ReadXml(XmlReader xr)
         {
@@ -32,9 +44,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
             {
                 if (xr.IsElementWithName("rvb"))
                 {
-                    var ix = int.Parse(xr.GetAttribute("i"));
-                    var rel = _richData.Values.CreateRelation(this, _richData.Values[ix], IndexType.ZeroBasedPointer);
-                    RichDataId = rel.To.Id;
+                    _indexFromRead = int.Parse(xr.GetAttribute("i"));
                 }
                 else if(xr.IsEndElementWithName("bk"))
                 {
@@ -48,11 +58,12 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
             
         }
 
-        public void Save(StreamWriter sw)
+        public override void Save(StreamWriter sw)
         {
-            var ix = _richData.Values.GetIndexById(RichDataId);
-            if(ix.HasValue)
+            var val = GetFirstTargetByType<ExcelRichValue>();
+            if(val != null)
             {
+                var ix = val.CurrentIndex;
                 sw.Write("<bk><extLst><ext uri=\"{3e2802c4-a4d2-4d8b-9148-e3be6c30e623}\">");
                 sw.Write($"<xlrd:rvb i=\"{ix}\" />");
                 sw.Write("</ext></extLst></bk>");

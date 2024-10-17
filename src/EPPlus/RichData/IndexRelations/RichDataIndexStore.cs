@@ -16,6 +16,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         private readonly Dictionary<int, List<int>> _relationTargets = new Dictionary<int, List<int>>();
         private readonly Dictionary<int, List<int>> _relationPointers = new Dictionary<int, List<int>>();
         private readonly Dictionary<RichDataEntities, IndexedCollectionInterface> _collections = new Dictionary<RichDataEntities, IndexedCollectionInterface>();
+        private readonly Dictionary<Type, RichDataEntities> _typeToEntity = new Dictionary<Type, RichDataEntities>();
 
         public void RegisterCollection(RichDataEntities entity, IndexedCollectionInterface coll)
         {
@@ -23,6 +24,26 @@ namespace OfficeOpenXml.RichData.IndexRelations
             {
                 _collections.Add(entity, coll);
             }
+            var t = coll.IndexedType;
+            if(!_typeToEntity.ContainsKey(t))
+            {
+                _typeToEntity[t] = entity;
+            }
+        }
+
+        public RichDataEntities? GetEntityByType(Type t)
+        {
+            if(_typeToEntity.ContainsKey(t))
+            {
+                return _typeToEntity[t];
+            }
+            return default;
+        }
+
+        public int? GetIndexById(int id, RichDataEntities entity)
+        {
+            var coll = _collections[entity];
+            return coll.GetIndexById(id);
         }
 
         public int GetNextIndex(RichDataEntities entity)
@@ -41,7 +62,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
             {
                 _relationTargets.Add(relation.To.Id, new List<int>());
             }
-            if (!_relationPointers.ContainsKey(relation.To.Id))
+            if (!_relationPointers.ContainsKey(relation.From.Id))
             {
                 _relationPointers.Add(relation.From.Id, new List<int>());
             }

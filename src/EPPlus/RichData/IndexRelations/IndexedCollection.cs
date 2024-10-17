@@ -9,18 +9,18 @@ namespace OfficeOpenXml.RichData.IndexRelations
     internal abstract class IndexedCollection<T> : IEnumerable<T>, IndexedCollectionInterface
         where T : IndexEndpoint
     {
-        public IndexedCollection(ExcelRichData richData, RichDataEntities entity)
+        public IndexedCollection(RichDataIndexStore store, RichDataEntities entity)
         {
             _list = new List<T>();
-            _richData = richData;
-            richData.IndexStore.RegisterCollection(entity, this);
+            _store = store;
+            store.RegisterCollection(entity, this);
         }
 
         private readonly Dictionary<int, IEnumerable<int>> _incomingPointers= new Dictionary<int, IEnumerable<int>>();
         private readonly Dictionary<int, IEnumerable<int>> _outgoingPointers = new Dictionary<int, IEnumerable<int>>();
         private readonly Dictionary<int, int> _idToIndex = new Dictionary<int, int>();
         private readonly List<T> _list;
-        private readonly ExcelRichData _richData;
+        private readonly RichDataIndexStore _store;
 
         /// <summary>
         /// Returns Id:s of all instances of other entities that points to this record
@@ -65,7 +65,6 @@ namespace OfficeOpenXml.RichData.IndexRelations
         {
             return _list.GetEnumerator();
         }
-
         public virtual int Count
         {
             get
@@ -79,6 +78,8 @@ namespace OfficeOpenXml.RichData.IndexRelations
         RichDataEntities IndexedCollectionInterface.EntityType => EntityType;
 
         int IndexedCollectionInterface.Count => _list.Count;
+
+        public Type IndexedType => typeof(T);
 
         IndexEndpoint IndexedCollectionInterface.this[int index] => this[index];
 
@@ -127,7 +128,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         public IndexRelation CreateRelation(IndexEndpoint from, IndexEndpoint to, IndexType indexType)
         {
             var relation = new IndexRelation(from, to, indexType);
-            _richData.IndexStore.AddRelation(relation);
+            _store.AddRelation(relation);
             return relation;
         }
 
@@ -135,7 +136,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         {
             var to = this[toIndex];
             var relation = new IndexRelation(from, to, indexType);
-            _richData.IndexStore.AddRelation(relation);
+            _store.AddRelation(relation);
             return relation;
         }
 
@@ -159,6 +160,11 @@ namespace OfficeOpenXml.RichData.IndexRelations
         {
             if (!_idToIndex.ContainsKey(id)) return default;
             return _idToIndex[id];
+        }
+
+        int? IndexedCollectionInterface.GetIndexById(int id)
+        {
+            return GetIndexById(id);
         }
 
         public T this[int index]

@@ -16,5 +16,9 @@ namespace OfficeOpenXml.RichData.IndexRelations
         void DeleteEndpoint(int id);
 
         int GetNextIndex();
+
+        int? GetIndexById(int id);
+
+        public Type IndexedType { get; }
     }
 }

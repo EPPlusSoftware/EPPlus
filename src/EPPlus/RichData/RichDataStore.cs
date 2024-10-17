@@ -13,6 +13,8 @@
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Metadata;
+using OfficeOpenXml.Metadata.FutureMetadata;
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.Mappings;
 using OfficeOpenXml.RichData.RichValues;
 using OfficeOpenXml.RichData.RichValues.Relations;
@@ -57,17 +59,21 @@ namespace OfficeOpenXml.RichData
         {
             mdr = _metadataStore.GetValue(row, col);
             var valueMetadataIx = mdr.vm;
-            if (valueMetadataIx == 0 || !_metadata.IsRichData(valueMetadataIx)) return false;
-            var vm = valueMetadataIx;
-            // vm is a 1-based index pointer
-            var vmIx = vm - 1;
-            var valueMd = _metadata.ValueMetadata[vmIx];
-            var valueRecord = valueMd.Records.First();
-            var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
-            var futureMetadata = _metadata.MetadataTypes.First(x => x.Name == type.Name);
-            var ix = _metadata.FutureMetadata[type.Name].Types[valueRecord.ValueIndex].AsRichData.Index;
-            if (_workbook.RichData.Deletions.IsDeleted(vmIx, ix)) return false;
-            return true;
+            if (valueMetadataIx == 0) return false;
+            return _metadata.IsRichData(mdr.vm);
+            //if (valueMetadataIx == 0 || !_metadata.IsRichData(valueMetadataIx)) return false;
+            //var vm = valueMetadataIx;
+            //// vm is a 1-based index pointer
+            //var vmIx = vm - 1;
+            //var valueMd = _metadata.ValueMetadata[vmIx];
+            //var valueRecord = valueMd.Records.First();
+            //var richValue = valueRecord.GetFirstTargetByType<ExcelRichValue>();
+            //var type = valueRecord.GetFirstTargetByType<ExcelMetadataType>();
+            ////var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
+            //var futureMetadata = _metadata.MetadataTypes.First(x => x.Name == type.Name);
+            //var id = _metadata.FutureMetadata[type.Name].Blocks[valueRecord.ValueIndex].FirstTargetId;
+            //if (id.HasValue == false) return false;
+            //return true;
         }
 
         /// <summary>
@@ -79,11 +85,15 @@ namespace OfficeOpenXml.RichData
         {
             var valueMetaData = _metadata.ValueMetadata[vm - 1];
             var valueRecord = valueMetaData.Records[0];
-            var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
-            if (type.Name != "XLRICHVALUE") return null;
-            var fmd = _metadata.FutureMetadata[type.Name];
-            var ix = fmd.Types[valueRecord.ValueIndex].AsRichData.Index;
-            return _workbook.RichData.Values.Items[ix];
+            var type = valueRecord.GetFirstTargetByType<ExcelMetadataType>();
+            //var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
+            if (type == null || type.Name != FutureMetadataBase.RICHDATA_NAME) return null;
+            //var fmd = _metadata.FutureMetadata[type.Name];
+            var bk = valueRecord.GetFirstTargetByType<FutureMetadataRichValueBlock>();
+            //var id = fmd.Blocks[valueRecord.ValueIndex].FirstTargetId;
+            if (bk == null) return null;
+            return bk.GetFirstTargetByType<ExcelRichValue>();
+            //return _workbook.RichData.Values.GetItem(id.Value);
         }
 
         private ExcelRichValue GetRichValue(int row, int col, out int? richValueIndex)
@@ -104,9 +114,11 @@ namespace OfficeOpenXml.RichData
             if (!HasRichData(row, col, out int vm)) return null;
             var valueMetaData = _metadata.ValueMetadata[vm - 1];
             var valueRecord = valueMetaData.Records[0];
-            var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
-            var futureMetadata = _metadata.MetadataTypes.First(x => x.Name == type.Name);
-            var rdv = _workbook.RichData.Values.Items[valueRecord.ValueIndex];
+            // var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
+            var bk = valueRecord.GetFirstTargetByType<FutureMetadataRichValueBlock>();
+            //var futureMetadata = _metadata.MetadataTypes.First(x => x.Name == type.Name);
+            var rdv = bk.GetFirstTargetByType<ExcelRichValue>();
+            //var rdv = _workbook.RichData.Values.Items[valueRecord.ValueIndex];
             if(structureTypesFilter != null 
                 && structureTypesFilter.Any()
                 && !structureTypesFilter.Contains(rdv.Structure.Type))
@@ -141,7 +153,7 @@ namespace OfficeOpenXml.RichData
         internal void AddRichData(int row, int col, ExcelRichValue richValue)
         {
             var rvIx = _workbook.RichData.Values.Count;
-            _workbook.RichData.Values.Items.Add(richValue);
+            _workbook.RichData.Values.Add(richValue);
 
             // update the metadata
             _metadata.CreateRichValueMetadata(_workbook.RichData, rvIx, out int vm);
@@ -187,7 +199,7 @@ namespace OfficeOpenXml.RichData
 
                 }
             }
-            _workbook.RichData.Values.Items[richValueIndex] = richValue;
+            _workbook.RichData.Values[richValueIndex] = richValue;
         }
 
         internal RichValueRel GetRelation(int relationIndex)
@@ -207,10 +219,16 @@ namespace OfficeOpenXml.RichData
             var vmIx = vm - 1;
             var valueMd = _metadata.ValueMetadata[vmIx];
             var valueRecord = valueMd.Records.First();
-            var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
-            var futureMetadata = _metadata.MetadataTypes.First(x => x.Name == type.Name);
-            var ix = _metadata.FutureMetadata[type.Name].Types[valueRecord.ValueIndex].AsRichData.Index;
-            return _workbook.RichData.Deletions.DeleteRichData(vmIx, ix);
+            var bk = valueRecord.GetFirstTargetByType<FutureMetadataRichValueBlock>();
+            if (bk != null) return false;
+            var rv = bk.GetFirstTargetByType<ExcelRichValue>();
+            rv.DeleteMe();
+            return true;
+            //var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
+            //var futureMetadata = _metadata.MetadataTypes.First(x => x.Name == type.Name);
+            //var ix = _metadata.FutureMetadata[type.Name].Blocks[valueRecord.ValueIndex].FirstTargetIndex;
+            //if (!ix.HasValue) return false;
+            //return _workbook.RichData.Deletions.DeleteRichData(vmIx, ix.Value);
         }
 
     }
