@@ -1044,5 +1044,27 @@ namespace EPPlusTest.Table
                 table.Columns[1].Name = "AColumn";
             }
         }
+
+        [TestMethod]
+        public void DeleteAndAddTableTest()
+        {
+            using (var package = OpenPackage("tableTestpck.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("WsCheck");
+
+                var table = ws.Tables.Add(ws.Cells["A1:C10"], "ATable");
+
+                var ws2 = package.Workbook.Worksheets.Add("WsCheck2");
+                var ws3 = package.Workbook.Worksheets.Add("WsCheck3");
+
+                ws.Tables.Delete(table);
+
+                var table2 = ws.Tables.Add(ws.Cells["A1:C10"], "ATable");
+
+                Assert.IsTrue(table2.Id > 0);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
