@@ -61,5 +61,26 @@ namespace EPPlusTest.Issues
 				}
 			}
 		}
-	}
+        [TestMethod]
+        public void i1623()
+        {
+            using (var p = OpenTemplatePackage("i1623.xlsx"))
+            {
+                using (var p2 = OpenPackage("i1623-clone.xlsx", true))
+                {
+                    var src = p.Workbook.Worksheets.First();
+                    ExcelWorksheet dup = p2.Workbook.Worksheets.Add("dup", src);
+                    for (int col = 1; col < src.Dimension.End.Column; col++)
+                    {
+                        Console.WriteLine($"is equal? :{src.Cells[5, col].FormulaR1C1.Equals(dup.Cells[5, col].FormulaR1C1)},{src.Cells[5, col].FormulaR1C1} => {dup.Cells[5, col].FormulaR1C1}");
+                    }
+                    for (int col = 1; col < src.Dimension.End.Column; col++)
+                    {
+                        Assert.AreEqual(src.Cells[5, col].FormulaR1C1, dup.Cells[5, col].FormulaR1C1);
+                    }
+                    SaveAndCleanup(p2);
+                }
+            }
+        }
+    }
 }
