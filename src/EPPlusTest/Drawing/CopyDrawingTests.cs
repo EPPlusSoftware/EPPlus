@@ -395,13 +395,35 @@ namespace EPPlusTest.Drawing
                 SaveAndCleanup(package);
             }
         }
+
         [TestMethod]
-        public void AddAndCopyImage2()
+        public void AddAndCopyImageWithout100Size()
+        {
+            using (var package = OpenPackage("AddPic50percent.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+                var uri = GetResourceFile("EPPlus.png").FullName;
+
+                var pic = sheet.Drawings.AddPicture("ImageName", uri);
+
+                pic.SetSize(50);
+
+                var copiedWs = package.Workbook.Worksheets.Copy("emptyWS", "Copy");
+                var picCopied = (ExcelPicture)copiedWs.Drawings[0];
+
+                Assert.AreEqual(pic._width, picCopied._width);
+                Assert.AreEqual(pic.Size.Width, picCopied.Size.Width);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void ReadAndCopyTwoAnchorImage()
         {
             using (var package = OpenTemplatePackage("SizeCopyTest.xlsx"))
             {
                 var sheet = package.Workbook.Worksheets.First();
-                //var uri = GetResourceFile("EPPlus.png").FullName;
 
                 var pic = sheet.Drawings.First();
 
@@ -411,8 +433,13 @@ namespace EPPlusTest.Drawing
                 var picCopied = (ExcelPicture)copiedWs.Drawings[0];
 
                 Assert.AreEqual(pic._width, picCopied._width);
-                //Assert.AreEqual(pic.Size.Width, picCopied.Size.Width);
-                
+                Assert.AreEqual(pic._height, picCopied._height);
+
+                Assert.AreEqual(pic.From.Row, picCopied.From.Row);
+                Assert.AreEqual(pic.From.Column, picCopied.From.Column);
+                Assert.AreEqual(pic.To.Row, picCopied.To.Row);
+                Assert.AreEqual(pic.To.Column, picCopied.To.Column);
+
                 SaveAndCleanup(package);
             }
         }

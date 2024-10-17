@@ -19,12 +19,7 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Globalization;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-
-
-
 
 #if NETFULL
 using System.Drawing.Imaging;
@@ -303,7 +298,9 @@ namespace OfficeOpenXml.Drawing
 #endregion
         private void SetPosDefaults(float width, float height)
         {
-            if(EditAs != eEditAs.Absolute)
+            var prevEdit = EditAs;
+
+            if (EditAs != eEditAs.Absolute)
             {
                 EditAs = eEditAs.OneCell;
             }
@@ -313,6 +310,8 @@ namespace OfficeOpenXml.Drawing
 
             _width = GetPixelWidth();
             _height = GetPixelHeight();
+
+            EditAs = prevEdit;
         }
 
         internal void SetNewId(int newId)
