@@ -1,4 +1,8 @@
 # Features / Fixed issues - EPPlus 7
+
+## Version 7.4.1.1
+* Fixed innacurate relative addresses in cloned formulas in rare cases.
+
 ## Version 7.4.1
 * Updated for vulnerability in System.Text.Json 8.0.4 - Microsoft.Extensions.Configuration.Json 8.0.0 -> 8.0.1
 
