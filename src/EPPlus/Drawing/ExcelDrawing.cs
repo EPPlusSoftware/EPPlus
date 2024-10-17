@@ -577,7 +577,6 @@ namespace OfficeOpenXml.Drawing
                     return GetShapeOrControl(drawings, node, drawNode, parent);
                 case "pic":
                     var aPic = new ExcelPicture(drawings, node, parent);
-                    aPic.RecalcWidthHeight();
                     return aPic;
                 case "graphicFrame":
                     return ExcelChart.GetChart(drawings, node, parent);

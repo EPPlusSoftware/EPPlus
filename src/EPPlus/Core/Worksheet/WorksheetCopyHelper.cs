@@ -343,7 +343,12 @@ namespace OfficeOpenXml.Core.Worksheet
                     //The slicer still reference the copied slicers cache. We need to create a new cache for the copied slicer.
                     ptSlicer.CreateNewCache(((ExcelPivotTableSlicer)draw).Cache._field);
                 }
-
+                else if (c is ExcelPicture pic)
+                {
+                    var origPic = (ExcelPicture)draw;
+                    pic.SetPixelWidth(origPic.GetPixelWidth());
+                    pic.SetPixelHeight(origPic.GetPixelHeight());
+                }
             }
         }
 
