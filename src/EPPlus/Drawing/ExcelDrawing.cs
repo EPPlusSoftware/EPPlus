@@ -1646,13 +1646,6 @@ namespace OfficeOpenXml.Drawing
                 drawNode.InnerXml = TopNode.InnerXml;
             }
 
-            //Update DrawNode Id
-            var oleId = (++worksheet._nextControlId).ToString();
-            var drawIdNode = drawNode.SelectSingleNode("xdr:sp/xdr:nvSpPr/xdr:cNvPr", worksheet.NameSpaceManager);
-            drawIdNode.Attributes["id"].Value = oleId;
-            var drawSpIdNode = drawIdNode.SelectSingleNode("a:extLst/a:ext/a14:compatExt", _drawings.NameSpaceManager);
-            var spid = drawSpIdNode.Attributes["spid"].Value = "_x0000_s" + oleId;
-
             //create worksheet node
             XmlNode oleNode = worksheet.CreateOleContainerNode();
             ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:xdr", ExcelPackage.schemaSheetDrawings);   //Make sure the namespace exists
@@ -1669,17 +1662,8 @@ namespace OfficeOpenXml.Drawing
             }
             oleNode.AppendChild(newNode);
             //Copy OleObject & Image
-            string imgRelId = null;
-            WorksheetCopyHelper.CopyOleObject(worksheet._package, worksheet, ole, ref imgRelId);
-
-            //create vml
-            worksheet.VmlDrawings.AddOlePicture(oleId, worksheet.Part.GetRelationship(imgRelId).TargetUri);
-            var vmlId = worksheet.VmlDrawings._drawings[worksheet.VmlDrawings._drawings.Count - 1].TopNode;
-
-            //Update Shape Id.
-            newNode.FirstChild.FirstChild.Attributes["shapeId"].Value = oleId;
-            //Fallback
-            newNode.ChildNodes[1].FirstChild.Attributes["shapeId"].Value = oleId;
+            string imgRelId = null, vmlShapeId = null;
+            WorksheetCopyHelper.CopyOleObject(worksheet._package, worksheet, ole, worksheet._drawings.DrawingXml, ref imgRelId, ref vmlShapeId);
 
             if (!isGroupShape)
             {

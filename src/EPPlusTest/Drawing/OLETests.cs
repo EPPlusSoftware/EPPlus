@@ -494,7 +494,7 @@ namespace EPPlusTest.Drawing
                 ole.Copy(ws1, ole.From.Row, ole.From.Column + 10);
             }
 
-            //p.Workbook.Worksheets.Add("Worksheet Copy", ws);
+            p.Workbook.Worksheets.Add("Worksheet Copy", ws);
 
             SaveAndCleanup(p);
             p1.SaveAs(@"C:\epplusTest\Testoutput\NewOleObjects.xlsx");
