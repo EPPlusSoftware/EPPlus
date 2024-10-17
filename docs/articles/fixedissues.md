@@ -1,4 +1,9 @@
 # Features / Fixed issues - EPPlus 7
+
+
+
+* Deleting and adding a table with multiple worksheets no longer gives the added table an invalid id. 
+
 ## Version 7.4.1
 * Updated for vulnerability in System.Text.Json 8.0.4 - Microsoft.Extensions.Configuration.Json 8.0.0 -> 8.0.1
 
