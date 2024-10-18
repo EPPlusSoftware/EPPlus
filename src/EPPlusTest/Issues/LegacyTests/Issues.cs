@@ -6221,5 +6221,16 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void s744()
+        {
+            using (var package = OpenTemplatePackage("s744.xlsx"))
+            {
+                ExcelWorkbook workbook = package.Workbook;
+                //package.Workbook.Worksheets[0].PivotTables[0].CacheDefinition.Refresh();
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

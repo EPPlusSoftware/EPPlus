@@ -247,6 +247,7 @@ namespace OfficeOpenXml.Table.PivotTable
             foreach (XmlElement fieldElem in pivotFieldNode.SelectNodes("d:pivotField", NameSpaceManager))
             {
                 var fld = new ExcelPivotTableField(NameSpaceManager, fieldElem, this, index, index);
+                //Loading issue index=4
                 fld.Cache = CacheDefinition._cacheReference.Fields[index++];
                 fld.LoadItems();
                 Fields.AddInternal(fld);

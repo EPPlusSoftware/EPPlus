@@ -1002,9 +1002,18 @@ namespace OfficeOpenXml.Table.PivotTable
             Update_SubTotalFunctions();
             var sb = new StringBuilder();
             var fld = PivotTable.CacheDefinition._cacheReference.Fields[Index];
-
     		var cacheLookup = fld.GetCacheLookup();
-			if (AutoSort!=null)
+
+            if (cacheLookup.Count() != Items.Count())
+            {
+                PivotTable.CacheDefinition.Refresh();
+                Update_SubTotalFunctions();
+                fld = PivotTable.CacheDefinition._cacheReference.Fields[Index];
+                cacheLookup = fld.GetCacheLookup();
+                //dupeExists = true;
+            }
+
+            if (AutoSort!=null)
             {
                 AutoSort.Conditions.UpdateXml();
             }
@@ -1016,12 +1025,32 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             else if (Items.Count > 0)
             {
+                bool dupeExists = false;
+                //If duplicates exist?
+                //if (cacheLookup.Count() != Items.Count())
+                //{
+                //    PivotTable.CacheDefinition.Refresh();
+                //    //dupeExists = true;
+                //}
+
+                List<int> addedXValues = new List<int>();
+                int duplicateModifier = 1;
+                int lastnr = -1;
+
                 foreach (var item in Items)
                 {
                     var v = item.Value ?? ExcelPivotTable.PivotNullValue;
                     if (item.Type==eItemType.Data && cacheLookup.TryGetValue(v, out int x))
                     {
-                        item.X = cacheLookup[v];
+                        var itemX = cacheLookup[v];
+                        //if(addedXValues.Contains(itemX))
+                        //{
+                        //    itemX = (lastnr + 1);
+                        //}
+                        //addedXValues.Add(itemX);
+
+                        item.X = itemX;
+                        lastnr = itemX;
                     }
                     else
                     {
@@ -1029,6 +1058,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     }
                     item.GetXmlString(sb);
                 }
+
                 if (MultipleItemSelectionAllowed && IsPageField) PageFieldSettings.SelectedItem = -1;
                 var node = (XmlElement)CreateNode("d:items");       //Creates or return the existing node
                 node.InnerXml = sb.ToString();
