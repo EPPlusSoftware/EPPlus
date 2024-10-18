@@ -6221,5 +6221,23 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+
+        [TestMethod]
+        public void s745()
+        {
+            using (var package = OpenTemplatePackage("s745.xlsx"))
+            {
+                var workbook = package.Workbook;
+
+                var worksheet = workbook.Worksheets["Sheet2"];
+                //worksheet.PivotTables[0].CacheDefinition.Refresh();
+                worksheet.Tables["Table2"].AddRow(2);
+
+                //package.SaveAs(savePath); //Error happens here
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

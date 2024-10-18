@@ -1053,8 +1053,17 @@ namespace OfficeOpenXml.Table.PivotTable
         internal static object AddSharedItemToHashSet(HashSet<object> hs, object o)
         {
             o = GetShareItemValue(o);
+            //TODO: FIX ERROR CODE HERE
             if (!hs.Contains(o))
             {
+                if(o.GetType() == typeof(ExcelErrorValue))
+                {
+                    if(hs.Contains(o.GetType()))
+                    {
+                        return o;
+                    }
+                }
+
                 hs.Add(o);
             }
 
