@@ -35,7 +35,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// </summary>
         public eExcelConditionalFormattingRuleType Type { get; set; }
 
-        internal ExcelAddress _address = null;
+        private ExcelAddress _address = null;
 
         /// <summary>
         /// <para>The range over which these conditional formatting rules apply.</para>
@@ -47,12 +47,10 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
             set
             {
+                _ws.ConditionalFormatting.CfIndex.UpdateAddress(_address, value, this);
                 _address = value;
             }
         }
-
-        //internal QuadRange QuadRange { get; private set; }
-        //internal QuadItem<ExcelConditionalFormattingRule> QuadItem { get; private set; }
 
         internal int _priority = 1;
 

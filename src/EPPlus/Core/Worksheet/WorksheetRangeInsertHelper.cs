@@ -61,6 +61,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
                 InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws, true);
+                ws.ConditionalFormatting.CfIndex.InsertRow(rowFrom, rows);
 
                 WorksheetRangeCommonHelper.AdjustDvAndCfFormulasRow(ws, rowFrom, rows);
 
@@ -180,7 +181,7 @@ namespace OfficeOpenXml.Core.Worksheet
             lock (ws)
             {
                 var styleList = GetStylesForRange(range, shift);
-                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress);
+                WorksheetRangeHelper.ConvertAffectedSharedFormulasToCellFormulas(ws, effectedAddress);
 
                 if (shift == eShiftTypeInsert.Down)
                 {
@@ -223,7 +224,7 @@ namespace OfficeOpenXml.Core.Worksheet
             var delCF = new List<IExcelConditionalFormattingRule>();
             //Update Conditional formatting references
             foreach (var cf in ws.ConditionalFormatting)
-            {
+            {                
                 var newAddress = InsertSplitAddress(cf.Address, range, effectedAddress, shift, isTable);
                 if(newAddress==null)
                 {

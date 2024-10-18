@@ -139,10 +139,52 @@ namespace OfficeOpenXml.Core.RangeQuadTree
         {
             Root.DeleteCol(fromCol, cols, fromRow, toRow);
         }
+        internal void Clear(ExcelAddressBase a, T item)
+        {
+            Clear(a._fromRow, a._fromCol, a._toRow, a._toCol, item);
+        }
         public void Clear(int fromRow, int fromCol, int toRow, int toCol)
         {
+            var range = new QuadRange(fromRow, fromCol, toRow, toCol);
+            Root.Clear(range, null);
+        }
+        public void Clear(int fromRow, int fromCol, int toRow, int toCol, T item)
+        {
             var range=new QuadRange(fromRow, fromCol, toRow, toCol);
-            Root.Clear(range);
+            Root.Clear(range, item);
+        }
+
+        internal void UpdateAddress(ExcelAddress addressToClear, ExcelAddress addressToAdd, T item)
+        {
+            if (addressToClear != null)
+            {
+                if (addressToClear.Addresses == null)
+                {
+                    Clear(addressToClear._fromRow, addressToClear._fromCol, addressToClear._toRow, addressToClear._toCol, item);
+                }
+                else
+                {
+                    foreach (var a in addressToClear.Addresses)
+                    {
+                        Clear(a._fromRow, a._fromCol, a._toRow, a._toCol, item);
+                    }
+                }
+            }
+
+            if(addressToAdd != null)
+            {
+                if (addressToAdd.Addresses == null)
+                {
+                    Add(new QuadRange(addressToAdd), item);
+                }
+                else
+                {
+                    foreach (var a in addressToAdd.Addresses)
+                    {
+                        Add(new QuadRange(a), item);
+                    }
+                }
+            }           
         }
     }
 }

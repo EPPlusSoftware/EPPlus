@@ -438,7 +438,7 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             var p = Parent;
             while (p != null && p.Dimension.ToCol <= r.Range.ToCol)
             {
-                p = Parent;
+                p = p.Parent;
             }
 
             if (p == null)
@@ -456,7 +456,7 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             var p = Parent;
             while (p != null && p.Dimension.FromRow > r.Range.FromRow)
             {
-                p = Parent;
+                p = p.Parent;
             }
 
             if (p == null)
@@ -472,7 +472,7 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             var p = Parent;
             while (p != null && p.Dimension.FromCol > r.Range.FromCol)
             {
-                p = Parent;
+                p = p.Parent;
             }
 
             if (p == null)
@@ -483,7 +483,7 @@ namespace OfficeOpenXml.Core.RangeQuadTree
             p.Add(r);
             Ranges.RemoveAt(i);
         }
-        internal void Clear(QuadRange clearedRange)
+        internal void Clear(QuadRange clearedRange, object item)
         {
             if (Quads != null)
             {
@@ -491,14 +491,18 @@ namespace OfficeOpenXml.Core.RangeQuadTree
                 {
                     if (q.Intersect(clearedRange) != IntersectType.OutSide)
                     {
-                        q.Clear(clearedRange);
+                        q.Clear(clearedRange, item);
                     }
                 }
             }
             var splitedRanges = new List<QuadRangeItem<T>>();
             for(var i=0;i < Ranges.Count;i++)
             {
-                var r=Ranges[i].Range;
+                if (item!=null && !Ranges[i].Value.Equals(item))
+                {
+                    continue;
+                }
+                var r =Ranges[i].Range;
                 var isct = clearedRange.Intersect(r);
                 if (isct == IntersectType.Inside)
                 {

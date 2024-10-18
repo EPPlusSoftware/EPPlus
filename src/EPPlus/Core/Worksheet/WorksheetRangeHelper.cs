@@ -252,7 +252,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
             deletedDrawings.ForEach(d => ws.Drawings.Remove(d));
         }
-        internal static void ConvertEffectedSharedFormulasToCellFormulas(ExcelWorksheet wsUpdate, ExcelAddressBase range)
+        internal static void ConvertAffectedSharedFormulasToCellFormulas(ExcelWorksheet wsUpdate, ExcelAddressBase range)
         {
             foreach (var ws in wsUpdate.Workbook.Worksheets)
             {

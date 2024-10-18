@@ -53,6 +53,7 @@ using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 using System.Collections;
+using OfficeOpenXml.Core.RangeQuadTree;
 
 namespace OfficeOpenXml
 {

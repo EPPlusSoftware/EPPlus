@@ -16,6 +16,7 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using System.Collections.Generic;
 using OfficeOpenXml.Core.RangeQuadTree;
 using System;
+using System.Linq;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -511,18 +512,23 @@ namespace OfficeOpenXml.ConditionalFormatting
         #endregion Conditional Formatting Rule Types
 
         #region Public Methods
+        /// <summary>
+        /// Gets all conditional formatting rules intersecting whith the range.
+        /// </summary>
+        /// <returns>A list of formatting rules</returns>
         public List<ExcelConditionalFormattingRule> GetConditionalFormattings()
         {
-            var retList = new List<ExcelConditionalFormattingRule>();
-
-            foreach (var cf in _worksheet.ConditionalFormatting)
+            var hs = new HashSet<ExcelConditionalFormattingRule>();
+            var l = _worksheet.ConditionalFormatting.GetIntersectingRanges(_address);
+            foreach(var i in l)
             {
-                if(cf.Address.Collide(_address) != ExcelAddressBase.eAddressCollition.No)
+                var v = (ExcelConditionalFormattingRule)i.Value;
+                if (!hs.Contains(v))
                 {
-                    retList.Add((ExcelConditionalFormattingRule)cf);
+                    hs.Add(v);
                 }
             }
-            return retList;
+            return hs.OrderBy(x=>x.Priority).ToList();
         }
 
         #endregion Public Methods

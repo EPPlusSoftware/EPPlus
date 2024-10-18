@@ -30,22 +30,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
-using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Style.Dxf;
+using OfficeOpenXml.Style;
 using OfficeOpenXml.Utils.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Runtime.Remoting;
-using System.Xml.Linq;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Style;
-using FakeItEasy;
 
 namespace EPPlusTest.ConditionalFormatting
 {
