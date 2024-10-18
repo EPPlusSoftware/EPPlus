@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.Constants;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  11/11/2024         EPPlus Software AB       Initial release EPPlus 8
+ *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.Utils;
@@ -30,15 +42,16 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         public FutureMetadataRichValue(XmlReader xr, RichDataIndexStore store, ExcelMetadata metadata)
             : base(store)
         {
+            _indexStore = store;
             Blocks = new FutureMetadataRichValueBlockCollection(store);
-            ReadXml(xr,_indexStore, metadata);
+            ReadXml(xr, metadata);
         }
 
         private readonly RichDataIndexStore _indexStore;
 
         public override string Uri { get; set; } = ExtLstUris.RichValueDataUri;
 
-        private void ReadXml(XmlReader xr, RichDataIndexStore store, ExcelMetadata metadata)
+        private void ReadXml(XmlReader xr, ExcelMetadata metadata)
         {
             while(!xr.EOF)
             {
@@ -49,13 +62,21 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
                     if (type != null)
                     {
                         var rel = new IndexRelation(type, this, IndexType.String);
-                        store.AddRelation(rel);
+                        _indexStore.AddRelation(rel);
                     }
                     xr.Read();
                 }
                 else if(xr.IsElementWithName("bk"))
                 {
-                    Blocks.Add(new FutureMetadataRichValueBlock(xr, store));
+                    Blocks.Add(new FutureMetadataRichValueBlock(xr, _indexStore));
+                }
+                else if(xr.IsEndElementWithName("futureMetadata"))
+                {
+                    break;
+                }
+                else
+                {
+                    xr.Read();
                 }
             }
         }

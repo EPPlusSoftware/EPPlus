@@ -39,6 +39,7 @@ namespace OfficeOpenXml.RichData.Structures
             : base(wb.IndexStore, RichDataEntities.RichStructure)
         {
             _wb = wb;
+            _richData = richData;
             var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataValueStructureRelationship).FirstOrDefault();
             if (r == null)
             {

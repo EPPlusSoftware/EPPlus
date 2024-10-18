@@ -84,12 +84,20 @@ namespace OfficeOpenXml.RichData
         internal ExcelRichValue GetRichValue(int vm)
         {
             var valueMetaData = _metadata.ValueMetadata[vm - 1];
-            var valueRecord = valueMetaData.Records[0];
+            try
+            {
+                valueMetaData.Records.First();
+            }
+            catch(Exception e) 
+            {
+                int i = 0;
+            }
+            var valueRecord = valueMetaData.Records.First();
             var type = valueRecord.GetFirstTargetByType<ExcelMetadataType>();
             //var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
             if (type == null || type.Name != FutureMetadataBase.RICHDATA_NAME) return null;
             //var fmd = _metadata.FutureMetadata[type.Name];
-            var bk = valueRecord.GetFirstTargetByType<FutureMetadataRichValueBlock>();
+            var bk = valueRecord.GetFirstTargetByType<FutureMetadataBlock>();
             //var id = fmd.Blocks[valueRecord.ValueIndex].FirstTargetId;
             if (bk == null) return null;
             return bk.GetFirstTargetByType<ExcelRichValue>();
@@ -113,9 +121,9 @@ namespace OfficeOpenXml.RichData
             richValueIndex = null;
             if (!HasRichData(row, col, out int vm)) return null;
             var valueMetaData = _metadata.ValueMetadata[vm - 1];
-            var valueRecord = valueMetaData.Records[0];
+            //var valueRecord = valueMetaData.Records.First();
             // var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
-            var bk = valueRecord.GetFirstTargetByType<FutureMetadataRichValueBlock>();
+            var bk = valueMetaData.GetFirstOutgoingSubRelation<FutureMetadataBlock>();
             //var futureMetadata = _metadata.MetadataTypes.First(x => x.Name == type.Name);
             var rdv = bk.GetFirstTargetByType<ExcelRichValue>();
             //var rdv = _workbook.RichData.Values.Items[valueRecord.ValueIndex];
@@ -125,7 +133,6 @@ namespace OfficeOpenXml.RichData
             {
                 return null;
             }
-            richValueIndex = valueRecord.ValueIndex;
             return rdv;
         }
 
@@ -152,11 +159,10 @@ namespace OfficeOpenXml.RichData
 
         internal void AddRichData(int row, int col, ExcelRichValue richValue)
         {
-            var rvIx = _workbook.RichData.Values.Count;
             _workbook.RichData.Values.Add(richValue);
 
             // update the metadata
-            _metadata.CreateRichValueMetadata(_workbook.RichData, rvIx, out int vm);
+            _metadata.CreateRichValueMetadata(_workbook.RichData, richValue, out int vm);
             var md = _sheet._metadataStore.GetValue(row, col);
             md.vm = vm;
             _sheet._metadataStore.SetValue(row, col, md);

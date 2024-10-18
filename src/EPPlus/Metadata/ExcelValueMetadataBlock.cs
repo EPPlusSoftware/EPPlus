@@ -10,6 +10,7 @@
  *************************************************************************************************
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.Utils;
@@ -23,32 +24,83 @@ namespace OfficeOpenXml.Metadata
     /// </summary>
     internal class ExcelValueMetadataBlock : IndexEndpoint
     {
-        public ExcelValueMetadataBlock(ExcelMetadata metadata, int recordTypeIndex, int valueTypeIndex, RichDataIndexStore store)
-            : base(store, RichDataEntities.ValueMetadataRecord)
+        public ExcelValueMetadataBlock(ExcelMetadata metadata, RichDataIndexStore store)
+            : base(store, RichDataEntities.ValueMetadataBlock)
         {
-            var mainRelation = new IndexRelation(this, IndexEndpoint.GetSubRelationsEndpoint(store), IndexType.SubRelations);
-            var record = new ExcelValueMetadataRecord(metadata, this, recordTypeIndex, valueTypeIndex, store);
-            // 1. Add metadata type relation
-            var rel1 = new IndexRelation(this, metadata.MetadataTypes[recordTypeIndex], IndexType.OneBasedPointer);
-            mainRelation.To.SubRelations.Add(rel1);
-            var type = metadata.MetadataTypes.GetItem(rel1.To.Id);
+            _metadata = metadata;
+            _store = store;
+            // A value metadata block can have more than one relation to metadata types via its records
+            _typeRelation = new IndexRelationWithSubRelations(this, RichDataEntities.MetadataType, IndexType.SubRelations);
+            store.AddRelationWithSubRelations(_typeRelation);
+            // A value metadata block can have more than one relation to future metadata blocks via its records
+            _valuesRelation = new IndexRelationWithSubRelations(this, RichDataEntities.RichValue, IndexType.SubRelations);
+            store.AddRelationWithSubRelations(_valuesRelation);
+
         }
 
         public ExcelValueMetadataBlock(XmlReader xr, ExcelMetadata metadata, RichDataIndexStore store)
-            : base(store, RichDataEntities.ValueMetadataRecord)
+            : base(store, RichDataEntities.ValueMetadataBlock)
         {
+            _metadata = metadata;
+            _store = store;
+            // A value metadata block can have more than one relation to metadata types via its records
+            _typeRelation = new IndexRelationWithSubRelations(this, RichDataEntities.MetadataType, IndexType.SubRelations);
+            // A value metadata block can have more than one relation to future metadata blocks via its records
+            _valuesRelation = new IndexRelationWithSubRelations(this, RichDataEntities.RichValue, IndexType.SubRelations);
+            store.AddRelationWithSubRelations(_valuesRelation);
+            store.AddRelationWithSubRelations(_typeRelation);
             while (xr.IsEndElementWithName("bk") == false && xr.EOF == false)
             {
                 if (xr.IsElementWithName("rc"))
                 {
                     var t = int.Parse(xr.GetAttribute("t"));
                     var v = int.Parse(xr.GetAttribute("v"));
-                    Records.Add(new ExcelValueMetadataRecord(metadata, this, t, v, store));
+                    var type = _metadata.MetadataTypes[t - 1];
+                    var fmt = type.GetFirstTargetByType<FutureMetadataBase>();
+                    var bk = fmt.Blocks[v];
+                    AddRecord(type.Id, bk.Id);
+                    //Records.Add(new ExcelValueMetadataRecord(metadata, this, t, v, store));
                 }
                 xr.Read();
             }
         }
 
-        public List<ExcelValueMetadataRecord> Records { get; } = new List<ExcelValueMetadataRecord>();
+        private readonly ExcelMetadata _metadata;
+        private readonly RichDataIndexStore _store;
+        private readonly IndexRelationWithSubRelations _typeRelation;
+        private readonly IndexRelationWithSubRelations _valuesRelation;
+
+        public void AddRecord(int typeId, int valueId)
+        {
+            var record = new ExcelValueMetadataRecord(_metadata, this, typeId, valueId, _store);
+            _metadata.ValueMetadataRecords.Add(record);
+            var type = _metadata.MetadataTypes.Get(typeId);
+            var typeRel = _metadata.MetadataTypes.CreateRelation(record, type, IndexType.OneBasedPointer);
+            _typeRelation.SubRelations.Add(typeRel);
+            var fm = type.GetFirstTargetByType<FutureMetadataBase>();
+            if(fm != null)
+            {
+                var bk = fm.Blocks.Get(valueId);
+                var valueRel = _metadata.FutureMetadataBlocks.CreateRelation(record, bk, IndexType.ZeroBasedPointer);
+                _valuesRelation.SubRelations.Add(valueRel);
+            }
+        }
+
+        public IEnumerable<ExcelValueMetadataRecord> Records
+        {
+            get
+            {
+                var result = new List<ExcelValueMetadataRecord>();
+                foreach(var relation in _valuesRelation.SubRelations)
+                {
+                    var item = relation.From as ExcelValueMetadataRecord;
+                    if(item != null)
+                    {
+                        result.Add(item);
+                    }
+                }
+                return result;
+            }
+        }
     }
 }

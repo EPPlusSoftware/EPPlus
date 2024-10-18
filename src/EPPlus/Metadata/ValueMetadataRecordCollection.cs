@@ -10,29 +10,20 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.Metadata.FutureMetadata
+namespace OfficeOpenXml.Metadata
 {
-    internal abstract class FutureMetadataBlock : IndexEndpoint
+    internal class ValueMetadataRecordCollection : IndexedCollection<ExcelValueMetadataRecord>
     {
-        protected FutureMetadataBlock(RichDataIndexStore store, RichDataEntities entity) : base(store, entity)
+        public ValueMetadataRecordCollection(RichDataIndexStore store) : base(store, RichDataEntities.ValueMetadataRecord)
         {
         }
 
-        public string Uri { get; set; }
-
-        public abstract void Save(StreamWriter sw);
-
-        public virtual void InitRelations(ExcelRichData richData)
-        {
-
-        }
+        public override RichDataEntities EntityType => RichDataEntities.ValueMetadataRecord;
     }
 }

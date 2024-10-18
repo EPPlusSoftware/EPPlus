@@ -10,7 +10,10 @@
  *************************************************************************************************
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.Metadata.FutureMetadata;
+using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
+using System.Linq;
 
 namespace OfficeOpenXml.Metadata
 {
@@ -19,27 +22,70 @@ namespace OfficeOpenXml.Metadata
     /// </summary>
     internal class ExcelValueMetadataRecord : IndexEndpoint
     {
-        public ExcelValueMetadataRecord(ExcelMetadata metadata, IndexEndpoint parent, int recordTypeIndex, int valueTypeIndex, RichDataIndexStore store)
+        public ExcelValueMetadataRecord(ExcelMetadata metadata, IndexEndpoint parent, int typeId, int valueId, RichDataIndexStore store)
             : base(store, RichDataEntities.ValueMetadataRecord)
         {
-            TypeIndex = recordTypeIndex;
-            ValueIndex = valueTypeIndex;
-            var mainRelation = new IndexRelation(parent, IndexEndpoint.GetSubRelationsEndpoint(store), IndexType.SubRelations);
-            // 1. Add metadata type relation
-            var rel1 = new IndexRelation(this, metadata.MetadataTypes[TypeIndex - 1], IndexType.OneBasedPointer);
-            store.AddRelation(rel1);
-            parent.SubRelations.Add(rel1);
-            var type = metadata.MetadataTypes.GetItem(rel1.To.Id);
+            TypeId = typeId;
+            ValueId = valueId;
+            _metadata = metadata;
+            _readValueIndex = valueId;
+            _parent = parent;
+        }
+
+        private readonly IndexEndpoint _parent;
+        private readonly ExcelMetadata _metadata;
+        private readonly int _readValueIndex;
+
+        public void InitRelations(ExcelRichData richData)
+        {
+            base.InitRelations();
+            var parentRel = _parent.GetOutgoingRelations(x => x.IndexType == IndexType.SubRelations && x.AsRelationWithSubRelations().SubRelationEntity == RichDataEntities.RichValue).FirstOrDefault();
+            if(parentRel != null)
+            {
+                var rel = richData.Values.CreateRelation(this, _readValueIndex, IndexType.ZeroBasedPointer);
+                ValueId = rel.To.Id;
+            }
         }
 
         /// <summary>
         /// Corresponds to the t-attribute of the bk element
         /// </summary>
-        public int TypeIndex { get; private set; }
+        public int TypeId { get; private set; }
 
         /// <summary>
         /// Corresponds to the v-attribute of the bk element
         /// </summary>
-        public int ValueIndex { get; private set; }
+        public int ValueId { get; private set; }
+
+        public int MetadataTypeIndex
+        {
+            get
+            {
+                var ix = _metadata.MetadataTypes.GetIndexById(TypeId);
+                return ix.Value + 1;
+            }
+        }
+
+        public int FutureMetadataBlockIndex
+        {
+            get
+            {
+                var bk = _metadata.FutureMetadataBlocks.Get(ValueId);
+                var parentRel = _parent.GetOutgoingRelations(x => x.IndexType == IndexType.SubRelations && x.AsRelationWithSubRelations().SubRelationEntity == RichDataEntities.RichValue).FirstOrDefault();
+                if(parentRel != null)
+                {
+                    var parentRelSub = parentRel.AsRelationWithSubRelations();
+                    for (var ix = 0; ix < parentRelSub.SubRelations.Count; ix++)
+                    {
+                        var sr = parentRelSub.SubRelations[ix];
+                        if(sr.To.Id == ValueId)
+                        {
+                            return ix;
+                        }
+                    }
+                }
+                return -1;
+            }
+        }
     }
 }

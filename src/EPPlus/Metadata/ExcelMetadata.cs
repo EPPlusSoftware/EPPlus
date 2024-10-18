@@ -16,6 +16,7 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.RichValues;
 using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.Utils;
 using System;
@@ -54,6 +55,10 @@ namespace OfficeOpenXml.Metadata
         internal FutureMetadataDynamicArray FutureMetadataDynamicArray { get; private set; }
         internal List<ExcelCellMetadataBlock> CellMetadata { get; } = new List<ExcelCellMetadataBlock>();
         internal ValueMetadataBlockCollection ValueMetadata { get; }
+
+        internal ValueMetadataRecordCollection ValueMetadataRecords { get; }
+
+        internal FutureMetadataRichValueBlockCollection FutureMetadataBlocks { get; }
         internal int RichDataTypeIndex { get; private set; }
         internal int DynamicArrayTypeIndex { get; private set; }
         internal ZipPackagePart Part { get { return _part; } }
@@ -68,8 +73,10 @@ namespace OfficeOpenXml.Metadata
             _wb = workbook;
             var p = _wb._package;
             ValueMetadata = new ValueMetadataBlockCollection(workbook.IndexStore);
+            ValueMetadataRecords = new ValueMetadataRecordCollection(workbook.IndexStore);
             MetadataTypes = new MetadataTypesCollection(workbook.IndexStore);
             FutureMetadata = new FutureMetadataCollection(workbook.IndexStore);
+            FutureMetadataBlocks = new FutureMetadataRichValueBlockCollection(workbook.IndexStore);
             var rel = _wb.Part.GetRelationshipsByType(ExcelPackage.schemaMetadata).FirstOrDefault();
             if(rel!=null)
             {
@@ -263,15 +270,17 @@ namespace OfficeOpenXml.Metadata
         //    return fm;
         //}
 
-        internal void CreateRichValueMetadata(ExcelRichData richData, int rvIndex, out int valueMetadataIndex)
+        internal void CreateRichValueMetadata(ExcelRichData richData, ExcelRichValue richValue, out int valueMetadataIndex)
         {
             if(!_metadataTypeNames.Contains(FutureMetadataBase.RICHDATA_NAME))
             {
                 var mdt = new ExcelMetadataType(_wb.IndexStore) { Name = FutureMetadataBase.RICHDATA_NAME, MinSupportedVersion = 120000, Flags = MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce };
+                
                 _metadataTypeNames.Add(FutureMetadataBase.RICHDATA_NAME);
                 RichDataTypeIndex = MetadataTypes.Count;
                 MetadataTypes.Add(mdt);
             }
+            var rdTypeId = MetadataTypes[RichDataTypeIndex].Id;
             if(FutureMetadataRichValue == null)
             {
                 FutureMetadataRichValue = new FutureMetadataRichValue(FutureMetadataBase.RICHDATA_NAME, _wb.IndexStore, this);
@@ -279,11 +288,17 @@ namespace OfficeOpenXml.Metadata
                 FutureMetadata.Add(FutureMetadataRichValue);
             }
             var block = new FutureMetadataRichValueBlock(_wb.IndexStore);
-            var rel = richData.Values.CreateRelation(block, rvIndex, IndexType.ZeroBasedPointer);
-            block.RichDataId = rel.To.Id;
+            var rvIx = richData.Values.GetIndexById(richValue.Id);
+            if(!rvIx.HasValue)
+            {
+                throw new ArgumentException("rich value was not added to RichData.Values");
+            }
             FutureMetadataRichValue.Blocks.Add(block);
-            var mdItem = new ExcelValueMetadataBlock(this, RichDataTypeIndex + 1, rel.To.Id, _wb.IndexStore);
+            var mdItem = new ExcelValueMetadataBlock(this, _wb.IndexStore);
             ValueMetadata.Add(mdItem);
+            var rel = richData.Values.CreateRelation(block, rvIx.Value, IndexType.ZeroBasedPointer);
+            block.RichDataId = rel.To.Id;
+            mdItem.AddRecord(rdTypeId, rel.From.Id);
             valueMetadataIndex = ValueMetadata.Count;
             //var fmdRichDataCollection = GetFutureMetadataRichDataCollection();
             //var rdItem = new ExcelFutureMetadataRichData(richData.Values.Items.Count - 1);
@@ -332,20 +347,31 @@ namespace OfficeOpenXml.Metadata
             if (ValueMetadata.Count >= vm) return -1;
             var valueMetadata = ValueMetadata[vm - 1];
             var record = valueMetadata.Records.First();
-            var metadataType = MetadataTypes[record.TypeIndex - 1];
-            if (metadataType.Name == FutureMetadataBase.RICHDATA_NAME)
+            var fmBk = record.GetFirstOutgoingSubRelation<FutureMetadataBlock>();
+            if (fmBk != null)
             {
-                var rdId = FutureMetadata[metadataType.Name].Blocks[record.ValueIndex].FirstTargetId;
-                if (!rdId.HasValue) return -1;
-                var rd = _richData.Values.GetItem(rdId.Value);
-                var erd = rd.As.Type<ErrorRichValueBase>();
-                //var fieldIx = rd.Structure.Keys.FindIndex(x => x.Name == "errorType");
+                var rv = fmBk.GetFirstTargetByType<ExcelRichValue>();
+                var erd = rv.As.Type<ErrorRichValueBase>();
                 if (erd != null && erd.ErrorType.HasValue)
                 {
                     //return int.Parse(rd.Values[fieldIx]);
                     return erd.ErrorType.Value;
                 }
             }
+            //var metadataType = MetadataTypes[record.TypeIndex - 1];
+            //if (metadataType.Name == FutureMetadataBase.RICHDATA_NAME)
+            //{
+            //    var rdId = FutureMetadata[metadataType.Name].Blocks[record.ValueIndex].FirstTargetId;
+            //    if (!rdId.HasValue) return -1;
+            //    var rd = _richData.Values.GetItem(rdId.Value);
+            //    var erd = rd.As.Type<ErrorRichValueBase>();
+            //    //var fieldIx = rd.Structure.Keys.FindIndex(x => x.Name == "errorType");
+            //    if (erd != null && erd.ErrorType.HasValue)
+            //    {
+            //        //return int.Parse(rd.Values[fieldIx]);
+            //        return erd.ErrorType.Value;
+            //    }
+            //}
             return -1;
         }
         internal void GetDynamicArrayIndex(out int cm)
@@ -414,7 +440,7 @@ namespace OfficeOpenXml.Metadata
                 sw.Write("<bk>");
                 foreach (var r in item.Records)
                 {
-                    sw.Write($"<rc t=\"{r.TypeIndex}\" v=\"{r.ValueIndex}\"/>");
+                    sw.Write($"<rc t=\"{r.MetadataTypeIndex}\" v=\"{r.FutureMetadataBlockIndex}\"/>");
                 }
                 sw.Write("</bk>");
             }
@@ -514,11 +540,11 @@ namespace OfficeOpenXml.Metadata
         {
             if (vm > ValueMetadata.Count) return false;
             var valueMetadata = ValueMetadata[vm - 1];
-            var metadataType = valueMetadata.GetFirstTargetByType<ExcelMetadataType>();
+            var metadataType = valueMetadata.GetFirstOutgoingSubRelation<ExcelMetadataType>();
             if (metadataType == null || metadataType.Name != FutureMetadataBase.RICHDATA_NAME) return false;
             var futureMetadata = metadataType.GetFirstTargetByType<FutureMetadataBase>();
             if (futureMetadata == null) return false;
-            var fmBlock = valueMetadata.GetFirstTargetByType<FutureMetadataRichValueBlock>();
+            var fmBlock = valueMetadata.GetFirstOutgoingSubRelation<FutureMetadataBlock>();
             if (fmBlock != null)
             {
                 return true;
