@@ -72,13 +72,22 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
             var val = GetFirstTargetByType<ExcelRichValue>();
             if(val != null)
             {
-                var ix = val.CurrentIndex;
+                var ix = val.GetIndex();
                 sw.Write("<bk><extLst><ext uri=\"{3e2802c4-a4d2-4d8b-9148-e3be6c30e623}\">");
                 sw.Write($"<xlrd:rvb i=\"{ix}\" />");
                 sw.Write("</ext></extLst></bk>");
             }
         }
 
-        public int RichDataId { get; set; }
+        public uint RichDataId { get; set; }
+
+        public override void OnConnectedEntityDeleted(uint entityId, RichDataEntities deletedEntity)
+        {
+            base.OnConnectedEntityDeleted(entityId, deletedEntity);
+            if(deletedEntity == RichDataEntities.RichValue)
+            {
+                DeleteMe();
+            }
+        }
     }
 }

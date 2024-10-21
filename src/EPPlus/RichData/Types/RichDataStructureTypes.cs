@@ -21,13 +21,18 @@ namespace OfficeOpenXml.RichData
         LocalImage,
         LocalImageWithAltText,
         WebImage,
+        ImageUrl,
         LinkedEntity,
         LinkedEntityCore,
         LinkedEntity2,
         LinkedEntity2Core,
         FormattedNumber,
         Hyperlink,
+        Entity,
         Array,
+        StockHistoryCache,
+        ExternalCodeServiceObject,
+        SourceAttribution,
         Preserve
     }
 }

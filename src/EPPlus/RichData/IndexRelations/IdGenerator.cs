@@ -19,8 +19,18 @@ namespace OfficeOpenXml.RichData.IndexRelations
 {
     internal static class IdGenerator
     {
-        private static int _nextId = 0;
-        public static int GetNewId()
+        private static uint _nextId = 0;
+        private static readonly object _lock = new object();
+
+        public static void Reset()
+        {
+            lock(_lock)
+            {
+                _nextId = 0;
+            }
+        }
+
+        public static uint GetNewId()
         {
             return ++_nextId;
         }

@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Metadata
         private readonly IndexRelationWithSubRelations _typeRelation;
         private readonly IndexRelationWithSubRelations _valuesRelation;
 
-        public void AddRecord(int typeId, int valueId)
+        public void AddRecord(uint typeId, uint valueId)
         {
             var record = new ExcelValueMetadataRecord(_metadata, this, typeId, valueId, _store);
             _metadata.ValueMetadataRecords.Add(record);

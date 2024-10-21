@@ -22,6 +22,7 @@ namespace OfficeOpenXml.RichData.Structures.Constants
         public const string Error = "_error";
         public const string LocalImage = "_localImage";
         public const string WebImage = "_webimage";
+        public const string ImageUrl = "_imageurl";
         public const string LinkedEntity = "_linkedentity";
         public const string LinkedEntity2 = "_linkedentity2";
         public const string LinkedEntityCore = "_linkedentitycore";
@@ -29,5 +30,9 @@ namespace OfficeOpenXml.RichData.Structures.Constants
         public const string FormattedNumber = "_formattednumber";
         public const string Hyperlink = "_hyperlink";
         public const string Array = "_array";
+        public const string Entity = "_entity";
+        public const string StockHistoryCache = "_stockhistorycache";
+        public const string ExternalCodeServiceObject = "_python";
+        public const string SourceAttribution = "_sourceattribution";
     }
 }

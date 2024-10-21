@@ -34,7 +34,7 @@ namespace OfficeOpenXml.RichData.Structures
         private ExcelRichData _richData;
         private Uri _uri;
         private const string PART_URI_PATH = "/xl/richData/rdrichvaluestructure.xml";
-        private Dictionary<RichDataStructureTypes, int> _structures = new Dictionary<RichDataStructureTypes, int>();
+        private Dictionary<RichDataStructureTypes, uint> _structures = new Dictionary<RichDataStructureTypes, uint>();
         internal ExcelRichValueStructureCollection(ExcelWorkbook wb, ExcelRichData richData)
             : base(wb.IndexStore, RichDataEntities.RichStructure)
         {
@@ -105,7 +105,7 @@ namespace OfficeOpenXml.RichData.Structures
                     break;
                 }
             }
-            return RichValueStructureFactory.Create(type, keys, _richData);
+            return RichValueStructureFactory.Create(type, keys, _wb.IndexStore);
         }
 
         internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
@@ -134,12 +134,12 @@ namespace OfficeOpenXml.RichData.Structures
             _part.SaveHandler = Save;
         }
 
-        internal int GetStructureId(RichDataStructureTypes structure)
+        internal uint GetStructureId(RichDataStructureTypes structure)
         {
-            if (_structures.TryGetValue(structure, out int index))
+            if (_structures.TryGetValue(structure, out uint id))
             {
                 //index = structure.Id;
-                return index;
+                return id;
             }
             return AddStructure(structure);
             //return StructureItems.Count - 1;
@@ -147,7 +147,7 @@ namespace OfficeOpenXml.RichData.Structures
 
         internal ExcelRichValueStructure GetByType(RichDataStructureTypes structure)
         {
-            if (_structures.TryGetValue(structure, out int id))
+            if (_structures.TryGetValue(structure, out uint id))
             {
                 return GetItemById(id);
             }
@@ -155,9 +155,9 @@ namespace OfficeOpenXml.RichData.Structures
             return GetItemById(id2);
             //return default;
         }
-        private int AddStructure(RichDataStructureTypes structureType)
+        private uint AddStructure(RichDataStructureTypes structureType)
         {
-            var si = RichValueStructureFactory.Create(structureType, _wb.RichData);
+            var si = RichValueStructureFactory.Create(structureType, _wb.IndexStore);
             //StructureItems.Add(si);
             Add(si);
             //_structures.Add(structureType, StructureItems.Count - 1);

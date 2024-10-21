@@ -39,18 +39,13 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         public RichDataEntities Entity => _entity;
 
-
-        public int OriginalIndex => _originalIndex;
-
-        public int CurrentIndex { get; set; }
-
         private bool _deleted;
         public bool Deleted => _deleted;
 
-        public void DeleteMe()
+        public virtual void DeleteMe()
         {
             _deleted = true;
-            // TODO: follow relations and delete depending entities
+            _store.EntityDeleted(this);
         }
 
         public int? GetIndex()
@@ -59,6 +54,11 @@ namespace OfficeOpenXml.RichData.IndexRelations
         }
 
         public virtual void InitRelations()
+        {
+
+        }
+
+        public virtual void OnConnectedEntityDeleted(uint entityId, RichDataEntities deletedEntity)
         {
 
         }
@@ -77,7 +77,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
             }
         }
 
-        public int? FirstTargetId
+        public uint? FirstTargetId
         {
             get
             {
@@ -95,6 +95,13 @@ namespace OfficeOpenXml.RichData.IndexRelations
         public virtual T GetFirstOutgoingSubRelation<T>()
             where T : IndexEndpoint
         {
+            return GetFirstOutgoingSubRelation<T>(out IndexRelation r);
+        }
+
+        public virtual T GetFirstOutgoingSubRelation<T>(out IndexRelation subRelation)
+            where T : IndexEndpoint
+        {
+            subRelation = default;
             var relations = GetOutgoingRelations(x => x.IndexType == IndexType.SubRelations);
             var entityType = _store.GetEntityByType(typeof(T));
             foreach(var relation in relations)
@@ -105,6 +112,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
                     var subrel =  parentRel.SubRelations.FirstOrDefault(x => x.To.Entity == entityType);
                     if(subrel != null && subrel.To is T result)
                     {
+                        subRelation = subrel;
                         return result;
                     }
                 }

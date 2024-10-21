@@ -49,7 +49,7 @@ namespace OfficeOpenXml.CellPictures
 
         public ExcelCellPicture GetCellPicture(int row, int col)
         {
-            var richData = _richDataStore.GetRichValue(row, col, out int? rvIx, StructureTypes.LocalImage);
+            var richData = _richDataStore.GetRichValue(row, col, StructureTypes.LocalImage);
             if (richData != null)
             {
                 //var relationIndex = richData.Structure.GetFirstRelationIndex();
@@ -137,7 +137,7 @@ namespace OfficeOpenXml.CellPictures
             else
             {
                 // get existing rich data of the cell
-                var richDataValue = _richDataStore.GetRichValue(row, col, out int? rvIndex);
+                var richDataValue = _richDataStore.GetRichValue(row, col);
                 if (richDataValue.Structure.StructureType != RichDataStructureTypes.LocalImage
                     && richDataValue.Structure.StructureType != RichDataStructureTypes.LocalImageWithAltText)
                 {

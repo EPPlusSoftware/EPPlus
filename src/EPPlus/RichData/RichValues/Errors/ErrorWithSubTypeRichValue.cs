@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.Structures;
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
@@ -22,12 +23,12 @@ namespace OfficeOpenXml.RichData.RichValues.Errors
 {
     internal class ErrorWithSubTypeRichValue : ErrorRichValueBase
     {
-        public ErrorWithSubTypeRichValue(ExcelWorkbook workbook) : this(workbook.RichData)
+        public ErrorWithSubTypeRichValue(ExcelWorkbook workbook) : this(workbook.IndexStore, workbook.RichData)
         {
             
         }
 
-        public ErrorWithSubTypeRichValue(ExcelRichData richData) : base(richData, RichDataStructureTypes.ErrorWithSubType)
+        public ErrorWithSubTypeRichValue(RichDataIndexStore store, ExcelRichData richData) : base(store, richData, RichDataStructureTypes.ErrorWithSubType)
         {
         }
 

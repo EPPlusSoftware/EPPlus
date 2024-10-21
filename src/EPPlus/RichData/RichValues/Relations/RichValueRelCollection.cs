@@ -13,6 +13,7 @@
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ using System.Xml;
 
 namespace OfficeOpenXml.RichData.RichValues.Relations
 {
-    internal class RichValueRelCollection
+    internal class RichValueRelCollection : IndexedCollection<RichValueRel>
     {
         const string PART_URI_PATH = "/xl/richData/richValueRel.xml";
         Uri _uri;
@@ -32,9 +33,10 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
 
         public List<RichValueRel> Items { get; } = new List<RichValueRel>();
 
-        public RichValueRelCollection(ExcelWorkbook wb)
+        public RichValueRelCollection(ExcelWorkbook wb) : base(wb.IndexStore, RichDataEntities.RichValueRel)
         {
             _wb = wb;
+            _indexStore = wb.IndexStore;
             var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataRelRelationship).FirstOrDefault();
             if (r == null)
             {
@@ -47,6 +49,8 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
             LoadPart(wb);
         }
 
+        private readonly RichDataIndexStore _indexStore;
+
         private void LoadPart(ExcelWorkbook wb)
         {
             if (wb._package.ZipPackage.PartExists(_uri))
@@ -57,6 +61,8 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
         }
 
         internal ZipPackagePart Part { get { return _part; } }
+
+        public override RichDataEntities EntityType => RichDataEntities.RichValueRel;
 
         private void ReadXml(Stream stream)
         {
@@ -77,12 +83,12 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
         private RichValueRel ReadItem(XmlReader xr)
         {
             var ns = "http://schemas.openxmlformats.org/package/2006/relationships";
-            var item = new RichValueRel();
+            var item = new RichValueRel(_wb.IndexStore);
 
             var id = xr.GetAttribute("r:id");
             var rel = _part.GetRelationship(id);
 
-            item.Id = id;
+            item.RelationId = id;
             item.Type = rel.RelationshipType;
             item.TargetUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
 
@@ -108,7 +114,7 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
             }
         }
 
-        internal RichValueRel AddItem(Uri targetUri, string type, out int relIx)
+        internal RichValueRel AddItem(Uri targetUri, string type, IndexEndpoint relationOwner, out IndexRelation rel)
         {
             EnsurePartExists(out bool partNotLoaded);
             if (partNotLoaded)
@@ -117,42 +123,43 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
             }
 
             var relationship = _part.CreateRelationship(targetUri, TargetMode.Internal, type);
-            var rel = new RichValueRel
+            var rvRel = new RichValueRel(_wb.IndexStore)
             {
-                Id = relationship.Id,
+                RelationId = relationship.Id,
                 TargetUri = relationship.TargetUri,
                 Type = relationship.RelationshipType
             };
-            relIx = Items.Count;
-            Items.Add(rel);
-            return rel;
+            Items.Add(rvRel);
+            rel = new IndexRelation(relationOwner, rvRel, IndexType.ZeroBasedPointer);
+            _indexStore.AddRelation(rel);
+            return rvRel;
         }
 
-        public RichValueRel GetItem(string relId, out int ix)
-        {
-            ix = -1;
-            var item = Items.FirstOrDefault(x => x.Id == relId);
-            if (item != null)
-            {
-                ix = Items.IndexOf(item);
-            }
-            return item;
-        }
+        //public RichValueRel GetItem(string relId, out int ix)
+        //{
+        //    ix = -1;
+        //    var item = Items.FirstOrDefault(x => x.Id == relId);
+        //    if (item != null)
+        //    {
+        //        ix = Items.IndexOf(item);
+        //    }
+        //    return item;
+        //}
 
-        public RichValueRel GetItem(int relIx)
-        {
-            if (relIx < 0 || relIx >= Items.Count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(relIx));
-            }
-            return Items[relIx];
-        }
+        //public RichValueRel GetItem(int relIx)
+        //{
+        //    if (relIx < 0 || relIx >= Items.Count)
+        //    {
+        //        throw new ArgumentOutOfRangeException(nameof(relIx));
+        //    }
+        //    return Items[relIx];
+        //}
 
-        internal void SetNewTarget(int relIx, Uri targetUri)
+        internal void SetNewTarget(uint newId, Uri targetUri)
         {
             EnsurePartExists(out bool p);
-            var rel = GetItem(relIx);
-            var relationship = _part.GetRelationship(rel.Id);
+            var rel = GetItem(newId);
+            var relationship = _part.GetRelationship(rel.RelationId);
             relationship.TargetUri = targetUri;
             relationship.Target = targetUri.OriginalString;
             rel.TargetUri = targetUri;

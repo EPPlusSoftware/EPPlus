@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         }
 
         public override string Uri { get; set; }
-        public override IndexedCollection<FutureMetadataBlock> Blocks 
+        public override IndexedSubsetCollection<FutureMetadataBlock> Blocks 
         { 
             get
             {

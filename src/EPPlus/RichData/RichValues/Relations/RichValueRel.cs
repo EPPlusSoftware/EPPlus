@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.RichData.IndexRelations;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,16 +20,20 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.RichValues.Relations
 {
-    internal class RichValueRel
+    internal class RichValueRel : IndexEndpoint
     {
-        public string Id { get; set; }
+        public RichValueRel(RichDataIndexStore store) : base(store, RichDataEntities.RichValueRel)
+        {
+        }
+
+        public string RelationId { get; set; }
         public string Type { get; set; }
 
         public Uri TargetUri { get; set; }
 
         internal void WriteXml(StreamWriter sw)
         {
-            sw.Write($"<rel r:id=\"{Id}\" />");
+            sw.Write($"<rel r:id=\"{RelationId}\" />");
         }
     }
 }

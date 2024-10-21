@@ -172,7 +172,7 @@ namespace OfficeOpenXml.Metadata
             var name = xr.GetAttribute("name");
             if(name == FutureMetadataBase.DYNAMIC_ARRAY_NAME)
             {
-                fd = new FutureMetadataDynamicArray(xr, _wb.IndexStore);
+                fd = new FutureMetadataDynamicArray(xr, _wb.IndexStore, this);
             }
             else if(name == FutureMetadataBase.RICHDATA_NAME)
             {
@@ -233,8 +233,9 @@ namespace OfficeOpenXml.Metadata
             var fmrv = fm as FutureMetadataRichValue;
             if(fmrv != null)
             {
-                foreach(var bk in fmrv.Blocks)
+                for(var ix = 0; ix < fmrv.Blocks.Count; ix++)
                 {
+                    var bk = fmrv.Blocks[ix];
                     bk.InitRelations(richData);
                 }
             }
@@ -246,7 +247,7 @@ namespace OfficeOpenXml.Metadata
             //var fmd = new FutureMetadataDynamicArray(_wb.RichData) { Name = FUTURE_METADATA_DYNAMIC_ARRAY_NAME };
             //fmd.Types.Add(new ExcelFutureMetadataDynamicArray(true));
             //FutureMetadata.Add(fmd.Name, fmd);
-            var fmd = FutureMetadataDynamicArray.GetDefault(_wb.IndexStore);
+            var fmd = FutureMetadataDynamicArray.GetDefault(_wb.IndexStore, this);
             DynamicArrayTypeIndex = FutureMetadata.Count;
             FutureMetadata.Add(fmd);
 
@@ -536,17 +537,19 @@ namespace OfficeOpenXml.Metadata
             return false;
         }
 
-        internal bool IsRichData(int vm)
+        internal bool IsRichData(int vm, out uint? richValueId)
         {
+            richValueId = null;
             if (vm > ValueMetadata.Count) return false;
             var valueMetadata = ValueMetadata[vm - 1];
             var metadataType = valueMetadata.GetFirstOutgoingSubRelation<ExcelMetadataType>();
             if (metadataType == null || metadataType.Name != FutureMetadataBase.RICHDATA_NAME) return false;
             var futureMetadata = metadataType.GetFirstTargetByType<FutureMetadataBase>();
             if (futureMetadata == null) return false;
-            var fmBlock = valueMetadata.GetFirstOutgoingSubRelation<FutureMetadataBlock>();
+            var fmBlock = valueMetadata.GetFirstOutgoingSubRelation<FutureMetadataBlock>(out IndexRelation subRelation);
             if (fmBlock != null)
             {
+                richValueId = subRelation.To.Id;
                 return true;
             }
             //var t = MetadataTypes[valueMetadata.Records[0].TypeIndex - 1];

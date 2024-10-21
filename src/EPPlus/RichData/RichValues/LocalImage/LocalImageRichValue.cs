@@ -12,6 +12,7 @@
  *************************************************************************************************/
 
 using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.Structures;
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
@@ -23,12 +24,12 @@ namespace OfficeOpenXml.RichData.RichValues.LocalImage
 {
     internal class LocalImageRichValue : ExcelRichValue
     {
-        public LocalImageRichValue(ExcelWorkbook workbook) : this(workbook.RichData)
+        public LocalImageRichValue(ExcelWorkbook workbook) : this(workbook.IndexStore, workbook.RichData)
         {
             
         }
 
-        public LocalImageRichValue(ExcelRichData richData) : base(richData, RichDataStructureTypes.LocalImage)
+        public LocalImageRichValue(RichDataIndexStore store, ExcelRichData richData) : base(store, richData, RichDataStructureTypes.LocalImage)
         {
         }
 

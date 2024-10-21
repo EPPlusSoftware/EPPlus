@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
 
         public abstract string Uri { get; set; }
 
-        public abstract IndexedCollection<FutureMetadataBlock> Blocks { get; set; }
+        public abstract IndexedSubsetCollection<FutureMetadataBlock> Blocks { get; set; }
 
         public abstract void Save(StreamWriter sw);
     }

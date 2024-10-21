@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
@@ -20,12 +21,12 @@ namespace OfficeOpenXml.RichData.Structures.LocalImages
 {
     internal class LocalImageStructure : LocalImageBaseStructure
     {
-        public LocalImageStructure(ExcelRichData richData) : this(StructureKeys.LocalImage.Image, richData)
+        public LocalImageStructure(RichDataIndexStore store) : this(StructureKeys.LocalImage.Image, store)
         {
 
         }
 
-        public LocalImageStructure(List<ExcelRichValueStructureKey> keys, ExcelRichData richData) : base(keys, richData)
+        public LocalImageStructure(List<ExcelRichValueStructureKey> keys, RichDataIndexStore store) : base(keys, store)
         {
 
         }

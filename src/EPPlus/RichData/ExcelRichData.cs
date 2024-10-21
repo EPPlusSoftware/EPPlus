@@ -28,7 +28,6 @@ namespace OfficeOpenXml.RichData
     {
         internal ExcelRichData(ExcelWorkbook wb)
         {
-            _indexStore = wb.IndexStore;
             var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataValueTypeRelationship).FirstOrDefault();
             if (r != null)
             {
@@ -64,10 +63,6 @@ namespace OfficeOpenXml.RichData
         internal SupportingPropertyBags SupportingPropertyBags { get; }
 
         private ExcelRichDataDeletions _richDataDeletions;
-        //private ExcelMetadata _metadata;
-        private RichDataIndexStore _indexStore;
-
-        internal RichDataIndexStore IndexStore => _indexStore;
 
         internal ExcelRichDataDeletions Deletions { 
             get 

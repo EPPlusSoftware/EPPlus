@@ -25,15 +25,15 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
 {
     internal class FutureMetadataDynamicArray : FutureMetadataBase
     {
-        public FutureMetadataDynamicArray(RichDataIndexStore store)
+        public FutureMetadataDynamicArray(RichDataIndexStore store, ExcelMetadata metadata)
             : base(store)
         {
-            Blocks = new FutureMetadataDynamicArrayBlockCollection(store);
+            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
         }
-        public FutureMetadataDynamicArray(XmlReader xr, RichDataIndexStore store)
+        public FutureMetadataDynamicArray(XmlReader xr, RichDataIndexStore store, ExcelMetadata metadata)
             : base(store)
         {
-            Blocks = new FutureMetadataDynamicArrayBlockCollection(store);
+            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
             while (!xr.EOF)
             {
                 if(xr.IsElementWithName("futureMetadata"))
@@ -60,11 +60,11 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         
         public string ExtLstXml { get; set; }
         public override string Uri { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public override IndexedCollection<FutureMetadataBlock> Blocks { get; set; }
+        public override IndexedSubsetCollection<FutureMetadataBlock> Blocks { get; set; }
 
-        public static FutureMetadataDynamicArray GetDefault(RichDataIndexStore store)
+        public static FutureMetadataDynamicArray GetDefault(RichDataIndexStore store, ExcelMetadata metadata)
         {
-            var fm = new FutureMetadataDynamicArray(store);
+            var fm = new FutureMetadataDynamicArray(store, metadata);
             fm.Name = "XLDAPR";
             var bk = new FutureMetadataDynamicArrayBlock(store, RichDataEntities.FutureMetadataDynamicArrayBlock);
             bk.IsDynamicArray = true;
@@ -76,8 +76,9 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         public override void Save(StreamWriter sw)
         {
             sw.Write($"<futureMetadata name=\"XLDAPR\" count=\"{Blocks.Count}\">");
-            foreach(var block in Blocks)
+            for(var x = 0; x < Blocks.Count; x++)
             {
+                var block = Blocks[x];
                 block.Save(sw);
             }
             sw.Write("</futureMetadata>");

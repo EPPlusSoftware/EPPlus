@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.Structures;
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
@@ -22,7 +23,7 @@ namespace OfficeOpenXml.RichData.RichValues.Errors
 {
     internal class ErrorFieldRichValue : ExcelRichValue
     {
-        public ErrorFieldRichValue(ExcelRichData richData) : base(richData, RichDataStructureTypes.ErrorField)
+        public ErrorFieldRichValue(RichDataIndexStore store, ExcelRichData richData) : base(store, richData, RichDataStructureTypes.ErrorField)
         {
         }
 

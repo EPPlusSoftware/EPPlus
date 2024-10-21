@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         {
             Name = name;
             _indexStore = store;
-            Blocks = new FutureMetadataRichValueBlockCollection(store);
+            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
             var type = metadata.MetadataTypes.FirstOrDefault(t => t.Name == name);
             if(type != null)
             {
@@ -43,7 +43,8 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
             : base(store)
         {
             _indexStore = store;
-            Blocks = new FutureMetadataRichValueBlockCollection(store);
+            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
+            //Blocks = new FutureMetadataRichValueBlockCollection(store);
             ReadXml(xr, metadata);
         }
 
@@ -81,13 +82,14 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
             }
         }
 
-        public override IndexedCollection<FutureMetadataBlock> Blocks { get; set; }
+        public override IndexedSubsetCollection<FutureMetadataBlock> Blocks { get; set; }
 
         public override void Save(StreamWriter sw)
         {
             sw.Write($"<futureMetadata name=\"XLRICHVALUE\" count=\"{Blocks.Count}\">");
-            foreach(var block in Blocks)
+            for(var ix = 0; ix < Blocks.Count; ix++)
             {
+                var block = Blocks[ix];
                 block.Save(sw);
             }
             sw.Write("</futureMetadata>");

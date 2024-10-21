@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.RichData.Structures;
+﻿using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,8 @@ namespace OfficeOpenXml.RichData.RichValues
 {
     internal class ExcelPreserveRichValue : ExcelRichValue
     {
-        public ExcelPreserveRichValue(ExcelRichData richData, int structureId, ExcelRichValueStructure structure) : base(richData, structure.StructureType)
+        public ExcelPreserveRichValue(RichDataIndexStore store, ExcelRichData richData, uint structureId, ExcelRichValueStructure structure)
+            : base(store, richData, structure.StructureType)
         {
             StructureId = structureId;
             Structure = structure;

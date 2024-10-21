@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -30,7 +31,8 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         private readonly Dictionary<int, IEnumerable<int>> _incomingPointers= new Dictionary<int, IEnumerable<int>>();
         private readonly Dictionary<int, IEnumerable<int>> _outgoingPointers = new Dictionary<int, IEnumerable<int>>();
-        private readonly Dictionary<int, int> _idToIndex = new Dictionary<int, int>();
+        private readonly Dictionary<uint, int> _idToIndex = new Dictionary<uint, int>();
+        private readonly Dictionary<uint, T> _items = new Dictionary<uint, T>();
         private readonly List<T> _list;
         private readonly RichDataIndexStore _store;
 
@@ -48,6 +50,22 @@ namespace OfficeOpenXml.RichData.IndexRelations
             else
             {
                 return Enumerable.Empty<int>();
+            }
+        }
+
+        public void ReIndex()
+        {
+            var ix = 0;
+            foreach(IndexEndpoint item in this)
+            {
+                if(item.Deleted)
+                {
+                    _idToIndex.Remove(item.Id);
+                }
+                else
+                {
+                    _idToIndex[item.Id] = ix++;
+                }
             }
         }
 
@@ -98,10 +116,11 @@ namespace OfficeOpenXml.RichData.IndexRelations
         public virtual void Add(T item)
         {
             _idToIndex.Add(item.Id, _list.Count);
+            _items.Add(item.Id, item);
             _list.Add(item);
         }
 
-        public virtual T Get(int id)
+        public virtual T Get(uint id)
         {
             if (!_idToIndex.ContainsKey(id)) return null;
             var ix = _idToIndex[id];
@@ -127,14 +146,14 @@ namespace OfficeOpenXml.RichData.IndexRelations
             }
         }
 
-        protected T GetItemById(int id)
+        protected T GetItemById(uint id)
         {
             if (!_idToIndex.ContainsKey(id)) return default;
             var ix = _idToIndex[id];
             return _list[ix];
         }
 
-        public void DeleteEndpoint(int id)
+        public void DeleteEndpoint(uint id)
         {
             var endpoint = _list.FirstOrDefault(x => x.Id == id);
             if(endpoint != null)
@@ -159,10 +178,10 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return relation;
         }
 
-        public T GetItem(int id)
+        public T GetItem(uint id)
         {
-            var ix = _idToIndex[id];
-            return _list[ix];
+            if (!_items.ContainsKey(id)) return null;
+            return _items[id];
         }
 
         public int GetNextIndex()
@@ -175,15 +194,21 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return _list.FindIndex(match);
         }
 
-        public int? GetIndexById(int id)
+        public int? GetIndexById(uint id)
         {
             if (!_idToIndex.ContainsKey(id)) return default;
             return _idToIndex[id];
         }
 
-        int? IndexedCollectionInterface.GetIndexById(int id)
+        int? IndexedCollectionInterface.GetIndexById(uint id)
         {
             return GetIndexById(id);
+        }
+
+        IndexEndpoint IndexedCollectionInterface.GetById(uint id)
+        {
+            if(_items.ContainsKey(id)) return _items[id];
+            return null;
         }
 
         public T this[int index]

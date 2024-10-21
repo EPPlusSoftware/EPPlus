@@ -25,8 +25,8 @@ namespace OfficeOpenXml.RichData.Structures
     [DebuggerDisplay("Type: {Type}")]
     internal abstract class ExcelRichValueStructure : IndexEndpoint
     {
-        public ExcelRichValueStructure(string typeName, List<ExcelRichValueStructureKey> keys, ExcelRichData richData)
-            : base(richData.IndexStore, RichDataEntities.RichStructure)
+        public ExcelRichValueStructure(string typeName, List<ExcelRichValueStructureKey> keys, RichDataIndexStore store)
+            : base(store, RichDataEntities.RichStructure)
         {
             Type = typeName;
             Keys = keys;

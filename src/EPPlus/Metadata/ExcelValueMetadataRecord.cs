@@ -13,6 +13,7 @@
 using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
+using System;
 using System.Linq;
 
 namespace OfficeOpenXml.Metadata
@@ -22,13 +23,13 @@ namespace OfficeOpenXml.Metadata
     /// </summary>
     internal class ExcelValueMetadataRecord : IndexEndpoint
     {
-        public ExcelValueMetadataRecord(ExcelMetadata metadata, IndexEndpoint parent, int typeId, int valueId, RichDataIndexStore store)
+        public ExcelValueMetadataRecord(ExcelMetadata metadata, IndexEndpoint parent, uint typeId, uint valueId, RichDataIndexStore store)
             : base(store, RichDataEntities.ValueMetadataRecord)
         {
             TypeId = typeId;
             ValueId = valueId;
             _metadata = metadata;
-            _readValueIndex = valueId;
+            _readValueIndex = Convert.ToInt32(valueId);
             _parent = parent;
         }
 
@@ -50,12 +51,12 @@ namespace OfficeOpenXml.Metadata
         /// <summary>
         /// Corresponds to the t-attribute of the bk element
         /// </summary>
-        public int TypeId { get; private set; }
+        public uint TypeId { get; private set; }
 
         /// <summary>
         /// Corresponds to the v-attribute of the bk element
         /// </summary>
-        public int ValueId { get; private set; }
+        public uint ValueId { get; private set; }
 
         public int MetadataTypeIndex
         {

@@ -25,11 +25,15 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         IndexEndpoint this[int index] { get; }
 
-        void DeleteEndpoint(int id);
+        void DeleteEndpoint(uint id);
 
         int GetNextIndex();
 
-        int? GetIndexById(int id);
+        void ReIndex();
+
+        int? GetIndexById(uint id);
+
+        IndexEndpoint GetById(uint id);
 
         public Type IndexedType { get; }
     }

@@ -17,14 +17,19 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
-    internal abstract class IdentityItem
+    internal abstract class IdentityItem : IComparable<IdentityItem>
     {
         protected IdentityItem()
         {
             _id = IdGenerator.GetNewId();
         }
 
-        private readonly int _id;
-        public int Id => _id;
+        private readonly uint _id;
+        public uint Id => _id;
+
+        public int CompareTo(IdentityItem other)
+        {
+            return _id.CompareTo(other.Id);
+        }
     }
 }

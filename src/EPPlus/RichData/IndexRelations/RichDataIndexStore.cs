@@ -24,9 +24,9 @@ namespace OfficeOpenXml.RichData.IndexRelations
             
         }
 
-        private readonly Dictionary<int, IndexRelation> _relations = new Dictionary<int, IndexRelation>();
-        private readonly Dictionary<int, List<int>> _relationTargets = new Dictionary<int, List<int>>();
-        private readonly Dictionary<int, List<int>> _relationPointers = new Dictionary<int, List<int>>();
+        private readonly Dictionary<uint, IndexRelation> _relations = new Dictionary<uint, IndexRelation>();
+        private readonly Dictionary<uint, List<uint>> _relationTargets = new Dictionary<uint, List<uint>>();
+        private readonly Dictionary<uint, List<uint>> _relationPointers = new Dictionary<uint, List<uint>>();
         private readonly Dictionary<RichDataEntities, IndexedCollectionInterface> _collections = new Dictionary<RichDataEntities, IndexedCollectionInterface>();
         private readonly Dictionary<Type, RichDataEntities> _typeToEntity = new Dictionary<Type, RichDataEntities>();
 
@@ -52,7 +52,34 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return default;
         }
 
-        public int? GetIndexById(int id, RichDataEntities entity)
+        public void ReIndex()
+        {
+            foreach(var collection in _collections.Values)
+            {
+                collection.ReIndex();
+            }
+        }
+
+        public IndexEndpoint GetItem(uint id)
+        {
+            foreach(var collection in _collections.Values)
+            {
+                var result = collection.GetById(id);
+                if(result != null)
+                {
+                    return result;
+                }
+            }
+            return null;
+        }
+
+        public int? GetIndexByItem(IndexEndpoint endpoint)
+        {
+            if (endpoint == null) return null;
+            return GetIndexById(endpoint.Id, endpoint.Entity);
+        }
+
+        public int? GetIndexById(uint id, RichDataEntities entity)
         {
             var coll = _collections[entity];
             return coll.GetIndexById(id);
@@ -68,15 +95,38 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return coll.GetNextIndex();
         }
 
+        public bool DeleteRelation(IndexRelation relation)
+        {
+            if (!_relations.ContainsKey(relation.Id)) return false;
+            _relations.Remove(relation.Id);
+            if(_relationPointers.ContainsKey(relation.From.Id))
+            {
+                var pointersList = _relationPointers[relation.From.Id];
+                if(pointersList != null && pointersList.Any())
+                {
+                    pointersList.RemoveAll(x => x == relation.To.Id);
+                }
+            }
+            if(_relationTargets.ContainsKey(relation.To.Id))
+            {
+                var targetsList = _relationTargets[relation.To.Id];
+                if(targetsList != null && targetsList.Any())
+                {
+                    targetsList.RemoveAll(x => x == relation.From.Id);
+                }
+            }
+            return true;
+        }
+
         public void AddRelation(IndexRelation relation)
         {
             if(!_relationTargets.ContainsKey(relation.To.Id))
             {
-                _relationTargets.Add(relation.To.Id, new List<int>());
+                _relationTargets.Add(relation.To.Id, new List<uint>());
             }
             if (!_relationPointers.ContainsKey(relation.From.Id))
             {
-                _relationPointers.Add(relation.From.Id, new List<int>());
+                _relationPointers.Add(relation.From.Id, new List<uint>());
             }
             _relationTargets[relation.To.Id].Add(relation.Id);
             _relationPointers[relation.From.Id].Add(relation.Id);
@@ -87,13 +137,13 @@ namespace OfficeOpenXml.RichData.IndexRelations
         {
             if (!_relationPointers.ContainsKey(relation.From.Id))
             {
-                _relationPointers.Add(relation.From.Id, new List<int>());
+                _relationPointers.Add(relation.From.Id, new List<uint>());
             }
             _relationPointers[relation.From.Id].Add(relation.Id);
             _relations.Add(relation.Id, relation);
         }
 
-        public IEnumerable<IndexRelation> GetRelationTargets(int id)
+        public IEnumerable<IndexRelation> GetRelationTargets(uint id)
         {
             if(_relationPointers.ContainsKey(id))
             {
@@ -108,7 +158,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return Enumerable.Empty<IndexRelation>();
         }
 
-        public IEnumerable<IndexRelation> GetRelationTargets(int id, Func<IndexRelation, bool> filter)
+        public IEnumerable<IndexRelation> GetRelationTargets(uint id, Func<IndexRelation, bool> filter)
         {
             if (_relationPointers.ContainsKey(id))
             {
@@ -127,7 +177,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return Enumerable.Empty<IndexRelation>();
         }
 
-        public IEnumerable<IndexRelation> GetRelationPointers(int id)
+        public IEnumerable<IndexRelation> GetRelationPointers(uint id)
         {
             if (_relationTargets.ContainsKey(id))
             {
@@ -142,7 +192,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return Enumerable.Empty<IndexRelation>();
         }
 
-        public IEnumerable<IndexRelation> GetRelationPointers(int id, Func<IndexRelation, bool> filter)
+        public IEnumerable<IndexRelation> GetRelationPointers(uint id, Func<IndexRelation, bool> filter)
         {
             if (_relationTargets.ContainsKey(id))
             {
@@ -160,6 +210,39 @@ namespace OfficeOpenXml.RichData.IndexRelations
                 return result;
             }
             return Enumerable.Empty<IndexRelation>();
+        }
+
+        public void EntityDeleted(IndexEndpoint deletedEntity)
+        {
+            if (deletedEntity == null) return;
+            if (!_collections.ContainsKey(deletedEntity.Entity)) return;
+            var coll = _collections[deletedEntity.Entity];
+            var pointerRels = _relationPointers[deletedEntity.Id];
+            if(pointerRels != null && pointerRels.Any())
+            {
+                foreach(var pointerRelId in pointerRels)
+                {
+                    var pointerRel = _relations[pointerRelId];
+                    var item = GetItem(pointerRel.From.Id);
+                    if(item != null)
+                    {
+                        item.OnConnectedEntityDeleted(deletedEntity.Id, deletedEntity.Entity);
+                    }
+                }
+            }
+            var targetsRels = _relationTargets[deletedEntity.Id];
+            if(targetsRels != null && targetsRels.Any())
+            {
+                foreach(var targetRelId in targetsRels)
+                {
+                    var targetRel = _relations[targetRelId];
+                    var item = GetItem(targetRel.From.Id);
+                    if (item != null)
+                    {
+                        item.OnConnectedEntityDeleted(deletedEntity.Id, deletedEntity.Entity);
+                    }
+                }
+            }
         }
     }
 }

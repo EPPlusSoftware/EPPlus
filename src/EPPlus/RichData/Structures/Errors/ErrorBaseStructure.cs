@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
@@ -24,8 +25,8 @@ namespace OfficeOpenXml.RichData.Structures.Errors
     internal abstract class ErrorBaseStructure : ExcelRichValueStructure
     {
 
-        protected ErrorBaseStructure(List<ExcelRichValueStructureKey> keys, ExcelRichData richData)
-            : base(StructureTypes.Error, keys, richData)
+        protected ErrorBaseStructure(List<ExcelRichValueStructureKey> keys, RichDataIndexStore store)
+            : base(StructureTypes.Error, keys, store)
         {
             
         }

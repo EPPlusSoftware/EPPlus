@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.RichData.IndexRelations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,8 @@ namespace OfficeOpenXml.RichData.Structures
 {
     internal class RichDataPreserveStructure : ExcelRichValueStructure
     {
-        public RichDataPreserveStructure(string typeName, RichDataStructureTypes structureType, List<ExcelRichValueStructureKey> keys, ExcelRichData richData)
-            : base(typeName, keys, richData)
+        public RichDataPreserveStructure(string typeName, RichDataStructureTypes structureType, List<ExcelRichValueStructureKey> keys, RichDataIndexStore store)
+            : base(typeName, keys, store)
         {
             _structureType = structureType;
         }

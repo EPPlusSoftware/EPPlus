@@ -16,8 +16,8 @@ namespace OfficeOpenXml.RichData.RichValues
 {
     internal abstract class ExcelRichValue : IndexEndpoint
     {
-        public ExcelRichValue(ExcelRichData richData, RichDataStructureTypes structureType)
-            : base(richData.IndexStore, RichDataEntities.RichValue)
+        public ExcelRichValue(RichDataIndexStore store, ExcelRichData richData, RichDataStructureTypes structureType)
+            : base(store, RichDataEntities.RichValue)
         {
             //_workbook = workbook;
             //StructureId = workbook.RichData.Structures.GetStructureId(structureType);
@@ -26,19 +26,23 @@ namespace OfficeOpenXml.RichData.RichValues
             StructureId = structure.Id;
             Structure = structure;
             _richData = richData;
+            _indexStore = store;
             As = new ExcelRichValueAsType(this);
             richData.Structures.CreateRelation(this, structure, IndexType.ZeroBasedPointer);
         }
 
 
         private readonly ExcelRichData _richData;
-        public int StructureId { get; set; }
+        private readonly RichDataIndexStore _indexStore;
+        public uint StructureId { get; set; }
         public ExcelRichValueStructure Structure { get; set; }
         //public List<string> Values { get; } = new List<string>();
 
         public ExcelRichValueAsType As { get; private set; }
 
         private Dictionary<string, string> _keysAndValues = new Dictionary<string, string>();
+
+        private Dictionary<string, IndexRelation> _relations = new Dictionary<string, IndexRelation>();
 
         public RichValueFallbackType FallbackType { get; internal set; } = RichValueFallbackType.Decimal;
 
@@ -187,21 +191,49 @@ namespace OfficeOpenXml.RichData.RichValues
             }
             var rel = Structure.Keys[index.Value].Name;
             var relationshipType = RichValueRelationMappings.GetSchema(rel);
-            _richData.RichValueRels.AddItem(relUri, relationshipType, out int relIx);
-            SetValue(key, relIx);
+            _richData.RichValueRels.AddItem(relUri, relationshipType, this, out IndexRelation r);
+            //SetValue(key, relIx);
+            _relations.Add(key, r);
+        }
+
+        public override void DeleteMe()
+        {
+            base.DeleteMe();
+            foreach(var key in Structure.Keys)
+            {
+                if(key.IsRelation)
+                {
+                    DeleteRelation(key.Name);
+                }
+            }
         }
 
         public Uri GetRelation(string key)
         {
-            return GetRelation(key, out int? relIx);
+            return GetRelation(key, out IndexRelation relIx);
         }
 
-        public Uri GetRelation(string key, out int? relIx)
+        public bool DeleteRelation(string key)
         {
-            relIx = GetValueInt(key);
-            if (!relIx.HasValue) return null;
-            var rdRel = _richData.RichValueRels.Items[relIx.Value];
-            return rdRel.TargetUri;
+            if (!_relations.ContainsKey(key)) return false;
+            var rel = _relations[key];
+            return _indexStore.DeleteRelation(rel);
+        }
+
+        public Uri GetRelation(string key, out IndexRelation indexRelation)
+        {
+            //relIx = GetValueInt(key);
+            //if (!relIx.HasValue) return null;
+            //var rdRel = _richData.RichValueRels.Items[relIx.Value];
+            //return rdRel.TargetUri;
+            indexRelation = null;
+            if(_relations.ContainsKey(key))
+            {
+                indexRelation = _relations[key];
+                var rdRel = _richData.RichValueRels.GetItem(indexRelation.To.Id);
+                return rdRel.TargetUri;
+            }
+            return null;
         }
 
         public void SetValue(string key, string value)
