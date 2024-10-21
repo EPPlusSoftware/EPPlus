@@ -478,6 +478,5 @@ namespace EPPlusTest.Export.ToDataTable
                 Assert.AreEqual("Scott", dt.Rows[0]["Name"]);
             }
         }
-
     }
 }

@@ -6221,5 +6221,56 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void i1635()
+        {
+            using (var package = OpenTemplatePackage("ArrayFormulaTests.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                var excelTable = sheet.Tables[0];
+
+                var sheet2 = package.Workbook.Worksheets.Add("newWorksheet");
+                //sheet2.Cells["A1"].Value = "Month";
+                //sheet2.Cells["B1"].Value = "Sales";
+                //sheet2.Cells["C1"].Value = "VAT";
+                //sheet2.Cells["D1"].Value = "Total";
+                //sheet2.Cells["E1"].Value = "Some";
+                //sheet2.Cells["F1"].Value = "Other";
+                //sheet2.Cells["G1"].Value = "Header";
+                //sheet2.Cells["H1"].Value = "Tests";
+
+                var excelTable2 = sheet2.Tables.Add(sheet2.Cells["A1:H2"], "TableTest");
+                excelTable2.ShowHeader = true;
+
+                //excelTable2.Columns[6].CalculatedColumnFormula = "SUM([@Column3];[@Column6])";
+                //excelTable.Columns[6].CalculatedColumnFormula = "SUM((Table2[[Column3]:[Column6]]<>0)*1)>0";
+
+                //This doesn't apply it to the new rows as an array formula. It is without '{}'
+                //excelTable.Columns[6].CalculatedColumnFormula = "SUM((Table2[[Column3]:[Column6]]<>0)*1)>0";
+                excelTable.AddRow(1);
+                
+                //var isItArrayFormula = sheet.Cells["N10"].IsArrayFormula;
+
+                //sheet.Calculate();
+
+                var cell = sheet.Cells["M10"].Formula;
+                //var col = excelTable.Range.TakeSingleColumn(6).SkipRows(1);
+
+                ////This does apply the formula correctly (but adds an @ in some case?)
+                //foreach (var row in col)
+                //{
+                //    row.CreateArrayFormula(cell.Formula, false);
+                //}
+
+                //This is what they ended up with? But it's not quite right
+                //This automatically turns it into: SUM((@Table2[@[Column3]:[Column6]]<>0)*1)>0
+                //Without braces
+                //excelTable.Columns[6].CalculatedColumnFormula = "SUM((Table2[[Column3]:[Column6]]<>0)*1)>0";
+                ////excelTable.Columns[6].CalculatedColumnFormula = $"{cell.Formula}";
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

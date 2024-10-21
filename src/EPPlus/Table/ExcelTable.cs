@@ -27,6 +27,10 @@ using OfficeOpenXml.Style.Dxf;
 using System.Globalization;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+
+
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -1127,7 +1131,6 @@ namespace OfficeOpenXml.Table
             var range = new ExcelRangeBase(WorkSheet, address);
 
             WorksheetRangeInsertHelper.Insert(range,eShiftTypeInsert.Down, false, true);
-
             ExtendCalculatedFormulas(range);
 
             if (copyStyles)
@@ -1154,7 +1157,12 @@ namespace OfficeOpenXml.Table
             {
                 if(!string.IsNullOrEmpty(c.CalculatedColumnFormula))
                 {
-                    c.SetFormulaCells(range._fromRow, range._toRow, range._fromCol + c.Position);
+                    c.SetFormulaCells(range._fromRow, range._toRow, range._fromCol + c.Id);
+                    //if (c.CalculatedColumnIsArray)
+                    //{
+                    //    var sharedFormula = _tbl.WorkSheet._sharedFormulas.FirstOrDefault(x => x.Value.Formula == CalculatedColumnFormula);
+                    //    ws.SetFormula(row, colNum, sharedFormula.Key);
+                    //}
                 }
             }
         }

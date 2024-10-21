@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.Constants;
@@ -32,7 +33,6 @@ namespace OfficeOpenXml.Table
         {
             _tbl = tbl;
             InitDxf(tbl.WorkSheet.Workbook.Styles, null, this);
-            Position = pos;
         }
         /// <summary>
         /// The column id
@@ -244,6 +244,30 @@ namespace OfficeOpenXml.Table
         {            
             return _tbl.WorkSheet.Drawings.AddTableSlicer(this);
         }
+
+        XmlNode _calculatedColumnFormulaNode;
+
+        internal XmlNode CalculatedColumnFormulaNode
+        {
+            get
+            {
+                _calculatedColumnFormulaNode = GetNode(CALCULATEDCOLUMNFORMULA_PATH);
+                return _calculatedColumnFormulaNode;
+            }
+            set
+            {
+                _calculatedColumnFormulaNode = value;
+            }
+        }
+
+        internal bool CalculatedColumnIsArray
+        {
+            get
+            {
+                return GetXmlNodeBool(CALCULATEDCOLUMNFORMULA_PATH + "/@array");
+            }
+        }
+
         /// <summary>
         /// Sets a calculated column Formula.
         /// Be carefull with this property since it is not validated. 
@@ -318,7 +342,12 @@ namespace OfficeOpenXml.Table
             var ws = _tbl.WorkSheet;
             for (int row = fromRow; row <= toRow; row++)
             {
-                if(needsTranslation)
+                if (CalculatedColumnIsArray)
+                {
+                    var sharedFormulaValues = _tbl.WorkSheet._sharedFormulas.FirstOrDefault(x => x.Value.Formula == CalculatedColumnFormula);
+                    ws.SetFormula(row, colNum, sharedFormulaValues.Key);
+                }
+                else if (needsTranslation)
                 {
                     var f = ExcelCellBase.TranslateFromR1C1(r1c1Formula, row, colNum);
                     ws.SetFormula(row, colNum, f);
