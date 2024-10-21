@@ -1,4 +1,10 @@
 # Features / Fixed issues - EPPlus 7
+
+
+
+
+
+* Ensured ExcelPictures are sized correctly when copying worksheets
 ## Version 7.4.1
 * Updated for vulnerability in System.Text.Json 8.0.4 - Microsoft.Extensions.Configuration.Json 8.0.0 -> 8.0.1
 
