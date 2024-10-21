@@ -220,9 +220,37 @@ namespace EPPlusTest.ConditionalFormatting
             Assert.AreEqual("AC1:AE10", formats[1].Address.Address);
         }
         [TestMethod]
-        public void QuadTreeDeleteShiftUpValidate()
+        public void QuadTreeDeleteShiftLeftValidate()
         {
             var ws = _pck.Workbook.Worksheets.Add("DeleteRangeLeftCF");
+
+            var rule1 = ws.ConditionalFormatting.AddBeginsWith("B2:C3");
+            rule1.Text = "B";
+            rule1.Style.Fill.Style = eDxfFillStyle.PatternFill;
+            rule1.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            rule1.Style.Fill.BackgroundColor.SetColor(Color.Red);
+
+            var rule2 = ws.ConditionalFormatting.AddEndsWith("A1:D4");
+            rule2.Text = "C";
+            rule2.Style.Fill.Style = eDxfFillStyle.PatternFill;
+            rule2.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            rule2.Style.Fill.BackgroundColor.SetColor(Color.Green);
+
+            var formats = ws.Cells["C2:C3"].ConditionalFormatting.GetConditionalFormattings();
+            Assert.AreEqual(2, formats.Count);
+
+            ws.Cells["C2"].Delete(eShiftTypeDelete.Left);
+            formats = ws.Cells["C2"].ConditionalFormatting.GetConditionalFormattings();
+            Assert.AreEqual(1, formats.Count);
+            Assert.AreEqual("A1:D1,A2:C2,A3:D4", formats[0].Address.Address);
+            
+            formats = ws.Cells["C2:C3"].ConditionalFormatting.GetConditionalFormattings();
+            Assert.AreEqual(2, formats.Count);
+        }
+        [TestMethod]
+        public void QuadTreeDeleteShiftUpValidate()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeUpCF");
 
             var rule1 = ws.ConditionalFormatting.AddBeginsWith("B2:C3");
             rule1.Text = "B";
@@ -244,10 +272,67 @@ namespace EPPlusTest.ConditionalFormatting
             Assert.AreEqual(2, formats.Count);
             Assert.AreEqual("B2:B3,C2", formats[0].Address.Address);
             Assert.AreEqual("A1:B4,C1:C3,D1:D4", formats[1].Address.Address);
-            
+
             formats = ws.Cells["C2:C3"].ConditionalFormatting.GetConditionalFormattings();
             Assert.AreEqual(2, formats.Count);
 
         }
+        [TestMethod]
+        public void QuadTreeInsertShiftRightValidate()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeLeftCF");
+
+            var rule1 = ws.ConditionalFormatting.AddBeginsWith("B2:C3");
+            rule1.Text = "B";
+            rule1.Style.Fill.Style = eDxfFillStyle.PatternFill;
+            rule1.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            rule1.Style.Fill.BackgroundColor.SetColor(Color.Red);
+
+            var rule2 = ws.ConditionalFormatting.AddEndsWith("A1:D4");
+            rule2.Text = "C";
+            rule2.Style.Fill.Style = eDxfFillStyle.PatternFill;
+            rule2.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            rule2.Style.Fill.BackgroundColor.SetColor(Color.Green);
+
+            var formats = ws.Cells["C2:C3"].ConditionalFormatting.GetConditionalFormattings();
+            Assert.AreEqual(2, formats.Count);
+
+            ws.Cells["C2"].Insert(eShiftTypeInsert.Right);
+            formats = ws.Cells["C2"].ConditionalFormatting.GetConditionalFormattings();
+            Assert.AreEqual(2, formats.Count);
+            Assert.AreEqual("B2:D2,B3:C3", formats[0].Address.Address);
+            Assert.AreEqual("A1:D1,A2:E2,A3:D4", formats[1].Address.Address);
+            formats = ws.Cells["C2:C3"].ConditionalFormatting.GetConditionalFormattings();
+            Assert.AreEqual(2, formats.Count);
+        }
+        [TestMethod]
+        public void QuadTreeInsertShiftDownValidate()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeLeftCF");
+
+            var rule1 = ws.ConditionalFormatting.AddBeginsWith("B2:C3");
+            rule1.Text = "B";
+            rule1.Style.Fill.Style = eDxfFillStyle.PatternFill;
+            rule1.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            rule1.Style.Fill.BackgroundColor.SetColor(Color.Red);
+
+            var rule2 = ws.ConditionalFormatting.AddEndsWith("A1:D4");
+            rule2.Text = "C";
+            rule2.Style.Fill.Style = eDxfFillStyle.PatternFill;
+            rule2.Style.Fill.PatternType = ExcelFillStyle.Solid;
+            rule2.Style.Fill.BackgroundColor.SetColor(Color.Green);
+
+            var formats = ws.Cells["C2:C3"].ConditionalFormatting.GetConditionalFormattings();
+            Assert.AreEqual(2, formats.Count);
+
+            ws.Cells["C2"].Insert(eShiftTypeInsert.Down);
+            formats = ws.Cells["C2"].ConditionalFormatting.GetConditionalFormattings();
+            Assert.AreEqual(2, formats.Count);
+            Assert.AreEqual("B2:B3,C2:C4", formats[0].Address.Address);
+            Assert.AreEqual("A1:B4,C1:C5,D1:D4", formats[1].Address.Address);
+            formats = ws.Cells["C2:C3"].ConditionalFormatting.GetConditionalFormattings();
+            Assert.AreEqual(2, formats.Count);
+        }
+
     }
 }

@@ -396,7 +396,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         }
 
-        private static ExcelAddressBase InsertSplitIndividualAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase effectedAddress, eShiftTypeInsert shift, bool isTable)
+        private static ExcelAddressBase InsertSplitIndividualAddress(ExcelAddressBase address, ExcelAddressBase range, ExcelAddressBase affectedAddress, eShiftTypeInsert shift, bool isTable)
         {
             if (address.CollideFullColumn(range._fromCol, range._toCol) && (shift == eShiftTypeInsert.Down || shift == eShiftTypeInsert.EntireRow))
             {
@@ -408,11 +408,10 @@ namespace OfficeOpenXml.Core.Worksheet
             }
             else
             {
-                var collide = effectedAddress.Collide(address);
+                var collide = affectedAddress.Collide(address);
                 if (collide == ExcelAddressBase.eAddressCollition.Partly)
                 {
-                    var addressToShift = effectedAddress.Intersect(address);
-                    var shiftedAddress = ShiftAddress(addressToShift, range, shift);
+                    var addressToShift = ShiftAddress(address, affectedAddress, range, shift);
                     var newAddress = "";
                     if (address._fromRow < addressToShift._fromRow)
                     {
@@ -424,7 +423,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         newAddress += ExcelCellBase.GetAddress(fromRow, address._fromCol, address._toRow, addressToShift._fromCol - 1) + ",";
                     }
 
-                    newAddress += $"{shiftedAddress},";
+                    newAddress += $"{addressToShift.Address},";
 
                     if (address._toRow > addressToShift._toRow)
                     {
@@ -438,21 +437,26 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 else if (collide != ExcelAddressBase.eAddressCollition.No)
                 {
-                    return ShiftAddress(address, range, shift);
+                    return ShiftAddress(address, affectedAddress, range, shift);
                 }
             }
             return address;
         }
 
-        private static ExcelAddressBase ShiftAddress(ExcelAddressBase address, ExcelAddressBase range, eShiftTypeInsert shift)
+        private static ExcelAddressBase ShiftAddress(ExcelAddressBase address, ExcelAddressBase affectedAddress, ExcelAddressBase range, eShiftTypeInsert shift)
         {
+            var addressToShift = affectedAddress.Intersect(address);
             if (shift == eShiftTypeInsert.Down)
             {
-                return address.AddRow(range._fromRow, range.Rows);
+                addressToShift._fromRow = address._fromRow;
+                addressToShift._toRow = address._toRow;
+                return addressToShift.AddRow(range._fromRow, range.Rows);
             }
             else
             {
-                return address.AddColumn(range._fromCol, range.Columns);
+                addressToShift._fromCol = address._fromCol;
+                addressToShift._toCol = address._toCol;  
+                return addressToShift.AddColumn(range._fromCol, range.Columns);
             }
         }
 
