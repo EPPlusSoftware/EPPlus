@@ -17,6 +17,7 @@ using System.Text;
 using System.Xml;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Table
@@ -246,13 +247,13 @@ namespace OfficeOpenXml.Table
             return _tbl.WorkSheet.Drawings.AddTableSlicer(this);
         }
 
-        XmlNode _calculatedColumnFormulaNode;
+        XmlElement _calculatedColumnFormulaNode;
 
-        internal XmlNode CalculatedColumnFormulaNode
+        internal XmlElement CalculatedColumnFormulaNode
         {
             get
             {
-                _calculatedColumnFormulaNode = GetNode(CALCULATEDCOLUMNFORMULA_PATH);
+                _calculatedColumnFormulaNode = (XmlElement)GetNode(CALCULATEDCOLUMNFORMULA_PATH);
                 return _calculatedColumnFormulaNode;
             }
             set
@@ -266,6 +267,10 @@ namespace OfficeOpenXml.Table
             get
             {
                 return GetXmlNodeBool(CALCULATEDCOLUMNFORMULA_PATH + "/@array");
+            }
+            set
+            {
+                CalculatedColumnFormulaNode.SetAttribute("array", value == true ? "1" : "0");
             }
         }
 
@@ -302,6 +307,7 @@ namespace OfficeOpenXml.Table
         internal void SetFormula(string formula)
         {
             SetXmlNodeString(CALCULATEDCOLUMNFORMULA_PATH, formula);
+            CalculatedColumnIsArray = true;
         }
         internal void RemoveFormulaNode()
         {
@@ -345,8 +351,9 @@ namespace OfficeOpenXml.Table
             {
                 if (CalculatedColumnIsArray)
                 {
-                    var sharedFormulaValues = _tbl.WorkSheet._sharedFormulas.FirstOrDefault(x => x.Value.Formula == CalculatedColumnFormula);
-                    ws.SetFormula(row, colNum, sharedFormulaValues.Key);
+                    ws.Cells[fromRow,colNum,toRow,colNum].CreateArrayFormula(CalculatedColumnFormula, true);
+                    //var sharedFormulaValues = _tbl.WorkSheet._sharedFormulas.FirstOrDefault(x => x.Value.Formula == CalculatedColumnFormula);
+                    //ws.SetFormula(row, colNum, sharedFormulaValues.Key);
                 }
                 else if (needsTranslation)
                 {

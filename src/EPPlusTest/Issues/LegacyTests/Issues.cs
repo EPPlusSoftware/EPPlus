@@ -6223,22 +6223,48 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void i1635_2()
+        public void DynamicArrayFormulaWithTwoCellsInTableGenerateCorruptWorkbook()
         {
             using (var package = OpenPackage("DynamicArrayTableNew.xlsx", true))
             {
                 var wb = package.Workbook;
                 var sheet = wb.Worksheets.Add("newWorksheet");
 
-                //sheet.Cells["A1"].Value = "AColumn";
-                //sheet.Cells["B1"].Value = "Sales";
-                //sheet.Cells["C1"].Value = "VAT";
-                //sheet.Cells["D1"].Value = "Total";
-
                 var excelTable = sheet.Tables.Add(sheet.Cells["A1:D4"], "TableTest");
-                ////excelTable.ShowHeader = true;
-                ////excelTable.Columns[3].CalculatedColumnFormula = "SUM(A2:B2 * 1)";
-                //sheet.Cells["D2:D3"].CreateArrayFormula("SUM(A2:B2 * 1)", true);
+
+                sheet.Cells["D2:D3"].CreateArrayFormula("SUM(A2:B2 * 1)", true);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void FormulaNotConsideredArrayFormula()
+        {
+            using (var package = OpenPackage("FaultyNonArrayFormula.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sheet = wb.Worksheets.Add("newWorksheet");
+
+                sheet.Cells["D2"].CreateArrayFormula("SUM(A2:B2 * 1)", true);
+                //sheet.Cells["D2"].Formula = "SUM(A2:B2 * 1)";
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void DynamicArrayTable()
+        {
+            using (var package = OpenPackage("DynamicArrayTable.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sheet = wb.Worksheets.Add("newWorksheet");
+
+                var excelTable = sheet.Tables.Add(sheet.Cells["A1:D2"], "TableTest");
+
+                excelTable.Columns[3].CalculatedColumnFormula = "SUM((TableTest[[#This Row],[Column1]:[Column2]]<>0)*1)>0";
+                excelTable.InsertRow(1);
 
                 SaveAndCleanup(package);
             }
