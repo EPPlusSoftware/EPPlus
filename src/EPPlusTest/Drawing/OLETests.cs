@@ -9,7 +9,6 @@ namespace EPPlusTest.Drawing
     [TestClass]
     public class OLETests : TestBase
     {
-        //Generic OLE Object
         [TestMethod]
         public void ReadEmbeddedOleObject()
         {
@@ -238,6 +237,7 @@ namespace EPPlusTest.Drawing
             Assert.IsFalse(odpOle.IsExternalLink);
             SaveAndCleanup(odpOlePackage);
         }
+
         [TestMethod]
         public void WriteLinkedOleObject()
         {
@@ -462,7 +462,7 @@ namespace EPPlusTest.Drawing
         }
 
         [TestMethod]
-        public void BiggusCoppiusTestus()
+        public void CopyBigWorksheet()
         {
             var p = OpenTemplatePackage("OleObjects.xlsx");
             var ws = p.Workbook.Worksheets[0];
@@ -474,7 +474,6 @@ namespace EPPlusTest.Drawing
                     oleObjects.Add(ole as ExcelOleObject);
                 }
             }
-
             //Copy to same worksheet
             foreach(var ole in oleObjects)
             {
@@ -493,42 +492,31 @@ namespace EPPlusTest.Drawing
             {
                 ole.Copy(ws1, ole.From.Row, ole.From.Column + 10);
             }
-
+            //Copy worksheet
             p.Workbook.Worksheets.Add("Worksheet Copy", ws);
-
+            //Save
             SaveAndCleanup(p);
             p1.SaveAs(@"C:\epplusTest\Testoutput\NewOleObjects.xlsx");
         }
-
         [TestMethod]
-        public void CopyWorksheetTest()
+        public void SmallusCoppiusTestus()
         {
-            var p = OpenTemplatePackage("OleObjectTest_Embed_CopyMe.xlsx");
+            var p = OpenTemplatePackage("TinyOleObjects.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            p.Workbook.Worksheets.Add("Worksheet Copy", ws);
-            SaveAndCleanup(p);
-        }
-        [TestMethod]
-        public void ReadWorksheetTest()
-        {
-            var p = new ExcelPackage(@"C:\epplusTest\Testoutput\OleObjectTest_Embed_CopyMe.xlsx");
-            var ws = p.Workbook.Worksheets[1];
-            var ole = ws.Drawings[0] as ExcelOleObject;
-        }
-        [TestMethod]
-        public void CopyWorksheetTestOther()
-        {
-            var p = OpenTemplatePackage("OleObjectTest_Embed_CopyMe.xlsx");
-            var ws = p.Workbook.Worksheets[0];
-            var p1 = new ExcelPackage();
-            p1.Workbook.Worksheets.Add("Worksheet Copy", ws);
-            p1.SaveAs(@"C:\epplusTest\Testoutput\WsCopyOtherBook.xlsx");
-        }
-        [TestMethod]
-        public void CopyWorksheetTest2()
-        {
-            var p = OpenTemplatePackage("OleObjectTest_Link_CopyMe.xlsx");
-            var ws = p.Workbook.Worksheets[0];
+            List<ExcelOleObject> oleObjects = new List<ExcelOleObject>();
+            foreach (var ole in ws.Drawings)
+            {
+                if (ole is ExcelOleObject)
+                {
+                    oleObjects.Add(ole as ExcelOleObject);
+                }
+            }
+            //Copy to same worksheet
+            foreach (var ole in oleObjects)
+            {
+                ole.Copy(ws, ole.From.Row, ole.From.Column + 10);
+            }
+            //Copy to new worksheet
             p.Workbook.Worksheets.Add("Worksheet Copy", ws);
             SaveAndCleanup(p);
         }

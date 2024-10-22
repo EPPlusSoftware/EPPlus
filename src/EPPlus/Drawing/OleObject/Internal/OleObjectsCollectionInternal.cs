@@ -6,32 +6,33 @@ using OfficeOpenXml.Drawing.OleObject;
 
 namespace OfficeOpenXml
 {
-    internal class OleObjectsCollectionInternal : XmlHelper, IEnumerable<OleObjectInternal>
+    internal class OleObjectsCollectionInternal : XmlHelper, IEnumerable<KeyValuePair<int, OleObjectInternal>>
     {
-        private List<OleObjectInternal> _list = new List<OleObjectInternal>();
+        internal Dictionary<int ,OleObjectInternal> _dict = new Dictionary<int, OleObjectInternal>();
 
         internal OleObjectsCollectionInternal(XmlNamespaceManager nameSpaceManager, XmlNode topNode) : base(nameSpaceManager, topNode)
         {
             var nodes = GetNodes("d:oleObjects/mc:AlternateContent/mc:Choice/d:oleObject");
             foreach (XmlNode node in nodes)
             {
-                _list.Add(new OleObjectInternal(NameSpaceManager, node));
+                int shapeId = int.Parse(node.Attributes["shapeId"].Value);
+                _dict.Add(shapeId, new OleObjectInternal(NameSpaceManager, node));
             }
         }
 
         internal OleObjectInternal GetOleObjectByShapeId(int shapeId)
         {
-            return _list.FirstOrDefault(x => x.ShapeId == shapeId);
+            return _dict.FirstOrDefault(x => x.Key == shapeId).Value;
         }
 
-        public IEnumerator<OleObjectInternal> GetEnumerator()
+        public IEnumerator<KeyValuePair<int, OleObjectInternal>> GetEnumerator()
         {
-            return _list.GetEnumerator();
+            return _dict.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _list.GetEnumerator();
+            return _dict.GetEnumerator();
         }
     }
 }

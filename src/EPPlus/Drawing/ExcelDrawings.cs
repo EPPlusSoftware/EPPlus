@@ -1555,7 +1555,6 @@ namespace OfficeOpenXml.Drawing
         /// <param name="LinkToFile">Optional - True: File will be linked. False: File will be embedded.</param>
         /// <param name="DisplayAsIcon">Optional - Set to display the object as in icon.</param>
         /// <param name="IconFilePath">Optional - Path to a bitmap image file for use as icon.</param>
-        /// <param name="OleObjectType">Optional - The type of object.</param>
         /// <returns>A Drawing of the ExcelOleObject type.</returns>
         public ExcelOleObject AddOleObject(string FilePath, bool LinkToFile = false, bool DisplayAsIcon = false, string IconFilePath = "")
         {
