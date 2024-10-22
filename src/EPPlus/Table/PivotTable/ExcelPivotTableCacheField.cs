@@ -952,7 +952,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 if (ptField.ShouldHaveItems == false) continue;
                 var existingItems = new HashSet<object>(new InvariantObjectComparer());
                 var list = ptField.Items._list;
-
+                var hasFilter = list.Any(x => x.Hidden);
                 for (var ix = 0; ix < list.Count; ix++)
                 {
                     var v = list[ix].Value ?? ExcelPivotTable.PivotNullValue;
@@ -971,7 +971,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     if (!existingItems.Contains(c))
                     {
-                        list.Insert(list.Count - hasSubTotalSubt, new ExcelPivotTableFieldItem() { Value = c });
+                        list.Insert(list.Count - hasSubTotalSubt, new ExcelPivotTableFieldItem() { Value = c, Hidden=hasFilter });
                     }
                 }
 

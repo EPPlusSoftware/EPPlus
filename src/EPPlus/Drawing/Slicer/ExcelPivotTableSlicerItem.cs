@@ -2,6 +2,7 @@
 using OfficeOpenXml.Table.PivotTable;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.Drawing.Slicer
@@ -44,7 +45,8 @@ namespace OfficeOpenXml.Drawing.Slicer
                 {
                     throw(new IndexOutOfRangeException());
                 }
-                return _cache._field.Items[_index].Hidden;
+                var ix = _cache._field.Items.CacheLookup[_index].First();
+                return _cache._field.Items[ix].Hidden;
             }
             set
             {
@@ -56,7 +58,8 @@ namespace OfficeOpenXml.Drawing.Slicer
                 {
                     var fld = pt.Fields[_cache._field.Index];
                     if (_index >= fld.Items.Count || fld.Items[_index].Type != Table.PivotTable.eItemType.Data) continue;
-                    fld.Items[_index].Hidden = value;
+                    var ix = fld.Items.CacheLookup[_index].First();
+                    fld.Items[ix].Hidden = value;
                 }
             }
         }
