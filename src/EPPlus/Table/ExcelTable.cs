@@ -1157,7 +1157,7 @@ namespace OfficeOpenXml.Table
             {
                 if(!string.IsNullOrEmpty(c.CalculatedColumnFormula))
                 {
-                    c.SetFormulaCells(range._fromRow, range._toRow, range._fromCol + c.Id);
+                    c.SetFormulaCells(range._fromRow, range._toRow, range._fromCol + c.Position);
                     //if (c.CalculatedColumnIsArray)
                     //{
                     //    var sharedFormula = _tbl.WorkSheet._sharedFormulas.FirstOrDefault(x => x.Value.Formula == CalculatedColumnFormula);

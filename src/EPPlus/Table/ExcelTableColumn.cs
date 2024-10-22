@@ -33,6 +33,7 @@ namespace OfficeOpenXml.Table
         {
             _tbl = tbl;
             InitDxf(tbl.WorkSheet.Workbook.Styles, null, this);
+            Position = pos;
         }
         /// <summary>
         /// The column id
