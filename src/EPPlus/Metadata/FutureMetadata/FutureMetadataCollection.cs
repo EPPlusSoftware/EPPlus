@@ -27,8 +27,6 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
 
         private readonly Dictionary<string, FutureMetadataBase> _nameIndex = new Dictionary<string, FutureMetadataBase>();
 
-        public override RichDataEntities EntityType => RichDataEntities.FutureMetadata;
-
         public override void Add(FutureMetadataBase item)
         {
             base.Add(item);

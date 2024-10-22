@@ -15,6 +15,7 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 
@@ -107,6 +108,19 @@ namespace OfficeOpenXml.Metadata
             set
             {
                 _flags = value;
+            }
+        }
+
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        {
+            base.OnConnectedEntityDeleted(e);
+            if(e.DeletedEntity.EntityType == RichDataEntities.ValueMetadataRecord)
+            {
+                var rels = GetIncomingRelations(x => x.From.EntityType == RichDataEntities.ValueMetadataRecord);
+                if (rels.Count() <= 1)
+                {
+                    DeleteMe();
+                }
             }
         }
     }

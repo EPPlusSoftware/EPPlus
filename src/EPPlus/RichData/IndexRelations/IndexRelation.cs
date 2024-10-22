@@ -19,21 +19,58 @@ namespace OfficeOpenXml.RichData.IndexRelations
 {
     internal class IndexRelation : IdentityItem
     {
-        public IndexRelation(IndexEndpoint from, IndexEndpoint to, IndexType indexType)
+        public IndexRelation(RichDataIndexStore store, IndexEndpoint from, IndexEndpoint to, IndexType indexType, IndexRelationType relationType = IndexRelationType.Default)
+            : base(store)
         {
             From = from;
             To = to;
             IndexType = indexType;
+            RelationType = relationType;
         }
+
+        public bool Deleted { get; set; }
+
         public IndexEndpoint From { get; set; }
 
         public IndexEndpoint To { get; set; }
 
         public IndexType IndexType { get; set; }
 
+        public IndexRelationType RelationType { get; set; }
+
+        public IndexRelationWithSubRelations Parent { get; set; }
+
         public IndexRelationWithSubRelations AsRelationWithSubRelations()
         {
             return this as IndexRelationWithSubRelations;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            var otherEndpoint = obj as IndexRelation;
+            if (otherEndpoint == null) return false;
+            return otherEndpoint.Id == Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+        public static bool operator ==(IndexRelation left, IndexRelation right)
+        {
+            if (ReferenceEquals(left, null))
+            {
+                return ReferenceEquals(right, null);
+            }
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(IndexRelation left, IndexRelation right)
+        {
+            return !(left == right);
         }
     }
 }

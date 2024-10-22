@@ -24,6 +24,5 @@ namespace OfficeOpenXml.Metadata
         {
         }
 
-        public override RichDataEntities EntityType => RichDataEntities.ValueMetadataRecord;
     }
 }

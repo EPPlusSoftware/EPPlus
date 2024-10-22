@@ -69,7 +69,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
 
         public override void Save(StreamWriter sw)
         {
-            var val = GetFirstTargetByType<ExcelRichValue>();
+            var val = GetFirstOutgoingRelByType<ExcelRichValue>();
             if(val != null)
             {
                 var ix = val.GetIndex();
@@ -81,10 +81,10 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
 
         public uint RichDataId { get; set; }
 
-        public override void OnConnectedEntityDeleted(uint entityId, RichDataEntities deletedEntity)
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
         {
-            base.OnConnectedEntityDeleted(entityId, deletedEntity);
-            if(deletedEntity == RichDataEntities.RichValue)
+            base.OnConnectedEntityDeleted(e);
+            if(e.DeletedEntity.EntityType == RichDataEntities.RichValue)
             {
                 DeleteMe();
             }

@@ -11,7 +11,5 @@ namespace EPPlusTest.RichData.TestClasses
         public RichValueTestCollection(RichDataIndexStore store) : base(store, RichDataEntities.RichValue)
         {
         }
-
-        public override RichDataEntities EntityType => RichDataEntities.RichValue;
     }
 }

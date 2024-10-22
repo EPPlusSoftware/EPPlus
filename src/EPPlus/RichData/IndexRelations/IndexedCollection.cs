@@ -26,22 +26,24 @@ namespace OfficeOpenXml.RichData.IndexRelations
         {
             _list = new List<T>();
             _store = store;
+            _entity = entity;
             store.RegisterCollection(entity, this);
         }
 
-        private readonly Dictionary<int, IEnumerable<int>> _incomingPointers= new Dictionary<int, IEnumerable<int>>();
-        private readonly Dictionary<int, IEnumerable<int>> _outgoingPointers = new Dictionary<int, IEnumerable<int>>();
+        private readonly Dictionary<int, IEnumerable<IndexEndpoint>> _incomingPointers= new Dictionary<int, IEnumerable<IndexEndpoint>>();
+        private readonly Dictionary<int, IEnumerable<IndexEndpoint>> _outgoingPointers = new Dictionary<int, IEnumerable<IndexEndpoint>>();
         private readonly Dictionary<uint, int> _idToIndex = new Dictionary<uint, int>();
         private readonly Dictionary<uint, T> _items = new Dictionary<uint, T>();
         private readonly List<T> _list;
         private readonly RichDataIndexStore _store;
+        private readonly RichDataEntities _entity;
 
         /// <summary>
         /// Returns Id:s of all instances of other entities that points to this record
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        protected IEnumerable<int> GetIncomingPointers(int id)
+        protected IEnumerable<IndexEndpoint> GetIncomingPointers(int id)
         {
             if(_incomingPointers.ContainsKey(id))
             {
@@ -49,7 +51,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
             }
             else
             {
-                return Enumerable.Empty<int>();
+                return Enumerable.Empty<IndexEndpoint>();
             }
         }
 
@@ -74,7 +76,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        protected IEnumerable<int> GetOutgoingPointers(int id)
+        protected IEnumerable<IndexEndpoint> GetOutgoingPointers(int id)
         {
             if (_outgoingPointers.ContainsKey(id))
             {
@@ -82,7 +84,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
             }
             else
             {
-                return Enumerable.Empty<int>();
+                return Enumerable.Empty<IndexEndpoint>();
             }
         }
 
@@ -103,9 +105,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
             }
         }
 
-        public abstract RichDataEntities EntityType { get; }
-
-        RichDataEntities IndexedCollectionInterface.EntityType => EntityType;
+        public virtual RichDataEntities EntityType => _entity;
 
         int IndexedCollectionInterface.Count => _list.Count;
 
@@ -165,17 +165,13 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         public IndexRelation CreateRelation(IndexEndpoint from, IndexEndpoint to, IndexType indexType)
         {
-            var relation = new IndexRelation(from, to, indexType);
-            _store.AddRelation(relation);
-            return relation;
+            return _store.CreateAndAddRelation(from, to, indexType);
         }
 
         public IndexRelation CreateRelation(IndexEndpoint from, int toIndex, IndexType indexType)
         {
             var to = this[toIndex];
-            var relation = new IndexRelation(from, to, indexType);
-            _store.AddRelation(relation);
-            return relation;
+            return _store.CreateAndAddRelation(from, to, indexType);
         }
 
         public T GetItem(uint id)

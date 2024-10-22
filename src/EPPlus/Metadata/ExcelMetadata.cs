@@ -63,6 +63,14 @@ namespace OfficeOpenXml.Metadata
         internal int DynamicArrayTypeIndex { get; private set; }
         internal ZipPackagePart Part { get { return _part; } }
 
+        public event EventHandler<ValueMetadataBlockDeletedArgs> ValueMetadataBlockDeleted;
+
+        public virtual void OnValueMetadataBlockDeleted(uint deletedEntityId)
+        {
+            var args = new ValueMetadataBlockDeletedArgs { ValueMetadataBlockId = deletedEntityId };
+            ValueMetadataBlockDeleted?.Invoke(this, args);
+        }
+
         public ExcelMetadata(ExcelWorkbook workbook)
         {
             //if(richData == null)
@@ -351,7 +359,7 @@ namespace OfficeOpenXml.Metadata
             var fmBk = record.GetFirstOutgoingSubRelation<FutureMetadataBlock>();
             if (fmBk != null)
             {
-                var rv = fmBk.GetFirstTargetByType<ExcelRichValue>();
+                var rv = fmBk.GetFirstOutgoingRelByType<ExcelRichValue>();
                 var erd = rv.As.Type<ErrorRichValueBase>();
                 if (erd != null && erd.ErrorType.HasValue)
                 {
@@ -544,7 +552,7 @@ namespace OfficeOpenXml.Metadata
             var valueMetadata = ValueMetadata[vm - 1];
             var metadataType = valueMetadata.GetFirstOutgoingSubRelation<ExcelMetadataType>();
             if (metadataType == null || metadataType.Name != FutureMetadataBase.RICHDATA_NAME) return false;
-            var futureMetadata = metadataType.GetFirstTargetByType<FutureMetadataBase>();
+            var futureMetadata = metadataType.GetFirstOutgoingRelByType<FutureMetadataBase>();
             if (futureMetadata == null) return false;
             var fmBlock = valueMetadata.GetFirstOutgoingSubRelation<FutureMetadataBlock>(out IndexRelation subRelation);
             if (fmBlock != null)

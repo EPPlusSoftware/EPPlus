@@ -88,5 +88,11 @@ namespace OfficeOpenXml.Metadata
                 return -1;
             }
         }
+
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        {
+            base.OnConnectedEntityDeleted(e);
+            _parent.OnConnectedEntityDeleted(e);
+        }
     }
 }

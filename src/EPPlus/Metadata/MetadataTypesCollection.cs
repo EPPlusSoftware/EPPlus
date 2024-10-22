@@ -15,8 +15,6 @@ namespace OfficeOpenXml.Metadata
 
         private Dictionary<string, ExcelMetadataType> _nameIndex = new Dictionary<string, ExcelMetadataType>();
 
-        public override RichDataEntities EntityType => RichDataEntities.MetadataType;
-
         public override void Add(ExcelMetadataType item)
         {
             base.Add(item);

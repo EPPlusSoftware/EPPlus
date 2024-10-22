@@ -48,8 +48,5 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
                 xr.Read();
             }
         }
-
-        public override RichDataEntities EntityType => RichDataEntities.FutureMetadataRichDataBlock;
-
     }
 }

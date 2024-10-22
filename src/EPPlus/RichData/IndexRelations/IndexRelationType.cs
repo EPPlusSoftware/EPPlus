@@ -17,18 +17,9 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
-    internal class IdGenerator
+    internal enum IndexRelationType : byte
     {
-        private uint _nextId = 0;
-        private static readonly object _lock = new();
-
-        public uint GetNewId()
-        {
-            if(_nextId >= uint.MaxValue - 2)
-            {
-                throw new OverflowException("Cannot assign new Id");
-            }
-            return ++_nextId;
-        }
+        Default,
+        SubRelations
     }
 }

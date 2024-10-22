@@ -24,7 +24,5 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         public FutureMetadataDynamicArrayBlockCollection(RichDataIndexStore store) : base(store, RichDataEntities.FutureMetadataDynamicArrayBlock)
         {
         }
-
-        public override RichDataEntities EntityType => RichDataEntities.FutureMetadataDynamicArrayBlock;
     }
 }

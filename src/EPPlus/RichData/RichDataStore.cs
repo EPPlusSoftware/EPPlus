@@ -93,14 +93,14 @@ namespace OfficeOpenXml.RichData
                 int i = 0;
             }
             var valueRecord = valueMetaData.Records.First();
-            var type = valueRecord.GetFirstTargetByType<ExcelMetadataType>();
+            var type = valueRecord.GetFirstOutgoingRelByType<ExcelMetadataType>();
             //var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
             if (type == null || type.Name != FutureMetadataBase.RICHDATA_NAME) return null;
             //var fmd = _metadata.FutureMetadata[type.Name];
-            var bk = valueRecord.GetFirstTargetByType<FutureMetadataBlock>();
+            var bk = valueRecord.GetFirstOutgoingRelByType<FutureMetadataBlock>();
             //var id = fmd.Blocks[valueRecord.ValueIndex].FirstTargetId;
             if (bk == null) return null;
-            return bk.GetFirstTargetByType<ExcelRichValue>();
+            return bk.GetFirstOutgoingRelByType<ExcelRichValue>();
             //return _workbook.RichData.Values.GetItem(id.Value);
         }
 
@@ -118,7 +118,7 @@ namespace OfficeOpenXml.RichData
             // var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
             var bk = valueMetaData.GetFirstOutgoingSubRelation<FutureMetadataBlock>();
             //var futureMetadata = _metadata.MetadataTypes.First(x => x.Name == type.Name);
-            var rdv = bk.GetFirstTargetByType<ExcelRichValue>();
+            var rdv = bk.GetFirstOutgoingRelByType<ExcelRichValue>();
             //var rdv = _workbook.RichData.Values.Items[valueRecord.ValueIndex];
             if(structureTypesFilter != null 
                 && structureTypesFilter.Any()
@@ -230,9 +230,9 @@ namespace OfficeOpenXml.RichData
             var vmIx = vm - 1;
             var valueMd = _metadata.ValueMetadata[vmIx];
             var valueRecord = valueMd.Records.First();
-            var bk = valueRecord.GetFirstTargetByType<FutureMetadataRichValueBlock>();
+            var bk = valueRecord.GetFirstOutgoingRelByType<FutureMetadataRichValueBlock>();
             if (bk != null) return false;
-            var rv = bk.GetFirstTargetByType<ExcelRichValue>();
+            var rv = bk.GetFirstOutgoingRelByType<ExcelRichValue>();
             rv.DeleteMe();
             return true;
             //var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];

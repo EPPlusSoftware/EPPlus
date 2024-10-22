@@ -25,10 +25,16 @@ namespace OfficeOpenXml.RichData.IndexRelations
         }
 
         private readonly Dictionary<uint, IndexRelation> _relations = new Dictionary<uint, IndexRelation>();
-        private readonly Dictionary<uint, List<uint>> _relationTargets = new Dictionary<uint, List<uint>>();
-        private readonly Dictionary<uint, List<uint>> _relationPointers = new Dictionary<uint, List<uint>>();
+        private readonly Dictionary<uint, List<IndexRelation>> _outgoingRelations = new Dictionary<uint, List<IndexRelation>>();
+        private readonly Dictionary<uint, List<IndexRelation>> _incomingRelations = new Dictionary<uint, List<IndexRelation>>();
         private readonly Dictionary<RichDataEntities, IndexedCollectionInterface> _collections = new Dictionary<RichDataEntities, IndexedCollectionInterface>();
         private readonly Dictionary<Type, RichDataEntities> _typeToEntity = new Dictionary<Type, RichDataEntities>();
+        private readonly IdGenerator _idGenerator = new IdGenerator();
+
+        public uint GetNewId()
+        {
+            return _idGenerator.GetNewId();
+        }
 
         public void RegisterCollection(RichDataEntities entity, IndexedCollectionInterface coll)
         {
@@ -76,7 +82,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         public int? GetIndexByItem(IndexEndpoint endpoint)
         {
             if (endpoint == null) return null;
-            return GetIndexById(endpoint.Id, endpoint.Entity);
+            return GetIndexById(endpoint.Id, endpoint.EntityType);
         }
 
         public int? GetIndexById(uint id, RichDataEntities entity)
@@ -99,149 +105,185 @@ namespace OfficeOpenXml.RichData.IndexRelations
         {
             if (!_relations.ContainsKey(relation.Id)) return false;
             _relations.Remove(relation.Id);
-            if(_relationPointers.ContainsKey(relation.From.Id))
+            if(_incomingRelations.ContainsKey(relation.To.Id))
             {
-                var pointersList = _relationPointers[relation.From.Id];
+                var pointersList = _incomingRelations[relation.To.Id];
                 if(pointersList != null && pointersList.Any())
                 {
-                    pointersList.RemoveAll(x => x == relation.To.Id);
+                    pointersList.RemoveAll(x => x.To == relation.To);
                 }
             }
-            if(_relationTargets.ContainsKey(relation.To.Id))
+            if(_outgoingRelations.ContainsKey(relation.From.Id))
             {
-                var targetsList = _relationTargets[relation.To.Id];
+                var targetsList = _outgoingRelations[relation.From.Id];
                 if(targetsList != null && targetsList.Any())
                 {
-                    targetsList.RemoveAll(x => x == relation.From.Id);
+                    targetsList.RemoveAll(x => x.From == relation.From);
                 }
             }
             return true;
         }
 
+        public IndexRelation CreateAndAddRelation(IndexEndpoint from, IndexEndpoint to, IndexType indexType)
+        {
+            var rel = new IndexRelation(this, from, to, indexType);
+            AddRelation(rel);
+            return rel;
+        }
+
+        public IndexRelationWithSubRelations CreateAndAddRelationWithSubRelations(IndexEndpoint endPoint, RichDataEntities entity)
+        {
+            var rel = new IndexRelationWithSubRelations(this, endPoint, RichDataEntities.MetadataType, IndexType.SubRelations);
+            AddRelationWithSubRelations(rel);
+            return rel;
+        }
+
         public void AddRelation(IndexRelation relation)
         {
-            if(!_relationTargets.ContainsKey(relation.To.Id))
+            if(!_outgoingRelations.ContainsKey(relation.From.Id))
             {
-                _relationTargets.Add(relation.To.Id, new List<uint>());
+                _outgoingRelations.Add(relation.From.Id, new List<IndexRelation>());
             }
-            if (!_relationPointers.ContainsKey(relation.From.Id))
+            if (!_incomingRelations.ContainsKey(relation.To.Id))
             {
-                _relationPointers.Add(relation.From.Id, new List<uint>());
+                _incomingRelations.Add(relation.To.Id, new List<IndexRelation>());
             }
-            _relationTargets[relation.To.Id].Add(relation.Id);
-            _relationPointers[relation.From.Id].Add(relation.Id);
+            _outgoingRelations[relation.From.Id].Add(relation);
+            _incomingRelations[relation.To.Id].Add(relation);
             _relations.Add(relation.Id, relation);
         }
 
         public void AddRelationWithSubRelations(IndexRelationWithSubRelations relation)
         {
-            if (!_relationPointers.ContainsKey(relation.From.Id))
+            if (!_incomingRelations.ContainsKey(relation.To.Id))
             {
-                _relationPointers.Add(relation.From.Id, new List<uint>());
+                _incomingRelations.Add(relation.To.Id, new List<IndexRelation>());
             }
-            _relationPointers[relation.From.Id].Add(relation.Id);
+            _incomingRelations[relation.To.Id].Add(relation);
             _relations.Add(relation.Id, relation);
         }
 
-        public IEnumerable<IndexRelation> GetRelationTargets(uint id)
+        public IEnumerable<IndexRelation> GetOutgoingRelations(uint id)
         {
-            if(_relationPointers.ContainsKey(id))
+            if (_outgoingRelations.ContainsKey(id))
             {
-                var relationIds = _relationPointers[id];
-                var result = new List<IndexRelation>();
-                foreach(var relId in relationIds)
-                {
-                    result.Add(_relations[relId]);
-                }
-                return result;
+                var relations = _outgoingRelations[id];
+                if (relations == null) return Enumerable.Empty<IndexRelation>();
+                return relations;
             }
             return Enumerable.Empty<IndexRelation>();
         }
 
-        public IEnumerable<IndexRelation> GetRelationTargets(uint id, Func<IndexRelation, bool> filter)
+        public IEnumerable<IndexRelation> GetOutgoingRelations(uint id, Func<IndexRelation, bool> filter)
         {
-            if (_relationPointers.ContainsKey(id))
+            if (_outgoingRelations.ContainsKey(id))
             {
-                var relationIds = _relationPointers[id];
+                var relations = _outgoingRelations[id];
                 var result = new List<IndexRelation>();
-                foreach (var relId in relationIds)
+                foreach (var rel in relations)
                 {
-                    var rel = _relations[relId];
-                    if(filter.Invoke(rel))
-                    {
-                        result.Add(_relations[relId]);
-                    }
-                }
-                return result;
-            }
-            return Enumerable.Empty<IndexRelation>();
-        }
-
-        public IEnumerable<IndexRelation> GetRelationPointers(uint id)
-        {
-            if (_relationTargets.ContainsKey(id))
-            {
-                var relationIds = _relationTargets[id];
-                var result = new List<IndexRelation>();
-                foreach (var relId in relationIds)
-                {
-                    result.Add(_relations[relId]);
-                }
-                return result;
-            }
-            return Enumerable.Empty<IndexRelation>();
-        }
-
-        public IEnumerable<IndexRelation> GetRelationPointers(uint id, Func<IndexRelation, bool> filter)
-        {
-            if (_relationTargets.ContainsKey(id))
-            {
-                var relationIds = _relationTargets[id];
-                var result = new List<IndexRelation>();
-                foreach (var relId in relationIds)
-                {
-                    var rel = _relations[relId];
                     if (filter.Invoke(rel))
                     {
-                        result.Add(_relations[relId]);
+                        result.Add(rel);
                     }
-                    result.Add(_relations[relId]);
                 }
                 return result;
             }
             return Enumerable.Empty<IndexRelation>();
+        }
+
+        public IEnumerable<IndexRelation> GetIncomingRelations(uint id)
+        {
+            if (_incomingRelations.ContainsKey(id))
+            {
+                var relations = _incomingRelations[id];
+                if(relations == null) return Enumerable.Empty<IndexRelation>();
+                return relations;
+            }
+            return Enumerable.Empty<IndexRelation>();
+        }
+
+        public IEnumerable<IndexRelation> GetIncomingRelations(uint id, Func<IndexRelation, bool> filter)
+        {
+            if (_incomingRelations.ContainsKey(id))
+            {
+                var relations = _incomingRelations[id];
+                var result = new List<IndexRelation>();
+                foreach (var rel in relations)
+                {
+                    if (filter.Invoke(rel))
+                    {
+                        result.Add(rel);
+                    }
+                }
+                return result;
+            }
+            return Enumerable.Empty<IndexRelation>();
+        }
+
+        public void AddSubRelation(uint parentRelId, IndexRelation subRel)
+        {
+            if(_relations.ContainsKey(parentRelId))
+            {
+                var parentRel = _relations[parentRelId].AsRelationWithSubRelations();
+                if(parentRel != null)
+                {
+                    subRel.Parent = parentRel;
+                    parentRel.SubRelations.Add(subRel);
+                }
+            }
         }
 
         public void EntityDeleted(IndexEndpoint deletedEntity)
         {
             if (deletedEntity == null) return;
-            if (!_collections.ContainsKey(deletedEntity.Entity)) return;
-            var coll = _collections[deletedEntity.Entity];
-            var pointerRels = _relationPointers[deletedEntity.Id];
-            if(pointerRels != null && pointerRels.Any())
+            if (!_collections.ContainsKey(deletedEntity.EntityType)) return;
+            var coll = _collections[deletedEntity.EntityType];
+            if (_incomingRelations.ContainsKey(deletedEntity.Id))
             {
-                foreach(var pointerRelId in pointerRels)
+                IEnumerable<IndexRelation> incomingRels = _incomingRelations[deletedEntity.Id];
+                if (incomingRels != null && incomingRels.Any())
                 {
-                    var pointerRel = _relations[pointerRelId];
-                    var item = GetItem(pointerRel.From.Id);
-                    if(item != null)
+                    incomingRels = incomingRels.Where(x => !x.Deleted);
+                    foreach (var incomingRel in incomingRels)
                     {
-                        item.OnConnectedEntityDeleted(deletedEntity.Id, deletedEntity.Entity);
+                        var item = GetItem(incomingRel.From.Id);
+                        if (item != null)
+                        {
+                            incomingRel.Deleted = true;
+                            var e = new ConnectedEntityDeletedArgs(deletedEntity, incomingRel, this);
+                            item.OnConnectedEntityDeleted(e);
+                        }
+                        if (_relations.ContainsKey(incomingRel.Id))
+                        {
+                            _relations.Remove(incomingRel.Id);
+                        }
                     }
                 }
+                _incomingRelations.Remove(deletedEntity.Id);
             }
-            var targetsRels = _relationTargets[deletedEntity.Id];
-            if(targetsRels != null && targetsRels.Any())
+            if (_outgoingRelations.ContainsKey(deletedEntity.Id))
             {
-                foreach(var targetRelId in targetsRels)
+                IEnumerable<IndexRelation> outgoingRels = _outgoingRelations[deletedEntity.Id];
+                if (outgoingRels != null && outgoingRels.Any())
                 {
-                    var targetRel = _relations[targetRelId];
-                    var item = GetItem(targetRel.From.Id);
-                    if (item != null)
+                    outgoingRels = outgoingRels.Where(x => !x.Deleted).ToList();
+                    foreach (var outgoingRel in outgoingRels)
                     {
-                        item.OnConnectedEntityDeleted(deletedEntity.Id, deletedEntity.Entity);
+                        var item = GetItem(outgoingRel.To.Id);
+                        if (item != null)
+                        {
+                            outgoingRel.Deleted = true;
+                            var e = new ConnectedEntityDeletedArgs(deletedEntity, outgoingRel, this);
+                            item.OnConnectedEntityDeleted(e);
+                        }
+                        if (_relations.ContainsKey(outgoingRel.Id))
+                        {
+                            _relations.Remove(outgoingRel.Id);
+                        }
                     }
                 }
+                _outgoingRelations.Remove(deletedEntity.Id);
             }
         }
     }

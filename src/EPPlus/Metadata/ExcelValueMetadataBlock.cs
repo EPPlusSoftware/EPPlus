@@ -15,6 +15,7 @@ using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
@@ -30,12 +31,9 @@ namespace OfficeOpenXml.Metadata
             _metadata = metadata;
             _store = store;
             // A value metadata block can have more than one relation to metadata types via its records
-            _typeRelation = new IndexRelationWithSubRelations(this, RichDataEntities.MetadataType, IndexType.SubRelations);
-            store.AddRelationWithSubRelations(_typeRelation);
+            _typeRelation = store.CreateAndAddRelationWithSubRelations(this, RichDataEntities.MetadataType);
             // A value metadata block can have more than one relation to future metadata blocks via its records
-            _valuesRelation = new IndexRelationWithSubRelations(this, RichDataEntities.RichValue, IndexType.SubRelations);
-            store.AddRelationWithSubRelations(_valuesRelation);
-
+            _valuesRelation = store.CreateAndAddRelationWithSubRelations(this, RichDataEntities.RichValue);
         }
 
         public ExcelValueMetadataBlock(XmlReader xr, ExcelMetadata metadata, RichDataIndexStore store)
@@ -44,11 +42,9 @@ namespace OfficeOpenXml.Metadata
             _metadata = metadata;
             _store = store;
             // A value metadata block can have more than one relation to metadata types via its records
-            _typeRelation = new IndexRelationWithSubRelations(this, RichDataEntities.MetadataType, IndexType.SubRelations);
+            _typeRelation = store.CreateAndAddRelationWithSubRelations(this, RichDataEntities.MetadataType);
             // A value metadata block can have more than one relation to future metadata blocks via its records
-            _valuesRelation = new IndexRelationWithSubRelations(this, RichDataEntities.RichValue, IndexType.SubRelations);
-            store.AddRelationWithSubRelations(_valuesRelation);
-            store.AddRelationWithSubRelations(_typeRelation);
+            _valuesRelation = store.CreateAndAddRelationWithSubRelations(this, RichDataEntities.RichValue);
             while (xr.IsEndElementWithName("bk") == false && xr.EOF == false)
             {
                 if (xr.IsElementWithName("rc"))
@@ -56,7 +52,7 @@ namespace OfficeOpenXml.Metadata
                     var t = int.Parse(xr.GetAttribute("t"));
                     var v = int.Parse(xr.GetAttribute("v"));
                     var type = _metadata.MetadataTypes[t - 1];
-                    var fmt = type.GetFirstTargetByType<FutureMetadataBase>();
+                    var fmt = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
                     var bk = fmt.Blocks[v];
                     AddRecord(type.Id, bk.Id);
                     //Records.Add(new ExcelValueMetadataRecord(metadata, this, t, v, store));
@@ -76,13 +72,13 @@ namespace OfficeOpenXml.Metadata
             _metadata.ValueMetadataRecords.Add(record);
             var type = _metadata.MetadataTypes.Get(typeId);
             var typeRel = _metadata.MetadataTypes.CreateRelation(record, type, IndexType.OneBasedPointer);
-            _typeRelation.SubRelations.Add(typeRel);
-            var fm = type.GetFirstTargetByType<FutureMetadataBase>();
+            _store.AddSubRelation(valueId, typeRel);
+            var fm = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
             if(fm != null)
             {
                 var bk = fm.Blocks.Get(valueId);
                 var valueRel = _metadata.FutureMetadataBlocks.CreateRelation(record, bk, IndexType.ZeroBasedPointer);
-                _valuesRelation.SubRelations.Add(valueRel);
+                _store.AddSubRelation(_valuesRelation.Id, valueRel);
             }
         }
 
@@ -94,12 +90,32 @@ namespace OfficeOpenXml.Metadata
                 foreach(var relation in _valuesRelation.SubRelations)
                 {
                     var item = relation.From as ExcelValueMetadataRecord;
-                    if(item != null)
+                    if(item != null && !item.Deleted)
                     {
                         result.Add(item);
                     }
                 }
                 return result;
+            }
+        }
+
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        {
+            base.OnConnectedEntityDeleted(e);
+            if(e.DeletedEntity.EntityType == RichDataEntities.FutureMetadataRichDataBlock)
+            {
+                var relToDelete = _valuesRelation.SubRelations.FirstOrDefault(x => x.To.Id == e.DeletedEntity.Id);
+                if(relToDelete != null)
+                {
+                    var record = relToDelete.From as ExcelValueMetadataRecord;
+                    // Delete the record that is connected to the deleted entity
+                    relToDelete.From.DeleteMe();
+                }
+            }
+            if(_valuesRelation.SubRelations.Count == 0)
+            {
+                DeleteMe();
+                _metadata.OnValueMetadataBlockDeleted(Id);
             }
         }
     }

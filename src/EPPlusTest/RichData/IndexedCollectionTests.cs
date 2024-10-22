@@ -14,7 +14,6 @@ namespace EPPlusTest.RichData
         [TestMethod]
         public void ReindexTest()
         {
-            IdGenerator.Reset();
             var store = new RichDataIndexStore();
             var coll = new RichValueTestCollection(store);
             var item1 = new RichValueTest(store);

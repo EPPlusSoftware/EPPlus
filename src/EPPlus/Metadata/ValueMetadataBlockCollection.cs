@@ -13,8 +13,6 @@ namespace OfficeOpenXml.Metadata
         {
         }
 
-        public override RichDataEntities EntityType => RichDataEntities.ValueMetadataBlock;
-
         public override void Add(ExcelValueMetadataBlock item)
         {
             base.Add(item);

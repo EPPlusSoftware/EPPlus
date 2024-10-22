@@ -13,6 +13,7 @@
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.Structures.Constants;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -106,6 +107,21 @@ namespace OfficeOpenXml.RichData.Structures
                 }
             }
             return null;
+        }
+
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        {
+            base.OnConnectedEntityDeleted(e);
+            // delete the structure if there is only one rich value left pointing at it
+            // if there is only 1 it means it is the last value that is about to be deleted.
+            if(e.DeletedEntity.EntityType == RichDataEntities.RichValue)
+            {
+                var rels = GetIncomingRelations(x => x.From.EntityType == RichDataEntities.RichValue);
+                if(rels.Count() <= 1)
+                {
+                    DeleteMe();
+                }
+            }
         }
     }
 }

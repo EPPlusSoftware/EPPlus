@@ -223,6 +223,5 @@ namespace OfficeOpenXml.RichData.RichValues
         }
         public string ExtLstXml { get; internal set; }
 
-        public override RichDataEntities EntityType => RichDataEntities.RichValue;
     }
 }

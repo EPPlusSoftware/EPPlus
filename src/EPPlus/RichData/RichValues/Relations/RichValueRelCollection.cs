@@ -62,8 +62,6 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
 
         internal ZipPackagePart Part { get { return _part; } }
 
-        public override RichDataEntities EntityType => RichDataEntities.RichValueRel;
-
         private void ReadXml(Stream stream)
         {
             //var ns = "http://schemas.openxmlformats.org/package/2006/relationships";
@@ -130,8 +128,7 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
                 Type = relationship.RelationshipType
             };
             Items.Add(rvRel);
-            rel = new IndexRelation(relationOwner, rvRel, IndexType.ZeroBasedPointer);
-            _indexStore.AddRelation(rel);
+            rel = _indexStore.CreateAndAddRelation(relationOwner, rvRel, IndexType.ZeroBasedPointer);
             return rvRel;
         }
 

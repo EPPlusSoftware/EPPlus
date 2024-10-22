@@ -52,8 +52,6 @@ namespace OfficeOpenXml.RichData.Structures
             LoadPart(wb);
         }
 
-        public override RichDataEntities EntityType => RichDataEntities.RichStructure;
-
         private void LoadPart(ExcelWorkbook wb)
         {
             if (wb._package.ZipPackage.PartExists(_uri))

@@ -19,9 +19,17 @@ namespace OfficeOpenXml.RichData.IndexRelations
 {
     internal abstract class IdentityItem : IComparable<IdentityItem>
     {
-        protected IdentityItem()
+        protected IdentityItem(RichDataIndexStore store)
         {
-            _id = IdGenerator.GetNewId();
+            if(store != null)
+            {
+                _id = store.GetNewId();
+            }
+        }
+
+        protected IdentityItem(uint id)
+        {
+            _id = id;
         }
 
         private readonly uint _id;

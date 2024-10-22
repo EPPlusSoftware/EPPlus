@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
-    internal class IndexedSubsetCollection<T>
+    /// <summary>
+    /// A filter on an <see cref="IndexedCollection{T}"/>. Only values that will are added via this wrapper will be returned.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    internal class IndexedSubsetCollection<T> : IEnumerable<T>
         where T : IndexEndpoint
     {
         public IndexedSubsetCollection(IndexedCollection<T> coll)
@@ -32,44 +37,6 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         public int Count => _items.Count;
 
-        public T First()
-        {
-            return FirstOrDefault();
-        }
-
-        public T First(Predicate<T> predicate)
-        {
-            return FirstOrDefault(predicate);
-        }
-
-        public T FirstOrDefault()
-        {
-            if (_items.Count == 0)
-            {
-                return null;
-            }
-            var id = _items[0];
-            return _collection.GetItem(id) as T;
-        }
-
-        public T FirstOrDefault(Predicate<T> predicate)
-        {
-            if (_items.Count == 0)
-            {
-                return null;
-            }
-            for (var ix = 0; ix < _items.Count; ix++)
-            {
-                var id = _items[ix];
-                var item = _collection.GetItem(id) as T;
-                if (item != default && predicate.Invoke(item))
-                {
-                    return item;
-                }
-            }
-            return null;
-        }
-
         public T Get(uint id)
         {
             if(!_itemIds.Contains(id))
@@ -77,6 +44,19 @@ namespace OfficeOpenXml.RichData.IndexRelations
                 return null;
             }
             return _collection.Get(id);
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            foreach(var id in _items)
+            {
+                yield return _collection.Get(id);
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public T this[int index]

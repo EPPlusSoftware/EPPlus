@@ -20,6 +20,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
     internal class IndexEndpoint : IdentityItem
     {
         public IndexEndpoint(RichDataIndexStore store, RichDataEntities entity)
+            : base(store)
         {
             _store = store;
             _entity = entity;
@@ -27,7 +28,12 @@ namespace OfficeOpenXml.RichData.IndexRelations
         }
 
         private IndexEndpoint(RichDataEntities entity)
+            : base(uint.MaxValue)
         {
+            if(entity != RichDataEntities.None)
+            {
+                throw new InvalidOperationException("This constructor can only be used for defining constant instances of IndexEndpoints");
+            }
             _entity = entity;
         }
 
@@ -37,7 +43,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         public static IndexEndpoint None = new IndexEndpoint(RichDataEntities.None);
 
-        public RichDataEntities Entity => _entity;
+        public RichDataEntities EntityType => _entity;
 
         private bool _deleted;
         public bool Deleted => _deleted;
@@ -50,7 +56,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         public int? GetIndex()
         {
-            return _store.GetIndexById(Id, Entity);
+            return _store.GetIndexById(Id, EntityType);
         }
 
         public virtual void InitRelations()
@@ -58,7 +64,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         }
 
-        public virtual void OnConnectedEntityDeleted(uint entityId, RichDataEntities deletedEntity)
+        public virtual void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
         {
 
         }
@@ -67,7 +73,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         {
             get
             {
-                var targets = _store.GetRelationTargets(Id);
+                var targets = _store.GetOutgoingRelations(Id);
                 if (targets != null && targets.Any())
                 {
                     var target = targets.First();
@@ -81,7 +87,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         {
             get
             {
-                var targets = _store.GetRelationTargets(Id);
+                var targets = _store.GetOutgoingRelations(Id);
                 if (targets != null && targets.Any())
                 {
                     var target = targets.First();
@@ -109,7 +115,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
                 var parentRel = relation as IndexRelationWithSubRelations;
                 if(parentRel != null && parentRel.SubRelations.Any())
                 {
-                    var subrel =  parentRel.SubRelations.FirstOrDefault(x => x.To.Entity == entityType);
+                    var subrel =  parentRel.SubRelations.FirstOrDefault(x => x.To.EntityType == entityType);
                     if(subrel != null && subrel.To is T result)
                     {
                         subRelation = subrel;
@@ -122,39 +128,49 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         public IEnumerable<IndexRelation> GetOutgoingRelations()
         {
-            return _store.GetRelationTargets(Id);
+            return _store.GetOutgoingRelations(Id);
         }
 
         public IEnumerable<IndexRelation> GetOutgoingRelations(Func<IndexRelation, bool> filter)
         {
-            return _store.GetRelationTargets(Id, filter);
+            return _store.GetOutgoingRelations(Id, filter);
         }
 
         public IEnumerable<IndexRelation> GetIncomingRelations()
         {
-            return _store.GetRelationPointers(Id);
+            return _store.GetIncomingRelations(Id);
         }
 
         public IEnumerable<IndexRelation> GetIncomingRelations(Func<IndexRelation, bool> filter)
         {
-            return _store.GetRelationPointers(Id, filter);
+            return _store.GetIncomingRelations(Id, filter);
         }
 
-        public T GetFirstTargetByType<T>()
+        public bool HasIncomingRelationOfType(RichDataEntities entityType)
+        {
+            var rels = _store.GetIncomingRelations(Id);
+            foreach(var rel in rels)
+            {
+                if (rel.From.EntityType == entityType) return true;
+            }
+            return false;
+        }
+
+        public T GetFirstOutgoingRelByType<T>()
             where T : IndexEndpoint
         {
-            return GetFirstTargetByType<T>(x => true);
+            return GetFirstOutgoingRelByType<T>(x => true);
         }
 
-        public T GetFirstTargetByType<T>(Func<IndexRelation, bool> filter)
+        public T GetFirstOutgoingRelByType<T>(Func<IndexRelation, bool> filter)
             where T : IndexEndpoint
         {
             var entityType = _store.GetEntityByType(typeof(T));
-            var targets = _store.GetRelationTargets(Id);
+            var targets = _store.GetOutgoingRelations(Id);
 
             if (targets != null && targets.Any())
             {
-                var targetRelation = targets.FirstOrDefault(x => (filter.Invoke(x)) && x.To.Entity == entityType && !x.To.Deleted);
+                var targetRelation = targets.FirstOrDefault(x => (filter.Invoke(x)) && x.To.EntityType == entityType && !x.To.Deleted);
                 if (targetRelation != null)
                 {
                     return targetRelation.To as T;
@@ -162,6 +178,58 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
             }
             return default;
+        }
+
+        public T GetFirstIncomingRelByType<T>()
+            where T : IndexEndpoint
+        {
+            return GetFirstIncomingRelByType<T>(x => true);
+        }
+
+        public T GetFirstIncomingRelByType<T>(Func<IndexRelation, bool> filter)
+           where T : IndexEndpoint
+        {
+            var entityType = _store.GetEntityByType(typeof(T));
+            var pointers = _store.GetIncomingRelations(Id);
+
+            if (pointers != null && pointers.Any())
+            {
+                var pointerRelation = pointers.FirstOrDefault(x => (filter.Invoke(x)) && x.From.EntityType == entityType && !x.From.Deleted);
+                if (pointerRelation != null)
+                {
+                    return pointerRelation.From as T;
+                }
+
+            }
+            return default;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            var otherEndpoint = obj as IndexEndpoint;
+            if(otherEndpoint == null) return false;
+            return otherEndpoint.Id == Id;
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+        public static bool operator ==(IndexEndpoint left, IndexEndpoint right)
+        {
+            if (ReferenceEquals(left, null))
+            {
+                return ReferenceEquals(right, null);
+            }
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(IndexEndpoint left, IndexEndpoint right)
+        {
+            return !(left == right);
         }
     }
 }

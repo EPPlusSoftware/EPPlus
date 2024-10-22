@@ -17,18 +17,17 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
-    internal class IdGenerator
+    internal class ConnectedEntityDeletedArgs : EventArgs
     {
-        private uint _nextId = 0;
-        private static readonly object _lock = new();
-
-        public uint GetNewId()
+        public ConnectedEntityDeletedArgs(IndexEndpoint deletedEntity, IndexRelation relation, RichDataIndexStore store) 
         {
-            if(_nextId >= uint.MaxValue - 2)
-            {
-                throw new OverflowException("Cannot assign new Id");
-            }
-            return ++_nextId;
+            DeletedEntity = deletedEntity;
+            Relation = relation;
+            IndexStore = store;
         }
+        public IndexEndpoint DeletedEntity { get; private set; }
+        public IndexRelation Relation { get; private set; }
+
+        public RichDataIndexStore IndexStore { get; private set; }
     }
 }

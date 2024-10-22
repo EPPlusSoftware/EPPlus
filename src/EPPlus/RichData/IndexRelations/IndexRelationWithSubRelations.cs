@@ -19,7 +19,8 @@ namespace OfficeOpenXml.RichData.IndexRelations
 {
     internal class IndexRelationWithSubRelations : IndexRelation
     {
-        public IndexRelationWithSubRelations(IndexEndpoint from, RichDataEntities subrelationEntity, IndexType indexType) : base(from, IndexEndpoint.None, indexType)
+        public IndexRelationWithSubRelations(RichDataIndexStore store, IndexEndpoint from, RichDataEntities subrelationEntity, IndexType indexType)
+            : base(store, from, IndexEndpoint.None, indexType, IndexRelationType.SubRelations)
         {
             SubRelations = new List<IndexRelation>();
         }
