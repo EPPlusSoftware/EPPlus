@@ -13,6 +13,7 @@
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.Extensions;
 using System;
+using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Xml;
@@ -131,14 +132,23 @@ namespace OfficeOpenXml.Drawing.Slicer
             int x = 0;
             if (_cache._field == null) return;
 
-            foreach (var item in _cache._field.Items)
+            foreach (var item in _cache._field.Items.OrderBy(x=>x.X))
             {
                 if (item.Type == eItemType.Data)
                 {
-                    if (IsHidden(item))
-                        sb.Append($"<i x=\"{x++}\" />");
-                    else
-                        sb.Append($"<i x=\"{x++}\" s=\"1\"/>");
+                    sb.Append($"<i x=\"{item.X}\" ");
+
+                    if (item.Value is PivotNull)
+                    {
+                        sb.Append("nd=\"1\" ");
+                    }
+
+                    if (IsHidden(item)==false)
+                    {
+                        sb.Append($"s=\"1\" ");
+                    }
+
+                    sb.Append($"/>");
                 }
             }
 

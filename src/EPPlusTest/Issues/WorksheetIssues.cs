@@ -477,5 +477,17 @@ namespace EPPlusTest.Issues
                 worksheet.DeleteRow(256);
             }
         }
+        [TestMethod]
+        public void s746()
+		{
+            using (var p = OpenTemplatePackage("s746.xlsm"))
+            {
+                var workbook = p.Workbook;
+                var worksheet = workbook.Worksheets["Sheet1"];
+                workbook.Worksheets["Sheet1"].Columns[2].Width = 100; //Commenting this line out stops the error.
+				SaveAndCleanup(p);
+
+            }
+        }
     }
 }
