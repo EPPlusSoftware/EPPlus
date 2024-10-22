@@ -12,47 +12,29 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.IO;
-using OfficeOpenXml.Utils;
+using System.Xml;
 
 namespace OfficeOpenXml.RichData.Types
 {
-    internal class ExcelRichTypeValueKey
+    internal class ExcelRichTypeValueKeyFlag
     {
-        public ExcelRichTypeValueKey(string name)
+        public ExcelRichTypeValueKeyFlag(RichValueKeyFlags flag, bool value)
         {
-            Name = name;
-            Flags = new List<ExcelRichTypeValueKeyFlag>();
-        }
-        public string Name { get; set; }
-        public List<ExcelRichTypeValueKeyFlag> Flags { get; set; }
-
-        internal void WriteXml(StreamWriter sw)
-        {
-            sw.Write($"<key name=\"{Name.EncodeXMLAttribute()}\">");
-            foreach (var flag in Flags)
-            {
-                flag.WriteXml(sw);
-
-            }
-            sw.Write("</key>");
+            Flag = flag;
+            Value = value;
         }
 
-        private IEnumerable<T> GetEnumFlags<T>(T flags) where T : Enum
+        public RichValueKeyFlags Flag { get; }
+        public bool Value { get; }
+
+
+        public void WriteXml(StreamWriter sr)
         {
-            var l = new List<T>();
-            var fAll = Convert.ToInt32(flags);
-            foreach (T f in Enum.GetValues(typeof(T)))
-            {
-                var i = Convert.ToInt32(f);
-                if ((i & fAll) == i)
-                {
-                    l.Add(f);
-                }
-            }
-            return l;
+            var val = Value ? "1" : "0";
+            sr.Write($"<flag name=\"{Flag.ToString()}\" value=\"{val}\" />");
         }
     }
 }

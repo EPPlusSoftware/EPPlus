@@ -73,10 +73,10 @@ namespace OfficeOpenXml.RichData
                 }
                 else if (xr.IsElementWithName("fb"))
                 {
-                    item.Fallback = GetFBType(xr.GetAttribute("t"));
-                    xr.Read();
+                    item.FallbackType = GetFBType(xr.GetAttribute("t"));
+                    item.FallbackValue = xr.ReadElementContentAsString();
                 }
-                else 
+                else
                 {
                     xr.Read();
                 }

@@ -45,8 +45,8 @@ namespace OfficeOpenXml.Table.PivotTable
             Number = 0x8,
             DateTime = 0x10,
             Boolean = 0x20,
-            Error = 0x30,
-            Float = 0x40,
+            Error = 0x40,
+            Float = 0x80,
         }
         internal PivotTableCacheInternal _cache;
         internal ExcelPivotTableCacheField(XmlNamespaceManager nsm, XmlNode topNode, PivotTableCacheInternal cache, int index) : base(nsm, topNode)
@@ -165,15 +165,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 flags != (DataTypeFlags.Int | DataTypeFlags.Float | DataTypeFlags.Number | DataTypeFlags.Empty) &&
                 SharedItems.Count > 1)
             {
-                if ((flags & DataTypeFlags.String) == DataTypeFlags.String ||
-                    (flags & DataTypeFlags.String) == DataTypeFlags.Empty)
-                {
-                    shNode.SetAttribute("containsMixedTypes", "1");
-                }
-                else
-                {
-                    shNode.SetAttribute("containsMixedTypes", "1");
-                }
+                shNode.SetAttribute("containsMixedTypes", "1");
                 SetFlags(shNode, flags);
                 
                 //Grouped fields need to have the max and min values set.
@@ -341,6 +333,7 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             if((flags & DataTypeFlags.DateTime) == DataTypeFlags.DateTime)
             {
+ 
                 shNode.SetAttribute("containsDate", "1");
                 if(flags == DataTypeFlags.DateTime)
                 {
