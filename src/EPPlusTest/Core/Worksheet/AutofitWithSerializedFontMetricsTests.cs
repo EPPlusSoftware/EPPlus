@@ -320,10 +320,10 @@ namespace EPPlusTest.Core.Worksheet
         {
             using (var p = new ExcelPackage())
             {
-                var expectedLoaded = 895;
+                var expectedLoaded = 897;
                 if (FontSize._isLoaded == false)
                 {
-                    var expectedDefault = 23;
+                    var expectedDefault = 25;
                     Assert.AreEqual(expectedDefault, FontSize.FontHeights.Count);
                     Assert.AreEqual(expectedDefault, FontSize.FontWidths.Count);
                 }
