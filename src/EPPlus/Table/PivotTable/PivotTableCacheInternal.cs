@@ -224,7 +224,8 @@ namespace OfficeOpenXml.Table.PivotTable
             //Add fields.
             var index = 0;
             _fields = new List<ExcelPivotTableCacheField>();
-            foreach (XmlNode node in CacheDefinitionXml.DocumentElement.SelectNodes("d:cacheFields/d:cacheField", NameSpaceManager))
+            var cacheNodes = CacheDefinitionXml.DocumentElement.SelectNodes("d:cacheFields/d:cacheField", NameSpaceManager);
+            foreach (XmlNode node in cacheNodes)
             {
                 _fields.Add(new ExcelPivotTableCacheField(NameSpaceManager, node, this, index++));
             }

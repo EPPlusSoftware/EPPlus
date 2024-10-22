@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
@@ -190,6 +191,7 @@ namespace OfficeOpenXml
                 }
                 return _values[val];
             }
+            
         }
 
         /// <summary>
@@ -301,7 +303,7 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return (int)Type;
         }
         /// <summary>
         /// Checks if the object is equals to another
@@ -310,8 +312,11 @@ namespace OfficeOpenXml
         /// <returns>True if equals</returns>
         public override bool Equals(object obj)
         {
-            if (!(obj is ExcelErrorValue)) return false;
-            return ((ExcelErrorValue) obj).ToString() == this.ToString();
+            if (obj is ExcelErrorValue t)
+            {
+                return t.Type == Type;
+            }
+            return false;            
         }
     }
 }

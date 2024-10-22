@@ -6221,6 +6221,19 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void s745()
+        {
+            using (var package = OpenTemplatePackage("s745.xlsx"))
+            {
+                var workbook = package.Workbook;
+
+                var worksheet = workbook.Worksheets["Sheet2"];
+                worksheet.Tables["Table2"].AddRow(2);
+            }
+        }
+
         [TestMethod]
         public void i1626()
         {
@@ -6234,5 +6247,7 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        
     }
 }
