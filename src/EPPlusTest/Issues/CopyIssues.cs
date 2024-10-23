@@ -82,6 +82,7 @@ namespace EPPlusTest.Issues
                 }
             }
         }
+        [TestMethod]
         public void i1645()
         {
             using (var package = OpenTemplatePackage("i1645.xlsx"))
