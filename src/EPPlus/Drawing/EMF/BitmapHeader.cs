@@ -45,14 +45,15 @@ namespace OfficeOpenXml.Drawing.EMF
         internal uint nImportantColors; //0 when all are. Generally ignored.
 
         internal CompressionMethod ReadCompression;
-        internal byte[] ByteArrIfUnhandled;
+        internal byte[] ByteArrIfUnhandled = null;
 
         internal BitmapHeader(BinaryReader br, uint HeaderSize)
         {
-            if(HeaderSize == 40)
+            sizeOfHeader = br.ReadUInt32();
+
+            if (sizeOfHeader == 40)
             {
                 //Windows bitmapInfoHeader
-                sizeOfHeader = br.ReadUInt32();
                 pixelWidth = br.ReadInt32();
                 pixelHeight = br.ReadInt32();
                 colorPlanes = br.ReadUInt16();
@@ -68,9 +69,45 @@ namespace OfficeOpenXml.Drawing.EMF
             }
             else
             {
-                ByteArrIfUnhandled = br.ReadBytes((int)HeaderSize);
+                ByteArrIfUnhandled = br.ReadBytes((int)HeaderSize - 4);
             }
         }
+
+        internal int offset;
+
+        //Reading raw file
+        internal BitmapHeader(BinaryReader br)
+        {
+            var sign = Encoding.ASCII.GetString(br.ReadBytes(2));    //BM for a Windows bitmap
+
+            var size = br.ReadInt32();
+            var reserved = br.ReadBytes(4);
+            offset = br.ReadInt32();
+
+            //Windows bitmapInfoHeader
+            sizeOfHeader = br.ReadUInt32();
+
+            if (sizeOfHeader == 40)
+            {
+                pixelWidth = br.ReadInt32();
+                pixelHeight = br.ReadInt32();
+                colorPlanes = br.ReadUInt16();
+                colorDepth = br.ReadUInt16();
+                compressionMethod = br.ReadUInt32();
+                ReadCompression = (CompressionMethod)compressionMethod;
+
+                imageSize = br.ReadUInt32();
+                hRes = br.ReadInt32();
+                vRes = br.ReadInt32();
+                nColors = br.ReadUInt32();
+                nImportantColors = br.ReadUInt32();
+            }
+            else
+            {
+                ByteArrIfUnhandled = br.ReadBytes((int)sizeOfHeader);
+            }
+        }
+
 
         internal void WriteBytes(BinaryWriter bw)
         {

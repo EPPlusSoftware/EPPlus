@@ -34,12 +34,19 @@ namespace OfficeOpenXml.Drawing.EMF
                 _bitsSrc = value;
                 cbBitsSrc = (uint)_bitsSrc.Length;
                 Size += (uint)_bitsSrc.Length;
+                if(Size % 4 != 0)
+                {
+                    int paddingBytes = (int)(4 - (Size % 4)) % 4;
+                    EndPadding = new byte[paddingBytes];
+                    Size += (uint)paddingBytes;
+                }
             }
         }
         internal BitmapHeader bitMapHeader;
 
         internal byte[] Padding1;
         internal byte[] Padding2;
+        internal byte[] EndPadding;
 
         internal EMR_STRETCHDIBITS(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
@@ -66,6 +73,7 @@ namespace OfficeOpenXml.Drawing.EMF
             if(br.BaseStream.Position < startOfHeader)
             {
                 int padding = (int)(startOfHeader - br.BaseStream.Position);
+                Padding1 = new byte[padding];
                 br.Read(Padding1, 0, padding);
             }
 
@@ -79,6 +87,7 @@ namespace OfficeOpenXml.Drawing.EMF
             if (br.BaseStream.Position < startOfBitmapBits)
             {
                 int padding = (int)(startOfBitmapBits - br.BaseStream.Position);
+                Padding2 = new byte[padding];
                 br.Read(Padding2, 0, padding);
             }
 
@@ -87,6 +96,14 @@ namespace OfficeOpenXml.Drawing.EMF
 
             //Source bitmap bits
             _bitsSrc = br.ReadBytes((int)cbBitsSrc);
+
+            int tempPadding = (int)((position + Size) - br.BaseStream.Position);
+            if (tempPadding < 0)
+            {
+                EndPadding = new byte[0];
+                return;
+            }
+            EndPadding = br.ReadBytes(tempPadding);
         }
 
         internal override void WriteBytes(BinaryWriter bw)
@@ -117,6 +134,7 @@ namespace OfficeOpenXml.Drawing.EMF
                 bw.Write(Padding2);
             }
             bw.Write(BitsSrc);
+            bw.Write(EndPadding);
         }
     }
 }

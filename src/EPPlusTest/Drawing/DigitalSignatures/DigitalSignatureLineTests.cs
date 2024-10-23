@@ -6,7 +6,6 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using OfficeOpenXml;
 using OfficeOpenXml.DigitalSignatures;
-using OfficeOpenXml.Drawing;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
