@@ -6222,5 +6222,33 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void s745()
+        {
+            using (var package = OpenTemplatePackage("s745.xlsx"))
+            {
+                var workbook = package.Workbook;
+
+                var worksheet = workbook.Worksheets["Sheet2"];
+                worksheet.Tables["Table2"].AddRow(2);
+            }
+        }
+
+        [TestMethod]
+        public void i1626()
+        {
+            using (var package = OpenTemplatePackage("i1626.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+
+                var pictures = sheet.Drawings.Where(x => x.DrawingType == eDrawingType.Picture).Select(x => x.As.Picture);
+                var pic = pictures.First();
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        
     }
 }

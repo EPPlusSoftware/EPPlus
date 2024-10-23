@@ -3,7 +3,10 @@
 
 
 * Deleting and adding a table with multiple worksheets no longer gives the added table an invalid id. 
-
+* Ensured ExcelPictures are sized correctly when copying worksheets
+* Fixed issue where adding rows to a Table that contained error values would throw error or generate a corrupt workbook. When the table was the source range of a pivot table.
+* Fixed ExcelErrorValues GetHashCode and Equals methods to return appropriate Type value.
+* Fixed incorrect datatype flags for ExcelPivotTableCacheField.
 ## Version 7.4.1
 * Updated for vulnerability in System.Text.Json 8.0.4 - Microsoft.Extensions.Configuration.Json 8.0.0 -> 8.0.1
 

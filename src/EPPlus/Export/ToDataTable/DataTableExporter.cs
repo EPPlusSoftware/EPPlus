@@ -77,7 +77,11 @@ namespace OfficeOpenXml.Export.ToDataTable
                     var col = mapping.ZeroBasedColumnIndexInRange + fromCol;
                     var val = _options.DataIsTransposed ? _sheet.GetValue(col, row) : _sheet.GetValue(row, col);
                     if (val != null && rowIsEmpty) rowIsEmpty = false;
-                    if(!mapping.AllowNull && val == null)
+                    if (mapping.TransformCellValue != null)
+                    {
+                        val = mapping.TransformCellValue.Invoke(val);
+                    }
+                    if (!mapping.AllowNull && val == null)
                     {
                         rowErrorMsg = $"Value cannot be null, row: {row}, col: {col}";
                         rowErrorExists = true;
@@ -95,10 +99,6 @@ namespace OfficeOpenXml.Export.ToDataTable
                                 val = null;
                                 break;
                         }
-                    }
-                    if(mapping.TransformCellValue != null)
-                    {
-                        val = mapping.TransformCellValue.Invoke(val);
                     }
                     var type = mapping.ColumnDataType;
                     if(type == null)
