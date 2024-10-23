@@ -14,13 +14,16 @@ namespace EPPlusTest
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("EmfSheet");
-                var path = "C:\\epplusTest\\Workbooks\\UnsignedWithDescriptorsOrigBackup.emf";
+
+                var path = GetTemplateFile("UnsignedWithDescriptorsOrigBackup.emf").FullName;
 
                 var emf = new EmfImage();
                 emf.Read(path);
 
                 var record = (EMR_EXTTEXTOUTW)emf.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).First();
-                emf.Save("C:\\epplusTest\\Workbooks\\Generated.emf");
+
+                var outputPath = GetOutputFile("", "Generated.emf").FullName;
+                emf.Save(outputPath);
             }
         }
 
@@ -32,12 +35,14 @@ namespace EPPlusTest
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("EmfSheet");
 
-                var path = "C:\\epplusTest\\Workbooks\\Generated.emf";
+                var path = GetTemplateFile("Generated.emf").FullName;
 
                 var emf = new EmfImage();
                 emf.Read(path);
 
-                emf.Save("C:\\epplusTest\\Workbooks\\GeneratedTwo.emf");
+
+                var outputPath = GetOutputFile("", "GeneratedTwo.emf").FullName;
+                emf.Save(outputPath);
             }
         }
 
@@ -45,7 +50,10 @@ namespace EPPlusTest
         public void ReadEmfAlt()
         {
             var emfImage = new EmfImage();
-            emfImage.Read("C:\\epplusTest\\Testoutput\\LongName.emf");
+
+            var path = GetTemplateFile("LongName.emf").FullName;
+
+            emfImage.Read(path);
 
             var textRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Skip(2);
             var arr = textRecordArr.ToArray();
@@ -58,14 +66,18 @@ namespace EPPlusTest
             var longIndex = emfImage.records.IndexOf(longName);
             var signerIndex = emfImage.records.IndexOf(suggestedSigner);
 
-            emfImage.Save("C:\\epplusTest\\Testoutput\\ChangeFontOutput.emf");
+            var outputPath = GetOutputFile("", "ChangeFontOutput.emf").FullName;
+
+            emfImage.Save(outputPath);
         }
 
         [TestMethod]
         public void CheckOGImage()
         {
             var emfImage = new EmfImage();
-            emfImage.Read("C:\\epplusTest\\Testoutput\\OG_image1.emf");
+            var path = GetTemplateFile("OG_image1.emf").FullName;
+
+            emfImage.Read(path);
 
             var textRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW);
             var fontRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTCREATEFONTINDIRECTW);
@@ -83,7 +95,9 @@ namespace EPPlusTest
             validTemplate.suggestedTitleObject.Text = "TemplateTitle";
             validTemplate.SignedBy = "TemplateName";
 
-            validTemplate.Save("C:\\epplusTest\\Testoutput\\ValidSignatureTemplate2.emf");
+            var outputPath = GetOutputFile("", "ValidSignatureTemplate2.emf").FullName;
+
+            validTemplate.Save(outputPath);
         }
         [TestMethod]
         public void CheckInvalidTemplate()
@@ -96,7 +110,9 @@ namespace EPPlusTest
             invalidTemplate.suggestedTitleObject.Text = "TemplateTitle";
             invalidTemplate.SignedBy = "TemplateName";
 
-            invalidTemplate.Save("C:\\epplusTest\\Testoutput\\InvalidSignatureTemplate2.emf");
+            var outputPath = GetOutputFile("", "InvalidSignatureTemplate2.emf").FullName;
+
+            invalidTemplate.Save(outputPath);
         }
     }
 }
