@@ -31,8 +31,6 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
         private ExcelWorkbook _wb;
         ZipPackagePart _part;
 
-        public List<RichValueRel> Items { get; } = new List<RichValueRel>();
-
         public RichValueRelCollection(ExcelWorkbook wb) : base(wb.IndexStore, RichDataEntities.RichValueRel)
         {
             _wb = wb;
@@ -73,7 +71,7 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
             {
                 if (xr.IsElementWithName("rel"))
                 {
-                    Items.Add(ReadItem(xr));
+                    Add(ReadItem(xr));
                 }
             }
         }
@@ -81,7 +79,7 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
         private RichValueRel ReadItem(XmlReader xr)
         {
             var ns = "http://schemas.openxmlformats.org/package/2006/relationships";
-            var item = new RichValueRel(_wb.IndexStore);
+            var item = new RichValueRel(_wb, _part);
 
             var id = xr.GetAttribute("r:id");
             var rel = _part.GetRelationship(id);
@@ -121,13 +119,13 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
             }
 
             var relationship = _part.CreateRelationship(targetUri, TargetMode.Internal, type);
-            var rvRel = new RichValueRel(_wb.IndexStore)
+            var rvRel = new RichValueRel(_wb, _part)
             {
                 RelationId = relationship.Id,
                 TargetUri = relationship.TargetUri,
                 Type = relationship.RelationshipType
             };
-            Items.Add(rvRel);
+            Add(rvRel);
             rel = _indexStore.CreateAndAddRelation(relationOwner, rvRel, IndexType.ZeroBasedPointer);
             return rvRel;
         }
@@ -169,7 +167,7 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
             var sw = new StreamWriter(stream);
             sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
             sw.Write($"<richValueRels xmlns=\"{Schemas.schemaRichValueRel}\" xmlns:r=\"{ExcelPackage.schemaRelationships}\">");
-            foreach (var item in Items)
+            foreach (var item in this)
             {
                 item.WriteXml(sw);
             }

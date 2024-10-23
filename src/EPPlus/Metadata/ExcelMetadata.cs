@@ -279,7 +279,7 @@ namespace OfficeOpenXml.Metadata
         //    return fm;
         //}
 
-        internal void CreateRichValueMetadata(ExcelRichData richData, ExcelRichValue richValue, out int valueMetadataIndex)
+        internal void CreateRichValueMetadata(ExcelRichData richData, ExcelRichValue richValue, out uint valueMetadataBlockId)
         {
             if(!_metadataTypeNames.Contains(FutureMetadataBase.RICHDATA_NAME))
             {
@@ -297,6 +297,7 @@ namespace OfficeOpenXml.Metadata
                 FutureMetadata.Add(FutureMetadataRichValue);
             }
             var block = new FutureMetadataRichValueBlock(_wb.IndexStore);
+            valueMetadataBlockId = block.Id;
             var rvIx = richData.Values.GetIndexById(richValue.Id);
             if(!rvIx.HasValue)
             {
@@ -308,7 +309,7 @@ namespace OfficeOpenXml.Metadata
             var rel = richData.Values.CreateRelation(block, rvIx.Value, IndexType.ZeroBasedPointer);
             block.RichDataId = rel.To.Id;
             mdItem.AddRecord(rdTypeId, rel.From.Id);
-            valueMetadataIndex = ValueMetadata.Count;
+            //valueMetadataIndex = ValueMetadata.Count;
             //var fmdRichDataCollection = GetFutureMetadataRichDataCollection();
             //var rdItem = new ExcelFutureMetadataRichData(richData.Values.Items.Count - 1);
             //fmdRichDataCollection.Types.Add(rdItem);
@@ -545,11 +546,15 @@ namespace OfficeOpenXml.Metadata
             return false;
         }
 
-        internal bool IsRichData(int vm, out uint? richValueId)
+        internal bool IsRichData(uint valueMetadataBlockId, out uint? richValueId)
         {
             richValueId = null;
-            if (vm > ValueMetadata.Count) return false;
-            var valueMetadata = ValueMetadata[vm - 1];
+            if (valueMetadataBlockId == 0) return false;
+            var valueMetadata = ValueMetadata.Get(valueMetadataBlockId);
+            if (valueMetadata == null)
+            {
+                return false;
+            }
             var metadataType = valueMetadata.GetFirstOutgoingSubRelation<ExcelMetadataType>();
             if (metadataType == null || metadataType.Name != FutureMetadataBase.RICHDATA_NAME) return false;
             var futureMetadata = metadataType.GetFirstOutgoingRelByType<FutureMetadataBase>();

@@ -207,7 +207,7 @@ namespace OfficeOpenXml.CellPictures
 
         public void RemoveCellPicture(int row, int col)
         {
-            if (!_richDataStore.HasRichData(row, col, out int vm)) return;
+            if (!_richDataStore.HasRichData(row, col, out uint vmId)) return;
             var richData = _richDataStore.GetRichValue(row, col, StructureTypes.LocalImage);
             if(richData != null)
             {

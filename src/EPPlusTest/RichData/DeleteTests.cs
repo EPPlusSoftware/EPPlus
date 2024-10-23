@@ -9,6 +9,7 @@ using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.RichValues.LocalImage;
 using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.RichData.Structures;
+using EPPlusTest.Properties;
 
 namespace EPPlusTest.RichData
 {
@@ -112,6 +113,40 @@ namespace EPPlusTest.RichData
             Assert.IsTrue(rv.Deleted);
             Assert.IsTrue(bk.Deleted);
             Assert.IsTrue(type.Deleted);
+        }
+
+        [TestMethod]
+        public void DeletedLocalImageShouldRemoveRelationAndPicture()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            var imageBytes = Resources.Png2ByteArray;
+            sheet.Cells["A1"].SetCellPicture(imageBytes);
+
+            Assert.AreEqual(1, package.Workbook.Metadata.ValueMetadata.Count);
+            Assert.AreEqual(1, package.Workbook.Metadata.MetadataTypes.Count);
+            Assert.AreEqual(1, package.Workbook.Metadata.FutureMetadataBlocks.Count);
+            Assert.AreEqual(1, package.Workbook.RichData.Values.Count);
+            Assert.AreEqual(1, package.Workbook.RichData.Structures.Count);
+            Assert.AreEqual(1, package.Workbook.RichData.RichValueRels.Count);
+            Assert.IsTrue(package.Workbook.RichData.RichValueRels.Part.RelationshipExists("rId1"));
+            var pic = package.PictureStore.GetImageInfo(imageBytes);
+            Assert.IsNotNull(pic);
+
+            var bk = package.Workbook.Metadata.ValueMetadata.First();
+            bk.Records.First().DeleteMe();
+            package.Workbook.IndexStore.ReIndex();
+
+            Assert.AreEqual(0, package.Workbook.Metadata.ValueMetadata.Count);
+            Assert.AreEqual(0, package.Workbook.Metadata.MetadataTypes.Count);
+            Assert.AreEqual(0, package.Workbook.Metadata.FutureMetadataBlocks.Count);
+            Assert.AreEqual(0, package.Workbook.RichData.Values.Count);
+            Assert.AreEqual(0, package.Workbook.RichData.Structures.Count);
+            Assert.AreEqual(0, package.Workbook.RichData.RichValueRels.Count);
+            Assert.IsFalse(package.Workbook.RichData.RichValueRels.Part.RelationshipExists("rId1"));
+            pic = package.PictureStore.GetImageInfo(imageBytes);
+            Assert.IsNull(pic);
+
         }
     }
 }

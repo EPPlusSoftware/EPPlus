@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OfficeOpenXml.Metadata
 {
-    internal class ValueMetadataBlockDeletedArgs
+    internal class ValueMetadataBlockDeletedArgs : EventArgs
     {
         public uint ValueMetadataBlockId
         {

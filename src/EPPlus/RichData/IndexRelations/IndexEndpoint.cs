@@ -24,7 +24,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         {
             _store = store;
             _entity = entity;
-            _originalIndex = store.GetNextIndex(entity);
+            //_originalIndex = store.GetNextIndex(entity);
         }
 
         private IndexEndpoint(RichDataEntities entity)
@@ -38,8 +38,16 @@ namespace OfficeOpenXml.RichData.IndexRelations
         }
 
         private readonly RichDataEntities _entity;
-        private readonly int _originalIndex;
+        //private readonly int _originalIndex;
         private readonly RichDataIndexStore _store;
+        
+        public EventHandler<EndpointDeletedArgs> EndpointDeleted;
+
+        private void OnEndpointDeleted()
+        {
+            var args = new EndpointDeletedArgs(Id);
+            EndpointDeleted?.Invoke(this, args);
+        }
 
         public static IndexEndpoint None = new IndexEndpoint(RichDataEntities.None);
 
@@ -48,10 +56,15 @@ namespace OfficeOpenXml.RichData.IndexRelations
         private bool _deleted;
         public bool Deleted => _deleted;
 
-        public virtual void DeleteMe()
+        /// <summary>
+        /// Deletes an entity and its relations.
+        /// </summary>
+        /// <param name="relDeletions">Should not be set when called from outside the IndexRelation classes</param>
+        public virtual void DeleteMe(RelationDeletions relDeletions = null)
         {
             _deleted = true;
-            _store.EntityDeleted(this);
+            _store.EntityDeleted(this, relDeletions);
+            OnEndpointDeleted();
         }
 
         public int? GetIndex()

@@ -119,7 +119,7 @@ namespace OfficeOpenXml.RichData.Structures
                 var rels = GetIncomingRelations(x => x.From.EntityType == RichDataEntities.RichValue);
                 if(rels.Count() <= 1)
                 {
-                    DeleteMe();
+                    DeleteMe(e.RelationDeletions);
                 }
             }
         }

@@ -91,14 +91,14 @@ namespace OfficeOpenXml.RichData
             }
         }
 
-        internal RichValueRel GetRelation(int index)
-        {
-            return RichValueRels.Items[index];
-        }
+        //internal RichValueRel GetRelation(int index)
+        //{
+        //    return RichValueRels.Items[index];
+        //}
 
         internal RichValueRel GetRelation(string target, string type)
         {
-            return RichValueRels.Items.FirstOrDefault(x => x.TargetUri.OriginalString == target && x.Type == type);
+            return RichValueRels.FirstOrDefault(x => x.TargetUri.OriginalString == target && x.Type == type);
         }
     }
 }

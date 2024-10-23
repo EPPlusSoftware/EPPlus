@@ -12,11 +12,13 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
+    [DebuggerDisplay("From: {From.EntityType}, To: {To.EntityType}, ")]
     internal class IndexRelation : IdentityItem
     {
         public IndexRelation(RichDataIndexStore store, IndexEndpoint from, IndexEndpoint to, IndexType indexType, IndexRelationType relationType = IndexRelationType.Default)

@@ -84,9 +84,9 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
         {
             base.OnConnectedEntityDeleted(e);
-            if(e.DeletedEntity.EntityType == RichDataEntities.RichValue)
+            if(e.DeletedEntity.EntityType == RichDataEntities.RichValue || e.DeletedEntity.EntityType == RichDataEntities.ValueMetadataRecord)
             {
-                DeleteMe();
+                DeleteMe(e.RelationDeletions);
             }
         }
     }

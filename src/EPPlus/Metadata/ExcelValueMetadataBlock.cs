@@ -109,13 +109,21 @@ namespace OfficeOpenXml.Metadata
                 {
                     var record = relToDelete.From as ExcelValueMetadataRecord;
                     // Delete the record that is connected to the deleted entity
-                    relToDelete.From.DeleteMe();
+                    relToDelete.From.DeleteMe(e.RelationDeletions);
                 }
             }
             if(_valuesRelation.SubRelations.Count == 0)
             {
-                DeleteMe();
+                DeleteMe(e.RelationDeletions);
                 _metadata.OnValueMetadataBlockDeleted(Id);
+            }
+        }
+
+        public void OnRecordDeleted(ExcelValueMetadataRecord record, RelationDeletions relDeletions)
+        {
+            if(Records.Count() <=1)
+            {
+                DeleteMe(relDeletions);
             }
         }
     }

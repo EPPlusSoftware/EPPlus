@@ -12,11 +12,5 @@ namespace OfficeOpenXml.Metadata
         public ValueMetadataBlockCollection(RichDataIndexStore store) : base(store, RichDataEntities.ValueMetadataBlock)
         {
         }
-
-        public override void Add(ExcelValueMetadataBlock item)
-        {
-            base.Add(item);
-            
-        }
     }
 }

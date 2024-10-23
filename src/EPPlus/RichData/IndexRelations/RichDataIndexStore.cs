@@ -105,7 +105,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         {
             if (!_relations.ContainsKey(relation.Id)) return false;
             _relations.Remove(relation.Id);
-            if(_incomingRelations.ContainsKey(relation.To.Id))
+            if(relation.To != null && _incomingRelations.ContainsKey(relation.To.Id))
             {
                 var pointersList = _incomingRelations[relation.To.Id];
                 if(pointersList != null && pointersList.Any())
@@ -234,9 +234,17 @@ namespace OfficeOpenXml.RichData.IndexRelations
             }
         }
 
-        public void EntityDeleted(IndexEndpoint deletedEntity)
+        public void EntityDeleted(IndexEndpoint deletedEntity, RelationDeletions relDeletions = null)
         {
             if (deletedEntity == null) return;
+
+            // hard delete after recursion is done
+            var hardDeleteRelations = false;
+            if(relDeletions == null)
+            {
+                hardDeleteRelations = true;
+                relDeletions = new RelationDeletions(this);
+            }
             if (!_collections.ContainsKey(deletedEntity.EntityType)) return;
             var coll = _collections[deletedEntity.EntityType];
             if (_incomingRelations.ContainsKey(deletedEntity.Id))
@@ -244,46 +252,54 @@ namespace OfficeOpenXml.RichData.IndexRelations
                 IEnumerable<IndexRelation> incomingRels = _incomingRelations[deletedEntity.Id];
                 if (incomingRels != null && incomingRels.Any())
                 {
-                    incomingRels = incomingRels.Where(x => !x.Deleted);
+                    //incomingRels = incomingRels.Where(x => !x.Deleted);
                     foreach (var incomingRel in incomingRels)
                     {
                         var item = GetItem(incomingRel.From.Id);
                         if (item != null)
                         {
-                            incomingRel.Deleted = true;
-                            var e = new ConnectedEntityDeletedArgs(deletedEntity, incomingRel, this);
-                            item.OnConnectedEntityDeleted(e);
+                            relDeletions.EnqueueDelete(incomingRel);
+                            if(!item.Deleted)
+                            {
+                                var e = new ConnectedEntityDeletedArgs(deletedEntity, incomingRel, this, relDeletions);
+                                item.OnConnectedEntityDeleted(e);
+                            }
                         }
                         if (_relations.ContainsKey(incomingRel.Id))
                         {
-                            _relations.Remove(incomingRel.Id);
+                            relDeletions.EnqueueDelete(incomingRel);
                         }
                     }
                 }
-                _incomingRelations.Remove(deletedEntity.Id);
             }
             if (_outgoingRelations.ContainsKey(deletedEntity.Id))
             {
                 IEnumerable<IndexRelation> outgoingRels = _outgoingRelations[deletedEntity.Id];
                 if (outgoingRels != null && outgoingRels.Any())
                 {
-                    outgoingRels = outgoingRels.Where(x => !x.Deleted).ToList();
+                    //outgoingRels = outgoingRels.Where(x => !x.Deleted).ToList();
                     foreach (var outgoingRel in outgoingRels)
                     {
                         var item = GetItem(outgoingRel.To.Id);
                         if (item != null)
                         {
-                            outgoingRel.Deleted = true;
-                            var e = new ConnectedEntityDeletedArgs(deletedEntity, outgoingRel, this);
-                            item.OnConnectedEntityDeleted(e);
+                            relDeletions.EnqueueDelete(outgoingRel);
+                            if(!item.Deleted)
+                            {
+                                var e = new ConnectedEntityDeletedArgs(deletedEntity, outgoingRel, this, relDeletions);
+                                item.OnConnectedEntityDeleted(e);
+                            }
                         }
                         if (_relations.ContainsKey(outgoingRel.Id))
                         {
-                            _relations.Remove(outgoingRel.Id);
+                            relDeletions.EnqueueDelete(outgoingRel);
                         }
                     }
                 }
-                _outgoingRelations.Remove(deletedEntity.Id);
+            }
+            if(hardDeleteRelations)
+            {
+                relDeletions.DeleteAll();
             }
         }
     }

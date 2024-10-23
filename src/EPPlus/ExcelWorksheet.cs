@@ -74,7 +74,7 @@ namespace OfficeOpenXml
         internal struct MetaDataReference
         {
             internal int cm;
-            internal int vm;
+            internal uint vm;
             internal bool aca;
             internal bool ca;
         }
@@ -1312,7 +1312,8 @@ namespace OfficeOpenXml
             int style = 0;
             int row = 0;
             int col = 0;
-            int currentCm=0, currentVm = 0;
+            int currentCm = 0;
+            uint currentVm = 0;
             xr.Read();
 
             while (!xr.EOF)
@@ -1390,7 +1391,7 @@ namespace OfficeOpenXml
                     if (cm != null || vm != null)
                     {
                         currentCm = string.IsNullOrEmpty(cm) ? 0 : int.Parse(cm);
-                        currentVm = string.IsNullOrEmpty(vm) ? 0 : int.Parse(vm);
+                        currentVm = string.IsNullOrEmpty(vm) ? 0 : uint.Parse(vm);
                         _metadataStore.SetValue(
                             address._fromRow,
                             address._fromCol,

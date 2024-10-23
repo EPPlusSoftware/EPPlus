@@ -101,7 +101,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         {
             get
             {
-                return _list.Count;
+                return _list.Count(x => !x.Deleted);
             }
         }
 

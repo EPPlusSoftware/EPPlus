@@ -48,10 +48,10 @@ namespace OfficeOpenXml.RichData
             return HasRichData(row, col, out MetaDataReference mdr);
         }
 
-        internal bool HasRichData(int row, int col, out int vm)
+        internal bool HasRichData(int row, int col, out uint vmId)
         {
             var result = HasRichData(row, col, out MetaDataReference mdr);
-            vm = mdr.vm;
+            vmId = mdr.vm;
             return result;
         }
 
@@ -79,11 +79,11 @@ namespace OfficeOpenXml.RichData
         /// <summary>
         /// Gets a rich value by its value metadata index
         /// </summary>
-        /// <param name="vm">1 based index</param>
+        /// <param name="vmId">Id of the requested <see cref="ExcelValueMetadataBlock"/></param>
         /// <returns>An <see cref="ExcelRichValue"/> instance corresponding to <paramref name="vm"/></returns>
-        internal ExcelRichValue GetRichValue(int vm)
+        internal ExcelRichValue GetRichValue(uint vmId)
         {
-            var valueMetaData = _metadata.ValueMetadata[vm - 1];
+            var valueMetaData = _metadata.ValueMetadata.Get(vmId);
             try
             {
                 valueMetaData.Records.First();
@@ -112,8 +112,8 @@ namespace OfficeOpenXml.RichData
 
         internal ExcelRichValue GetRichValue(int row, int col, params string[] structureTypesFilter)
         {
-            if (!HasRichData(row, col, out int vm)) return null;
-            var valueMetaData = _metadata.ValueMetadata[vm - 1];
+            if (!HasRichData(row, col, out uint vmId)) return null;
+            var valueMetaData = _metadata.ValueMetadata.Get(vmId);
             //var valueRecord = valueMetaData.Records.First();
             // var type = _metadata.MetadataTypes[valueRecord.TypeIndex - 1];
             var bk = valueMetaData.GetFirstOutgoingSubRelation<FutureMetadataBlock>();
@@ -155,9 +155,9 @@ namespace OfficeOpenXml.RichData
             _workbook.RichData.Values.Add(richValue);
 
             // update the metadata
-            _metadata.CreateRichValueMetadata(_workbook.RichData, richValue, out int vm);
+            _metadata.CreateRichValueMetadata(_workbook.RichData, richValue, out uint vmId);
             var md = _sheet._metadataStore.GetValue(row, col);
-            md.vm = vm;
+            md.vm = vmId;
             _sheet._metadataStore.SetValue(row, col, md);
         }
 
@@ -213,10 +213,10 @@ namespace OfficeOpenXml.RichData
             //_workbook.RichData.Values[richValueIndex] = richValue;
         }
 
-        internal RichValueRel GetRelation(int relationIndex)
-        {
-            return _workbook.RichData.GetRelation(relationIndex);
-        }
+        //internal RichValueRel GetRelation(int relationIndex)
+        //{
+        //    return _workbook.RichData.GetRelation(relationIndex);
+        //}
 
         internal RichValueRel GetRelation(Uri target, string type)
         {
@@ -228,7 +228,7 @@ namespace OfficeOpenXml.RichData
             var vm = _metadataStore.GetValue(row, col).vm;
             if (vm == 0 || !_metadata.IsRichData(vm, out uint? richDataId)) return false;
             var vmIx = vm - 1;
-            var valueMd = _metadata.ValueMetadata[vmIx];
+            var valueMd = _metadata.ValueMetadata.Get(vm);
             var valueRecord = valueMd.Records.First();
             var bk = valueRecord.GetFirstOutgoingRelByType<FutureMetadataRichValueBlock>();
             if (bk != null) return false;

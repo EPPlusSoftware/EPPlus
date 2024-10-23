@@ -17,20 +17,13 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
-    internal class ConnectedEntityDeletedArgs : EventArgs
+    internal class EndpointDeletedArgs : EventArgs
     {
-        public ConnectedEntityDeletedArgs(IndexEndpoint deletedEntity, IndexRelation relation, RichDataIndexStore store, RelationDeletions relDeletions) 
+        public EndpointDeletedArgs(uint id)
         {
-            DeletedEntity = deletedEntity;
-            Relation = relation;
-            IndexStore = store;
-            RelationDeletions = relDeletions;
+            Id = id;
         }
-        public IndexEndpoint DeletedEntity { get; private set; }
-        public IndexRelation Relation { get; private set; }
 
-        public RichDataIndexStore IndexStore { get; private set; }
-
-        public RelationDeletions RelationDeletions { get; private set; }
+        public uint Id { get; private set; }
     }
 }

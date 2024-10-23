@@ -196,14 +196,18 @@ namespace OfficeOpenXml.RichData.RichValues
             _relations.Add(key, r);
         }
 
-        public override void DeleteMe()
+        /// <summary>
+        /// Deletes an entity and its relations
+        /// </summary>
+        /// <param name="relDeletions">Should be null when calling from classes outside the IndexRelation structure</param>
+        public override void DeleteMe(RelationDeletions relDeletions = null)
         {
-            base.DeleteMe();
+            base.DeleteMe(relDeletions);
             foreach(var key in Structure.Keys)
             {
                 if(key.IsRelation)
                 {
-                    DeleteRelation(key.Name);
+                    DeleteRelation(key.Name, relDeletions);
                 }
             }
         }
@@ -213,10 +217,12 @@ namespace OfficeOpenXml.RichData.RichValues
             return GetRelation(key, out IndexRelation relIx);
         }
 
-        public bool DeleteRelation(string key)
+        private bool DeleteRelation(string key,  RelationDeletions relDeletions)
         {
             if (!_relations.ContainsKey(key)) return false;
             var rel = _relations[key];
+            var e = new ConnectedEntityDeletedArgs(this, rel, _indexStore, relDeletions);
+            rel.To.OnConnectedEntityDeleted(e);
             return _indexStore.DeleteRelation(rel);
         }
 
@@ -285,6 +291,19 @@ namespace OfficeOpenXml.RichData.RichValues
                 }
             }
             return null;
+        }
+
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        {
+            base.OnConnectedEntityDeleted(e);
+            if(e.DeletedEntity.EntityType == RichDataEntities.FutureMetadataRichDataBlock)
+            {
+                var rels = GetIncomingRelations(x => x.From.EntityType == RichDataEntities.FutureMetadataRichDataBlock);
+                if(rels.Count() <= 1)
+                {
+                    DeleteMe(e.RelationDeletions);
+                }
+            }
         }
 
         //Dictionary<string, string> _keyValues = null;

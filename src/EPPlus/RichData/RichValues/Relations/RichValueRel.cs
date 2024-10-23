@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.RichData.IndexRelations;
 using System;
@@ -22,9 +23,14 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
 {
     internal class RichValueRel : IndexEndpoint
     {
-        public RichValueRel(RichDataIndexStore store) : base(store, RichDataEntities.RichValueRel)
+        public RichValueRel(ExcelWorkbook workbook, ZipPackagePart part) : base(workbook.IndexStore, RichDataEntities.RichValueRel)
         {
+            _part = part;
+            _workbook = workbook;
         }
+
+        private readonly ZipPackagePart _part;
+        private readonly ExcelWorkbook _workbook;
 
         public string RelationId { get; set; }
         public string Type { get; set; }
@@ -34,6 +40,42 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
         internal void WriteXml(StreamWriter sw)
         {
             sw.Write($"<rel r:id=\"{RelationId}\" />");
+        }
+
+        public override void DeleteMe(RelationDeletions relDeletions = null)
+        {
+            base.DeleteMe(relDeletions);
+        }
+
+        private void DeleteRelatedUri()
+        {
+            if (!_part.RelationshipExists(RelationId)) return;
+            var rel = _part.GetRelationship(RelationId);
+            if(rel.RelationshipType == ExcelPackage.schemaImage)
+            {
+                var pictureStore = _workbook._package.PictureStore;
+                pictureStore.RemoveReference(TargetUri);
+            }
+            else
+            {
+                _part.DeleteRelationship(RelationId);
+            }
+        }
+
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        {
+            if (Deleted) return;
+            base.OnConnectedEntityDeleted(e);
+            if (e.DeletedEntity.EntityType == RichDataEntities.RichValue)
+            {
+                var rels = GetIncomingRelations();
+                if(rels.Count() <= 1)
+                {
+                    DeleteRelatedUri();
+                    // this was the last rich value connected to this relation
+                    DeleteMe(e.RelationDeletions);
+                }
+            }
         }
     }
 }

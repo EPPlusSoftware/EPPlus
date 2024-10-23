@@ -119,7 +119,7 @@ namespace OfficeOpenXml.Metadata
                 var rels = GetIncomingRelations(x => x.From.EntityType == RichDataEntities.ValueMetadataRecord);
                 if (rels.Count() <= 1)
                 {
-                    DeleteMe();
+                    DeleteMe(e.RelationDeletions);
                 }
             }
         }

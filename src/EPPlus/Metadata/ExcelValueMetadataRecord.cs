@@ -89,6 +89,16 @@ namespace OfficeOpenXml.Metadata
             }
         }
 
+        public override void DeleteMe(RelationDeletions relDeletions = null)
+        {
+            base.DeleteMe(relDeletions);
+            var parent = _parent as ExcelValueMetadataBlock;
+            if(parent != null)
+            {
+                parent.OnRecordDeleted(this, relDeletions);
+            }
+        }
+
         public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
         {
             base.OnConnectedEntityDeleted(e);

@@ -24,6 +24,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         public void Add(T item)
         {
+            //TODO: should we handle empty collection via events?
             if (_collection.GetItem(item.Id) == null)
             {
                 _collection.Add(item);
