@@ -28,15 +28,8 @@
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Utils.Extensions;
-using System;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using OfficeOpenXml.Style;
+using System.Drawing;
 
 namespace EPPlusTest.ConditionalFormatting
 {
@@ -280,7 +273,7 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void QuadTreeInsertShiftRightValidate()
         {
-            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeLeftCF");
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeRightCF");
 
             var rule1 = ws.ConditionalFormatting.AddBeginsWith("B2:C3");
             rule1.Text = "B";
@@ -297,10 +290,10 @@ namespace EPPlusTest.ConditionalFormatting
             var formats = ws.Cells["C2:C3"].ConditionalFormatting.GetConditionalFormattings();
             Assert.AreEqual(2, formats.Count);
 
-            ws.Cells["C2"].Insert(eShiftTypeInsert.Right);
+            ws.Cells["B2"].Insert(eShiftTypeInsert.Right);
             formats = ws.Cells["C2"].ConditionalFormatting.GetConditionalFormattings();
             Assert.AreEqual(2, formats.Count);
-            Assert.AreEqual("B2:D2,B3:C3", formats[0].Address.Address);
+            Assert.AreEqual("C2:D2,B3:C3", formats[0].Address.Address);
             Assert.AreEqual("A1:D1,A2:E2,A3:D4", formats[1].Address.Address);
             formats = ws.Cells["C2:C3"].ConditionalFormatting.GetConditionalFormattings();
             Assert.AreEqual(2, formats.Count);
@@ -308,7 +301,7 @@ namespace EPPlusTest.ConditionalFormatting
         [TestMethod]
         public void QuadTreeInsertShiftDownValidate()
         {
-            var ws = _pck.Workbook.Worksheets.Add("DeleteRangeLeftCF");
+            var ws = _pck.Workbook.Worksheets.Add("InsertRangeDownCF");
 
             var rule1 = ws.ConditionalFormatting.AddBeginsWith("B2:C3");
             rule1.Text = "B";
@@ -327,11 +320,11 @@ namespace EPPlusTest.ConditionalFormatting
 
             ws.Cells["C2"].Insert(eShiftTypeInsert.Down);
             formats = ws.Cells["C2"].ConditionalFormatting.GetConditionalFormattings();
-            Assert.AreEqual(2, formats.Count);
-            Assert.AreEqual("B2:B3,C2:C4", formats[0].Address.Address);
-            Assert.AreEqual("A1:B4,C1:C5,D1:D4", formats[1].Address.Address);
+            Assert.AreEqual(1, formats.Count);
+            Assert.AreEqual("A1:B4,C1:C5,D1:D4", formats[0].Address.Address);
             formats = ws.Cells["C2:C3"].ConditionalFormatting.GetConditionalFormattings();
             Assert.AreEqual(2, formats.Count);
+            Assert.AreEqual("B2:B3,C3:C4", formats[0].Address.Address);
         }
 
     }
