@@ -206,21 +206,24 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 
         internal SharedFormula Clone()
         {
-            return new SharedFormula(_ws, StartRow, StartCol, EndRow, EndCol, Formula)
-            {
-                Index = Index,
-                FormulaType = FormulaType,
-                Tokens = Tokens,
-                RpnTokens = RpnTokens,
-                Address = Address,
-                DataTableIsTwoDimesional = DataTableIsTwoDimesional,
-                IsDataTableRow = IsDataTableRow,
-                R1CellAddress = R1CellAddress,
-                R2CellAddress = R2CellAddress,
-                FirstCellDeleted = FirstCellDeleted,
-                SecondCellDeleted = SecondCellDeleted,
-                _ws = _ws,                
-            };
+            var sh = new SharedFormula(_ws, StartRow, StartCol, EndRow, EndCol, Formula);
+
+            sh.Index = Index;
+            sh.FormulaType = FormulaType;
+            sh.Tokens = null;
+            sh.RpnTokens = null;
+            //sh.Address = Address;
+            sh.StartColOffset = StartColOffset;
+            sh.StartRowOffset = StartRowOffset;
+            //sh.StartCol = StartCol;
+            sh.DataTableIsTwoDimesional = DataTableIsTwoDimesional;
+            sh.IsDataTableRow = IsDataTableRow;
+            sh.R1CellAddress = R1CellAddress;
+            sh.R2CellAddress = R2CellAddress;
+            sh.FirstCellDeleted = FirstCellDeleted;
+            sh.SecondCellDeleted = SecondCellDeleted;
+            sh._ws = _ws;
+            return sh;
         }
         internal Formula GetFormula(int row, int col)
         {

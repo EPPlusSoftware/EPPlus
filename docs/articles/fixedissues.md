@@ -1,5 +1,8 @@
 # Features / Fixed issues - EPPlus 7
 
+## Version 7.4.2
+* Fixed innacurate relative addresses in cloned formulas in rare cases.
+
 
 
 * Deleting and adding a table with multiple worksheets no longer gives the added table an invalid id. 
