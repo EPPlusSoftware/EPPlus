@@ -944,10 +944,34 @@ namespace OfficeOpenXml.Drawing
                 fromColumn = From.Column;
                 fromColumnOff = From.ColumnOff;
             }
-            double pixOff = pixels - (double)(decimal.Truncate(((256 * ws.GetColumnWidth(fromColumn + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
-            double offset = (double)fromColumnOff / EMU_PER_PIXEL + pixels;
+            var colWidth = 256 * ws.GetColumnWidth(fromColumn + 1);
+            var widthFactor = decimal.Truncate(128 / mdw);
+            var widthFactor2 = (colWidth + widthFactor) / 256;
+
+            var part1 = widthFactor2 * mdw;
+            var part1Trunc = decimal.Truncate(part1);
+            var pixelNeg = (decimal)fromColumnOff / (decimal)EMU_PER_PIXEL;
+            var final = part1Trunc - pixelNeg;
+            double pixOffAlt = pixels - (double)final;
+
+            double pixOff = pixels - (double)
+               (decimal.Truncate
+                (
+                 (
+                  (
+                    256 * ws.GetColumnWidth(fromColumn + 1)
+                    + decimal.Truncate(128 / mdw)
+                  ) 
+                  / 256
+                 ) 
+                 * mdw
+                ) 
+                - fromColumnOff / EMU_PER_PIXEL
+               );
+            double offset = ((double)fromColumnOff / EMU_PER_PIXEL) + pixels;
             col = fromColumn + 2;
-            while (pixOff >= 0)
+
+            while (pixOff > 0)
             {
                 offset = pixOff;
                 pixOff -= (double)decimal.Truncate(((256 * ws.GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);

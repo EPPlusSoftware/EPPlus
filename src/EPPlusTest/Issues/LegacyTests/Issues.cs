@@ -6234,5 +6234,27 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void i1645()
+        {
+            using (var package = OpenTemplatePackage("i1645.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+
+                CopyRows(sheet, 1, 10, 11, 20);
+                SaveAndCleanup(package);
+            }
+        }
+        public void CopyRows(ExcelWorksheet excelWorksheet, int sourceFrom, int sourceTo, int destFrom, int destTo)
+        {
+            for (int i = destFrom; i <= destTo; i++)
+            {
+                excelWorksheet.Row(i).Height = excelWorksheet.Row(sourceFrom + i - destFrom).Height;
+            }
+
+            excelWorksheet.Cells[sourceFrom.ToString() + ":" + sourceTo].Copy(
+                excelWorksheet.Cells[destFrom.ToString() + ":" + destTo]);
+        }
     }
 }

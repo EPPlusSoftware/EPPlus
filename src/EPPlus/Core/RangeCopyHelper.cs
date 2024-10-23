@@ -116,6 +116,7 @@ namespace OfficeOpenXml.Core
                     row = _destination._fromRow + row - 1;
                     var col = drawingRange._fromCol - _sourceRange._fromCol;
                     col = _destination._fromCol + col - 1;
+
                     drawing.Copy(_destination.Worksheet, row, col);
                 }
             }
