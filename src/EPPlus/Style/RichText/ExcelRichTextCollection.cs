@@ -158,7 +158,7 @@ namespace OfficeOpenXml.Style
             }
             else
             {
-                prevIndex = index - 1;
+                prevIndex = index <= 0 ? 0 : index - 1;
             }
             if(_list.Count > 0)
             {
@@ -175,12 +175,7 @@ namespace OfficeOpenXml.Style
                 rt.ColorSettings = prevRT.ColorSettings.Clone();
                 rt.PreserveSpace = prevRT.PreserveSpace;
             }
-            else if(_cells == null)
-            {
-                rt.FontName = "Calibri";
-                rt.Size = 11;
-            }
-            else
+            else if(_cells != null)
             {
                 var style = _cells.Offset(0, 0).Style;
                 rt.FontName = style.Font.Name;
