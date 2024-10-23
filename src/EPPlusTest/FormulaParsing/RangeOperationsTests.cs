@@ -8,7 +8,7 @@ using System.Text;
 namespace EPPlusTest.FormulaParsing
 {
     [TestClass]
-    public class RangeOperationsTests
+    public class RangeOperationsTests : TestBase
     {
         [TestMethod]
         public void IntersectOperatorWithMultipleRanges()
@@ -41,6 +41,7 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Calculate();
                 var result = sheet.Cells["B3"].Value;
                 Assert.AreEqual(6d, result);
+                SaveWorkbook("range.xlsx",package);
             }
         }
 

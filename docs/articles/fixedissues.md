@@ -1,8 +1,16 @@
 # Features / Fixed issues - EPPlus 7
 
-## Version 7.4.1.1
+## Version 7.4.2
 * Fixed innacurate relative addresses in cloned formulas in rare cases.
 
+
+
+
+
+* Ensured ExcelPictures are sized correctly when copying worksheets
+* Fixed issue where adding rows to a Table that contained error values would throw error or generate a corrupt workbook. When the table was the source range of a pivot table.
+* Fixed ExcelErrorValues GetHashCode and Equals methods to return appropriate Type value.
+* Fixed incorrect datatype flags for ExcelPivotTableCacheField.
 ## Version 7.4.1
 * Updated for vulnerability in System.Text.Json 8.0.4 - Microsoft.Extensions.Configuration.Json 8.0.0 -> 8.0.1
 

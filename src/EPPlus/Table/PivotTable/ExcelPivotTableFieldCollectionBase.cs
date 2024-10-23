@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Table.PivotTable
     public class ExcelPivotTableFieldItemsCollection : ExcelPivotTableFieldCollectionBase<ExcelPivotTableFieldItem>
     {
         ExcelPivotTableField _field;
-        internal Lookup<int, int> _cacheLookup = null;
+        private Lookup<int, int> _cacheLookup = null;
 
         List<int> _hiddenItemIndex=null;
         internal ExcelPivotTableFieldItemsCollection(ExcelPivotTableField field) : base()
@@ -78,9 +78,9 @@ namespace OfficeOpenXml.Table.PivotTable
             var cl = _field.Cache.GetCacheLookup();
             if (cl.TryGetValue(value, out int ix))
             {
-                if (_cacheLookup.Contains(ix))
+                if (CacheLookup.Contains(ix))
                 {
-                    return _list[_cacheLookup[ix].First()];
+                    return _list[CacheLookup[ix].First()];
                 }
             }
 			return null;
@@ -96,7 +96,7 @@ namespace OfficeOpenXml.Table.PivotTable
             var cl = _field.Cache.GetCacheLookup();
 			if (cl.TryGetValue(value, out int ix))
             {
-                if (_cacheLookup.Contains(ix))
+                if (CacheLookup.Contains(ix))
                 {
                     return _cacheLookup[ix].First();
                 }
@@ -120,7 +120,18 @@ namespace OfficeOpenXml.Table.PivotTable
                     item.X = -1;
                 }
             }
-            _cacheLookup = (Lookup<int,int>)_list.Where(x=> x.X >= 0).ToLookup(x => x.X, y => _list.IndexOf(y));
+            _cacheLookup = null;
+        }
+        internal Lookup<int, int> CacheLookup
+        {
+            get
+            {
+                if (_cacheLookup == null)
+                {
+                    _cacheLookup = (Lookup<int, int>)_list.Where(x => x.X >= 0).ToLookup(x => x.X, y => _list.IndexOf(y));
+                }
+                return _cacheLookup;
+            }
         }
         /// <summary>
         /// Set Hidden to false for all items in the collection
@@ -186,12 +197,12 @@ namespace OfficeOpenXml.Table.PivotTable
 		{
             var comparer = new PivotItemComparer(sort, _field);
 			_list.Sort(comparer);
-            _cacheLookup = (Lookup<int,int>)_list.Where(x=>x.X > -1).ToLookup(x => x.X, y=>_list.IndexOf(y));
+            _cacheLookup = null;
 		}
 
         internal ExcelPivotTableFieldItem GetByCacheIndex(int index)
         {
-            if (_cacheLookup.Contains(index))
+            if (CacheLookup.Contains(index))
             {
                 return _list[_cacheLookup[index].First()];
             }

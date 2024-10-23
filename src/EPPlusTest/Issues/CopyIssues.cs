@@ -82,5 +82,16 @@ namespace EPPlusTest.Issues
                 }
             }
         }
+        public void i1645()
+        {
+            using (var package = OpenTemplatePackage("i1645.xlsx"))
+            {
+                var syncSht = package.Workbook.Worksheets["syncSht"];
+                var snapSht = package.Workbook.Worksheets["snapSht"];
+                var address = "B7:K16";
+                snapSht.Cells[address].Copy(syncSht.Cells[address]);
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
