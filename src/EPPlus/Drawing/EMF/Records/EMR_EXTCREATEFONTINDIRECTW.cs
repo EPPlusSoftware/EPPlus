@@ -43,12 +43,6 @@ namespace OfficeOpenXml.Drawing.EMF
             {
                 throw new InvalidOperationException("Corrupt file. The 'elw' field of a EXTCREATEFONTINDIRECTW object cannot be smaller than 320 bytes");
             }
-            //excelFont.Family = (int)elw.PitchAndFamily;
-            //excelFont.
-
-            //font.Style = MeasurementFontStyles.Regular;
-            //font.FontFamily = elw.FaceName;
-            //font.Size = 
         }
 
         internal override void WriteBytes(BinaryWriter bw)

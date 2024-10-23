@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace OfficeOpenXml.Drawing.EMF
+﻿namespace OfficeOpenXml.Drawing.EMF
 {
     /// <summary>
     /// Defines maping of Page Space or Logical Units (LU) into device space. 
@@ -46,13 +41,4 @@ namespace OfficeOpenXml.Drawing.EMF
         /// </summary>
         MM_ANISOTROPIC = 0x08
     }
-
-    //internal static int GetLogicalUnitValue(MapMode mode)
-    //{
-    //    switch(mode)
-    //    {
-    //        case MapMode.MM_TEXT:
-    //            return 1;
-    //    }
-    //}
 }

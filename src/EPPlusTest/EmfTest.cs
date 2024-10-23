@@ -14,10 +14,7 @@ namespace EPPlusTest
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("EmfSheet");
-
-                //var path = "C:\\Users\\OssianEdström\\Downloads\\OG_image1.emf";
                 var path = "C:\\epplusTest\\Workbooks\\UnsignedWithDescriptorsOrigBackup.emf";
-
 
                 var emf = new EmfImage();
                 emf.Read(path);
@@ -60,8 +57,6 @@ namespace EPPlusTest
 
             var longIndex = emfImage.records.IndexOf(longName);
             var signerIndex = emfImage.records.IndexOf(suggestedSigner);
-
-            //emfImage.records[140].data = new byte[] { 3, 0, 0, 0 };
 
             emfImage.Save("C:\\epplusTest\\Testoutput\\ChangeFontOutput.emf");
         }

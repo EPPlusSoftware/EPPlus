@@ -65,8 +65,6 @@ namespace OfficeOpenXml.Drawing.EMF
             }
             set
             {
-                //var test = FontSize.GetFontSize(Font.elw.FaceName, true);
-                //textSettings.GenericTextMeasurer.MeasureText(value, Meas)
                 stringBuffer = value;
                 CalculateOffsets();
             }
