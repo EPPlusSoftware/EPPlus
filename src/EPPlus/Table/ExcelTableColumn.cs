@@ -200,7 +200,6 @@ namespace OfficeOpenXml.Table
                 }
             }
         }
-  		internal const string CALCULATEDCOLUMNFORMULA_PATH = "d:calculatedColumnFormula";
 
         ExcelTableSlicer _slicer = null;
         /// <summary>
@@ -244,6 +243,7 @@ namespace OfficeOpenXml.Table
         {            
             return _tbl.WorkSheet.Drawings.AddTableSlicer(this);
         }
+        const string CALCULATEDCOLUMNFORMULA_PATH = "d:calculatedColumnFormula";
         /// <summary>
         /// Sets a calculated column Formula.
         /// Be carefull with this property since it is not validated. 
@@ -274,6 +274,35 @@ namespace OfficeOpenXml.Table
                 }
             }
         }
+        const string CALCULATEDCOLUMNFORMULA_ARRAY_PATH = CALCULATEDCOLUMNFORMULA_PATH + "/@array";
+        /// <summary>
+        /// If the calculated formula is an array formula. 
+        /// This property will be set if the formula calculation evaluate the formula as an array formula. 
+        /// See <see cref="CalculationExtension.Calculate(ExcelWorkbook)"/>        
+        /// </summary>
+        /// <exception cref="InvalidOperationException">If the <see cref="CalculatedColumnFormula"></see> is null or empty.</exception>
+        public bool? IsCalculatedFormulaArray
+        {
+            get
+            {
+                return GetXmlNodeBoolNullable(CALCULATEDCOLUMNFORMULA_ARRAY_PATH);
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    if (string.IsNullOrEmpty(CalculatedColumnFormula))
+                    {
+                        throw new InvalidOperationException($"IsCalculatedFormulaArray: No formula set on column {Name}");
+                    }
+                    SetXmlNodeBool(CALCULATEDCOLUMNFORMULA_ARRAY_PATH, value.Value);
+                }
+                else
+                {
+                    DeleteNode(CALCULATEDCOLUMNFORMULA_ARRAY_PATH);
+                }
+            }
+        }
         internal void SetFormula(string formula)
         {
             SetXmlNodeString(CALCULATEDCOLUMNFORMULA_PATH, formula);
@@ -293,6 +322,17 @@ namespace OfficeOpenXml.Table
                 return _tbl;
             }
         }
+
+        internal ExcelAddressBase DataAddress 
+        {
+            get
+            {
+                var c = _tbl.Address._fromCol + Position;
+                return new ExcelAddressBase(_tbl.ShowHeader ? _tbl.Address._fromRow+1: _tbl.Address._fromRow, c, _tbl.ShowTotal ? _tbl.Address._toRow-1 : _tbl.Address._toRow, c);
+                 
+            }        
+        }
+
         internal void SetTableFormula(bool clear)
         {
             int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;

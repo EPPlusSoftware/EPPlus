@@ -95,6 +95,26 @@ namespace EPPlusTest.Table
             Assert.AreEqual(7.0, ws.Cells["C5"].Value);
         }
         [TestMethod]
+        public void TableWithCalculatedArrayFormula()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableCalculateArrayFormula");
+            ws.Cells["B2"].Value = "Header 1";
+            ws.Cells["C2"].Value = "Header 2";
+            ws.Cells["B3"].Value = 1;
+            ws.Cells["B4"].Value = 2;
+            ws.Cells["C3"].Value = 3;
+            ws.Cells["C4"].Value = 4;
+            var table = ws.Tables.Add(ws.Cells["B2:E4"], "TableArrayFormula");
+            table.Columns[2].CalculatedColumnFormula = "Sum(TableArrayFormula[[#this row],[header 1]]:TableArrayFormula[[#this row],[header 2]]+1)";
+            table.Columns[3].CalculatedColumnFormula = "Sum(TableArrayFormula[[#this row],[header 1]]:TableArrayFormula[[#this row],[header 2]])";
+            ws.Calculate();
+            Assert.IsTrue(table.Columns[2].IsCalculatedFormulaArray);
+            Assert.IsFalse(table.Columns[3].IsCalculatedFormulaArray);
+            Assert.AreEqual(6.0, ws.Cells["D3"].Value);
+            Assert.AreEqual(8.0, ws.Cells["D4"].Value);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void TestTableNameCanNotStartsWithNumber()
         {

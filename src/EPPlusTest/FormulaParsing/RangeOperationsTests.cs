@@ -10,111 +10,104 @@ namespace EPPlusTest.FormulaParsing
     [TestClass]
     public class RangeOperationsTests : TestBase
     {
+        private static ExcelPackage _package;
+
+        [ClassInitialize]
+        public static void Initialize(TestContext context)
+        {
+            _package = OpenPackage("RangeOperations.xlsx", true);
+        }
+        [ClassCleanup]
+        public static void Cleanup()
+        {
+            SaveAndCleanup(_package);
+            _package.Dispose();
+        }
+
+
         [TestMethod]
         public void IntersectOperatorWithMultipleRanges()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
-                sheet.Cells["A1"].Value = 1;
-                sheet.Cells["A2"].Value = 2;
-                sheet.Cells["A3"].Value = 3;
-                sheet.Cells["A4"].Value = 4;
-                sheet.Cells["A5"].Formula = "SUM(A1:A3 A2:A4 OFFSET(A1, 1, 0))";
-                sheet.Calculate();
-                var result = sheet.Cells["A5"].Value;
-                Assert.AreEqual(2d, result);
-            }
+            var sheet = _package.Workbook.Worksheets.Add("SumIntersectOffset");
+            sheet.Cells["A1"].Value = 1;
+            sheet.Cells["A2"].Value = 2;
+            sheet.Cells["A3"].Value = 3;
+            sheet.Cells["A4"].Value = 4;
+            sheet.Cells["A5"].Formula = "SUM(A1:A3 A2:A4 OFFSET(A1, 1, 0))";
+            sheet.Calculate();
+            var result = sheet.Cells["A5"].Value;
+            Assert.AreEqual(2d, result);
         }
-
         [TestMethod]
         public void AdditionOperatorShouldCalculate()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
-                sheet.Cells["A1"].Value = 1;
-                sheet.Cells["A2"].Value = 2;
-                sheet.Cells["B1"].Value = 1;
-                sheet.Cells["B2"].Value = 2;
-                sheet.Cells["B3"].Formula = "SUM(A1:A2 + B1:B2)";
-                sheet.Calculate();
-                var result = sheet.Cells["B3"].Value;
-                Assert.AreEqual(6d, result);
-                SaveWorkbook("range.xlsx",package);
-            }
+            var sheet = _package.Workbook.Worksheets.Add("SumPlusRange");
+            sheet.Cells["A1"].Value = 1;
+            sheet.Cells["A2"].Value = 2;
+            sheet.Cells["B1"].Value = 1;
+            sheet.Cells["B2"].Value = 2;
+            sheet.Cells["B3"].Formula = "SUM(A1:A2 + B1:B2)";
+            sheet.Calculate();
+            var result = sheet.Cells["B3"].Value;
+            Assert.AreEqual(6d, result);
         }
 
         [TestMethod]
         public void SubtractionOperatorShouldCalculate()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
-                sheet.Cells["A1"].Value = 1;
-                sheet.Cells["A2"].Value = 3;
-                sheet.Cells["B1"].Value = 1;
-                sheet.Cells["B2"].Value = 2;
-                sheet.Cells["B3"].Formula = "SUM(A1:A2 - B1:B2)";
-                sheet.Calculate();
-                var result = sheet.Cells["B3"].Value;
-                Assert.AreEqual(1d, result);
-            }
+            var sheet = _package.Workbook.Worksheets.Add("SumMinusRange");
+            sheet.Cells["A1"].Value = 1;
+            sheet.Cells["A2"].Value = 3;
+            sheet.Cells["B1"].Value = 1;
+            sheet.Cells["B2"].Value = 2;
+            sheet.Cells["B3"].Formula = "SUM(A1:A2 - B1:B2)";
+            sheet.Calculate();
+            var result = sheet.Cells["B3"].Value;
+            Assert.AreEqual(1d, result);
         }
 
         [TestMethod]
         public void MultiplicationOperatorShouldCalculate()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
-                sheet.Cells["A1"].Value = 2;
-                sheet.Cells["A2"].Value = 3;
-                sheet.Cells["B1"].Value = 3;
-                sheet.Cells["B2"].Value = 2;
-                sheet.Cells["B3"].Formula = "SUM(A1:A2 * B1:B2)";
-                sheet.Calculate();
-                var result = sheet.Cells["B3"].Value;
-                Assert.AreEqual(12d, result);
-            }
+            var sheet = _package.Workbook.Worksheets.Add("SumMultRange");
+            sheet.Cells["A1"].Value = 2;
+            sheet.Cells["A2"].Value = 3;
+            sheet.Cells["B1"].Value = 3;
+            sheet.Cells["B2"].Value = 2;
+            sheet.Cells["B3"].Formula = "SUM(A1:A2 * B1:B2)";
+            sheet.Calculate();
+            var result = sheet.Cells["B3"].Value;
+            Assert.AreEqual(12d, result);
         }
 
         [TestMethod]
         public void MultiplicationOperatorShouldCalculateRangeAndSingleValueRight()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
-                sheet.Cells["A1"].Value = 2;
-                sheet.Cells["A2"].Value = 3;
-                sheet.Cells["B3"].Formula = "SUM(A1:A2 + 1)";
-                sheet.Calculate();
-                var result = sheet.Cells["B3"].Value;
-                Assert.AreEqual(7d, result);
-            }
+            var sheet = _package.Workbook.Worksheets.Add("SumPlusWithNumberAfter");
+            sheet.Cells["A1"].Value = 2;
+            sheet.Cells["A2"].Value = 3;
+            sheet.Cells["B3"].Formula = "SUM(A1:A2 + 1)";
+            sheet.Calculate();
+            var result = sheet.Cells["B3"].Value;
+            Assert.AreEqual(7d, result);
         }
 
         [TestMethod]
         public void MultiplicationOperatorShouldCalculateRangeAndSingleValueLeft()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
-                sheet.Cells["A1"].Value = 2;
-                sheet.Cells["A2"].Value = 3;
-                sheet.Cells["B3"].Formula = "SUM(1 - A1:A2)";
-                sheet.Calculate();
-                var result = sheet.Cells["B3"].Value;
-                Assert.AreEqual(-3d, result);
-            }
+            var sheet = _package.Workbook.Worksheets.Add("SumPlusWithNumberBefore");
+            sheet.Cells["A1"].Value = 2;
+            sheet.Cells["A2"].Value = 3;
+            sheet.Cells["B3"].Formula = "SUM(1 - A1:A2)";
+            sheet.Calculate();
+            var result = sheet.Cells["B3"].Value;
+            Assert.AreEqual(-3d, result);
         }
 
         [TestMethod]
         public void DivisionOperatorShouldCalculate()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
+                var sheet = _package.Workbook.Worksheets.Add("SumDivide");
                 sheet.Cells["A1"].Value = 2;
                 sheet.Cells["A2"].Value = 3;
                 sheet.Cells["B1"].Value = 1;
@@ -123,15 +116,12 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Calculate();
                 var result = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
                 Assert.AreEqual(1.75d, result);
-            }
         }
 
         [TestMethod]
         public void ExpOperatorShouldCalculate()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
+                var sheet = _package.Workbook.Worksheets.Add("SumExp");
                 sheet.Cells["A1"].Value = 2;
                 sheet.Cells["A2"].Value = 3;
                 sheet.Cells["B1"].Value = 2;
@@ -140,15 +130,12 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Calculate();
                 var result = System.Math.Round((double)sheet.Cells["B3"].Value, 2);
                 Assert.AreEqual(85d, result);
-            }
         }
 
         [TestMethod]
         public void EqualsOperatorShouldCalculate()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
+                var sheet = _package.Workbook.Worksheets.Add("SumEqual");
                 sheet.Cells["A1"].Value = 3;
                 sheet.Cells["A2"].Value = 4;
                 sheet.Cells["A3"].Value = 5;
@@ -156,15 +143,12 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Calculate();
                 var result = Math.Round((double)sheet.Cells["A4"].Value, 2);
                 Assert.AreEqual(5d, result);
-            }
         }
 
         [TestMethod]
         public void LessThanOperatorShouldCalculate()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
+                var sheet = _package.Workbook.Worksheets.Add("SumLessThan");
                 sheet.Cells["A1"].Value = 3;
                 sheet.Cells["A2"].Value = 4;
                 sheet.Cells["A3"].Value = 5;
@@ -172,15 +156,12 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Calculate();
                 var result = System.Math.Round((double)sheet.Cells["A4"].Value, 2);
                 Assert.AreEqual(4d, result);
-            }
         }
 
         [TestMethod]
         public void LessThanOrEqualOperatorShouldCalculate()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
+                var sheet = _package.Workbook.Worksheets.Add("SumLessThanEqual");
                 sheet.Cells["A1"].Value = 3;
                 sheet.Cells["A2"].Value = 4;
                 sheet.Cells["A3"].Value = 5;
@@ -188,15 +169,12 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Calculate();
                 var result = System.Math.Round((double)sheet.Cells["A4"].Value, 2);
                 Assert.AreEqual(5d, result);
-            }
         }
 
         [TestMethod]
         public void GreaterThanOperatorShouldCalculate()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
+                var sheet = _package.Workbook.Worksheets.Add("SumGreaterThan");
                 sheet.Cells["A1"].Value = 3;
                 sheet.Cells["A2"].Value = 4;
                 sheet.Cells["A3"].Value = 5;
@@ -204,15 +182,12 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Calculate();
                 var result = System.Math.Round((double)sheet.Cells["A4"].Value, 2);
                 Assert.AreEqual(4d, result);
-            }
         }
 
         [TestMethod]
         public void GreaterThanOrEqualOperatorShouldCalculate()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
+                var sheet = _package.Workbook.Worksheets.Add("SumGreaterThanEqual");
                 sheet.Cells["A1"].Value = 3;
                 sheet.Cells["A2"].Value = 4;
                 sheet.Cells["A3"].Value = 5;
@@ -220,15 +195,12 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Calculate();
                 var result = System.Math.Round((double)sheet.Cells["A4"].Value, 2);
                 Assert.AreEqual(4d, result);
-            }
         }
 
         [TestMethod]
         public void ConcatOperatorShouldCalculate()
         {
-            using (var package = new ExcelPackage())
-            {
-                var sheet = package.Workbook.Worksheets.Add("test");
+                var sheet = _package.Workbook.Worksheets.Add("SumA");
                 sheet.Cells["A1"].Value = "a";
                 sheet.Cells["A2"].Value = "c";
                 sheet.Cells["B1"].Value = "b";
@@ -237,7 +209,6 @@ namespace EPPlusTest.FormulaParsing
                 sheet.Calculate();
                 var result = sheet.Cells["B3"].Value.ToString();
                 Assert.AreEqual("abcd", result);
-            }
         }
 
         [TestMethod]

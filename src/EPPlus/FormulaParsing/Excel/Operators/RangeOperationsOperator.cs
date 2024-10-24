@@ -283,6 +283,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             }
             return CompileResult.Empty;
         }
+        public static CompileResult ApplyWithDynamicResult(CompileResult left, CompileResult right, Operators op, ParsingContext context)
+        {
+            if (left.DataType == DataType.ExcelRange && right.DataType != DataType.ExcelRange)
+            {
+                InMemoryRange resultRange = ApplySingleValueRight(left, right, op, context);
+                return new DynamicArrayCompileResult(resultRange, DataType.ExcelRange, resultRange.Address, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
+            }
+            else if (left.DataType != DataType.ExcelRange && right.DataType == DataType.ExcelRange)
+            {
+                InMemoryRange resultRange = ApplySingleValueLeft(left, right, op, context);
+                return new DynamicArrayCompileResult(resultRange, DataType.ExcelRange, resultRange.Address, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
+            }
+            if (left.DataType == DataType.ExcelRange && right.DataType == DataType.ExcelRange)
+            {
+                var interSectAddress = left.Address?.GetIntersectingRowOrColumns(right.Address);
+                InMemoryRange resultRange = ApplyRanges(left, right, op, context, interSectAddress);
+                return new DynamicArrayCompileResult(resultRange, DataType.ExcelRange, interSectAddress, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
+            }
+            return CompileResult.Empty;
+        }
 
         private static object GetCellValue(IRangeInfo range, int rowOffset, int colOffset)
         {

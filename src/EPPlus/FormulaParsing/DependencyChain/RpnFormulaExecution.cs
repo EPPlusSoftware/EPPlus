@@ -128,6 +128,39 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                 }
             }
+            
+            //Check if the calculation 
+            foreach(var table in range.Worksheet.Tables)
+            {
+                if(table.Address.Collide(range)!=eAddressCollition.No)
+                {
+                    foreach(var c in table.Columns)
+                    {
+                        if(string.IsNullOrEmpty(c.CalculatedColumnFormula)==false)
+                        {
+                            var ca = c.DataAddress;
+                            if (ca.Collide(range) != eAddressCollition.No)
+                            {
+                                var ma = ca.Intersect(range);
+                                c.IsCalculatedFormulaArray = IsCFArray(range.Worksheet, ma);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private static bool IsCFArray(ExcelWorksheet ws, ExcelAddressBase ma)
+        {
+            for(int row=ma._fromRow;row<=ma._toRow; row++)
+            {
+                var f=(CellFlags)ws._flags.GetValue(row, ma._fromCol);
+                if((f & CellFlags.ArrayFormula)!=0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static object SetAndReturnValueError(RpnOptimizedDependencyChain depChain, Exception ex, RpnFormula f)
@@ -1111,6 +1144,10 @@ namespace OfficeOpenXml.FormulaParsing
             if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator op))
             {
                 var result = op.Apply(c2, c1, context);
+                if (result.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
+                {
+                    f._flags |= FormulaFlags.IsAllwaysDynamic;
+                }
                 PushResult(context, f, result);
             }
         }
