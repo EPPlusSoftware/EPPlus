@@ -1,4 +1,7 @@
-﻿using System;
+using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
+using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
+using OfficeOpenXml.Interfaces.Drawing.Text;
+using System;
 using System.IO;
 using System.Text;
 using OfficeOpenXml.Utils;
@@ -12,19 +15,51 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] exScale;
         internal byte[] eyScale;
         internal byte[] Reference;
-        internal uint   Chars;
-        internal uint   offString;
+        internal uint Chars;
+        internal uint offString;
         internal byte[] Options;
         internal byte[] Rectangle;
-        internal uint   offDx;
+        internal uint offDx;
         internal string stringBuffer;
         internal byte[] DxBuffer;
 
         private int padding = 0;
 
+        internal uint InternalFontId;
+        internal ExcelTextSettings textSettings = new ExcelTextSettings();
+
+        internal MapMode mode = MapMode.MM_TEXT;
+        internal ITextMeasurer Measurer;
+
+        internal float Ppi = 108.73578912433f;
+        internal float UnitsPerEm = 2295f;
+
+        /// <summary>
+        /// Minimum spacing is 0x01 which should be correct at fontsize 2
+        /// </summary>
+        //internal int FontSize = 11;
+        internal int FontPointSize
+        {
+            get
+            {
+                if (Font == null | Font.elw.Height == 0)
+                {
+                    return 11;
+                }
+                else
+                {
+                    var height = Font.elw.Height;
+
+                    return Font.elw.Height < 0 ? Math.Abs(height) : height;
+                }
+            }
+        }
+
+        internal EMR_EXTCREATEFONTINDIRECTW Font = null;
+
         internal string Text
         {
-            get 
+            get
             {
                 return stringBuffer;
             }
@@ -61,135 +96,36 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        private byte[] CalculateDxSpacing()
+        internal byte[] CalculateDxSpacing(string targetString)
         {
-            int j = 0;
-            for (int i = 0; i < stringBuffer.Length; i++)
+            var aMesurement = (GenericFontMetricsTextMeasurer)textSettings.GenericTextMeasurer;
+            aMesurement.MeasureTextInternal(targetString, GenericFontMetricsTextMeasurerBase.GetKey(Font.elw.mFont.FontFamily, Font.elw.mFont.Style), Font.elw.mFont.Style, Font.elw.mFont.Size);
+            var values = aMesurement.MeasureIndividualCharacters(targetString, Font.elw.mFont, Ppi);
+
+            int index = 0;
+            foreach (uint val in values)
             {
-                DxBuffer[j++] = (byte)GetSpacingForChar(stringBuffer[i]);
-                DxBuffer[j++] = 0x00;
-                DxBuffer[j++] = 0x00;
-                DxBuffer[j++] = 0x00;
+                var bytes = BitConverter.GetBytes(val);
+                bytes.CopyTo(DxBuffer, index);
+                index += bytes.Length;
             }
             return DxBuffer;
         }
 
-        internal static int GetSpacingForChar(char aChar)
+        internal int GetSpacingForChar(char c)
         {
-            switch (aChar)
-            {
-                case 'a':
-                    return 0x06;
-                case 'b':
-                    return 0x07;
-                case 'c':
-                    return 0x05;
-                case 'd':
-                    return 0x07;
-                case 'e':
-                    return 0x06;
-                case 'f':
-                    return 0x04;
-                case 'g':
-                    return 0x07;
-                case 'h':
-                    return 0x07;
-                case 'i':
-                    return 0x03;
-                case 'j':
-                    return 0x03;
-                case 'k':
-                    return 0x06;
-                case 'l':
-                    return 0x03;
-                case 'm':
-                    return 0x09;
-                case 'n':
-                    return 0x07;
-                case 'o':
-                    return 0x07;
-                case 'p':
-                    return 0x07;
-                case 'q':
-                    return 0x07;
-                case 'r':
-                    return 0x04;
-                case 's':
-                    return 0x05;
-                case 't':
-                    return 0x04;
-                case 'u':
-                    return 0x07;
-                case 'v':
-                    return 0x05;
-                case 'w':
-                    return 0x09;
-                case 'x':
-                    return 0x05;
-                case 'y':
-                    return 0x05;
-                case 'z':
-                    return 0x05;
-                case 'A':
-                    return 0x07;
-                case 'B':
-                    return 0x06;
-                case 'C':
-                    return 0x07;
-                case 'D':
-                    return 0x08;
-                case 'E':
-                    return 0x06;
-                case 'F':
-                    return 0x06;
-                case 'G':
-                    return 0x08;
-                case 'H':
-                    return 0x08;
-                case 'I':
-                    return 0x03;
-                case 'J':
-                    return 0x04;
-                case 'K':
-                    return 0x06;
-                case 'L':
-                    return 0x05;
-                case 'M':
-                    return 0x0A;
-                case 'N':
-                    return 0x08;
-                case 'O':
-                    return 0x09;
-                case 'P':
-                    return 0x06;
-                case 'Q':
-                    return 0x08;
-                case 'R':
-                    return 0x07;
-                case 'S':
-                    return 0x06;
-                case 'T':
-                    return 0x06;
-                case 'U':
-                    return 0x08;
-                case 'V':
-                    return 0x07;
-                case 'W':
-                    return 0x0B;
-                case 'X':
-                    return 0x06;
-                case 'Y':
-                    return 0x05;
-                case 'Z':
-                    return 0x06;
-                default:
-                    return 0x05;
-            }
+            return GetSpacingForChar(c, (GenericFontMetricsTextMeasurer)textSettings.GenericTextMeasurer, Font.elw.mFont, Ppi);
         }
 
-
-        internal EMR_EXTTEXTOUTW(string Text)
+        internal static int GetSpacingForChar(char c, GenericFontMetricsTextMeasurer aMesurement, MeasurementFont mFont, float ppi)
         {
+            return (int)aMesurement.MeasureIndividualCharacter(c, mFont, ppi);
+        }
+
+        internal EMR_EXTTEXTOUTW(string Text, EMR_EXTCREATEFONTINDIRECTW font)
+        {
+            Font = font;
+
             Type = RECORD_TYPES.EMR_EXTTEXTOUTW;
             Bounds = new byte[16] { 0x13, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x4b, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00 };
             iGraphicsMode = new byte[4] { 0x02, 0x00, 0x00, 0x00 };
@@ -203,8 +139,10 @@ namespace OfficeOpenXml.Drawing.EMF
             CalculateOffsets();
         }
 
-        internal EMR_EXTTEXTOUTW(string Text, int x, int y)
+        internal EMR_EXTTEXTOUTW(string Text, int x, int y, EMR_EXTCREATEFONTINDIRECTW font)
         {
+            Font = font;
+
             Type = RECORD_TYPES.EMR_EXTTEXTOUTW;
             Bounds = new byte[16] { 0x13, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00, 0x4b, 0x00, 0x00, 0x00, 0x30, 0x00, 0x00, 0x00 };
             iGraphicsMode = new byte[4] { 0x02, 0x00, 0x00, 0x00 };
@@ -221,6 +159,7 @@ namespace OfficeOpenXml.Drawing.EMF
             Rectangle = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
             offString = 4 + 4 + 16 + 4 + 4 + 4 + 8 + 4 + 4 + 4 + 16 + 4;
             stringBuffer = Text;
+
             CalculateOffsets();
         }
 
@@ -234,7 +173,7 @@ namespace OfficeOpenXml.Drawing.EMF
             padding = (int)(offDx) - padding;
 
             DxBuffer = new byte[stringBuffer.Length * 4];
-            CalculateDxSpacing();
+            CalculateDxSpacing(stringBuffer);
             Size = offDx + (uint)DxBuffer.Length;
         }
 

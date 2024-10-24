@@ -1,13 +1,14 @@
 ﻿using System;
 using System.IO;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
     internal class EMR_EXTCREATEFONTINDIRECTW : EMR_RECORD
     {
-        uint ihFonts;
-        LogFont elw = null;
-
+        internal uint ihFonts;
+        internal LogFont elw = null;
+        ExcelFont excelFont;
         bool isExDv = false;
 
         internal EMR_EXTCREATEFONTINDIRECTW(LogFontExDv elw)
@@ -32,6 +33,11 @@ namespace OfficeOpenXml.Drawing.EMF
             {
                 //Fixed length is LogFontPanose
                 elw = new LogFontPanose(br);
+            }
+            else if(sizeOfVariableObject == 92)
+            {
+                //The object MAY be as simple as a logfont object.
+                elw = new LogFont(br);
             }
             else
             {

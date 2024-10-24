@@ -15,8 +15,8 @@ using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 {
@@ -86,7 +86,106 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
             return new TextMeasurement(width, height);
         }
 
+        static Dictionary<char, uint> AlphabetChars = new Dictionary<char, uint>
+        {
+            {'a', 0x06 },
+            {'b', 0x07 },
+            {'c', 0x05 },
+            {'d', 0x07 },
+            {'e', 0x06 },
+            {'f', 0x04 },
+            {'g', 0x07 },
+            {'h', 0x07 },
+            {'i', 0x03 },
+            {'j', 0x03 },
+            {'k', 0x06 },
+            {'l', 0x03 },
+            {'m', 0x09 },
+            {'n', 0x07 },
+            {'o', 0x07 },
+            {'p', 0x07 },
+            {'q', 0x07 },
+            {'r', 0x04 },
+            {'s', 0x05 },
+            {'t', 0x04 },
+            {'u', 0x07 },
+            {'v', 0x05 },
+            {'w', 0x09 },
+            {'x', 0x05 },
+            {'y', 0x05 },
+            {'z', 0x05 },
+            {'A', 0x07 },
+            {'B', 0x06 },
+            {'C', 0x07 },
+            {'D', 0x08 },
+            {'E', 0x06 },
+            {'F', 0x06 },
+            {'G', 0x08 },
+            {'H', 0x08 },
+            {'I', 0x03 },
+            {'J', 0x04 },
+            {'K', 0x06 },
+            {'L', 0x05 },
+            {'M', 0x0A },
+            {'N', 0x08 },
+            {'O', 0x09 },
+            {'P', 0x06 },
+            {'Q', 0x08 },
+            {'R', 0x07 },
+            {'S', 0x06 },
+            {'T', 0x06 },
+            {'U', 0x08 },
+            {'V', 0x07 },
+            {'W', 0x0B },
+            {'X', 0x06 },
+            {'Y', 0x05 },
+            {'Z', 0x06 }
+        };
 
+        internal List<uint> MeasureTextSpacingInternal(string text, uint fontKey, MeasurementFontStyles style, float size, float ppi = 108.73578912433f)
+        {
+            var sFont = _fonts[fontKey];
+            var chars = text.ToCharArray();
+
+            var spacingBuffer = new List<uint>();
+
+            var widthDefault = sFont.ClassWidths[sFont.DefaultWidthClass];
+
+            float resolutionDifference = ppi / 96f;
+            float ptSize = size * (72f / 96f);
+
+            float finalFactor = resolutionDifference * ptSize;
+
+            for (var x = 0; x < chars.Length; x++)
+            {
+                var fnt = sFont;
+                var c = chars[x];
+
+                var fntClass = sFont.CharMetrics.ContainsKey(c) ? sFont.CharMetrics[c] : fnt.DefaultWidthClass;
+                float adjustmentFactor = 0.012f * ptSize * ((int)fntClass);
+
+                float deviceUnits = fnt.ClassWidths[fntClass] * finalFactor - adjustmentFactor;
+
+                uint simplifiedWidth = (uint)Math.Round(deviceUnits, MidpointRounding.AwayFromZero);
+                spacingBuffer.Add(simplifiedWidth);
+            }
+
+            return spacingBuffer;
+        }
+
+        internal uint MeasureCharacter(char c, uint fontKey, MeasurementFontStyles style, float ptSize, float finalFactor)
+        {
+            var sFont = _fonts[fontKey];
+            var fnt = sFont;
+
+            var fntClass = sFont.CharMetrics.ContainsKey(c) ? sFont.CharMetrics[c] : fnt.DefaultWidthClass;
+            float adjustmentFactor = 0.012f * ptSize * ((int)fntClass);
+
+            float deviceUnits = fnt.ClassWidths[fntClass] * finalFactor - adjustmentFactor;
+
+            uint simplifiedWidth = (uint)Math.Round(deviceUnits, MidpointRounding.AwayFromZero);
+            return simplifiedWidth;
+        }
 
         internal static uint GetKey(FontMetricsFamilies family, FontSubFamilies subFamily)
         {
