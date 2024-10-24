@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.OleObject
@@ -19,9 +20,17 @@ namespace OfficeOpenXml.Drawing.OleObject
             return new ExcelOleObject(drawings, node, oleObject, parent);
         }
 
-        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string filepath, bool linkToFile, bool displayAsIcon, string iconFilePath)
+        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string name, string olePath, ExcelOleObjectParameters parameters, string iconFilePath = null)
         {
-            return new ExcelOleObject(drawings, drawNode, filepath, linkToFile, displayAsIcon, iconFilePath);
+            return new ExcelOleObject(drawings, drawNode, name, olePath, parameters, iconFilePath);
+        }
+        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string name, FileInfo oleInfo, ExcelOleObjectParameters parameters, FileInfo iconInfo = null)
+        {
+            return new ExcelOleObject(drawings, drawNode, name, oleInfo, parameters, iconInfo);
+        }
+        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string name, Stream oleStream, ExcelOleObjectParameters parameters, Stream iconStream = null)
+        {
+            return new ExcelOleObject(drawings, drawNode, name, oleStream, parameters, iconStream);
         }
     }
 }

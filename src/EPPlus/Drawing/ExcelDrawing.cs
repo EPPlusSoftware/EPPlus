@@ -78,7 +78,7 @@ namespace OfficeOpenXml.Drawing
             if (node != null)   //No drawing, chart xml only. This currently happends when created from a chart template
             {
                 TopNode = node;
-                
+
                 if(DrawingType==eDrawingType.Control || DrawingType==eDrawingType.OleObject || drawings.Worksheet.Workbook._nextDrawingId >= 1025)
                 {
                     _id = drawings.Worksheet._nextControlId++;
