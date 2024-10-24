@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
+using System;
+using System.IO;
+using System.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -42,10 +45,34 @@ namespace OfficeOpenXml.Drawing.EMF
                 }
             }
         }
-        internal BitmapHeader bitMapHeader;
+        internal BitmapInformationHeader bitMapHeader;
 
         internal byte[] Padding1;
-        internal byte[] Padding2;
+
+        byte[] _padding2 = new byte[0];
+
+        internal byte[] Padding2
+        {
+            get
+            {
+                return _padding2;
+            }
+            set
+            {
+                Size -= (uint)_padding2.Length;
+                offBitsSrc -= (uint)_padding2.Length;
+                _padding2 = value;
+                Size += (uint)_padding2.Length;
+
+                if (Size % 4 != 0)
+                {
+                    int paddingBytes = (int)(4 - (Size % 4)) % 4;
+                    EndPadding = new byte[paddingBytes];
+                    Size += (uint)paddingBytes;
+                }
+                offBitsSrc += (uint)_padding2.Length;
+            }
+        }
         internal byte[] EndPadding;
 
         internal EMR_STRETCHDIBITS(BinaryReader br, uint TypeValue) : base(br, TypeValue)
@@ -80,7 +107,7 @@ namespace OfficeOpenXml.Drawing.EMF
             //Should not be neccesary
             br.BaseStream.Position = startOfHeader;
 
-            bitMapHeader = new BitmapHeader(br, cbBmiSrc);
+            bitMapHeader = new BitmapInformationHeader(br, cbBmiSrc);
 
             //There's undefined variable space here, ensure we reach the bitmapSpace
             var startOfBitmapBits = startOfRecord + offBitsSrc;
@@ -104,6 +131,49 @@ namespace OfficeOpenXml.Drawing.EMF
                 return;
             }
             EndPadding = br.ReadBytes(tempPadding);
+        }
+
+        internal void ChangeImage(byte[] bmp)
+        {
+            byte[] bmpHeader = new byte[14];
+            Array.Copy(bmp, 0, bmpHeader, 0, 14);
+
+            byte[] bmpDIBHeaderSize = new byte[4];
+            Array.Copy(bmp, 14, bmpDIBHeaderSize, 0, 4);
+
+            int DIBHeaderSize = BitConverter.ToInt32(bmpDIBHeaderSize, 0);
+
+            byte[] bmpDIBHeader = new byte[DIBHeaderSize];
+            Array.Copy(bmp, 14, bmpDIBHeader, 0, DIBHeaderSize);
+
+            var cxArr = BitConverter.GetBytes(cxSrc);
+            var cyArr = BitConverter.GetBytes(cySrc);
+            //Get width and height from bmp image. This will make sure we display the full image.
+            Array.Copy(bmpDIBHeader, 4, cxArr, 0, 4);
+            Array.Copy(bmpDIBHeader, 8, cyArr, 0, 4);
+
+            cxSrc = BitConverter.ToInt32(cxArr, 0);
+            cySrc = BitConverter.ToInt32(cyArr, 0);
+            cxDest = cxSrc;
+            cyDest = cySrc;
+
+            int headerSize = DIBHeaderSize + 14;
+
+            byte[] bmpPixelData = new byte[bmp.Length - headerSize];
+            Array.Copy(bmp, headerSize, bmpPixelData, 0, bmp.Length - headerSize);
+
+            BmiSrc = bmpDIBHeader;
+            var headerSizeDiff = cbBmiSrc - bmpDIBHeader.Length;
+            cbBmiSrc = (uint)bmpDIBHeader.Length;
+
+            offBitsSrc = offBitsSrc - (uint)headerSizeDiff;
+
+            cbBitsSrc = (uint)bmpPixelData.Length;
+            BitsSrc = bmpPixelData;
+
+            Size = (uint)(offBitsSrc + cbBitsSrc);
+            int paddingBytes = (int)(4 - (Size % 4)) % 4;
+            EndPadding = new byte[paddingBytes];
         }
 
         internal override void WriteBytes(BinaryWriter bw)

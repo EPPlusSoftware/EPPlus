@@ -83,77 +83,69 @@ namespace EPPlusTest
 
 
         [TestMethod]
-        public void ReadStamp()
+        public void ReadStamp2()
         {
             var emfImage = new EmfImage();
             emfImage.Read("C:\\epplusTest\\Testoutput\\ValidStamp.emf");
-
-            var records = emfImage.records;
 
             var dibits = (EMR_STRETCHDIBITS)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
 
             var fileBytes = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ResizedAsExcel.bmp");
 
-            var br = new BinaryReader(new MemoryStream(fileBytes));
+            dibits.ChangeImage(fileBytes);
 
-            br.BaseStream.Seek(0, SeekOrigin.Begin);
-            dibits.bitMapHeader = new BitmapHeader(br);
-            dibits.cbBmiSrc = dibits.bitMapHeader.sizeOfHeader;
-            //var sign = Encoding.ASCII.GetString(br.ReadBytes(2));    //BM for a Windows bitmap
+            emfImage.Save("C:\\epplusTest\\Testoutput\\ValidStampChangedImage.emf");
+        }
 
-            //var size = br.ReadInt32();
-            //var reserved = br.ReadBytes(4);
-            //var offsetData = br.ReadInt32();
-            //var ihSize = br.ReadInt32();
-
-            //dibits.cbBmiSrc = (uint)ihSize;
-            //dibits.bitMapHeader = new BitmapHeader(br, (uint)ihSize);
-
-            var nrOfColorEntries = dibits.bitMapHeader.nColors;
-            if(nrOfColorEntries == 0)
-            {
-                nrOfColorEntries = (uint)Math.Pow(2, (uint)dibits.bitMapHeader.colorDepth);
-            }
-
-            //br.ReadBytes((int)nrOfColorEntries);
-            dibits.Padding2 = new byte[0];
-            dibits.Size -= (uint)dibits.Padding2.Length;
-            dibits.Padding2 = br.ReadBytes(dibits.bitMapHeader.offset - (int)br.BaseStream.Position);
-            dibits.Size += (uint)dibits.Padding2.Length;
-            if (dibits.Size % 4 != 0)
-            {
-                int paddingBytes = (int)(4 - (dibits.Size % 4)) % 4;
-                dibits.EndPadding = new byte[paddingBytes];
-                dibits.Size += (uint)paddingBytes;
-            }
-
-            br.BaseStream.Position = dibits.bitMapHeader.offset;
-
-            var test = fileBytes.Length - (int)br.BaseStream.Position;
-            var length = fileBytes.Length - dibits.bitMapHeader.offset;
-
-            var srcsBits = br.ReadBytes(length);
-
-           //var srcsBits = br.ReadBytes(fileBytes.Length - (int)br.BaseStream.Position);
-
-            dibits.BitsSrc = srcsBits;
-
-            dibits.Bounds = new RectLObject(9, 59, 117, 102);
-
-            emfImage.Save("C:\\epplusTest\\Testoutput\\ValidStampAltered.emf");
-
-            var readImage = new EmfImage();
-            readImage.Read("C:\\epplusTest\\Testoutput\\ValidStampAltered.emf");
+        [TestMethod]
+        public void ReadStamp()
+        {
+            var emfImage = new EmfImage();
+            emfImage.Read("C:\\epplusTest\\Testoutput\\ValidStamp.emf");
 
             var readExcelVersion = new EmfImage();
             readExcelVersion.Read("C:\\epplusTest\\Testoutput\\TemplateBmp.emf");
 
-            var records2 = readImage.records;
+            var templateRecords = readExcelVersion.records;
+            var dibitsTemplate = (EMR_STRETCHDIBITS)readExcelVersion.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
 
-            var dibits1 = (EMR_STRETCHDIBITS)readImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+            var records = emfImage.records;
 
-            var targetRecord = readExcelVersion.records;
-            var dibits2 = (EMR_STRETCHDIBITS)readExcelVersion.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+            var dibits = (EMR_STRETCHDIBITS)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            var setWorld = emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
+            var modifyWorld = emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
+            var brushOrgEx = emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_SETBRUSHORGEX);
+
+            var setWorldTemplate = templateRecords.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
+            var modifyWorldTemplate = templateRecords.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
+
+            setWorld.data = setWorldTemplate.data;
+            modifyWorld.data = modifyWorldTemplate.data;
+
+            brushOrgEx.data = new byte[] { 9, 0, 0, 0, 59, 0, 0, 0 };
+
+            var intersectR = new EMR_INTERSECTCLIPRECT();
+            intersectR.Clip = new RectLObject(0, 0, 128, 160);
+            records.Insert(154, intersectR);
+
+            var fileBytes = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ResizedAsExcel.bmp");
+
+            var handler = new BitmapHandler(fileBytes);
+
+            dibits.bitMapHeader = handler.informationHeader;
+            dibits.cbBmiSrc = dibits.bitMapHeader.sizeOfHeader;
+            dibits.Padding2 = handler.OptionalData;
+            dibits.BitsSrc = handler.PixelArray;
+
+            dibits.cxDest = 128;
+            dibits.cxSrc = 128;
+            dibits.cySrc = 53;
+            dibits.cyDest = 53;
+
+            dibits.Bounds = new RectLObject(9, 59, 117, 102);
+
+            emfImage.Save("C:\\epplusTest\\Testoutput\\ValidStampAltered.emf");
         }
 
         [TestMethod]
