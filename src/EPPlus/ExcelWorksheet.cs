@@ -190,6 +190,9 @@ namespace OfficeOpenXml
             LoadComments();
             LoadThreadedComments();
         }
+
+        #endregion
+
         internal void LoadComments()
         {
             CreateVmlCollection();
@@ -200,7 +203,6 @@ namespace OfficeOpenXml
             _threadedComments = new ExcelWorksheetThreadedComments(Workbook.ThreadedCommentPersons, this);
         }
 
-        #endregion
         /// <summary>
         /// The Uri to the worksheet within the package
         /// </summary>
@@ -1390,15 +1392,21 @@ namespace OfficeOpenXml
                     var vm = xr.GetAttribute("vm");
                     if (cm != null || vm != null)
                     {
+                        if(!this.Workbook.RichDataInitialized)
+                        {
+                            Workbook.InitializeRichData();
+                        }
                         currentCm = string.IsNullOrEmpty(cm) ? 0 : int.Parse(cm);
                         currentVm = string.IsNullOrEmpty(vm) ? 0 : uint.Parse(vm);
+                        var vmId = Workbook.Metadata.ValueMetadata.GetIdByIndex((int)currentVm - 1);
+                        _package.OnWorksheetValueMetadataRead(Index, address._fromRow, address._fromCol, currentVm);
                         _metadataStore.SetValue(
                             address._fromRow,
                             address._fromCol,
                             new MetaDataReference()
                             {
                                 cm = currentCm,
-                                vm = currentVm
+                                vm = vmId
                             });
                     }
                     else

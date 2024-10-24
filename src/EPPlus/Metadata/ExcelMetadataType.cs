@@ -11,6 +11,7 @@
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
@@ -111,7 +112,7 @@ namespace OfficeOpenXml.Metadata
             }
         }
 
-        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
             base.OnConnectedEntityDeleted(e);
             if(e.DeletedEntity.EntityType == RichDataEntities.ValueMetadataRecord)

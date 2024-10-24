@@ -8,34 +8,29 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  07/25/2024         EPPlus Software AB       EPPlus 7
+  11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.RichData.IndexRelations;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.Metadata.FutureMetadata
+namespace OfficeOpenXml.RichData.IndexRelations.EventArguments
 {
-    internal abstract class FutureMetadataBase : IndexEndpoint
+    internal class ConnectedEntityDeletedEventArgs : EventArgs
     {
-        internal const string DYNAMIC_ARRAY_NAME = "XLDAPR";
-        internal const string RICHDATA_NAME = "XLRICHVALUE";
-
-        protected FutureMetadataBase(RichDataIndexStore store) : base(store, RichDataEntities.FutureMetadata)
+        public ConnectedEntityDeletedEventArgs(IndexEndpoint deletedEntity, IndexRelation relation, RichDataIndexStore store, RelationDeletions relDeletions)
         {
+            DeletedEntity = deletedEntity;
+            Relation = relation;
+            IndexStore = store;
+            RelationDeletions = relDeletions;
         }
+        public IndexEndpoint DeletedEntity { get; private set; }
+        public IndexRelation Relation { get; private set; }
 
-        public int Index { get; set; }
-        public string Name { get; set; }
+        public RichDataIndexStore IndexStore { get; private set; }
 
-        public abstract string Uri { get; set; }
-
-        public abstract IndexedSubsetCollection<FutureMetadataBlock> Blocks { get; set; }
-
-        public abstract void Save(StreamWriter sw);
-
+        public RelationDeletions RelationDeletions { get; private set; }
     }
 }

@@ -13,7 +13,9 @@
 using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
@@ -45,6 +47,7 @@ namespace OfficeOpenXml.Metadata
             _typeRelation = store.CreateAndAddRelationWithSubRelations(this, RichDataEntities.MetadataType);
             // A value metadata block can have more than one relation to future metadata blocks via its records
             _valuesRelation = store.CreateAndAddRelationWithSubRelations(this, RichDataEntities.RichValue);
+            uint currentIndex = 0;
             while (xr.IsEndElementWithName("bk") == false && xr.EOF == false)
             {
                 if (xr.IsElementWithName("rc"))
@@ -58,6 +61,8 @@ namespace OfficeOpenXml.Metadata
                     //Records.Add(new ExcelValueMetadataRecord(metadata, this, t, v, store));
                 }
                 xr.Read();
+                _metadata.OnValueMetadataRead(Id, currentIndex + 1);
+                currentIndex++;
             }
         }
 
@@ -72,7 +77,7 @@ namespace OfficeOpenXml.Metadata
             _metadata.ValueMetadataRecords.Add(record);
             var type = _metadata.MetadataTypes.Get(typeId);
             var typeRel = _metadata.MetadataTypes.CreateRelation(record, type, IndexType.OneBasedPointer);
-            _store.AddSubRelation(valueId, typeRel);
+            _store.AddSubRelation(_typeRelation.Id, typeRel);
             var fm = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
             if(fm != null)
             {
@@ -99,7 +104,7 @@ namespace OfficeOpenXml.Metadata
             }
         }
 
-        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
             base.OnConnectedEntityDeleted(e);
             if(e.DeletedEntity.EntityType == RichDataEntities.FutureMetadataRichDataBlock)

@@ -13,6 +13,7 @@
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
             Name = name;
             _indexStore = store;
             Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
+            Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
             var type = metadata.MetadataTypes.FirstOrDefault(t => t.Name == name);
             if(type != null)
             {
@@ -43,11 +45,18 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         {
             _indexStore = store;
             Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
+            Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
             //Blocks = new FutureMetadataRichValueBlockCollection(store);
             ReadXml(xr, metadata);
         }
 
         private readonly RichDataIndexStore _indexStore;
+
+
+        private void OnBlocksIsEmpty(object source, CollectionIsEmptyEventArgs e)
+        {
+            DeleteMe(e.Deletions);
+        }
 
         public override string Uri { get; set; } = ExtLstUris.RichValueDataUri;
 

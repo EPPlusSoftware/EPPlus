@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.RichData.Structures.Constants;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
@@ -109,7 +110,7 @@ namespace OfficeOpenXml.RichData.Structures
             return null;
         }
 
-        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
             base.OnConnectedEntityDeleted(e);
             // delete the structure if there is only one rich value left pointing at it

@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.RichData.Mappings;
 using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.RichData.Structures;
@@ -69,7 +70,16 @@ namespace OfficeOpenXml.RichData.RichValues
             }
             foreach (var key in Structure.Keys.ToNameArray())
             {
-                sw.Write($"<v>{ConvertUtil.ExcelEscapeString(_keysAndValues[key])}</v>");
+                if(_relations.ContainsKey(key))
+                {
+                    var relation = _relations[key];
+                    var relIx = _richData.RichValueRels.GetIndexById(relation.To.Id);
+                    sw.Write($"<v>{relIx}</v>");
+                }
+                else
+                {
+                    sw.Write($"<v>{ConvertUtil.ExcelEscapeString(_keysAndValues[key])}</v>");
+                }
             }
             sw.Write("</rv>");
         }
@@ -221,7 +231,7 @@ namespace OfficeOpenXml.RichData.RichValues
         {
             if (!_relations.ContainsKey(key)) return false;
             var rel = _relations[key];
-            var e = new ConnectedEntityDeletedArgs(this, rel, _indexStore, relDeletions);
+            var e = new ConnectedEntityDeletedEventArgs(this, rel, _indexStore, relDeletions);
             rel.To.OnConnectedEntityDeleted(e);
             return _indexStore.DeleteRelation(rel);
         }
@@ -293,7 +303,7 @@ namespace OfficeOpenXml.RichData.RichValues
             return null;
         }
 
-        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
             base.OnConnectedEntityDeleted(e);
             if(e.DeletedEntity.EntityType == RichDataEntities.FutureMetadataRichDataBlock)

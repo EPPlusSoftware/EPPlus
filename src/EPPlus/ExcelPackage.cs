@@ -27,6 +27,8 @@ using OfficeOpenXml.Packaging;
 using System.Diagnostics;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Configuration;
+using OfficeOpenXml.EventArguments;
+
 #if (Core)
 using Microsoft.Extensions.Configuration;
 #endif
@@ -431,6 +433,16 @@ namespace OfficeOpenXml
             Load(templateStream, newStream, Password);
         }
         #endregion
+
+        #region Events
+        internal EventHandler<WorksheetValueMetadataReadEventArgs> WorksheetValueMetadataRead;
+        #endregion
+
+        internal void OnWorksheetValueMetadataRead(int worksheetIndex, int row, int col, uint vm)
+        {
+            var e = new WorksheetValueMetadataReadEventArgs(worksheetIndex, row, col, vm);
+            WorksheetValueMetadataRead?.Invoke(this, e);
+        }
         /// <summary>
         /// Init values here
         /// </summary>

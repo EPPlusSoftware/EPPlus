@@ -90,6 +90,8 @@ namespace OfficeOpenXml
             }
         }
 
+        
+
         internal short GetPositionByToken(string tokenValue)
         {
             var name = tokenValue.TrimStart('\'').TrimEnd('\'').Replace("''", "'");

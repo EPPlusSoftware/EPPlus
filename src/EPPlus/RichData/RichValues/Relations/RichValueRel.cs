@@ -13,6 +13,7 @@
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -62,7 +63,7 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
             }
         }
 
-        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
             if (Deleted) return;
             base.OnConnectedEntityDeleted(e);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.RichData.IndexRelations.EventArguments;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,11 @@ namespace OfficeOpenXml.RichData.IndexRelations
         private readonly IndexedCollection<T> _collection;
         private readonly HashSet<uint> _itemIds = new HashSet<uint>();
         private readonly List<uint> _items = new List<uint>();
+        public EventHandler<CollectionIsEmptyEventArgs> CollectionIsEmpty;
 
         public void Add(T item)
         {
+            item.EndpointDeleted += OnEndpointDeleted;
             //TODO: should we handle empty collection via events?
             if (_collection.GetItem(item.Id) == null)
             {
@@ -33,6 +36,16 @@ namespace OfficeOpenXml.RichData.IndexRelations
             {
                 _itemIds.Add(item.Id);
                 _items.Add(item.Id);
+            }
+        }
+
+        private void OnEndpointDeleted(object source, EndpointDeletedEventArgs e)
+        {
+            _items.Remove(e.Id);
+            if(_items.Count == 0)
+            {
+                var e2 = new CollectionIsEmptyEventArgs(e.Deletions);
+                CollectionIsEmpty?.Invoke(this, e2);
             }
         }
 

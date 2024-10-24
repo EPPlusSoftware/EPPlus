@@ -15,22 +15,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.RichData.IndexRelations
+namespace OfficeOpenXml.RichData.IndexRelations.EventArguments
 {
-    internal class ConnectedEntityDeletedArgs : EventArgs
+    internal class EndpointDeletedEventArgs : EventArgs
     {
-        public ConnectedEntityDeletedArgs(IndexEndpoint deletedEntity, IndexRelation relation, RichDataIndexStore store, RelationDeletions relDeletions) 
+        public EndpointDeletedEventArgs(uint id, RelationDeletions deletions)
         {
-            DeletedEntity = deletedEntity;
-            Relation = relation;
-            IndexStore = store;
-            RelationDeletions = relDeletions;
+            Id = id;
+            Deletions = deletions;
         }
-        public IndexEndpoint DeletedEntity { get; private set; }
-        public IndexRelation Relation { get; private set; }
 
-        public RichDataIndexStore IndexStore { get; private set; }
-
-        public RelationDeletions RelationDeletions { get; private set; }
+        public uint Id { get; private set; }
+        public RelationDeletions Deletions { get; }
     }
 }

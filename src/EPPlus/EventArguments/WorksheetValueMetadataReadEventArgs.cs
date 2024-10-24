@@ -15,15 +15,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.RichData.IndexRelations
+namespace OfficeOpenXml.EventArguments
 {
-    internal class EndpointDeletedArgs : EventArgs
+    internal class WorksheetValueMetadataReadEventArgs : EventArgs
     {
-        public EndpointDeletedArgs(uint id)
+        public WorksheetValueMetadataReadEventArgs(int worksheetIx, int row, int col, uint vm)
         {
-            Id = id;
+            WorksheetIx = worksheetIx;
+            Row = row;
+            Col = col;
+            Vm = vm;
         }
-
-        public uint Id { get; private set; }
+        public int WorksheetIx { get; }
+        public int Row { get; }
+        public int Col { get; }
+        public uint Vm { get; }
     }
 }

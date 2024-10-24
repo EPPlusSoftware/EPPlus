@@ -1,6 +1,7 @@
 ﻿using EPPlusTest.RichData.TestClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace EPPlusTest.RichData
         [TestMethod]
         public void ReindexTest()
         {
-            var store = new RichDataIndexStore();
+            using var package = new ExcelPackage();
+            var store = new RichDataIndexStore(package.Workbook);
             var coll = new RichValueTestCollection(store);
             var item1 = new RichValueTest(store);
             var item2 = new RichValueTest(store);

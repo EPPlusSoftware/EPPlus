@@ -209,6 +209,7 @@ namespace OfficeOpenXml
             base(namespaceManager)
         {
             _package = package;
+			_indexStore = new RichDataIndexStore(this);
             SetUris();
 
             _names = new ExcelNamedRangeCollection(this);
@@ -220,6 +221,8 @@ namespace OfficeOpenXml
 
             GetSharedStrings();
         }
+
+
 
         /// <summary>
         /// Load all pivot cache ids and there uri's
@@ -2022,19 +2025,29 @@ namespace OfficeOpenXml
 
 		ExcelRichData _richData = null;
 
+		internal bool RichDataInitialized => _richData != null;
+
+		internal void InitializeRichData()
+		{
+			if(_richData == null)
+			{
+                _richData = new ExcelRichData(this);
+            }
+		}
+
 		internal ExcelRichData RichData
 		{
 			get
 			{
 				if (_richData == null)
 				{
-					_richData = new ExcelRichData(this);
+					InitializeRichData();
 				}
 				return _richData;
 			}
 		}
 
-		private readonly RichDataIndexStore _indexStore = new RichDataIndexStore();
+		private readonly RichDataIndexStore _indexStore;
 
 		internal RichDataIndexStore IndexStore => _indexStore;
 

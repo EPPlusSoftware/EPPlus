@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.RichData.RichValues;
 using OfficeOpenXml.Utils;
 using System;
@@ -81,7 +82,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
 
         public uint RichDataId { get; set; }
 
-        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
             base.OnConnectedEntityDeleted(e);
             if(e.DeletedEntity.EntityType == RichDataEntities.RichValue || e.DeletedEntity.EntityType == RichDataEntities.ValueMetadataRecord)

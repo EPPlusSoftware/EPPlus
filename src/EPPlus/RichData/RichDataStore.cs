@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.EventArguments;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Metadata.FutureMetadata;
@@ -36,12 +37,32 @@ namespace OfficeOpenXml.RichData
             _workbook = sheet.Workbook;
             _metadataStore = sheet._metadataStore;
             _metadata = sheet.Workbook.Metadata;
+            _indexStore = _workbook.IndexStore;
+            _metadata.ValueMetadataRead += OnValueMetadataRead;
         }
 
         private readonly ExcelWorksheet _sheet;
         private readonly ExcelWorkbook _workbook;
         private readonly CellStore<MetaDataReference> _metadataStore;
         private readonly ExcelMetadata _metadata;
+        private readonly RichDataIndexStore _indexStore;
+
+        private void OnValueMetadataRead(object source, ValueMetadataReadEventArgs e)
+        {
+            // this will read the richdata if not previously read
+            _workbook.InitializeRichData();
+
+            if(_indexStore.VmAddresses.ContainsKey(e.OneBasedIndex))
+            {
+                foreach(var adr in _indexStore.VmAddresses[e.OneBasedIndex])
+                {
+                    var sheet = _workbook.Worksheets[adr.WorksheetIx];
+                    var mdr = sheet._metadataStore.GetValue(adr.Row, adr.Column);
+                    mdr.vm = e.Id;
+                    sheet._metadataStore.SetValue(adr.Row, adr.Column, mdr);
+                }
+            }
+        }
 
         internal bool HasRichData(int row, int col)
         {

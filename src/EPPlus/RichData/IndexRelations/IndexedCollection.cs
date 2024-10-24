@@ -196,6 +196,11 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return _idToIndex[id];
         }
 
+        public uint GetIdByIndex(int index)
+        {
+            return _list[index].Id;
+        }
+
         int? IndexedCollectionInterface.GetIndexById(uint id)
         {
             return GetIndexById(id);

@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
@@ -27,8 +28,10 @@ namespace OfficeOpenXml.RichData.IndexRelations
             //_originalIndex = store.GetNextIndex(entity);
         }
 
+        public static readonly uint NoneId = uint.MaxValue;
+
         private IndexEndpoint(RichDataEntities entity)
-            : base(uint.MaxValue)
+            : base(NoneId)
         {
             if(entity != RichDataEntities.None)
             {
@@ -41,11 +44,11 @@ namespace OfficeOpenXml.RichData.IndexRelations
         //private readonly int _originalIndex;
         private readonly RichDataIndexStore _store;
         
-        public EventHandler<EndpointDeletedArgs> EndpointDeleted;
+        public EventHandler<EndpointDeletedEventArgs> EndpointDeleted;
 
-        private void OnEndpointDeleted()
+        private void OnEndpointDeleted(RelationDeletions relDeletions = null)
         {
-            var args = new EndpointDeletedArgs(Id);
+            var args = new EndpointDeletedEventArgs(Id, relDeletions);
             EndpointDeleted?.Invoke(this, args);
         }
 
@@ -77,7 +80,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         }
 
-        public virtual void OnConnectedEntityDeleted(ConnectedEntityDeletedArgs e)
+        public virtual void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
 
         }

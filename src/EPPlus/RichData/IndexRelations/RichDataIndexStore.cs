@@ -10,6 +10,8 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.EventArguments;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +21,31 @@ namespace OfficeOpenXml.RichData.IndexRelations
 {
     internal class RichDataIndexStore
     {
-        public RichDataIndexStore()
+        public RichDataIndexStore(ExcelWorkbook workbook)
         {
-            
+            _workbook = workbook;
+            _workbook._package.WorksheetValueMetadataRead += OnWorksheetValueMetadataRead;
         }
 
+        private readonly ExcelWorkbook _workbook;
+        private readonly Dictionary<uint, List<ValueMetadataCellReference>> _readVmMappings = new Dictionary<uint, List<ValueMetadataCellReference>>();
         private readonly Dictionary<uint, IndexRelation> _relations = new Dictionary<uint, IndexRelation>();
         private readonly Dictionary<uint, List<IndexRelation>> _outgoingRelations = new Dictionary<uint, List<IndexRelation>>();
         private readonly Dictionary<uint, List<IndexRelation>> _incomingRelations = new Dictionary<uint, List<IndexRelation>>();
         private readonly Dictionary<RichDataEntities, IndexedCollectionInterface> _collections = new Dictionary<RichDataEntities, IndexedCollectionInterface>();
         private readonly Dictionary<Type, RichDataEntities> _typeToEntity = new Dictionary<Type, RichDataEntities>();
         private readonly IdGenerator _idGenerator = new IdGenerator();
+
+        private void OnWorksheetValueMetadataRead(object source, WorksheetValueMetadataReadEventArgs e)
+        {
+            if(!_readVmMappings.ContainsKey(e.Vm))
+            {
+                _readVmMappings[e.Vm] = new List<ValueMetadataCellReference>();
+            }
+            _readVmMappings[e.Vm].Add(new ValueMetadataCellReference(e.WorksheetIx, e.Row, e.Col));
+        }
+
+        public Dictionary<uint, List<ValueMetadataCellReference>> VmAddresses => _readVmMappings;
 
         public uint GetNewId()
         {
@@ -155,12 +171,21 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         public void AddRelationWithSubRelations(IndexRelationWithSubRelations relation)
         {
-            if (!_incomingRelations.ContainsKey(relation.To.Id))
-            {
-                _incomingRelations.Add(relation.To.Id, new List<IndexRelation>());
-            }
-            _incomingRelations[relation.To.Id].Add(relation);
             _relations.Add(relation.Id, relation);
+            if(relation.To.Id != IndexEndpoint.NoneId)
+            {
+                if (!_incomingRelations.ContainsKey(relation.To.Id))
+                {
+                    _incomingRelations.Add(relation.To.Id, new List<IndexRelation>());
+                }
+                _incomingRelations[relation.To.Id].Add(relation);
+            }
+            
+            if(!_outgoingRelations.ContainsKey(relation.From.Id))
+            {
+                _outgoingRelations.Add(relation.From.Id, new List<IndexRelation>());
+            }
+            _outgoingRelations[relation.From.Id].Add(relation);
         }
 
         public IEnumerable<IndexRelation> GetOutgoingRelations(uint id)
@@ -261,7 +286,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
                             relDeletions.EnqueueDelete(incomingRel);
                             if(!item.Deleted)
                             {
-                                var e = new ConnectedEntityDeletedArgs(deletedEntity, incomingRel, this, relDeletions);
+                                var e = new ConnectedEntityDeletedEventArgs(deletedEntity, incomingRel, this, relDeletions);
                                 item.OnConnectedEntityDeleted(e);
                             }
                         }
@@ -286,7 +311,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
                             relDeletions.EnqueueDelete(outgoingRel);
                             if(!item.Deleted)
                             {
-                                var e = new ConnectedEntityDeletedArgs(deletedEntity, outgoingRel, this, relDeletions);
+                                var e = new ConnectedEntityDeletedEventArgs(deletedEntity, outgoingRel, this, relDeletions);
                                 item.OnConnectedEntityDeleted(e);
                             }
                         }

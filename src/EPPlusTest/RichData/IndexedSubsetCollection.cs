@@ -1,5 +1,6 @@
 ﻿using EPPlusTest.RichData.TestClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.RichData.IndexRelations;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,8 @@ namespace EPPlusTest.RichData
         [TestMethod]
         public void ShouldReturnOnlyFilteredMembers()
         {
-            var store = new RichDataIndexStore();
+            using var package = new ExcelPackage();
+            var store = new RichDataIndexStore(package.Workbook);
             var coll = new RichValueTestCollection(store);
             var item1 = new RichValueTest(store);
             var item2 = new RichValueTest(store);

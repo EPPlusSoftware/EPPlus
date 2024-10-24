@@ -26,7 +26,7 @@ namespace EPPlusTest.RichData
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var store = new RichDataStore(sheet);
             store.AddRichData(1, 1, rv);
-            var fmbk = metadata.FutureMetadataRichValue.Blocks.First();
+            var fmbk = metadata.FutureMetadata[FutureMetadataBase.RICHDATA_NAME].Blocks.First();
             var relRv = fmbk.GetFirstOutgoingRelByType<ExcelRichValue>();
             Assert.AreEqual(rv.Id, relRv.Id);
 
