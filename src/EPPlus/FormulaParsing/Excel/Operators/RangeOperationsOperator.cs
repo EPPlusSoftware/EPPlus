@@ -265,26 +265,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 
         public static CompileResult Apply(CompileResult left, CompileResult right, Operators op, ParsingContext context)
         {
-            if(left.DataType == DataType.ExcelRange && right.DataType != DataType.ExcelRange)
-            {
-                InMemoryRange resultRange = ApplySingleValueRight(left, right, op, context);
-                return new AddressCompileResult(resultRange, DataType.ExcelRange, resultRange.Address);
-            }
-            else if(left.DataType != DataType.ExcelRange && right.DataType == DataType.ExcelRange)
-            {
-                InMemoryRange resultRange = ApplySingleValueLeft(left, right, op, context);
-                return new AddressCompileResult(resultRange, DataType.ExcelRange, resultRange.Address);
-            }
-            if(left.DataType == DataType.ExcelRange && right.DataType == DataType.ExcelRange)
-            {
-                var interSectAddress = left.Address?.GetIntersectingRowOrColumns(right.Address);
-                InMemoryRange resultRange = ApplyRanges(left, right, op, context, interSectAddress);
-                return new AddressCompileResult(resultRange, DataType.ExcelRange, interSectAddress);
-            }
-            return CompileResult.Empty;
-        }
-        public static CompileResult ApplyWithDynamicResult(CompileResult left, CompileResult right, Operators op, ParsingContext context)
-        {
             if (left.DataType == DataType.ExcelRange && right.DataType != DataType.ExcelRange)
             {
                 InMemoryRange resultRange = ApplySingleValueRight(left, right, op, context);
