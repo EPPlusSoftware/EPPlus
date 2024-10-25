@@ -48,6 +48,7 @@ namespace EPPlusTest.FormulaParsing
             sheet.Cells["B2"].Value = 2;
             sheet.Cells["B3"].Formula = "SUM(A1:A2 + B1:B2)";
             sheet.Calculate();
+
             var result = sheet.Cells["B3"].Value;
             Assert.AreEqual(6d, result);
         }
@@ -174,14 +175,25 @@ namespace EPPlusTest.FormulaParsing
         [TestMethod]
         public void GreaterThanOperatorShouldCalculate()
         {
-                var sheet = _package.Workbook.Worksheets.Add("SumGreaterThan");
-                sheet.Cells["A1"].Value = 3;
-                sheet.Cells["A2"].Value = 4;
-                sheet.Cells["A3"].Value = 5;
-                sheet.Cells["A4"].Formula = "SUM(IF(A1:A3>3,1,2))";
-                sheet.Calculate();
-                var result = System.Math.Round((double)sheet.Cells["A4"].Value, 2);
-                Assert.AreEqual(4d, result);
+            var sheet = _package.Workbook.Worksheets.Add("SumGreaterThan");
+            sheet.Cells["A1"].Value = 3;
+            sheet.Cells["A2"].Value = 4;
+            sheet.Cells["A3"].Value = 5;
+            sheet.Cells["A4"].Formula = "SUM(IF(A1:A3>3,1,2))";
+            sheet.Calculate();
+            var result = System.Math.Round((double)sheet.Cells["A4"].Value, 2);
+            Assert.AreEqual(4d, result);
+        }
+        [TestMethod]
+        public void DoubleNegationOperatorShouldCalculate()
+        {
+            var sheet = _package.Workbook.Worksheets.Add("SumGreaterThanArray");
+            sheet.Cells["A1"].Value = 3;
+            sheet.Cells["A2"].Value = 4;
+            sheet.Cells["A3"].Value = 5;
+            sheet.Cells["A4"].Formula = "SUM(A1:A3>3)";
+            sheet.Calculate();
+            var result = System.Math.Round((double)sheet.Cells["A4"].Value, 2);
         }
 
         [TestMethod]

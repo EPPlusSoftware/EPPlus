@@ -411,7 +411,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                            {
                                if (l.DataType == DataType.ExcelRange || r.DataType == DataType.ExcelRange)
                                {
-                                   return RangeOperationsOperator.Apply(l, r, Operators.GreaterThan, ctx);
+                                   return RangeOperationsOperator.ApplyWithDynamicResult(l, r, Operators.GreaterThan, ctx);
                                }
                                return Compare(l, r, (compRes) => compRes > 0);
                            }));
@@ -432,7 +432,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                            {
                                if (l.DataType == DataType.ExcelRange || r.DataType == DataType.ExcelRange)
                                {
-                                   return RangeOperationsOperator.Apply(l, r, Operators.Equals, ctx);
+                                   return RangeOperationsOperator.ApplyWithDynamicResult(l, r, Operators.Equals, ctx);
                                }
                                return Compare(l, r, (compRes) => compRes == 0); 
                                
@@ -454,7 +454,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                            {
                                if (l.DataType == DataType.ExcelRange || r.DataType == DataType.ExcelRange)
                                {
-                                   return RangeOperationsOperator.Apply(l, r, Operators.NotEqualTo, ctx);
+                                   return RangeOperationsOperator.ApplyWithDynamicResult(l, r, Operators.NotEqualTo, ctx);
                                }
                                return Compare(l, r, (compRes) => compRes != 0);
 
@@ -476,7 +476,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                            {
                                if (l.DataType == DataType.ExcelRange || r.DataType == DataType.ExcelRange)
                                {
-                                   return RangeOperationsOperator.Apply(l, r, Operators.GreaterThanOrEqual, ctx);
+                                   return RangeOperationsOperator.ApplyWithDynamicResult(l, r, Operators.GreaterThanOrEqual, ctx);
                                }
                                return Compare(l, r, (compRes) => compRes >= 0); 
                            }));
@@ -497,7 +497,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                            {
                                if (l.DataType == DataType.ExcelRange || r.DataType == DataType.ExcelRange)
                                {
-                                   return RangeOperationsOperator.Apply(l, r, Operators.LessThan, ctx);
+                                   return RangeOperationsOperator.ApplyWithDynamicResult(l, r, Operators.LessThan, ctx);
                                }
                                return Compare(l, r, (compRes) => compRes < 0);
                            }));
@@ -518,7 +518,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         {
                             if (l.DataType == DataType.ExcelRange || r.DataType == DataType.ExcelRange)
                             {
-                                return RangeOperationsOperator.Apply(l, r, Operators.LessThanOrEqual, ctx);
+                                return RangeOperationsOperator.ApplyWithDynamicResult(l, r, Operators.LessThanOrEqual, ctx);
                             }
                             return Compare(l, r, (compRes) => compRes <= 0); 
                         }));
