@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.OleObject.Structures;
 using System.Collections.Generic;
+using System.IO;
 
 namespace EPPlusTest.Drawing
 {
@@ -498,27 +499,48 @@ namespace EPPlusTest.Drawing
             SaveAndCleanup(p);
             p1.SaveAs(@"C:\epplusTest\Testoutput\NewOleObjects.xlsx");
         }
+
         [TestMethod]
-        public void SmallusCoppiusTestus()
+        public void CreateLinkOLEFromFileInfo()
         {
-            var p = OpenTemplatePackage("TinyOleObjects.xlsx");
-            var ws = p.Workbook.Worksheets[0];
-            List<ExcelOleObject> oleObjects = new List<ExcelOleObject>();
-            foreach (var ole in ws.Drawings)
+            //Write Generic Object
+            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
+            var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
+            FileInfo fileInfo = new FileInfo(@"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt");
+            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileInfo, new ExcelOleObjectParameters() {LinkToFile = true });
+            Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME));
+            Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
+            Assert.IsTrue(genericOle.IsExternalLink);
+            SaveAndCleanup(genericOlePackage);
+        }
+        [TestMethod]
+        public void CreateEmbeddedOLEFromFileInfo()
+        {
+            //Write Generic Object
+            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
+            var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
+            FileInfo fileInfo = new FileInfo(@"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt");
+            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileInfo);
+            Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME));
+            Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
+            Assert.IsFalse(genericOle.IsExternalLink);
+            SaveAndCleanup(genericOlePackage);
+        }
+        [TestMethod]
+        public void CreateEmbeddedOLEFromStream()
+        {
+            //Write Generic Object
+            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
+            var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
+
+            using (FileStream fileStream = new FileStream(@"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt", FileMode.Open, FileAccess.Read))
             {
-                if (ole is ExcelOleObject)
-                {
-                    oleObjects.Add(ole as ExcelOleObject);
-                }
+                var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileStream);
+                Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME));
+                Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
+                Assert.IsFalse(genericOle.IsExternalLink);
+                SaveAndCleanup(genericOlePackage);
             }
-            //Copy to same worksheet
-            foreach (var ole in oleObjects)
-            {
-                ole.Copy(ws, ole.From.Row, ole.From.Column + 10);
-            }
-            //Copy to new worksheet
-            p.Workbook.Worksheets.Add("Worksheet Copy", ws);
-            SaveAndCleanup(p);
         }
     }
 }

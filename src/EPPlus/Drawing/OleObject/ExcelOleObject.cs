@@ -233,14 +233,17 @@ namespace OfficeOpenXml.Drawing.OleObject
             else
             {
                 var ext = parameters.Extension;
-                if (ext.Contains("docx"))
-                    emf.ChangeImage(OleObjectIcon.Docx_Icon_Bitmap);
-                if (ext.Contains("pptx"))
-                    emf.ChangeImage(OleObjectIcon.Pptx_Icon_Bitmap);
-                if (ext.Contains("xlsx"))
-                    emf.ChangeImage(OleObjectIcon.Xlsx_Icon_Bitmap);
-                if (ext.Contains("pdf"))
-                    emf.ChangeImage(OleObjectIcon.PDF_Icon_Bitmap);
+                if (ext != null)
+                {
+                    if (ext.Contains("docx"))
+                        emf.ChangeImage(OleObjectIcon.Docx_Icon_Bitmap);
+                    if (ext.Contains("pptx"))
+                        emf.ChangeImage(OleObjectIcon.Pptx_Icon_Bitmap);
+                    if (ext.Contains("xlsx"))
+                        emf.ChangeImage(OleObjectIcon.Xlsx_Icon_Bitmap);
+                    if (ext.Contains("pdf"))
+                        emf.ChangeImage(OleObjectIcon.PDF_Icon_Bitmap);
+                }
             }
             if(parameters.OlePath == null)
             {
@@ -425,18 +428,21 @@ namespace OfficeOpenXml.Drawing.OleObject
                 {
                     oleName = "Microsoft_Word_Document";
                     contentType = ContentTypes.contentTypeOleDocx;
+                    CompObj.CreateCompObjObject(_oleDataStructures, "Document", "Document");
                     ext = "docx";
                 }
                 else if (parameters.Extension == ".xlsx")
                 {
                     oleName = "Microsoft_Excel_Worksheet";
                     contentType = ContentTypes.contentTypeOleXlsx;
+                    CompObj.CreateCompObjObject(_oleDataStructures, "Worksheet", "Worksheet");
                     ext = "xlsx";
                 }
                 else if (parameters.Extension == ".pptx")
                 {
                     oleName = "Microsoft_PowerPoint_Presentation";
                     contentType = ContentTypes.contentTypeOlePptx;
+                    CompObj.CreateCompObjObject(_oleDataStructures, "Presentation", "Presentation");
                     ext = "pptx";
                 }
                 int newID = 1;

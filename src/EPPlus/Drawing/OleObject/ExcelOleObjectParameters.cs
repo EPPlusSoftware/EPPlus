@@ -21,6 +21,7 @@
         /// Use to set custom progId.
         /// </summary>
         public string ProgId = null;
+        private string _extension;
         /// <summary>
         /// File Extension of OLE Object.
         /// </summary>
@@ -28,11 +29,11 @@
         {
             get
             {
-                return Extension;
+                return _extension;
             }
             set
             {
-                Extension = value[0] == '.' ? value : "." + value;
+                _extension = value.StartsWith(".") ? value : "." + value;
             }
         }
     }
