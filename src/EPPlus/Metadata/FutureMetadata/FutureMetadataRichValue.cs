@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
             var type = metadata.MetadataTypes.FirstOrDefault(t => t.Name == name);
             if(type != null)
             {
-                store.CreateAndAddRelation(type, this, IndexType.String);
+                type.AddRelationTo(this, IndexType.String);
             }
         }
         public FutureMetadataRichValue(XmlReader xr, RichDataIndexStore store, ExcelMetadata metadata)
@@ -46,7 +46,6 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
             _indexStore = store;
             Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
             Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
-            //Blocks = new FutureMetadataRichValueBlockCollection(store);
             ReadXml(xr, metadata);
         }
 
@@ -70,7 +69,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
                     var type = metadata.MetadataTypes.FirstOrDefault(t => t.Name == Name);
                     if (type != null)
                     {
-                        _indexStore.CreateAndAddRelation( type, this, IndexType.String);
+                        type.AddRelationTo(this, IndexType.String);
                     }
                     xr.Read();
                 }

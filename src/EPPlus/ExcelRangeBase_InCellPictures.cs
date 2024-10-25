@@ -77,5 +77,13 @@ namespace OfficeOpenXml
             var calcOrigin = markAsDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
             _worksheet._cellPicturesManager.SetCellPicture(_fromRow, _fromCol, image, altText, calcOrigin);
         }
+
+        /// <summary>
+        /// Removes any in cell picture from the top-left cell in the range
+        /// </summary>
+        public void DeleteCellPicture()
+        {
+            _worksheet._cellPicturesManager.DeleteCellPicture(_fromRow, _fromCol);
+        }
     }
 }

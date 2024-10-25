@@ -60,6 +60,11 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return _collection.Get(id);
         }
 
+        public int GetZeroBasedIndex(uint id)
+        {
+            return _items.IndexOf(id);
+        }
+
         public IEnumerator<T> GetEnumerator()
         {
             foreach(var id in _items)

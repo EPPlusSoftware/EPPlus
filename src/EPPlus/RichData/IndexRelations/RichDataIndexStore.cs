@@ -24,11 +24,10 @@ namespace OfficeOpenXml.RichData.IndexRelations
         public RichDataIndexStore(ExcelWorkbook workbook)
         {
             _workbook = workbook;
-            _workbook._package.WorksheetValueMetadataRead += OnWorksheetValueMetadataRead;
+            _workbook._package.BeforeSave.Add(() => ReIndex());
         }
 
         private readonly ExcelWorkbook _workbook;
-        private readonly Dictionary<uint, List<ValueMetadataCellReference>> _readVmMappings = new Dictionary<uint, List<ValueMetadataCellReference>>();
         private readonly Dictionary<uint, IndexRelation> _relations = new Dictionary<uint, IndexRelation>();
         private readonly Dictionary<uint, List<IndexRelation>> _outgoingRelations = new Dictionary<uint, List<IndexRelation>>();
         private readonly Dictionary<uint, List<IndexRelation>> _incomingRelations = new Dictionary<uint, List<IndexRelation>>();
@@ -36,16 +35,6 @@ namespace OfficeOpenXml.RichData.IndexRelations
         private readonly Dictionary<Type, RichDataEntities> _typeToEntity = new Dictionary<Type, RichDataEntities>();
         private readonly IdGenerator _idGenerator = new IdGenerator();
 
-        private void OnWorksheetValueMetadataRead(object source, WorksheetValueMetadataReadEventArgs e)
-        {
-            if(!_readVmMappings.ContainsKey(e.Vm))
-            {
-                _readVmMappings[e.Vm] = new List<ValueMetadataCellReference>();
-            }
-            _readVmMappings[e.Vm].Add(new ValueMetadataCellReference(e.WorksheetIx, e.Row, e.Col));
-        }
-
-        public Dictionary<uint, List<ValueMetadataCellReference>> VmAddresses => _readVmMappings;
 
         public uint GetNewId()
         {

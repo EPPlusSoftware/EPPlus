@@ -169,6 +169,7 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
             sw.Write($"<richValueRels xmlns=\"{Schemas.schemaRichValueRel}\" xmlns:r=\"{ExcelPackage.schemaRelationships}\">");
             foreach (var item in this)
             {
+                if (item.Deleted) continue;
                 item.WriteXml(sw);
             }
             sw.Write("</richValueRels>");

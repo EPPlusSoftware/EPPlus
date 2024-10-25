@@ -58,8 +58,9 @@ namespace OfficeOpenXml.RichData.IndexRelations
         public void ReIndex()
         {
             var ix = 0;
-            foreach(IndexEndpoint item in this)
+            for(var listIndex = 0; listIndex < _list.Count; listIndex++)
             {
+                var item = _list[listIndex];
                 if(item.Deleted)
                 {
                     _idToIndex.Remove(item.Id);
@@ -69,6 +70,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
                     _idToIndex[item.Id] = ix++;
                 }
             }
+            _list.RemoveAll(x => x.Deleted);
         }
 
         /// <summary>

@@ -154,6 +154,16 @@ namespace OfficeOpenXml.CellPictures
             }
         }
 
+        /// <summary>
+        /// Deletes a cell picture.
+        /// </summary>
+        /// <param name="row">Cell row</param>
+        /// <param name="col">Cell column</param>
+        public void DeleteCellPicture(int row, int col)
+        {
+            _richDataStore.DeleteRichData(row, col);
+        }
+
         private ImageInfo AddToPictureStore(byte[] imageBytes)
         {
             ImageInfo imageInfo;

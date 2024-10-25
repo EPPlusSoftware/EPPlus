@@ -68,25 +68,13 @@ namespace OfficeOpenXml.Metadata
             }
         }
 
-        public int FutureMetadataBlockIndex
+        public int? FutureMetadataBlockIndex
         {
             get
             {
                 var bk = _metadata.FutureMetadataBlocks.Get(ValueId);
-                var parentRel = _parent.GetOutgoingRelations(x => x.IndexType == IndexType.SubRelations && x.AsRelationWithSubRelations().SubRelationEntity == RichDataEntities.RichValue).FirstOrDefault();
-                if(parentRel != null)
-                {
-                    var parentRelSub = parentRel.AsRelationWithSubRelations();
-                    for (var ix = 0; ix < parentRelSub.SubRelations.Count; ix++)
-                    {
-                        var sr = parentRelSub.SubRelations[ix];
-                        if(sr.To.Id == ValueId)
-                        {
-                            return ix;
-                        }
-                    }
-                }
-                return -1;
+                var fmType = bk.GetFirstIncomingRelByType<FutureMetadataBase>();
+                return fmType.Blocks.GetZeroBasedIndex(ValueId);
             }
         }
 

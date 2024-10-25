@@ -427,7 +427,11 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             }
                             if (md.vm > 0)
                             {
-                                mdAttr += $" vm=\"{_package.Workbook.Metadata.ValueMetadataRecords.GetIndexById(md.vm)}\"";
+                                var vmIx = _package.Workbook.Metadata.ValueMetadata.GetIndexById(md.vm);
+                                if(vmIx.HasValue)
+                                {
+                                    mdAttr += $" vm=\"{vmIx + 1}\"";
+                                }
                             }
                         }
                     }

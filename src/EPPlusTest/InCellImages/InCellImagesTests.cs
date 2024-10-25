@@ -77,15 +77,23 @@ namespace EPPlusTest.InCellImages
         }
 
         [TestMethod]
-        public void PreserveGeoDataType()
+        public void PreserveWithOtherGeoDataType()
         {
             using var package = OpenTemplatePackage("RichDataPreserve1.xlsx");
-            var path = @"c:\Temp\RichDataPreserve1.xlsx";
-            if(File.Exists(path))
-            {
-                File.Delete(path);
-            }
-            package.SaveAs(path);
+            var sheet = package.Workbook.Worksheets.First();
+            sheet.Cells["F1"].SetCellPicture(Resources.Png2ByteArray);
+            SaveWorkbook("InCellImageWithOtherRichDataPreserve1.xlsx", package);
+        }
+
+        [TestMethod]
+        public void PreserveWithOtherGeoDataTypeDeleteImage()
+        {
+            using var package = OpenTemplatePackage("RichDataPreserve1.xlsx");
+            var sheet = package.Workbook.Worksheets.First();
+            sheet.Cells["F2"].SetCellPicture(Resources.Png3ByteArray);
+            sheet.Cells["F1"].SetCellPicture(Resources.Png2ByteArray);
+            sheet.Cells["F1"].DeleteCellPicture();
+            SaveWorkbook("InCellImageWithOtherRichDataPreserve2.xlsx", package);
         }
 
         [TestMethod, Ignore]

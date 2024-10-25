@@ -44,10 +44,10 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
             if(_indexFromRead.HasValue)
             {
                 base.InitRelations();
-                var rel = richData.Values.CreateRelation(this, richData.Values[_indexFromRead.Value], IndexType.ZeroBasedPointer);
+                var richValue = richData.Values[_indexFromRead.Value];
+                var rel = AddRelationTo(richValue, IndexType.ZeroBasedPointer);
                 RichDataId = rel.To.Id;
             }
-           
         }
 
 

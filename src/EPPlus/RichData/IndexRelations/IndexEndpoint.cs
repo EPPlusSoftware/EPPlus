@@ -12,12 +12,15 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
+    [DebuggerDisplay("Type: {EntityType}, Id: {Id}, Deleted: {Deleted}")]
     internal class IndexEndpoint : IdentityItem
     {
         public IndexEndpoint(RichDataIndexStore store, RichDataEntities entity)
@@ -58,6 +61,53 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         private bool _deleted;
         public bool Deleted => _deleted;
+
+        public IEnumerable<IndexRelation> IncomingRelations
+        {
+            get
+            {
+                return _store.GetIncomingRelations(Id);
+            }
+        }
+
+        public IEnumerable<IndexRelation> OutgoingRelations
+        {
+            get
+            {
+                return _store.GetOutgoingRelations(Id);
+            }
+        }
+
+        public IndexRelation AddRelationTo(IndexEndpoint to, IndexType indexType = IndexType.ZeroBasedPointer)
+        {
+            return _store.CreateAndAddRelation(this, to, indexType);
+        }
+
+        public virtual bool HasOutgoingRelationTo(RichDataEntities entityType)
+        {
+            var outgoingRelations = _store.GetOutgoingRelations(Id);
+            foreach(var rel in outgoingRelations)
+            {
+                if(rel.To.EntityType == entityType)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public virtual bool HasIncomingRelationFrom(RichDataEntities entityType)
+        {
+            var incomingRelations = _store.GetIncomingRelations(Id);
+            foreach(var rel in incomingRelations)
+            {
+                if(rel.From.EntityType == entityType)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         /// <summary>
         /// Deletes an entity and its relations.
@@ -112,6 +162,11 @@ namespace OfficeOpenXml.RichData.IndexRelations
                 }
                 return default;
             }
+        }
+
+        public virtual IndexRelationWithSubRelations GetSubRelations(RichDataEntities entityType)
+        {
+            return null;
         }
 
         public virtual T GetFirstOutgoingSubRelation<T>()
