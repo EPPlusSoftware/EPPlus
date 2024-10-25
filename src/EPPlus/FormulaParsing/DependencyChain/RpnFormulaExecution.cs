@@ -128,15 +128,23 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                 }
             }
-            
-            //Check if the calculation 
-            foreach(var table in range.Worksheet.Tables)
+
+            if (depChain.HasAnyArrayFormula) //Array formulas has been update. Check if we need to set the array flag on any calculated tables on intersecting tables.
             {
-                if(table.Address.Collide(range)!=eAddressCollition.No)
+                UpdateTableArrayFlag(range);
+            }
+        }
+
+        private static void UpdateTableArrayFlag(ExcelRangeBase range)
+        {
+            //Check table formulas that needs the array flag updated for the columns formulas.
+            foreach (var table in range.Worksheet.Tables)
+            {
+                if (table.Address.Collide(range) != eAddressCollition.No)
                 {
-                    foreach(var c in table.Columns)
+                    foreach (var c in table.Columns)
                     {
-                        if(string.IsNullOrEmpty(c.CalculatedColumnFormula)==false)
+                        if (string.IsNullOrEmpty(c.CalculatedColumnFormula) == false)
                         {
                             var ca = c.DataAddress;
                             if (ca.Collide(range) != eAddressCollition.No)
@@ -614,6 +622,7 @@ namespace OfficeOpenXml.FormulaParsing
                             if (f._arrayIndex >= 0 && (f._flags & FormulaFlags.IsDynamic) == 0) //A legacy array formula, Fill the referenced range.
                             {
                                 ArrayFormulaOutput.FillArrayFromRangeInfo(f, ri, rd, depChain);
+                                depChain.HasAnyArrayFormula = true;
                             }
                             else
                             {
@@ -644,6 +653,7 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 RecalculateDirtyCells(dirtyRange, depChain, rd);
                             }
+                            depChain.HasAnyArrayFormula = true;
                         }
                         else
                         {
