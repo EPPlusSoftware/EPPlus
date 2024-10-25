@@ -86,15 +86,16 @@ namespace EPPlusTest
         public void ReadStamp2()
         {
             var emfImage = new EmfImage();
-            emfImage.Read("C:\\epplusTest\\Testoutput\\ValidStamp.emf");
+            emfImage.Read("C:\\epplusTest\\Testoutput\\ChangedImageExtremeLong.emf");
 
             var dibits = (EMR_STRETCHDIBITS)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
 
-            var fileBytes = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ResizedAsExcel.bmp");
+            var fileBytes = File.ReadAllBytes(@"C:\Users\OssianEdström\Pictures\LessExtremeWide.bmp");
+            var handler = new BitmapHandler(fileBytes);
 
-            dibits.ChangeImage(fileBytes);
+            dibits.ChangeImage2(fileBytes);
 
-            emfImage.Save("C:\\epplusTest\\Testoutput\\ValidStampChangedImage.emf");
+            emfImage.Save("C:\\epplusTest\\Testoutput\\ChangedImageExtremeWide.emf");
         }
 
         [TestMethod]
@@ -146,7 +147,7 @@ namespace EPPlusTest
             dibits.Bounds = new RectLObject(9, 59, 117, 102);
 
             emfImage.Save("C:\\epplusTest\\Testoutput\\ValidStampAltered.emf");
-        }
+            }
 
         [TestMethod]
         public void CheckOGImage()

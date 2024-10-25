@@ -1,4 +1,6 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System;
 using System.IO;
 using System.Text;
@@ -114,8 +116,8 @@ namespace OfficeOpenXml.Drawing.EMF
             if (br.BaseStream.Position < startOfBitmapBits)
             {
                 int padding = (int)(startOfBitmapBits - br.BaseStream.Position);
-                Padding2 = new byte[padding];
-                br.Read(Padding2, 0, padding);
+                _padding2 = new byte[padding];
+                br.Read(_padding2, 0, padding);
             }
 
             //Should not be neccesary
@@ -133,6 +135,72 @@ namespace OfficeOpenXml.Drawing.EMF
             EndPadding = br.ReadBytes(tempPadding);
         }
 
+        internal void ChangeImage2(byte[] bmp)
+        {
+            var handler = new BitmapHandler(bmp);
+
+            bitMapHeader = handler.informationHeader;
+            cbBmiSrc = bitMapHeader.sizeOfHeader;
+            Padding2 = handler.OptionalData;
+            BitsSrc = handler.PixelArray;
+
+            cxSrc = handler.informationHeader.pixelWidth;
+            cySrc = handler.informationHeader.pixelHeight;
+
+            var xRatio = (float)cxSrc / (float)cySrc;
+
+            cxDest = (int)(xRatio * 128);
+            cyDest = cySrc < 128 ? cySrc : 128;
+
+            //if (cxSrc > 128)
+            //{
+            //    cxDest = 128;
+            //}
+
+            //var xFactor = Math.Min(cxSrc / 128, 1);
+            //var yFactor = Math.Min(cySrc / 128, 1);
+
+            //if (cxSrc > 128)
+            //{
+            //    cxDest = 128;
+            //}
+            //else
+            //{
+            //    cxDest = cxSrc * xFactor;
+            //}
+
+            //if (cyDest > 128)
+            //{
+            //    cyDest = 128;
+            //}
+            //else
+            //{
+            //    cyDest = cySrc * yFactor;
+            //}
+
+
+
+            //var larger = Math.Max(cxSrc, cySrc);
+            //var smaller = Math.Min(cxSrc, cySrc);
+
+            //var aspectRatio = larger / smaller;
+
+            //if(larger > 180)
+            //{
+            //    larger = 180;
+            //}
+
+
+
+            //if (handler.informationHeader.pixelHeight < 128)
+            //{
+            //    cyDest = handler.informationHeader.pixelHeight;
+            //}
+            //if(handler.informationHeader.pixelWidth < 128)
+            //{
+            //    cxDest = handler.informationHeader.pixelWidth;
+            //}
+        }
         internal void ChangeImage(byte[] bmp)
         {
             byte[] bmpHeader = new byte[14];

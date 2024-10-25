@@ -128,7 +128,11 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             base.WriteBytes(bw);
             bw.Write(dataSize);
-            bw.Write(commentIdentifier);
+            if(commentType != null)
+            {
+                bw.Write(commentIdentifier);
+            }
+ 
             if(commentType!= null && (commentType == CommentIdentifier.EMR_COMMENT_PUBLIC))
             {
                 bw.Write(PublicCommentIdentifier);
