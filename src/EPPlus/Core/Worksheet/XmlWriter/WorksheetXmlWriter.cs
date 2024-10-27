@@ -556,7 +556,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                     cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v)}{mdAttr}>");
                                     cache.Append($"{GetFormulaValue(v, prefix)}</{cTag}>");
                                 }
-                                else if (v is ExcelErrorValue e)
+                                else if (v is ExcelErrorValue e || v is RichDataReference rdr)
                                 {
                                     cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v)}{mdAttr}>");
                                     cache.Append($"{GetFormulaValue(v, prefix)}</{cTag}>");

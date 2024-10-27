@@ -10,53 +10,50 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Packaging;
-using OfficeOpenXml.RichData;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace OfficeOpenXml.CellPictures
+namespace OfficeOpenXml.RichData
 {
     /// <summary>
-    /// Represents an in-cell picture
+    /// Represents a rich value in the cell store
     /// </summary>
-    internal class ExcelCellPicture : RichDataReference
+    public abstract class RichDataReference
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        internal ExcelCellPicture(uint vmId) : base(vmId, RichDataReferenceTypes.LocalImage, true)
+        internal RichDataReference(uint vmId, RichDataReferenceTypes refType, bool isValueError)
         {
-            
+            VmId = vmId;
+            IsValueError = isValueError;
+            ReferenceType = refType;
         }
 
         /// <summary>
-        /// Internal uri in the workbook of the image.
+        /// Rich data Id (internal for EPPlus)
         /// </summary>
-        public Uri ImageUri
+        internal uint VmId { get; private set; }
+
+        internal bool IsValueError { get; private set; }
+
+        /// <summary>
+        /// Identifies what type of rich data being referenced
+        /// </summary>
+        public RichDataReferenceTypes ReferenceType { get; private set; }
+
+        /// <summary>
+        /// Returns a string that reprsents the current object
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
         {
-            get; set;
+            if(IsValueError)
+            {
+                return ExcelErrorValue.Values.Value;
+            }
+            return base.ToString();
         }
 
-        /// <summary>
-        /// Alt text of the image
-        /// </summary>
-        public string AltText
-        {
-            get; set;
-        }
 
-        /// <summary>
-        /// Indicates the calculation context in which this image was created.
-        /// </summary>
-        internal CalcOrigins CalcOrigin { get; set; }
-
-        /// <summary>
-        /// Address of the cell picture
-        /// </summary>
-        public ExcelAddress CellAddress { get; set; }
-
-       
     }
 }

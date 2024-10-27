@@ -17,7 +17,7 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
-    internal enum RichDataEntities
+    internal enum RichDataEntities : ushort
     {
         None,
         ValueMetadataBlock,

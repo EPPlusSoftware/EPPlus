@@ -17,7 +17,7 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
-    internal enum IndexType
+    internal enum IndexType : ushort
     {
         ZeroBasedPointer,
         OneBasedPointer,

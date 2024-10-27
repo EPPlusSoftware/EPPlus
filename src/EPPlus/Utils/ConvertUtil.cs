@@ -28,6 +28,7 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.RichData;
 namespace OfficeOpenXml.Utils
 {
     internal static class ConvertUtil
@@ -765,6 +766,10 @@ namespace OfficeOpenXml.Utils
             else if (allowStr && v != null && !IsNumericOrDateDatatype(v))
             {
                 return " t=\"str\"";
+            }
+            else if(v is RichDataReference rdr)
+            {
+                return rdr.IsValueError ? " t=\"e\"" : string.Empty;
             }
             else
             {

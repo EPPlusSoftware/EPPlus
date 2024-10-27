@@ -74,14 +74,7 @@ namespace OfficeOpenXml.RichData
         internal ExcelRichValue GetRichValue(uint vmId)
         {
             var valueMetaData = _metadata.ValueMetadata.Get(vmId);
-            try
-            {
-                valueMetaData.Records.First();
-            }
-            catch(Exception e) 
-            {
-                int i = 0;
-            }
+            if(valueMetaData.Records == null || !valueMetaData.Records.Any()) return null;
             var valueRecord = valueMetaData.Records.First();
             var type = valueRecord.GetFirstOutgoingRelByType<ExcelMetadataType>();
             if (type == null || type.Name != FutureMetadataBase.RICHDATA_NAME) return null;
@@ -90,15 +83,24 @@ namespace OfficeOpenXml.RichData
             return bk.GetFirstOutgoingRelByType<ExcelRichValue>();
         }
 
-        private ExcelRichValue GetRichValue(int row, int col)
+        private ExcelRichValue GetRichValue(int row, int col, out uint vmId)
         {
-            var result = GetRichValue(row, col, null);
-            return result;
+            return GetRichValue(row, col, out vmId, null);
         }
 
         internal ExcelRichValue GetRichValue(int row, int col, params string[] structureTypesFilter)
         {
-            if (!HasRichData(row, col, out uint vmId)) return null;
+            return GetRichValue(row, col, out uint vmId, structureTypesFilter);
+        }
+
+        internal ExcelRichValue GetRichValue(int row, int col, out uint vmId, params string[] structureTypesFilter)
+        {
+            var hasRd = HasRichData(row, col, out uint vId);
+            vmId = vId;
+            if (!hasRd)
+            {
+                return null;
+            }
             var valueMetaData = _metadata.ValueMetadata.Get(vmId);
             var bk = valueMetaData.GetFirstOutgoingSubRelation<FutureMetadataBlock>();
             var rdv = bk.GetFirstOutgoingRelByType<ExcelRichValue>();
@@ -118,10 +120,16 @@ namespace OfficeOpenXml.RichData
 
         internal void AddRichData(int row, int col, ExcelRichValue richValue)
         {
+            AddRichData(row, col, richValue, out uint vmId);
+        }
+
+        internal void AddRichData(int row, int col, ExcelRichValue richValue, out uint vmId)
+        {
             _workbook.RichData.Values.Add(richValue);
 
             // update the metadata
-            _metadata.CreateRichValueMetadata(_workbook.RichData, richValue, out uint vmId);
+            _metadata.CreateRichValueMetadata(_workbook.RichData, richValue, out uint vId);
+            vmId = vId;
             var md = _sheet._metadataStore.GetValue(row, col);
             md.vm = vmId;
             _sheet._metadataStore.SetValue(row, col, md);
@@ -133,9 +141,11 @@ namespace OfficeOpenXml.RichData
         /// <param name="row">Row where rich data should be updated</param>
         /// <param name="col">Column where rich data should be updated</param>
         /// <param name="richValue">The new rich data that will replace the existing</param>
-        internal void UpdateRichData(int row, int col, ExcelRichValue richValue)
+        /// <param name="vmId">Value metadata id</param>
+        internal void UpdateRichData(int row, int col, ExcelRichValue richValue, out uint vmId)
         {
-            var existingValue = GetRichValue(row, col);
+            var existingValue = GetRichValue(row, col, out uint vId);
+            vmId = vId;
             if(existingValue != null)
             {
                 existingValue.DeleteMe();

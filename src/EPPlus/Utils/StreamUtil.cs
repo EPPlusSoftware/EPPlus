@@ -76,7 +76,6 @@ namespace OfficeOpenXml.Utils
             {
                 inputStream.Seek(0, SeekOrigin.Begin);
             }
-
             const int bufferLength = 8096;
             var buffer = new byte[bufferLength];
             var bytesRead = await inputStream.ReadAsync(buffer, 0, bufferLength, cancellationToken).ConfigureAwait(false);
@@ -88,6 +87,29 @@ namespace OfficeOpenXml.Utils
             }
             await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
-        #endif
+#endif
+
+        internal static byte[] ReadStreamToByteArray(Stream inputStream)
+        {
+            if (!inputStream.CanRead)
+            {
+                throw new Exception("Cannot read from the input stream");
+            }
+            if (inputStream.CanSeek)
+            {
+                inputStream.Seek(0, SeekOrigin.Begin);
+            }
+            using (MemoryStream ms = new MemoryStream())
+            {
+                const int bufferLength = 8096;
+                var buffer = new byte[bufferLength];
+                int bytesRead;
+                while ((bytesRead = inputStream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    ms.Write(buffer, 0, bytesRead);
+                }
+                return ms.ToArray();
+            }
+        }
     }
 }
