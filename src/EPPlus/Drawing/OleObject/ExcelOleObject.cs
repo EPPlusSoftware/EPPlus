@@ -1,4 +1,16 @@
-﻿using System;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  01/01/2025         EPPlus Software AB           Initial release EPPlus 8
+ *************************************************************************************************/
+using System;
 using System.Xml;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Drawing.EMF;
@@ -121,13 +133,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             else
             {
                 iconData = File.ReadAllBytes(iconPath);
-                using MemoryStream ms = new MemoryStream(iconData);
-                using BinaryReader br = new BinaryReader(ms);
-                string sign;
-                if(!ImageReader.IsBmp(br, out sign))
-                {
-                    throw new Exception("Invalid file format for Icon. Supported formats are .BMP");
-                }
+                CheckIconData(iconData, parameters);
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;
@@ -160,6 +166,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                     iconData = new byte[icoFs.Length];
                     icoFs.Read(iconData, 0, iconData.Length);
                 }
+                CheckIconData(iconData, parameters);
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;
@@ -178,6 +185,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 iconData = new byte[iconStream.Length];
                 iconStream.Seek(0, SeekOrigin.Begin);
                 iconStream.Read(iconData, 0, (int)iconStream.Length);
+                CheckIconData(iconData, parameters);
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;
@@ -223,39 +231,47 @@ namespace OfficeOpenXml.Drawing.OleObject
 
             }
             //Create Media
-            byte[] image = OleObjectIcon.DefaultIcon;
-            EmfImage emf = new EmfImage();
-            emf.Read(image);
-            if (iconData != null)
+            if(parameters.mediaFileExtension == ".emf")
             {
-                emf.ChangeImage(iconData);
+                _mediaImage = _worksheet._package.PictureStore.AddImage(iconData, null, ePictureType.Emf);
             }
-            else
+            if (parameters.mediaFileExtension == ".bmp")
             {
-                var ext = parameters.Extension;
-                if (ext != null)
+                byte[] image = OleObjectIcon.DefaultIcon;
+                EmfImage emf = new EmfImage();
+                emf.Read(image);
+                if (iconData != null)
                 {
-                    if (ext.Contains("docx"))
-                        emf.ChangeImage(OleObjectIcon.Docx_Icon_Bitmap);
-                    if (ext.Contains("pptx"))
-                        emf.ChangeImage(OleObjectIcon.Pptx_Icon_Bitmap);
-                    if (ext.Contains("xlsx"))
-                        emf.ChangeImage(OleObjectIcon.Xlsx_Icon_Bitmap);
-                    if (ext.Contains("pdf"))
-                        emf.ChangeImage(OleObjectIcon.PDF_Icon_Bitmap);
+                    emf.ChangeImage(iconData);
                 }
+                else
+                {
+                    var ext = parameters.Extension;
+                    if (ext != null)
+                    {
+                        if (ext.Contains("docx"))
+                            emf.ChangeImage(OleObjectIcon.Docx_Icon_Bitmap);
+                        if (ext.Contains("pptx"))
+                            emf.ChangeImage(OleObjectIcon.Pptx_Icon_Bitmap);
+                        if (ext.Contains("xlsx"))
+                            emf.ChangeImage(OleObjectIcon.Xlsx_Icon_Bitmap);
+                        if (ext.Contains("pdf"))
+                            emf.ChangeImage(OleObjectIcon.PDF_Icon_Bitmap);
+                    }
+                }
+                if (parameters.OlePath == null)
+                {
+                    emf.SetNewTextInDefaultEMFImage(name + parameters.Extension);
+                }
+                else
+                {
+                    emf.SetNewTextInDefaultEMFImage(Path.GetFileName(parameters.OlePath));
+                }
+                image = emf.GetBytes();
+                //Add image to Picture Store
+                _mediaImage = _worksheet._package.PictureStore.AddImage(image, null, ePictureType.Emf);
+                
             }
-            if(parameters.OlePath == null)
-            {
-                emf.SetNewTextInDefaultEMFImage(name + parameters.Extension);
-            }
-            else
-            {
-                emf.SetNewTextInDefaultEMFImage(Path.GetFileName(parameters.OlePath));
-            }
-            image = emf.GetBytes();
-            //Add image to Picture Store
-            _mediaImage = _worksheet._package.PictureStore.AddImage(image, null, ePictureType.Emf);
             var imgRelId = _mediaImage.Part.CreateRelationship(_mediaImage.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
             //Create drawings xml
             XmlElement spElement = CreateShapeNode();
@@ -540,6 +556,25 @@ namespace OfficeOpenXml.Drawing.OleObject
                     return "Package";
             }
         }
+
+        private void CheckIconData(byte[] iconData, ExcelOleObjectParameters parameters)
+        {
+            using MemoryStream ms = new MemoryStream(iconData);
+            using BinaryReader br = new BinaryReader(ms);
+            string sign;
+            if (ImageReader.IsEmf(br))
+            {
+                parameters.mediaFileExtension = ".emf";
+            }
+            else if (ImageReader.IsBmp(br, out sign))
+            {
+                parameters.mediaFileExtension = ".bmp";
+            }
+            else
+            {
+                throw new Exception("Invalid file format for Icon. Supported formats are .EMF, .BMP");
+            }
+        } 
 
         internal override void DeleteMe()
         {

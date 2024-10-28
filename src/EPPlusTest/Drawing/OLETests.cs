@@ -4,6 +4,7 @@ using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.OleObject.Structures;
 using System.Collections.Generic;
 using System.IO;
+using static System.Net.WebRequestMethods;
 
 namespace EPPlusTest.Drawing
 {
@@ -168,7 +169,8 @@ namespace EPPlusTest.Drawing
             //Write Generic Object
             using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt");
+            var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
+            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", myFile);
             Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME));
             Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
             Assert.IsFalse(genericOle.IsExternalLink);
@@ -177,7 +179,8 @@ namespace EPPlusTest.Drawing
             //Write PDF Object
             using var pdfOlePackage = OpenPackage("EpplusOleObject_Embed_PDF.xlsx", true);
             var pdfWs = pdfOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var pdfOle = pdfWs.Drawings.AddOleObject("MyPDFFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MyPDF.pdf");
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MyPDF.pdf");
+            var pdfOle = pdfWs.Drawings.AddOleObject("MyPDFFile", myFile);
             Assert.IsTrue(pdfOle._document.Storage.DataStreams.ContainsKey(Ole.OLE_STREAM_NAME));
             Assert.IsTrue(pdfOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
             Assert.IsTrue(pdfOle._document.Storage.DataStreams.ContainsKey(OleDataFile.CONTENTS_STREAM_NAME));
@@ -187,7 +190,8 @@ namespace EPPlusTest.Drawing
             //Write DOCX Object
             using var docxOlePackage = OpenPackage("EpplusOleObject_Embed_DOCX.xlsx", true);
             var docxWs = docxOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var docxOle = docxWs.Drawings.AddOleObject("MyWordFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MyWord.docx");
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MyWord.docx");
+            var docxOle = docxWs.Drawings.AddOleObject("MyWordFile", myFile);
             Assert.IsTrue(docxOle._oleObjectPart.Uri.ToString().Contains(".docx"));
             Assert.IsFalse(docxOle.IsExternalLink);
             SaveAndCleanup(docxOlePackage);
@@ -195,7 +199,8 @@ namespace EPPlusTest.Drawing
             //Write PPTX Object
             using var pptxOlePackage = OpenPackage("EpplusOleObject_Embed_PPTX.xlsx", true);
             var pptxWs = pptxOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var pptxOle = pptxWs.Drawings.AddOleObject("MyPPFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MyPresent.pptx");
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MyPresent.pptx");
+            var pptxOle = pptxWs.Drawings.AddOleObject("MyPPFile", myFile);
             Assert.IsTrue(pptxOle._oleObjectPart.Uri.ToString().Contains(".pptx"));
             Assert.IsFalse(pptxOle.IsExternalLink);
             SaveAndCleanup(pptxOlePackage);
@@ -203,7 +208,8 @@ namespace EPPlusTest.Drawing
             //Write XLSX Object
             using var xlsxOlePackage = OpenPackage("EpplusOleObject_Embed_XLSX.xlsx", true);
             var xlsxWs = xlsxOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var xlsxOle = xlsxWs.Drawings.AddOleObject("MyExcelFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MySheet.xlsx");
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MySheet.xlsx");
+            var xlsxOle = xlsxWs.Drawings.AddOleObject("MyExcelFile", myFile);
             Assert.IsTrue(xlsxOle._oleObjectPart.Uri.ToString().Contains(".xlsx"));
             Assert.IsFalse(xlsxOle.IsExternalLink);
             SaveAndCleanup(xlsxOlePackage);
@@ -211,7 +217,8 @@ namespace EPPlusTest.Drawing
             //Write ODS Object
             using var odsOlePackage = OpenPackage("EpplusOleObject_Embed_ODS.xlsx", true);
             var odsWs = odsOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var odsOle = odsWs.Drawings.AddOleObject("MySpreadsheetFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MySheets.ods");
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MySheets.ods");
+            var odsOle = odsWs.Drawings.AddOleObject("MySpreadsheetFile", myFile);
             Assert.IsTrue(odsOle._document.Storage.DataStreams.ContainsKey(Ole.OLE_STREAM_NAME));
             Assert.IsTrue(odsOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
             Assert.IsTrue(odsOle._document.Storage.DataStreams.ContainsKey(OleDataFile.EMBEDDEDODF_STREAM_NAME));
@@ -221,7 +228,8 @@ namespace EPPlusTest.Drawing
             //Write ODT Object
             using var odtOlePackage = OpenPackage("EpplusOleObject_Embed_ODT.xlsx", true);
             var odtWs = odtOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var odtOle = odtWs.Drawings.AddOleObject("MyDocFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDoc.odt");
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDoc.odt");
+            var odtOle = odtWs.Drawings.AddOleObject("MyDocFile", myFile);
             Assert.IsTrue(odtOle._document.Storage.DataStreams.ContainsKey(Ole.OLE_STREAM_NAME));
             Assert.IsTrue(odtOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
             Assert.IsTrue(odtOle._document.Storage.DataStreams.ContainsKey(OleDataFile.EMBEDDEDODF_STREAM_NAME));
@@ -231,7 +239,8 @@ namespace EPPlusTest.Drawing
             //Write ODP Object
             using var odpOlePackage = OpenPackage("EpplusOleObject_Embed_ODP.xlsx", true);
             var odpWs = odpOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var odpOle = odpWs.Drawings.AddOleObject("MyPresentFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MyPresents.odp");
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MyPresents.odp");
+            var odpOle = odpWs.Drawings.AddOleObject("MyPresentFile", myFile);
             Assert.IsTrue(odpOle._document.Storage.DataStreams.ContainsKey(Ole.OLE_STREAM_NAME));
             Assert.IsTrue(odpOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
             Assert.IsTrue(odpOle._document.Storage.DataStreams.ContainsKey(OleDataFile.EMBEDDEDODF_STREAM_NAME));
@@ -245,7 +254,8 @@ namespace EPPlusTest.Drawing
             //Write Generic Object
             using var genericOlePackage = OpenPackage("EpplusOleObject_Link_Generic.xlsx", true);
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt", true);
+            var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
+            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", myFile, true);
             Assert.IsNotNull(genericOle._externalLink);
             Assert.IsTrue(genericOle.IsExternalLink);
             SaveAndCleanup(genericOlePackage);
@@ -253,7 +263,8 @@ namespace EPPlusTest.Drawing
             //Write PDF Object
             using var pdfOlePackage = OpenPackage("EpplusOleObject_Link_PDF.xlsx", true);
             var pdfWs = pdfOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var pdfOle = pdfWs.Drawings.AddOleObject("MyPDFFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MyPDF.pdf", true);
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MyPDF.pdf");
+            var pdfOle = pdfWs.Drawings.AddOleObject("MyPDFFile", myFile, true);
             Assert.IsNotNull(pdfOle._externalLink);
             Assert.IsTrue(pdfOle.IsExternalLink);
             SaveAndCleanup(pdfOlePackage);
@@ -261,7 +272,8 @@ namespace EPPlusTest.Drawing
             //Write DOCX Object
             using var docxOlePackage = OpenPackage("EpplusOleObject_Link_DOCX.xlsx", true);
             var docxWs = docxOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var docxOle = docxWs.Drawings.AddOleObject("MyWordFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MyWord.docx", true);
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MyWord.docx");
+            var docxOle = docxWs.Drawings.AddOleObject("MyWordFile", myFile, true);
             Assert.IsNotNull(docxOle._externalLink);
             Assert.IsTrue(docxOle.IsExternalLink);
             SaveAndCleanup(docxOlePackage);
@@ -269,7 +281,8 @@ namespace EPPlusTest.Drawing
             //Write PPTX Object
             using var pptxOlePackage = OpenPackage("EpplusOleObject_Link_PPTX.xlsx", true);
             var pptxWs = pptxOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var pptxOle = pptxWs.Drawings.AddOleObject("MyPPFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MyPresent.pptx", true);
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MyPresent.pptx");
+            var pptxOle = pptxWs.Drawings.AddOleObject("MyPPFile", myFile, true);
             Assert.IsNotNull(pptxOle._externalLink);
             Assert.IsTrue(pptxOle.IsExternalLink);
             SaveAndCleanup(pptxOlePackage);
@@ -277,7 +290,8 @@ namespace EPPlusTest.Drawing
             //Write XLSX Object
             using var xlsxOlePackage = OpenPackage("EpplusOleObject_Link_XLSX.xlsx", true);
             var xlsxWs = xlsxOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var xlsxOle = xlsxWs.Drawings.AddOleObject("MyExcelFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MySheet.xlsx", true);
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MySheet.xlsx");
+            var xlsxOle = xlsxWs.Drawings.AddOleObject("MyExcelFile", myFile, true);
             Assert.IsNotNull(xlsxOle._externalLink);
             Assert.IsTrue(xlsxOle.IsExternalLink);
             SaveAndCleanup(xlsxOlePackage);
@@ -285,7 +299,8 @@ namespace EPPlusTest.Drawing
             //Write ODS Object
             using var odsOlePackage = OpenPackage("EpplusOleObject_Link_ODS.xlsx", true);
             var odsWs = odsOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var odsOle = odsWs.Drawings.AddOleObject("MySpreadsheetFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MySheets.ods", true);
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MySheets.ods");
+            var odsOle = odsWs.Drawings.AddOleObject("MySpreadsheetFile", myFile, true);
             Assert.IsNotNull(odsOle._externalLink);
             Assert.IsTrue(odsOle.IsExternalLink);
             SaveAndCleanup(odsOlePackage);
@@ -293,7 +308,8 @@ namespace EPPlusTest.Drawing
             //Write ODT Object
             using var odtOlePackage = OpenPackage("EpplusOleObject_Link_ODT.xlsx", true);
             var odtWs = odtOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var odtOle = odtWs.Drawings.AddOleObject("MyDocFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDoc.odt", true);
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDoc.odt");
+            var odtOle = odtWs.Drawings.AddOleObject("MyDocFile", myFile, true);
             Assert.IsNotNull(odtOle._externalLink);
             Assert.IsTrue(odtOle.IsExternalLink);
             SaveAndCleanup(odtOlePackage);
@@ -301,7 +317,8 @@ namespace EPPlusTest.Drawing
             //Write ODP Object
             using var odpOlePackage = OpenPackage("EpplusOleObject_Link_ODP.xlsx", true);
             var odpWs = odpOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var odpOle = odpWs.Drawings.AddOleObject("MyPresentFile", @"C:\epplusTest\Workbooks\OleObjectFiles\MyPresents.odp", true);
+            myFile = Properties.Resources.GetOLEObjectFullFileName("MyPresents.odp");
+            var odpOle = odpWs.Drawings.AddOleObject("MyPresentFile", myFile, true);
             Assert.IsNotNull(odpOle._externalLink);
             Assert.IsTrue(odpOle.IsExternalLink);
             SaveAndCleanup(odpOlePackage);

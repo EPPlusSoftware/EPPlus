@@ -1,14 +1,25 @@
-﻿namespace OfficeOpenXml.Drawing.OleObject
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  01/01/2025         EPPlus Software AB           Initial release EPPlus 8
+ *************************************************************************************************/
+namespace OfficeOpenXml.Drawing.OleObject
 {
     /// <summary>
     /// Object containing additional parameters for OLE Objects.
     /// </summary>
     public class ExcelOleObjectParameters
     {
-        /// <summary>
-        /// file path for ole object.
-        /// </summary>
         internal string OlePath = null;
+        internal string mediaFileExtension = ".bmp";
+
         /// <summary>
         /// True: File will be linked. False: File will be embedded.
         /// </summary>
