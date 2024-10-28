@@ -17,16 +17,25 @@ namespace OfficeOpenXml.Drawing.Vml
         internal SignatureLineEmf Emf;
         const string provIdStamp = "{000CD6A4-0000-0000-C000-000000000046}";
         const string provID = "{00000000-0000-0000-0000-000000000000}";
-        internal Guid LineId;
+        internal Guid SetupID;
 
         internal ExcelVmlDrawingSignatureLine(XmlNode topNode, XmlNamespaceManager ns, Guid lineID) : base(topNode, ns)
         {
             Emf = new SignatureLineEmf();
             Emf.SignerName = Signer;
             Emf.SignerTitle = Title;
-            LineId = lineID;
-            SetXmlNodeString("o:signatureline/@id", LineId.ToString());
+            SetupID = lineID;
+            SetXmlNodeString("o:signatureline/@id", SetupID.ToString());
             AlternativeText = "Microsoft Office Signature Line...";
+        }
+
+        internal ExcelVmlDrawingSignatureLine(XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
+        {
+            var idString = GetXmlNodeString("o:signatureline/@id");
+            SetupID = new Guid(idString);
+            Emf = new SignatureLineEmf();
+            Emf.SignerName = Signer;
+            Emf.SignerTitle = Title;
         }
 
         /// <summary>
@@ -160,6 +169,18 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString("o:signatureline/@provId", value ? provIdStamp : provID);
                 AlternativeText = value ? "Stamp Signature Line..." : "Microsoft Office Signature Line...";
                 Anchor = value ? "0, 0, 0, 0, 2, 0, 8, 0" : "0, 0, 0, 0, 4, 0, 6, 8";
+            }
+        }
+
+        internal string RelId
+        {
+            get
+            {
+                return GetXmlNodeString("v:imagedata/@o:relid");
+            }
+            set
+            {
+                SetXmlNodeString("v:imagedata/@o:relid", value);
             }
         }
     }

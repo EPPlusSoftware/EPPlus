@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using OfficeOpenXml.Drawing.Vml;
 using System.Linq;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.EMF;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
@@ -18,7 +19,6 @@ namespace OfficeOpenXml.DigitalSignatures
         XmlNamespaceManager _ns;
 
         List<ExcelDigitalSignature> _signatures;
-        List<ExcelSignatureLine> _signatureLines = new List<ExcelSignatureLine>();
 
         internal ExcelDigitalSignatureCollection(ExcelWorkbook wb, XmlNamespaceManager ns)
         {
@@ -79,6 +79,7 @@ namespace OfficeOpenXml.DigitalSignatures
             signatureXml.PreserveWhitespace = ExcelPackage.preserveWhitespace;
 
             var digitalSignature = new ExcelDigitalSignature(_wb, _ns, part, num);
+
             _signatures.Add(digitalSignature);
         }
 
@@ -92,6 +93,20 @@ namespace OfficeOpenXml.DigitalSignatures
 
             _signatures.Add(digSig);
             return digSig;
+        }
+
+        internal void AddExcelSignatureLine(ExcelSignatureLine line)
+        {
+            _wb._signatureLinesWorkbook.Add(line.SetupID, line);
+        }
+
+        internal ExcelSignatureLine GetSignatureLineBySignature(ExcelDigitalSignature digitalSignature)
+        {
+            if(digitalSignature.SignatureLineSetupId != null)
+            {
+                return _wb._signatureLinesWorkbook[digitalSignature.SignatureLineSetupId.Value];
+            }
+            throw new AccessViolationException($"DigitalSignature {digitalSignature} is not connected to any signature lines.");
         }
 
         //public ExcelSignatureLine AddSignatureLine(X509Certificate2 certificate, ExcelWorksheet ws, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")

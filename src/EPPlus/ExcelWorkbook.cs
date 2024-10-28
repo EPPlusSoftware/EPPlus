@@ -211,10 +211,10 @@ namespace OfficeOpenXml
             _package = package;
             SetUris();
 
-            if (SignatureOriginUri != null)
-            {
-                _digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
-            }
+            //if (SignatureOriginUri != null)
+            //{
+            //    _digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
+            //}
 
             _names = new ExcelNamedRangeCollection(this);
             _namespaceManager = namespaceManager;
@@ -862,6 +862,9 @@ namespace OfficeOpenXml
 				return _vba;
 			}
 		}
+
+        internal Dictionary<Guid, ExcelSignatureLine> _signatureLinesWorkbook = new Dictionary<Guid, ExcelSignatureLine>();
+
         internal ExcelDigitalSignatureCollection _digSig = null;
 
         internal ExcelDigitalSignatureCollection DigitialSignatures
@@ -878,9 +881,12 @@ namespace OfficeOpenXml
 						stream.Write([], 0, 0);
 						var rel = _package.ZipPackage.CreateRelationship(originSigsUri, TargetMode.Internal, ExcelPackage.packageSchemaRelationships + "/digital-signature/origin");
                         SignatureOriginUri = rel.TargetUri;
+                        _digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager);
                     }
-
-                    _digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager);
+					else
+					{
+                        _digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
+                    }
                 }
                 return _digSig;
             }

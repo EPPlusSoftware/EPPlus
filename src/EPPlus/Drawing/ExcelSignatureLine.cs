@@ -29,7 +29,18 @@ namespace OfficeOpenXml.Drawing
             part = ws._package.ZipPackage.CreatePart(uri, "image/x-emf", CompressionLevel.None, "emf");
             part.SaveHandler = Save;
 
-            ws.VmlDrawings.Part.CreateRelationship(UriHelper.GetRelativeUri(ws.VmlDrawings.Uri, uri), TargetMode.Internal, ExcelPackage.schemaImage);
+            var rel = ws.VmlDrawings.Part.CreateRelationship(UriHelper.GetRelativeUri(ws.VmlDrawings.Uri, uri), TargetMode.Internal, ExcelPackage.schemaImage);
+            RelId = rel.Id;
+        }
+
+        internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
+        {
+            _ws = ws;
+            _nsm = ws.NameSpaceManager;
+
+            //var rel = ws.VmlDrawings.Part.GetRelationship(RelId);
+            //part = ws._package.ZipPackage.GetPart(rel.TargetUri);
+            //part.SaveHandler = Save;
         }
 
         internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)

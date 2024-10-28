@@ -81,17 +81,56 @@ namespace EPPlusTest
             readExcelVersion.Save("C:\\epplusTest\\Testoutput\\TemplateResaved.emf");
         }
 
+        [TestMethod]
+        public void ReadExtremeWidth()
+        {
+            var emfImage = new EmfImage();
+            emfImage.Read("C:\\epplusTest\\Testoutput\\RemovedDuplicateWidth.emf");
+
+            var records = emfImage.records;
+            var dibits = (EMR_STRETCHDIBITS)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            var fileBytes = File.ReadAllBytes(@"C:\Users\OssianEdström\Pictures\LessExtremeLong.bmp");
+
+            dibits.ChangeImage2(fileBytes);
+
+            dibits.Bounds = new RectLObject(60, 43, 66, 118);
+
+            emfImage.Save("C:\\epplusTest\\Testoutput\\RemovedDuplicateWidthChangedToLong.emf");
+        }
+
+        [TestMethod]
+        public void ReadExtremeHeight()
+        {
+            var emfImage = new EmfImage();
+            emfImage.Read("C:\\epplusTest\\Testoutput\\ExtremeHeight.emf");
+
+            var records = emfImage.records;
+            var dibits = (EMR_STRETCHDIBITS)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            emfImage.Save("C:\\epplusTest\\Testoutput\\ReSaveExtremeHeight.emf");
+        }
 
         [TestMethod]
         public void ReadStamp2()
         {
             var emfImage = new EmfImage();
-            emfImage.Read("C:\\epplusTest\\Testoutput\\ChangedImageExtremeLong.emf");
+            emfImage.Read("C:\\epplusTest\\Testoutput\\ExtremeWidthHeightRemovedDuplicate.emf");
 
             var dibits = (EMR_STRETCHDIBITS)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
 
-            var fileBytes = File.ReadAllBytes(@"C:\Users\OssianEdström\Pictures\LessExtremeWide.bmp");
-            var handler = new BitmapHandler(fileBytes);
+            //dibits.Bounds.Top = 0;
+            //dibits.Bounds.Left = 0;
+
+            //dibits.Bounds.Bottom = 78;
+            //dibits.Bounds.Right = 128;
+
+            dibits.Bounds = new RectLObject(0, 0, 250, 250);
+
+            var strSrc = @"C:\Users\OssianEdström\Pictures\LessExtremeWide.bmp";
+           // var strSrc = @"C:\Users\OssianEdström\Pictures\5PxSignature.bmp"
+            var fileBytes = File.ReadAllBytes(strSrc);
+            //var handler = new BitmapHandler(fileBytes);
 
             dibits.ChangeImage2(fileBytes);
 

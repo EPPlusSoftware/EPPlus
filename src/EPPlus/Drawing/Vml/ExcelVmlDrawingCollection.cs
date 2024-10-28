@@ -84,8 +84,21 @@ namespace OfficeOpenXml.Drawing.Vml
                         _drawings.Add(vmlDrawing);
                         break;
                     case "Pict":
-                        vmlDrawing = new ExcelVmlDrawingPicture(node, NameSpaceManager, ws);
-                        _drawings.Add(vmlDrawing);
+                        if (node.SelectSingleNode("@id").InnerText == "_x0000_s1025")
+                        {
+                            var sigLine = new ExcelSignatureLine(ws, node, NameSpaceManager);
+                            //TODO: Possibly change so vmldrawings only holds/lookups ids to the wb?
+                            //So that the objects themselves are ensured to only be in one place.
+                            SignatureLines.Add(sigLine);
+                            ws.Workbook._signatureLinesWorkbook.Add(sigLine.SetupID, sigLine);
+                            vmlDrawing = sigLine;
+                            _drawings.Add(vmlDrawing);
+                        }
+                        else
+                        {
+                            vmlDrawing = new ExcelVmlDrawingPicture(node, NameSpaceManager, ws);
+                            _drawings.Add(vmlDrawing);
+                        }
                         break;
                     default:    //Comments
                         var rowNode = node.SelectSingleNode("x:ClientData/x:Row", NameSpaceManager);
@@ -246,6 +259,7 @@ namespace OfficeOpenXml.Drawing.Vml
 
             var sLine = new ExcelSignatureLine(_ws, node, NameSpaceManager, lineId);
             SignatureLines.Add(sLine);
+            _ws.Workbook.DigitialSignatures.AddExcelSignatureLine(sLine);
             _drawings.Add(sLine);
 
             return sLine;

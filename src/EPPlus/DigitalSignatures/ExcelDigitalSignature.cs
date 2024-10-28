@@ -45,10 +45,10 @@ namespace OfficeOpenXml.DigitalSignatures
         public bool Verified { get; private set; } = false;
         QualifyingProperties qualifyingProperties;
 
-        /// <summary>
-        /// Image of the signature if signature type is SignatureLine
-        /// </summary>
-        internal ExcelSignatureLine SignatureLine = null;
+        internal Guid? SignatureLineSetupId = null;
+
+        internal string ValidSigLnImage;
+        internal string InvalidSigLnImg;
 
         internal ExcelDigitalSignature(ExcelWorkbook wb, XmlNamespaceManager ns, ZipPackagePart part, int num) : base(ns)
         {
@@ -68,6 +68,21 @@ namespace OfficeOpenXml.DigitalSignatures
             if(officeObj != null)
             {
                 signatureProperty = new SignatureProperty((XmlElement)officeObj, SignerInformation);
+                if(string.IsNullOrEmpty(signatureProperty.sigInfo1.SetUpId) == false)
+                {
+                    SignatureLineSetupId = new Guid(signatureProperty.sigInfo1.SetUpId);
+
+                    ValidSigLnImage = _doc.SelectSingleNode("//*[@Id='idValidSigLnImg']").InnerText;
+                    InvalidSigLnImg = _doc.SelectSingleNode("//*[@Id='idInvalidSigLnImg']").InnerText;
+
+                    //Could be made more effective if we only find the id string instead.
+                    //Must load drawings to find SetupID in one of the shapes in one of the files.
+                    //Worksheets must exist to load drawings.
+
+                    var worksheets = _wb.Worksheets;
+
+                    _wb.LoadAllDrawings("");
+                }
             }
 
             var signedPropertiesNode = _doc.SelectSingleNode("//*[@Id='idSignedProperties']");

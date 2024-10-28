@@ -11,7 +11,7 @@ namespace OfficeOpenXml.DigitalSignatures
         internal string Id;
         internal SignatureTime PropertySignatureTime = null;
         XmlDocument doc;
-        SignatureInfoV1 sigInfo1;
+        internal SignatureInfoV1 sigInfo1;
         SignatureInfoV2 sigInfo2;
 
         internal SignatureProperty(XmlElement signaturePropertyElement, AdditionalSignatureInfo signatureInfo) 

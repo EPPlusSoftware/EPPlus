@@ -86,6 +86,21 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             File.WriteAllBytes(savePath, decodedBytes);
         }
 
+        [TestMethod]
+        public void ReadSignatureLineStamp()
+        {
+            using (var pck = OpenTemplatePackage("LongSignatureTestJpg.xlsx"))
+            {
+                var wb = pck.Workbook;
+                var signatures = wb.DigitialSignatures;
+
+                var sigLine = signatures.GetSignatureLineBySignature(signatures[0]);
+
+                DecodeAndSaveEmf(signatures[0].ValidSigLnImage, "C:\\epplusTest\\Testoutput\\ValidStampExtendedJpg.emf");
+
+                SaveAndCleanup(pck);
+            }
+        }
 
         [TestMethod]
         public void ReadEmfSpacing()

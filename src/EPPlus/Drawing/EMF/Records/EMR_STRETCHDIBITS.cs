@@ -147,10 +147,18 @@ namespace OfficeOpenXml.Drawing.EMF
             cxSrc = handler.informationHeader.pixelWidth;
             cySrc = handler.informationHeader.pixelHeight;
 
-            var xRatio = (float)cxSrc / (float)cySrc;
+            double xRatio = (double)128 / (double)cxSrc;
+            double yRatio = (double)128 / (double)cySrc;
 
-            cxDest = (int)(xRatio * 128);
-            cyDest = cySrc < 128 ? cySrc : 128;
+            double ratio = xRatio < yRatio ? xRatio : yRatio;
+
+            cxDest = Convert.ToInt32(cxSrc * ratio);
+            cyDest = Convert.ToInt32(cySrc * ratio);
+
+            xDest = Convert.ToInt32((128 - (cxSrc * ratio)) / 2);
+            yDest = Convert.ToInt32((128 - (cySrc * ratio)) / 2);
+
+
 
             //if (cxSrc > 128)
             //{
