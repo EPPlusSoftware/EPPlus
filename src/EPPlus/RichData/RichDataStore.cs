@@ -66,6 +66,12 @@ namespace OfficeOpenXml.RichData
             return _metadata.IsRichData(mdr.vm, out uint? richDataId);
         }
 
+        internal ExcelRichValue GetRichValueByOneBasedIndex(int index)
+        {
+            var id = _workbook.Metadata.ValueMetadata.GetIdByIndex(index - 1);
+            return GetRichValue(id);
+        }
+
         /// <summary>
         /// Gets a rich value by its value metadata index
         /// </summary>
@@ -130,9 +136,6 @@ namespace OfficeOpenXml.RichData
             // update the metadata
             _metadata.CreateRichValueMetadata(_workbook.RichData, richValue, out uint vId);
             vmId = vId;
-            var md = _sheet._metadataStore.GetValue(row, col);
-            md.vm = vmId;
-            _sheet._metadataStore.SetValue(row, col, md);
         }
 
         /// <summary>
@@ -144,13 +147,13 @@ namespace OfficeOpenXml.RichData
         /// <param name="vmId">Value metadata id</param>
         internal void UpdateRichData(int row, int col, ExcelRichValue richValue, out uint vmId)
         {
-            var existingValue = GetRichValue(row, col, out uint vId);
-            vmId = vId;
+            var existingValue = GetRichValue(row, col);
             if(existingValue != null)
             {
                 existingValue.DeleteMe();
             }
-            AddRichData(row, col, richValue);
+            AddRichData(row, col, richValue, out uint vId);
+            vmId = vId;
         }
 
         /// <summary>

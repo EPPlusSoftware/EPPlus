@@ -8,6 +8,7 @@ using OfficeOpenXml.RichData;
 using OfficeOpenXml;
 using System.IO;
 using EPPlusTest.Properties;
+using OfficeOpenXml.CellPictures;
 
 namespace EPPlusTest.InCellImages
 {
@@ -19,15 +20,17 @@ namespace EPPlusTest.InCellImages
         {
             using var package = OpenTemplatePackage("InCellImage1.xlsx");
 
-            var pic1 = package.Workbook.Worksheets[0].Cells["A1"].GetCellPicture();
-            var pic2 = package.Workbook.Worksheets[0].Cells["A2"].GetCellPicture();
-            var pic3 = package.Workbook.Worksheets[0].Cells["B1"].GetCellPicture();
-            var pic4 = package.Workbook.Worksheets[0].Cells["B2"].GetCellPicture();
+            var pic1 = package.Workbook.Worksheets[0].Cells["A1"].Picture.Get();
+            var pic2 = package.Workbook.Worksheets[0].Cells["A2"].Picture.Get();
+            var pic3 = package.Workbook.Worksheets[0].Cells["B1"].Picture.Get();
+            var pic4 = package.Workbook.Worksheets[0].Cells["B2"].Picture.Get();
 
             Assert.IsNotNull(pic1, "Cell A1 picture was not present");
             Assert.IsNotNull(pic2, "Cell A2 picture was not present");
             Assert.IsNotNull(pic3, "Cell B3 picture was not present");            // there is no picture in cell B2
             Assert.IsNull(pic4, "Cell B2 was not empty");
+
+            Assert.IsInstanceOfType(pic1, typeof(ExcelCellPicture));
         }
 
         [TestMethod]
@@ -36,7 +39,7 @@ namespace EPPlusTest.InCellImages
             var package = OpenPackage("InCellPictureSetPng.xlsx", delete: true);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var imageBytes = Resources.Png2ByteArray;
-            sheet.Cells["A1"].SetCellPicture(imageBytes);
+            sheet.Cells["A1"].Picture.Set(imageBytes);
             SaveWorkbook("InCellPictureSetPng.xlsx", package);
         }
 
@@ -47,10 +50,10 @@ namespace EPPlusTest.InCellImages
             var pic2Bytes = Resources.Png3ByteArray;
             using var package = OpenPackage("InCellPictureOverwrite.xlsx", delete: true);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
-            sheet.Cells["A1"].SetCellPicture(pic1Bytes);
-            var pic1 = package.Workbook.Worksheets[0].Cells["A1"].GetCellPicture();
+            sheet.Cells["A1"].Picture.Set(pic1Bytes);
+            var pic1 = package.Workbook.Worksheets[0].Cells["A1"].Picture.Get();
             Assert.IsNotNull(pic1, "Cell A1 picture was not present");
-            sheet.Cells["A1"].SetCellPicture(pic2Bytes);
+            sheet.Cells["A1"].Picture.Set(pic2Bytes);
             sheet.Row(1).Height = 25;
             sheet.Column(1).Width = 50;
             SaveWorkbook("InCellPictureOverwrite.xlsx", package);
@@ -62,7 +65,7 @@ namespace EPPlusTest.InCellImages
             using var package = OpenPackage("InCellPicturesAlt1.xlsx", delete: true);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var pictureBytes = Resources.Test1JpgByteArray;
-            sheet.Cells["A1"].SetCellPicture(pictureBytes, "This is an alt-text");
+            sheet.Cells["A1"].Picture.Set(pictureBytes, "This is an alt-text");
             SaveWorkbook("InCellPicturesAlt1.xlsx", package);
         }
 
@@ -72,7 +75,7 @@ namespace EPPlusTest.InCellImages
             using var package = OpenPackage("InCellPicturesDecorative.xlsx", delete: true);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var pictureBytes = Resources.CodeBmp;
-            sheet.Cells["A1"].SetCellPicture(pictureBytes, markAsDecorative: true);
+            sheet.Cells["A1"].Picture.Set(pictureBytes, isDecorative: true);
             SaveWorkbook("InCellPicturesDecorative.xlsx", package);
         }
 
@@ -81,7 +84,7 @@ namespace EPPlusTest.InCellImages
         {
             using var package = OpenTemplatePackage("RichDataPreserve1.xlsx");
             var sheet = package.Workbook.Worksheets.First();
-            sheet.Cells["F1"].SetCellPicture(Resources.Png2ByteArray);
+            sheet.Cells["F1"].Picture.Set(Resources.Png2ByteArray);
             SaveWorkbook("InCellImageWithOtherRichDataPreserve1.xlsx", package);
         }
 
@@ -90,9 +93,9 @@ namespace EPPlusTest.InCellImages
         {
             using var package = OpenTemplatePackage("RichDataPreserve1.xlsx");
             var sheet = package.Workbook.Worksheets.First();
-            sheet.Cells["F2"].SetCellPicture(Resources.Png3ByteArray);
-            sheet.Cells["F1"].SetCellPicture(Resources.Png2ByteArray);
-            sheet.Cells["F1"].DeleteCellPicture();
+            sheet.Cells["F2"].Picture.Set(Resources.Png3ByteArray);
+            sheet.Cells["F1"].Picture.Set(Resources.Png2ByteArray);
+            sheet.Cells["F1"].Picture.Remove();
             SaveWorkbook("InCellImageWithOtherRichDataPreserve2.xlsx", package);
         }
 
@@ -110,7 +113,7 @@ namespace EPPlusTest.InCellImages
             for (var i = 1; i <= images.Count; i++)
             {
                 sheet.Cells[i, 1].Value = images[i - 1];
-                sheet.Cells[i, 2].SetCellPicture(Path.Combine(imageDirectory, images[i - 1]));
+                sheet.Cells[i, 2].Picture.Set(Path.Combine(imageDirectory, images[i - 1]));
             }
             package.SaveAs(@"c:\temp\CellPictureEPPlusImageTypes.xlsx");
         }

@@ -22,7 +22,7 @@ namespace EPPlusTest.RichData
             var pic1Bytes = Resources.Png2ByteArray;
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet 1");
-            sheet.Cells["A1"].SetCellPicture(pic1Bytes);
+            sheet.Cells["A1"].Picture.Set(pic1Bytes);
 
             // From ValueMetadataBlock
             var vmb = package.Workbook.Metadata.ValueMetadata.First();

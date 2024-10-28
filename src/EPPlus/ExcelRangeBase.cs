@@ -66,12 +66,14 @@ namespace OfficeOpenXml
         private int _styleID;
         private static SourceCodeTokenizer _tokenizer=new SourceCodeTokenizer(null, null, false, true);
         private FunctionRepository _functions;
+        private readonly ExcelRangePicture _rangePicture;
         #region Constructors
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet)
         {
             Init(xlWorksheet);
             _ws = _worksheet.Name;
             _workbook = _worksheet.Workbook;
+            _rangePicture = new ExcelRangePicture(this);
             SetDelegate();
             _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;            
         }
@@ -81,6 +83,7 @@ namespace OfficeOpenXml
         {
             Init(xlWorksheet);
             _workbook = _worksheet.Workbook;
+            _rangePicture = new ExcelRangePicture(this);
             base.SetRCFromTable(_worksheet._package, null);
             if (string.IsNullOrEmpty(_ws)) _ws = _worksheet == null ? "" : _worksheet.Name;
             SetDelegate();
@@ -92,6 +95,7 @@ namespace OfficeOpenXml
             Init(xlWorksheet);
             SetRCFromTable(wb._package, null);
             _workbook = wb;
+            _rangePicture = new ExcelRangePicture(this);
             if (string.IsNullOrEmpty(_ws)) _ws = (xlWorksheet == null ? null : xlWorksheet.Name);
             SetDelegate();
             _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;
@@ -835,6 +839,12 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        /// <summary>
+        /// Used to add/remove cell pictures in the range
+        /// </summary>
+        public ExcelRangePicture Picture => _rangePicture;
+
         /// <summary>
         /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
         /// The minimum width is the value of the ExcelWorksheet.defaultColumnWidth property.

@@ -26,64 +26,64 @@ namespace OfficeOpenXml
         /// Returns the in-cell image in the top-left cell of the range.
         /// </summary>
         /// <returns>An instance of <see cref="ExcelCellPicture"/> or null if no such image exists.</returns>
-        internal ExcelCellPicture GetCellPicture()
-        {
-            return _worksheet._cellPicturesManager.GetCellPicture(_fromRow, _fromCol);
-        }
+        //internal ExcelCellPicture GetCellPicture()
+        //{
+        //    return _worksheet._cellPicturesManager.GetCellPicture(_fromRow, _fromCol);
+        //}
 
-        /// <summary>
-        /// Adds an image to the top-left cell in the range.
-        /// </summary>
-        /// <param name="imageBytes">The image bytes</param>
-        /// <param name="altText">Alt-text of the image</param>
-        /// <param name="markAsDecorative">Set to true if the picture should be marked as decorative (for accessability).</param>
-        public void SetCellPicture(byte[] imageBytes, string altText = null, bool markAsDecorative = false)
-        {
-            var calcOrigin = markAsDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
-            _worksheet._cellPicturesManager.SetCellPicture(_fromRow, _fromCol, imageBytes, altText, calcOrigin);
-        }
-        /// <summary>
-        /// Adds an image to the top-left cell in the range.
-        /// </summary>
-        /// <param name="path">File system path to the image file</param>
-        /// <param name="altText">Alt-text of the image</param>
-        ///  /// <param name="markAsDecorative">Set to true if the picture should be marked as decorative (for accessability).</param>
-        internal void SetCellPicture(string path, string altText = null, bool markAsDecorative = false)
-        {
-            var imageBytes = File.ReadAllBytes(path);
-            SetCellPicture(imageBytes, altText, markAsDecorative);
-        }
+        ///// <summary>
+        ///// Adds an image to the top-left cell in the range.
+        ///// </summary>
+        ///// <param name="imageBytes">The image bytes</param>
+        ///// <param name="altText">Alt-text of the image</param>
+        ///// <param name="markAsDecorative">Set to true if the picture should be marked as decorative (for accessability).</param>
+        //public void SetCellPicture(byte[] imageBytes, string altText = null, bool markAsDecorative = false)
+        //{
+        //    var calcOrigin = markAsDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
+        //    _worksheet._cellPicturesManager.SetCellPicture(_fromRow, _fromCol, imageBytes, altText, calcOrigin);
+        //}
+        ///// <summary>
+        ///// Adds an image to the top-left cell in the range.
+        ///// </summary>
+        ///// <param name="path">File system path to the image file</param>
+        ///// <param name="altText">Alt-text of the image</param>
+        /////  /// <param name="markAsDecorative">Set to true if the picture should be marked as decorative (for accessability).</param>
+        //internal void SetCellPicture(string path, string altText = null, bool markAsDecorative = false)
+        //{
+        //    var imageBytes = File.ReadAllBytes(path);
+        //    SetCellPicture(imageBytes, altText, markAsDecorative);
+        //}
 
-        /// <summary>
-        /// Adds an image to the top-left cell in the range.
-        /// </summary>
-        /// <param name="imageStream">A <see cref="System.IO.Stream" containing the image bytes/></param>
-        /// <param name="altText">Alt-text of the image</param>
-        /// <param name="markAsDecorative">Set to true if the picture should be marked as decorative (for accessability).</param>
-        public void SetCellPicture(Stream imageStream, string altText = null, bool markAsDecorative = false)
-        {
-            var calcOrigin = markAsDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
-            _worksheet._cellPicturesManager.SetCellPicture(_fromRow, _fromCol, imageStream, altText, calcOrigin);
-        }
+        ///// <summary>
+        ///// Adds an image to the top-left cell in the range.
+        ///// </summary>
+        ///// <param name="imageStream">A <see cref="System.IO.Stream" containing the image bytes/></param>
+        ///// <param name="altText">Alt-text of the image</param>
+        ///// <param name="markAsDecorative">Set to true if the picture should be marked as decorative (for accessability).</param>
+        //public void SetCellPicture(Stream imageStream, string altText = null, bool markAsDecorative = false)
+        //{
+        //    var calcOrigin = markAsDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
+        //    _worksheet._cellPicturesManager.SetCellPicture(_fromRow, _fromCol, imageStream, altText, calcOrigin);
+        //}
 
-        /// <summary>
-        /// Adds an image to the top-left cell in the range.
-        /// </summary>
-        /// <param name="image"></param>
-        /// <param name="altText"></param>
-        /// <param name="markAsDecorative">Set to true if the picture should be marked as decorative (for accessability).</param>
-        public void SetCellPicture(ExcelImage image, string altText = null, bool markAsDecorative = false)
-        {
-            var calcOrigin = markAsDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
-            _worksheet._cellPicturesManager.SetCellPicture(_fromRow, _fromCol, image, altText, calcOrigin);
-        }
+        ///// <summary>
+        ///// Adds an image to the top-left cell in the range.
+        ///// </summary>
+        ///// <param name="image"></param>
+        ///// <param name="altText"></param>
+        ///// <param name="markAsDecorative">Set to true if the picture should be marked as decorative (for accessability).</param>
+        //public void SetCellPicture(ExcelImage image, string altText = null, bool markAsDecorative = false)
+        //{
+        //    var calcOrigin = markAsDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
+        //    _worksheet._cellPicturesManager.SetCellPicture(_fromRow, _fromCol, image, altText, calcOrigin);
+        //}
 
-        /// <summary>
-        /// Removes any in cell picture from the top-left cell in the range
-        /// </summary>
-        public void DeleteCellPicture()
-        {
-            _worksheet._cellPicturesManager.DeleteCellPicture(_fromRow, _fromCol);
-        }
+        ///// <summary>
+        ///// Removes any in cell picture from the top-left cell in the range
+        ///// </summary>
+        //public void DeleteCellPicture()
+        //{
+        //    _worksheet._cellPicturesManager.DeleteCellPicture(_fromRow, _fromCol);
+        //}
     }
 }

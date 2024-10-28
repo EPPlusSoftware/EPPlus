@@ -150,6 +150,8 @@ namespace OfficeOpenXml.CellPictures
                 var imageRichValue = CreateImageRichValue(imageUri, calcOrigin, altText);
                 _richDataStore.AddRichData(row, col, imageRichValue, out uint vmId);
                 _sheet.Cells[row, col].Value = GetExcelCellPictureByRichValue(imageRichValue, row, col, vmId);
+                md.vm = vmId;
+                _sheet._metadataStore.SetValue(row, col, md);
             }
             else
             {
@@ -167,6 +169,8 @@ namespace OfficeOpenXml.CellPictures
                     var imageRichValue = CreateImageRichValue(imageUri, calcOrigin, altText);
                     _richDataStore.UpdateRichData(row, col, imageRichValue, out uint vmId);
                     _sheet.Cells[row, col].Value = GetExcelCellPictureByRichValue(imageRichValue, row, col, vmId);
+                    md.vm = vmId;
+                    _sheet._metadataStore.SetValue(row, col, md);
                     if (existingPic != null)
                     {
                         _pictureStore.RemoveReference(existingPic.ImageUri);

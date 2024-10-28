@@ -21,7 +21,7 @@ namespace OfficeOpenXml.CellPictures
     /// <summary>
     /// Represents an in-cell picture
     /// </summary>
-    internal class ExcelCellPicture : RichDataReference
+    public class ExcelCellPicture : RichDataReference
     {
         /// <summary>
         /// Constructor

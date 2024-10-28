@@ -48,6 +48,9 @@ using OfficeOpenXml.FormulaParsing;
 using System.Collections;
 using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Core.RichValues;
+using OfficeOpenXml.RichData;
+using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 
 namespace OfficeOpenXml
 {
@@ -117,7 +120,7 @@ namespace OfficeOpenXml
         internal CellStore<int> _threadedCommentsStore;
         internal CellStore<int?> _dataValidationsStore;
         internal CellStore<MetaDataReference> _metadataStore;
-        internal CellPicturesManager _cellPicturesManager;
+        internal RichDataStore _richDataStore;
         internal RichValueErrorManager _richValueErrorManager;
 
         internal Dictionary<int, SharedFormula> _sharedFormulas = new Dictionary<int, SharedFormula>();
@@ -173,6 +176,7 @@ namespace OfficeOpenXml
             _formulaTokens = new CellStore<IList<Token>>();
             _flags = new FlagCellStore();
             _metadataStore = new CellStore<MetaDataReference>();
+            _richDataStore = new RichDataStore(this);
             _commentsStore = new CellStore<int>();
             _threadedCommentsStore = new CellStore<int>();
             _dataValidationsStore = new CellStore<int?>();
@@ -181,7 +185,6 @@ namespace OfficeOpenXml
             _names = new ExcelNamedRangeCollection(Workbook, this);
 
             _rangeSorter = new RangeSorter(this);
-            _cellPicturesManager = new CellPicturesManager(this);
             _richValueErrorManager = new RichValueErrorManager(_package, this);
             FullPrecision = Workbook.FullPrecision;
 
@@ -1419,8 +1422,42 @@ namespace OfficeOpenXml
                 }
                 else if (xr.LocalName == "v")
                 {
-                    SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
-
+                    if(currentVm > 0)
+                    {
+                        var rd = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
+                        if(rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImage)
+                        {
+                            var rdLi = rd.As.LocalImage;
+                            var pic = new ExcelCellPicture(currentVm)
+                            {
+                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
+                                ImageUri = rdLi.ImageUri,
+                                CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
+                            };
+                            SetValueInner(row, col, pic);
+                        }
+                        else if(rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImageWithAltText)
+                        {
+                            var rdLi = rd.As.LocalImageAltText;
+                            var pic = new ExcelCellPicture(currentVm)
+                            {
+                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
+                                ImageUri = rdLi.ImageUri,
+                                AltText = rdLi.Text,
+                                CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
+                            };
+                            SetValueInner(row, col, pic);
+                        }
+                        else
+                        {
+                            SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
+                        }
+                        xr.Read();
+                    }
+                    else
+                    {
+                        SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
+                    }
                     xr.Read();
                 }
                 else if (xr.LocalName == "f")

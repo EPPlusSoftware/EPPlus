@@ -17,6 +17,17 @@ namespace EPPlusTest.RichData
     public class DeleteTests
     {
         [TestMethod]
+        public void PictureShouldNotExistAfterDelete()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            Assert.IsFalse(sheet.Cells["A1"].Picture.Exists);
+            sheet.Cells["A1"].Picture.Set(Resources.Png2ByteArray);
+            Assert.IsTrue(sheet.Cells["A1"].Picture.Exists);
+            sheet.Cells["A1"].Picture.Remove();
+            Assert.IsFalse(sheet.Cells["A1"].Picture.Exists);
+        }
+        [TestMethod]
         public void FutureMetadataBlockShouldBeDeletedWithRichValue()
         {
             using var package = new ExcelPackage();
@@ -121,7 +132,7 @@ namespace EPPlusTest.RichData
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var imageBytes = Resources.Png2ByteArray;
-            sheet.Cells["A1"].SetCellPicture(imageBytes);
+            sheet.Cells["A1"].Picture.Set(imageBytes);
 
             Assert.AreEqual(1, package.Workbook.Metadata.ValueMetadata.Count);
             Assert.AreEqual(1, package.Workbook.Metadata.MetadataTypes.Count);
