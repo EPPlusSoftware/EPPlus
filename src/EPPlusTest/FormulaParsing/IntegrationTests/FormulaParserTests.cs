@@ -68,6 +68,19 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
                 Assert.IsNull(ws.Cells["A3"].Value);
             }
         }
+        [TestMethod]
+        public void CalculateMultipleNegationTests()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.SetValue(1, 1, 1);
+                ws.SetFormula(2, 1, "(-(-(---A1)))");
+                ws.Calculate();
+
+                Assert.AreEqual(-1D, ws.GetValue(2,1));
+            }
+        }
         string QStr(string s)
         {
             char quotechar = '\"';

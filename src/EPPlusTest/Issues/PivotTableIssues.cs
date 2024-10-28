@@ -157,5 +157,55 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s747()
+        {
+            using (var package = OpenTemplatePackage("s747.xlsx"))
+            {
+                var workbook = package.Workbook;
+                var worksheet = workbook.Worksheets["Sheet2"];
+                worksheet.Cells["A20"].Value = "C";
+                worksheet.Cells["A21"].Value = "C";
+                worksheet.Cells["A22"].Value = "C";
+                worksheet.Cells["A23"].Value = "H";
+                worksheet.Cells["A24"].Value = "H";
+                worksheet.Cells["A25"].Value = "H";
+                worksheet.Cells["B20"].Value = "Test";
+                worksheet.Cells["B21"].Value = "Test";
+                worksheet.Cells["B22"].Value = "Test";
+                worksheet.Cells["B23"].Value = "Test";
+                worksheet.Cells["B24"].Value = "Test";
+                worksheet.Cells["B25"].Value = "Test";
+                worksheet.Cells["C20"].Value = 1;
+                worksheet.Cells["C21"].Value = 1;
+                worksheet.Cells["C22"].Value = 1;
+                worksheet.Cells["C23"].Value = 1;
+                worksheet.Cells["C24"].Value = 1;
+                worksheet.Cells["C25"].Value = 1;
+
+                var ws2 = workbook.Worksheets["High Level Summary"];
+                var pt = ws2.PivotTables[0];
+                var slicer1 =ws2.Drawings[0].As.Slicer.PivotTableSlicer;
+
+                Assert.AreEqual(pt.Fields[0].Items.Count, 5);
+                Assert.AreEqual(4, slicer1.Cache.Data.Items.Count);
+                Assert.AreEqual(false, slicer1.Cache.Data.Items[0].Hidden);
+                Assert.AreEqual(false, slicer1.Cache.Data.Items[1].Hidden);
+                Assert.AreEqual(true, slicer1.Cache.Data.Items[2].Hidden);
+                Assert.AreEqual(true, slicer1.Cache.Data.Items[3].Hidden);
+
+                workbook.CalculateAllPivotTables(true);                              //This causes different but still unexpected changes in the selected values. Happends for true or false
+
+                Assert.AreEqual(6, slicer1.Cache.Data.Items.Count);
+                Assert.AreEqual(false, slicer1.Cache.Data.Items[0].Hidden);
+                Assert.AreEqual(false, slicer1.Cache.Data.Items[1].Hidden);
+                Assert.AreEqual(true, slicer1.Cache.Data.Items[2].Hidden);
+                Assert.AreEqual(true, slicer1.Cache.Data.Items[3].Hidden);
+                Assert.AreEqual(true, slicer1.Cache.Data.Items[4].Hidden);
+                Assert.AreEqual(true, slicer1.Cache.Data.Items[5].Hidden);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

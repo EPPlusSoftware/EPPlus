@@ -577,7 +577,6 @@ namespace OfficeOpenXml.Drawing
                     return GetShapeOrControl(drawings, node, drawNode, parent);
                 case "pic":
                     var aPic = new ExcelPicture(drawings, node, parent);
-                    aPic.RecalcWidthHeight();
                     return aPic;
                 case "graphicFrame":
                     return ExcelChart.GetChart(drawings, node, parent);
@@ -1349,14 +1348,33 @@ namespace OfficeOpenXml.Drawing
         public void Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = int.MinValue, int colOffset = int.MinValue)
         {
             XmlNode drawNode = null;
-            if(rowOffset == int.MinValue)
+            if (From == null)
             {
-                rowOffset = From.RowOff / 9525;
+                if(rowOffset==int.MinValue || colOffset==int.MinValue)
+                {
+                    GetFromBounds(out _, out int ro, out _, out int co);
+                    if (rowOffset == int.MinValue)
+                    {
+                        rowOffset = ro;
+                    }
+                    if (colOffset == int.MinValue)
+                    {
+                        colOffset = co;
+                    }
+                }
             }
-            if(colOffset == int.MinValue)
+            else
             {
-                colOffset = From.ColumnOff / 9525;
+                if (rowOffset == int.MinValue)
+                {
+                    rowOffset = From.RowOff / 9525;
+                }
+                if (colOffset == int.MinValue)
+                {
+                    colOffset = From.ColumnOff / 9525;
+                }
             }
+
             switch (DrawingType)
             {
                 case eDrawingType.Shape:
@@ -1762,6 +1780,13 @@ namespace OfficeOpenXml.Drawing
             //Copy Blip Fill
             WorksheetCopyHelper.CopyBlipFillDrawing(worksheet, worksheet._drawings.Part, worksheet._drawings.DrawingXml, this, sourceShape.Fill, worksheet._drawings.Part.Uri);
             return drawNode;
+        }
+
+        internal ExcelAddressBase GetAddress()
+        {
+            GetFromBounds(out int fromRow, out _, out int fromCol, out _);
+            GetToBounds(out int toRow, out _, out int toCol, out _);
+            return new ExcelAddress(fromRow + 1, fromCol + 1, toRow + 1, toCol + 1);
         }
     }
 }

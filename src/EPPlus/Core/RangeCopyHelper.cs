@@ -108,7 +108,8 @@ namespace OfficeOpenXml.Core
         {
             foreach(var drawing in _sourceRange._worksheet.Drawings.ToList())
             {
-                var drawingRange = new ExcelAddress(drawing.From.Row+1, drawing.From.Column+1, drawing.To.Row+1, drawing.To.Column + 1);
+                var drawingRange = drawing.GetAddress();
+
                 if (_sourceRange.Intersect(drawingRange) != null )
                 {
                     var row = drawingRange._fromRow - _sourceRange._fromRow;
