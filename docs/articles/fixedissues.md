@@ -1,4 +1,25 @@
 # Features / Fixed issues - EPPlus 7
+
+## Version 7.4.2
+* Added support the array attribute on table column formulas.
+	* Added new property 'ExcelTableColumn.IsCalculatedFormulaArray'
+	* EPPlus automatically updates the IsCalculatedFormulaArray if a table formula is identified as an array formula in the calculation.
+* Allows adding mappings for error values as string in the ToDataTableOptions.
+* Rich text strings in the shared strings xml did not support both text and RichText elements in the same item.
+* The dynamic array formula flag was not set for single cell results containing range operations. 
+* Fixed inacurate relative addresses in cloned formulas in rare cases.
+* Deleting and adding a table with multiple worksheets no longer gives the added table an invalid id. 
+* Ensured ExcelPictures are sized correctly when copying worksheets
+* Fixed issue where adding rows to a Table that contained error values would throw error or generate a corrupt workbook. When the table was the source range of a pivot table.
+* Fixed ExcelErrorValues GetHashCode and Equals methods to return appropriate Type value.
+* Fixed incorrect datatype flags for ExcelPivotTableCacheField.
+* One-cell anchored, and absolute positioned drawings failed to copy when copying ranges.
+* Pivot tables with a page field, item filter or a slicer added new items as visible when refreshing the pivot table. EPPlus will now keep the filter when refreshing the pivot table, hiding values not matched by the filter.
+* Fixes for preserving geo, stock and currency data types.
+
+## Version 7.4.1
+* Updated for vulnerability in System.Text.Json 8.0.4 - Microsoft.Extensions.Configuration.Json 8.0.0 -> 8.0.1
+
 ## Version 7.4.0
 ### Features
 * Support for Conditional Formattings in Pivot tables via Pivot Areas.

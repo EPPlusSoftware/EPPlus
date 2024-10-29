@@ -3,14 +3,14 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
     <PackageVersion Include="Microsoft.IO.RecyclableMemoryStream" Version="3.0.1" />
     <PackageVersion Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageVersion Include="System.Drawing.Common" Version="8.0.4" />
     <PackageVersion Include="System.Formats.Asn1" Version="8.0.1" />
-    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="8.0.0" />
+    <PackageVersion Include="System.Security.Cryptography.Pkcs" Version="8.0.1" />
     <PackageVersion Include="System.Text.Encoding.CodePages" Version="8.0.0" />
-    <PackageVersion Include="System.Text.Json" Version="8.0.4" />
+    <PackageVersion Include="System.Text.Json" Version="8.0.5" />
   </ItemGroup>
   <ItemGroup>
     <PackageVersion Include="FakeItEasy" Version="8.0.0" />

@@ -47,7 +47,8 @@ namespace OfficeOpenXml.Utils
         }
         private static object GetValueToCompare(object obj)
         {
-            var tc = Type.GetTypeCode(obj.GetType());
+            var t = obj.GetType();
+            var tc = Type.GetTypeCode(t);
             switch (tc)
             {
                 case TypeCode.Empty:

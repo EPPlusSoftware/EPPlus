@@ -209,7 +209,26 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests
             var result = _parser.Parse("-(1+2)");
             Assert.AreEqual(-3d, result);
         }
-
+        [TestMethod]
+        public void ShouldReturnNullErrorIfAdded()
+        {
+            var result = _parser.Parse("#NULL!+1");
+            Assert.IsInstanceOfType(result, typeof(ExcelErrorValue));
+            Assert.AreEqual(eErrorType.Null, ((ExcelErrorValue)result).Type);
+        }
+        [TestMethod]
+        public void ShouldReturnRefErrorIfAdded()
+        {
+            var result = _parser.Parse("-#Ref!");
+            Assert.IsInstanceOfType(result, typeof(ExcelErrorValue));
+            Assert.AreEqual(eErrorType.Ref, ((ExcelErrorValue)result).Type);
+        }
+        [TestMethod]
+        public void ShouldCalcMultipleNegation()
+        {
+            var result = _parser.Parse("(-(-(---1)))");
+            Assert.AreEqual(-1D, result);
+        }
         [TestMethod]
         public void ShouldHandlePercentStrings()
         {

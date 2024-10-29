@@ -161,7 +161,6 @@ namespace OfficeOpenXml.Table
                     {
                         if (t.Id > Table.Id) t.Id--;
                     }
-                    Table.WorkSheet.Workbook._nextTableID--;
                 }
                 foreach(var name in _tableNames.Keys.ToArray())
                 { 
