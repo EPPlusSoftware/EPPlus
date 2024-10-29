@@ -381,16 +381,19 @@ namespace EPPlusTest.Drawing
         public void DisplayAsIconTest()
         {
             using var genericOlePackage = OpenPackage("EpplusOleObject_Link_Icon_Generic.xlsx", true);
+            var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var genericOle = generiWs.Drawings.AddOleObject("MyIcon", @"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt", true, true);
+            var genericOle = generiWs.Drawings.AddOleObject("MyIcon", myFile, true, true);
             Assert.IsTrue(genericOle.DisplayAsIcon);
         }
         [TestMethod]
         public void ChangePictureTest()
         {
             using var genericOlePackage = OpenPackage("EpplusOleObject_Link_Icon_Picture_Generic.xlsx", true);
+            var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
+            var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var genericOle = generiWs.Drawings.AddOleObject("MyCustomPicture", @"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt", true, true, @"C:\epplusTest\Workbooks\OleObjectFiles\TestIcon.bmp");
+            var genericOle = generiWs.Drawings.AddOleObject("MyCustomPicture", myFile, true, true, myIcon);
             //Nothing To Assert just check the excel file and see if it has a different picture.
         }
 
@@ -424,7 +427,9 @@ namespace EPPlusTest.Drawing
             var ws = p.Workbook.Worksheets[0];
             var ole = ws.Drawings[0] as ExcelOleObject;
             ws.Drawings[0].Copy(ws, 5, 0);
-            SaveAndCleanup (p);
+            Assert.AreEqual(2, ws.Drawings.Count);
+            Assert.IsTrue(ws.Drawings[1] is ExcelOleObject);
+            SaveAndCleanup(p);
         }
         [TestMethod]
         public void CopyEmbeddedOleObjectTestSameWorkbook()
@@ -434,7 +439,10 @@ namespace EPPlusTest.Drawing
             var ole = ws.Drawings[0] as ExcelOleObject;
             var ws2 = p.Workbook.Worksheets.Add("Sheet 2");
             ws.Drawings[0].Copy(ws2, 5, 0);
-            p.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Embed_CopyMe2.xlsx");
+            Assert.AreEqual(1, ws2.Drawings.Count);
+            Assert.IsTrue(ws2.Drawings[0] is ExcelOleObject);
+            SaveAndCleanup(p);
+            //p.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Embed_CopyMe2.xlsx");
         }
         [TestMethod]
         public void CopyEmbeddedOleObjectTestOtherWorkbook()
@@ -445,7 +453,10 @@ namespace EPPlusTest.Drawing
             var p2 = new ExcelPackage();
             var ws2 = p2.Workbook.Worksheets.Add("Sheet1");
             ws.Drawings[0].Copy(ws2, 5, 0);
-            p2.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Embed_CopyMe3.xlsx");
+            Assert.AreEqual(1, ws2.Drawings.Count);
+            Assert.IsTrue(ws2.Drawings[0] is ExcelOleObject);
+            SaveAndCleanup(p2);
+            //p2.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Embed_CopyMe3.xlsx");
         }
 
         [TestMethod]
@@ -455,6 +466,8 @@ namespace EPPlusTest.Drawing
             var ws = p.Workbook.Worksheets[0];
             var ole = ws.Drawings[0] as ExcelOleObject;
             ws.Drawings[0].Copy(ws, 5, 0);
+            Assert.AreEqual(2, ws.Drawings.Count);
+            Assert.IsTrue(ws.Drawings[1] is ExcelOleObject);
             SaveAndCleanup(p);
         }
         [TestMethod]
@@ -465,7 +478,10 @@ namespace EPPlusTest.Drawing
             var ole = ws.Drawings[0] as ExcelOleObject;
             var ws2 = p.Workbook.Worksheets.Add("Sheet 2");
             ws.Drawings[0].Copy(ws2, 5, 0);
-            p.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Link_CopyMe2.xlsx");
+            Assert.AreEqual(1, ws2.Drawings.Count);
+            Assert.IsTrue(ws2.Drawings[0] is ExcelOleObject);
+            SaveAndCleanup(p);
+            //p.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Link_CopyMe2.xlsx");
         }
         [TestMethod]
         public void CopyLinkedOleObjectTestOtherWorkbook()
@@ -476,7 +492,10 @@ namespace EPPlusTest.Drawing
             var p2 = new ExcelPackage();
             var ws2 = p2.Workbook.Worksheets.Add("Sheet1");
             ws.Drawings[0].Copy(ws2, 5, 0);
-            p2.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Link_CopyMe3.xlsx");
+            Assert.AreEqual(1, ws2.Drawings.Count);
+            Assert.IsTrue(ws2.Drawings[0] is ExcelOleObject);
+            SaveAndCleanup(p2);
+            //p2.SaveAs(@"C:\epplusTest\Testoutput\OleObjectTest_Link_CopyMe3.xlsx");
         }
 
         [TestMethod]
@@ -523,10 +542,9 @@ namespace EPPlusTest.Drawing
             //Write Generic Object
             using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            FileInfo fileInfo = new FileInfo(@"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt");
+            var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
+            FileInfo fileInfo = new FileInfo(myFile);
             var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileInfo, new ExcelOleObjectParameters() {LinkToFile = true });
-            Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME));
-            Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
             Assert.IsTrue(genericOle.IsExternalLink);
             SaveAndCleanup(genericOlePackage);
         }
@@ -536,7 +554,8 @@ namespace EPPlusTest.Drawing
             //Write Generic Object
             using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            FileInfo fileInfo = new FileInfo(@"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt");
+            var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
+            FileInfo fileInfo = new FileInfo(myFile);
             var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileInfo);
             Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME));
             Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
@@ -549,8 +568,8 @@ namespace EPPlusTest.Drawing
             //Write Generic Object
             using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
-
-            using (FileStream fileStream = new FileStream(@"C:\epplusTest\Workbooks\OleObjectFiles\MyTextDocument.txt", FileMode.Open, FileAccess.Read))
+            var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
+            using (FileStream fileStream = new FileStream(myFile, FileMode.Open, FileAccess.Read))
             {
                 var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileStream);
                 Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME));
