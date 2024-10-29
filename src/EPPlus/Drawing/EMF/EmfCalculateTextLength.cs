@@ -10,7 +10,11 @@
  *************************************************************************************************
   01/01/2025         EPPlus Software AB           Initial release EPPlus 8
  *************************************************************************************************/
+﻿using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
+using OfficeOpenXml.Drawing.EMF;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using System.Collections.Generic;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -46,7 +50,7 @@ namespace OfficeOpenXml.Drawing.EMF
         private int rowstartY = 36;
         private int rowYIncrement = 12;
 
-        internal EmfCalculateTextLength(string text)
+        internal EmfCalculateTextLength(string text, GenericFontMetricsTextMeasurer aMesurement, EMR_EXTCREATEFONTINDIRECTW previousFont, float ppi)
         {
             List<RowData> rows = new List<RowData>();
             int rowCharactersWidth = 0;
@@ -56,7 +60,7 @@ namespace OfficeOpenXml.Drawing.EMF
             //Get substrings and row lengths
             for (int i = 0; i < text.Length; i++)
             {
-                rowCharactersWidth += EMR_EXTTEXTOUTW.GetSpacingForChar(text[i]);
+                rowCharactersWidth += EMR_EXTTEXTOUTW.GetSpacingForChar(text[i], aMesurement, previousFont.elw.mFont, ppi);
                 rowCharacterNumber++;
                 if(rowCharactersWidth >= minWidth || i == text.Length-1)
                 {
@@ -106,13 +110,14 @@ namespace OfficeOpenXml.Drawing.EMF
                 elw.dv.Signature = 134248036;
                 elw.dv.NumAxes = 0;
                 elw.dv.Values = new uint[0] { };
+                //elw.mFont = new MeasurementFont(elw.FaceName, );
                 EMR_EXTCREATEFONTINDIRECTW font = new EMR_EXTCREATEFONTINDIRECTW(elw);
                 TextRecords.Add(font);
                 EMR_SELECTOBJECT selObj1 = new EMR_SELECTOBJECT(2);
                 TextRecords.Add(selObj1);
                 EMR_SETBKMODE bkMode = new EMR_SETBKMODE(1);
                 TextRecords.Add(bkMode);
-                EMR_EXTTEXTOUTW textw = new EMR_EXTTEXTOUTW(rows[i].Text, rows[i].PosX, rows[i].PosY);
+                EMR_EXTTEXTOUTW textw = new EMR_EXTTEXTOUTW(rows[i].Text, rows[i].PosX, rows[i].PosY, font);
                 TextRecords.Add(textw);
                 EMR_SELECTOBJECT selObj2 = new EMR_SELECTOBJECT(2147483661);
                 TextRecords.Add(selObj2);

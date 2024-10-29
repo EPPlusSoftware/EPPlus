@@ -45,6 +45,8 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts
         Verdana = 24,
         Aptos = 25,
         AptosNarrow = 26,
-        AptosDisplay = 27
+        AptosDisplay = 27,
+        SegoeUI = 28,
+        Tahoma = 29,
     }
 }

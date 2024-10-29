@@ -11,11 +11,20 @@
   01/01/2025         EPPlus Software AB           Initial release EPPlus 8
  *************************************************************************************************/
 using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
+
 {
     internal class EMR_SELECTOBJECT : EMR_RECORD
     {
+        /// <summary>
+        /// Index of a graphics object either in the EMF object table or stock object 
+        /// </summary>
         internal uint ihObject;
 
         internal EMR_SELECTOBJECT(uint ihObject)
@@ -25,7 +34,7 @@ namespace OfficeOpenXml.Drawing.EMF
             this.ihObject = ihObject;
         }
 
-        internal EMR_SELECTOBJECT(BinaryReader br, uint TypeValue) : base(br, TypeValue)
+        public EMR_SELECTOBJECT(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
             ihObject = br.ReadUInt32();
         }
