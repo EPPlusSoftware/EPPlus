@@ -120,6 +120,16 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
+        /// <summary>
+        /// Constructor for when the file is a string.
+        /// </summary>
+        /// <param name="drawings"></param>
+        /// <param name="node"></param>
+        /// <param name="name"></param>
+        /// <param name="olePath"></param>
+        /// <param name="parameters"></param>
+        /// <param name="iconPath"></param>
+        /// <param name="parent"></param>
         internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, string olePath, ExcelOleObjectParameters parameters, string iconPath = null, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
@@ -133,13 +143,22 @@ namespace OfficeOpenXml.Drawing.OleObject
             else
             {
                 iconData = File.ReadAllBytes(iconPath);
-                CheckIconData(iconData, parameters);
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;
             CreateOleObject(drawings, node, Name, oleData, parameters, iconData, parent);
         }
 
+        /// <summary>
+        /// Constructor for when the file is a FileInfo
+        /// </summary>
+        /// <param name="drawings"></param>
+        /// <param name="node"></param>
+        /// <param name="name"></param>
+        /// <param name="oleInfo"></param>
+        /// <param name="parameters"></param>
+        /// <param name="iconInfo"></param>
+        /// <param name="parent"></param>
         internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, FileInfo oleInfo, ExcelOleObjectParameters parameters, FileInfo iconInfo = null, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
@@ -166,13 +185,22 @@ namespace OfficeOpenXml.Drawing.OleObject
                     iconData = new byte[icoFs.Length];
                     icoFs.Read(iconData, 0, iconData.Length);
                 }
-                CheckIconData(iconData, parameters);
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;
             CreateOleObject(drawings, node, Name, oleData, parameters, iconData, parent);
         }
 
+        /// <summary>
+        /// Constructor for when the file is a Stream.
+        /// </summary>
+        /// <param name="drawings"></param>
+        /// <param name="node"></param>
+        /// <param name="name"></param>
+        /// <param name="oleStream"></param>
+        /// <param name="parameters"></param>
+        /// <param name="iconStream"></param>
+        /// <param name="parent"></param>
         internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, Stream oleStream, ExcelOleObjectParameters parameters, Stream iconStream = null, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
@@ -185,7 +213,6 @@ namespace OfficeOpenXml.Drawing.OleObject
                 iconData = new byte[iconStream.Length];
                 iconStream.Seek(0, SeekOrigin.Begin);
                 iconStream.Read(iconData, 0, (int)iconStream.Length);
-                CheckIconData(iconData, parameters);
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;
@@ -231,11 +258,12 @@ namespace OfficeOpenXml.Drawing.OleObject
 
             }
             //Create Media
-            if(parameters.mediaFileExtension == ".emf")
+            var iconExt = CheckIconData(iconData, parameters);
+            if (iconExt == ".emf")
             {
                 _mediaImage = _worksheet._package.PictureStore.AddImage(iconData, null, ePictureType.Emf);
             }
-            if (parameters.mediaFileExtension == ".bmp")
+            else if (iconExt == ".bmp")
             {
                 byte[] image = OleObjectIcon.DefaultIcon;
                 EmfImage emf = new EmfImage();
@@ -557,18 +585,20 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
-        private void CheckIconData(byte[] iconData, ExcelOleObjectParameters parameters)
+        private string CheckIconData(byte[] iconData, ExcelOleObjectParameters parameters)
         {
+            if (iconData == null)
+                return ".bmp";
             using MemoryStream ms = new MemoryStream(iconData);
             using BinaryReader br = new BinaryReader(ms);
             string sign;
             if (ImageReader.IsEmf(br))
             {
-                parameters.mediaFileExtension = ".emf";
+                return ".emf";
             }
             else if (ImageReader.IsBmp(br, out sign))
             {
-                parameters.mediaFileExtension = ".bmp";
+                return ".bmp";
             }
             else
             {
