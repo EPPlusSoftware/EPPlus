@@ -167,6 +167,11 @@ namespace OfficeOpenXml.Drawing.EMF
 
         private void CalculateOffsets()
         {
+            if(stringBuffer == null)
+            {
+                stringBuffer = "";
+            }
+
             Chars = (uint)stringBuffer.Length;
             offDx = offString + (uint)stringBuffer.Length * 2;
 

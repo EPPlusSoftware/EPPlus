@@ -50,9 +50,9 @@ namespace OfficeOpenXml.DigitalSignatures
         internal string ValidSigLnImage;
         internal string InvalidSigLnImg;
 
-        internal ExcelDigitalSignature(ExcelWorkbook wb, XmlNamespaceManager ns, ZipPackagePart part, int num) : base(ns)
+        internal ExcelDigitalSignature(ExcelWorkbook wb, XmlNamespaceManager ns, ZipPackagePart part) : base(ns)
         {
-            PartUri = string.Format(PartUriBase, num);
+            PartUri = part.Uri.OriginalString;
             _part = part;
 
             _wb = wb;

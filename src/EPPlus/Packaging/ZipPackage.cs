@@ -98,7 +98,7 @@ namespace OfficeOpenXml.Packaging
                             ExtractEntryToPart(_zip, e);
                         }                            
                     }
-                    else if (e.FileName == "_xmlsignatures/origin.sigs")
+                    else if (e.FileName.StartsWith("_xmlsignatures/origin"))
                     {
                         ExtractEntryToPart(_zip, e);
                     }
@@ -356,7 +356,7 @@ namespace OfficeOpenXml.Packaging
                 }
 
                 //Assume last entry name since inputStream cannot read last entry of an open outputstream
-                if (e.FileName == "_xmlsignatures/origin.sigs")
+                if (e.FileName.StartsWith("_xmlsignatures/origin"))
                 {
                     e = null;
                     continue;

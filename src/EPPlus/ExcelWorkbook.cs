@@ -1430,7 +1430,7 @@ namespace OfficeOpenXml
             }
         }
 
-		private void SaveExternalLinks()
+        private void SaveExternalLinks()
 		{
 			var packageFile = _package.File;
 			foreach (var er in _externalLinks)

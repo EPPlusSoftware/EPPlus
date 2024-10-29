@@ -29,6 +29,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.Packaging.Ionic.Zip;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -258,6 +259,14 @@ namespace OfficeOpenXml.Drawing.Vml
             VmlDrawingXml.DocumentElement.AppendChild(node);
 
             var sLine = new ExcelSignatureLine(_ws, node, NameSpaceManager, lineId);
+
+            int newID = 1;
+            var uri = XmlHelper.GetNewUri(_ws._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
+            _ws._package.ZipPackage.CreatePart(uri, "image/x-emf", CompressionLevel.None, "emf");
+
+            var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(Uri, uri), TargetMode.Internal, ExcelPackage.schemaImage);
+            sLine.RelId = rel.Id;
+
             SignatureLines.Add(sLine);
             _ws.Workbook.DigitialSignatures.AddExcelSignatureLine(sLine);
             _drawings.Add(sLine);
@@ -616,6 +625,33 @@ namespace OfficeOpenXml.Drawing.Vml
             get
             {
                 return _drawings.Count;
+            }
+        }
+
+        //internal void SaveHandlerSigLineEmfDummy(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
+        //{
+        //    stream.PutNextEntry(fileName);
+        //}
+
+        internal override void CreateVmlPart(bool save)
+        {
+            base.CreateVmlPart(save);
+            //Signature Line emf picture is created based on the vmlpart
+            //TODO: Avoid saving if no change made?
+            if (save)
+            {
+                foreach (var sLine in SignatureLines)
+                {
+                    var rel = Part.GetRelationship(sLine.RelId);
+                    var partUri = UriHelper.ResolvePartUri(Uri, rel.TargetUri);
+                    var part = _ws._package.ZipPackage.GetPart(partUri);
+
+                    ////Ensure stream is handled in here and nowhere else
+                    //part.SaveHandler = SaveHandlerSigLineEmfDummy;
+
+                    MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+                    sLine.Emf.SaveToStream(ms);
+                }
             }
         }
 

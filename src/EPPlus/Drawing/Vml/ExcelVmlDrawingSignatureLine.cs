@@ -31,11 +31,11 @@ namespace OfficeOpenXml.Drawing.Vml
 
         internal ExcelVmlDrawingSignatureLine(XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
         {
-            var idString = GetXmlNodeString("o:signatureline/@id");
-            SetupID = new Guid(idString);
             Emf = new SignatureLineEmf();
             Emf.SignerName = Signer;
             Emf.SignerTitle = Title;
+            var idString = GetXmlNodeString("o:signatureline/@id");
+            SetupID = new Guid(idString);
         }
 
         /// <summary>

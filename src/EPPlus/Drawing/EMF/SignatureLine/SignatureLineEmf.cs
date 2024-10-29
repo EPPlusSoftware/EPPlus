@@ -20,7 +20,6 @@ namespace OfficeOpenXml.Drawing.EMF
         internal SignatureLineEmf() : base()
         {
             Init();
-            Read(templatePath);
         }
 
         internal SignatureLineEmf(string signerName, string signerTitle) : base()

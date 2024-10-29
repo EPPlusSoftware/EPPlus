@@ -62,23 +62,20 @@ namespace OfficeOpenXml.DigitalSignatures
             var originPart = _package.ZipPackage.GetPart(_sigOrigin);
             var rels = originPart.GetRelationships();
 
-            int i = 1;
-
             foreach(var rel in rels)
             {
                 var adjustedUri = new Uri("_xmlsignatures/" + rel.TargetUri.OriginalString, UriKind.Relative);
                 var part = _package.ZipPackage.GetPart(adjustedUri);
-                ReadPartXml(part, i);
-                i++;
+                ReadPartXml(part);
             }
         }
 
-        private void ReadPartXml(ZipPackagePart part, int num)
+        private void ReadPartXml(ZipPackagePart part)
         {
             var signatureXml = new XmlDocument();
             signatureXml.PreserveWhitespace = ExcelPackage.preserveWhitespace;
 
-            var digitalSignature = new ExcelDigitalSignature(_wb, _ns, part, num);
+            var digitalSignature = new ExcelDigitalSignature(_wb, _ns, part);
 
             _signatures.Add(digitalSignature);
         }

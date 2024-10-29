@@ -14,28 +14,28 @@ namespace OfficeOpenXml.Drawing
     {
         ExcelDigitalSignature sig;
         ExcelVmlDrawingPictureCollection _drawings;
-        ExcelWorksheet _ws;
+        internal ExcelWorksheet Worksheet;
         XmlNamespaceManager _nsm;
-        ZipPackagePart part;
+        //private ZipPackagePart part;
         const string relIdPath = "d:legacyDrawing/@r:id";
 
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId)
         {
-            _ws = ws;
+            Worksheet = ws;
             _nsm = ws.NameSpaceManager;
 
-            int newID = 1;
-            var uri = GetNewUri(ws._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
-            part = ws._package.ZipPackage.CreatePart(uri, "image/x-emf", CompressionLevel.None, "emf");
-            part.SaveHandler = Save;
+            //int newID = 1;
+            //var uri = GetNewUri(ws._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
+            //part = ws._package.ZipPackage.CreatePart(uri, "image/x-emf", CompressionLevel.None, "emf");
+            //part.SaveHandler = Save;
 
-            var rel = ws.VmlDrawings.Part.CreateRelationship(UriHelper.GetRelativeUri(ws.VmlDrawings.Uri, uri), TargetMode.Internal, ExcelPackage.schemaImage);
-            RelId = rel.Id;
+            //var rel = ws.VmlDrawings.Part.CreateRelationship(UriHelper.GetRelativeUri(ws.VmlDrawings.Uri, uri), TargetMode.Internal, ExcelPackage.schemaImage);
+            //RelId = rel.Id;
         }
 
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
         {
-            _ws = ws;
+            Worksheet = ws;
             _nsm = ws.NameSpaceManager;
 
             //var rel = ws.VmlDrawings.Part.GetRelationship(RelId);
@@ -43,18 +43,18 @@ namespace OfficeOpenXml.Drawing
             //part.SaveHandler = Save;
         }
 
-        internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
-        {
-            //Init Zip
-            stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
-            stream.PutNextEntry(fileName);
+        //internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
+        //{
+        //    //Init Zip
+        //    stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
+        //    stream.PutNextEntry(fileName);
 
-            MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-            Emf.SaveToStream(ms);
+        //    MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+        //    Emf.SaveToStream(ms);
 
-            var b = (ms).ToArray();
-            stream.Write(b, 0, b.Length);
-        }
+        //    var b = (ms).ToArray();
+        //    stream.Write(b, 0, b.Length);
+        //}
 
         const string vNameSpace = "urn:schemas-microsoft-com:vml";
         const string oNameSpace = "urn:schemas-microsoft-com:office:office";
