@@ -135,10 +135,40 @@ namespace OfficeOpenXml.Drawing.EMF
             EndPadding = br.ReadBytes(tempPadding);
         }
 
-        internal void ChangeImage2(byte[] bmp)
+        internal void ReplaceImage(string fileName)
         {
-            var handler = new BitmapHandler(bmp);
+            //var fInfo = new FileInfo(fileName);
+            //var aStream = fInfo.Open(FileMode.Open, FileAccess.ReadWrite);
+            var img = new ExcelImage(fileName);
+            //var pictureType = ImageReader.GetPictureType(aStream, true);
 
+            //aStream.Close();
+
+            switch (img.Type.Value)
+            {
+                case ePictureType.Bmp:
+                    ChangeImage2(File.ReadAllBytes(fileName));
+                    break;
+                case ePictureType.Jpg:
+                    var handler = new BitmapHandler();
+                    handler.ReadJpg(img.ImageBytes, img.Bounds);
+                    UpdateImage(handler);
+                    break;
+                case ePictureType.Png:
+
+                    break;
+                default:
+                    {
+                        throw new NotSupportedException($"Epplus does not support Images of type {img.Type} in this class. {fileName} could not be read.");
+                    }
+            }
+
+            //var fileBytes = File.ReadAllBytes(fileName);
+            //ChangeImage2(fileBytes);
+        }
+
+        internal void UpdateImage(BitmapHandler handler)
+        {
             bitMapHeader = handler.informationHeader;
             cbBmiSrc = bitMapHeader.sizeOfHeader;
             Padding2 = handler.OptionalData;
@@ -157,58 +187,15 @@ namespace OfficeOpenXml.Drawing.EMF
 
             xDest = Convert.ToInt32((128 - (cxSrc * ratio)) / 2);
             yDest = Convert.ToInt32((128 - (cySrc * ratio)) / 2);
-
-
-
-            //if (cxSrc > 128)
-            //{
-            //    cxDest = 128;
-            //}
-
-            //var xFactor = Math.Min(cxSrc / 128, 1);
-            //var yFactor = Math.Min(cySrc / 128, 1);
-
-            //if (cxSrc > 128)
-            //{
-            //    cxDest = 128;
-            //}
-            //else
-            //{
-            //    cxDest = cxSrc * xFactor;
-            //}
-
-            //if (cyDest > 128)
-            //{
-            //    cyDest = 128;
-            //}
-            //else
-            //{
-            //    cyDest = cySrc * yFactor;
-            //}
-
-
-
-            //var larger = Math.Max(cxSrc, cySrc);
-            //var smaller = Math.Min(cxSrc, cySrc);
-
-            //var aspectRatio = larger / smaller;
-
-            //if(larger > 180)
-            //{
-            //    larger = 180;
-            //}
-
-
-
-            //if (handler.informationHeader.pixelHeight < 128)
-            //{
-            //    cyDest = handler.informationHeader.pixelHeight;
-            //}
-            //if(handler.informationHeader.pixelWidth < 128)
-            //{
-            //    cxDest = handler.informationHeader.pixelWidth;
-            //}
         }
+
+        internal void ChangeImage2(byte[] bmp)
+        {
+            var handler = new BitmapHandler(bmp);
+            UpdateImage(handler);
+            //Bounds = new RectLObject(9, 48, 117, 112);
+        }
+
         internal void ChangeImage(byte[] bmp)
         {
             byte[] bmpHeader = new byte[14];

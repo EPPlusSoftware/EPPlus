@@ -70,6 +70,10 @@ namespace OfficeOpenXml.Drawing.EMF
                     case 0x00000016:
                         record = new EMR_SETTEXTALIGN(br, TypeValue);
                         break;
+                    case 0x00000023:
+                    case 0x00000024:
+                        record = new TransformRecordBase(br, TypeValue);
+                        break;
                     case 0x00000025:
                         var obj = new EMR_SELECTOBJECT(br, TypeValue);
                         currentlySelectedId = obj.ihObject;

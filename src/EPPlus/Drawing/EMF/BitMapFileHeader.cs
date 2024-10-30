@@ -58,6 +58,11 @@ namespace OfficeOpenXml.Drawing.EMF
         /// </summary>
         internal int Offset;
 
+        internal BitMapFileHeader()
+        {
+            Signature = BitMapType.BM;   
+        }
+
         internal BitMapFileHeader(MemoryStream ms)
         {
             using(var br = new BinaryReader(ms))

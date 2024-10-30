@@ -1,5 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Castle.Core.Resource;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
 using System;
@@ -186,7 +188,7 @@ namespace EPPlusTest
             dibits.Bounds = new RectLObject(9, 59, 117, 102);
 
             emfImage.Save("C:\\epplusTest\\Testoutput\\ValidStampAltered.emf");
-            }
+        }
 
         [TestMethod]
         public void CheckOGImage()
@@ -224,6 +226,96 @@ namespace EPPlusTest
             invalidTemplate.SignedBy = "TemplateName";
 
             invalidTemplate.Save("C:\\epplusTest\\Testoutput\\InvalidSignatureTemplate2.emf");
+        }
+
+        [TestMethod]
+        public void ReadJpg()
+        {
+            EmfImage jpgEmf = new EmfImage();
+            jpgEmf.Read(@"C:\Users\OssianEdström\Pictures\JpgEmf.emf");
+
+            var records = jpgEmf.records;
+
+            var dibitsWidth = (EMR_STRETCHDIBITS)jpgEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+        }
+
+
+        [TestMethod]
+        public void ReadWorldTransform()
+        {
+            var emf128 = new EmfImage();
+            emf128.Read(@"C:\epplusTest\Testoutput\128EmfFile.emf");
+
+            var emfExtended = new EmfImage();
+            emfExtended.Read(@"C:\epplusTest\Testoutput\ExtremeHeight.emf");
+
+            var dibits128 = (EMR_STRETCHDIBITS)emf128.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            var worldTransform = (TransformRecordBase)emf128.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
+            var worldTransformModified = (TransformRecordBase)emf128.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
+
+            //worldTransform.xForm.Dy;
+            worldTransform.xForm.Dx = 9;
+            worldTransformModified.xForm.Dx = 9;
+            worldTransformModified.xForm.M11 = 0.8671875f;
+
+            var dibitsExtended = (EMR_STRETCHDIBITS)emfExtended.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            var worldTransformExtended = (TransformRecordBase)emfExtended.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
+            var worldTransformModifiedExtended = (TransformRecordBase)emfExtended.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
+
+            dibits128.Bounds = new RectLObject(9, 48, 120, 112);
+
+            emf128.Save(@"C:\epplusTest\Testoutput\128EmfFileResaved.emf");
+            emfExtended.Save(@"C:\epplusTest\Testoutput\128EmfFileResavedOther.emf");
+        }
+
+
+        [TestMethod]
+        public void ReadCompareDrawingTest()
+        {
+            EmfImage wEmf, hEmf, whEmf, Maxed;
+            wEmf = new EmfImage();
+            hEmf = new EmfImage();
+            whEmf = new EmfImage();
+            Maxed = new EmfImage();
+
+            wEmf.Read(@"C:\epplusTest\Testoutput\ExtremeWidth.emf");
+            hEmf.Read(@"C:\epplusTest\Testoutput\ExtremeHeight.emf");
+            whEmf.Read(@"C:\epplusTest\Testoutput\128EmfFile.emf");
+            Maxed.Read(@"C:\epplusTest\Testoutput\ValidStampExtended.emf");
+
+            var dibitsWidth = (EMR_STRETCHDIBITS)wEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+            var dibitsHeight = (EMR_STRETCHDIBITS)hEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+            hEmf.records.Remove(dibitsHeight);
+            dibitsHeight = (EMR_STRETCHDIBITS)hEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+            var dibitsWidthHeight = (EMR_STRETCHDIBITS)whEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+            var dibitsMaxed = (EMR_STRETCHDIBITS)Maxed.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            var widthWorld = wEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
+            var widthModify = wEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
+
+            var heightWorld = hEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
+            var heightModify = hEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
+
+            var widthHeightWorld = whEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
+            var widthHeightModify = whEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
+
+            var maxedWorld = Maxed.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
+            var maxedModify = Maxed.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
+
+            widthHeightWorld.data = maxedWorld.data;
+            widthHeightModify.data = maxedModify.data;
+
+            dibitsWidthHeight.Bounds = new RectLObject(9, 48, 120, 112);
+            whEmf.Save(@"C:\epplusTest\Testoutput\whChangedBounds.emf");
+            //dibitsHeight.ChangeImage2(File.ReadAllBytes(@"C:\Users\OssianEdström\Pictures\TestBitmap.bmp"));
+            //dibitsMaxed.Bounds = new RectLObject(0, 0, 117, 112);
+            ////dibitsMaxed.ChangeImage2(File.ReadAllBytes(@"C:\Users\OssianEdström\Pictures\LessExtremeLong.bmp"));
+
+            //hEmf.Save(@"C:\epplusTest\Testoutput\ExtremeHeightChangedWorld.emf");
+            //Maxed.Save(@"C:\epplusTest\Testoutput\MaxedResave.emf");
+            //var maxedRecords = Maxed.records;
         }
     }
 }

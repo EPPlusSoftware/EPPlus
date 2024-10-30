@@ -40,6 +40,24 @@ namespace OfficeOpenXml.Drawing.EMF
         internal CompressionMethod ReadCompression;
         internal byte[] ByteArrIfUnhandled = null;
 
+        internal BitmapInformationHeader(uint inSizeOfHeader, CompressionMethod method, int inPixelWidth, int inPixelHeight)
+        {
+            sizeOfHeader = inSizeOfHeader;
+            pixelWidth = inPixelWidth;
+            pixelHeight = inPixelHeight;
+            colorPlanes = 1;
+            colorDepth = 4;
+
+            ReadCompression = method;
+            compressionMethod = (uint)method;
+
+            imageSize = 0;
+            hRes = 0;
+            vRes = 0;
+            nColors = 3;
+            nImportantColors = 0;
+        }
+
         internal BitmapInformationHeader(BinaryReader br, uint HeaderSize)
         {
             sizeOfHeader = br.ReadUInt32();
