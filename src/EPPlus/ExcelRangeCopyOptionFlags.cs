@@ -77,5 +77,9 @@ namespace OfficeOpenXml
         /// Exclude hidden cells in the range.
         /// </summary>
         ExcludeHiddenCells = 0x2000,
+        /// <summary>
+        /// Fill range with repeated data.
+        /// </summary>
+        Fill = 0x4000,
     }
 }
