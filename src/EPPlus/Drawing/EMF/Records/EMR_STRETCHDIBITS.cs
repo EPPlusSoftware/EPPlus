@@ -135,31 +135,26 @@ namespace OfficeOpenXml.Drawing.EMF
             EndPadding = br.ReadBytes(tempPadding);
         }
 
-        internal void ReplaceImage(string fileName)
+        internal void UpdateToImage(string fileName)
         {
-            //var fInfo = new FileInfo(fileName);
-            //var aStream = fInfo.Open(FileMode.Open, FileAccess.ReadWrite);
             var img = new ExcelImage(fileName);
-            //var pictureType = ImageReader.GetPictureType(aStream, true);
-
-            //aStream.Close();
 
             switch (img.Type.Value)
             {
                 case ePictureType.Bmp:
-                    ChangeImage2(File.ReadAllBytes(fileName));
+                    ReadBmpAndUpdateImage(File.ReadAllBytes(fileName));
                     break;
-                case ePictureType.Jpg:
-                    var handler = new BitmapHandler();
-                    handler.ReadJpg(img.ImageBytes, img.Bounds);
-                    UpdateImage(handler);
-                    break;
-                case ePictureType.Png:
+                //case ePictureType.Jpg:
+                //    var handler = new BitmapHandler();
+                //    handler.ReadJpg(img.ImageBytes, img.Bounds);
+                //    UpdateImage(handler);
+                //    break;
+                //case ePictureType.Png:
 
-                    break;
+                //    break;
                 default:
                     {
-                        throw new NotSupportedException($"Epplus does not support Images of type {img.Type} in this class. {fileName} could not be read.");
+                        throw new NotSupportedException($"{fileName} could not be read. The filetype: {img.Type} is not supported in digital signatures. please use a .bmp file.");
                     }
             }
 
@@ -176,67 +171,30 @@ namespace OfficeOpenXml.Drawing.EMF
 
             cxSrc = handler.informationHeader.pixelWidth;
             cySrc = handler.informationHeader.pixelHeight;
+            RecalculateImage();
+        }
 
-            double xRatio = (double)128 / (double)cxSrc;
-            double yRatio = (double)128 / (double)cySrc;
+        internal void RecalculateImage()
+        {
+            var xSource = cxSrc;
+            var ySource = cySrc;
+
+            double xRatio = (double)111 / (double)xSource;
+            double yRatio = (double)75 / (double)ySource;
 
             double ratio = xRatio < yRatio ? xRatio : yRatio;
 
-            cxDest = Convert.ToInt32(cxSrc * ratio);
-            cyDest = Convert.ToInt32(cySrc * ratio);
+            cxDest = Convert.ToInt32(xSource * ratio);
+            cyDest = Convert.ToInt32(ySource * ratio);
 
-            xDest = Convert.ToInt32((128 - (cxSrc * ratio)) / 2);
-            yDest = Convert.ToInt32((128 - (cySrc * ratio)) / 2);
+            xDest = Convert.ToInt32((111f - (xSource * ratio)) / 2);
+            yDest = Convert.ToInt32((75f - (ySource * ratio)) / 2);
         }
 
-        internal void ChangeImage2(byte[] bmp)
+        internal void ReadBmpAndUpdateImage(byte[] bmp)
         {
             var handler = new BitmapHandler(bmp);
             UpdateImage(handler);
-            //Bounds = new RectLObject(9, 48, 117, 112);
-        }
-
-        internal void ChangeImage(byte[] bmp)
-        {
-            byte[] bmpHeader = new byte[14];
-            Array.Copy(bmp, 0, bmpHeader, 0, 14);
-
-            byte[] bmpDIBHeaderSize = new byte[4];
-            Array.Copy(bmp, 14, bmpDIBHeaderSize, 0, 4);
-
-            int DIBHeaderSize = BitConverter.ToInt32(bmpDIBHeaderSize, 0);
-
-            byte[] bmpDIBHeader = new byte[DIBHeaderSize];
-            Array.Copy(bmp, 14, bmpDIBHeader, 0, DIBHeaderSize);
-
-            var cxArr = BitConverter.GetBytes(cxSrc);
-            var cyArr = BitConverter.GetBytes(cySrc);
-            //Get width and height from bmp image. This will make sure we display the full image.
-            Array.Copy(bmpDIBHeader, 4, cxArr, 0, 4);
-            Array.Copy(bmpDIBHeader, 8, cyArr, 0, 4);
-
-            cxSrc = BitConverter.ToInt32(cxArr, 0);
-            cySrc = BitConverter.ToInt32(cyArr, 0);
-            cxDest = cxSrc;
-            cyDest = cySrc;
-
-            int headerSize = DIBHeaderSize + 14;
-
-            byte[] bmpPixelData = new byte[bmp.Length - headerSize];
-            Array.Copy(bmp, headerSize, bmpPixelData, 0, bmp.Length - headerSize);
-
-            BmiSrc = bmpDIBHeader;
-            var headerSizeDiff = cbBmiSrc - bmpDIBHeader.Length;
-            cbBmiSrc = (uint)bmpDIBHeader.Length;
-
-            offBitsSrc = offBitsSrc - (uint)headerSizeDiff;
-
-            cbBitsSrc = (uint)bmpPixelData.Length;
-            BitsSrc = bmpPixelData;
-
-            Size = (uint)(offBitsSrc + cbBitsSrc);
-            int paddingBytes = (int)(4 - (Size % 4)) % 4;
-            EndPadding = new byte[paddingBytes];
         }
 
         internal override void WriteBytes(BinaryWriter bw)

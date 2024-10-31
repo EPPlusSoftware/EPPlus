@@ -89,12 +89,12 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void ReadSignatureLineStamp()
         {
-            using (var pck = OpenTemplatePackage("NewStamp.xlsx"))
+            using (var pck = OpenTemplatePackage("111Stamp.xlsx"))
             {
                 var wb = pck.Workbook;
                 var signatures = wb.DigitialSignatures;
 
-                DecodeAndSaveEmf(signatures[0].ValidSigLnImage, "C:\\epplusTest\\Testoutput\\128EmfFile.emf");
+                DecodeAndSaveEmf(signatures[0].ValidSigLnImage, "C:\\epplusTest\\Testoutput\\111EmfFile.emf");
 
                 //var sigLine = signatures.GetSignatureLineBySignature(signatures[0]);
 

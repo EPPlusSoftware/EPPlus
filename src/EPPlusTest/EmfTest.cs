@@ -1,4 +1,5 @@
 ﻿using Castle.Core.Resource;
+using EPPlusTest.Properties;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
@@ -94,7 +95,7 @@ namespace EPPlusTest
 
             var fileBytes = File.ReadAllBytes(@"C:\Users\OssianEdström\Pictures\LessExtremeLong.bmp");
 
-            dibits.ChangeImage2(fileBytes);
+            dibits.ReadBmpAndUpdateImage(fileBytes);
 
             dibits.Bounds = new RectLObject(60, 43, 66, 118);
 
@@ -134,7 +135,7 @@ namespace EPPlusTest
             var fileBytes = File.ReadAllBytes(strSrc);
             //var handler = new BitmapHandler(fileBytes);
 
-            dibits.ChangeImage2(fileBytes);
+            dibits.ReadBmpAndUpdateImage(fileBytes);
 
             emfImage.Save("C:\\epplusTest\\Testoutput\\ChangedImageExtremeWide.emf");
         }
@@ -239,15 +240,36 @@ namespace EPPlusTest
             var dibitsWidth = (EMR_STRETCHDIBITS)jpgEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
         }
 
+        [TestMethod]
+        public void ChangeImageTemplateForStamp()
+        {
+            var templateEmf = new EmfImage();
+            var path = "Resources\\TemplateForStamp.emf";
+            templateEmf.Read(path);
+
+            var templateImage = (EMR_STRETCHDIBITS)templateEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+            
+            templateImage.UpdateToImage("C:\\Users\\OssianEdström\\Pictures\\111By75.bmp");
+            templateEmf.Save("C:\\epplusTest\\Testoutput\\ChangedImageEmf.emf");
+
+            templateImage.UpdateToImage("C:\\Users\\OssianEdström\\Documents\\OldPics\\LessExtremeWide.bmp");
+            templateEmf.Save("C:\\epplusTest\\Testoutput\\ChangedImageExtremeWide.emf");
+
+            templateImage.UpdateToImage("C:\\Users\\OssianEdström\\Documents\\OldPics\\LessExtremeWide.bmp");
+            templateEmf.Save("C:\\epplusTest\\Testoutput\\ChangedImageExtremeWide.emf");
+
+            templateImage.UpdateToImage("C:\\Users\\OssianEdström\\Documents\\OldPics\\LessExtremeLong.bmp");
+            templateEmf.Save("C:\\epplusTest\\Testoutput\\ChangedImageExtremeHeight.emf");
+
+            templateImage.UpdateToImage("C:\\Users\\OssianEdström\\Documents\\OldPics\\5pxSignature.bmp");
+            templateEmf.Save("C:\\epplusTest\\Testoutput\\5pxSignature.emf");
+        }
 
         [TestMethod]
         public void ReadWorldTransform()
         {
             var emf128 = new EmfImage();
             emf128.Read(@"C:\epplusTest\Testoutput\128EmfFile.emf");
-
-            var emfExtended = new EmfImage();
-            emfExtended.Read(@"C:\epplusTest\Testoutput\ExtremeHeight.emf");
 
             var dibits128 = (EMR_STRETCHDIBITS)emf128.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
 
@@ -256,18 +278,22 @@ namespace EPPlusTest
 
             //worldTransform.xForm.Dy;
             worldTransform.xForm.Dx = 9;
+            worldTransform.xForm.M11 = 1;
+            worldTransform.xForm.M22 = 1;
+            worldTransform.xForm.Dy = 43;
+
             worldTransformModified.xForm.Dx = 9;
-            worldTransformModified.xForm.M11 = 0.8671875f;
+            worldTransformModified.xForm.M11 = 1;
+            worldTransformModified.xForm.M22 = 1;
+            worldTransformModified.xForm.Dy = 43;
 
-            var dibitsExtended = (EMR_STRETCHDIBITS)emfExtended.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+            dibits128.Bounds = new RectLObject(9, 43, 120, 118);
 
-            var worldTransformExtended = (TransformRecordBase)emfExtended.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
-            var worldTransformModifiedExtended = (TransformRecordBase)emfExtended.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
+            dibits128.UpdateToImage("C:\\Users\\OssianEdström\\Documents\\Epplus_Repos\\Epplus7\\EPPlus\\src\\EPPlusTest\\Resources\\5PxSignature.bmp");
+           // dibits128.ChangeImage2(File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\128Square.bmp"));
+            //dibitsExtended.ReadBmpAndUpdateImage(File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\128Square.bmp"));
 
-            dibits128.Bounds = new RectLObject(9, 48, 120, 112);
-
-            emf128.Save(@"C:\epplusTest\Testoutput\128EmfFileResaved.emf");
-            emfExtended.Save(@"C:\epplusTest\Testoutput\128EmfFileResavedOther.emf");
+            emf128.Save(@"C:\epplusTest\Testoutput\TemplateForStamp.emf");
         }
 
 
