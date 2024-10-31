@@ -181,14 +181,6 @@ namespace OfficeOpenXml.Drawing.EMF
 
             DxBuffer = new byte[stringBuffer.Length * 4];
             CalculateDxSpacing(stringBuffer);
-
-            //var aValue = BitConverter.GetBytes(240);
-            //for (int i = 0; i < aValue.Length; i++)
-            //{
-            //    Bounds[i + 8] = aValue[i];
-            //    Rectangle[i + 8] = aValue[i];
-            //}
-
             Size = offDx + (uint)DxBuffer.Length;
         }
 
