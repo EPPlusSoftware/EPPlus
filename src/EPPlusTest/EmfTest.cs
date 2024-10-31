@@ -17,6 +17,8 @@ namespace EPPlusTest
     [TestClass]
     public class EmfTest : TestBase
     {
+        const string emfOutputFolder = "EmfOutputFolder";
+
         [TestMethod]
         public void ReadWriteTest()
         {
@@ -32,7 +34,7 @@ namespace EPPlusTest
 
                 var record = (EMR_EXTTEXTOUTW)emf.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).First();
 
-                var outputPath = GetOutputFile("", "Generated.emf").FullName;
+                var outputPath = GetOutputFile(emfOutputFolder, "Generated.emf").FullName;
                 emf.Save(outputPath);
             }
         }
@@ -51,7 +53,7 @@ namespace EPPlusTest
                 emf.Read(path);
 
 
-                var outputPath = GetOutputFile("", "GeneratedTwo.emf").FullName;
+                var outputPath = GetOutputFile(emfOutputFolder, "GeneratedTwo.emf").FullName;
                 emf.Save(outputPath);
             }
         }
@@ -76,124 +78,9 @@ namespace EPPlusTest
             var longIndex = emfImage.records.IndexOf(longName);
             var signerIndex = emfImage.records.IndexOf(suggestedSigner);
 
-            var outputPath = GetOutputFile("", "ChangeFontOutput.emf").FullName;
+            var outputPath = GetOutputFile(emfOutputFolder, "ChangeFontOutput.emf").FullName;
 
             emfImage.Save(outputPath);
-        }
-
-        [TestMethod]
-        public void ReadStampExcel()
-        {
-            var readExcelVersion = new EmfImage();
-            readExcelVersion.Read("C:\\epplusTest\\Testoutput\\TemplateBmp.emf");
-            readExcelVersion.Save("C:\\epplusTest\\Testoutput\\TemplateResaved.emf");
-        }
-
-        [TestMethod]
-        public void ReadExtremeWidth()
-        {
-            var emfImage = new EmfImage();
-            emfImage.Read("C:\\epplusTest\\Testoutput\\RemovedDuplicateWidth.emf");
-
-            var records = emfImage.records;
-            var dibits = (EMR_STRETCHDIBITS)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-
-            var fileBytes = File.ReadAllBytes(@"C:\Users\OssianEdström\Pictures\LessExtremeLong.bmp");
-
-            dibits.ReadBmpAndUpdateImage(fileBytes);
-
-            dibits.Bounds = new RectLObject(60, 43, 66, 118);
-
-            emfImage.Save("C:\\epplusTest\\Testoutput\\RemovedDuplicateWidthChangedToLong.emf");
-        }
-
-        [TestMethod]
-        public void ReadExtremeHeight()
-        {
-            var emfImage = new EmfImage();
-            emfImage.Read("C:\\epplusTest\\Testoutput\\ExtremeHeight.emf");
-
-            var records = emfImage.records;
-            var dibits = (EMR_STRETCHDIBITS)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-
-            emfImage.Save("C:\\epplusTest\\Testoutput\\ReSaveExtremeHeight.emf");
-        }
-
-        [TestMethod]
-        public void ReadStamp2()
-        {
-            var emfImage = new EmfImage();
-            emfImage.Read("C:\\epplusTest\\Testoutput\\ExtremeWidthHeightRemovedDuplicate.emf");
-
-            var dibits = (EMR_STRETCHDIBITS)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-
-            //dibits.Bounds.Top = 0;
-            //dibits.Bounds.Left = 0;
-
-            //dibits.Bounds.Bottom = 78;
-            //dibits.Bounds.Right = 128;
-
-            dibits.Bounds = new RectLObject(0, 0, 250, 250);
-
-            var strSrc = @"C:\Users\OssianEdström\Pictures\LessExtremeWide.bmp";
-           // var strSrc = @"C:\Users\OssianEdström\Pictures\5PxSignature.bmp"
-            var fileBytes = File.ReadAllBytes(strSrc);
-            //var handler = new BitmapHandler(fileBytes);
-
-            dibits.ReadBmpAndUpdateImage(fileBytes);
-
-            emfImage.Save("C:\\epplusTest\\Testoutput\\ChangedImageExtremeWide.emf");
-        }
-
-        [TestMethod]
-        public void ReadStamp()
-        {
-            var emfImage = new EmfImage();
-            emfImage.Read("C:\\epplusTest\\Testoutput\\ValidStamp.emf");
-
-            var readExcelVersion = new EmfImage();
-            readExcelVersion.Read("C:\\epplusTest\\Testoutput\\TemplateBmp.emf");
-
-            var templateRecords = readExcelVersion.records;
-            var dibitsTemplate = (EMR_STRETCHDIBITS)readExcelVersion.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-
-            var records = emfImage.records;
-
-            var dibits = (EMR_STRETCHDIBITS)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-
-            var setWorld = emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
-            var modifyWorld = emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
-            var brushOrgEx = emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_SETBRUSHORGEX);
-
-            var setWorldTemplate = templateRecords.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
-            var modifyWorldTemplate = templateRecords.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
-
-            setWorld.data = setWorldTemplate.data;
-            modifyWorld.data = modifyWorldTemplate.data;
-
-            brushOrgEx.data = new byte[] { 9, 0, 0, 0, 59, 0, 0, 0 };
-
-            var intersectR = new EMR_INTERSECTCLIPRECT();
-            intersectR.Clip = new RectLObject(0, 0, 128, 160);
-            records.Insert(154, intersectR);
-
-            var fileBytes = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ResizedAsExcel.bmp");
-
-            var handler = new BitmapHandler(fileBytes);
-
-            dibits.bitMapHeader = handler.informationHeader;
-            dibits.cbBmiSrc = dibits.bitMapHeader.sizeOfHeader;
-            dibits.Padding2 = handler.OptionalData;
-            dibits.BitsSrc = handler.PixelArray;
-
-            dibits.cxDest = 128;
-            dibits.cxSrc = 128;
-            dibits.cySrc = 53;
-            dibits.cyDest = 53;
-
-            dibits.Bounds = new RectLObject(9, 59, 117, 102);
-
-            emfImage.Save("C:\\epplusTest\\Testoutput\\ValidStampAltered.emf");
         }
 
         [TestMethod]
@@ -220,7 +107,7 @@ namespace EPPlusTest
             validTemplate.suggestedTitleObject.Text = "TemplateTitle";
             validTemplate.SignedBy = "TemplateName";
 
-            var outputPath = GetOutputFile("", "ValidSignatureTemplate2.emf").FullName;
+            var outputPath = GetOutputFile(emfOutputFolder, "ValidSignatureTemplate2.emf").FullName;
 
             validTemplate.Save(outputPath);
         }
@@ -235,124 +122,33 @@ namespace EPPlusTest
             invalidTemplate.suggestedTitleObject.Text = "TemplateTitle";
             invalidTemplate.SignedBy = "TemplateName";
 
-            var outputPath = GetOutputFile("", "InvalidSignatureTemplate2.emf").FullName;
+            var outputPath = GetOutputFile(emfOutputFolder, "InvalidSignatureTemplate2.emf").FullName;
 
             invalidTemplate.Save(outputPath);
-        }
-
-        [TestMethod]
-        public void ReadJpg()
-        {
-            EmfImage jpgEmf = new EmfImage();
-            jpgEmf.Read(@"C:\Users\OssianEdström\Pictures\JpgEmf.emf");
-
-            var records = jpgEmf.records;
-
-            var dibitsWidth = (EMR_STRETCHDIBITS)jpgEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
         }
 
         [TestMethod]
         public void ChangeImageTemplateForStamp()
         {
             var templateEmf = new EmfImage();
-            var path = "Resources\\TemplateForStamp.emf";
+            var resourceFile = GetResourceFile("TemplateForStamp.emf");
+
+            var path = resourceFile.FullName;
             templateEmf.Read(path);
 
             var templateImage = (EMR_STRETCHDIBITS)templateEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-            
-            templateImage.UpdateToImage("C:\\Users\\OssianEdström\\Pictures\\111By75.bmp");
-            templateEmf.Save("C:\\epplusTest\\Testoutput\\ChangedImageEmf.emf");
 
-            templateImage.UpdateToImage("C:\\Users\\OssianEdström\\Documents\\OldPics\\LessExtremeWide.bmp");
-            templateEmf.Save("C:\\epplusTest\\Testoutput\\ChangedImageExtremeWide.emf");
+            templateImage.UpdateToImage(GetResourceFile("111By75.bmp").FullName);
+            templateEmf.Save(GetOutputFile(emfOutputFolder, "111By75.emf").FullName);
 
-            templateImage.UpdateToImage("C:\\Users\\OssianEdström\\Documents\\OldPics\\LessExtremeWide.bmp");
-            templateEmf.Save("C:\\epplusTest\\Testoutput\\ChangedImageExtremeWide.emf");
+            templateImage.UpdateToImage(GetResourceFile("MaxWidthSignatureStamp.bmp").FullName);
+            templateEmf.Save(GetOutputFile(emfOutputFolder, "MaxWidthSignatureStamp.emf").FullName);
 
-            templateImage.UpdateToImage("C:\\Users\\OssianEdström\\Documents\\OldPics\\LessExtremeLong.bmp");
-            templateEmf.Save("C:\\epplusTest\\Testoutput\\ChangedImageExtremeHeight.emf");
+            templateImage.UpdateToImage(GetResourceFile("MaxHeightSignatureStamp.bmp").FullName);
+            templateEmf.Save(GetOutputFile(emfOutputFolder, "MaxHeightSignatureStamp.emf").FullName);
 
-            templateImage.UpdateToImage("C:\\Users\\OssianEdström\\Documents\\OldPics\\5pxSignature.bmp");
-            templateEmf.Save("C:\\epplusTest\\Testoutput\\5pxSignature.emf");
-        }
-
-        [TestMethod]
-        public void ReadWorldTransform()
-        {
-            var emf128 = new EmfImage();
-            emf128.Read(@"C:\epplusTest\Testoutput\128EmfFile.emf");
-
-            var dibits128 = (EMR_STRETCHDIBITS)emf128.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-
-            var worldTransform = (TransformRecordBase)emf128.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
-            var worldTransformModified = (TransformRecordBase)emf128.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
-
-            //worldTransform.xForm.Dy;
-            worldTransform.xForm.Dx = 9;
-            worldTransform.xForm.M11 = 1;
-            worldTransform.xForm.M22 = 1;
-            worldTransform.xForm.Dy = 43;
-
-            worldTransformModified.xForm.Dx = 9;
-            worldTransformModified.xForm.M11 = 1;
-            worldTransformModified.xForm.M22 = 1;
-            worldTransformModified.xForm.Dy = 43;
-
-            dibits128.Bounds = new RectLObject(9, 43, 120, 118);
-
-            dibits128.UpdateToImage("C:\\Users\\OssianEdström\\Documents\\Epplus_Repos\\Epplus7\\EPPlus\\src\\EPPlusTest\\Resources\\5PxSignature.bmp");
-           // dibits128.ChangeImage2(File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\128Square.bmp"));
-            //dibitsExtended.ReadBmpAndUpdateImage(File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\128Square.bmp"));
-
-            emf128.Save(@"C:\epplusTest\Testoutput\TemplateForStamp.emf");
-        }
-
-
-        [TestMethod]
-        public void ReadCompareDrawingTest()
-        {
-            EmfImage wEmf, hEmf, whEmf, Maxed;
-            wEmf = new EmfImage();
-            hEmf = new EmfImage();
-            whEmf = new EmfImage();
-            Maxed = new EmfImage();
-
-            wEmf.Read(@"C:\epplusTest\Testoutput\ExtremeWidth.emf");
-            hEmf.Read(@"C:\epplusTest\Testoutput\ExtremeHeight.emf");
-            whEmf.Read(@"C:\epplusTest\Testoutput\128EmfFile.emf");
-            Maxed.Read(@"C:\epplusTest\Testoutput\ValidStampExtended.emf");
-
-            var dibitsWidth = (EMR_STRETCHDIBITS)wEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-            var dibitsHeight = (EMR_STRETCHDIBITS)hEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-            hEmf.records.Remove(dibitsHeight);
-            dibitsHeight = (EMR_STRETCHDIBITS)hEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-            var dibitsWidthHeight = (EMR_STRETCHDIBITS)whEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-            var dibitsMaxed = (EMR_STRETCHDIBITS)Maxed.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-
-            var widthWorld = wEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
-            var widthModify = wEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
-
-            var heightWorld = hEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
-            var heightModify = hEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
-
-            var widthHeightWorld = whEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
-            var widthHeightModify = whEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
-
-            var maxedWorld = Maxed.records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
-            var maxedModify = Maxed.records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
-
-            widthHeightWorld.data = maxedWorld.data;
-            widthHeightModify.data = maxedModify.data;
-
-            dibitsWidthHeight.Bounds = new RectLObject(9, 48, 120, 112);
-            whEmf.Save(@"C:\epplusTest\Testoutput\whChangedBounds.emf");
-            //dibitsHeight.ChangeImage2(File.ReadAllBytes(@"C:\Users\OssianEdström\Pictures\TestBitmap.bmp"));
-            //dibitsMaxed.Bounds = new RectLObject(0, 0, 117, 112);
-            ////dibitsMaxed.ChangeImage2(File.ReadAllBytes(@"C:\Users\OssianEdström\Pictures\LessExtremeLong.bmp"));
-
-            //hEmf.Save(@"C:\epplusTest\Testoutput\ExtremeHeightChangedWorld.emf");
-            //Maxed.Save(@"C:\epplusTest\Testoutput\MaxedResave.emf");
-            //var maxedRecords = Maxed.records;
+            templateImage.UpdateToImage(GetResourceFile("5pxSignature.bmp").FullName);
+            templateEmf.Save(GetOutputFile(emfOutputFolder, "5pxSignature.emf").FullName);
         }
     }
 }

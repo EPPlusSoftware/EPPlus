@@ -141,9 +141,10 @@ namespace OfficeOpenXml.Drawing.EMF
             record.ChangeImage(Image);
         }
 
+        //Assumes only one stretchdibits/one of each worldtransform and worldtransform modified
         internal void ResetWorldOrigin()
         {
-            var dibits128 = (EMR_STRETCHDIBITS)records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+            var dibits = (EMR_STRETCHDIBITS)records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
 
             var worldTransform = (TransformRecordBase)records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
             var worldTransformModified = (TransformRecordBase)records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
@@ -159,7 +160,7 @@ namespace OfficeOpenXml.Drawing.EMF
             worldTransformModified.xForm.M22 = 1;
             worldTransformModified.xForm.Dy = 43;
 
-            dibits128.Bounds = new RectLObject(9, 43, 120, 118);
+            dibits.Bounds = new RectLObject(9, 43, 120, 118);
         }
 
         internal void Save(string FilePath)
