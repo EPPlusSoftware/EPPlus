@@ -140,6 +140,27 @@ namespace OfficeOpenXml.Drawing.EMF
             record.ChangeImage(Image);
         }
 
+        internal void ResetWorldOrigin()
+        {
+            var dibits128 = (EMR_STRETCHDIBITS)records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            var worldTransform = (TransformRecordBase)records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
+            var worldTransformModified = (TransformRecordBase)records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
+
+            //worldTransform.xForm.Dy;
+            worldTransform.xForm.Dx = 9;
+            worldTransform.xForm.M11 = 1;
+            worldTransform.xForm.M22 = 1;
+            worldTransform.xForm.Dy = 43;
+
+            worldTransformModified.xForm.Dx = 9;
+            worldTransformModified.xForm.M11 = 1;
+            worldTransformModified.xForm.M22 = 1;
+            worldTransformModified.xForm.Dy = 43;
+
+            dibits128.Bounds = new RectLObject(9, 43, 120, 118);
+        }
+
         internal void Save(string FilePath)
         {
             var header = (EMR_HEADER)records[0];

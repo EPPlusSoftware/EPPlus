@@ -27,6 +27,11 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] BmiSrc;
         internal byte[] _bitsSrc;
 
+        //Variables for replacing/resizing the image.
+        //If behaves strangely reset SETWORLDTRANSFORM and MODIFYWORLDTRANSFORM records in EmfImage file.
+        private int _targetHeight = 75;
+        private int _targetWidth = 111;
+
         internal byte[] BitsSrc
         {
             get
@@ -144,25 +149,14 @@ namespace OfficeOpenXml.Drawing.EMF
                 case ePictureType.Bmp:
                     ReadBmpAndUpdateImage(File.ReadAllBytes(fileName));
                     break;
-                //case ePictureType.Jpg:
-                //    var handler = new BitmapHandler();
-                //    handler.ReadJpg(img.ImageBytes, img.Bounds);
-                //    UpdateImage(handler);
-                //    break;
-                //case ePictureType.Png:
-
-                //    break;
                 default:
                     {
                         throw new NotSupportedException($"{fileName} could not be read. The filetype: {img.Type} is not supported in digital signatures. please use a .bmp file.");
                     }
             }
-
-            //var fileBytes = File.ReadAllBytes(fileName);
-            //ChangeImage2(fileBytes);
         }
 
-        internal void UpdateImage(BitmapHandler handler)
+        private void UpdateImage(BitmapHandler handler)
         {
             bitMapHeader = handler.informationHeader;
             cbBmiSrc = bitMapHeader.sizeOfHeader;
