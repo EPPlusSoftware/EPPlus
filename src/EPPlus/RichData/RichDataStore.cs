@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.EventArguments;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Metadata.FutureMetadata;
@@ -69,7 +70,8 @@ namespace OfficeOpenXml.RichData
         internal ExcelRichValue GetRichValueByOneBasedIndex(int index)
         {
             var id = _workbook.Metadata.ValueMetadata.GetIdByIndex(index - 1);
-            return GetRichValue(id);
+            var rv = GetRichValue(id);
+            return rv;
         }
 
         /// <summary>
@@ -107,10 +109,15 @@ namespace OfficeOpenXml.RichData
             {
                 return null;
             }
+            return GetRichValue(vmId, structureTypesFilter);
+        }
+
+        internal ExcelRichValue GetRichValue(uint vmId, params string[] structureTypesFilter)
+        {
             var valueMetaData = _metadata.ValueMetadata.Get(vmId);
             var bk = valueMetaData.GetFirstOutgoingSubRelation<FutureMetadataBlock>();
             var rdv = bk.GetFirstOutgoingRelByType<ExcelRichValue>();
-            if(structureTypesFilter != null 
+            if (structureTypesFilter != null
                 && structureTypesFilter.Any()
                 && !structureTypesFilter.Contains(rdv.Structure.Type))
             {
@@ -164,7 +171,7 @@ namespace OfficeOpenXml.RichData
         internal void DeleteRichData(int row, int col)
         {
             var existingValue = GetRichValue(row, col);
-            if(existingValue == null)
+            if(existingValue != null)
             {
                 existingValue.DeleteMe();
             }

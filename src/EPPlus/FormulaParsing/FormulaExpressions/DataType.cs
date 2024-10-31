@@ -81,6 +81,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         /// <summary>
         /// Variable data type
         /// </summary>
-        Variable = 14
+        Variable = 14,
+        /// <summary>
+        /// Local image data type
+        /// </summary>
+        LocalImage = 15
     }
 }

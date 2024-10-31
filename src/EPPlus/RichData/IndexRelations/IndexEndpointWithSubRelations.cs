@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,28 @@ namespace OfficeOpenXml.RichData.IndexRelations
         public override void DeleteMe(RelationDeletions relDeletions = null)
         {
             base.DeleteMe(relDeletions);
+            var keys = new List<RichDataEntities>();
+            foreach(var key in _subRelations.Keys)
+            {
+                keys.Add(key);
+            }
+            foreach(var key in keys)
+            {
+                if(_subRelations.ContainsKey(key))
+                {
+                    var subRel = _subRelations[key];
+                    var rels = new List<IndexRelation>();
+                    foreach(var rel in subRel.SubRelations)
+                    {
+                        rels.Add(rel);
+                    }
+                    foreach(var rel in rels)
+                    {
+                        var e = new ConnectedEntityDeletedEventArgs(rel.From, rel, _store, relDeletions);
+                        rel.To.OnConnectedEntityDeleted(e);
+                    }
+                }
+            }
             _subRelations.Clear();
         }
 

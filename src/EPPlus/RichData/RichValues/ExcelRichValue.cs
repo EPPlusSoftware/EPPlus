@@ -20,9 +20,6 @@ namespace OfficeOpenXml.RichData.RichValues
         public ExcelRichValue(RichDataIndexStore store, ExcelRichData richData, RichDataStructureTypes structureType)
             : base(store, RichDataEntities.RichValue)
         {
-            //_workbook = workbook;
-            //StructureId = workbook.RichData.Structures.GetStructureId(structureType);
-            //Structure = _workbook.RichData.Structures.StructureItems[StructureId];
             var structure = richData.Structures.GetByType(structureType);
             StructureId = structure.Id;
             Structure = structure;
@@ -48,6 +45,22 @@ namespace OfficeOpenXml.RichData.RichValues
         public RichValueFallbackType FallbackType { get; internal set; } = RichValueFallbackType.Decimal;
 
         public string FallbackValue { get; set; }
+
+
+        public void InitRvRelRelations()
+        {
+            for (var ix = 0; ix < Structure.Keys.Count; ix++)
+            {
+                var key = Structure.Keys[ix];
+                if (key.IsRelation)
+                {
+                    var rvRelVal = _keysAndValues[key.Name];
+                    var rvRelId = _richData.RichValueRels.GetIdByIndex(int.Parse(rvRelVal));
+                    var rvRel = _richData.RichValueRels.Get(rvRelId);
+                    SetRelation(key.Name, key.RelationName, rvRel.TargetUri);
+                }
+            }
+        }
 
         internal void WriteXml(StreamWriter sw)
         {
@@ -97,7 +110,7 @@ namespace OfficeOpenXml.RichData.RichValues
                     return "n";
             }
         }
-
+        #region old code
         //private void AddRichValue(bool clearValues, Action action)
         //{
         //    if (clearValues)
@@ -191,6 +204,7 @@ namespace OfficeOpenXml.RichData.RichValues
         //        }
         //    });
         //}
+        #endregion
 
         public void SetRelation(string key, string relationName, Uri relUri)
         {
@@ -316,6 +330,7 @@ namespace OfficeOpenXml.RichData.RichValues
             }
         }
 
+        #region Old code
         //Dictionary<string, string> _keyValues = null;
         //internal bool HasValue(string[] keys, string[] values)
         //{
@@ -337,5 +352,6 @@ namespace OfficeOpenXml.RichData.RichValues
         //    }
         //    return true;
         //}
+        #endregion
     }
 }

@@ -421,13 +421,16 @@ namespace OfficeOpenXml.Metadata
 
         private void WriteMetadataTypes(StreamWriter sw)
         {
-            sw.Write($"<metadataTypes count=\"{MetadataTypes.Count}\">");
-            foreach(var metadataType in MetadataTypes )
+            if(MetadataTypes.Count > 0)
             {
-                if (metadataType.Deleted) continue;
-                metadataType.WriteXml(sw);
+                sw.Write($"<metadataTypes count=\"{MetadataTypes.Count}\">");
+                foreach (var metadataType in MetadataTypes)
+                {
+                    if (metadataType.Deleted) continue;
+                    metadataType.WriteXml(sw);
+                }
+                sw.Write($"</metadataTypes>");
             }
-            sw.Write($"</metadataTypes>");
         }
         private void WriteMetadataStrings(StreamWriter sw)
         {

@@ -15,28 +15,56 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.RichData;
 using System;
+using System.IO;
 
 namespace OfficeOpenXml.CellPictures
 {
     /// <summary>
     /// Represents an in-cell picture
     /// </summary>
-    public class ExcelCellPicture : RichDataReference
+    public class ExcelCellPicture : RichDataReferenceValueError
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        internal ExcelCellPicture(uint vmId) : base(vmId, RichDataReferenceTypes.LocalImage, true)
+        internal ExcelCellPicture(uint vmId, Uri imageUri, PictureStore pictureStore) : base(vmId, RichDataReferenceTypes.LocalImage)
         {
-            
+            _pictureStore = pictureStore;
+            ImageUri = imageUri;
         }
+
+        private readonly PictureStore _pictureStore;
 
         /// <summary>
         /// Internal uri in the workbook of the image.
         /// </summary>
-        public Uri ImageUri
+        internal Uri ImageUri
         {
             get; set;
+        }
+
+        /// <summary>
+        /// The bytes of the image file
+        /// </summary>
+        /// <returns></returns>
+        public byte[] GetImageBytes()
+        {
+            return _pictureStore.GetImageBytes(ImageUri);
+        }
+
+        /// <summary>
+        /// Name of the image file including file extension
+        /// </summary>
+        public string FileName
+        {
+            get
+            {
+                if(ImageUri == null)
+                {
+                    return null;
+                }
+                return Path.GetFileName(ImageUri.OriginalString);
+            }
         }
 
         /// <summary>

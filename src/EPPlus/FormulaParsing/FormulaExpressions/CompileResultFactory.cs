@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -80,7 +81,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     obj = ((DateTime)obj).ToOADate();
                     return DataType.Date;
                 default:
-                    if (obj is ExcelErrorValue)
+                    if (obj is ExcelCellPicture)
+                    {
+                        return DataType.LocalImage;
+                    }
+                    else if (obj is ExcelErrorValue)
                     {
                         return DataType.ExcelError;
                     }

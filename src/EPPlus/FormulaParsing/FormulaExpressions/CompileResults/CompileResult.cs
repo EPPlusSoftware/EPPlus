@@ -10,51 +10,15 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Utils;
+using System;
+using System.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    /// <summary>
-    /// Result type
-    /// </summary>
-    public enum CompileResultType
-    {
-        /// <summary>
-        /// A normal compile result containing a value.
-        /// </summary>
-        Normal = 0,
-        /// <summary>
-        /// A compile result referencing a range address. This will allow the result to be used with the colon operator.
-        /// </summary>
-        RangeAddress = 1,
-        /// <summary>
-        /// The result is a dynamic array formula.
-        /// </summary>
-        DynamicArray = 2
-    }
-    /// <summary>
-    /// CompileResultBase
-    /// </summary>
-    public abstract class CompileResultBase
-    {
-        /// <summary>
-        /// Result type
-        /// </summary>
-        public abstract CompileResultType ResultType { get; }
-    }
     /// <summary>
     /// Compile result
     /// </summary>
@@ -411,118 +375,5 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
         }
 
-    }
-    /// <summary>
-    /// Address compile result
-    /// </summary>
-    public class AddressCompileResult : CompileResult
-    {
-        /// <summary>
-        /// Address result
-        /// </summary>
-        /// <param name="result"></param>
-        /// <param name="dataType"></param>
-        /// <param name="address"></param>
-        public AddressCompileResult(object result, DataType dataType, FormulaRangeAddress address) : base(result, dataType)
-        {
-            Address = address;
-        }
-        /// <summary>
-        /// Address result without address
-        /// </summary>
-        /// <param name="result"></param>
-        /// <param name="dataType"></param>
-        public AddressCompileResult(object result, DataType dataType) : base(result, dataType)
-        { 
-
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="error"></param>
-        public AddressCompileResult(eErrorType error) : base(error)
-        {
-
-        }
-        /// <summary>
-        /// Address compile result
-        /// </summary>
-        /// <param name="errorValue"></param>
-        public AddressCompileResult(ExcelErrorValue errorValue) : base(errorValue)
-        {
-
-        }
-        /// <summary>
-        /// Address
-        /// </summary>
-        public override FormulaRangeAddress Address
-        {
-            get;
-        }
-        /// <summary>
-        /// ResultType
-        /// </summary>
-        public override CompileResultType ResultType
-        {
-            get
-            {
-                if(Address==null)
-                {
-                    return base.ResultType;
-                }
-                return CompileResultType.RangeAddress;
-            }
-        }
-    }
-    /// <summary>
-    /// Indicates that the result the function should be created as a dynamic array result.
-    /// </summary>
-    public class DynamicArrayCompileResult : AddressCompileResult
-    {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="result"></param>
-        /// <param name="dataType"></param>
-        /// <param name="address"></param>
-        public DynamicArrayCompileResult(object result, DataType dataType, FormulaRangeAddress address) : base(result, dataType)
-        {
-            
-        }
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="result"></param>
-        /// <param name="dataType"></param>
-        public DynamicArrayCompileResult(object result, DataType dataType) : base(result, dataType)
-        {
-
-        }
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="error"></param>
-        public DynamicArrayCompileResult(eErrorType error) : base(error)
-        {
-
-        }
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="errorValue"></param>
-        public DynamicArrayCompileResult(ExcelErrorValue errorValue) : base(errorValue)
-        {
-
-        }
-        /// <summary>
-        /// The result is a dynamic array.
-        /// </summary>
-        public override CompileResultType ResultType
-        {
-            get
-            {
-                return CompileResultType.DynamicArray;
-            }
-        }
     }
 }

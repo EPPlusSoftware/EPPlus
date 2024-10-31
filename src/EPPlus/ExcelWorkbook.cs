@@ -39,6 +39,7 @@ using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.CellPictures;
 
 namespace OfficeOpenXml
 {
@@ -105,6 +106,7 @@ namespace OfficeOpenXml
 		//internal HashSet<string> _tableSlicerNames = new HashSet<string>();
 		internal HashSet<string> _slicerNames = null;
 		internal Dictionary<string, ImageInfo> _images = new Dictionary<string, ImageInfo>();
+		private readonly CellPictureReferenceCache _cellPictureReferenceCache = new CellPictureReferenceCache();
 		internal bool GetPivotCacheFromAddress(string fullAddress, out PivotTableCacheInternal cacheReference)
 		{
 			if (_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
@@ -2046,6 +2048,8 @@ namespace OfficeOpenXml
 				return _richData;
 			}
 		}
+
+		internal CellPictureReferenceCache CellPictureReferenceCache => _cellPictureReferenceCache;
 
 		private readonly RichDataIndexStore _indexStore;
 

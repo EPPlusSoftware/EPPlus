@@ -9,6 +9,7 @@ using OfficeOpenXml;
 using System.IO;
 using EPPlusTest.Properties;
 using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.Interfaces.Drawing.Text;
 
 namespace EPPlusTest.InCellImages
 {
@@ -30,7 +31,16 @@ namespace EPPlusTest.InCellImages
             Assert.IsNotNull(pic3, "Cell B3 picture was not present");            // there is no picture in cell B2
             Assert.IsNull(pic4, "Cell B2 was not empty");
 
-            Assert.IsInstanceOfType(pic1, typeof(ExcelCellPicture));
+            var name1 = pic1.FileName;
+            Assert.AreEqual("image1.png", name1);
+            var bytes1 = pic1.GetImageBytes();
+            Assert.AreEqual(12185, bytes1.Length);
+
+            var name2 = pic2.FileName;
+            Assert.AreEqual("image2.png", name2);
+            var bytes2 = pic2.GetImageBytes();
+            Assert.AreEqual(11306, bytes2.Length);
+
         }
 
         [TestMethod]
@@ -99,6 +109,17 @@ namespace EPPlusTest.InCellImages
             SaveWorkbook("InCellImageWithOtherRichDataPreserve2.xlsx", package);
         }
 
+        [TestMethod]
+        public void AddToNewPackage()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Picture.Set(Resources.Png2ByteArray);
+            var pic1 = sheet.Cells["A1"].Picture.Get();
+            Assert.AreEqual("image1.png", pic1.FileName);
+            Assert.AreEqual(Resources.Png2ByteArray.Length, pic1.GetImageBytes().Length);
+        }
+
         [TestMethod, Ignore]
         public void TestImageFormats()
         {
@@ -116,6 +137,16 @@ namespace EPPlusTest.InCellImages
                 sheet.Cells[i, 2].Picture.Set(Path.Combine(imageDirectory, images[i - 1]));
             }
             package.SaveAs(@"c:\temp\CellPictureEPPlusImageTypes.xlsx");
+
+            var font = new MeasurementFont
+            {
+                FontFamily = "Times New Roman",
+                Size = 7,
+                Style = MeasurementFontStyles.Bold
+            };
+            var measurement = package.Settings.TextSettings.PrimaryTextMeasurer.MeasureText("Lorem ipsum\ndolor sit amet", font);
+            var widthInPixels = measurement.Width;
+            var heightInPixels = measurement.Height;
         }
     }
 }

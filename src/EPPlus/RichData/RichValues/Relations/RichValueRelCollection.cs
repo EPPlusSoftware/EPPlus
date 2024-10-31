@@ -30,6 +30,7 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
         Uri _uri;
         private ExcelWorkbook _wb;
         ZipPackagePart _part;
+        private readonly Dictionary<string, RichValueRel> _cachedRels = new Dictionary<string, RichValueRel>();
 
         public RichValueRelCollection(ExcelWorkbook wb) : base(wb.IndexStore, RichDataEntities.RichValueRel)
         {
@@ -118,14 +119,24 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
                 ReadXml(_part.GetStream());
             }
 
-            var relationship = _part.CreateRelationship(targetUri, TargetMode.Internal, type);
-            var rvRel = new RichValueRel(_wb, _part)
+            RichValueRel rvRel;
+            if(!_cachedRels.ContainsKey(targetUri.OriginalString))
             {
-                RelationId = relationship.Id,
-                TargetUri = relationship.TargetUri,
-                Type = relationship.RelationshipType
-            };
-            Add(rvRel);
+                var relationship = _part.CreateRelationship(targetUri, TargetMode.Internal, type);
+                rvRel = new RichValueRel(_wb, _part)
+                {
+                    RelationId = relationship.Id,
+                    TargetUri = relationship.TargetUri,
+                    Type = relationship.RelationshipType
+                };
+                Add(rvRel);
+                _cachedRels.Add(targetUri.OriginalString, rvRel);
+            }
+            else
+            {
+                rvRel = _cachedRels[targetUri.OriginalString];
+            }
+            
             rel = _indexStore.CreateAndAddRelation(relationOwner, rvRel, IndexType.ZeroBasedPointer);
             return rvRel;
         }

@@ -50,15 +50,20 @@ namespace OfficeOpenXml.RichData.Structures.Constants
 
         internal static class LocalImages
         {
+            internal static class RelationNames
+            {
+                public const string LocalImageIdentifier = "LocalImageIdentifier";
+            }
+
             internal static class Image
             {
-                public const string RelLocalImageIdentifier = $"{SpecialKeyNames.Prefixes.RvRel}:LocalImageIdentifier";
+                public const string RelLocalImageIdentifier = $"{SpecialKeyNames.Prefixes.RvRel}:{LocalImages.RelationNames.LocalImageIdentifier}";
                 public const string CalcOrigin = "CalcOrigin";
             }
 
             internal static class ImageAltText
             {
-                public const string RelLocalImageIdentifier = $"{SpecialKeyNames.Prefixes.RvRel}:LocalImageIdentifier";
+                public const string RelLocalImageIdentifier = $"{SpecialKeyNames.Prefixes.RvRel}:{LocalImages.RelationNames.LocalImageIdentifier}";
                 public const string CalcOrigin = "CalcOrigin";
                 public const string Text = "Text";
             }

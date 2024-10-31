@@ -1428,10 +1428,9 @@ namespace OfficeOpenXml
                         if(rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImage)
                         {
                             var rdLi = rd.As.LocalImage;
-                            var pic = new ExcelCellPicture(currentVm)
+                            var pic = new ExcelCellPicture(currentVm, rdLi.ImageUri, Workbook._package.PictureStore)
                             {
                                 CellAddress = new ExcelAddress(this.Name, row, col, row, col),
-                                ImageUri = rdLi.ImageUri,
                                 CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
                             };
                             SetValueInner(row, col, pic);
@@ -1439,10 +1438,9 @@ namespace OfficeOpenXml
                         else if(rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImageWithAltText)
                         {
                             var rdLi = rd.As.LocalImageAltText;
-                            var pic = new ExcelCellPicture(currentVm)
+                            var pic = new ExcelCellPicture(currentVm, rdLi.ImageUri, Workbook._package.PictureStore)
                             {
                                 CellAddress = new ExcelAddress(this.Name, row, col, row, col),
-                                ImageUri = rdLi.ImageUri,
                                 AltText = rdLi.Text,
                                 CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
                             };

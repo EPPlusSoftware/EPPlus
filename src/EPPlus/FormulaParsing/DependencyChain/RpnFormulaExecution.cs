@@ -1,4 +1,5 @@
-﻿using OfficeOpenXml.Core.CellStore;
+﻿using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
@@ -8,7 +9,6 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.Utils;
@@ -294,10 +294,9 @@ namespace OfficeOpenXml.FormulaParsing
                 SetCurrentCell(depChain, f);
                 f.SetFormula(s, depChain);
             }
-            f._ws._metadataStore.Clear(f._row, f._column, 1, 1);
+            CheckAndClearRichData(f);
             var id = ExcelCellBase.GetCellId(ws?.IndexInList ?? ushort.MaxValue, f._row, f._column);
             depChain.processedCells.Add(id);
-
             return true;
         }
 
@@ -549,6 +548,19 @@ namespace OfficeOpenXml.FormulaParsing
             }
 
         }
+        private static void CheckAndClearRichData(RpnFormula f)
+        {
+            var ws = f._ws;
+            if (ws == null) return;
+            var md = f._ws._metadataStore.GetValue(f._row, f._column);
+            if(md.vm <= 0u) return;
+            var mdb = ws.Workbook.Metadata.ValueMetadata.Get(md.vm);
+            if(mdb != null)
+            {
+                mdb.DeleteMe();
+            }
+            f._ws._metadataStore.Clear(f._row, f._column, 1, 1);
+        }
 
         private static void SetValueToWorkbook(RpnOptimizedDependencyChain depChain, RpnFormula f, RangeHashset rd, CompileResult cr)
         {
@@ -600,6 +612,12 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 RecalculateDirtyCells(dirtyRange, depChain, rd);
                             }
+                        }
+                        else if(cr.ResultType == CompileResultType.LocalImage)
+                        {
+                            var pic = cr.Result as ExcelCellPicture;
+                            var picManager = new CellPicturesManager(f._ws);
+                            picManager.SetCellPicture(f._row, f._column, pic.GetImageBytes(), pic.AltText, CalcOrigins.Reference);
                         }
                         else
                         {

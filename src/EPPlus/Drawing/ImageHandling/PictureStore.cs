@@ -71,6 +71,16 @@ namespace OfficeOpenXml.Drawing
             return null;
         }
 
+        internal byte[] GetImageBytes(Uri imageUri)
+        {
+            var part = _pck.ZipPackage.GetPart(imageUri);
+            var s = part.GetStream();
+            var ms = new MemoryStream();
+            var destStream = ms as Stream;
+            StreamUtil.CopyStream(s, ref destStream);
+            return ms.ToArray();
+        }
+
         internal ImageInfo AddImage(byte[] image)
         {
             return AddImage(image, null, null);
