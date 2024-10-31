@@ -12,39 +12,22 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using System.Data;
-using System.Threading;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Style;
-using System.Xml;
-using System.Drawing;
 using System.Globalization;
 using System.Collections;
 using OfficeOpenXml.Table;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Linq;
 using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.DataValidation.Contracts;
-using System.Reflection;
-using OfficeOpenXml.Style.XmlAccess;
-using System.Security;
 using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Sorting;
-using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml
 {
@@ -2023,6 +2006,46 @@ namespace OfficeOpenXml
             }
             var helper = new RangeCopyHelper(this, Destination, flags);
             helper.Copy();
+        }
+        /// <summary>
+        /// Copies the range of cells to another range of cells. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
+        /// </summary>
+        /// <param name="Destination">The range of cells to copy into.</param>
+        public void CopyFill(ExcelRangeBase Destination)
+        {
+            var helper = new RangeCopyHelper(this, Destination, ExcelRangeCopyOptionFlags.Fill);
+            helper.Copy();
+        }
+        /// <summary>
+        /// Copies the range of cells to another range of cells. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
+        /// </summary>
+        /// <param name="Destination">The range of cells to copy into.</param>
+        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied. Fill property will be set.</param>
+        public void CopyFill(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
+        {
+            ExcelRangeCopyOptionFlags flags = 0;
+            flags |= ExcelRangeCopyOptionFlags.Fill;
+            Copy(Destination, flags);
+        }
+        /// <summary>
+        /// Copies the range of cells to another range of cells transposed.
+        /// </summary>
+        /// <param name="Destination">The range of cells to copy into.</param>
+        public void CopyTranspose(ExcelRangeBase Destination)
+        {
+            var helper = new RangeCopyHelper(this, Destination, ExcelRangeCopyOptionFlags.Transpose);
+            helper.Copy();
+        }
+        /// <summary>
+        /// Copies the range of cells to another range of cells transposed.
+        /// </summary>
+        /// <param name="Destination">The range of cells to copy into.</param>
+        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied. Transpose property will be set.</param>
+        public void CopyTranspose(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
+        {
+            ExcelRangeCopyOptionFlags flags = 0;
+            flags |= ExcelRangeCopyOptionFlags.Transpose;
+            Copy(Destination, flags);
         }
         /// <summary>
         /// Copy the styles from the source range to the destination range.

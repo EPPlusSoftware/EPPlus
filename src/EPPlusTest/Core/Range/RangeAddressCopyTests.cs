@@ -26,11 +26,9 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using EPPlusTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using System.Drawing;
 using OfficeOpenXml.DataValidation;
 
@@ -1053,11 +1051,25 @@ namespace EPPlusTest.Core.Range
                 }
             }
         }
-        //create worksheet for more tests
 
-        //create methods that sets flags for easier use 
-            //fill
-            //transpose
-            //include all
+        [TestMethod]
+        public void CopyFillTest2()
+        {
+            using var p = OpenTemplatePackage("CopyFillTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var a1 = ws.Cells["A1"];
+            var a1b2 = ws.Cells["A1:B2"];
+
+            var a1Dest = ws.Cells["I1:O5"];
+            var a1b2Dest1 = ws.Cells["I10:P11"];
+            var a1b2Dest2 = ws.Cells["I13:J20"];
+            var a1b2Dest3 = ws.Cells["I25:N30"];
+
+            a1.Copy(a1Dest, ExcelRangeCopyOptionFlags.Fill);
+            a1b2.Copy(a1b2Dest1, ExcelRangeCopyOptionFlags.Fill);
+            a1b2.Copy(a1b2Dest2, ExcelRangeCopyOptionFlags.Fill);
+            a1b2.Copy(a1b2Dest3, ExcelRangeCopyOptionFlags.Fill);
+            SaveAndCleanup(p);
+        }
     }
 }

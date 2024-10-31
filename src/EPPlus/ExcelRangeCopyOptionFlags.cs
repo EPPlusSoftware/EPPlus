@@ -78,7 +78,7 @@ namespace OfficeOpenXml
         /// </summary>
         ExcludeHiddenCells = 0x2000,
         /// <summary>
-        /// Fill range with repeated data.
+        /// Fill range with repeated data. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
         /// </summary>
         Fill = 0x4000,
     }
