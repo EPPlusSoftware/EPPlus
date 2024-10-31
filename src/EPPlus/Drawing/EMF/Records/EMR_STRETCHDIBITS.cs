@@ -1,9 +1,5 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System;
+﻿using System;
 using System.IO;
-using System.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
 {

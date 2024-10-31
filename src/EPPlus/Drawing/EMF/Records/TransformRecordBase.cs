@@ -1,11 +1,5 @@
 ﻿using OfficeOpenXml.Drawing.EMF.Structures;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
 {

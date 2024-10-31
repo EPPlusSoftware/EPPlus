@@ -1,16 +1,6 @@
-﻿using Castle.Core.Resource;
-using EPPlusTest.Properties;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml;
-using OfficeOpenXml.Drawing;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Drawing.EMF;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace EPPlusTest
 {

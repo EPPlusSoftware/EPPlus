@@ -1,10 +1,4 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 
 namespace OfficeOpenXml.Drawing.EMF.Structures
 {
