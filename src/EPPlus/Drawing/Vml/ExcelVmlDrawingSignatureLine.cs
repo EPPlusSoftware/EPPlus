@@ -162,13 +162,17 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             get
             {
-                return GetXmlNodeString("o:signatureline/@provId") == provIdStamp;
+                return GetXmlNodeString("o:signatureline/@provid") == provIdStamp;
             }
             set
             {
-                SetXmlNodeString("o:signatureline/@provId", value ? provIdStamp : provID);
+                SetXmlNodeString("o:signatureline/@provid", value ? provIdStamp : provID);
                 AlternativeText = value ? "Stamp Signature Line..." : "Microsoft Office Signature Line...";
                 Anchor = value ? "0, 0, 0, 0, 2, 0, 8, 0" : "0, 0, 0, 0, 4, 0, 6, 8";
+                if(value)
+                {
+                    Emf.InitTemplate(value);
+                }
             }
         }
 

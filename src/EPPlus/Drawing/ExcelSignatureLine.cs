@@ -19,6 +19,8 @@ namespace OfficeOpenXml.Drawing
         //private ZipPackagePart part;
         const string relIdPath = "d:legacyDrawing/@r:id";
 
+        public string SignatureString = "";
+
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId)
         {
             Worksheet = ws;

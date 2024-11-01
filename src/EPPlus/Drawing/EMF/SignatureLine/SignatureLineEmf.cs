@@ -10,15 +10,16 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class SignatureLineEmf : EmfImage
     {
-        const string templatePath = @"C:\Users\OssianEdström\Documents\Epplus_Repos\EpplusDigSig\src\EPPlus\resources\SignatureLineTemplate.emf";
         List<EMR_EXTTEXTOUTW> textObjects = new List<EMR_EXTTEXTOUTW>();
         ZipPackagePart part;
 
         internal string SignerName;
         internal string SignerTitle;
+        bool IsStamp = false;
 
         internal SignatureLineEmf() : base()
         {
+            InitTemplate();
             Init();
         }
 
@@ -26,12 +27,12 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             SignerName = signerName;
             SignerTitle = signerTitle;
+            InitTemplate();
             Init();
         }
 
         void Init()
         {
-            Read(templatePath);
             var aRecord = records;
 
             var textRecordArr = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Skip(1);
@@ -39,6 +40,30 @@ namespace OfficeOpenXml.Drawing.EMF
             foreach (var record in textRecordArr)
             {
                 textObjects.Add((EMR_EXTTEXTOUTW)record);
+            }
+        }
+
+        internal void InitTemplate(bool isStamp = false)
+        {
+            var currDir = Directory.GetCurrentDirectory();
+            var path = $@"{currDir}\resources\";
+
+            if (isStamp)
+            {
+                path += "SignatureLineStampTemplate.emf";
+            }
+            else
+            {
+                path += "SignatureLineTemplate.emf";
+            }
+
+            records.Clear();
+            Read(path);
+
+            if (isStamp != IsStamp)
+            {
+                Init();
+                IsStamp = isStamp;
             }
         }
 

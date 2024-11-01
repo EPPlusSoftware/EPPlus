@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using OfficeOpenXml.VBA;
 using System.Linq;
 using OfficeOpenXml.Drawing;
+using System.IO;
+using OfficeOpenXml.Drawing.EMF;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
@@ -44,6 +46,21 @@ namespace OfficeOpenXml.DigitalSignatures
         /// </summary>
         public bool Verified { get; private set; } = false;
         QualifyingProperties qualifyingProperties;
+
+        ExcelSignatureLine _signatureLine;
+
+        internal ExcelSignatureLine SignatureLine
+        {
+            get
+            {
+                return _signatureLine;
+            }
+            set
+            {
+                _signatureLine = value;
+                SignatureLineSetupId = _signatureLine.SetupID;
+            }
+        }
 
         internal Guid? SignatureLineSetupId = null;
 
@@ -177,6 +194,7 @@ namespace OfficeOpenXml.DigitalSignatures
                 CreatePackageReference(ref signedXml);
                 CreateOfficeReference(ref signedXml);
                 CreatePropertiesReference(ref signedXml);
+                CreateSignatureLineReferences(ref signedXml);
 
                 var value = signedXml.SignatureValue;
 
@@ -290,6 +308,14 @@ namespace OfficeOpenXml.DigitalSignatures
             var props = new SignatureProperty("#idPackageSignature", "idOfficeV1Details");
             props.CreateSignatureInfo(SignerInformation);
 
+            if(SignatureLine != null)
+            {
+                props.sigInfo1.SetUpId = $"{{{SignatureLine.SetupID.ToString().ToUpper()}}}";
+
+                var base64SLineString = Convert.ToBase64String(SignatureLine.Emf.GetBytes());
+                props.sigInfo1.SignatureImage = base64SLineString;
+            }
+
             var propsXml = props.GetXMLDocument();
             obj.Data = propsXml.ChildNodes;
 
@@ -321,6 +347,65 @@ namespace OfficeOpenXml.DigitalSignatures
             return signedPropertiesReference;
         }
 
+        internal void CreateSignatureLineReferences(ref ExcelSignedXml signedXml)
+        {
+            if(SignatureLine != null)
+            {
+                Reference validImageReference = new()
+                {
+                    Type = "http://www.w3.org/2000/09/xmldsig#Object",
+                    Uri = "#idValidSigLnImg"
+                };
+                validImageReference.DigestMethod = _digestMethod;
+                Reference invalidImageReference = new()
+                {
+                    Type = "http://www.w3.org/2000/09/xmldsig#Object",
+                    Uri = "#idInvalidSigLnImg"
+                };
+                invalidImageReference.DigestMethod = _digestMethod;
+
+                DataObject validImageObject = new DataObject();
+                DataObject invalidImageObject = new DataObject();
+
+
+                var validTemplate = new SignatureLineTemplateValid();
+
+                validTemplate.SuggestedSigner = SignatureLine.Signer;
+                validTemplate.SuggestedTitle = SignatureLine.Title;
+                validTemplate.SignedBy = Certificate.IssuerName.Name;
+                validTemplate.SignText = SignatureLine.SignatureString;
+                validTemplate.timeStamp.Text = DateTime.Now.ToString("yyyy-MM-dd");
+
+                var invalidTemplate = new SignatureLineTemplateInvalid();
+                invalidTemplate.SuggestedSigner = SignatureLine.Signer;
+                invalidTemplate.SuggestedTitle = SignatureLine.Title;
+                invalidTemplate.SignedBy = Certificate.IssuerName.Name;
+                invalidTemplate.SignText = SignatureLine.SignatureString;
+
+                ValidSigLnImage = Convert.ToBase64String(validTemplate.GetBytes());
+                InvalidSigLnImg = Convert.ToBase64String(invalidTemplate.GetBytes());
+
+                XmlElement validElement = _doc.CreateElement("Object");
+                validElement.SetAttribute("id", "idValidSigLnImg");
+                validElement.InnerXml = ValidSigLnImage;
+
+                XmlElement invalidElement = _doc.CreateElement("Object");
+                invalidElement.SetAttribute("id", "idInvalidSigLnImg");
+                invalidElement.InnerXml = InvalidSigLnImg;
+
+                validImageObject.LoadXml(validElement);
+                validImageObject.Id = "idValidSigLnImg";
+                invalidImageObject.LoadXml(invalidElement);
+                invalidImageObject.Id = "idInvalidSigLnImg";
+
+                signedXml.AddObject(validImageObject);
+                signedXml.AddReference(validImageReference);
+
+                signedXml.AddObject(invalidImageObject);
+                signedXml.AddReference(invalidImageReference);
+            }
+        }
+
         public void SetDigestMethod(VbaSignatureHashAlgorithm algorithm)
         {
             switch (algorithm)
@@ -339,6 +424,15 @@ namespace OfficeOpenXml.DigitalSignatures
                 case VbaSignatureHashAlgorithm.SHA512:
                     _digestMethod = DigestMethods.SHA512;
                     break;
+            }
+        }
+
+        public string HashAndEncodeBytes(byte[] temp)
+        {
+            using (var sha1Hash = SHA1.Create())
+            {
+                var hash = sha1Hash.ComputeHash(temp);
+                return Convert.ToBase64String(hash);
             }
         }
 

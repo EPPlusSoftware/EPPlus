@@ -27,6 +27,22 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         }
 
         [TestMethod]
+        public void CreateEmptySignatureLineStamp()
+        {
+            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine_Stamp_Empty.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets.Add("SignatureLineWs");   
+
+                var sLine = ws.AddSignatureLine();
+                sLine.IsStamp = true;
+                sLine.Signer = "ASigner";
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
         public void CreateTwoEmptySignatureLine()
         {
             using (ExcelPackage package = OpenPackage("DigSig_SignatureLine_Empty2.xlsx", true))

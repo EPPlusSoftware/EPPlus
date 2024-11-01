@@ -254,7 +254,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 VmlDrawingXml.DocumentElement.AppendChild(shapeTypeElement);
             }
 
-            Guid lineId = new Guid();
+            Guid lineId = Guid.NewGuid();
             XmlNode node = AddDigitalSignatureLineDrawing(lineId);
             VmlDrawingXml.DocumentElement.AppendChild(node);
 
@@ -308,7 +308,7 @@ namespace OfficeOpenXml.Drawing.Vml
 
             string provId = "00000000-0000-0000-0000-000000000000";
 
-            sigLine.SetAttribute("id", $"{{{id}}}");
+            sigLine.SetAttribute("id", $"{{{id.ToString().ToUpper()}}}");
             sigLine.SetAttribute("provid", $"{{{provId}}}");
             sigLine.SetAttribute("suggestedsigner", ExcelPackage.schemaMicrosoftOffice, "");
             sigLine.SetAttribute("suggestedsigner2", ExcelPackage.schemaMicrosoftOffice, "");

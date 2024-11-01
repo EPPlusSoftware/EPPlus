@@ -626,6 +626,12 @@
 		<None Update="readme.md">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</None>
+		<None Update="resources\SignatureLineStampTemplate.emf">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="resources\SignatureLineTemplate.emf">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="FormulaParsing\FormulaExpressions\Variables\" />
