@@ -78,6 +78,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var sLine = ws.AddSignatureLine();
                 sLine.Signer = "ASigner";
                 sLine.SignatureText = "Ossian";
+                //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\LessExtremeWide.bmp");
+                sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
                 var info = digSig.SignerInformation;

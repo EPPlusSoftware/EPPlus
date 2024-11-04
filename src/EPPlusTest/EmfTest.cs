@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Drawing.EMF;
+using System;
 using System.Linq;
+using OfficeOpenXml.Utils;
 
 namespace EPPlusTest
 {
@@ -116,7 +118,96 @@ namespace EPPlusTest
 
             invalidTemplate.Save(outputPath);
         }
+        [TestMethod]
+        public void CompareTemplates()
+        {
+            var validTemplate = new SignatureLineTemplateValid();
+            var records = validTemplate.records;
 
+            var invalidTemplate = new SignatureLineTemplateInvalid();
+            var invalidRecords = invalidTemplate.records;
+
+            var saveRecord = new EMR_RECORD();
+            saveRecord.Type = RECORD_TYPES.EMR_SAVEDC;
+            saveRecord.Size = 8;
+            saveRecord.data = new byte[0];
+
+            var startRecordIndex = 63;
+
+            invalidRecords.Insert(startRecordIndex - 1, saveRecord);
+
+            invalidRecords.Insert(startRecordIndex, records[55]);
+            invalidRecords.Insert(startRecordIndex + 1, records[56]);
+            invalidRecords.Insert(startRecordIndex + 2, records[57]);
+            invalidRecords.Insert(startRecordIndex + 3, records[58]);
+            invalidRecords.Insert(startRecordIndex + 4, records[59]);
+            invalidRecords.Insert(startRecordIndex + 5, records[60]);
+
+
+            var restoreRecord = new EMR_RECORD();
+            restoreRecord.Type = RECORD_TYPES.EMR_RESTOREDC;
+            restoreRecord.Size = 12;
+            int stackState = -1;
+            restoreRecord.data = BitConverter.GetBytes(stackState);
+
+            invalidRecords.Insert(startRecordIndex + 6, restoreRecord);
+
+
+
+            //EMR_RECORD brushRecord = new EMR_RECORD();
+            //brushRecord.data = new byte[invalidRecords[49].data.Length];
+            //Array.Copy(invalidRecords[49].data,brushRecord.data, invalidRecords[49].data.Length);
+            //brushRecord.data[0] = 2;
+            //brushRecord.Type = invalidRecords[49].Type;
+            //brushRecord.Size = invalidRecords[49].Size;
+
+            //invalidRecords.Insert(50, records[51]);
+            //invalidRecords.Insert(51, records[52]);
+            //invalidRecords.Insert(52, records[53]);
+            //invalidRecords.Insert(53, records[54]);
+            //invalidRecords.Insert(54, records[55]);
+            //invalidRecords.Insert(55, records[56]);
+            //invalidRecords.Insert(56, records[57]);
+            //invalidRecords.Insert(57, records[58]);
+            //invalidRecords.Insert(58, records[59]);
+            //invalidRecords.Insert(59, records[60]);
+
+
+            //EMR_SELECTOBJECT obj = new EMR_SELECTOBJECT(2);
+            ////Graphics object?
+            //EMR_SELECTOBJECT canvas = new EMR_SELECTOBJECT(2147483648);
+            //EMR_DELETEOBJECT delBrush = new EMR_DELETEOBJECT(2);
+            //EMR_DELETEOBJECT delFont = new EMR_DELETEOBJECT(1);
+
+
+            //invalidRecords.Insert(60, brushRecord);
+            //invalidRecords.Insert(61, obj);
+            ////Remove faulty select we just replaced
+            //invalidRecords.Remove(invalidRecords[62]);
+            ////Leaving space for bit blt which becomes new 62
+            //invalidRecords.Insert(63, canvas);
+            //invalidRecords.Insert(64, delBrush);
+            ////Remove select and delete object records we replaced
+            //invalidRecords.Remove(invalidRecords[65]);
+            //invalidRecords.Remove(invalidRecords[65]);
+            ////Delete the font to not mess up later indicies
+            //invalidRecords.Insert(65, delFont);
+
+
+
+            ////invalidRecords.Insert(68, records[61]);
+
+            ////invalidRecords.Insert(73, records[51]);
+            ////invalidRecords.Insert(74, records[55]);
+            ////invalidRecords.Insert(75, records[57]);
+            ////invalidRecords.Insert(76, records[58]);
+            ////invalidRecords.Insert(77, records[59]);
+            ////invalidRecords.Insert(78, records[60]);
+            ////invalidRecords.Insert(79, records[61]);
+
+            var outputPath = GetOutputFile(emfOutputFolder, "InvalidSignatureTemplateOther.emf").FullName;
+            invalidTemplate.Save(outputPath);
+        }
         [TestMethod]
         public void ChangeImageTemplateForStamp()
         {
