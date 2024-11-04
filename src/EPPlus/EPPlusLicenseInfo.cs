@@ -4,6 +4,14 @@ namespace OfficeOpenXml
 {
     public class EPPlusLicenseInfo
     {
+        [Flags]
+        public enum EPPlusLicenseType
+        {
+            Subscription=1,
+            Perpetual=2,
+            PerpetualPackage=4,
+            Custom=8
+        }
         internal EPPlusLicenseInfo()
         {
             

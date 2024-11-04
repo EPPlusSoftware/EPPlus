@@ -24,6 +24,19 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void CommercialFunction2Test()
+        {
+            var lk = "tr2WIfC2impK369YhL0I2Myh+4WjS8/LRt4LBIko0YwQKaUObbBcFXQEwNJQcSqmZeXK2p5DsIeHvCubvi4owAEGQjJDNzFG5wc8ARgEARQA";
+            ExcelPackage.License.SetLicenseCommercial(lk);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                Assert.AreEqual(lk, ExcelPackage.License.LicenseKey);
+                SaveWorkbook("LicenseKeyComercial.xlsx", p);
+            }
+        }
+
+        [TestMethod]
         public void NonCommercialOrganizationFunctionTest()
         {
             ExcelPackage.License.SetLicenseNonCommercialOrganization("EPPlus.Org");
