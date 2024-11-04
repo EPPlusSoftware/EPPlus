@@ -101,7 +101,6 @@ namespace OfficeOpenXml.Drawing.Chart
             Part = part;
             ChartXml = chartXml;
             _chartNode = chartNode;
-            //InitSeries(this, drawings.NameSpaceManager, _chartNode, PivotTableSource != null);
             InitChartLoad(drawings, chartNode, PivotTableSource != null);
             ChartType = GetChartType(chartNode.LocalName);
         } 
@@ -113,7 +112,6 @@ namespace OfficeOpenXml.Drawing.Chart
             ChartXml = topChart.ChartXml;
             _plotArea = topChart.PlotArea;
             _chartNode = chartNode;
-            //InitSeries(this, topChart._drawings.NameSpaceManager, _chartNode, false);
             InitChartLoad(topChart._drawings, chartNode, false);
         }
         private void InitChartLoad(ExcelDrawings drawings, XmlNode chartNode, bool isPivot)
