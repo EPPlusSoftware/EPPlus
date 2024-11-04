@@ -77,7 +77,7 @@ namespace OfficeOpenXml.DigitalSignatures
             {
                 PreserveWhitespace = true,
             };
-                //Full read only REALLY relevant for verification of signature
+            //Full read only REALLY relevant for verification of signature
             _doc.Load(part.GetStream());
 
             var officeObj = _doc.SelectSingleNode("//*[@Id='idOfficeV1Details']");
@@ -95,9 +95,7 @@ namespace OfficeOpenXml.DigitalSignatures
                     //Could be made more effective if we only find the id string instead.
                     //Must load drawings to find SetupID in one of the shapes in one of the files.
                     //Worksheets must exist to load drawings.
-
                     var worksheets = _wb.Worksheets;
-
                     _wb.LoadAllDrawings("");
                 }
             }
@@ -312,8 +310,16 @@ namespace OfficeOpenXml.DigitalSignatures
             {
                 props.sigInfo1.SetUpId = $"{{{SignatureLine.SetupID.ToString().ToUpper()}}}";
 
-                var base64SLineString = Convert.ToBase64String(SignatureLine.Emf.GetBytes());
-                props.sigInfo1.SignatureImage = base64SLineString;
+                if (SignatureLine.SignatureText != null)
+                {
+                    props.sigInfo1.SignatureText = SignatureLine.SignatureText;
+                }
+
+                if (SignatureLine.SignatureImage != null && SignatureLine.SignatureImage.Length > 0)
+                {
+                    var base64SLineString = Convert.ToBase64String(SignatureLine.SignatureImage);
+                    props.sigInfo1.SignatureImage = base64SLineString;
+                }
             }
 
             var propsXml = props.GetXMLDocument();
@@ -373,14 +379,17 @@ namespace OfficeOpenXml.DigitalSignatures
                 validTemplate.SuggestedSigner = SignatureLine.Signer;
                 validTemplate.SuggestedTitle = SignatureLine.Title;
                 validTemplate.SignedBy = Certificate.IssuerName.Name;
-                validTemplate.SignText = SignatureLine.SignatureString;
+                validTemplate.SignText = SignatureLine.SignatureText;
                 validTemplate.timeStamp.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
                 var invalidTemplate = new SignatureLineTemplateInvalid();
                 invalidTemplate.SuggestedSigner = SignatureLine.Signer;
                 invalidTemplate.SuggestedTitle = SignatureLine.Title;
                 invalidTemplate.SignedBy = Certificate.IssuerName.Name;
-                invalidTemplate.SignText = SignatureLine.SignatureString;
+                invalidTemplate.SignText = SignatureLine.SignatureText;
+
+                validTemplate.Save(@"C:\epplusTest\Testoutput\ValidTemplateNew.emf");
+                invalidTemplate.Save(@"C:\epplusTest\Testoutput\InvalidTemplateNew.emf");
 
                 ValidSigLnImage = Convert.ToBase64String(validTemplate.GetBytes());
                 InvalidSigLnImg = Convert.ToBase64String(invalidTemplate.GetBytes());
@@ -435,39 +444,5 @@ namespace OfficeOpenXml.DigitalSignatures
                 return Convert.ToBase64String(hash);
             }
         }
-
-        //internal void CreateSignature()
-        //{
-        //    byte[] certStore = CertUtil.GetSerializedCertStore(Certificate.RawData);
-        //    if (Certificate == null)
-        //    {
-        //        SignaturePartUtil.DeleteParts(_part);
-        //        return;
-        //    }
-
-        //    if (Certificate.HasPrivateKey == false)    //No signature. Remove any Signature part
-        //    {
-        //        var storeCert = CertUtil.GetCertificate(Certificate.Thumbprint);
-        //        if (storeCert != null)
-        //        {
-        //            Certificate = storeCert;
-        //        }
-        //        else
-        //        {
-        //            SignaturePartUtil.DeleteParts(_part);
-        //            return;
-        //        }
-        //    }
-
-        //    using (var ms = RecyclableMemory.GetStream())
-        //    {
-        //        var bw = new BinaryWriter(ms);
-        //        //Verifier = CertUtil.SignProject(project, this, Context);
-        //        var cert = Verifier.Encode();
-        //        var signatureBytes = CertUtil.CreateBinarySignature(ms, bw, certStore, cert);
-        //        //_part = SignaturePartUtil.GetPart(project, this);
-        //        _part.GetStream(FileMode.Create).Write(signatureBytes, 0, signatureBytes.Length);
-        //    }
-        //}
     }
 }

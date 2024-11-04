@@ -19,44 +19,20 @@ namespace OfficeOpenXml.Drawing
         //private ZipPackagePart part;
         const string relIdPath = "d:legacyDrawing/@r:id";
 
-        public string SignatureString = "";
+        public string SignatureText = "";
+        public byte[] SignatureImage;
 
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId)
         {
             Worksheet = ws;
             _nsm = ws.NameSpaceManager;
-
-            //int newID = 1;
-            //var uri = GetNewUri(ws._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
-            //part = ws._package.ZipPackage.CreatePart(uri, "image/x-emf", CompressionLevel.None, "emf");
-            //part.SaveHandler = Save;
-
-            //var rel = ws.VmlDrawings.Part.CreateRelationship(UriHelper.GetRelativeUri(ws.VmlDrawings.Uri, uri), TargetMode.Internal, ExcelPackage.schemaImage);
-            //RelId = rel.Id;
         }
 
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
         {
             Worksheet = ws;
             _nsm = ws.NameSpaceManager;
-
-            //var rel = ws.VmlDrawings.Part.GetRelationship(RelId);
-            //part = ws._package.ZipPackage.GetPart(rel.TargetUri);
-            //part.SaveHandler = Save;
         }
-
-        //internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
-        //{
-        //    //Init Zip
-        //    stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
-        //    stream.PutNextEntry(fileName);
-
-        //    MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-        //    Emf.SaveToStream(ms);
-
-        //    var b = (ms).ToArray();
-        //    stream.Write(b, 0, b.Length);
-        //}
 
         const string vNameSpace = "urn:schemas-microsoft-com:vml";
         const string oNameSpace = "urn:schemas-microsoft-com:office:office";

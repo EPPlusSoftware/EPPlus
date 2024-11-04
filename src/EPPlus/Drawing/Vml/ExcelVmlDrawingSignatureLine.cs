@@ -25,7 +25,7 @@ namespace OfficeOpenXml.Drawing.Vml
             Emf.SignerName = Signer;
             Emf.SignerTitle = Title;
             SetupID = lineID;
-            SetXmlNodeString("o:signatureline/@id", SetupID.ToString());
+            SetXmlNodeString("o:signatureline/@id", $"{{{SetupID.ToString().ToUpper()}}}");
             AlternativeText = "Microsoft Office Signature Line...";
         }
 

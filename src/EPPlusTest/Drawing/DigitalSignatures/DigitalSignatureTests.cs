@@ -77,7 +77,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var sLine = ws.AddSignatureLine();
                 sLine.Signer = "ASigner";
-                sLine.SignatureString = "Ossian";
+                sLine.SignatureText = "Ossian";
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
                 var info = digSig.SignerInformation;
