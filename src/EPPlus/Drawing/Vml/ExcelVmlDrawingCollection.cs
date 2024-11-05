@@ -236,7 +236,7 @@ namespace OfficeOpenXml.Drawing.Vml
                 stroke.SetAttribute("joinstyle", "miter");
                 shapeTypeNode.AppendChild(stroke);
 
-                ExcelSignatureLine.CreateFormulaElementAsChildOf(shapeTypeNode);
+                ExcelVmlDrawingSignatureLine.CreateFormulaElementAsChildOf(shapeTypeNode);
 
                 var pathElement = VmlDrawingXml.CreateElement("v", "path", ExcelPackage.schemaMicrosoftVml);
                 pathElement.SetAttribute("extrusionok", ExcelPackage.schemaMicrosoftOffice, "f");
@@ -641,8 +641,7 @@ namespace OfficeOpenXml.Drawing.Vml
                     var partUri = UriHelper.ResolvePartUri(Uri, rel.TargetUri);
                     var part = _ws._package.ZipPackage.GetPart(partUri);
 
-                    MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-                    sLine.Emf.SaveToStream(ms);
+                    sLine.SaveMedia(part);
                 }
             }
         }

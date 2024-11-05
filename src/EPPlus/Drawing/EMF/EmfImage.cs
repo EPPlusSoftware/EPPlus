@@ -10,7 +10,7 @@ namespace OfficeOpenXml.Drawing.EMF
     internal class EmfImage
     {
         internal List<EMR_RECORD> records = new List<EMR_RECORD>();
-        ExcelTextSettings textSettings;
+        protected ExcelTextSettings textSettings;
         uint size = 0;
         MapMode currentMapMode = MapMode.MM_TEXT;
         internal EmfImage() { }

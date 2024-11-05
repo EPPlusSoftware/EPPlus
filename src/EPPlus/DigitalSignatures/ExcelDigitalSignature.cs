@@ -37,7 +37,7 @@ namespace OfficeOpenXml.DigitalSignatures
         bool shouldSave = true;
         bool wasRead = false;
         private SignatureProperty signatureProperty;
-        public AdditionalSignatureInfo SignerInformation = new AdditionalSignatureInfo();
+        public AdditionalSignatureInfo SigningInformation = new AdditionalSignatureInfo();
 
         public string PurposeForSigning = "";
         public CommitmentType commitmentType = CommitmentType.None;
@@ -48,9 +48,6 @@ namespace OfficeOpenXml.DigitalSignatures
         QualifyingProperties qualifyingProperties;
 
         ExcelSignatureLine _signatureLine;
-
-        internal SignatureLineTemplateValid ValidImage;
-        internal SignatureLineTemplateInvalid InvalidImage;
 
         internal ExcelSignatureLine SignatureLine
         {
@@ -87,7 +84,7 @@ namespace OfficeOpenXml.DigitalSignatures
 
             if(officeObj != null)
             {
-                signatureProperty = new SignatureProperty((XmlElement)officeObj, SignerInformation);
+                signatureProperty = new SignatureProperty((XmlElement)officeObj, SigningInformation);
                 if(string.IsNullOrEmpty(signatureProperty.sigInfo1.SetUpId) == false)
                 {
                     SignatureLineSetupId = new Guid(signatureProperty.sigInfo1.SetUpId);
@@ -104,7 +101,7 @@ namespace OfficeOpenXml.DigitalSignatures
             }
 
             var signedPropertiesNode = _doc.SelectSingleNode("//*[@Id='idSignedProperties']");
-            qualifyingProperties = new QualifyingProperties((XmlElement)signedPropertiesNode, SignerInformation);
+            qualifyingProperties = new QualifyingProperties((XmlElement)signedPropertiesNode, SigningInformation);
 
             string keyInfo = _doc.GetElementsByTagName("KeyInfo")[0].InnerText;
             string serialInFile = qualifyingProperties.SignedProps.SignatureProps.Serial;
@@ -163,13 +160,18 @@ namespace OfficeOpenXml.DigitalSignatures
         {
             if (shouldSave)
             {
+                if(SignatureLine != null)
+                {
+                    SignatureLine.SaveSignatureLineWithDigitalSignature(Certificate.IssuerName.Name.Substring(3));
+                }
+
                 var signatureComments = new List<string>
                 {
                     PurposeForSigning
                 };
 
                 qualifyingProperties = new QualifyingProperties
-                    ("xd", Certificate, GetCommitmentTypeString(commitmentType), signatureComments, SignerInformation);
+                    ("xd", Certificate, GetCommitmentTypeString(commitmentType), signatureComments, SigningInformation);
 
                 var docTest = qualifyingProperties.GetDocument();
                 _doc = docTest;
@@ -307,7 +309,7 @@ namespace OfficeOpenXml.DigitalSignatures
             obj.Id = "idOfficeObject";
 
             var props = new SignatureProperty("#idPackageSignature", "idOfficeV1Details");
-            props.CreateSignatureInfo(SignerInformation);
+            props.CreateSignatureInfo(SigningInformation);
 
             if(SignatureLine != null)
             {
@@ -376,36 +378,13 @@ namespace OfficeOpenXml.DigitalSignatures
                 DataObject validImageObject = new DataObject();
                 DataObject invalidImageObject = new DataObject();
 
-                var validTemplate = new SignatureLineTemplateValid(SignatureLine.Emf);
-                var invalidTemplate = new SignatureLineTemplateInvalid(SignatureLine.Emf);
-
-                //var validTemplate = new SignatureLineTemplateValid();
-
-                //validTemplate.SuggestedSigner = SignatureLine.Signer;
-                //validTemplate.SuggestedTitle = SignatureLine.Title;
-                validTemplate.SignedBy = Certificate.IssuerName.Name.Substring(3);
-                validTemplate.SignText = SignatureLine.SignatureText;
-                validTemplate.timeStamp.Text = DateTime.Now.ToString("yyyy-MM-dd");
-
-                //var invalidTemplate = new SignatureLineTemplateInvalid();
-                //invalidTemplate.SuggestedSigner = SignatureLine.Signer;
-                //invalidTemplate.SuggestedTitle = SignatureLine.Title;
-                invalidTemplate.SignedBy = Certificate.IssuerName.Name.Substring(3);
-                invalidTemplate.SignText = SignatureLine.SignatureText;
-
-                validTemplate.Save(@"C:\epplusTest\Testoutput\ValidTemplateNew.emf");
-                invalidTemplate.Save(@"C:\epplusTest\Testoutput\InvalidTemplateNew.emf");
-
-                ValidSigLnImage = Convert.ToBase64String(validTemplate.GetBytes());
-                InvalidSigLnImg = Convert.ToBase64String(invalidTemplate.GetBytes());
-
                 XmlElement validElement = _doc.CreateElement("Object");
                 validElement.SetAttribute("id", "idValidSigLnImg");
-                validElement.InnerXml = ValidSigLnImage;
+                validElement.InnerXml = SignatureLine.ValidSigLnImage;
 
                 XmlElement invalidElement = _doc.CreateElement("Object");
                 invalidElement.SetAttribute("id", "idInvalidSigLnImg");
-                invalidElement.InnerXml = InvalidSigLnImg;
+                invalidElement.InnerXml = SignatureLine.InvalidSigLnImg;
 
                 validImageObject.LoadXml(validElement);
                 validImageObject.Id = "idValidSigLnImg";

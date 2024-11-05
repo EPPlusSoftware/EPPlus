@@ -90,7 +90,8 @@ namespace EPPlusTest
         [TestMethod]
         public void CheckValidTemplate()
         {
-            var validTemplate = new SignatureLineTemplateValid();
+            var validTemplate = new SignatureLineTemplateEmf();
+            validTemplate.RemoveInvalidRecords();
             var records = validTemplate.records;
 
             validTemplate.timeStamp.Text = "TimeStamp";
@@ -106,7 +107,8 @@ namespace EPPlusTest
         [TestMethod]
         public void CheckInvalidTemplate()
         {
-            var invalidTemplate = new SignatureLineTemplateInvalid();
+            var invalidTemplate = new SignatureLineTemplateEmf();
+            invalidTemplate.RemoveValidRecords();
             var records = invalidTemplate.records;
 
             invalidTemplate.signTextObject.Text = "TemplateSignature";
@@ -121,11 +123,19 @@ namespace EPPlusTest
         [TestMethod]
         public void CompareTemplates()
         {
-            var validTemplate = new SignatureLineTemplateValid();
+            var validTemplate = new SignatureLineTemplateEmf();
+            validTemplate.RemoveInvalidRecords();
             var records = validTemplate.records;
 
-            var invalidTemplate = new SignatureLineTemplateInvalid();
+            var invalidTemplate = new SignatureLineTemplateEmf();
+            invalidTemplate.RemoveValidRecords();
             var invalidRecords = invalidTemplate.records;
+
+            var clipRect = (EMR_INTERSECTCLIPRECT)invalidRecords[128];
+            clipRect.Clip.Left = 41;
+            clipRect.Clip.Top = 51;
+            clipRect.Clip.Right = 242;
+            clipRect.Clip.Bottom = 72;
 
             var saveRecord = new EMR_RECORD();
             saveRecord.Type = RECORD_TYPES.EMR_SAVEDC;

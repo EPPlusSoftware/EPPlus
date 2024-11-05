@@ -1,19 +1,31 @@
 ﻿using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.EMF;
-using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
-using System.IO;
 using System.Xml;
 using OfficeOpenXml.Drawing.Vml;
 using System;
+using System.IO;
 
 namespace OfficeOpenXml.Drawing
 {
     public class ExcelSignatureLine : ExcelVmlDrawingSignatureLine
     {
+        /// <summary>
+        /// The signature itself as text.
+        /// </summary>
         public string SignatureText = "";
+
+        /// <summary>
+        /// Note that while SignatureText and SignatureImage are Allowed to both exist.
+        /// SignatureImage will override SignatureText visually if it exists.
+        /// </summary>
         public byte[] SignatureImage;
+
+        ExcelDigitalSignature Signature = null;
+        SignatureLineTemplateEmf Emf;
+
+        internal string InvalidSigLnImg;
+        internal string ValidSigLnImage;
 
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId)
         {
@@ -23,36 +35,40 @@ namespace OfficeOpenXml.Drawing
         {
         }
 
-        const string vNameSpace = "urn:schemas-microsoft-com:vml";
-        const string oNameSpace = "urn:schemas-microsoft-com:office:office";
-        const string xNameSpace = "urn:schemas-microsoft-com:office:excel";
-
-        internal static void CreateFormulaElementAsChildOf(XmlNode node)
+        internal void SaveMedia(ZipPackagePart part)
         {
-            var doc = node.OwnerDocument;
+            Emf = new SignatureLineTemplateEmf(IsStamp);
+            Emf.SuggestedSigner = Signer;
+            Emf.SuggestedTitle = Title;
 
-            var formulaElement = doc.CreateElement("v", "formulas", vNameSpace);
-            node.AppendChild(formulaElement);
+            var mediaEmf = Emf.Clone();
+            mediaEmf.RemoveInvalidRecords();
+            mediaEmf.timeStamp.Text = "";
 
-            CreateAndSetFormulaElementOnNode(formulaElement, doc, "if lineDrawn pixelLineWidth 0");
-            CreateAndSetFormulaElementOnNode(formulaElement, doc, "sum @0 1 0");
-            CreateAndSetFormulaElementOnNode(formulaElement, doc, "sum 0 0 @1");
-            CreateAndSetFormulaElementOnNode(formulaElement, doc, "prod @2 1 2");
-            CreateAndSetFormulaElementOnNode(formulaElement, doc, "prod @3 21600 pixelWidth");
-            CreateAndSetFormulaElementOnNode(formulaElement, doc, "prod @3 21600 pixelHeight");
-            CreateAndSetFormulaElementOnNode(formulaElement, doc, "sum @0 0 1");
-            CreateAndSetFormulaElementOnNode(formulaElement, doc, "prod @6 1 2");
-            CreateAndSetFormulaElementOnNode(formulaElement, doc, "prod @7 21600 pixelWidth");
-            CreateAndSetFormulaElementOnNode(formulaElement, doc, "sum @8 21600 0");
-            CreateAndSetFormulaElementOnNode(formulaElement, doc, "prod @7 21600 pixelHeight");
-            CreateAndSetFormulaElementOnNode(formulaElement, doc, "sum @10 21600 0");
+            //Note: Intentionally not disposed.
+            MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+            mediaEmf.SignText = "";
+            mediaEmf.signedBy.Text = "";
+            mediaEmf.SaveToStream(ms);
+            mediaEmf.Save("C:\\epplusTest\\Testoutput\\image1Generated.emf");
         }
 
-        static void CreateAndSetFormulaElementOnNode(XmlElement formulaParentNode, XmlDocument document, string formula)
+        internal void SaveSignatureLineWithDigitalSignature(string signerName)
         {
-            var f1 = document.CreateElement("v", "f", vNameSpace);
-            f1.SetAttribute("eqn", formula);
-            formulaParentNode.AppendChild(f1);
+            Emf.SignText = SignatureText;
+            Emf.SignedBy = signerName;
+            Emf.timeStamp.Text = "";
+
+            InvalidSigLnImg = Convert.ToBase64String(Emf.GetBytes());
+            Emf.Save("C:\\epplusTest\\Testoutput\\InvalidTemplateNew.emf");
+
+            Emf.RemoveInvalidRecords();
+            if (ShowSignDate)
+            {
+                Emf.timeStamp.Text = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            ValidSigLnImage = Convert.ToBase64String(Emf.GetBytes());
+            Emf.Save("C:\\epplusTest\\Testoutput\\ValidTemplateNew.emf");
         }
     }
 }

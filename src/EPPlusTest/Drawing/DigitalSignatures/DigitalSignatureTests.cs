@@ -46,7 +46,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 //sigLine.VmlDrawing.Title = "AttemptedTitle";
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
-                var info = digSig.SignerInformation;
+                var info = digSig.SigningInformation;
 
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
@@ -82,7 +82,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
-                var info = digSig.SignerInformation;
+                var info = digSig.SigningInformation;
 
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
@@ -139,7 +139,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void CheckValidTemplate()
         {
-            var validTemplate = new SignatureLineTemplateValid();
+            var validTemplate = new SignatureLineTemplateEmf();
+            validTemplate.RemoveInvalidRecords();
             var records = validTemplate.records;
 
             validTemplate.timeStamp.Text = "TimeStamp";
@@ -154,7 +155,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void TestTextLength()
         {
-            var inValidTemplate = new SignatureLineTemplateInvalid();
+            var inValidTemplate = new SignatureLineTemplateEmf();
+            inValidTemplate.RemoveValidRecords();
             string testText = "IHaveAVeryVeryVeryVerylon";
             inValidTemplate.SignText = testText;
             Assert.AreEqual(inValidTemplate.signTextObject.Text, testText);
@@ -192,7 +194,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void CheckInValidTemplate()
         {
-            var inValidTemplate = new SignatureLineTemplateInvalid();
+            var inValidTemplate = new SignatureLineTemplateEmf();
+            inValidTemplate.RemoveValidRecords();
             var records = inValidTemplate.records;
 
             inValidTemplate.SignText = "IHaveAVeryVeryVeryVerylon";
@@ -1034,7 +1037,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadOnly);
                 var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
-                var info = digSig.SignerInformation;
+                var info = digSig.SigningInformation;
 
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
@@ -1070,7 +1073,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             using (var pck = OpenPackage("combineddatareport.xlsx"))
             {
                 var wb = pck.Workbook;
-                var signerInformation = wb.DigitialSignatures[0].SignerInformation;
+                var signerInformation = wb.DigitialSignatures[0].SigningInformation;
             }
         }
 

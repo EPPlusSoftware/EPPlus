@@ -14,66 +14,56 @@ namespace OfficeOpenXml.Drawing.Vml
 {
     public class ExcelVmlDrawingSignatureLine : ExcelVmlDrawingBase
     {
-        internal SignatureLineEmf Emf;
         const string provIdStamp = "{000CD6A4-0000-0000-C000-000000000046}";
         const string provID = "{00000000-0000-0000-0000-000000000000}";
         internal Guid SetupID;
 
         internal ExcelVmlDrawingSignatureLine(XmlNode topNode, XmlNamespaceManager ns, Guid lineID) : base(topNode, ns)
         {
-            Emf = new SignatureLineEmf();
-            Emf.SignerName = Signer;
-            Emf.SignerTitle = Title;
             SetupID = lineID;
             SetXmlNodeString("o:signatureline/@id", $"{{{SetupID.ToString().ToUpper()}}}");
             AlternativeText = "Microsoft Office Signature Line...";
+            ShowSignDate = true;
         }
 
         internal ExcelVmlDrawingSignatureLine(XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
         {
-            Emf = new SignatureLineEmf();
-            Emf.SignerName = Signer;
-            Emf.SignerTitle = Title;
             var idString = GetXmlNodeString("o:signatureline/@id");
             SetupID = new Guid(idString);
         }
 
         /// <summary>
-        /// The suggested name for the signer
+        /// The suggested signer's name.
         /// </summary>
         public string Signer
         {
             get
             {
                 var nodestring = GetXmlNodeString("o:signatureline/@o:suggestedsigner");
-                Emf.SignerName = nodestring;
                 return nodestring;
             }
             set
             {
                 SetXmlNodeString("o:signatureline/@o:suggestedsigner", value);
-                Emf.SignerName = value;
             }
         }
         /// <summary>
-        /// The suggested signers role or title e.g Developer
+        /// The suggested signers role or title e.g Developer.
         /// </summary>
         public string Title
         {
             get
             {
                 var nodestring = GetXmlNodeString("o:signatureline/@o:suggestedsigner2");
-                Emf.SignerName = nodestring;
                 return nodestring;
             }
             set
             {
                 SetXmlNodeString("o:signatureline/@o:suggestedsigner2", value);
-                Emf.SignerTitle = value;
             }
         }
         /// <summary>
-        /// Suggested signers email
+        /// Suggested signers email.
         /// </summary>
         public string Email
         {
@@ -87,7 +77,7 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
         /// <summary>
-        /// Instructions for the suggested signer
+        /// Instructions to the suggested signer.
         /// </summary>
         public string SigningInstructions
         {
@@ -112,9 +102,9 @@ namespace OfficeOpenXml.Drawing.Vml
         }
 
         /// <summary>
-        /// Instructions for the suggested signer
+        /// Allow signer to add comments such as commitmenttype and a "purpose" string
         /// </summary>
-        public bool AllowComments
+        public bool ShowSignDate
         {
             get
             {
@@ -134,9 +124,9 @@ namespace OfficeOpenXml.Drawing.Vml
         }
 
         /// <summary>
-        /// Instructions for the suggested signer
+        /// Determines if a valid signature shows the sign date
         /// </summary>
-        public bool ShowSignDate
+        public bool AllowComments
         {
             get
             {
@@ -169,10 +159,6 @@ namespace OfficeOpenXml.Drawing.Vml
                 SetXmlNodeString("o:signatureline/@provid", value ? provIdStamp : provID);
                 AlternativeText = value ? "Stamp Signature Line..." : "Microsoft Office Signature Line...";
                 Anchor = value ? "0, 0, 0, 0, 2, 0, 8, 0" : "0, 0, 0, 0, 4, 0, 6, 8";
-                if(value)
-                {
-                    Emf.InitTemplate(value);
-                }
             }
         }
 
@@ -186,6 +172,38 @@ namespace OfficeOpenXml.Drawing.Vml
             {
                 SetXmlNodeString("v:imagedata/@o:relid", value);
             }
+        }
+
+        const string vNameSpace = "urn:schemas-microsoft-com:vml";
+        const string oNameSpace = "urn:schemas-microsoft-com:office:office";
+        const string xNameSpace = "urn:schemas-microsoft-com:office:excel";
+
+        internal static void CreateFormulaElementAsChildOf(XmlNode node)
+        {
+            var doc = node.OwnerDocument;
+
+            var formulaElement = doc.CreateElement("v", "formulas", vNameSpace);
+            node.AppendChild(formulaElement);
+
+            CreateAndSetFormulaElementOnNode(formulaElement, doc, "if lineDrawn pixelLineWidth 0");
+            CreateAndSetFormulaElementOnNode(formulaElement, doc, "sum @0 1 0");
+            CreateAndSetFormulaElementOnNode(formulaElement, doc, "sum 0 0 @1");
+            CreateAndSetFormulaElementOnNode(formulaElement, doc, "prod @2 1 2");
+            CreateAndSetFormulaElementOnNode(formulaElement, doc, "prod @3 21600 pixelWidth");
+            CreateAndSetFormulaElementOnNode(formulaElement, doc, "prod @3 21600 pixelHeight");
+            CreateAndSetFormulaElementOnNode(formulaElement, doc, "sum @0 0 1");
+            CreateAndSetFormulaElementOnNode(formulaElement, doc, "prod @6 1 2");
+            CreateAndSetFormulaElementOnNode(formulaElement, doc, "prod @7 21600 pixelWidth");
+            CreateAndSetFormulaElementOnNode(formulaElement, doc, "sum @8 21600 0");
+            CreateAndSetFormulaElementOnNode(formulaElement, doc, "prod @7 21600 pixelHeight");
+            CreateAndSetFormulaElementOnNode(formulaElement, doc, "sum @10 21600 0");
+        }
+
+        static void CreateAndSetFormulaElementOnNode(XmlElement formulaParentNode, XmlDocument document, string formula)
+        {
+            var f1 = document.CreateElement("v", "f", vNameSpace);
+            f1.SetAttribute("eqn", formula);
+            formulaParentNode.AppendChild(f1);
         }
     }
 }

@@ -4,9 +4,11 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class SignatureLineTemplateEmf : EmfImage
     {
+        internal EMR_EXTTEXTOUTW timeStamp;
         internal EMR_EXTTEXTOUTW signTextObject;
         internal EMR_EXTTEXTOUTW suggestedSignerObject;
         internal EMR_EXTTEXTOUTW suggestedTitleObject;
+        internal EMR_EXTTEXTOUTW signedBy;
 
         internal string SignText
         {
@@ -44,34 +46,92 @@ namespace OfficeOpenXml.Drawing.EMF
             }
             return inputString;
         }
-        protected void InitalizeClipRect(EMR_INTERSECTCLIPRECT clipRect)
+
+        internal string SignedBy
         {
-            clipRect.Clip.Left = 41;
-            clipRect.Clip.Top = 51;
-            clipRect.Clip.Right = 242;
-            clipRect.Clip.Bottom = 72;
+            set
+            {
+                signedBy.Text = $"Signed by:{value}";
+            }
         }
 
-        internal SignatureLineTemplateEmf(SignatureLineEmf emf)
+        internal SignatureLineTemplateEmf(EmfImage emf)
         {
             Read(emf.GetBytes());
             Initalize();
-            SuggestedSigner = emf.SignerName;
-            SuggestedTitle = emf.SignerTitle;
         }
 
-        internal SignatureLineTemplateEmf()
+        internal bool IsStamp = false;
+
+        internal SignatureLineTemplateEmf(bool isStamp = false)
         {
-            LoadTemplateFromResource("SignatureLineTemplate.emf", "OfficeOpenXml.resources.SignatureLineTemplates.zip");
+            records.Clear();
+
+            var path = isStamp ? "SignatureLineStampTemplate.emf" : "SignatureLineTemplate.emf";
+            LoadTemplateFromResource(path, "OfficeOpenXml.resources.SignatureLineTemplates.zip");
+            IsStamp = isStamp;
+
             Initalize();
         }
 
+        //Template contains records for both valid and invalid files
+        //Remove the ones for the Invalid template.
+        internal void RemoveInvalidRecords()
+        {
+            if(IsStamp == false)
+            {
+                //We remove records "backwards" so that indicies for the next operation do not change.
+
+                for (int i = 69; i <= 75; i++)
+                {
+                    //A removed record automatically makes the next take its place
+                    records.Remove(records[69]);
+                }
+
+                records.Remove(records[62]);
+
+                for (int i = 54; i <= 60; i++)
+                {
+                    //A removed record automatically makes the next take its place
+                    records.Remove(records[51]);
+                }
+            }
+        }
+
+        //Template contains records for both valid and invalid files
+        //Remove the ones for the Valid template.
+        internal void RemoveValidRecords()
+        {
+            for (int i = 62; i <= 69; i++)
+            {
+                //A removed record automatically makes the next take its place
+                records.Remove(records[62]);
+            }
+        }
+
+        internal new SignatureLineTemplateEmf Clone()
+        {
+            var copy = new SignatureLineTemplateEmf(this);
+            return copy;
+        }
+
+
         internal virtual void Initalize()
         {
-            var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Skip(1).ToArray();
-            signTextObject = (EMR_EXTTEXTOUTW)textRecords[0];
-            suggestedSignerObject = (EMR_EXTTEXTOUTW)textRecords[1];
-            suggestedTitleObject = (EMR_EXTTEXTOUTW)textRecords[2];
+            var aRecord = records;
+
+            var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW);
+
+            timeStamp = (EMR_EXTTEXTOUTW)textRecords[0];
+            //1 is 'Invalid Signature' 2 is 'X' neither need be changed.
+            signTextObject = (EMR_EXTTEXTOUTW)textRecords[3];
+            suggestedSignerObject = (EMR_EXTTEXTOUTW)textRecords[4];
+            suggestedTitleObject = (EMR_EXTTEXTOUTW)textRecords[5];
+            signedBy = (EMR_EXTTEXTOUTW)textRecords[6];
+            //var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Skip(1).ToArray();
+            //signTextObject = (EMR_EXTTEXTOUTW)textRecords[0];
+            //suggestedSignerObject = (EMR_EXTTEXTOUTW)textRecords[1];
+            //suggestedTitleObject = (EMR_EXTTEXTOUTW)textRecords[2];
         }
     }
 }
