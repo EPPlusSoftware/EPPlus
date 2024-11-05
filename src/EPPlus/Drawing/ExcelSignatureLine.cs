@@ -12,26 +12,15 @@ namespace OfficeOpenXml.Drawing
 {
     public class ExcelSignatureLine : ExcelVmlDrawingSignatureLine
     {
-        ExcelDigitalSignature sig;
-        ExcelVmlDrawingPictureCollection _drawings;
-        internal ExcelWorksheet Worksheet;
-        XmlNamespaceManager _nsm;
-        //private ZipPackagePart part;
-        const string relIdPath = "d:legacyDrawing/@r:id";
-
         public string SignatureText = "";
         public byte[] SignatureImage;
 
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId)
         {
-            Worksheet = ws;
-            _nsm = ws.NameSpaceManager;
         }
 
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
         {
-            Worksheet = ws;
-            _nsm = ws.NameSpaceManager;
         }
 
         const string vNameSpace = "urn:schemas-microsoft-com:vml";

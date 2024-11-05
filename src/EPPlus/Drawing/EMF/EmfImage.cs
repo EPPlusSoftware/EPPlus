@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Packaging.Ionic.Zip;
+using System.Reflection;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -21,6 +22,32 @@ namespace OfficeOpenXml.Drawing.EMF
         internal uint currentlySelectedId;
         float ppi;
         float unitsPerEm;
+
+        internal void LoadTemplateFromResource(string fileName, string localZipPath)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var stream = assembly.GetManifestResourceStream(localZipPath);
+
+            if (string.IsNullOrEmpty(fileName) == false)
+            {
+                using (stream)
+                {
+                    using (var zipStream = new ZipInputStream(stream))
+                    {
+                        ZipEntry entry;
+                        while ((entry = zipStream.GetNextEntry()) != null)
+                        {
+                            if (entry.FileName.Equals(fileName))
+                            {
+                                var br = new BinaryReader(zipStream);
+                                var bytes = br.ReadBytes((int)entry.UncompressedSize);
+                                Read(bytes);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         internal void Read(string emf)
         {
@@ -233,6 +260,14 @@ namespace OfficeOpenXml.Drawing.EMF
             {
                 record.WriteBytes(br);
             }
+        }
+
+        internal EmfImage Clone()
+        {
+            var copy = new EmfImage();
+            copy.textSettings = textSettings;
+            copy.Read(GetBytes());
+            return copy;
         }
     }
 }

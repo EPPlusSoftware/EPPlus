@@ -628,11 +628,6 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
 
-        //internal void SaveHandlerSigLineEmfDummy(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
-        //{
-        //    stream.PutNextEntry(fileName);
-        //}
-
         internal override void CreateVmlPart(bool save)
         {
             base.CreateVmlPart(save);
@@ -645,9 +640,6 @@ namespace OfficeOpenXml.Drawing.Vml
                     var rel = Part.GetRelationship(sLine.RelId);
                     var partUri = UriHelper.ResolvePartUri(Uri, rel.TargetUri);
                     var part = _ws._package.ZipPackage.GetPart(partUri);
-
-                    ////Ensure stream is handled in here and nowhere else
-                    //part.SaveHandler = SaveHandlerSigLineEmfDummy;
 
                     MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
                     sLine.Emf.SaveToStream(ms);

@@ -7,8 +7,6 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class SignatureLineTemplateInvalid : SignatureLineTemplateEmf
     {
-        const string invalidPath = "C:\\epplusTest\\Testoutput\\InvalidSignatureTemplate.emf";
-
         private EMR_EXTTEXTOUTW signedBy;
         internal string SignedBy
         {
@@ -18,17 +16,30 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        internal SignatureLineTemplateInvalid(): base(invalidPath)
+        //Template contains records for both valid and invalid files
+        //Remove the ones for the Valid template.
+        private void RemoveValidRecords()
         {
-            var clipRect = (EMR_INTERSECTCLIPRECT)records[128];
-            clipRect.Clip.Left = 41;
-            clipRect.Clip.Top = 51;
-            clipRect.Clip.Right = 242;
-            clipRect.Clip.Bottom = 72;
+            for (int i = 62; i <= 69; i++)
+            {
+                //A removed record automatically makes the next take its place
+                records.Remove(records[62]);
+            }
         }
 
-        internal override void SetProperties()
+        internal SignatureLineTemplateInvalid(SignatureLineEmf sLine) : base(sLine)
         {
+            InitalizeClipRect((EMR_INTERSECTCLIPRECT)records[128]);
+        }
+
+        internal SignatureLineTemplateInvalid(): base()
+        {
+            InitalizeClipRect((EMR_INTERSECTCLIPRECT)records[128]);
+        }
+
+        internal override void Initalize()
+        {
+            RemoveValidRecords();
             var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).ToArray();
             signTextObject = (EMR_EXTTEXTOUTW)textRecords[2];
             suggestedSignerObject = (EMR_EXTTEXTOUTW)textRecords[3];

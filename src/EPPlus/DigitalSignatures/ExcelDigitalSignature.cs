@@ -49,6 +49,9 @@ namespace OfficeOpenXml.DigitalSignatures
 
         ExcelSignatureLine _signatureLine;
 
+        internal SignatureLineTemplateValid ValidImage;
+        internal SignatureLineTemplateInvalid InvalidImage;
+
         internal ExcelSignatureLine SignatureLine
         {
             get
@@ -373,19 +376,21 @@ namespace OfficeOpenXml.DigitalSignatures
                 DataObject validImageObject = new DataObject();
                 DataObject invalidImageObject = new DataObject();
 
+                var validTemplate = new SignatureLineTemplateValid(SignatureLine.Emf);
+                var invalidTemplate = new SignatureLineTemplateInvalid(SignatureLine.Emf);
 
-                var validTemplate = new SignatureLineTemplateValid();
+                //var validTemplate = new SignatureLineTemplateValid();
 
-                validTemplate.SuggestedSigner = SignatureLine.Signer;
-                validTemplate.SuggestedTitle = SignatureLine.Title;
-                validTemplate.SignedBy = Certificate.IssuerName.Name;
+                //validTemplate.SuggestedSigner = SignatureLine.Signer;
+                //validTemplate.SuggestedTitle = SignatureLine.Title;
+                validTemplate.SignedBy = Certificate.IssuerName.Name.Substring(3);
                 validTemplate.SignText = SignatureLine.SignatureText;
                 validTemplate.timeStamp.Text = DateTime.Now.ToString("yyyy-MM-dd");
 
-                var invalidTemplate = new SignatureLineTemplateInvalid();
-                invalidTemplate.SuggestedSigner = SignatureLine.Signer;
-                invalidTemplate.SuggestedTitle = SignatureLine.Title;
-                invalidTemplate.SignedBy = Certificate.IssuerName.Name;
+                //var invalidTemplate = new SignatureLineTemplateInvalid();
+                //invalidTemplate.SuggestedSigner = SignatureLine.Signer;
+                //invalidTemplate.SuggestedTitle = SignatureLine.Title;
+                invalidTemplate.SignedBy = Certificate.IssuerName.Name.Substring(3);
                 invalidTemplate.SignText = SignatureLine.SignatureText;
 
                 validTemplate.Save(@"C:\epplusTest\Testoutput\ValidTemplateNew.emf");

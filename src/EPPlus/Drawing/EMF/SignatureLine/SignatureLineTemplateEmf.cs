@@ -1,8 +1,4 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -48,14 +44,29 @@ namespace OfficeOpenXml.Drawing.EMF
             }
             return inputString;
         }
-
-        internal SignatureLineTemplateEmf(string templatePath)
+        protected void InitalizeClipRect(EMR_INTERSECTCLIPRECT clipRect)
         {
-            Read(templatePath);
-            SetProperties();
+            clipRect.Clip.Left = 41;
+            clipRect.Clip.Top = 51;
+            clipRect.Clip.Right = 242;
+            clipRect.Clip.Bottom = 72;
         }
 
-        internal virtual void SetProperties()
+        internal SignatureLineTemplateEmf(SignatureLineEmf emf)
+        {
+            Read(emf.GetBytes());
+            Initalize();
+            SuggestedSigner = emf.SignerName;
+            SuggestedTitle = emf.SignerTitle;
+        }
+
+        internal SignatureLineTemplateEmf()
+        {
+            LoadTemplateFromResource("SignatureLineTemplate.emf", "OfficeOpenXml.resources.SignatureLineTemplates.zip");
+            Initalize();
+        }
+
+        internal virtual void Initalize()
         {
             var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Skip(1).ToArray();
             signTextObject = (EMR_EXTTEXTOUTW)textRecords[0];

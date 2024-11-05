@@ -9,7 +9,6 @@ namespace OfficeOpenXml.Drawing.EMF
     {
         internal EMR_EXTTEXTOUTW timeStamp;
         internal EMR_EXTTEXTOUTW signedBy;
-        const string filePath = "C:\\epplusTest\\Testoutput\\ValidSignatureTemplate.emf";
 
         internal string SignedBy
         {
@@ -19,17 +18,40 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        internal SignatureLineTemplateValid() : base(filePath)
+        internal SignatureLineTemplateValid(SignatureLineEmf sLine) : base(sLine)
         {
-            var clipRect = (EMR_INTERSECTCLIPRECT)records[121];
-            clipRect.Clip.Left = 41;
-            clipRect.Clip.Top = 51;
-            clipRect.Clip.Right = 242;
-            clipRect.Clip.Bottom = 72;
+            InitalizeClipRect((EMR_INTERSECTCLIPRECT)records[121]);
         }
 
-        internal override void SetProperties()
+        internal SignatureLineTemplateValid() : base()
         {
+            InitalizeClipRect((EMR_INTERSECTCLIPRECT)records[121]);
+        }
+
+        //Template contains records for both valid and invalid files
+        //Remove the ones for the Invalid template.
+        private void RemoveInvalidRecords()
+        {
+            //We remove records "backwards" so that indicies for the next operation do not change.
+
+            for (int i = 69; i <= 75; i++)
+            {
+                //A removed record automatically makes the next take its place
+                records.Remove(records[69]);
+            }
+
+            records.Remove(records[62]);
+
+            for (int i = 54; i <= 60; i++)
+            {
+                //A removed record automatically makes the next take its place
+                records.Remove(records[51]);
+            }
+        }
+
+        internal override void Initalize()
+        {
+            RemoveInvalidRecords();
             var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).ToArray();
             timeStamp = (EMR_EXTTEXTOUTW)textRecords[0];
             signTextObject = (EMR_EXTTEXTOUTW)textRecords[2];
