@@ -147,6 +147,8 @@ namespace OfficeOpenXml.Drawing.EMF
             {
                 suggestedTitleObject = (EMR_EXTTEXTOUTW)textRecords[1];
                 suggestedSignerObject = (EMR_EXTTEXTOUTW)textRecords[2];
+                records.RemoveAt(62);
+                records.RemoveAt(51);
             }
             else
             {

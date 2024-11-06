@@ -120,9 +120,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
 
-                wb.Calculate();
+                //wb.Calculate();
 
                 var test = package.Workbook.FullCalcOnLoad;
+                test = false;
 
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadOnly);
