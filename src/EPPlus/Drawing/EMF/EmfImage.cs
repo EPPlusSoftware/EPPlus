@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using System.Reflection;
+using System;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -260,6 +261,28 @@ namespace OfficeOpenXml.Drawing.EMF
             {
                 record.WriteBytes(br);
             }
+        }
+
+        /// <summary>
+        /// Save before and restore playback state after a record range
+        /// </summary>
+        /// <param name="startRecord">Record before which to place the EMR_SAVEDC record</param>
+        /// <param name="endRecord">Record after which to place the EMR_RESTOREDC record</param>
+        /// <param name="stackState">Current number of stacked saved records for EMR_RESTOREDC to restore to. -1 if only this.</param>
+        internal void InsertSaveAndRestoreRecords(int startRecord, int endRecord,int stackState = -1)
+        {
+            var saveRecord = new EMR_RECORD();
+            saveRecord.Type = RECORD_TYPES.EMR_SAVEDC;
+            saveRecord.Size = 8;
+            saveRecord.data = new byte[0];
+
+            var restoreRecord = new EMR_RECORD();
+            restoreRecord.Type = RECORD_TYPES.EMR_RESTOREDC;
+            restoreRecord.Size = 12;
+            restoreRecord.data = BitConverter.GetBytes(stackState);
+
+            records.Insert(startRecord, saveRecord);
+            records.Insert(endRecord, restoreRecord);
         }
 
         internal EmfImage Clone()

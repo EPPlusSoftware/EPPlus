@@ -3,6 +3,8 @@ using OfficeOpenXml.Drawing.EMF;
 using System;
 using System.Linq;
 using OfficeOpenXml.Utils;
+using System.Collections.Generic;
+using System.IO;
 
 namespace EPPlusTest
 {
@@ -88,23 +90,6 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void CheckValidTemplate()
-        {
-            var validTemplate = new SignatureLineTemplateEmf();
-            validTemplate.RemoveInvalidRecords();
-            var records = validTemplate.records;
-
-            validTemplate.timeStamp.Text = "TimeStamp";
-            validTemplate.signTextObject.Text = "TemplateSignature";
-            validTemplate.suggestedSignerObject.Text = "TemplateSigner";
-            validTemplate.suggestedTitleObject.Text = "TemplateTitle";
-            validTemplate.SignedBy = "TemplateName";
-
-            var outputPath = GetOutputFile(emfOutputFolder, "ValidSignatureTemplate2.emf").FullName;
-
-            validTemplate.Save(outputPath);
-        }
-        [TestMethod]
         public void CheckInvalidTemplate()
         {
             var invalidTemplate = new SignatureLineTemplateEmf();
@@ -120,51 +105,7 @@ namespace EPPlusTest
 
             invalidTemplate.Save(outputPath);
         }
-        [TestMethod]
-        public void CompareTemplates()
-        {
-            var validTemplate = new SignatureLineTemplateEmf();
-            validTemplate.RemoveInvalidRecords();
-            var records = validTemplate.records;
 
-            var invalidTemplate = new SignatureLineTemplateEmf();
-            invalidTemplate.RemoveValidRecords();
-            var invalidRecords = invalidTemplate.records;
-
-            var clipRect = (EMR_INTERSECTCLIPRECT)invalidRecords[128];
-            clipRect.Clip.Left = 41;
-            clipRect.Clip.Top = 51;
-            clipRect.Clip.Right = 242;
-            clipRect.Clip.Bottom = 72;
-
-            var saveRecord = new EMR_RECORD();
-            saveRecord.Type = RECORD_TYPES.EMR_SAVEDC;
-            saveRecord.Size = 8;
-            saveRecord.data = new byte[0];
-
-            var startRecordIndex = 63;
-
-            invalidRecords.Insert(startRecordIndex - 1, saveRecord);
-
-            invalidRecords.Insert(startRecordIndex, records[55]);
-            invalidRecords.Insert(startRecordIndex + 1, records[56]);
-            invalidRecords.Insert(startRecordIndex + 2, records[57]);
-            invalidRecords.Insert(startRecordIndex + 3, records[58]);
-            invalidRecords.Insert(startRecordIndex + 4, records[59]);
-            invalidRecords.Insert(startRecordIndex + 5, records[60]);
-
-
-            var restoreRecord = new EMR_RECORD();
-            restoreRecord.Type = RECORD_TYPES.EMR_RESTOREDC;
-            restoreRecord.Size = 12;
-            int stackState = -1;
-            restoreRecord.data = BitConverter.GetBytes(stackState);
-
-            invalidRecords.Insert(startRecordIndex + 6, restoreRecord);
-
-            var outputPath = GetOutputFile(emfOutputFolder, "InvalidSignatureTemplateOther.emf").FullName;
-            invalidTemplate.Save(outputPath);
-        }
         [TestMethod]
         public void ChangeImageTemplateForStamp()
         {

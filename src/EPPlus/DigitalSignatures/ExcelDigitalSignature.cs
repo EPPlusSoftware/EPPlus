@@ -314,6 +314,7 @@ namespace OfficeOpenXml.DigitalSignatures
             if(SignatureLine != null)
             {
                 props.sigInfo1.SetUpId = $"{{{SignatureLine.SetupID.ToString().ToUpper()}}}";
+                props.sigInfo1.SignatureProviderID = SignatureLine.ProvID;
 
                 if (SignatureLine.SignatureText != null)
                 {

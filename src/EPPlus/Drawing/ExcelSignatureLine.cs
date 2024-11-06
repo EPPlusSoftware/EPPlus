@@ -12,6 +12,7 @@ namespace OfficeOpenXml.Drawing
     {
         /// <summary>
         /// The signature itself as text.
+        /// Has no point in a signature stamp
         /// </summary>
         public string SignatureText = "";
 
@@ -40,35 +41,45 @@ namespace OfficeOpenXml.Drawing
             Emf = new SignatureLineTemplateEmf(IsStamp);
             Emf.SuggestedSigner = Signer;
             Emf.SuggestedTitle = Title;
-
-            var mediaEmf = Emf.Clone();
-            mediaEmf.RemoveInvalidRecords();
-            mediaEmf.timeStamp.Text = "";
+            Emf.timeStamp.Text = "";
+            if(Emf.signTextObject != null)
+            {
+                Emf.SignText = "";
+            }
 
             //Note: Intentionally not disposed.
             MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-            mediaEmf.SignText = "";
-            mediaEmf.signedBy.Text = "";
-            mediaEmf.SaveToStream(ms);
-            mediaEmf.Save("C:\\epplusTest\\Testoutput\\image1Generated.emf");
+            Emf.SaveToStream(ms);
+
+            Emf.Save("C:\\epplusTest\\Testoutput\\image1Generated.emf");
         }
 
         internal void SaveSignatureLineWithDigitalSignature(string signerName)
         {
-            Emf.SignText = SignatureText;
-            Emf.SignedBy = signerName;
-            Emf.timeStamp.Text = "";
+            if (IsStamp == false)
+            {
+                Emf.SignText = SignatureText;
+                Emf.SignedBy = signerName;
+            }
+            else
+            {
+                //Stamps replace suggested with signername
+                Emf.SuggestedSigner = signerName;
+            }
 
-            InvalidSigLnImg = Convert.ToBase64String(Emf.GetBytes());
-            Emf.Save("C:\\epplusTest\\Testoutput\\InvalidTemplateNew.emf");
-
-            Emf.RemoveInvalidRecords();
             if (ShowSignDate)
             {
                 Emf.timeStamp.Text = DateTime.Now.ToString("yyyy-MM-dd");
             }
+
             ValidSigLnImage = Convert.ToBase64String(Emf.GetBytes());
             Emf.Save("C:\\epplusTest\\Testoutput\\ValidTemplateNew.emf");
+
+            Emf.timeStamp.Text = "";
+            Emf.InsertInvalidRecords();
+
+            InvalidSigLnImg = Convert.ToBase64String(Emf.GetBytes());
+            Emf.Save("C:\\epplusTest\\Testoutput\\InvalidTemplateNew.emf");
         }
     }
 }

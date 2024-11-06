@@ -61,6 +61,21 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         }
 
         [TestMethod]
+        public void ReadDigitalSignatureLine()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("FullStamp.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets[0];
+
+                var signatures = package.Workbook.DigitialSignatures;
+
+                DecodeAndSaveEmf(signatures[0].ValidSigLnImage, "C:\\epplusTest\\Testoutput\\validStamp.emf");
+                DecodeAndSaveEmf(signatures[0].InvalidSigLnImg, "C:\\epplusTest\\Testoutput\\invalidStamp.emf");
+            }
+        }
+
+        [TestMethod]
         public void CreateDigitalSignatureLineAndSignIt()
         {
             using (ExcelPackage package = OpenPackage("DigSig_SignatureLine.xlsx", true))
@@ -78,6 +93,46 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var sLine = ws.AddSignatureLine();
                 sLine.Signer = "ASigner";
                 sLine.SignatureText = "Ossian";
+                //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\LessExtremeWide.bmp");
+                sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
+
+                var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
+                var info = digSig.SigningInformation;
+
+                info.SignerRoleTitle = "A Title";
+                info.Address1 = "Some";
+                info.Address2 = "Where";
+                info.ZIPorPostalCode = "Over";
+                info.City = "The";
+                info.CountryOrRegion = "Rainbow";
+                info.StateOrProvince = "WayUpHigh";
+
+                digSig.SignatureLine = sLine;
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void CreateDigitalSignatureLineStampAndSignIt()
+        {
+            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
+
+                wb.Calculate();
+
+                var test = package.Workbook.FullCalcOnLoad;
+
+                X509Store store = new X509Store(StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadOnly);
+
+                var sLine = ws.AddSignatureLine();
+                sLine.Signer = "ASigner";
+                sLine.SignatureText = "";
+
+                sLine.Title = "Developer";
+                sLine.IsStamp = true;
                 //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\LessExtremeWide.bmp");
                 sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
 
@@ -134,22 +189,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         {
             var emfImage = new EmfImage();
             emfImage.Read("C:\\epplusTest\\Testoutput\\ValidImageAlternateSize.emf");
-        }
-
-        [TestMethod]
-        public void CheckValidTemplate()
-        {
-            var validTemplate = new SignatureLineTemplateEmf();
-            validTemplate.RemoveInvalidRecords();
-            var records = validTemplate.records;
-
-            validTemplate.timeStamp.Text = "TimeStamp";
-            validTemplate.signTextObject.Text = "TemplateSignature";
-            validTemplate.suggestedSignerObject.Text = "TemplateSigner";
-            validTemplate.suggestedTitleObject.Text = "TemplateTitle";
-            validTemplate.SignedBy = "TemplateName";
-
-            validTemplate.Save("C:\\epplusTest\\Testoutput\\testTemp.emf");
         }
 
         [TestMethod]

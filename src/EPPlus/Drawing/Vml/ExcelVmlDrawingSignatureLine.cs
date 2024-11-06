@@ -162,6 +162,15 @@ namespace OfficeOpenXml.Drawing.Vml
             }
         }
 
+        internal string ProvID
+        {
+            get
+            {
+                return GetXmlNodeString("o:signatureline/@provid");
+            }
+        }
+
+
         internal string RelId
         {
             get
