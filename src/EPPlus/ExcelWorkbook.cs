@@ -341,13 +341,23 @@ namespace OfficeOpenXml
 						if (xr.LocalName == "t" && xr.NodeType == XmlNodeType.Element)
 						{
 							var text = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
-							_sharedStringsListNew.Add(new SharedStringTextItem() { Text = text, Position = index });
-							if (!_sharedStringsLookup.ContainsKey(text))
+							if(xr.Name=="r" && xr.NodeType == XmlNodeType.Element)
 							{
-								_sharedStringsLookup.Add(text, index++);
-							}
-						}
-						else if (xr.LocalName == "r" && xr.NodeType == XmlNodeType.Element)
+                                var item = new SharedStringRichTextItem() { RichText = new ExcelRichTextCollection(xr, this), Position = index++ };
+								item.RichText.Insert(0, text);
+								_sharedStringsListNew.Add(item);
+                                text = item.RichText.GetXML();
+                            }
+                            else
+							{
+                                _sharedStringsListNew.Add(new SharedStringTextItem() { Text = text, Position = index });
+                                if (!_sharedStringsLookup.ContainsKey(text))
+                                {
+                                    _sharedStringsLookup.Add(text, index++);
+                                }
+                            }
+                        }
+						if (xr.LocalName == "r" && xr.NodeType == XmlNodeType.Element)
 						{
 							var item = new SharedStringRichTextItem() { RichText = new ExcelRichTextCollection(xr, this), Position = index++ };
 							_sharedStringsListNew.Add(item);
@@ -734,34 +744,37 @@ namespace OfficeOpenXml
 			}
 		}
 		/// <summary>
-		/// Max font width for the workbook
-		/// <remarks>This method uses GDI. If you use Azure or another environment that does not support GDI, you have to set this value manually if you don't use the standard Calibri font</remarks>
+		/// Max font width for the workbook, used in the calculation of column widths.
+		/// <remarks>This property uses the static <see cref="FontSize.FontWidths"></see> dictionary to get the max font width /></remarks>
 		/// </summary>
 		public decimal MaxFontWidth
 		{
 			get
 			{
-				var ix = Styles.GetNormalStyleIndex();
-				if (ix >= 0)
+				if (_standardFontWidth == decimal.MinValue)
 				{
-					var font = Styles.NamedStyles[ix].Style.Font;
-					if (font.Index == int.MinValue) font.Index = 0;
-					if (_standardFontWidth == decimal.MinValue || _fontID != font.Id)
+					var ix = Styles.GetNormalStyleIndex();
+					if (ix >= 0)
 					{
-						try
+						var font = Styles.NamedStyles[ix].Style.Font;
+						if (font.Index == int.MinValue) font.Index = 0;
+						if (_standardFontWidth == decimal.MinValue || _fontID != font.Id)
 						{
-							_standardFontWidth = FontSize.GetWidthPixels(font.Name, font.Size);
-							_fontID = Styles.NamedStyles[ix].Style.Font.Id;
-						}
-						catch   //Error, Font missing and Calibri removed in dictionary
-						{
-							_standardFontWidth = (int)(font.Size * (2D / 3D)); //Aprox for Calibri.
+							try
+							{
+								_standardFontWidth = FontSize.GetWidthPixels(font.Name, font.Size);
+								_fontID = Styles.NamedStyles[ix].Style.Font.Id;
+							}
+							catch   //Error, Font missing and Calibri removed in dictionary
+							{
+								_standardFontWidth = (int)(font.Size * (2D / 3D)); //Aprox for Calibri.
+							}
 						}
 					}
-				}
-				else
-				{
-					_standardFontWidth = 7; //Calibri 11
+					else
+					{
+						_standardFontWidth = 7; //Calibri 11
+					}
 				}
 				return _standardFontWidth;
 			}
@@ -1957,13 +1970,14 @@ namespace OfficeOpenXml
 
 		internal void ClearDefaultHeightsAndWidths()
 		{
-			foreach (var ws in Worksheets)
+			_standardFontWidth = decimal.MinValue;
+            foreach (var ws in Worksheets)
 			{
 				if (ws.IsChartSheet == false)
 				{
 					if (ws.CustomHeight == false)
 					{
-						ws._defaultRowHeight = double.NaN;
+						ws._defaultRowHeight = double.NaN;						
 					}
 				}
 			}

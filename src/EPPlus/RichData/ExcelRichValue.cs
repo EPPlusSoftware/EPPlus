@@ -16,16 +16,27 @@ namespace OfficeOpenXml.RichData
         public int StructureId { get; set; }
         public ExcelRichValueStructure Structure { get; set; }
         public List<string> Values { get; }=new List<string>();
-        public RichValueFallbackType Fallback { get; internal set; } = RichValueFallbackType.Decimal;
+
+        public RichValueFallbackType FallbackType { get; internal set; } = RichValueFallbackType.Decimal;
+        public string FallbackValue { get; set; }
 
         internal void WriteXml(StreamWriter sw)
         {
             sw.Write($"<rv s=\"{StructureId}\">");
-            if (Fallback != RichValueFallbackType.Decimal)
+            if (!string.IsNullOrEmpty(FallbackValue))
             {
-                sw.Write($"<fb t=\"{GetFallbackAsString()}\" />");
+                if (FallbackType != RichValueFallbackType.Decimal)
+                {
+                    sw.Write($"<fb t=\"{GetFallbackAsString()}\">");
+                }
+                else
+                {
+                    sw.Write("<fb>");
+                }
+                sw.Write(FallbackValue);
+                sw.Write("</fb>");
             }
-            foreach(var v in Values)
+            foreach (var v in Values)
             {
                 sw.Write($"<v>{ConvertUtil.ExcelEscapeString(v)}</v>");
             }
@@ -33,7 +44,7 @@ namespace OfficeOpenXml.RichData
         }
         private string GetFallbackAsString()
         {
-            switch (Fallback)
+            switch (FallbackType)
             {
                 case RichValueFallbackType.Boolean:
                     return "b";
