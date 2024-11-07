@@ -153,29 +153,23 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             var aRecord = records;
 
-            var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW);
+            var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Cast<EMR_EXTTEXTOUTW>().ToList();
 
-            timeStamp = (EMR_EXTTEXTOUTW)textRecords[0];
+            timeStamp = textRecords[0];
             //1 is 'Invalid Signature' 2 is 'X' neither need be changed.
 
             if(IsStamp)
             {
-                suggestedTitleObject = (EMR_EXTTEXTOUTW)textRecords[1];
-                suggestedSignerObject = (EMR_EXTTEXTOUTW)textRecords[2];
-                records.RemoveAt(62);
-                records.RemoveAt(51);
+                suggestedTitleObject = textRecords[1];
+                suggestedSignerObject = textRecords[2];
             }
             else
             {
-                signTextObject = (EMR_EXTTEXTOUTW)textRecords[2];
-                suggestedSignerObject = (EMR_EXTTEXTOUTW)textRecords[3];
-                suggestedTitleObject = (EMR_EXTTEXTOUTW)textRecords[4];
-                signedBy = (EMR_EXTTEXTOUTW)textRecords[5];
+                signTextObject = textRecords[2];
+                suggestedSignerObject = textRecords[3];
+                suggestedTitleObject = textRecords[4];
+                signedBy = textRecords[5];
             }
-            //var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Skip(1).ToArray();
-            //signTextObject = (EMR_EXTTEXTOUTW)textRecords[0];
-            //suggestedSignerObject = (EMR_EXTTEXTOUTW)textRecords[1];
-            //suggestedTitleObject = (EMR_EXTTEXTOUTW)textRecords[2];
         }
     }
 }

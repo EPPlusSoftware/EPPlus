@@ -67,6 +67,20 @@ namespace OfficeOpenXml.Drawing
                 Emf.SuggestedSigner = signerName;
             }
 
+            if(SignatureImage != null && SignatureImage.Length > 0)
+            {
+                var imageRecord = (EMR_STRETCHDIBITS)Emf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+                bool isBmp;
+                using(var ms = new MemoryStream(SignatureImage))
+                {
+                    isBmp = ImageReader.GetPictureType(ms, false) == ePictureType.Bmp;
+                }
+                if(isBmp)
+                {
+                    imageRecord.ReadBmpAndUpdateImage(SignatureImage);
+                }
+            }
+
             if (ShowSignDate)
             {
                 Emf.timeStamp.Text = DateTime.Now.ToString("yyyy-MM-dd");
