@@ -195,7 +195,7 @@ namespace OfficeOpenXml
                 case eErrorType.Calc:
                     return Values.Calc;
                 case eErrorType.Spill:
-                    return Values.Value;
+                    return Values.Spill;
                 default:
                     throw (new ArgumentException("Invalid errortype"));
             }

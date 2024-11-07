@@ -14,6 +14,7 @@ using OfficeOpenXml.EventArguments;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -34,6 +35,36 @@ namespace OfficeOpenXml.RichData.IndexRelations
         private readonly Dictionary<RichDataEntities, IndexedCollectionInterface> _collections = new Dictionary<RichDataEntities, IndexedCollectionInterface>();
         private readonly Dictionary<Type, RichDataEntities> _typeToEntity = new Dictionary<Type, RichDataEntities>();
         private readonly IdGenerator _idGenerator = new IdGenerator();
+
+        internal void PrintRelations(string outputFolder, int version = 1)
+        {
+            var file = Path.Combine(outputFolder, $"Relations{version}.txt");
+            using var sw = new StreamWriter(file);
+            PrintRelations(sw);
+        }
+
+        internal void PrintRelations(StreamWriter sw)
+        {
+            var keys = _relations.Keys.OrderBy(x => x);
+            foreach(var key in keys)
+            {
+                var rel = _relations[key];
+                var subRel = rel.AsRelationWithSubRelations();
+                if(subRel != null)
+                {
+                    sw.WriteLine($"SubRelation Id:{rel.Id} From: {rel.From.EntityType} (Id: {rel.From.Id})");
+                    foreach(var sub in subRel.SubRelations)
+                    {
+                        sw.WriteLine($"     From: {sub.From.EntityType} (Id: {sub.From.Id}) To: {sub.To.EntityType} (Id: {sub.To.Id})");
+                    }
+                }
+                else
+                {
+                    sw.WriteLine($"From: {rel.From.EntityType} (Id: {rel.From.Id}) To: {rel.To.EntityType} (Id: {rel.To.Id})");
+                }
+            }
+            sw.Dispose();
+        }
 
 
         public uint GetNewId()

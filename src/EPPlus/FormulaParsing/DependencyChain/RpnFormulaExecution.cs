@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.CellPictures;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  11/14/2023         EPPlus Software AB       Initial release EPPlus 7
+ *************************************************************************************************/
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
@@ -558,6 +570,11 @@ namespace OfficeOpenXml.FormulaParsing
             if(mdb != null)
             {
                 mdb.DeleteMe();
+            }
+            var cdb = ws.Workbook.Metadata.CellMetadata.Get(md.cm);
+            if(cdb != null)
+            {
+                cdb.DeleteMe();
             }
             f._ws._metadataStore.Clear(f._row, f._column, 1, 1);
         }

@@ -35,6 +35,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
                 if(xr.IsElementWithName("ext"))
                 {
                     Uri = xr.GetAttribute("uri");
+                    xr.Read();
                 }
                 else if(xr.IsElementWithName("dynamicArrayProperties"))
                 {
@@ -52,6 +53,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
                 }
             }
         }
+
 
         public bool IsCollapsed { get; set; }
 

@@ -123,6 +123,14 @@ namespace OfficeOpenXml.Metadata
                     DeleteMe(e.RelationDeletions);
                 }
             }
+            else if(e.DeletedEntity.EntityType == RichDataEntities.CellMetadataRecord)
+            {
+                var rels = GetIncomingRelations(x => x.From.EntityType == RichDataEntities.CellMetadataRecord);
+                if (rels.Count() <= 1)
+                {
+                    DeleteMe(e.RelationDeletions);
+                }
+            }
         }
     }
 }

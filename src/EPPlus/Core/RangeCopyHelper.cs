@@ -53,8 +53,8 @@ namespace OfficeOpenXml.Core
         private readonly bool _sameWorkbook;
 		private ExcelMetadata _sourceMd, _destMd;
 		Dictionary<ulong, CopiedCell> _copiedCells=new Dictionary<ulong, CopiedCell>();
-        int _sourceDaIx = -1;
-        int _destDaIx = -1;
+        uint? _sourceDaIx;
+        uint? _destDaIx;
         internal RangeCopyHelper(ExcelRangeBase sourceRange, ExcelRangeBase destination, ExcelRangeCopyOptionFlags copyOptions)
         {
             _sourceRange = sourceRange;
@@ -478,7 +478,7 @@ namespace OfficeOpenXml.Core
                 {
                     _sourceMd = _sourceRange.Worksheet.Workbook.Metadata;
 					_destMd = _destination.Worksheet.Workbook.Metadata;
-                    _sourceMd.GetDynamicArrayIndex(out _sourceDaIx);
+                    //_sourceMd.GetDynamicArrayIndex(out _sourceDaIx);
 				}
 
 				var md = cell.MetaData;
@@ -486,9 +486,12 @@ namespace OfficeOpenXml.Core
                 {
                     if(_destDaIx < 0)
                     {
-						_destMd.GetDynamicArrayIndex(out _destDaIx);
-					}
-                    md.cm = _destDaIx;
+                        //_destMd.GetDynamicArrayIndex(out _destDaIx);
+                        _destMd.GetDynamicArrayId(out uint destDaId);
+                        _destDaIx = destDaId;
+
+                    }
+                    md.cm = _destDaIx ?? 0u;
                     cell.MetaData = md;
 				}
                 else

@@ -11,41 +11,17 @@
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
 using OfficeOpenXml.RichData.IndexRelations;
-using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.Metadata.FutureMetadata
+namespace OfficeOpenXml.Metadata
 {
-    internal abstract class FutureMetadataBase : IndexEndpoint
+    internal class CellMetadataBlockCollection : IndexedCollection<ExcelCellMetadataBlock>
     {
-        internal const string DYNAMIC_ARRAY_NAME = "XLDAPR";
-        internal const string RICHDATA_NAME = "XLRICHVALUE";
-
-        protected FutureMetadataBase(RichDataIndexStore store) : base(store, RichDataEntities.FutureMetadata)
+        public CellMetadataBlockCollection(RichDataIndexStore store) : base(store, RichDataEntities.CellMetadataBlock)
         {
         }
-
-        public int Index { get; set; }
-        public string Name { get; set; }
-
-        public abstract string Uri { get; set; }
-
-        public abstract IndexedSubsetCollection<FutureMetadataBlock> Blocks { get; set; }
-
-        public abstract void Save(StreamWriter sw);
-
-        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
-        {
-            base.OnConnectedEntityDeleted(e);
-            if(e.DeletedEntity.EntityType == RichDataEntities.MetadataType)
-            {
-                DeleteMe();
-            }
-        }
-
     }
 }

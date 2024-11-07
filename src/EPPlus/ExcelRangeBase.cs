@@ -309,7 +309,7 @@ namespace OfficeOpenXml
             f.FormulaType = IsArray ? FormulaType.Array : FormulaType.Shared;
             var ws = range._worksheet;
             ws._sharedFormulas.Add(f.Index, f);
-            ws.Workbook.Metadata.GetDynamicArrayIndex(out int diIx);
+            ws.Workbook.Metadata.GetDynamicArrayId(out uint diId);
             for (int col = address.Start.Column; col <= address.End.Column; col++)
             {
                 for (int row = address.Start.Row; row <= address.End.Row; row++)
@@ -320,7 +320,7 @@ namespace OfficeOpenXml
                     if(isDynamic)
                     {
                         var md=ws._metadataStore.GetValue(row, col);
-                        md.cm = diIx;
+                        md.cm = diId;
                         ws._metadataStore.SetValue(row, col, md);
                     }
                 }

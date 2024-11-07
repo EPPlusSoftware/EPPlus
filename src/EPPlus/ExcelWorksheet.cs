@@ -76,7 +76,7 @@ namespace OfficeOpenXml
         /// </summary>
         internal struct MetaDataReference
         {
-            internal int cm;
+            internal uint cm;
             internal uint vm;
             internal bool aca;
             internal bool ca;
@@ -1317,7 +1317,7 @@ namespace OfficeOpenXml
             int style = 0;
             int row = 0;
             int col = 0;
-            int currentCm = 0;
+            uint currentCm = 0;
             uint currentVm = 0;
             xr.Read();
 
@@ -1399,16 +1399,25 @@ namespace OfficeOpenXml
                         {
                             Workbook.InitializeRichData();
                         }
-                        currentCm = string.IsNullOrEmpty(cm) ? 0 : int.Parse(cm);
+                        currentCm = string.IsNullOrEmpty(cm) ? 0 : uint.Parse(cm);
                         currentVm = string.IsNullOrEmpty(vm) ? 0 : uint.Parse(vm);
-                        var vmId = Workbook.Metadata.ValueMetadata.GetIdByIndex((int)currentVm - 1);
+                        uint cmId = 0u;
+                        uint vmId = 0u;
+                        if(currentCm > 0)
+                        {
+                            cmId = Workbook.Metadata.CellMetadata.GetIdByIndex((int)currentCm - 1);
+                        }
+                        if(currentVm > 0)
+                        {
+                            vmId = Workbook.Metadata.ValueMetadata.GetIdByIndex((int)currentVm - 1);
+                        }
                         _package.OnWorksheetValueMetadataRead(Index, address._fromRow, address._fromCol, currentVm);
                         _metadataStore.SetValue(
                             address._fromRow,
                             address._fromCol,
                             new MetaDataReference()
                             {
-                                cm = currentCm,
+                                cm = cmId,
                                 vm = vmId
                             });
                     }
@@ -1510,7 +1519,7 @@ namespace OfficeOpenXml
                         {
                             WriteArrayFormulaRange(refAddress, afIndex, CellFlags.ArrayFormula);
                         }
-                        if(currentCm>0 && Workbook.Metadata.IsDynamicArray(currentCm-1))
+                        if(currentCm>0 && Workbook.Metadata.IsDynamicIdByIndex((int)currentCm-1))
                         {
                             _flags.SetFlagValue(row, col, true, CellFlags.CanBeDynamicArray);
                         }

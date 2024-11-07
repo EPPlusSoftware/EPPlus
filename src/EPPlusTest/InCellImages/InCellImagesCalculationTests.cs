@@ -6,6 +6,7 @@ using System.Text;
 using OfficeOpenXml;
 using EPPlusTest.Properties;
 using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.Metadata.FutureMetadata;
 
 namespace EPPlusTest.InCellImages
 {
@@ -81,6 +82,77 @@ namespace EPPlusTest.InCellImages
             Assert.AreEqual(1, package.Workbook.RichData.Values.Count, "RichDatat.Values.Count was not 1 as expected");
             Assert.IsFalse(sheet.Cells["A3"].Picture.Exists);
             SaveWorkbook("InCellImageCalculate3.xlsx", package);
+        }
+
+        [TestMethod]
+        public void ShouldOverwriteSpillError()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet 1");
+            sheet.Cells["A1"].Formula = "RANDARRAY(3,3)";
+            sheet.Cells["C3"].Value = 1;
+            sheet.Calculate();
+            Assert.AreEqual("#SPILL!", sheet.Cells["A1"].Value.ToString());
+            Assert.AreEqual(0, package.Workbook.RichData.Values.Count);
+            sheet.Cells["A1"].Picture.Set(Resources.Png2ByteArray);
+            Assert.IsInstanceOfType(sheet.Cells["A1"].Value, typeof(ExcelCellPicture));
+            Assert.IsTrue(sheet._metadataStore.GetValue(1, 1).vm > 0);
+            Assert.AreEqual(1, package.Workbook.RichData.Values.Count);
+        }
+
+        [TestMethod]
+        public void ShouldOverwriteSpillErrorAndPreserveRichData()
+        {
+            using var package = OpenTemplatePackage("ExistingRichData1.xlsx");
+            var sheet = package.Workbook.Worksheets.First();
+            var mdrA1 = sheet._metadataStore.GetValue(1, 1);
+            Assert.IsTrue(mdrA1.vm > 0, "Before: Value metadata was not set on cell A1");
+            var mdrA6 = sheet._metadataStore.GetValue(6, 1);
+            Assert.IsTrue(mdrA6.vm > 0, "Before: Value metadata was not set on cell A6");
+            Assert.AreEqual(2, package.Workbook.Metadata.ValueMetadata.Count, "Before: ValueMetadata.Count was not 2 as expected");
+            Assert.AreEqual(2, package.Workbook.Metadata.MetadataTypes.Count, "Before: MetadataTypes.Count was not 2 as expected");
+            Assert.AreEqual("XLDAPR", package.Workbook.Metadata.MetadataTypes.First().Name, "Before: First metadata type was XLDAPR not as expected");
+            Assert.AreEqual("XLRICHVALUE", package.Workbook.Metadata.MetadataTypes.Last().Name, "Before: Last metadata type was not XLRICHVALUE as expected");
+
+            // now overwrite the existing spill error with a cell image
+            sheet.Cells["B1"].Picture.Set(Resources.Png2ByteArray);
+            sheet.Cells["A1"].Formula = "IF(TRUE(), B1, B2)";
+            sheet.Calculate();
+            sheet.Workbook.IndexStore.PrintRelations(@"c:\Temp");
+            var pic = sheet.Cells["A1"].Picture.Get();
+            Assert.IsNotNull(pic);
+            // we should now have 3 metadata records, the pictures in cell A1 and B2 and the geography in cell A4
+            Assert.AreEqual(3, package.Workbook.Metadata.ValueMetadata.Count, "After: ValueMetadata.Count was not 3 as expected");
+            // The XLDAPR metadata type should be deleted since the dynamic array error in A1 is overwritten by the picture
+            Assert.AreEqual(1, package.Workbook.Metadata.MetadataTypes.Count, "After: ValueMetadataTypes.Count was not 1 as expected");
+            // The only remaining metadata type should be rich data.
+            Assert.AreEqual(FutureMetadataBase.RICHDATA_NAME, package.Workbook.Metadata.MetadataTypes.First(x => !x.Deleted).Name);
+            // There should be only one FutureMetadata instance (for rich data) left
+            Assert.AreEqual(1, package.Workbook.Metadata.FutureMetadata.Count, "After: FutureMetadata.Count was not 0 as expected.");
+            // There should be no cell value metadata blocks left
+            Assert.AreEqual(0, package.Workbook.Metadata.CellMetadata.Count, "After: CellMetadata.Count was not 0 as expected.");
+            // There should be no cell metadata records left
+            Assert.AreEqual(0, package.Workbook.Metadata.CellMetadataRecords.Count, "After: CellMetadataRecords.Count was not 0 as expected.");
+
+            SaveWorkbook("ExistingRichData1_Result.xlsx", package);
+
+        }
+
+        [TestMethod]
+        public void ShouldOverwriteSpillErrorAndPreserveRichData2()
+        {
+            using var package = OpenTemplatePackage("ExistingRichData2.xlsx");
+            var sheet = package.Workbook.Worksheets.First();
+            // now overwrite the existing spill error with a cell image
+            sheet.Cells["B1"].Picture.Set(Resources.Png2ByteArray);
+            sheet.Cells["A1"].Formula = "IF(TRUE(), B1, B2)";
+            sheet.Calculate();
+            sheet.Workbook.IndexStore.PrintRelations(@"c:\Temp");
+            var pic = sheet.Cells["A1"].Picture.Get();
+            Assert.IsNotNull(pic);
+
+            SaveWorkbook("ExistingRichData2_Result.xlsx", package);
+
         }
     }
 }

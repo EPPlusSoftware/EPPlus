@@ -56,8 +56,11 @@ namespace OfficeOpenXml.Metadata
                     var v = int.Parse(xr.GetAttribute("v"));
                     var type = _metadata.MetadataTypes[t - 1];
                     var fmt = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
-                    var bk = fmt.Blocks[v];
-                    AddRecord(type.Id, bk.Id);
+                    if(fmt != null)
+                    {
+                        var bk = fmt.Blocks[v];
+                        AddRecord(type.Id, bk.Id);
+                    }
                 }
                 xr.Read();
                 //_metadata.OnValueMetadataRead(Id, currentIndex + 1);
@@ -119,7 +122,7 @@ namespace OfficeOpenXml.Metadata
             if(valuesRelation.SubRelations.Count == 0)
             {
                 DeleteMe(e.RelationDeletions);
-                _metadata.OnValueMetadataBlockDeleted(Id);
+                //_metadata.OnValueMetadataBlockDeleted(Id);
             }
         }
 

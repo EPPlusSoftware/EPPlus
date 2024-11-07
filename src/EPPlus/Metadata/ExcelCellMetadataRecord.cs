@@ -10,27 +10,88 @@
  *************************************************************************************************
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.Metadata.FutureMetadata;
+using OfficeOpenXml.RichData;
+using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
+using System;
+using System.Linq;
+
 namespace OfficeOpenXml.Metadata
 {
     /// <summary>
     /// Corresponds to a rc-element in the valueMetadata section of the metadata.xml file.
     /// </summary>
-    internal class ExcelCellMetadataRecord
+    internal class ExcelCellMetadataRecord : IndexEndpoint
     {
-        public ExcelCellMetadataRecord(int recordTypeIndex, int valueTypeIndex)
+        public ExcelCellMetadataRecord(ExcelMetadata metadata, IndexEndpoint parent, uint typeId, uint valueId, RichDataIndexStore store)
+            : base(store, RichDataEntities.CellMetadataRecord)
         {
-            TypeIndex= recordTypeIndex;
-            ValueIndex = valueTypeIndex;
+            TypeId = typeId;
+            ValueId = valueId;
+            _metadata = metadata;
+            _readValueIndex = Convert.ToInt32(valueId);
+            _parent = parent;
+        }
+
+        private readonly IndexEndpoint _parent;
+        private readonly ExcelMetadata _metadata;
+        private readonly int _readValueIndex;
+
+        public void InitRelations(ExcelRichData richData)
+        {
+            base.InitRelations();
+            var parentRel = _parent.GetOutgoingRelations(x => x.IndexType == IndexType.SubRelations && x.AsRelationWithSubRelations().SubRelationEntity == RichDataEntities.RichValue).FirstOrDefault();
+            if (parentRel != null)
+            {
+                var rel = richData.Values.CreateRelation(this, _readValueIndex, IndexType.ZeroBasedPointer);
+                ValueId = rel.To.Id;
+            }
         }
 
         /// <summary>
         /// Corresponds to the t-attribute of the bk element
         /// </summary>
-        public int TypeIndex { get; private set; }
+        public uint TypeId { get; private set; }
 
         /// <summary>
         /// Corresponds to the v-attribute of the bk element
         /// </summary>
-        public int ValueIndex { get; private set; }
+        public uint ValueId { get; private set; }
+
+        public int MetadataTypeIndex
+        {
+            get
+            {
+                var ix = _metadata.MetadataTypes.GetIndexById(TypeId);
+                return ix.Value + 1;
+            }
+        }
+
+        public int? FutureMetadataBlockIndex
+        {
+            get
+            {
+                var bk = _metadata.FutureMetadataBlocks.Get(ValueId);
+                var fmType = bk.GetFirstIncomingRelByType<FutureMetadataBase>();
+                return fmType.Blocks.GetZeroBasedIndex(ValueId);
+            }
+        }
+
+        public override void DeleteMe(RelationDeletions relDeletions = null)
+        {
+            base.DeleteMe(relDeletions);
+            var parent = _parent as ExcelCellMetadataBlock;
+            if (parent != null)
+            {
+                parent.OnRecordDeleted(this, relDeletions);
+            }
+        }
+
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
+        {
+            base.OnConnectedEntityDeleted(e);
+            _parent.OnConnectedEntityDeleted(e);
+        }
     }
 }

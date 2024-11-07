@@ -13,6 +13,7 @@
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -28,21 +29,28 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         public FutureMetadataDynamicArray(RichDataIndexStore store, ExcelMetadata metadata)
             : base(store)
         {
+            _metadata = metadata;
             Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
+            Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
         }
+
         public FutureMetadataDynamicArray(XmlReader xr, RichDataIndexStore store, ExcelMetadata metadata)
             : base(store)
         {
+            _metadata = metadata;
             Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
+            Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
             while (!xr.EOF)
             {
                 if(xr.IsElementWithName("futureMetadata"))
                 {
                     Name = xr.GetAttribute("name");
+                    xr.Read();
                 }
                 else if(xr.IsElementWithName("bk"))
                 {
-                    Blocks.Add(new FutureMetadataDynamicArrayBlock(xr, store));
+                    var bk = new FutureMetadataDynamicArrayBlock(xr, store);
+                    Blocks.Add(bk);
                 }
                 else if(xr.IsEndElementWithName("futureMetadata"))
                 {
@@ -53,22 +61,32 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
                     xr.Read();
                 }
             }
-
-            if (xr.NodeType == XmlNodeType.EndElement) xr.Read();
+            if(!string.IsNullOrEmpty(Name) && _metadata.MetadataTypes.TryGetValue(Name, out ExcelMetadataType type))
+            {
+                type.AddRelationTo(this, IndexType.String);
+            }
+            //if (xr.NodeType == XmlNodeType.EndElement) xr.Read();
         }
 
-        
+        private readonly ExcelMetadata _metadata;
+
+        private void OnBlocksIsEmpty(object source, CollectionIsEmptyEventArgs e)
+        {
+            DeleteMe(e.Deletions);
+        }
+
         public string ExtLstXml { get; set; }
         public override string Uri { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override IndexedSubsetCollection<FutureMetadataBlock> Blocks { get; set; }
 
-        public static FutureMetadataDynamicArray GetDefault(RichDataIndexStore store, ExcelMetadata metadata)
+        public static FutureMetadataDynamicArray GetDefault(RichDataIndexStore store, ExcelMetadata metadata, out uint bkId)
         {
             var fm = new FutureMetadataDynamicArray(store, metadata);
             fm.Name = "XLDAPR";
             var bk = new FutureMetadataDynamicArrayBlock(store, RichDataEntities.FutureMetadataDynamicArrayBlock);
             bk.IsDynamicArray = true;
             bk.IsCollapsed = false;
+            bkId = bk.Id;
             fm.Blocks.Add(bk);
             return fm;
         }
