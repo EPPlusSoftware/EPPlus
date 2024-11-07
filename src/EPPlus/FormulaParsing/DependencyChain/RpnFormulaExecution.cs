@@ -423,6 +423,12 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 return cr.ResultValue;
             FollowChain:
+                if (addresses.Length==0)
+                {
+                    f._tokenIndex++;
+                    goto ExecuteFormula;
+                }
+
                 var firstAddress = addresses.FirstOrDefault();
                 ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(firstAddress.WorksheetIx);
                 if (ws == null)
@@ -513,6 +519,7 @@ namespace OfficeOpenXml.FormulaParsing
         private static bool GetAddressesToFollow(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, ref FormulaRangeAddress[] addresses, ref RangeHashset rd, ref ExcelWorksheet ws)
         {
             var hasAddress = false;
+            var needsClean = false;
             for (int i = 0; i < addresses.Length;i++)
             {
                 var address = addresses[i].Clone();
@@ -552,8 +559,14 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 else
                 {
+                    
                     addresses[i] = null;
+                    needsClean = true;
                 }
+            }
+            if(needsClean)
+            {
+                addresses = addresses.Where(x => x != null).ToArray();
             }
             return hasAddress;
         }
