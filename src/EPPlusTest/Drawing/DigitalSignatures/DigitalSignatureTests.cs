@@ -134,8 +134,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 sLine.Title = "Developer";
                 sLine.IsStamp = true;
-                //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\LessExtremeWide.bmp");
-                sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
+                sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\LessExtremeWide.bmp");
+                //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
                 var info = digSig.SigningInformation;

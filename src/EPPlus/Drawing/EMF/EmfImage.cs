@@ -142,6 +142,7 @@ namespace OfficeOpenXml.Drawing.EMF
                         {
                             text.Font = Fonts[currentlySelectedId];
                         }
+                        text.Ppi = ppi;
                         record = text;
                         break;
                     default:

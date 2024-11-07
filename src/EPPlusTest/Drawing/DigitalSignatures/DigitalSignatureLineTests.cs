@@ -6,6 +6,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using OfficeOpenXml;
 using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.Drawing.EMF;
+using System.IO;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
@@ -40,6 +42,81 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 SaveAndCleanup(package);
             }
+        }
+        [TestMethod]
+        public void FixGeneratedImage()
+        {
+            var generated = new EmfImage();
+            generated.Read("C:\\epplusTest\\Testoutput\\image1Generated.emf");
+            var records = generated.records;
+
+            var clipRect = (EMR_INTERSECTCLIPRECT)records[58];
+            clipRect.Clip = new RectLObject(35,4,93,17);
+            generated.Save("C:\\epplusTest\\Testoutput\\generatedImageRechanged.emf");
+        }
+
+        [TestMethod]
+        public void testImage()
+        {
+            var generated = new EmfImage();
+            generated.Read(@"C:\epplusTest\templates\maxedBars.emf");
+            var records = generated.records;
+
+            var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Cast<EMR_EXTTEXTOUTW>().ToList();
+
+            textRecords[0].Text = "MMMMMMMMMM||";
+            textRecords[0].AdjustReferenceToCenterText(127, 10);
+
+            generated.Save("C:\\epplusTest\\Testoutput\\MaxTitleGenned.emf");
+        }
+
+        [TestMethod]
+        public void ExcelGeneratedExtractValidInvalid()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("emfTextTest.xlsx"))
+            {
+                var wb = package.Workbook;
+                var signature = wb.DigitialSignatures[0];
+
+                var validOutput = GetOutputFile("", "ValidTestSignatureEmf.emf");
+                var invalidOutput = GetOutputFile("", "InvalidTestSignatureEmf.emf");
+                var changedOutput = GetOutputFile("", "ChangedTestStampSignature.emf");
+
+                DecodeAndSaveEmf(signature.ValidSigLnImage, validOutput.FullName);
+                DecodeAndSaveEmf(signature.InvalidSigLnImg, invalidOutput.FullName);
+
+                var emfImage = new EmfImage();
+                emfImage.Read(validOutput.FullName);
+                var records = emfImage.records;
+
+                var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Cast<EMR_EXTTEXTOUTW>().ToList();
+
+                textRecords[1].Text = "Developer";
+
+                emfImage.Save(changedOutput.FullName);
+            }
+        }
+        private void DecodeAndSaveEmf(string base64String, string savePath)
+        {
+            var decodedBytes = Convert.FromBase64String(base64String);
+            File.WriteAllBytes(savePath, decodedBytes);
+        }
+
+
+        [TestMethod]
+        public void TemplateTest()
+        {
+            var stampTemplate = new EmfImage();
+            stampTemplate.Read(@"C:\epplusTest\templates\SignatureLineStampTemplate.emf");
+
+            var records = stampTemplate.records;
+
+            var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW);
+
+            ((EMR_EXTTEXTOUTW)textRecords[0]).Text = "";
+            //((EMR_EXTTEXTOUTW)textRecords[1]).Text = "";
+
+            stampTemplate.Save(@"C:\epplusTest\templates\SignatureLineStampTemplateNew.emf");
         }
 
         [TestMethod]

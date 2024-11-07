@@ -47,11 +47,11 @@ namespace OfficeOpenXml.Drawing
                 Emf.SignText = "";
             }
 
+            Emf.Save("C:\\epplusTest\\Testoutput\\image1Generated.emf");
+
             //Note: Intentionally not disposed.
             MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
             Emf.SaveToStream(ms);
-
-            Emf.Save("C:\\epplusTest\\Testoutput\\image1Generated.emf");
         }
 
         internal void SaveSignatureLineWithDigitalSignature(string signerName)

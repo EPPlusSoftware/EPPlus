@@ -1,10 +1,10 @@
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Utils;
 using System;
 using System.IO;
 using System.Text;
-using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
@@ -14,7 +14,7 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] iGraphicsMode;
         internal byte[] exScale;
         internal byte[] eyScale;
-        internal byte[] Reference;
+        internal PointL Reference;
         internal uint Chars;
         internal uint offString;
         internal byte[] Options;
@@ -33,6 +33,9 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal float Ppi = 108.73578912433f;
         internal float UnitsPerEm = 2295f;
+
+        //string pixelWidth
+        internal uint? totalPixelWidthChars = null;
 
         /// <summary>
         /// Minimum spacing is 0x01 which should be correct at fontsize 2
@@ -78,7 +81,7 @@ namespace OfficeOpenXml.Drawing.EMF
             iGraphicsMode = br.ReadBytes(4);
             exScale = br.ReadBytes(4);
             eyScale = br.ReadBytes(4);
-            Reference = br.ReadBytes(8);        //Signed, koordinat för var texten börjar. 
+            Reference = new PointL(br);        //Signed, koordinat för var texten börjar. 
             Chars = br.ReadUInt32();
             offString = br.ReadUInt32();
             Options = br.ReadBytes(4);
@@ -104,14 +107,40 @@ namespace OfficeOpenXml.Drawing.EMF
             aMesurement.MeasureTextInternal(targetString, GenericFontMetricsTextMeasurerBase.GetKey(Font.elw.mFont.FontFamily, Font.elw.mFont.Style), Font.elw.mFont.Style, Font.elw.mFont.Size);
             var values = aMesurement.MeasureIndividualCharacters(targetString, Font.elw.mFont, Ppi);
 
+            var measurement = aMesurement.MeasureText(targetString, Font.elw.mFont);
+
             int index = 0;
+            uint sum = 0;
+
             foreach (uint val in values)
             {
                 var bytes = BitConverter.GetBytes(val);
                 bytes.CopyTo(DxBuffer, index);
                 index += bytes.Length;
+                sum += val;
             }
+
+            totalPixelWidthChars = sum;
             return DxBuffer;
+        }
+
+        /// <summary>
+        /// Calculate centering for text
+        /// </summary>
+        /// <param name="totalWidth">Total width (x value endpoint in emf world)</param>
+        /// <param name="minWidth">Total width (x value endpoint in emf world)</param>
+        internal void AdjustReferenceToCenterText(int totalWidth, int minWidth)
+        {
+            if(totalPixelWidthChars == null)
+            {
+                CalculateDxSpacing(stringBuffer);
+            }
+
+            var point = Convert.ToInt32((totalWidth - totalPixelWidthChars) * 0.5);
+
+            point = point < minWidth ? minWidth : point;
+
+            Reference.PointX = point;
         }
 
         internal int GetSpacingForChar(char c)
@@ -133,7 +162,8 @@ namespace OfficeOpenXml.Drawing.EMF
             iGraphicsMode = new byte[4] { 0x02, 0x00, 0x00, 0x00 };
             exScale = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
             eyScale = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
-            Reference = new byte[8] { 0x13, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00 };
+            //Reference = new byte[8] { 0x13, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00 };
+            Reference = new PointL(19,36);
             Options = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
             Rectangle = new byte[16] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
             offString = 4 + 4 + 16 + 4 + 4 + 4 + 8 + 4 + 4 + 4 + 16 + 4;
@@ -151,10 +181,7 @@ namespace OfficeOpenXml.Drawing.EMF
             exScale = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
             eyScale = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
 
-            var bx = BitConverter.GetBytes(x);
-            var by = BitConverter.GetBytes(y);
-
-            Reference = BinaryHelper.ConcatenateByteArrays(bx, by);
+            Reference = new PointL(x, y);
 
             //Reference = new byte[8] { 0x13, 0x00, 0x00, 0x00, 0x24, 0x00, 0x00, 0x00 };
             Options = new byte[4] { 0x00, 0x00, 0x00, 0x00 };
@@ -201,7 +228,7 @@ namespace OfficeOpenXml.Drawing.EMF
             bw.Write(iGraphicsMode);
             bw.Write(exScale);
             bw.Write(eyScale);
-            bw.Write(Reference);
+            Reference.WriteBytes(bw);
             bw.Write(Chars);
             bw.Write(offString);
             bw.Write(Options);

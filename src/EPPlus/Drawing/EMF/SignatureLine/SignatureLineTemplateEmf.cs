@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System.IO;
 using System.Linq;
 
 namespace OfficeOpenXml.Drawing.EMF
@@ -10,6 +11,9 @@ namespace OfficeOpenXml.Drawing.EMF
         internal EMR_EXTTEXTOUTW suggestedSignerObject;
         internal EMR_EXTTEXTOUTW suggestedTitleObject;
         internal EMR_EXTTEXTOUTW signedBy;
+
+        const int minWidth = 10;
+        const int maxWidth = 127;
 
         internal string SignText
         {
@@ -24,6 +28,10 @@ namespace OfficeOpenXml.Drawing.EMF
             set
             {
                 suggestedSignerObject.Text = AdjustText(39, value);
+                if(IsStamp)
+                {
+                    suggestedSignerObject.AdjustReferenceToCenterText(maxWidth, minWidth);
+                }
             }
         }
 
@@ -32,6 +40,10 @@ namespace OfficeOpenXml.Drawing.EMF
             set
             {
                 suggestedTitleObject.Text = AdjustText(39, value);
+                if(IsStamp)
+                {
+                    suggestedTitleObject.AdjustReferenceToCenterText(maxWidth, minWidth);
+                }
             }
             get
             {
@@ -73,6 +85,9 @@ namespace OfficeOpenXml.Drawing.EMF
             IsStamp = isStamp;
 
             Initalize();
+            timeStamp.Text = "";
+            SuggestedTitle = "Developer";
+            Save("C:\\epplusTest\\Testoutput\\LoadedFromZip.emf");
         }
 
         ////Template contains records for both valid and invalid files
