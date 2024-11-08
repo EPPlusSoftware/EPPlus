@@ -11,13 +11,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
@@ -28,10 +24,7 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 using static OfficeOpenXml.ExcelAddressBase;
 
 namespace OfficeOpenXml.Core
@@ -89,7 +82,23 @@ namespace OfficeOpenXml.Core
             
             ClearDestination();
 
-            CopyValuesToDestination();
+            int rowAdder = 0, colAdder = 0;
+            int rowIncrement = _sourceRange.Rows;
+            int colIncrement = _sourceRange.Columns;
+            int rowRepeat = 1, colRepeat = 1;
+            if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Fill))
+                CalculateRepeat(ref rowRepeat, ref colRepeat);
+
+            for (int i = 0; i < colRepeat; i++)
+            {
+                for (int j = 0; j < rowRepeat; j++)
+                {
+                    CopyValuesToDestination(rowAdder, colAdder);
+                    rowAdder += rowIncrement;
+                }
+                rowAdder = 0;
+                colAdder += colIncrement;
+            }
             
             if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeDataValidations))
             {
@@ -123,6 +132,20 @@ namespace OfficeOpenXml.Core
 
             CopyFullColumn();
             CopyFullRow();
+        }
+
+        private void CalculateRepeat(ref int rowRepeat, ref int colRepeat)
+        {
+            
+            //calculate repetition times
+            if (_destinationRange.Rows % _sourceRange.Rows == 0)
+            {
+                rowRepeat = _destinationRange.Rows / _sourceRange.Rows;
+            }
+            if (_destinationRange.Columns % _sourceRange.Columns == 0)
+            {
+                colRepeat = _destinationRange.Columns / _sourceRange.Columns;
+            }
         }
 
         private void UpdateHiddenDictionaries()
@@ -589,50 +612,53 @@ namespace OfficeOpenXml.Core
                 cell.ThreadedComment = worksheet._threadedComments[cse.Value];
             }
         }
-        private void CopyValuesToDestination()
+
+        private void CopyValuesToDestination(int rowAdder, int colAdder)
         {
             int fromRow = _sourceRange._fromRow;
             int fromCol = _sourceRange._fromCol;
+
+
             foreach (var key in _copiedCells.OrderBy(x=>x.Key))
             {
                 var cell = key.Value;
                 if (EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeValues) && 
                     EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeStyles))
                 {
-                    _destinationRange._worksheet.SetStyleInner(cell.Row, cell.Column, cell.StyleID ?? 0);
+                    _destinationRange._worksheet.SetStyleInner(cell.Row + rowAdder, cell.Column + colAdder, cell.StyleID ?? 0);
                 }
                 else if(EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeStyles))
                 {
-                    _destinationRange._worksheet.SetValueInner(cell.Row, cell.Column, cell.Value);
+                    _destinationRange._worksheet.SetValueInner(cell.Row + rowAdder, cell.Column + colAdder, cell.Value);
                 }
                 else
                 {
-                    _destinationRange._worksheet.SetValueStyleIdInner(cell.Row, cell.Column, cell.Value, cell.StyleID ?? 0);
+                    _destinationRange._worksheet.SetValueStyleIdInner(cell.Row + rowAdder, cell.Column + colAdder, cell.Value, cell.StyleID ?? 0);
                 }
                 if(cell.Value is ExcelRichTextCollection)
                 {
                     var t = new ExcelRichTextCollection((Style.ExcelRichTextCollection)cell.Value, _destinationRange);
-                    _destinationRange._worksheet.SetValueInner(cell.Row, cell.Column,t);
+                    _destinationRange._worksheet.SetValueInner(cell.Row + rowAdder, cell.Column + colAdder, t);
                 }
 
                 if ((EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeFormulas) && EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeValues)) &&
                     cell.Formula != null)
                 {
                     //cell.Formula = ExcelRangeBase.UpdateFormulaReferences(cell.Formula.ToString(), _destinationRange._fromRow - fromRow, _destinationRange._fromCol - fromCol, 0, 0, _destinationRange.WorkSheetName, _destinationRange.WorkSheetName, true, true);
-                    _destinationRange._worksheet._formulas.SetValue(cell.Row, cell.Column, cell.Formula);
+                    _destinationRange._worksheet._formulas.SetValue(cell.Row + rowAdder, cell.Column + colAdder, cell.Formula);
                 }
 
                 if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHyperLinks) && 
                     cell.HyperLink != null)
                 {
-                    _destinationRange._worksheet._hyperLinks.SetValue(cell.Row, cell.Column, cell.HyperLink);
+                    _destinationRange._worksheet._hyperLinks.SetValue(cell.Row + rowAdder, cell.Column + colAdder, cell.HyperLink);
                 }
 
                 if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeThreadedComments) && 
                     cell.ThreadedComment != null)
                 {
                     var differentPackages = _destinationRange._workbook != _sourceRange._workbook;
-                    var tc = _destinationRange.Worksheet.Cells[cell.Row, cell.Column].AddThreadedComment();
+                    var tc = _destinationRange.Worksheet.Cells[cell.Row + rowAdder, cell.Column + colAdder].AddThreadedComment();
                     foreach (var c in cell.ThreadedComment.Comments)
                     {
                         if(differentPackages && _destinationRange._workbook.ThreadedCommentPersons[c.PersonId]==null)
@@ -651,7 +677,7 @@ namespace OfficeOpenXml.Core
 
                 if (cell.Flag != 0)
                 {
-                    _destinationRange._worksheet._flags.SetValue(cell.Row, cell.Column, cell.Flag);
+                    _destinationRange._worksheet._flags.SetValue(cell.Row + rowAdder, cell.Column + colAdder, cell.Flag);
                 }
 
                 if(EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeFormulas | ExcelRangeCopyOptionFlags.ExcludeValues) &&
@@ -661,7 +687,7 @@ namespace OfficeOpenXml.Core
 					{
 						CopyMetaDataToNewPackage(cell);
 					}
-					_destinationRange._worksheet._metadataStore.SetValue(cell.Row, cell.Column, cell.MetaData);
+					_destinationRange._worksheet._metadataStore.SetValue(cell.Row + rowAdder, cell.Column + colAdder, cell.MetaData);
                 }
             }
         }

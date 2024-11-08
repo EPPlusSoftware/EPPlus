@@ -17,8 +17,6 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Core;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using System.Collections.Specialized;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 
 namespace OfficeOpenXml
