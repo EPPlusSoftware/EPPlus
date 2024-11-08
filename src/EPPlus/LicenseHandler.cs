@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using System.IO;
-using static System.Net.WebRequestMethods;
-using System.Reflection;
-using System.ComponentModel;
+using OfficeOpenXml.Utils;
+using static OfficeOpenXml.EPPlusLicenseInfo;
 namespace OfficeOpenXml
 {
     internal class LicenseHandler
@@ -46,31 +45,89 @@ namespace OfficeOpenXml
             sw.WriteLine("For more information about EPPlus, see https://epplussoftware.com/");
             sw.Flush();            
         }
-
-        internal static bool ValidateLicenseKey(string licenseKey, EPPlusLicenseInfo licenseInfo=null)
+        internal static void TrialTagDocument(ExcelWorkbook wb)
         {
-            GetLicenseDataFromKey(licenseKey, out byte version, out string licenseNo, out DateTime fromDate, out DateTime toDate, out byte licenseType, out short numberOfLicenses, out byte[] signature, 512 / 8);
-            if (licenseInfo != null)
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            wb.Properties.Keywords = "EPPlus Trial License "+ExcelPackage.License.LicenseInfo.LicenseNumber;
+            wb.Properties.Comments = $"This workbook has been created with EPPlus using a trial license expiring: {ExcelPackage.License.LicenseInfo.LicenseValidTo:d}";
+            wb.Properties.Application = "EPPlus";
+            wb.Properties.AppVersion = $"{version.Major}.{version.Minor}";
+            var part = wb._package.ZipPackage.CreatePart(new Uri("/EPPlusLicense.txt", UriKind.Relative), "text/plain");
+            var stream = part.GetStream();
+            var sw = new StreamWriter(stream);
+            sw.WriteLine($"This workbook was created with the EPPlus library using a trial License: {ExcelPackage.License.LicenseInfo.LicenseNumber}.");
+            sw.WriteLine("For more information about EPPlus, see https://epplussoftware.com/");
+            sw.Flush();
+        }
+
+        internal static bool ValidateLicenseKey(string licenseKey, out EPPlusLicenseInfo licenseInfo)
+        {
+            GetLicenseDataFromKey(licenseKey, out byte version, out string licenseNo, out DateTime fromDate, out DateTime toDate, out EPPlusCommercialLicenseType licenseType, out short numberOfLicenses, out byte[] signature, 512 / 8);
+            
+            licenseInfo = new EPPlusLicenseInfo()
             {
-                licenseInfo.LicenseNumber = licenseNo;
-                licenseInfo.LicenseType = licenseType;
-                licenseInfo.LicenseValidFrom = fromDate;
-                licenseInfo.LicenseValidTo = toDate;
-                licenseInfo.NumberOfLicenses = numberOfLicenses;
-            }
-            var tb = GetLicenseData(version, licenseNo, fromDate, toDate, licenseType, numberOfLicenses); ;
+                LicenseNumber = licenseNo,
+                LicenseType = licenseType,
+                LicenseValidFrom = fromDate,
+                LicenseValidTo = EnumUtil.HasFlag(licenseType, EPPlusCommercialLicenseType.Subscription) ? toDate.AddDays(30) :toDate,
+                NumberOfLicensedDevelopers = numberOfLicenses
+            };
+            var tb = GetLicenseData(version, licenseNo, fromDate, toDate, (byte)licenseType, numberOfLicenses);
             var rsaClient = new RSACryptoServiceProvider();
             rsaClient.FromXmlString(_key);
-            var oid = CryptoConfig.MapNameToOID("SHA256");
-            if (rsaClient.VerifyData(tb, oid, signature))
+            if (rsaClient.VerifyData(tb, "2.16.840.1.101.3.4.2.1", signature))
             {                
-                return true;
+                return ValidateLicenseDates(licenseInfo);
             }
             else
             {
-                throw new InvalidLicenseKeyException("The license key is not valid. Please use the license key as stated on your license document");
+                throw new InvalidLicenseKeyException("The license key is not valid. Please use the license key as stated on your license document or on your account at https://epplussoftware.com");
             }
         }
+
+        private static bool ValidateLicenseDates(EPPlusLicenseInfo licenseInfo)
+        {
+            if (licenseInfo.LicenseValidFrom > DateTime.Today)
+            {
+                throw new LicenseException($"This EPPlus license is not valid until {licenseInfo.LicenseValidFrom:d}.");
+            }
+            if(EnumUtil.HasFlag(licenseInfo.LicenseType, EPPlusCommercialLicenseType.Subscription))
+            {
+                DateTime bd;
+                if(Debugger.IsAttached)
+                {
+                    bd = DateTime.Today; 
+                }
+                else
+                {
+                    var a = Assembly.GetExecutingAssembly();
+                    var fi = new FileInfo(a.Location);
+                    bd = fi.LastAccessTimeUtc.Date;
+                }
+
+                var extendUnderRenewal = ExcelPackage.License.ExtendUnderRenewal;
+                if (licenseInfo.LicenseValidTo.AddDays(extendUnderRenewal ? 15 : 0) < bd)
+                {
+                    var msg = $"This EPPlus license key is no longer valid {licenseInfo.LicenseValidTo:d}. If the license has been renewed, please use the new license key available on your license document or in your account on https://epplussoftware.com.";
+                    if(extendUnderRenewal==false)
+                    {
+                        msg += " To get 15 additional days validity off this key, you can set the License.ExtendUnderRenewal to true.";
+                    }
+                    throw new LicenseException(msg);
+                }
+            }
+            else
+            {
+                var vd = DateTime.Parse(EPPlusLicense._versionDate, CultureInfo.InvariantCulture);
+                if (licenseInfo.LicenseValidTo < vd)
+                {
+                    throw new LicenseException($"This license key is not valid for EPPlus versions release after {licenseInfo.LicenseValidTo:d}. EPPlus version release date: ({EPPlusLicense._versionDate:d}).If the license has been renewed, please use the new license key available on your license document or in your account on https://epplussoftware.com");
+                }
+            }
+
+            return true;
+        }
+
         static byte[] GetLicenseData(byte version, string licenseNo, DateTime fromDate, DateTime toDate, byte licenseType, short numberOfLicenses)
         {
             var ms = new MemoryStream();
@@ -91,7 +148,7 @@ namespace OfficeOpenXml
             ms.Read(tb, 0, (int)ms.Length);
             return tb;
         }
-        internal static void GetLicenseDataFromKey(string lk, out byte version, out string licenseNo, out DateTime fromDate, out DateTime toDate, out byte licenseType, out short noOfLicenses, out byte[] signature, int size)
+        internal static void GetLicenseDataFromKey(string lk, out byte version, out string licenseNo, out DateTime fromDate, out DateTime toDate, out EPPlusCommercialLicenseType licenseType, out short noOfLicenses, out byte[] signature, int size)
         {
             var by = Convert.FromBase64String(lk);
             var br = new BinaryReader(new MemoryStream(by));
@@ -105,7 +162,7 @@ namespace OfficeOpenXml
             fromDate = baseYear.AddDays(fdDays);
             var tdDays = br.ReadInt16();
             toDate = baseYear.AddDays(tdDays);
-            licenseType = br.ReadByte();
+            licenseType = (EPPlusCommercialLicenseType)br.ReadByte();
             noOfLicenses = br.ReadInt16();
         }
     }

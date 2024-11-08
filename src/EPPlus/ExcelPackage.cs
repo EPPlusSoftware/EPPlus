@@ -624,6 +624,9 @@ namespace OfficeOpenXml
                 //_licenseSet = _licenseType != null;
             }
         }
+        /// <summary>
+        /// Used to set the licenens.
+        /// </summary>
         public static EPPlusLicense License { get; } = new EPPlusLicense();
             
 //        internal static bool IsLicenseSet(List<ExcelInitializationError> initErrors)

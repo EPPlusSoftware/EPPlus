@@ -39,6 +39,7 @@ using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
 using System.ComponentModel;
+using static OfficeOpenXml.EPPlusLicenseInfo;
 
 namespace OfficeOpenXml
 {
@@ -1289,122 +1290,131 @@ namespace OfficeOpenXml
         /// For internal use only!
         /// </summary>
         internal void Save()  // Workbook Save
-		{
-			if (Worksheets.Count == 0)
-				throw new InvalidOperationException("The workbook must contain at least one worksheet");
+        {
+            if (Worksheets.Count == 0)
+                throw new InvalidOperationException("The workbook must contain at least one worksheet");
 
-			switch(ExcelPackage.License.LicenseType)
-			{
-				case EPPlusLicenseType.Commercial:
-					LicenseHandler.ValidateLicenseKey(ExcelPackage.License.LicenseKey);
-					break;
-				case EPPlusLicenseType.NonCommercialOrganization:
-                case EPPlusLicenseType.NonCommercialPersonal:
-					LicenseHandler.TagDocument(this);
-					break;
-            }
+            HandleLicense();
 
-			DeleteCalcChain();
+            DeleteCalcChain();
 
             SetXmlNodeBool("d:calcPr/@fullPrecision", FullPrecision, false);
-            
-			if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
-			{
-				if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault &&
-					Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
-				{
-					Part.ContentType = ContentTypes.contentTypeWorkbookDefault;
-				}
-			}
-			else
-			{
-				if (Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
-				{
-					Part.ContentType = ContentTypes.contentTypeWorkbookMacroEnabled;
-				}
-			}
 
-			UpdateDefinedNamesXml();
+            if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))
+            {
+                if (Part.ContentType != ContentTypes.contentTypeWorkbookDefault &&
+                    Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
+                {
+                    Part.ContentType = ContentTypes.contentTypeWorkbookDefault;
+                }
+            }
+            else
+            {
+                if (Part.ContentType != ContentTypes.contentTypeWorkbookMacroEnabled)
+                {
+                    Part.ContentType = ContentTypes.contentTypeWorkbookMacroEnabled;
+                }
+            }
 
-			if (HasLoadedPivotTables)
-			{
-				//Updates the Workbook Xml, so must be before saving the wookbook part 
-				SavePivotTableCaches();
-			}
+            UpdateDefinedNamesXml();
 
-			if (_externalLinks != null)
-			{
-				SaveExternalLinks();
-			}
+            if (HasLoadedPivotTables)
+            {
+                //Updates the Workbook Xml, so must be before saving the wookbook part 
+                SavePivotTableCaches();
+            }
 
-			// save the workbook
-			if (_workbookXml != null)
-			{
-				if (Worksheets[_package._worksheetAdd].Hidden != eWorkSheetHidden.Visible)
-				{
-					var ix = Worksheets.GetFirstVisibleSheetIndex();
-					if (ix > View.FirstSheet)
-					{
-						View.FirstSheet = ix;
-					}
-				}
-				_package.SavePart(WorkbookUri, _workbookXml);
-			}
+            if (_externalLinks != null)
+            {
+                SaveExternalLinks();
+            }
 
-			// save the properties of the workbook
-			if (_properties != null)
-			{
-				_properties.Save();
-			}
+            // save the workbook
+            if (_workbookXml != null)
+            {
+                if (Worksheets[_package._worksheetAdd].Hidden != eWorkSheetHidden.Visible)
+                {
+                    var ix = Worksheets.GetFirstVisibleSheetIndex();
+                    if (ix > View.FirstSheet)
+                    {
+                        View.FirstSheet = ix;
+                    }
+                }
+                _package.SavePart(WorkbookUri, _workbookXml);
+            }
 
-			//Save the Theme
-			ThemeManager.Save();
+            // save the properties of the workbook
+            if (_properties != null)
+            {
+                _properties.Save();
+            }
 
-			// save the style sheet
-			Styles.UpdateXml();
-			_package.SavePart(StylesUri, this.StylesXml);
+            //Save the Theme
+            ThemeManager.Save();
 
-			// save persons
-			_threadedCommentPersons?.Save(_package, Part, PersonsUri);
-			// save threaded comments
+            // save the style sheet
+            Styles.UpdateXml();
+            _package.SavePart(StylesUri, this.StylesXml);
 
-			_sharedStringsLookup = new Dictionary<string, int>();
-			_sharedStringsListNew = new List<SharedStringItemBase>();
-			// save all the open worksheets
-			var isProtected = Protection.LockWindows || Protection.LockStructure;
-			foreach (var worksheet in Worksheets)
-			{
-				if (isProtected && Protection.LockWindows)
-				{
-					worksheet.View.WindowProtection = true;
-				}
-				worksheet.Save();
-				worksheet.Part.SaveHandler = worksheet.SaveHandler;
-			}
+            // save persons
+            _threadedCommentPersons?.Save(_package, Part, PersonsUri);
+            // save threaded comments
 
-			// Issue 15252: save SharedStrings only once
-			Packaging.ZipPackagePart sharedStringsPart;
-			if (_package.ZipPackage.PartExists(SharedStringsUri))
-			{
-				sharedStringsPart = _package.ZipPackage.GetPart(SharedStringsUri);
-			}
-			else
-			{
-				sharedStringsPart = _package.ZipPackage.CreatePart(SharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", _package.Compression);
-				Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, SharedStringsUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/sharedStrings");
-			}
+            _sharedStringsLookup = new Dictionary<string, int>();
+            _sharedStringsListNew = new List<SharedStringItemBase>();
+            // save all the open worksheets
+            var isProtected = Protection.LockWindows || Protection.LockStructure;
+            foreach (var worksheet in Worksheets)
+            {
+                if (isProtected && Protection.LockWindows)
+                {
+                    worksheet.View.WindowProtection = true;
+                }
+                worksheet.Save();
+                worksheet.Part.SaveHandler = worksheet.SaveHandler;
+            }
 
-			sharedStringsPart.SaveHandler = SaveSharedStringHandler;
+            // Issue 15252: save SharedStrings only once
+            Packaging.ZipPackagePart sharedStringsPart;
+            if (_package.ZipPackage.PartExists(SharedStringsUri))
+            {
+                sharedStringsPart = _package.ZipPackage.GetPart(SharedStringsUri);
+            }
+            else
+            {
+                sharedStringsPart = _package.ZipPackage.CreatePart(SharedStringsUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sharedStrings+xml", _package.Compression);
+                Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, SharedStringsUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/sharedStrings");
+            }
 
-			//// Data validation
-			ValidateDataValidations();
+            sharedStringsPart.SaveHandler = SaveSharedStringHandler;
 
-			//VBA
-			if (_vba != null)
-			{
-				VbaProject.Save();
-			}
-		}
+            //// Data validation
+            ValidateDataValidations();
+
+            //VBA
+            if (_vba != null)
+            {
+                VbaProject.Save();
+            }
+        }
+
+        private void HandleLicense()
+        {
+            switch (ExcelPackage.License.LicenseType)
+            {
+                case EPPlusLicenseType.Commercial:
+                    LicenseHandler.ValidateLicenseKey(ExcelPackage.License.LicenseKey, out var licenseInfo);
+                    if (EnumUtil.HasFlag(licenseInfo.LicenseType, EPPlusCommercialLicenseType.Trial))
+                    {
+                        LicenseHandler.TrialTagDocument(this);
+                    }
+                    break;
+                case EPPlusLicenseType.NonCommercialOrganization:
+                case EPPlusLicenseType.NonCommercialPersonal:
+                    LicenseHandler.TagDocument(this);
+                    break;
+            }
+        }
 
         private void SaveExternalLinks()
 		{

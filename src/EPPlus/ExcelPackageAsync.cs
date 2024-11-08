@@ -396,7 +396,6 @@ namespace OfficeOpenXml
 
         #endregion
 
-
         internal async Task<byte[]> GetAsByteArrayAsync(bool save, CancellationToken cancellationToken)
         {
             CheckNotDisposed();

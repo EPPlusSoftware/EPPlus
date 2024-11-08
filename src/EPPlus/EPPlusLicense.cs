@@ -39,9 +39,14 @@ namespace OfficeOpenXml
         /// </summary>
         public EPPlusLicenseType? LicenseType { get; private set; }
         /// <summary>
-        /// License information from the license key. If no license key has been set, this propery contains null;
+        /// License information from the license key. If no license key has been set, this propery contains null.
         /// </summary>
         public EPPlusLicenseInfo LicenseInfo { get; internal set; }
+        /// <summary>
+        /// If your subscription has expired past the <see cref="EPPlusLicenseInfo.LicenseValidTo"/> date, you can set this flag to get a 15 additional days to renew the license.
+        /// </summary>
+        public bool ExtendUnderRenewal { get; set; }
+
         internal bool IsLicenseSet(List<ExcelInitializationError> initErrors)
         {
             if (_licenseSet == true)
@@ -90,22 +95,13 @@ namespace OfficeOpenXml
         /// <param name="licenseKey">The licens _key you recieved with your license</param>
         public void SetLicenseCommercial(string licenseKey)
         {
-            LicenseInfo = new EPPlusLicenseInfo();
-            if (LicenseHandler.ValidateLicenseKey(licenseKey, LicenseInfo))
+            if (LicenseHandler.ValidateLicenseKey(licenseKey, out EPPlusLicenseInfo licenseInfo))
             {
+                LicenseInfo = licenseInfo;
                 LicenseKey = licenseKey;
                 LicenseType = EPPlusLicenseType.Commercial;
                 Source = EPPlusLicenseSource.Code;
                 _licenseSet = true;
-                if (LicenseInfo.LicenseValidFrom > DateTime.Today)
-                {
-                    throw new LicenseException($"This license is not valid until {LicenseInfo.LicenseValidFrom:d}.");
-                }
-                var vd = DateTime.Parse(_versionDate, CultureInfo.InvariantCulture);
-                if (LicenseInfo.LicenseValidTo < vd)
-                {
-                    throw new LicenseHasExpiredException($"This license expired {LicenseInfo.LicenseValidTo:d} and is not valid for this version of EPPlus({_versionDate:d}).");
-                }
             }
         }
 

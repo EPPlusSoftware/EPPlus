@@ -26,7 +26,7 @@ namespace EPPlusTest
         [TestMethod]
         public void CommercialFunction2Test()
         {
-            var lk = "tr2WIfC2impK369YhL0I2Myh+4WjS8/LRt4LBIko0YwQKaUObbBcFXQEwNJQcSqmZeXK2p5DsIeHvCubvi4owAEGQjJDNzFG5wc8ARgEARQA";
+            var lk = "hnh8pj+e4dKUVwUwL2lW3b+4sP00YAF2lrE6W8BdD48HUTVGN3htPE8kdcIm+TEmwYm9YtBBcIbAQuJLIyl1+AEGQjM1OTc45QcfAYwCCgEA";
             ExcelPackage.License.SetLicenseCommercial(lk);
             using (var p = new ExcelPackage())
             {
@@ -35,7 +35,45 @@ namespace EPPlusTest
                 SaveWorkbook("LicenseKeyComercial.xlsx", p);
             }
         }
-
+        [TestMethod]
+        public void CommercialTrialSubsciptionTest()
+        {
+            //var lk = "XSEYckEhnPyBUH6YxHLBTy1j78xa6iVvI07lmU7dUr0olp0Tjmrwr0KTg46J5XIEvihxCnIyHAfg6mvO2D8/bgEGQjVGNzRC6Ac2AVYBIQ0A";
+            //var lk = "E6RmZuSL2nvbizQc+sPbyJ/WFYGOhStoy321XgfjCy3K/iEp9TY0+UROWERWUYyk2f2wsx7YlaQXJSABjQyuGgEGQjA4RDc35QdWAOEGEQoA";
+            var lk = "fX47BAtakq4T6v/K/zosjWipM9npn2yVWLhFn8MAsdDGJc2fN5+Lsd6rcRc4c1PzlF1IVX1UoDQbEkM+IahCAAEGQjA4RDc35QdWAMMBEQoA";
+            ExcelPackage.License.SetLicenseCommercial(lk);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                Assert.AreEqual(lk, ExcelPackage.License.LicenseKey);
+                Assert.AreEqual(EPPlusCommercialLicenseType.Trial | EPPlusCommercialLicenseType.Subscription, ExcelPackage.License.LicenseInfo.LicenseType);
+                SaveWorkbook("LicenseKeyComercial.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void CommercialSubscriptionExpired()
+        {
+            var lk = "ayWztKDgygaybN77mot4cA0NlE/QBf3riVa/OxuNFm6SbkkbJ1j3KJZyVRq3euJxg2LVbpZKlrc8rTgAgeM4wwEGQjhEQjAx6AdQAIIAAQIA";
+            ExcelPackage.License.SetLicenseCommercial(lk);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                Assert.AreEqual(lk, ExcelPackage.License.LicenseKey);
+                SaveWorkbook("LicenseKeyComercial.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void CommercialTrialExpired()
+        {
+            var lk = "EIAhDzH0DqT+b827sKZKjnvz8dC3/4tu5tCr8/BeYoC6aMgR/0yIhTYBqZXg1sZbH60L1qZtvI39r3z9dkQAzQEGQjJDNzFG5wc8AaoCAQEA";
+            ExcelPackage.License.SetLicenseCommercial(lk);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                Assert.AreEqual(lk, ExcelPackage.License.LicenseKey);
+                SaveWorkbook("LicenseKeyComercial.xlsx", p);
+            }
+        }        
         [TestMethod]
         public void NonCommercialOrganizationFunctionTest()
         {
