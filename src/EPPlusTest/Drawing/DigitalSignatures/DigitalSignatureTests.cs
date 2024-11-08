@@ -76,6 +76,39 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         }
 
         [TestMethod]
+        public void CreateFunctionalStampTemplateFromValidEmf()
+        {
+            var path = GetOutputFile("", "bmpValidStamp.emf").FullName;
+
+            var validImage = new EmfImage();
+            validImage.Read(path);
+            var vRecords = validImage.records;
+
+            ((EMR_INTERSECTCLIPRECT)vRecords[58]).Clip = new RectLObject(10, 4, 128, 30);
+
+            validImage.ResetWorldOrigin();
+
+            var dibits = (EMR_STRETCHDIBITS)vRecords.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            dibits.UpdateToImage(@"C:\Users\OssianEdström\Pictures\TempBitmap.bmp");
+
+            var textRecords = vRecords.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Cast<EMR_EXTTEXTOUTW>().ToList();
+            textRecords[0].Text = "TemplateDate";
+            textRecords[0].AdjustReferenceToCenterText(127, 10);
+
+            textRecords[1].Text = "TemplateTitle";
+            textRecords[1].AdjustReferenceToCenterText(127, 10);
+
+            textRecords[2].Text = "TemplateName";
+            textRecords[2].AdjustReferenceToCenterText(127, 10);
+
+            validImage.InsertSaveAndRestoreRecords(51, 62);
+
+            var newTemplatePath = GetOutputFile("", "NewValidBmpStampTemplate.emf").FullName;
+            validImage.Save(newTemplatePath);
+        }
+
+        [TestMethod]
         public void CreateDigitalSignatureLineAndSignIt()
         {
             using (ExcelPackage package = OpenPackage("DigSig_SignatureLine.xlsx", true))
@@ -93,8 +126,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var sLine = ws.AddSignatureLine();
                 sLine.Signer = "ASigner";
                 sLine.SignatureText = "Ossian";
+                sLine.IsStamp = true;
                 //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\LessExtremeWide.bmp");
-                sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
+               // sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
+                sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\128Square.bmp");
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
                 var info = digSig.SigningInformation;

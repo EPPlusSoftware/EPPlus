@@ -169,7 +169,7 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
                 var rounded = Math.Round(deviceUnits * 10, MidpointRounding.AwayFromZero);
                 var final = rounded / 10;
 
-                uint simplifiedWidth = (uint)(Math.Round(final, MidpointRounding.AwayFromZero));
+                uint simplifiedWidth = (uint)(Math.Round(deviceUnits, MidpointRounding.AwayFromZero));
                 spacingBuffer.Add(simplifiedWidth);
             }
 
