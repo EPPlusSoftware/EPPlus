@@ -10,17 +10,47 @@ namespace OfficeOpenXml.Drawing
 {
     public class ExcelSignatureLine : ExcelVmlDrawingSignatureLine
     {
+        private string _signatureText = "";
+
         /// <summary>
         /// The signature itself as text.
         /// Has no point in a signature stamp
         /// </summary>
-        public string SignatureText = "";
+        public string SignatureText
+        {
+            get
+            {
+                return _signatureText;
+            }
+            set
+            {
+                if(string.IsNullOrEmpty(value))
+                {
+                    throw new InvalidOperationException($"Cannot set SignatureText of SignatureLine object {this} to null or empty");
+                }
+                _signatureText = value;
+                _signatureImage = null;
+            }
+        }
+
+        private byte[] _signatureImage = null;
 
         /// <summary>
         /// Note that while SignatureText and SignatureImage are Allowed to both exist.
         /// SignatureImage will override SignatureText visually if it exists.
         /// </summary>
-        public byte[] SignatureImage;
+        public byte[] SignatureImage
+        {
+            get
+            {
+                return _signatureImage;
+            }
+            set
+            {
+                _signatureImage = value;
+                _signatureText = "";
+            }
+        }
 
         ExcelDigitalSignature Signature = null;
         SignatureLineTemplateEmf Emf;
@@ -70,6 +100,7 @@ namespace OfficeOpenXml.Drawing
             if(SignatureImage != null && SignatureImage.Length > 0)
             {
                 var imageRecord = (EMR_STRETCHDIBITS)Emf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
                 bool isBmp;
                 using(var ms = new MemoryStream(SignatureImage))
                 {
@@ -77,13 +108,18 @@ namespace OfficeOpenXml.Drawing
                 }
                 if(isBmp)
                 {
-                    imageRecord.ReadBmpAndUpdateImage(SignatureImage);
+                    if (IsStamp == false)
+                    {
+                        imageRecord.MaxHeight = 47.2f;
+                        imageRecord.MaxWidth = 205;
+                    }
+                    imageRecord.ReadBmpAndUpdateImage(SignatureImage, IsStamp, !IsStamp);
                 }
             }
 
             if (ShowSignDate)
             {
-                Emf.timeStamp.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                Emf.TimeStamp = DateTime.Now.ToString("yyyy-MM-dd");
             }
 
             ValidSigLnImage = Convert.ToBase64String(Emf.GetBytes());

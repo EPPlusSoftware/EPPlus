@@ -163,6 +163,8 @@ namespace OfficeOpenXml.DigitalSignatures
                 if(SignatureLine != null)
                 {
                     SignatureLine.SaveSignatureLineWithDigitalSignature(Certificate.IssuerName.Name.Substring(3));
+                    ValidSigLnImage = SignatureLine.ValidSigLnImage;
+                    InvalidSigLnImg = SignatureLine.InvalidSigLnImg;
                 }
 
                 var signatureComments = new List<string>

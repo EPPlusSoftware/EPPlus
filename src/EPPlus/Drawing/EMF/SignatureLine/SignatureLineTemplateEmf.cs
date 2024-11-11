@@ -35,11 +35,24 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
+
+        internal string TimeStamp
+        {
+            set
+            {
+                timeStamp.Text = AdjustText(39, value);
+                if (IsStamp)
+                {
+                    timeStamp.AdjustReferenceToCenterText(maxWidth, minWidth);
+                }
+            }
+        }
+
         internal string SuggestedTitle
         {
             set
             {
-                suggestedTitleObject.Text = AdjustText(39, value);
+                suggestedTitleObject.Text = value;
                 if(IsStamp)
                 {
                     suggestedTitleObject.AdjustReferenceToCenterText(maxWidth, minWidth);
@@ -90,42 +103,6 @@ namespace OfficeOpenXml.Drawing.EMF
             Save("C:\\epplusTest\\Testoutput\\LoadedFromZip.emf");
         }
 
-        ////Template contains records for both valid and invalid files
-        ////Remove the ones for the Invalid template.
-        //internal void RemoveInvalidRecords()
-        //{
-        //    if(IsStamp)
-        //    {
-        //        //Stamp records have a different structure
-        //        for (int i = 51; i <= 68; i++)
-        //        {
-        //            //A removed record automatically makes the next take its place
-        //            records.Remove(records[51]);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        //We remove records "backwards" so that indicies for the next operation do not change.
-
-        //        for (int i = 69; i <= 75; i++)
-        //        {
-        //            //A removed record automatically makes the next take its place
-        //            records.Remove(records[69]);
-        //        }
-
-        //        records.Remove(records[62]);
-
-        //        for (int i = 54; i <= 60; i++)
-        //        {
-        //            //A removed record automatically makes the next take its place
-        //            records.Remove(records[51]);
-        //        }
-        //    }
-        //}
-
-        ////Template contains records for both valid and invalid files
-        ////Remove the ones for the Valid template.
-        ///
         internal void RemoveValidRecords()
         {
             for (int i = 63; i <= 79; i++)

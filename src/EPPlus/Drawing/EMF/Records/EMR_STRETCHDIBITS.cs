@@ -25,8 +25,8 @@ namespace OfficeOpenXml.Drawing.EMF
 
         //Variables for replacing/resizing the image.
         //If behaves strangely reset SETWORLDTRANSFORM and MODIFYWORLDTRANSFORM records in EmfImage file.
-        private int _targetHeight = 75;
-        private int _targetWidth = 111;
+        internal float MaxHeight = 75;
+        internal float MaxWidth = 111;
 
         internal byte[] BitsSrc
         {
@@ -152,7 +152,7 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        private void UpdateImage(BitmapHandler handler)
+        private void UpdateImage(BitmapHandler handler, bool centerImage = false, bool adjustYOriginToHeight = true)
         {
             bitMapHeader = handler.informationHeader;
             cbBmiSrc = bitMapHeader.sizeOfHeader;
@@ -161,30 +161,53 @@ namespace OfficeOpenXml.Drawing.EMF
 
             cxSrc = handler.informationHeader.pixelWidth;
             cySrc = handler.informationHeader.pixelHeight;
-            RecalculateImage();
+            RecalculateImage(centerImage, adjustYOriginToHeight);
         }
 
-        internal void RecalculateImage()
+        /// <summary>
+        /// Please Note: Assumes world origin has been reset.
+        /// </summary>
+        internal void RecalculateImage(bool centerImage = false, bool adjustYOriginToHeight = true)
         {
             var xSource = cxSrc;
             var ySource = cySrc;
 
-            double xRatio = (double)111 / (double)xSource;
-            double yRatio = (double)75 / (double)ySource;
+            double xRatio = (double)MaxWidth / (double)xSource;
+            double yRatio = (double)MaxHeight / (double)ySource;
 
             double ratio = xRatio < yRatio ? xRatio : yRatio;
 
             cxDest = Convert.ToInt32(xSource * ratio);
             cyDest = Convert.ToInt32(ySource * ratio);
 
-            xDest = Convert.ToInt32((111f - (xSource * ratio)) / 2);
-            yDest = Convert.ToInt32((75f - (ySource * ratio)) / 2);
+            //minor pixel adjustment to be closer to excel
+            if(cyDest == MaxHeight)
+            {
+                if(cxDest == cyDest)
+                {
+                    cxDest -= 1;
+                }
+                cyDest -= 1;
+            }
+
+            if(centerImage)
+            {
+                xDest = Convert.ToInt32((MaxWidth - (xSource * ratio)) / 2);
+                yDest = Convert.ToInt32((MaxHeight - (ySource * ratio)) / 2);
+            }
+            else if(adjustYOriginToHeight)
+            {
+                if(cyDest <= MaxHeight)
+                {
+                    yDest = Convert.ToInt32(MaxHeight - (ySource * ratio));
+                }
+            }
         }
 
-        internal void ReadBmpAndUpdateImage(byte[] bmp)
+        internal void ReadBmpAndUpdateImage(byte[] bmp, bool centerImage = false, bool adjustYOriginToHeight = true)
         {
             var handler = new BitmapHandler(bmp);
-            UpdateImage(handler);
+            UpdateImage(handler, centerImage, adjustYOriginToHeight);
         }
 
         internal override void WriteBytes(BinaryWriter bw)
