@@ -1,20 +1,19 @@
-﻿using OfficeOpenXml.DigitalSignatures;
-using OfficeOpenXml.Drawing.EMF;
-using OfficeOpenXml.Packaging;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Xml;
-using OfficeOpenXml.Drawing.Vml;
-using System;
-using System.IO;
 
 namespace OfficeOpenXml.Drawing
 {
-    public class ExcelSignatureLine : ExcelVmlDrawingSignatureLine
+    public class ExcelSignatureLine : ExcelSignatureLineStamp
     {
         private string _signatureText = "";
 
         /// <summary>
-        /// The signature itself as text.
-        /// Has no point in a signature stamp
+        /// The Signature itself.
+        /// Cannot be set if IsStamp is true.
+        /// Note that setting SignatureText will erase SignatureImage and vice-versa.
         /// </summary>
         public string SignatureText
         {
@@ -24,112 +23,27 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                if(string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value))
                 {
-                    throw new InvalidOperationException($"Cannot set SignatureText of SignatureLine object {this} to null or empty");
+                    throw new InvalidOperationException($"Cannot set SignatureText of SignatureLine object {this} to null or empty.");
+                }
+                if (IsStamp)
+                {
+                    throw new InvalidOperationException($"Cannot set SignatureText on a SignatureStamp object.");
                 }
                 _signatureText = value;
                 _signatureImage = null;
             }
         }
 
-        private byte[] _signatureImage = null;
-
-        /// <summary>
-        /// Note that while SignatureText and SignatureImage are Allowed to both exist.
-        /// SignatureImage will override SignatureText visually if it exists.
-        /// </summary>
-        public byte[] SignatureImage
+        internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(ws, topNode, ns, lineId)
         {
-            get
-            {
-                return _signatureImage;
-            }
-            set
-            {
-                _signatureImage = value;
-                _signatureText = "";
-            }
+            IsStamp = false;
         }
 
-        ExcelDigitalSignature Signature = null;
-        SignatureLineTemplateEmf Emf;
-
-        internal string InvalidSigLnImg;
-        internal string ValidSigLnImage;
-
-        internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId)
+        internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(ws, topNode, ns)
         {
-        }
-
-        internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
-        {
-        }
-
-        internal void SaveMedia(ZipPackagePart part)
-        {
-            Emf = new SignatureLineTemplateEmf(IsStamp);
-            Emf.SuggestedSigner = Signer;
-            Emf.SuggestedTitle = Title;
-            Emf.timeStamp.Text = "";
-            if(Emf.signTextObject != null)
-            {
-                Emf.SignText = "";
-            }
-
-            Emf.Save("C:\\epplusTest\\Testoutput\\image1Generated.emf");
-
-            //Note: Intentionally not disposed.
-            MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
-            Emf.SaveToStream(ms);
-        }
-
-        internal void SaveSignatureLineWithDigitalSignature(string signerName)
-        {
-            if (IsStamp == false)
-            {
-                Emf.SignText = SignatureText;
-                Emf.SignedBy = signerName;
-            }
-            else
-            {
-                //Stamps replace suggested with signername
-                Emf.SuggestedSigner = signerName;
-            }
-
-            if(SignatureImage != null && SignatureImage.Length > 0)
-            {
-                var imageRecord = (EMR_STRETCHDIBITS)Emf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-
-                bool isBmp;
-                using(var ms = new MemoryStream(SignatureImage))
-                {
-                    isBmp = ImageReader.GetPictureType(ms, false) == ePictureType.Bmp;
-                }
-                if(isBmp)
-                {
-                    if (IsStamp == false)
-                    {
-                        imageRecord.MaxHeight = 47.2f;
-                        imageRecord.MaxWidth = 205;
-                    }
-                    imageRecord.ReadBmpAndUpdateImage(SignatureImage, IsStamp, !IsStamp);
-                }
-            }
-
-            if (ShowSignDate)
-            {
-                Emf.TimeStamp = DateTime.Now.ToString("yyyy-MM-dd");
-            }
-
-            ValidSigLnImage = Convert.ToBase64String(Emf.GetBytes());
-            Emf.Save("C:\\epplusTest\\Testoutput\\ValidTemplateNew.emf");
-
-            Emf.timeStamp.Text = "";
-            Emf.InsertInvalidRecords();
-
-            InvalidSigLnImg = Convert.ToBase64String(Emf.GetBytes());
-            Emf.Save("C:\\epplusTest\\Testoutput\\InvalidTemplateNew.emf");
+            IsStamp = false;
         }
     }
 }

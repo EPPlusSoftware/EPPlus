@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Drawing.Vml
         internal CellStore<int> _drawingsCellStore;
         internal Dictionary<string, int> _drawingsDict = new Dictionary<string, int>();
         internal List<ExcelVmlDrawingBase> _drawings = new List<ExcelVmlDrawingBase>();
-        public List<ExcelSignatureLine> SignatureLines = new List<ExcelSignatureLine>();
+        public List<ExcelSignatureLineStamp> SignatureLines = new List<ExcelSignatureLineStamp>();
         Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
 
         internal ExcelVmlDrawingCollection(ExcelWorksheet ws, Uri uri) :
@@ -87,7 +87,7 @@ namespace OfficeOpenXml.Drawing.Vml
                     case "Pict":
                         if (node.SelectSingleNode("@id").InnerText == "_x0000_s1025")
                         {
-                            var sigLine = new ExcelSignatureLine(ws, node, NameSpaceManager);
+                            var sigLine = new ExcelSignatureLineStamp(ws, node, NameSpaceManager);
                             //TODO: Possibly change so vmldrawings only holds/lookups ids to the wb?
                             //So that the objects themselves are ensured to only be in one place.
                             SignatureLines.Add(sigLine);
@@ -215,8 +215,43 @@ namespace OfficeOpenXml.Drawing.Vml
             node.InnerXml = vml;
             return node;
         }
+        internal ExcelSignatureLineStamp AddSignatureLineStamp()
+        {
+            Guid lineId = Guid.NewGuid();
+            var node = AddSignatureLineBase(lineId);
 
+            var sLine = new ExcelSignatureLineStamp(_ws, node, NameSpaceManager, lineId);
+
+            AddSignatureLineToPackage(lineId, sLine);
+            return sLine;
+        }
         internal ExcelSignatureLine AddSignatureLine()
+        {
+            Guid lineId = Guid.NewGuid();
+            var node = AddSignatureLineBase(lineId);
+
+            var sLine = new ExcelSignatureLine(_ws, node, NameSpaceManager, lineId);
+
+            AddSignatureLineToPackage(lineId, sLine);
+            return sLine;
+        }
+
+        internal void AddSignatureLineToPackage(Guid lineId, ExcelSignatureLineStamp sLine)
+        {
+            int newID = 1;
+            var uri = XmlHelper.GetNewUri(_ws._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
+            _ws._package.ZipPackage.CreatePart(uri, "image/x-emf", CompressionLevel.None, "emf");
+
+            var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(Uri, uri), TargetMode.Internal, ExcelPackage.schemaImage);
+            sLine.RelId = rel.Id;
+
+            SignatureLines.Add(sLine);
+            _ws.Workbook.DigitialSignatures.AddExcelSignatureLine(sLine);
+            _drawings.Add(sLine);
+        }
+
+
+        internal XmlNode AddSignatureLineBase(Guid lineId)
         {
             var xmlNode = VmlDrawingXml.ChildNodes[0];
             var shapeTypeNode = VmlDrawingXml.DocumentElement.SelectSingleNode("v:shapetype[@id='_x0000_t75']", NameSpaceManager);
@@ -254,24 +289,9 @@ namespace OfficeOpenXml.Drawing.Vml
                 VmlDrawingXml.DocumentElement.AppendChild(shapeTypeElement);
             }
 
-            Guid lineId = Guid.NewGuid();
             XmlNode node = AddDigitalSignatureLineDrawing(lineId);
             VmlDrawingXml.DocumentElement.AppendChild(node);
-
-            var sLine = new ExcelSignatureLine(_ws, node, NameSpaceManager, lineId);
-
-            int newID = 1;
-            var uri = XmlHelper.GetNewUri(_ws._package.ZipPackage, "/xl/media/image{0}.emf", ref newID);
-            _ws._package.ZipPackage.CreatePart(uri, "image/x-emf", CompressionLevel.None, "emf");
-
-            var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(Uri, uri), TargetMode.Internal, ExcelPackage.schemaImage);
-            sLine.RelId = rel.Id;
-
-            SignatureLines.Add(sLine);
-            _ws.Workbook.DigitialSignatures.AddExcelSignatureLine(sLine);
-            _drawings.Add(sLine);
-
-            return sLine;
+            return node;
         }
         public XmlNode AddDigitalSignatureLineDrawing(Guid id)
         {

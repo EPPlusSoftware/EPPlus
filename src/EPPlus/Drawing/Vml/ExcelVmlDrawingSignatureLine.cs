@@ -148,7 +148,7 @@ namespace OfficeOpenXml.Drawing.Vml
         /// <summary>
         /// True if digital signature is stamp type. False by default
         /// </summary>
-        public bool IsStamp
+        internal bool IsStamp
         {
             get
             {

@@ -219,8 +219,6 @@ namespace OfficeOpenXml.Drawing.EMF
         //    return testStuff;
         //}
 
-
-
         internal override void WriteBytes(BinaryWriter bw)
         {
             base.WriteBytes(bw);

@@ -93,7 +93,7 @@ namespace EPPlusTest
         public void CheckInvalidTemplate()
         {
             var invalidTemplate = new SignatureLineTemplateEmf();
-            invalidTemplate.RemoveValidRecords();
+            invalidTemplate.InsertInvalidRecords();
             var records = invalidTemplate.records;
 
             invalidTemplate.signTextObject.Text = "TemplateSignature";

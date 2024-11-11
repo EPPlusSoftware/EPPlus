@@ -1032,7 +1032,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Collection of signatureLines
         /// </summary>
-        public List<ExcelSignatureLine> SignatureLines
+        public List<ExcelSignatureLineStamp> SignatureLines
         {
             get
             {
@@ -3993,6 +3993,15 @@ namespace OfficeOpenXml
         public ExcelSignatureLine AddSignatureLine()
         {
             return VmlDrawings.AddSignatureLine();
+        }
+
+        /// <summary>
+        /// Add an empty signatureLine Stamp to the worksheet
+        /// </summary>
+        /// <returns></returns>
+        public ExcelSignatureLineStamp AddSignatureLineStamp()
+        {
+            return VmlDrawings.AddSignatureLineStamp();
         }
 
         #endregion

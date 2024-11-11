@@ -863,7 +863,7 @@ namespace OfficeOpenXml
 			}
 		}
 
-        internal Dictionary<Guid, ExcelSignatureLine> _signatureLinesWorkbook = new Dictionary<Guid, ExcelSignatureLine>();
+        internal Dictionary<Guid, ExcelSignatureLineStamp> _signatureLinesWorkbook = new Dictionary<Guid, ExcelSignatureLineStamp>();
 
         internal ExcelDigitalSignatureCollection _digSig = null;
 

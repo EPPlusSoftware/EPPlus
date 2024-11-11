@@ -92,12 +92,12 @@ namespace OfficeOpenXml.DigitalSignatures
             return digSig;
         }
 
-        internal void AddExcelSignatureLine(ExcelSignatureLine line)
+        internal void AddExcelSignatureLine(ExcelSignatureLineStamp line)
         {
             _wb._signatureLinesWorkbook.Add(line.SetupID, line);
         }
 
-        internal ExcelSignatureLine GetSignatureLineBySignature(ExcelDigitalSignature digitalSignature)
+        internal ExcelSignatureLineStamp GetSignatureLineBySignature(ExcelDigitalSignature digitalSignature)
         {
             if(digitalSignature.SignatureLineSetupId != null)
             {

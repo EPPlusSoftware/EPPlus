@@ -47,9 +47,9 @@ namespace OfficeOpenXml.DigitalSignatures
         public bool Verified { get; private set; } = false;
         QualifyingProperties qualifyingProperties;
 
-        ExcelSignatureLine _signatureLine;
+        ExcelSignatureLineStamp _signatureLine;
 
-        internal ExcelSignatureLine SignatureLine
+        internal ExcelSignatureLineStamp SignatureLine
         {
             get
             {
@@ -318,14 +318,18 @@ namespace OfficeOpenXml.DigitalSignatures
                 props.sigInfo1.SetUpId = $"{{{SignatureLine.SetupID.ToString().ToUpper()}}}";
                 props.sigInfo1.SignatureProviderID = SignatureLine.ProvID;
 
-                if (SignatureLine.SignatureText != null)
+                if(SignatureLine is ExcelSignatureLine)
                 {
-                    props.sigInfo1.SignatureText = SignatureLine.SignatureText;
+                    var sigLine = SignatureLine as ExcelSignatureLine;
+                    if (sigLine.SignatureText != null)
+                    {
+                        props.sigInfo1.SignatureText = sigLine.SignatureText;
+                    }
                 }
 
-                if (SignatureLine.SignatureImage != null && SignatureLine.SignatureImage.Length > 0)
+                if (SignatureLine.SignatureImage != null && SignatureLine.SignatureImage.ImageBytes.Length > 0)
                 {
-                    var base64SLineString = Convert.ToBase64String(SignatureLine.SignatureImage);
+                    var base64SLineString = Convert.ToBase64String(SignatureLine.SignatureImage.ImageBytes);
                     props.sigInfo1.SignatureImage = base64SLineString;
                 }
             }

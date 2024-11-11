@@ -210,9 +210,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var sLine = ws.AddSignatureLine();
                 sLine.Signer = "ASigner";
-                sLine.SignatureText = "Ossian";
                 //sLine.IsStamp = true;
-                sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\LessExtremeWide.bmp");
+                sLine.SignatureImage = new ExcelImage("C:\\Users\\OssianEdström\\Pictures\\LessExtremeWide.bmp");
                 //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
                 //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\128Square.bmp");
 
@@ -254,7 +253,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 sLine.Title = "Developer";
                 //sLine.IsStamp = true;
-                sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\TempBitmap.bmp");
+                sLine.SignatureImage = new ExcelImage("C:\\Users\\OssianEdström\\Pictures\\TempBitmap.bmp");
                 //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
@@ -316,7 +315,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         public void TestTextLength()
         {
             var inValidTemplate = new SignatureLineTemplateEmf();
-            inValidTemplate.RemoveValidRecords();
+            inValidTemplate.InsertInvalidRecords();
+
             string testText = "IHaveAVeryVeryVeryVerylon";
             inValidTemplate.SignText = testText;
             Assert.AreEqual(inValidTemplate.signTextObject.Text, testText);
@@ -355,7 +355,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         public void CheckInValidTemplate()
         {
             var inValidTemplate = new SignatureLineTemplateEmf();
-            inValidTemplate.RemoveValidRecords();
+            inValidTemplate.InsertInvalidRecords();
             var records = inValidTemplate.records;
 
             inValidTemplate.SignText = "IHaveAVeryVeryVeryVerylon";
