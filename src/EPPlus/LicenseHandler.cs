@@ -69,7 +69,7 @@ namespace OfficeOpenXml
                 LicenseNumber = licenseNo,
                 LicenseType = licenseType,
                 LicenseValidFrom = fromDate,
-                LicenseValidTo = EnumUtil.HasFlag(licenseType, EPPlusCommercialLicenseType.Subscription) ? toDate.AddDays(30) :toDate,
+                LicenseValidTo = EnumUtil.HasFlag(licenseType, EPPlusCommercialLicenseType.Subscription) && EnumUtil.HasNotFlag(licenseType, EPPlusCommercialLicenseType.TemporaryKey) ? toDate.AddDays(30) :toDate,
                 NumberOfLicensedDevelopers = numberOfLicenses
             };
             var tb = GetLicenseData(version, licenseNo, fromDate, toDate, (byte)licenseType, numberOfLicenses);

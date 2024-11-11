@@ -63,6 +63,19 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void CommercialTemporaryKey()
+        {
+            var lk = "L1lok5jOXPahvNNakCHgcOjUTXKzLpThKUT4DCS7IamteJas3d2K4CH6KBoym5I1X1phiI5ibcnSoS1XBEOPmwEGQjJDNzFG5wc8AcYCQQEA";
+            ExcelPackage.License.SetLicenseCommercial(lk);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                Assert.AreEqual(lk, ExcelPackage.License.LicenseKey);
+                SaveWorkbook("LicenseKeyComercial.xlsx", p);
+            }
+        }        
+        
+        [TestMethod]
         public void CommercialTrialExpired()
         {
             var lk = "EIAhDzH0DqT+b827sKZKjnvz8dC3/4tu5tCr8/BeYoC6aMgR/0yIhTYBqZXg1sZbH60L1qZtvI39r3z9dkQAzQEGQjJDNzFG5wc8AaoCAQEA";

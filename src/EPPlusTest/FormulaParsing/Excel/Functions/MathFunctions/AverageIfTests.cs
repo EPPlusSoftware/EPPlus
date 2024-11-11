@@ -44,7 +44,6 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
         private EpplusExcelDataProvider _provider;
         private ParsingContext _parsingContext;
         private ExcelWorksheet _worksheet;
-
         [TestInitialize]
         public void Initialize()
         {
@@ -53,13 +52,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
             _parsingContext = ParsingContext.Create();
             _worksheet = _package.Workbook.Worksheets.Add("testsheet");
         }
-
         [TestCleanup]
         public void Cleanup()
         {
             _package.Dispose();
         }
-
         [TestMethod]
         public void AverageIfNumeric()
         {
