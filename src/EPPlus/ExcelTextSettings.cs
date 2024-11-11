@@ -83,7 +83,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// The ammount of rows to check for when autofitting, starts from top. A value set to 0 or lower means checking all rows in the column.
         /// </summary>
-        public int AutofitRows = 0;
+        public int AutofitRows = 5000;
         /// <summary>
         /// Returns an instance of the internal generic text measurer
         /// </summary>

@@ -1740,15 +1740,16 @@ namespace EPPlusTest
             ws.Columns[1].AutoFit();
         }
         [TestMethod]
-        public void AutoFitColumn2()
+        public void AutoFitColumnTest()
         {
-            var p = new ExcelPackage("C:\\epplusTest\\Workbooks\\BigAutoFitBook.xlsx");
+            var p = OpenTemplatePackage("AutoFitWorkbook.xlsx");
             var ws = p.Workbook.Worksheets[0];
             var start = DateTime.Now;
             ws.Columns[1].AutoFit();
             var end = DateTime.Now;
             TimeSpan span = end - start;
-            p.SaveAs("C:\\epplusTest\\Testoutput\\BigAutoFitBook.xlsx");
+            Assert.AreEqual(128d, ws.Columns[1].Width, 1d);
+            SaveAndCleanup(p);
         }
         [TestMethod]
         public void CopyOverwrite()
