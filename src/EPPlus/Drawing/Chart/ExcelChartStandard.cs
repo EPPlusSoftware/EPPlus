@@ -101,10 +101,9 @@ namespace OfficeOpenXml.Drawing.Chart
             Part = part;
             ChartXml = chartXml;
             _chartNode = chartNode;
-            InitSeries(this, drawings.NameSpaceManager, _chartNode, PivotTableSource != null);
-            InitChartLoad(drawings, chartNode);
+            InitChartLoad(drawings, chartNode, PivotTableSource != null);
             ChartType = GetChartType(chartNode.LocalName);
-        }
+        } 
         internal ExcelChartStandard(ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(topChart, chartNode, parent, drawingPath, nvPrPath)
         {
@@ -113,12 +112,10 @@ namespace OfficeOpenXml.Drawing.Chart
             ChartXml = topChart.ChartXml;
             _plotArea = topChart.PlotArea;
             _chartNode = chartNode;
-            InitSeries(this, topChart._drawings.NameSpaceManager, _chartNode, false);
-            InitChartLoad(topChart._drawings, chartNode);
+            InitChartLoad(topChart._drawings, chartNode, false);
         }
-        private void InitChartLoad(ExcelDrawings drawings, XmlNode chartNode)
+        private void InitChartLoad(ExcelDrawings drawings, XmlNode chartNode, bool isPivot)
         {
-            bool isPivot = false;
             Init(drawings, chartNode);
             InitSeries(this, drawings.NameSpaceManager, _chartNode, isPivot);
             LoadAxis();

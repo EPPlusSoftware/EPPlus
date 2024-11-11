@@ -428,7 +428,9 @@ namespace OfficeOpenXml.Utils
             }
             for (int i = 0; i < t.Length; i++)
             {
-                if (t[i] <= 0x1f && ((t[i] != '\n' && encodeTabLF == false) || encodeTabLF)) //Not Tab, CR or LF
+                if (t[i] <= 0x1f && 
+                    ((t[i] != '\n' && t[i] != '\r' && t[i] != '\t' && encodeTabLF == false) ||  //Not Tab, CR or LF
+                    encodeTabLF)) 
                 {
                     sb.AppendFormat("_x00{0}_", (t[i] <= 0xf ? "0" : "") + ((int)t[i]).ToString("X"));
                 }

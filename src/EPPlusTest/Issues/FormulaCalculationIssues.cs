@@ -450,5 +450,36 @@ namespace EPPlusTest.Issues
 
             }
         }
+
+		[TestMethod]
+		public void i1671()
+		{
+			using var package = new ExcelPackage();
+			var sheet1 = package.Workbook.Worksheets.Add("Sheet1");
+            var sheet2 = package.Workbook.Worksheets.Add("Sheet2");
+
+			sheet1.Cells["A1"].Value = "h1";
+			sheet1.Cells["B1"].Value = "h2";
+			sheet1.Cells["C1"].Value = "h3";
+			sheet1.Cells["A2"].Value = "a1";
+            sheet1.Cells["B2"].Formula = "VLOOKUP($A2,Sheet2!$A:$B,2,FALSE)";
+            sheet1.Cells["C2"].Formula = "VLOOKUP($A2,Sheet2!$A:$C,3,FALSE)";
+
+            sheet2.Cells["A1"].Value = "a1";
+            sheet2.Cells["B1"].Value = "b1";
+            sheet2.Cells["C1"].Value = "c1";
+            sheet2.Cells["A2"].Value = "a2";
+			sheet2.Cells["B2"].Value = "b2";
+			sheet2.Cells["C2"].Value = "c2";
+
+			Assert.IsNull(sheet1.Cells["B2"].Value);
+
+			sheet1.Calculate();
+
+			Assert.AreEqual("b1", sheet1.Cells["B2"].Value);
+			Assert.AreEqual("c1", sheet1.Cells["C2"].Value);
+
+		
+        }
     }
 }
