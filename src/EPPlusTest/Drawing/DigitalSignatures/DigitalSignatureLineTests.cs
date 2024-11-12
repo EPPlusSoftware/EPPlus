@@ -15,6 +15,93 @@ namespace EPPlusTest.Drawing.DigitalSignatures
     public class DigitalSignatureLineTests : TestBase
     {
         [TestMethod]
+        public void CreateDigitalSignatureLine()
+        {
+            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("SignatureLineWorksheet");
+
+                ws.AddSignatureLine();
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        //[TestMethod]
+        //public void CreateDigitalSignatureLineStampAndSignIt()
+        //{
+        //    using (ExcelPackage package = OpenPackage("DigSig_SignatureLineStamp.xlsx", true))
+        //    {
+        //        var wb = package.Workbook;
+        //        var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
+
+        //        //wb.Calculate();
+
+        //        var test = package.Workbook.FullCalcOnLoad;
+        //        test = false;
+
+        //        X509Store store = new X509Store(StoreLocation.CurrentUser);
+        //        store.Open(OpenFlags.ReadOnly);
+
+        //        //var aComment = ws.Comments.Add(ws.Cells["A1"], "AText");
+        //        //var picture = ws.Drawings.AddPicture("APicture", "C:\\Users\\OssianEdström\\Pictures\\TempBitmap.bmp");
+
+        //        var sLine = ws.AddSignatureLineStamp();
+
+        //        var sLine2 = ws.AddSignatureLineStamp();
+        //        var sLine3 = ws.AddSignatureLineStamp();
+        //        var sLine4 = ws.AddSignatureLineStamp();
+        //        var sLine5 = ws.AddSignatureLineStamp();
+
+
+        //        sLine2.From.Column = 3;
+        //        sLine2.To.Column = 5;
+
+        //        sLine3.From.Column = 5;
+        //        sLine3.To.Column = 7;
+
+        //        sLine3.Signer = "SomeOne";
+
+        //        sLine4.From.Column = 7;
+        //        sLine4.To.Column = 9;
+
+        //        sLine5.From.Column = 9;
+        //        sLine5.To.Column = 11;
+
+        //        //sLine2.From.Row = 1;
+        //        //sLine2.To.Row = 8;
+
+        //        //sLine3.From.ColumnOffset = 200;
+        //        //sLine4.From.ColumnOffset = 300;
+
+        //        sLine.Signer = "ASigner";
+        //        sLine.Title = "Developer";
+        //        //sLine.IsStamp = true;
+        //        sLine.SignatureImage = new ExcelImage("C:\\Users\\OssianEdström\\Pictures\\TempBitmap.bmp");
+        //        //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
+
+        //        var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
+        //        var info = digSig.SigningInformation;
+
+        //        info.SignerRoleTitle = "A Title";
+        //        info.Address1 = "Some";
+        //        info.Address2 = "Where";
+        //        info.ZIPorPostalCode = "Over";
+        //        info.City = "The";
+        //        info.CountryOrRegion = "Rainbow";
+        //        info.StateOrProvince = "WayUpHigh";
+
+        //        digSig.SignatureLine = sLine;
+
+        //        var digSig2 = wb.DigitialSignatures.AddSignature(store.Certificates[0], CommitmentType.Created, "TestingSignatureLine2");
+        //        digSig2.SignatureLine = sLine2;
+
+        //        SaveAndCleanup(package);
+        //    }
+        //}
+
+        [TestMethod]
         public void CreateEmptySignatureLine()
         {
             using (ExcelPackage package = OpenPackage("DigSig_SignatureLine_Empty.xlsx", true))

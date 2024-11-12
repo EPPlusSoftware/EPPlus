@@ -9,6 +9,9 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace OfficeOpenXml.Drawing
 {
+    /// <summary>
+    /// Signature line stamp which contains a SignatureImage as the signature.
+    /// </summary>
     public class ExcelSignatureLineStamp : ExcelVmlDrawingSignatureLine
     {
         protected ExcelImage _signatureImage = null;
@@ -42,6 +45,9 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
+        /// <summary>
+        /// The digital signature this signatureline is linked to if any.
+        /// </summary>
         public ExcelDigitalSignature Signature
         {
             get
@@ -103,15 +109,38 @@ namespace OfficeOpenXml.Drawing
             Emf.Save("C:\\epplusTest\\Testoutput\\InvalidTemplateNew.emf");
         }
 
-        internal ExcelDigitalSignature AddNewDigitalSignature(X509Certificate2 certificate, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        protected virtual void CheckSignature()
         {
+            if(SignatureImage == null || SignatureImage.ImageBytes.Length <= 0)
+            {
+                throw new InvalidOperationException($"SignatureLine {this} is invalid. Cannot sign without a Signature. Please add a SignatureImage first.");
+            }
+        }
+
+
+        /// <summary>
+        /// Sign the signatureline with a new digital signature.
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <param name="cType"></param>
+        /// <param name="purposeForSigning"></param>
+        /// <returns></returns>
+        public ExcelDigitalSignature Sign(X509Certificate2 certificate, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        {
+            CheckSignature();
             var digSig = wb.DigitialSignatures.AddSignature(certificate, cType, purposeForSigning);
             digSig.SignatureLine = this;
             return digSig;
         }
 
-        internal void AddExistingDigitalSignature(ExcelDigitalSignature digitalSignature)
-        { 
+        /// <summary>
+        /// Sign the signatureline with an existing digital signature.
+        /// Note: Overwrites the digitalSignature.SignatureLine with the new one.
+        /// </summary>
+        /// <param name="digitalSignature"></param>
+        public void SignWithExisting(ExcelDigitalSignature digitalSignature)
+        {
+            CheckSignature();
             digitalSignature.SignatureLine = this;
         }
     }

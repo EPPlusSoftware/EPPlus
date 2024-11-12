@@ -218,7 +218,7 @@ namespace OfficeOpenXml.Drawing.Vml
         internal ExcelSignatureLineStamp AddSignatureLineStamp()
         {
             Guid lineId = Guid.NewGuid();
-            var node = AddSignatureLineBase(lineId);
+            var node = AddSignatureLineDrawing(lineId);
 
             var sLine = new ExcelSignatureLineStamp(_ws, node, NameSpaceManager, lineId);
 
@@ -228,7 +228,7 @@ namespace OfficeOpenXml.Drawing.Vml
         internal ExcelSignatureLine AddSignatureLine()
         {
             Guid lineId = Guid.NewGuid();
-            var node = AddSignatureLineBase(lineId);
+            var node = AddSignatureLineDrawing(lineId);
 
             var sLine = new ExcelSignatureLine(_ws, node, NameSpaceManager, lineId);
 
@@ -250,15 +250,13 @@ namespace OfficeOpenXml.Drawing.Vml
             _drawings.Add(sLine);
         }
 
-
-        internal XmlNode AddSignatureLineBase(Guid lineId)
+        internal XmlNode UpdateShapeTypeForSignatureLine()
         {
-            var xmlNode = VmlDrawingXml.ChildNodes[0];
             var shapeTypeNode = VmlDrawingXml.DocumentElement.SelectSingleNode("v:shapetype[@id='_x0000_t75']", NameSpaceManager);
             if (shapeTypeNode == null)
             {
-                shapeTypeNode = VmlDrawingXml.CreateElement("v", "shapetype", ExcelPackage.schemaMicrosoftVml);
-                var shapeTypeElement = ((XmlElement)shapeTypeNode);
+
+                var shapeTypeElement = VmlDrawingXml.CreateElement("v", "shapetype", ExcelPackage.schemaMicrosoftVml);
                 shapeTypeElement.SetAttribute("id", "_x0000_t75");
                 shapeTypeElement.SetAttribute("coordsize", "21600,21600");
                 shapeTypeElement.SetAttribute("spt", ExcelPackage.schemaMicrosoftOffice, "75");
@@ -269,9 +267,9 @@ namespace OfficeOpenXml.Drawing.Vml
 
                 var stroke = VmlDrawingXml.CreateElement("v", "stroke", ExcelPackage.schemaMicrosoftVml);
                 stroke.SetAttribute("joinstyle", "miter");
-                shapeTypeNode.AppendChild(stroke);
+                shapeTypeElement.AppendChild(stroke);
 
-                ExcelVmlDrawingSignatureLine.CreateFormulaElementAsChildOf(shapeTypeNode);
+                ExcelVmlDrawingSignatureLine.CreateFormulaElementAsChildOf(shapeTypeElement);
 
                 var pathElement = VmlDrawingXml.CreateElement("v", "path", ExcelPackage.schemaMicrosoftVml);
                 pathElement.SetAttribute("extrusionok", ExcelPackage.schemaMicrosoftOffice, "f");
@@ -287,7 +285,16 @@ namespace OfficeOpenXml.Drawing.Vml
                 shapeTypeElement.AppendChild(lockShapeTypeEl);
 
                 VmlDrawingXml.DocumentElement.AppendChild(shapeTypeElement);
+                shapeTypeNode = shapeTypeElement;
             }
+
+            return shapeTypeNode;
+        }
+
+
+        internal XmlNode AddSignatureLineDrawing(Guid lineId)
+        {
+            UpdateShapeTypeForSignatureLine();
 
             XmlNode node = AddDigitalSignatureLineDrawing(lineId);
             VmlDrawingXml.DocumentElement.AppendChild(node);

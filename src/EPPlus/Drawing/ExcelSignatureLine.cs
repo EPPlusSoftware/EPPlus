@@ -6,10 +6,11 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing
 {
+    /// <summary>
+    /// Signature line which can contain either text or an image as the signature.
+    /// </summary>
     public class ExcelSignatureLine : ExcelSignatureLineStamp
     {
-        private string _signatureText = "";
-
         /// <summary>
         /// The Signature itself.
         /// Cannot be set if IsStamp is true.
@@ -33,6 +34,14 @@ namespace OfficeOpenXml.Drawing
                 }
                 _signatureText = value;
                 _signatureImage = null;
+            }
+        }
+
+        protected virtual void CheckSignature()
+        {
+            if ((SignatureImage == null || SignatureImage.ImageBytes.Length <= 0) && string.IsNullOrEmpty(SignatureText))
+            {
+                throw new InvalidOperationException($"SignatureLine {this} is invalid. Cannot sign without a Signature. Please add a SignatureImage or SignatureText first.");
             }
         }
 

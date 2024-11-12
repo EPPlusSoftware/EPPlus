@@ -3,6 +3,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
+    /// <summary>
+    /// Drawing object used for SignatureLines and SignatureLineStamps
+    /// </summary>
     public class ExcelVmlDrawingSignatureLine : ExcelVmlDrawingBase
     {
         const string provIdStamp = "{000CD6A4-0000-0000-C000-000000000046}";
