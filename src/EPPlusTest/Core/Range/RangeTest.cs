@@ -321,11 +321,34 @@ namespace EPPlusTest.Core.Range
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            //Value
             ws.Cells["A1"].Value = 1;
-            var range = ws.Cells["A1:G55"];
-            Assert.IsFalse(range.IsEmpty);
-            range = ws.Cells["A2:G55"];
-            Assert.IsTrue(range.IsEmpty);
+            ws.Cells["B2"].Value = 2;
+            var range = ws.Cells["A1:B2"];
+            bool isEmpty = range.IsEmpty();
+            Assert.IsFalse(isEmpty);
+
+            //Formula
+            ws.Cells["A4"].Formula = "SUM($A1:$B2)";
+            range = ws.Cells["A4:B4"];
+            isEmpty = range.IsEmpty();
+            Assert.IsFalse(isEmpty);
+            //Skip formula
+            isEmpty = range.IsEmpty(false);
+            Assert.IsTrue(isEmpty);
+
+            //Comment
+            ws.Cells["A6"].AddComment("This is a comment", "The Commentator");
+            range = ws.Cells["A6:B6"];
+            isEmpty = range.IsEmpty();
+            Assert.IsFalse(isEmpty);
+            isEmpty = range.IsEmpty(false, false, false);
+            Assert.IsTrue(isEmpty);
+
+            range = ws.Cells["A10:G55"];
+            isEmpty = range.IsEmpty();
+            Assert.IsTrue(isEmpty);
         }
 
 
