@@ -10,12 +10,10 @@ using System.Collections.Generic;
 using OfficeOpenXml.VBA;
 using System.Linq;
 using OfficeOpenXml.Drawing;
-using System.IO;
-using OfficeOpenXml.Drawing.EMF;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
-    internal class ExcelDigitalSignature : XmlHelper
+    public class ExcelDigitalSignature : XmlHelper
     {
         internal ZipPackagePart _part;
         ZipPackagePart _originPart;
@@ -58,11 +56,8 @@ namespace OfficeOpenXml.DigitalSignatures
             set
             {
                 _signatureLine = value;
-                SignatureLineSetupId = _signatureLine.SetupID;
             }
         }
-
-        internal Guid? SignatureLineSetupId = null;
 
         internal string ValidSigLnImage;
         internal string InvalidSigLnImg;
@@ -87,7 +82,7 @@ namespace OfficeOpenXml.DigitalSignatures
                 signatureProperty = new SignatureProperty((XmlElement)officeObj, SigningInformation);
                 if(string.IsNullOrEmpty(signatureProperty.sigInfo1.SetUpId) == false)
                 {
-                    SignatureLineSetupId = new Guid(signatureProperty.sigInfo1.SetUpId);
+                    //SignatureLineSetupId = new Guid(signatureProperty.sigInfo1.SetUpId);
 
                     ValidSigLnImage = _doc.SelectSingleNode("//*[@Id='idValidSigLnImg']").InnerText;
                     InvalidSigLnImg = _doc.SelectSingleNode("//*[@Id='idInvalidSigLnImg']").InnerText;

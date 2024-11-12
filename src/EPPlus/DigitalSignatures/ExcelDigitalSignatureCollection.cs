@@ -99,9 +99,9 @@ namespace OfficeOpenXml.DigitalSignatures
 
         internal ExcelSignatureLineStamp GetSignatureLineBySignature(ExcelDigitalSignature digitalSignature)
         {
-            if(digitalSignature.SignatureLineSetupId != null)
+            if(digitalSignature.SignatureLine != null)
             {
-                return _wb._signatureLinesWorkbook[digitalSignature.SignatureLineSetupId.Value];
+                return _wb._signatureLinesWorkbook[digitalSignature.SignatureLine.SetupID];
             }
             throw new AccessViolationException($"DigitalSignature {digitalSignature} is not connected to any signature lines.");
         }
@@ -117,6 +117,17 @@ namespace OfficeOpenXml.DigitalSignatures
             foreach (var sig in _signatures)
             {
                 if(sig.PartUri == fileName)
+                {
+                    return sig;
+                }
+            }
+            return null;
+        }
+        internal ExcelDigitalSignature GetSignatureBySignatureLineGuid(Guid id)
+        {
+            foreach (var sig in _signatures)
+            {
+                if (sig.SignatureLine != null && sig.SignatureLine.SetupID.Equals(id))
                 {
                     return sig;
                 }

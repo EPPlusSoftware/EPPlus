@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Drawing.EMF
             set
             {
                 base.TimeStamp = value;
-                suggestedSignerObject.AdjustReferenceToCenterText(maxWidthFile, minWidth);
+                timeStamp.AdjustReferenceToCenterText(maxWidthFile, minWidth);
             }
         }
 
@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Drawing.EMF
             set
             {
                 base.SuggestedTitle = value;
-                suggestedSignerObject.AdjustReferenceToCenterText(maxWidthFile, minWidth);
+                suggestedTitleObject.AdjustReferenceToCenterText(maxWidthFile, minWidth);
             }
             get
             {

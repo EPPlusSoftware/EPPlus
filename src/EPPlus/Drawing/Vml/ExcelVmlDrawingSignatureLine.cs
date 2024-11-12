@@ -1,13 +1,4 @@
-﻿using OfficeOpenXml.Drawing.EMF;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.Packaging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
+﻿using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Vml
@@ -180,6 +171,37 @@ namespace OfficeOpenXml.Drawing.Vml
             set
             {
                 SetXmlNodeString("v:imagedata/@o:relid", value);
+            }
+        }
+
+        ExcelVmlDrawingPosition _from = null;
+        /// <summary>
+        /// From position
+        /// </summary>
+        public ExcelVmlDrawingPosition From
+        {
+            get
+            {
+                if (_from == null)
+                {
+                    _from = new ExcelVmlDrawingPosition(NameSpaceManager, TopNode.SelectSingleNode("x:ClientData", NameSpaceManager), 0);
+                }
+                return _from;
+            }
+        }
+        ExcelVmlDrawingPosition _to = null;
+        /// <summary>
+        /// To position
+        /// </summary>
+        public ExcelVmlDrawingPosition To
+        {
+            get
+            {
+                if (_to == null)
+                {
+                    _to = new ExcelVmlDrawingPosition(NameSpaceManager, TopNode.SelectSingleNode("x:ClientData", NameSpaceManager), 4);
+                }
+                return _to;
             }
         }
 

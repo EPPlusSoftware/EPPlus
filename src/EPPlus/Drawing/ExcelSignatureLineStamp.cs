@@ -5,6 +5,7 @@ using System.Xml;
 using OfficeOpenXml.Drawing.Vml;
 using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -12,6 +13,7 @@ namespace OfficeOpenXml.Drawing
     {
         protected ExcelImage _signatureImage = null;
         protected string _signatureText = "";
+        internal ExcelWorkbook wb;
 
         /// <summary>
         /// The Signature itself.
@@ -40,7 +42,13 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        ExcelDigitalSignature Signature = null;
+        public ExcelDigitalSignature Signature
+        {
+            get
+            {
+                return wb.DigitialSignatures.GetSignatureBySignatureLineGuid(SetupID);
+            }
+        }
         SignatureLineTemplateEmfBase Emf;
 
         internal string InvalidSigLnImg;
@@ -49,11 +57,13 @@ namespace OfficeOpenXml.Drawing
         internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId)
         {
             IsStamp = true;
+            wb = ws.Workbook;
         }
 
         internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
         {
             IsStamp = true;
+            wb = ws.Workbook;
         }
 
         internal void SaveMedia(ZipPackagePart part)
@@ -91,6 +101,18 @@ namespace OfficeOpenXml.Drawing
 
             InvalidSigLnImg = Convert.ToBase64String(Emf.GetBytes());
             Emf.Save("C:\\epplusTest\\Testoutput\\InvalidTemplateNew.emf");
+        }
+
+        internal ExcelDigitalSignature AddNewDigitalSignature(X509Certificate2 certificate, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        {
+            var digSig = wb.DigitialSignatures.AddSignature(certificate, cType, purposeForSigning);
+            digSig.SignatureLine = this;
+            return digSig;
+        }
+
+        internal void AddExistingDigitalSignature(ExcelDigitalSignature digitalSignature)
+        { 
+            digitalSignature.SignatureLine = this;
         }
     }
 }
