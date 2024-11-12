@@ -1277,6 +1277,16 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
+        /// Returns true if the range is empty
+        /// </summary>
+        public bool IsEmpty
+        {
+            get
+            {
+                return false;
+            }
+        }
+        /// <summary>
         /// If the value is in richtext format.
         /// </summary>
         public bool IsRichText

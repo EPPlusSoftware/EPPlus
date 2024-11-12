@@ -315,6 +315,20 @@ namespace EPPlusTest.Core.Range
                 ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
             }
         }
+
+        [TestMethod]
+        public void RangeIsEmptyTest()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            ws.Cells["A1"].Value = 1;
+            var range = ws.Cells["A1:G55"];
+            Assert.IsFalse(range.IsEmpty);
+            range = ws.Cells["A2:G55"];
+            Assert.IsTrue(range.IsEmpty);
+        }
+
+
 #if NET6_0_OR_GREATER
         [TestMethod]
         public void ValidateDateOnlyConvertsion()
