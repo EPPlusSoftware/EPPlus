@@ -1110,6 +1110,7 @@ namespace EPPlusTest.Table
             Assert.AreEqual("SourceTableCopy5", wsDest.Tables[0].Name);
             Assert.AreEqual("B1:F11", wsDest.Tables[0].Address.Address);
         }
+        [TestMethod]
         public void Extend_Table()
         {
             using (var package = new ExcelPackage())
