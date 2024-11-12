@@ -109,7 +109,7 @@ namespace OfficeOpenXml.Drawing
             Emf.Save("C:\\epplusTest\\Testoutput\\InvalidTemplateNew.emf");
         }
 
-        protected virtual void CheckSignature()
+        internal virtual void CheckSignature()
         {
             if(SignatureImage == null || SignatureImage.ImageBytes.Length <= 0)
             {

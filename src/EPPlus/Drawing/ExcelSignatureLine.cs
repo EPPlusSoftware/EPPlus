@@ -37,7 +37,7 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        protected virtual void CheckSignature()
+        internal override void CheckSignature()
         {
             if ((SignatureImage == null || SignatureImage.ImageBytes.Length <= 0) && string.IsNullOrEmpty(SignatureText))
             {

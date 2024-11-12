@@ -55,6 +55,7 @@ namespace OfficeOpenXml.DigitalSignatures
             }
             set
             {
+                value.CheckSignature();
                 _signatureLine = value;
             }
         }
