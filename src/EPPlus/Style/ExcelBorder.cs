@@ -10,11 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
-using OfficeOpenXml.Style.XmlAccess;
 
 namespace OfficeOpenXml.Style
 {
@@ -170,7 +166,6 @@ namespace OfficeOpenXml.Style
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderBottom, eStyleProperty.Style, Style, _positionID, new ExcelAddress(addr._toRow, addr._fromCol, addr._toRow, addr._toCol).Address));
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderLeft, eStyleProperty.Style, Style, _positionID, new ExcelAddress(addr._fromRow, addr._fromCol, addr._toRow, addr._fromCol).Address));
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderRight, eStyleProperty.Style, Style, _positionID, new ExcelAddress(addr._fromRow, addr._toCol, addr._toRow, addr._toCol).Address));
-
             if (overrideNeigbourCellBorder)
             {
                 _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderBottom, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(addr._fromRow-1, addr._fromCol, addr._fromRow-1, addr._toCol).Address));

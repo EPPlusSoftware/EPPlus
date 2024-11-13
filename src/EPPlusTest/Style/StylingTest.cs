@@ -328,33 +328,31 @@ namespace EPPlusTest.Style
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-
+            //Border 1
             ws.Cells["A1"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
             ws.Cells["A2"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
             ws.Cells["A3"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
-
             ws.Cells["B1"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
             ws.Cells["B2"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
             ws.Cells["B3"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
-
             ws.Cells["C1"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
             ws.Cells["C2"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
             ws.Cells["C3"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
-
             ws.Cells["D1"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
             ws.Cells["D2"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
             ws.Cells["D3"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
-
             ws.Cells["B2:C2"].Style.Border.BorderAround(ExcelBorderStyle.Dotted, true);
-
-
+            //Border 2
             ws.Cells["F8:H10"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
             ws.Cells["G11:H12"].Style.Border.BorderAround(ExcelBorderStyle.Dotted, true);
-
-
+            //Border 3
             ws.Cells["K3:M5"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
             ws.Cells["L4:N6"].Style.Border.BorderAround(ExcelBorderStyle.Dotted, true);
+            //Border 4
+            ws.Cells["A10:B15"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            ws.Cells["A11:B14"].Style.Border.BorderAround(ExcelBorderStyle.Dotted, true);
 
+            //p.SaveAs(@"C:\epplusTest\Testoutput\BordersOverriderTest.xlsx");
         }
     }
 }
