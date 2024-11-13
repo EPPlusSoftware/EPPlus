@@ -322,6 +322,40 @@ namespace EPPlusTest.Style
                 Thread.CurrentThread.CurrentCulture = cci;
             };
         }
+
+        [TestMethod]
+        public void BorderStyleTest()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            ws.Cells["A1"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            ws.Cells["A2"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            ws.Cells["A3"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+
+            ws.Cells["B1"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            ws.Cells["B2"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            ws.Cells["B3"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+
+            ws.Cells["C1"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            ws.Cells["C2"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            ws.Cells["C3"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+
+            ws.Cells["D1"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            ws.Cells["D2"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            ws.Cells["D3"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+
+            ws.Cells["B2:C2"].Style.Border.BorderAround(ExcelBorderStyle.Dotted, true);
+
+
+            ws.Cells["F8:H10"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            ws.Cells["G11:H12"].Style.Border.BorderAround(ExcelBorderStyle.Dotted, true);
+
+
+            ws.Cells["K3:M5"].Style.Border.BorderAround(ExcelBorderStyle.Thick);
+            ws.Cells["L4:N6"].Style.Border.BorderAround(ExcelBorderStyle.Dotted, true);
+
+        }
     }
 }
 
