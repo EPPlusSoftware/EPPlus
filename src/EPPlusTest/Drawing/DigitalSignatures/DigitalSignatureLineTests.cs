@@ -59,7 +59,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         public void CreateAndReadDefaultSignatureLineStamp()
         {
             var wsName = "SignatureLineStamps";
-            var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
 
             using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
             {
@@ -98,6 +97,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             bool ShowSignDate = false;
             bool AllowComments = true;
             string AlternativeText = "Alt text";
+            var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
 
             using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
             {
@@ -115,7 +115,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 sLine2.To.Column = 5;
 
                 sLine3.From.Row = 9;
-                sLine3.To.Row = 9 + 7;
+                sLine3.To.Row = 9 + 6;
                 sLine3.From.Column = 5;
                 sLine3.To.Column = 5 + 4;
 
@@ -137,7 +137,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 sLine4.AlternativeText = sLine3.AlternativeText;
 
                 sLine5.From.Row = 9;
-                sLine5.To.Row = 9 + 7;
+                sLine5.To.Row = 9 + 6;
                 sLine5.From.Column = 10;
                 sLine5.To.Column = 14;
 
@@ -163,6 +163,16 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual(AlternativeText, sigLine.AlternativeText);
                 Assert.AreEqual("{00000000-0000-0000-0000-000000000000}", sigLine.ProvID);
 
+                Assert.AreEqual(9, sigLine.From.Row);
+                Assert.AreEqual(9 + 6, sigLine.To.Row);
+                Assert.AreEqual(5, sigLine.From.Column);
+                Assert.AreEqual(9, sigLine.To.Column);
+
+                Assert.AreEqual(9, ws.SignatureLines[4].From.Row);
+                Assert.AreEqual(9 + 6, ws.SignatureLines[4].To.Row);
+                Assert.AreEqual(10, ws.SignatureLines[4].From.Column);
+                Assert.AreEqual(14, ws.SignatureLines[4].To.Column);
+
                 var sigStamp = ws.SignatureLines[3];
                 Assert.AreEqual(sigStamp.SignatureLineType, eSignatureLineType.Stamp);
                 Assert.AreEqual(Signer, sigStamp.Signer);
@@ -172,107 +182,26 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual(AllowComments, sigStamp.AllowComments);
                 Assert.AreEqual(AlternativeText, sigStamp.AlternativeText);
                 Assert.AreEqual("{000CD6A4-0000-0000-C000-000000000046}", sigStamp.ProvID);
+
+                Assert.AreEqual(10, sigStamp.From.Column);
+                Assert.AreEqual(12, sigStamp.To.Column);
+
+                var copiedWs = wb.Worksheets.Copy(wsName, "CopiedSheet");
+
+                //copiedWs.SignatureLines.Add(sigLine);
+
+                X509Store store = new X509Store(StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadOnly);
+
+                //copiedWs.SignatureLines[0].Sign(store.Certificates[1], signatureImage);
+
+                foreach (var sig in ws.SignatureLines)
+                {
+                    sig.Sign(store.Certificates[1], signatureImage);
+                }
+
+                SaveAndCleanup(package);
             }
-        }
-
-        //[TestMethod]
-        //public void CreateDigitalSignatureLineStampAndSignIt()
-        //{
-        //    using (ExcelPackage package = OpenPackage("DigSig_SignatureLineStamp.xlsx", true))
-        //    {
-        //        var wb = package.Workbook;
-        //        var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
-
-        //        //wb.Calculate();
-
-        //        var test = package.Workbook.FullCalcOnLoad;
-        //        test = false;
-
-        //        X509Store store = new X509Store(StoreLocation.CurrentUser);
-        //        store.Open(OpenFlags.ReadOnly);
-
-        //        //var aComment = ws.Comments.Add(ws.Cells["A1"], "AText");
-        //        //var picture = ws.Drawings.AddPicture("APicture", "C:\\Users\\OssianEdström\\Pictures\\TempBitmap.bmp");
-
-        //        var sLine = ws.AddSignatureLineStamp();
-
-        //        var sLine2 = ws.AddSignatureLineStamp();
-        //        var sLine3 = ws.AddSignatureLineStamp();
-        //        var sLine4 = ws.AddSignatureLineStamp();
-        //        var sLine5 = ws.AddSignatureLineStamp();
-
-
-        //        sLine2.From.Column = 3;
-        //        sLine2.To.Column = 5;
-
-        //        sLine3.From.Column = 5;
-        //        sLine3.To.Column = 7;
-
-        //        sLine3.Signer = "SomeOne";
-
-        //        sLine4.From.Column = 7;
-        //        sLine4.To.Column = 9;
-
-        //        sLine5.From.Column = 9;
-        //        sLine5.To.Column = 11;
-
-        //        //sLine2.From.Row = 1;
-        //        //sLine2.To.Row = 8;
-
-        //        //sLine3.From.ColumnOffset = 200;
-        //        //sLine4.From.ColumnOffset = 300;
-
-        //        sLine.Signer = "ASigner";
-        //        sLine.Title = "Developer";
-        //        //sLine.IsStamp = true;
-        //        sLine.SignatureImage = new ExcelImage("C:\\Users\\OssianEdström\\Pictures\\TempBitmap.bmp");
-        //        //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
-
-        //        var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
-        //        var info = digSig.SigningInformation;
-
-        //        info.SignerRoleTitle = "A Title";
-        //        info.Address1 = "Some";
-        //        info.Address2 = "Where";
-        //        info.ZIPorPostalCode = "Over";
-        //        info.City = "The";
-        //        info.CountryOrRegion = "Rainbow";
-        //        info.StateOrProvince = "WayUpHigh";
-
-        //        digSig.SignatureLine = sLine;
-
-        //        var digSig2 = wb.DigitialSignatures.AddSignature(store.Certificates[0], CommitmentType.Created, "TestingSignatureLine2");
-        //        digSig2.SignatureLine = sLine2;
-
-        //        SaveAndCleanup(package);
-        //    }
-        //}
-
-        [TestMethod]
-        public void FixGeneratedImage()
-        {
-            var generated = new EmfImage();
-            generated.Read("C:\\epplusTest\\Testoutput\\image1Generated.emf");
-            var records = generated.records;
-
-            var clipRect = (EMR_INTERSECTCLIPRECT)records[58];
-            clipRect.Clip = new RectLObject(35,4,93,17);
-            generated.Save("C:\\epplusTest\\Testoutput\\generatedImageRechanged.emf");
-        }
-
-        [TestMethod]
-        public void testImage()
-        {
-            var generated = new EmfImage();
-            generated.Read(@"C:\epplusTest\templates\maxedBars.emf");
-            var records = generated.records;
-
-            var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Cast<EMR_EXTTEXTOUTW>().ToList();
-
-            textRecords[0].Text = "MMMMMMMMMM||";
-            textRecords[0].AdjustReferenceToCenterText(127, 10);
-
-            generated.Save("C:\\epplusTest\\Testoutput\\MaxTitleGenned.emf");
         }
 
         [TestMethod]

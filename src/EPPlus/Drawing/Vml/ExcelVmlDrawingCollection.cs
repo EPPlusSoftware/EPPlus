@@ -101,7 +101,6 @@ namespace OfficeOpenXml.Drawing.Vml
                             //TODO: Possibly change so vmldrawings only holds/lookups ids to the wb?
                             //So that the objects themselves are ensured to only be in one place.
                             SignatureLines.Add(sigLine);
-                            ws.Workbook._signatureLinesWorkbook.Add(sigLine.SetupID, sigLine);
                             vmlDrawing = sigLine;
                             _drawings.Add(vmlDrawing);
                         }
@@ -744,6 +743,19 @@ namespace OfficeOpenXml.Drawing.Vml
         //{
         //    throw new NotImplementedException();
         //}
+
+        internal string GetOuterXmlWithoutSignatureLines()
+        {
+            var outerXml = VmlDrawingXml.OuterXml;
+            var xdoc = new XmlDocument();
+            xdoc.LoadXml(outerXml);
+            var nodes = xdoc.DocumentElement.SelectNodes("//v:shape[@type='#_x0000_t75']", NameSpaceManager);
+            foreach(XmlNode node in nodes)
+            {
+                xdoc.DocumentElement.RemoveChild(node);
+            }
+            return xdoc.OuterXml;
+        }
         #endregion
     } 
 }

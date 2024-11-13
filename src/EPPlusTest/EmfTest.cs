@@ -129,5 +129,20 @@ namespace EPPlusTest
             templateImage.UpdateToImage(GetResourceFile("5pxSignature.bmp").FullName);
             templateEmf.Save(GetOutputFile(emfOutputFolder, "5pxSignature.emf").FullName);
         }
+
+        [TestMethod]
+        public void testImage()
+        {
+            var generated = new EmfImage();
+            generated.Read(@"C:\epplusTest\templates\maxedBars.emf");
+            var records = generated.records;
+
+            var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Cast<EMR_EXTTEXTOUTW>().ToList();
+
+            textRecords[0].Text = "MMMMMMMMMM||";
+            textRecords[0].AdjustReferenceToCenterText(127, 10);
+
+            generated.Save("C:\\epplusTest\\Testoutput\\MaxTitleGenned.emf");
+        }
     }
 }

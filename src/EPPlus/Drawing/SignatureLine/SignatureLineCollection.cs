@@ -111,7 +111,13 @@ namespace OfficeOpenXml.Drawing
         public void Remove(ExcelSignatureLineStamp sline)
         {
             _dict.Remove(sline.SetupID);
-            _list.Add(sline);
+            _list.Remove(sline);
+        }
+
+        public void Clear()
+        {
+            _dict.Clear();
+            _list.Clear();
         }
 
         /// <summary>

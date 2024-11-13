@@ -56,7 +56,6 @@ namespace OfficeOpenXml.Drawing
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(ws, topNode, ns)
         {
             _signatureLineType = eSignatureLineType.SignatureLine;
-            IsStamp = false;
         }
 
 

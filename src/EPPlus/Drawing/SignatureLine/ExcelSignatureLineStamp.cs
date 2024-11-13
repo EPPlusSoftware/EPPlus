@@ -82,7 +82,6 @@ namespace OfficeOpenXml.Drawing
         internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
         {
             wb = ws.Workbook;
-            IsStamp = true;
         }
 
         internal void SaveMedia(ZipPackagePart part)
