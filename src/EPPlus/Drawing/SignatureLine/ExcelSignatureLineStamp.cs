@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Drawing
             {
                 return _signatureImage;
             }
-            set
+            private set
             {
                 if (value.Type != ePictureType.Bmp)
                 {
@@ -75,20 +75,19 @@ namespace OfficeOpenXml.Drawing
 
         internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId)
         {
-            IsStamp = true;
-            
             wb = ws.Workbook;
+            IsStamp = true;
         }
 
         internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
         {
-            IsStamp = true;
             wb = ws.Workbook;
+            IsStamp = true;
         }
 
         internal void SaveMedia(ZipPackagePart part)
         {
-            Emf = IsStamp ? new SignatureLineTemplateEmfStamp() : new SignatureLineTemplateEmf();
+            Emf = _signatureLineType == eSignatureLineType.Stamp ? new SignatureLineTemplateEmfStamp() : new SignatureLineTemplateEmf();
             Emf.SuggestedSigner = Signer;
             Emf.SuggestedTitle = Title;
 
@@ -135,13 +134,27 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Sign the signatureline with a new digital signature.
         /// </summary>
+        /// <param name="image">Must be in .bmp format</param>
         /// <param name="certificate"></param>
         /// <param name="cType"></param>
         /// <param name="purposeForSigning"></param>
         /// <returns></returns>
-        public ExcelDigitalSignature Sign(X509Certificate2 certificate, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        public ExcelDigitalSignature Sign(X509Certificate2 certificate, ExcelImage image, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
         {
+            SignatureImage = image;
             CheckSignature();
+            return Sign(certificate, cType, purposeForSigning);
+        }
+
+        /// <summary>
+        /// Sign the signatureline with a new digital signature.
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <param name="cType"></param>
+        /// <param name="purposeForSigning"></param>
+        /// <returns></returns>
+        private protected ExcelDigitalSignature Sign(X509Certificate2 certificate, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        {
             var digSig = wb.DigitialSignatures.AddSignature(certificate, cType, purposeForSigning);
             digSig.SignatureLine = this;
             return digSig;
@@ -152,10 +165,27 @@ namespace OfficeOpenXml.Drawing
         /// Note: Overwrites the digitalSignature.SignatureLine with the new one.
         /// </summary>
         /// <param name="digitalSignature"></param>
-        public void SignWithExisting(ExcelDigitalSignature digitalSignature)
+        /// <param name="image"></param>
+        public void SignWithExisting(ExcelDigitalSignature digitalSignature, ExcelImage image)
         {
+            SignatureImage = image;
             CheckSignature();
+            SignWithExisting(digitalSignature);
+        }
+
+        /// <summary>
+        /// Sign the signatureline with an existing digital signature.
+        /// Note: Overwrites the digitalSignature.SignatureLine with the new one.
+        /// </summary>
+        /// <param name="digitalSignature"></param>
+        private protected void SignWithExisting(ExcelDigitalSignature digitalSignature)
+        {
             digitalSignature.SignatureLine = this;
         }
+
+        /// <summary>
+        /// Return this as signatureline
+        /// </summary>
+        public ExcelSignatureLine AsSignatureLine { get { return this as ExcelSignatureLine; } }
     }
 }

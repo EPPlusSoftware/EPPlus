@@ -44,7 +44,6 @@ namespace OfficeOpenXml.DigitalSignatures
         /// </summary>
         public bool Verified { get; private set; } = false;
         QualifyingProperties qualifyingProperties;
-
         ExcelSignatureLineStamp _signatureLine;
 
         internal ExcelSignatureLineStamp SignatureLine
@@ -55,7 +54,7 @@ namespace OfficeOpenXml.DigitalSignatures
             }
             set
             {
-                _signatureLine.SignWithExisting(this);
+                _signatureLine = value;
             }
         }
 

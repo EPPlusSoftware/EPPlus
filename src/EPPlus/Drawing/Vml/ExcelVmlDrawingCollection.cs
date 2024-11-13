@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Drawing.Vml
         internal CellStore<int> _drawingsCellStore;
         internal Dictionary<string, int> _drawingsDict = new Dictionary<string, int>();
         internal List<ExcelVmlDrawingBase> _drawings = new List<ExcelVmlDrawingBase>();
-        public List<ExcelSignatureLineStamp> SignatureLines = new List<ExcelSignatureLineStamp>();
+        public SignatureLineCollection SignatureLines = new SignatureLineCollection();
         Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
 
         internal ExcelVmlDrawingCollection(ExcelWorksheet ws, Uri uri) :
@@ -87,7 +87,7 @@ namespace OfficeOpenXml.Drawing.Vml
                     case "Pict":
                         if (node.SelectSingleNode("@type").InnerText == "#_x0000_t75")
                         {
-                            var pId = node.SelectSingleNode("//o:signatureline@provid", NameSpaceManager);
+                            var pId = node.SelectSingleNode("o:signatureline/@provid", NameSpaceManager);
                             ExcelSignatureLineStamp sigLine;
                             if (pId.Value == "{00000000-0000-0000-0000-000000000000}")
                             {
@@ -256,7 +256,6 @@ namespace OfficeOpenXml.Drawing.Vml
             sLine.RelId = rel.Id;
 
             SignatureLines.Add(sLine);
-            _ws.Workbook.DigitialSignatures.AddExcelSignatureLine(sLine);
             _drawings.Add(sLine);
         }
 

@@ -1032,7 +1032,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Collection of signatureLines
         /// </summary>
-        public List<ExcelSignatureLineStamp> SignatureLines
+        public SignatureLineCollection SignatureLines
         {
             get
             {

@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml;
+using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.Drawing.EMF;
+using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Drawing.Vml;
+using System.IO;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -22,15 +28,11 @@ namespace OfficeOpenXml.Drawing
             {
                 return _signatureText;
             }
-            set
+            private set
             {
                 if (string.IsNullOrEmpty(value))
                 {
                     throw new InvalidOperationException($"Cannot set SignatureText of SignatureLine object {this} to null or empty.");
-                }
-                if (IsStamp)
-                {
-                    throw new InvalidOperationException($"Cannot set SignatureText on a SignatureStamp object.");
                 }
                 _signatureText = value;
                 _signatureImage = null;
@@ -47,14 +49,30 @@ namespace OfficeOpenXml.Drawing
 
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(ws, topNode, ns, lineId)
         {
-            IsStamp = false;
             _signatureLineType = eSignatureLineType.SignatureLine;
+            IsStamp = false;
         }
 
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(ws, topNode, ns)
         {
-            IsStamp = false;
             _signatureLineType = eSignatureLineType.SignatureLine;
+            IsStamp = false;
+        }
+
+
+        /// <summary>
+        /// Sign the signatureline with a new digital signature.
+        /// </summary>
+        /// <param name="signatureText">Cannot be null or empty</param>
+        /// <param name="certificate"></param>
+        /// <param name="cType"></param>
+        /// <param name="purposeForSigning"></param>
+        /// <returns></returns>
+        public ExcelDigitalSignature Sign(X509Certificate2 certificate, string signatureText, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        {
+            SignatureText = signatureText;
+            CheckSignature();
+            return Sign(certificate, cType, purposeForSigning);
         }
     }
 }

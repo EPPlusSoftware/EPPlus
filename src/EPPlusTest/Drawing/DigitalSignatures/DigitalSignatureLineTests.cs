@@ -19,37 +19,20 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         public static void Init(TestContext context)
         {
             CreatePathIfNotExists(_worksheetPath + "DigitalSignatures\\");
-            //_pck = OpenPackage("WorksheetRangeInsert.xlsx", true);
+            ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx", true);
         }
-        //[ClassCleanup]
-        //public static void Cleanup()
-        //{
-        //    SaveAndCleanup(_pck);
-        //}
 
         [TestMethod]
-        public void CreateAndReadDigitalSignatureLine()
+        public void CreateAndReadDefaultSignatureLine()
         {
-            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx", true))
+            var wsName = "SignatureLineWorksheet";
+
+            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
             {
                 var wb = package.Workbook;
-                var ws = wb.Worksheets.Add("SignatureLineWorksheet");
+                var ws = wb.Worksheets.Add(wsName);
 
                 var sline = ws.AddSignatureLine();
-                var slineStamp = ws.AddSignatureLineStamp();
-
-                sline.SignatureText = "Ossian";
-                slineStamp.SignatureImage = new ExcelImage("C:\\Users\\OssianEdström\\Pictures\\TempBitmap.bmp");
-
-                var collection = new SignatureLineCollection();
-
-                var something = "something";
-
-                collection.Add(sline);
-                collection.Add(slineStamp);
-
-                var test1 = collection[0];
-                var test = collection[1];
 
                 SaveAndCleanup(package);
             }
@@ -57,16 +40,138 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
             {
                 var wb = package.Workbook;
-                var ws = wb.Worksheets[0];
+                var ws = wb.Worksheets.GetByName(wsName);
 
                 var sigLine = ws.SignatureLines[0];
 
+                Assert.AreEqual(sigLine.SignatureLineType, eSignatureLineType.SignatureLine);
                 Assert.AreEqual("", sigLine.Signer);
                 Assert.AreEqual("", sigLine.Title);
                 Assert.AreEqual("Before signing this document, verify that the content you are signing is correct.", sigLine.SigningInstructions);
                 Assert.AreEqual(true, sigLine.ShowSignDate);
                 Assert.AreEqual(false, sigLine.AllowComments);
                 Assert.AreEqual("Microsoft Office Signature Line...", sigLine.AlternativeText);
+                Assert.AreEqual("{00000000-0000-0000-0000-000000000000}", sigLine.ProvID);
+            }
+        }
+
+        [TestMethod]
+        public void CreateAndReadDefaultSignatureLineStamp()
+        {
+            var wsName = "SignatureLineStamps";
+            var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
+
+            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add(wsName);
+
+                var slineStamp = ws.AddSignatureLineStamp();
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.GetByName(wsName);
+
+                var sigLine = ws.SignatureLines[0];
+
+                Assert.AreEqual(sigLine.SignatureLineType, eSignatureLineType.Stamp);
+                Assert.AreEqual("", sigLine.Signer);
+                Assert.AreEqual("", sigLine.Title);
+                Assert.AreEqual("Before signing this document, verify that the content you are signing is correct.", sigLine.SigningInstructions);
+                Assert.AreEqual(true, sigLine.ShowSignDate);
+                Assert.AreEqual(false, sigLine.AllowComments);
+                Assert.AreEqual("Stamp Signature Line...", sigLine.AlternativeText);
+                Assert.AreEqual("{000CD6A4-0000-0000-C000-000000000046}", sigLine.ProvID);
+            }
+        }
+
+        [TestMethod]
+        public void CreateAndReadMultipleSignatureLines()
+        {
+            var wsName = "MultipleEmptySignatureLines";
+            string Signer = "Someone";
+            string Title = "WithATitle";
+            string SigningInstructions = "NewInstructions";
+            bool ShowSignDate = false;
+            bool AllowComments = true;
+            string AlternativeText = "Alt text";
+
+            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add(wsName);
+
+                var sline = ws.AddSignatureLineStamp();
+
+                var sLine2 = ws.AddSignatureLineStamp();
+                var sLine3 = ws.AddSignatureLine();
+                var sLine4 = ws.AddSignatureLineStamp();
+                var sLine5 = ws.AddSignatureLine();
+
+                sLine2.From.Column = 3;
+                sLine2.To.Column = 5;
+
+                sLine3.From.Row = 9;
+                sLine3.To.Row = 9 + 7;
+                sLine3.From.Column = 5;
+                sLine3.To.Column = 5 + 4;
+
+                sLine3.Signer = Signer;
+                sLine3.Title = Title;
+                sLine3.SigningInstructions = SigningInstructions;
+                sLine3.ShowSignDate = ShowSignDate;
+                sLine3.AllowComments = AllowComments;
+                sLine3.AlternativeText = AlternativeText;
+
+                sLine4.From.Column = 10;
+                sLine4.To.Column = 12;
+
+                sLine4.Signer = sLine3.Signer;
+                sLine4.Title = sLine3.Title;
+                sLine4.SigningInstructions = sLine3.SigningInstructions;
+                sLine4.ShowSignDate = sLine3.ShowSignDate;
+                sLine4.AllowComments = sLine3.AllowComments;
+                sLine4.AlternativeText = sLine3.AlternativeText;
+
+                sLine5.From.Row = 9;
+                sLine5.To.Row = 9 + 7;
+                sLine5.From.Column = 10;
+                sLine5.To.Column = 14;
+
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.GetByName(wsName);
+
+                Assert.AreEqual(ws.SignatureLines[0].SignatureLineType, eSignatureLineType.Stamp);
+                Assert.AreEqual(ws.SignatureLines[1].SignatureLineType, eSignatureLineType.Stamp);
+
+                var sigLine = ws.SignatureLines[2];
+
+                Assert.AreEqual(sigLine.SignatureLineType, eSignatureLineType.SignatureLine);
+                Assert.AreEqual(Signer, sigLine.Signer);
+                Assert.AreEqual(Title, sigLine.Title);
+                Assert.AreEqual(SigningInstructions, sigLine.SigningInstructions);
+                Assert.AreEqual(ShowSignDate, sigLine.ShowSignDate);
+                Assert.AreEqual(AllowComments, sigLine.AllowComments);
+                Assert.AreEqual(AlternativeText, sigLine.AlternativeText);
+                Assert.AreEqual("{00000000-0000-0000-0000-000000000000}", sigLine.ProvID);
+
+                var sigStamp = ws.SignatureLines[3];
+                Assert.AreEqual(sigStamp.SignatureLineType, eSignatureLineType.Stamp);
+                Assert.AreEqual(Signer, sigStamp.Signer);
+                Assert.AreEqual(Title, sigStamp.Title);
+                Assert.AreEqual(SigningInstructions, sigStamp.SigningInstructions);
+                Assert.AreEqual(ShowSignDate, sigStamp.ShowSignDate);
+                Assert.AreEqual(AllowComments, sigStamp.AllowComments);
+                Assert.AreEqual(AlternativeText, sigStamp.AlternativeText);
+                Assert.AreEqual("{000CD6A4-0000-0000-C000-000000000046}", sigStamp.ProvID);
             }
         }
 
@@ -143,35 +248,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         //    }
         //}
 
-        [TestMethod]
-        public void CreateEmptySignatureLine()
-        {
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine_Empty.xlsx", true))
-            {
-                var wb = package.Workbook;
-                var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
-
-                var sLine = ws.AddSignatureLine();
-
-                SaveAndCleanup(package);
-            }
-        }
-
-        [TestMethod]
-        public void CreateEmptySignatureLineStamp()
-        {
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine_Stamp_Empty.xlsx", true))
-            {
-                var wb = package.Workbook;
-                var ws = package.Workbook.Worksheets.Add("SignatureLineWs");   
-
-                var sLine = ws.AddSignatureLine();
-                sLine.IsStamp = true;
-                sLine.Signer = "ASigner";
-
-                SaveAndCleanup(package);
-            }
-        }
         [TestMethod]
         public void FixGeneratedImage()
         {

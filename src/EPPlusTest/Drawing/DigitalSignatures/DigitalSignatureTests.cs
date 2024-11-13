@@ -211,7 +211,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var sLine = ws.AddSignatureLine();
                 sLine.Signer = "ASigner";
                 //sLine.IsStamp = true;
-                sLine.SignatureImage = new ExcelImage("C:\\Users\\OssianEdström\\Pictures\\LessExtremeWide.bmp");
+                //sLine.SignatureImage = new ExcelImage("C:\\Users\\OssianEdström\\Pictures\\LessExtremeWide.bmp");
                 //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
                 //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\128Square.bmp");
 
@@ -281,7 +281,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 sLine.Signer = "ASigner";
                 sLine.Title = "Developer";
                 //sLine.IsStamp = true;
-                sLine.SignatureImage = new ExcelImage("C:\\Users\\OssianEdström\\Pictures\\TempBitmap.bmp");
+                //sLine.SignatureImage = new ExcelImage("C:\\Users\\OssianEdström\\Pictures\\TempBitmap.bmp");
                 //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
 
                 var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
