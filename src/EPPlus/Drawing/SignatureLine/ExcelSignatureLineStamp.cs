@@ -14,9 +14,22 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public class ExcelSignatureLineStamp : ExcelVmlDrawingSignatureLine
     {
-        protected ExcelImage _signatureImage = null;
-        protected string _signatureText = "";
+        private protected ExcelImage _signatureImage = null;
+        private protected string _signatureText = "";
         internal ExcelWorkbook wb;
+
+        private protected eSignatureLineType _signatureLineType = eSignatureLineType.Stamp;
+
+        /// <summary>
+        /// The type of signatureline
+        /// </summary>
+        public eSignatureLineType SignatureLineType
+        {
+            get
+            {
+                return _signatureLineType;
+            }
+        }
 
         /// <summary>
         /// The Signature itself.
@@ -48,7 +61,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// The digital signature this signatureline is linked to if any.
         /// </summary>
-        public ExcelDigitalSignature Signature
+        public ExcelDigitalSignature DigitalSignature
         {
             get
             {
@@ -63,6 +76,7 @@ namespace OfficeOpenXml.Drawing
         internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId)
         {
             IsStamp = true;
+            
             wb = ws.Workbook;
         }
 

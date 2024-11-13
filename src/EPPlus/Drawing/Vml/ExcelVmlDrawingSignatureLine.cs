@@ -18,6 +18,8 @@ namespace OfficeOpenXml.Drawing.Vml
             SetXmlNodeString("o:signatureline/@id", $"{{{SetupID.ToString().ToUpper()}}}");
             AlternativeText = "Microsoft Office Signature Line...";
             ShowSignDate = true;
+            AllowComments = false;
+            SigningInstructions = "Before signing this document, verify that the content you are signing is correct.";
         }
 
         internal ExcelVmlDrawingSignatureLine(XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
@@ -85,7 +87,6 @@ namespace OfficeOpenXml.Drawing.Vml
                 {
                     SetXmlNodeString("o:signatureline/@o:signinginstructions", value);
                     var line = (XmlElement)TopNode.SelectSingleNode("o:signatureline", NameSpaceManager);
-                    line.SetAttribute("allowcomments", "t");
                     line.SetAttribute("signinginstructionsset", "t");
                 }
                 else

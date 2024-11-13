@@ -85,9 +85,19 @@ namespace OfficeOpenXml.Drawing.Vml
                         _drawings.Add(vmlDrawing);
                         break;
                     case "Pict":
-                        if (node.SelectSingleNode("@id").InnerText == "_x0000_s1025")
+                        if (node.SelectSingleNode("@type").InnerText == "#_x0000_t75")
                         {
-                            var sigLine = new ExcelSignatureLineStamp(ws, node, NameSpaceManager);
+                            var pId = node.SelectSingleNode("//o:signatureline@provid", NameSpaceManager);
+                            ExcelSignatureLineStamp sigLine;
+                            if (pId.Value == "{00000000-0000-0000-0000-000000000000}")
+                            {
+                                sigLine = new ExcelSignatureLine(ws, node, NameSpaceManager);
+                            }
+                            else
+                            {
+                                sigLine = new ExcelSignatureLineStamp(ws, node, NameSpaceManager);
+                            }
+
                             //TODO: Possibly change so vmldrawings only holds/lookups ids to the wb?
                             //So that the objects themselves are ensured to only be in one place.
                             SignatureLines.Add(sigLine);

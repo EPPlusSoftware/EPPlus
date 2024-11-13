@@ -7,6 +7,7 @@ using System.Text;
 using OfficeOpenXml;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.EMF;
+using OfficeOpenXml.Drawing;
 using System.IO;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
@@ -14,17 +15,58 @@ namespace EPPlusTest.Drawing.DigitalSignatures
     [TestClass]
     public class DigitalSignatureLineTests : TestBase
     {
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            CreatePathIfNotExists(_worksheetPath + "DigitalSignatures\\");
+            //_pck = OpenPackage("WorksheetRangeInsert.xlsx", true);
+        }
+        //[ClassCleanup]
+        //public static void Cleanup()
+        //{
+        //    SaveAndCleanup(_pck);
+        //}
+
         [TestMethod]
-        public void CreateDigitalSignatureLine()
+        public void CreateAndReadDigitalSignatureLine()
         {
             using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx", true))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("SignatureLineWorksheet");
 
-                ws.AddSignatureLine();
+                var sline = ws.AddSignatureLine();
+                var slineStamp = ws.AddSignatureLineStamp();
+
+                sline.SignatureText = "Ossian";
+                slineStamp.SignatureImage = new ExcelImage("C:\\Users\\OssianEdström\\Pictures\\TempBitmap.bmp");
+
+                var collection = new SignatureLineCollection();
+
+                var something = "something";
+
+                collection.Add(sline);
+                collection.Add(slineStamp);
+
+                var test1 = collection[0];
+                var test = collection[1];
 
                 SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets[0];
+
+                var sigLine = ws.SignatureLines[0];
+
+                Assert.AreEqual("", sigLine.Signer);
+                Assert.AreEqual("", sigLine.Title);
+                Assert.AreEqual("Before signing this document, verify that the content you are signing is correct.", sigLine.SigningInstructions);
+                Assert.AreEqual(true, sigLine.ShowSignDate);
+                Assert.AreEqual(false, sigLine.AllowComments);
+                Assert.AreEqual("Microsoft Office Signature Line...", sigLine.AlternativeText);
             }
         }
 

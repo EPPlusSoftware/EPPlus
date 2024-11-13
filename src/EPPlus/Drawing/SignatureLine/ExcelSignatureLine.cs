@@ -48,11 +48,13 @@ namespace OfficeOpenXml.Drawing
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(ws, topNode, ns, lineId)
         {
             IsStamp = false;
+            _signatureLineType = eSignatureLineType.SignatureLine;
         }
 
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(ws, topNode, ns)
         {
             IsStamp = false;
+            _signatureLineType = eSignatureLineType.SignatureLine;
         }
     }
 }
