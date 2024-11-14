@@ -94,7 +94,7 @@ namespace OfficeOpenXml.RichData.RichValues
                 }
 
             }
-            item.InitRvRelRelations();
+            item.InitRelations(this);
             return item;
         }
         private RichValueFallbackType GetFBType(string t)

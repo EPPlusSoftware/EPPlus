@@ -10,30 +10,18 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.RichData.IndexRelations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.RichData.IndexRelations
+namespace OfficeOpenXml.RichData.RichValueArrays
 {
-    internal enum RichDataEntities : ushort
+    internal class ExcelRichDataArrayValueCollection : IndexedCollection<ExcelRichDataArrayValue>
     {
-        None,
-        ValueMetadataBlock,
-        ValueMetadataRecord,
-        CellMetadataBlock,
-        CellMetadataRecord,
-        FutureMetadata,
-        FutureMetadataBlock,
-        FutureMetadataRichDataBlock,
-        FutureMetadataDynamicArrayBlock,
-        MetadataType,
-        RichValue,
-        RichStructure,
-        RichValueRel,
-        RichDataArray,
-        RichDataArrayValue,
-        SubRelations
+        public ExcelRichDataArrayValueCollection(RichDataIndexStore store) : base(store, RichDataEntities.RichDataArrayValue)
+        {
+        }
     }
 }

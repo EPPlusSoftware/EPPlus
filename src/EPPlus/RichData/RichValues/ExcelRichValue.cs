@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.RichData.Mappings;
@@ -47,17 +48,27 @@ namespace OfficeOpenXml.RichData.RichValues
         public string FallbackValue { get; set; }
 
 
-        public void InitRvRelRelations()
+        public void InitRelations(ExcelRichValueCollection values)
         {
             for (var ix = 0; ix < Structure.Keys.Count; ix++)
             {
                 var key = Structure.Keys[ix];
+                // RvRel - relations
                 if (key.IsRelation)
                 {
                     var rvRelVal = _keysAndValues[key.Name];
                     var rvRelId = _richData.RichValueRels.GetIdByIndex(int.Parse(rvRelVal));
                     var rvRel = _richData.RichValueRels.Get(rvRelId);
                     SetRelation(key.Name, key.RelationName, rvRel.TargetUri);
+                }
+                // relation to another richvalue by index
+                else if(key.DataType == RichValueDataType.RichValue)
+                {
+                    var rvIndex = int.Parse(_keysAndValues[key.Name]);
+                    var targetRv = values[rvIndex];
+                    var relation = AddRelationTo(targetRv, IndexType.ZeroBasedPointer);
+                    _relations[key.Name] = relation;
+                    _keysAndValues[key.Name] = targetRv.Id.ToString();
                 }
             }
         }
@@ -86,8 +97,17 @@ namespace OfficeOpenXml.RichData.RichValues
                 if(_relations.ContainsKey(key))
                 {
                     var relation = _relations[key];
-                    var relIx = _richData.RichValueRels.GetIndexById(relation.To.Id);
-                    sw.Write($"<v>{relIx}</v>");
+                    if(relation.To.EntityType == RichDataEntities.RichValueRel)
+                    {
+                        var relIx = _richData.RichValueRels.GetIndexById(relation.To.Id);
+                        sw.Write($"<v>{relIx}</v>");
+                    }
+                    else
+                    {
+                        var relIx = _richData.Values.GetIndexById(relation.To.Id);
+                        sw.Write($"<v>{relIx}</v>");
+
+                    }
                 }
                 else
                 {

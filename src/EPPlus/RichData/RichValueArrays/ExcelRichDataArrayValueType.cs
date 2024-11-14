@@ -15,25 +15,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.RichData.IndexRelations
+namespace OfficeOpenXml.RichData.RichValueArrays
 {
-    internal enum RichDataEntities : ushort
+    internal enum ExcelRichDataArrayValueType
     {
-        None,
-        ValueMetadataBlock,
-        ValueMetadataRecord,
-        CellMetadataBlock,
-        CellMetadataRecord,
-        FutureMetadata,
-        FutureMetadataBlock,
-        FutureMetadataRichDataBlock,
-        FutureMetadataDynamicArrayBlock,
-        MetadataType,
+        RealNumber,
+        Integer,
+        Boolean,
+        Error,
+        Text,
         RichValue,
-        RichStructure,
-        RichValueRel,
-        RichDataArray,
-        RichDataArrayValue,
-        SubRelations
+        Array
     }
 }

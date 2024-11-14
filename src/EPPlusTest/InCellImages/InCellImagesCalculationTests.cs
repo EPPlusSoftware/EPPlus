@@ -154,5 +154,14 @@ namespace EPPlusTest.InCellImages
             SaveWorkbook("ExistingRichData2_Result.xlsx", package);
 
         }
+
+        [TestMethod]
+        public void ExistingRichData3()
+        {
+            using var package = OpenTemplatePackage("ExistingRichData1.xlsx");
+            var sheet = package.Workbook.Worksheets.First();
+            sheet.Cells["A1"].Value = 1;
+            SaveWorkbook("ExistingRichData3_Result.xlsx", package);
+        }
     }
 }

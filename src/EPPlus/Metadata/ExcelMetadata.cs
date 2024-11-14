@@ -221,6 +221,17 @@ namespace OfficeOpenXml.Metadata
                     fm.AddRelationTo(bk, IndexType.ZeroBasedPointer);
                 }
             }
+            fm = FutureMetadata.FirstOrDefault(x => x.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME);
+            var fmda = fm as FutureMetadataDynamicArray;
+            if(fmda != null)
+            {
+                for (var ix = 0; ix < fmda.Blocks.Count; ix++)
+                {
+                    var bk = fmda.Blocks[ix];
+                    bk.InitRelations(richData);
+                    fm.AddRelationTo(bk, IndexType.ZeroBasedPointer);
+                }
+            }
         }
 
         internal int CreateDefaultXmlDynamicArray()

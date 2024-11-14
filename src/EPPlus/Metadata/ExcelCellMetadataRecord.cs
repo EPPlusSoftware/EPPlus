@@ -74,6 +74,7 @@ namespace OfficeOpenXml.Metadata
             {
                 var bk = _metadata.FutureMetadataBlocks.Get(ValueId);
                 var fmType = bk.GetFirstIncomingRelByType<FutureMetadataBase>();
+                if (fmType == null) return null;
                 return fmType.Blocks.GetZeroBasedIndex(ValueId);
             }
         }

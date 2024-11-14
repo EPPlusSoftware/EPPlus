@@ -63,7 +63,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
 
         public override void Save(StreamWriter sw)
         {
-            sw.Write($"<bk><extLst><ext uri=\"{Uri}\"");
+            sw.Write($"<bk><extLst><ext uri=\"{Uri}\">");
             if (string.IsNullOrEmpty(ExtLstXml))
             {
                 sw.Write($"<xda:dynamicArrayProperties fDynamic=\"{(IsDynamicArray ? "1" : "0")}\" fCollapsed=\"{(IsCollapsed ? "1" : "0")}\"/>");
