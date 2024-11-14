@@ -9,25 +9,50 @@ using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Drawing;
 using System.IO;
+using System.Xml.Linq;
+using System.Security.Cryptography;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
     [TestClass]
     public class DigitalSignatureLineTests : TestBase
     {
+        const string SubFolder = "DigitalSignatureLines\\";
+        private byte[] certPrivate;
+        private byte[] certPublic;
+        private X509Certificate2 cert;
+
+        void MakeSelfCert()
+        {
+            var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+            var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
+
+            certPrivate = finalCert.Export(X509ContentType.Pfx);
+            certPublic = finalCert.Export(X509ContentType.Cert);
+            cert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
+        }
+
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            CreatePathIfNotExists(_worksheetPath + "DigitalSignatures\\");
-            ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx", true);
+            CreatePathIfNotExists(_worksheetPath + SubFolder);
+            ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx", true);
         }
+
+        //[TestMethod]
+        //public void TestCert()
+        //{
+        //    MakeSelfCert();
+        //    cert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
+
+        //}
 
         [TestMethod]
         public void CreateAndReadDefaultSignatureLine()
         {
             var wsName = "SignatureLineWorksheet";
 
-            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
@@ -37,7 +62,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.GetByName(wsName);
@@ -60,7 +85,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         {
             var wsName = "SignatureLineStamps";
 
-            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
@@ -69,7 +94,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.GetByName(wsName);
@@ -99,7 +124,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             string AlternativeText = "Alt text";
             var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
 
-            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
@@ -144,7 +169,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage("DigitalSignatures\\UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.GetByName(wsName);
@@ -186,21 +211,65 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual(10, sigStamp.From.Column);
                 Assert.AreEqual(12, sigStamp.To.Column);
 
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void CopyShouldIgnoreSignatureLines()
+        {
+            var wsName = "originalSheet";
+            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add(wsName);
+                ws.AddSignatureLine();
+
                 var copiedWs = wb.Worksheets.Copy(wsName, "CopiedSheet");
 
-                //copiedWs.SignatureLines.Add(sigLine);
-
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-
-                //copiedWs.SignatureLines[0].Sign(store.Certificates[1], signatureImage);
-
-                foreach (var sig in ws.SignatureLines)
-                {
-                    sig.Sign(store.Certificates[1], signatureImage);
-                }
+                Assert.AreEqual(0, copiedWs.SignatureLines.Count());
+                Assert.AreEqual(0, copiedWs._vmlDrawings.Count);
 
                 SaveAndCleanup(package);
+            }
+            //var copiedWs = wb.Worksheets.Copy(wsName, "CopiedSheet");
+
+            ////copiedWs.SignatureLines.Add(sigLine);
+
+            //X509Store store = new X509Store(StoreLocation.CurrentUser);
+            //store.Open(OpenFlags.ReadOnly);
+
+            ////copiedWs.SignatureLines[0].Sign(store.Certificates[1], signatureImage);
+
+            //foreach (var sig in ws.SignatureLines)
+            //{
+            //    sig.Sign(store.Certificates[1], signatureImage);
+            //}
+        }
+
+        [TestMethod]
+        public void SignSignatureLine()
+        {
+            var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
+
+            using (ExcelPackage package = OpenPackage($"{SubFolder}SignedSignatureLines.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sSline = package.Workbook.Worksheets.Add("SignedSignatureLine");
+                var manysSlines = package.Workbook.Worksheets.Add("ManySignedSignatureLine");
+                var sSlineStamp = package.Workbook.Worksheets.Add("SignedSignatureLineStamp");
+                var manySlineStamps = package.Workbook.Worksheets.Add("ManySignedSignatureLineStamp");
+
+                //X509Store store = new X509Store(StoreLocation.CurrentUser);
+                //store.Open(OpenFlags.ReadOnly);
+
+                var sLine = sSline.AddSignatureLine();
+
+                MakeSelfCert();
+                sLine.Sign(cert, signatureImage);
+
+                SaveAndCleanup(package);
+                //sLine.Sign(store.Certificates[0], signatureImage);
             }
         }
 
