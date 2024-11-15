@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -142,6 +143,37 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
                 var a4val = sheet.Cells["A4"].Value;
                 Assert.AreEqual(1d,a4val);
             }
+        }
+
+
+        [TestMethod]
+        public void SumPrecisionTest()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            ws.Cells["A2"].Value = 0.2;
+            ws.Cells["B2"].Value = 21.9;
+            ws.Cells["D2"].Value = 22.1;
+            ws.Cells["E2"].Formula = "D2-SUM(A2:B2)";
+
+
+            ws.Cells["A3"].Value = 1;
+            ws.Cells["B3"].Value = 9000;
+            ws.Cells["C3"].Formula = "A3/B3";
+            ws.Cells["D3"].Formula = "1+C3";
+            ws.Cells["E3"].Formula = "D3-1";
+
+            p.Workbook.Calculate(
+                                new ExcelCalculationOption
+                                {
+                                    PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel
+                                });
+
+            var res = float.Parse( ws.Cells["D2"].Value.ToString()) - (float.Parse( ws.Cells["A2"].Value.ToString()) + float.Parse(ws.Cells["B2"].Value.ToString()));
+
+            Assert.AreEqual(0d, ws.Cells["E2"].Value);
+            //Assert.AreEqual(0, ws.Cells["E3"].Value);
         }
     }
 }
