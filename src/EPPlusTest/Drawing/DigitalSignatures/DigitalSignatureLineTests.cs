@@ -20,17 +20,17 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         const string SubFolder = "DigitalSignatureLines\\";
         private byte[] certPrivate;
         private byte[] certPublic;
-        private X509Certificate2 cert;
+        //private X509Certificate2 cert;
 
-        void MakeSelfCert()
-        {
-            var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-            var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
+        //void MakeSelfCert()
+        //{
+        //    var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+        //    var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
 
-            certPrivate = finalCert.Export(X509ContentType.Pfx);
-            certPublic = finalCert.Export(X509ContentType.Cert);
-            cert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
-        }
+        //    certPrivate = finalCert.Export(X509ContentType.Pfx);
+        //    certPublic = finalCert.Export(X509ContentType.Cert);
+        //    cert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
+        //}
 
         [ClassInitialize]
         public static void Init(TestContext context)
@@ -265,8 +265,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var sLine = sSline.AddSignatureLine();
 
-                MakeSelfCert();
-                sLine.Sign(cert, signatureImage);
+                //MakeSelfCert();
+                //sLine.Sign(cert, signatureImage);
 
                 SaveAndCleanup(package);
                 //sLine.Sign(store.Certificates[0], signatureImage);
