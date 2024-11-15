@@ -237,5 +237,20 @@ namespace EPPlusTest.Drawing
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void i1688()
+        {
+            using (ExcelPackage package = OpenPackage("i1688.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewSheet");
+
+                var pic = ws.Drawings.AddPicture("mypic", GetResourceFile("tree-solid.svg"));
+
+                //pic.Image.SetImage(GetResourceFile("tree-solid.svg"));
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

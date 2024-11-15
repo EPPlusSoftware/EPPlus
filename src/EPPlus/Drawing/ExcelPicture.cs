@@ -20,6 +20,8 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
 using System.Linq;
 using System.Globalization;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+
 
 #if NETFULL
 using System.Drawing.Imaging;
@@ -339,6 +341,11 @@ namespace OfficeOpenXml.Drawing
             return xml.ToString();
         }
 
+        //private void AddSvgXml(string attribute)
+        //{
+        //    xml.Append($"<a:blip xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:{attribute}=\"\" cstate=\"print\"><a:extLst><a:ext uri=\"{{28A0092B-C50C-407E-A947-70E740481C1C}}\"><a14:useLocalDpi xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" val=\"0\"/></a:ext><a:ext uri=\"{{96DAC541-7B7A-43D3-8B79-37D633B846F1}}\"><asvg:svgBlip xmlns:asvg=\"http://schemas.microsoft.com/office/drawing/2016/SVG/main\" r:{attribute}=\"\"/></a:ext></a:extLst></a:blip>");
+        //}
+
         /// <summary>
         /// The image
         /// </summary>
@@ -503,10 +510,21 @@ namespace OfficeOpenXml.Drawing
         void IPictureContainer.SetNewImage()
         {
             var relId = ((IPictureContainer)this).RelPic.Id;
-            TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
+            var picNode = (XmlElement)TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", NameSpaceManager);
+            picNode.SetAttribute("r:embed", relId);
             if (Image.Type == ePictureType.Svg)
             {
-                TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relId;
+                var node = TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager);
+                if(node == null)
+                {
+                    var newNode = TopNode.OwnerDocument.CreateElement("extLst", "28A0092B-C50C-407E-A947-70E740481C1C");
+                    picNode.AppendChild(newNode);
+                    newNode.InnerXml = $"<a:ext uri=\"{{28A0092B-C50C-407E-A947-70E740481C1C}}\"><a14:useLocalDpi xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" val=\"0\"/></a:ext><a:ext uri=\"{{96DAC541-7B7A-43D3-8B79-37D633B846F1}}\"><asvg:svgBlip xmlns:asvg=\"http://schemas.microsoft.com/office/drawing/2016/SVG/main\" r:embed=\"{relId}\"/></a:ext>";
+                }
+                else
+                {
+                    node.Value = relId;
+                }
             }
         }
 
@@ -523,7 +541,7 @@ namespace OfficeOpenXml.Drawing
 		{
 			get
 			{
-				return GetXmlNodeAngel(_rotationPath);
+				return GetXmlNodeAngle(_rotationPath);
 			}
 			set
 			{
