@@ -245,9 +245,8 @@ namespace EPPlusTest.Drawing
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("NewSheet");
 
-                var pic = ws.Drawings.AddPicture("mypic", GetResourceFile("tree-solid.svg"));
-
-                //pic.Image.SetImage(GetResourceFile("tree-solid.svg"));
+                var pic = ws.Drawings.AddPicture("mypic", GetResourceFile("EPPlus.png"));
+                pic.Image.SetImage(GetResourceFile("car-silhouette-color-low-poly.svg"));
 
                 SaveAndCleanup(package);
             }
