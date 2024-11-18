@@ -21,6 +21,8 @@ using OfficeOpenXml.Packaging;
 using System.Linq;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System.ComponentModel;
+
 
 
 #if NETFULL
@@ -251,7 +253,11 @@ namespace OfficeOpenXml.Drawing
                 var rel = _drawings.Part.GetRelationship(relId);
                 container.UriPic = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
             }
+
+            pc.Hashes[ii.Hash].RefCount++;
+
             container.ImageHash = ii.Hash;
+
             using (var ms = RecyclableMemory.GetStream(img))
             {
                 Image.ImageBytes = img;
@@ -492,7 +498,10 @@ namespace OfficeOpenXml.Drawing
                 if (hi.RefCount <= 1)
                 {
                     relDoc.Package.PictureStore.RemoveImage(container.ImageHash, this);
-                    relDoc.RelatedPart.DeleteRelationship(container.RelPic.Id);
+                    if(container.RelPic != null)
+                    {
+                        relDoc.RelatedPart.DeleteRelationship(container.RelPic.Id);
+                    }
                     relDoc.Hashes.Remove(container.ImageHash);
                 }
                 else
@@ -519,6 +528,16 @@ namespace OfficeOpenXml.Drawing
                 else
                 {
                     node.Value = relId;
+                }
+            }
+
+            if (_drawings.Part.RelationshipExists(relId))
+            {
+                IPictureContainer container = this;
+                var thePart = _drawings.Part.Package.GetPart(container.UriPic);
+                if (Part != thePart)
+                {
+                    Part = thePart;
                 }
             }
         }

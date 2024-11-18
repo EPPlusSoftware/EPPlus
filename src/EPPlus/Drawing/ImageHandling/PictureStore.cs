@@ -395,6 +395,7 @@ namespace OfficeOpenXml.Drawing
             if (hashes.ContainsKey(ii.Hash))
             {
                 var relID = hashes[ii.Hash].RelId;
+                hashes[ii.Hash].RefCount++;
                 container.RelPic = container.RelationDocument.RelatedPart.GetRelationship(relID);
                 container.UriPic = UriHelper.ResolvePartUri(container.RelPic.SourceUri, container.RelPic.TargetUri);
                 return relID;

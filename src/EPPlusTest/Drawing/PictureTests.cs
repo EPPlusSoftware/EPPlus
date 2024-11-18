@@ -1,13 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace EPPlusTest.Drawing
@@ -247,6 +243,63 @@ namespace EPPlusTest.Drawing
 
                 var pic = ws.Drawings.AddPicture("mypic", GetResourceFile("EPPlus.png"));
                 pic.Image.SetImage(GetResourceFile("car-silhouette-color-low-poly.svg"));
+
+                SaveAndCleanup(package);
+            }
+        }
+
+
+		[TestMethod]
+		public void SwitchFromSvgToPng()
+		{
+			using (ExcelPackage package = OpenPackage("SvgToPng.xlsx", true))
+			{
+				var wb = package.Workbook;
+				var ws = wb.Worksheets.Add("NewSheet");
+
+				var originalSvg = ws.Drawings.AddPicture("svgOrig", GetResourceFile("car-silhouette-color-low-poly.svg"));
+				originalSvg.Image.SetImage(GetResourceFile("EPPlus.png"));
+
+				Assert.IsTrue(ws.Drawings.Part.RelationshipExists("rId1"));
+				var rel = ws.Drawings.Part.GetRelationship("rId1");
+
+				var relUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, rel.TargetUri);
+
+                Assert.AreEqual(originalSvg.Part.Uri, relUri);
+                Assert.AreEqual("../media/image1.png", rel.TargetUri.OriginalString);
+
+                SaveAndCleanup(package);
+            }
+		}
+
+        [TestMethod]
+        public void SwitchingFromPictureReferencedByOtherPicture()
+        {
+            using (ExcelPackage package = OpenPackage("PicturesMultipleReferences.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewSheet");
+
+				var originalSvg = ws.Drawings.AddPicture("svgOrig", GetResourceFile("car-silhouette-color-low-poly.svg"));
+
+				originalSvg.SetPosition(10, 200);
+
+                var originalPng = ws.Drawings.AddPicture("otherpic", GetResourceFile("EPPlus.png"));
+
+				originalPng.SetPosition(10, 400);
+
+                var SwitchedPicture = ws.Drawings.AddPicture("mypic", GetResourceFile("EPPlus.png"));
+
+                SwitchedPicture.Image.SetImage(GetResourceFile("car-silhouette-color-low-poly.svg"));
+                SwitchedPicture.Image.SetImage(GetResourceFile("EPPlus.png"));
+
+				Assert.IsTrue(ws.Drawings.Part.RelationshipExists("rId1"));
+				var rel = ws.Drawings.Part.GetRelationship("rId1");
+                Assert.AreEqual("../media/image1.Svg", rel.TargetUri.OriginalString);
+
+                Assert.AreEqual(SwitchedPicture.Part.Uri, originalPng.Part.Uri);
+                var rel2 = ws.Drawings.Part.GetRelationship("rId2");
+                Assert.AreEqual("../media/image1.Png", rel2.TargetUri.OriginalString);
 
                 SaveAndCleanup(package);
             }
