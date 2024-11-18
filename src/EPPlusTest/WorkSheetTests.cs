@@ -2216,14 +2216,22 @@ namespace EPPlusTest
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.GetByName("Sheet3");
 
-                ws.Cells["A2:A4"].CreateArrayFormula("Index('#AdjustmentISAccounts'!$D:$D,$S$5+ROW()-ROW($D$16))");
+                var formula = ws.Cells["A1"].Formula;
 
-                var aValue = ws.Cells["A2"].Formula;
+                ws.Cells["A1"].Calculate();
 
-                GenerateRowsFromTemplate(ws, ws.Cells["A4:A9"], 5);
+                var value = ws.Cells["A1"].Value;
 
-                //ws.Cells["A2"].Calculate();
-                //ws.Cells["A1"].Calculate();
+                //ws.Cells["A2:A4"].Formula = "Index('#AdjustmentISAccounts'!$D:$D,$S$5+ROW()-ROW($D$16))";
+
+                GenerateRowsFromTemplate(ws, ws.Cells["A1"], 5);
+
+                ws.Cells["S5"].Value = 17;
+                ws.Cells["D16"].Value = 1;
+
+                //ws.Cells["A1:A10"].Calculate();
+
+                //var val = ws.Cells["A1"].Value;
 
                 //Assert.AreEqual(ErrorValues.RefError, ws.Cells["A1"].Value);
 
