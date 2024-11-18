@@ -1,4 +1,7 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.5.1
+* Fix for inserting rows after array formulas when reffering to worksheets with '#' as part of the worksheet name.
+
 ## Version 7.5.0
 ### Fixed issues and minor features
  * Added signatures to the EPPlus.dll's and the EPPlus Nuget package.

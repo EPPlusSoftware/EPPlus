@@ -26,25 +26,22 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using System.IO;
 using OfficeOpenXml.Drawing;
-using System.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Style;
-using System.Data;
-using OfficeOpenXml.Table.PivotTable;
-using System.Reflection;
 using OfficeOpenXml.Table;
-using System.Threading;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Drawing;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices;
 
 namespace EPPlusTest
 {
@@ -2211,34 +2208,37 @@ namespace EPPlusTest
         [TestMethod]
         public void i1689()
         {
-            using (ExcelPackage package = OpenTemplatePackage("i1689.xlsx"))
+            using (ExcelPackage package = OpenPackage("i1689.xlsx", true))
             {
                 var wb = package.Workbook;
-                var ws = wb.Worksheets.GetByName("Sheet3");
+                var srcWs = wb.Worksheets.Add("#AdjustmentIsAccounts");
+                var wsF = wb.Worksheets.Add("ws_Formula");
 
-                var formula = ws.Cells["A1"].Formula;
+                var range = srcWs.Cells["C1:T20"];
+                srcWs.Tables.Add(range, "TestTable");
 
-                ws.Cells["A1"].Calculate();
+                srcWs.Cells["D1:D10"].Formula = "ROW()-1";
+                srcWs.Cells["D1:D10"].Calculate();
 
-                var value = ws.Cells["A1"].Value;
+                var formula = "Index('#AdjustmentISAccounts'!$D:$D,$S$5+ROW()-ROW($D$16))";
+                wsF.Cells["A1"].Formula = formula;
 
-                //ws.Cells["A2:A4"].Formula = "Index('#AdjustmentISAccounts'!$D:$D,$S$5+ROW()-ROW($D$16))";
+                GenerateRowsFromTemplate(wsF, wsF.Cells["A1"], 5);
 
-                GenerateRowsFromTemplate(ws, ws.Cells["A1"], 5);
+                wsF.Cells["S10"].Value = 22;
+                wsF.Cells["D21"].Value = 1;
 
-                ws.Cells["S5"].Value = 17;
-                ws.Cells["D16"].Value = 1;
+                wsF.Cells["A1:A6"].Calculate();
 
-                //ws.Cells["A1:A10"].Calculate();
-
-                //var val = ws.Cells["A1"].Value;
-
-                //Assert.AreEqual(ErrorValues.RefError, ws.Cells["A1"].Value);
+                for(int i = 1; i<= 6; i++ )
+                {
+                    Assert.AreEqual((double)i, wsF.Cells[$"A{i}"].Value);
+                }
 
                 SaveAndCleanup(package);
             }
         }
-
+        //Code from github issue
         internal ExcelRangeBase GenerateRowsFromTemplate(ExcelWorksheet wks, ExcelRangeBase templateRow, int insertCount)
         {
             if (insertCount <= 0)
@@ -2263,26 +2263,6 @@ namespace EPPlusTest
             }
 
             return wks.Cells[$"{originalTemplateRow}:{originalTemplateRow + insertCount}"];
-        }
-
-
-        [TestMethod]
-        public void i1689_2()
-        {
-            using (ExcelPackage package = OpenPackage("i1689_2.xlsx", true))
-            {
-                var wb = package.Workbook;
-                var ws = wb.Worksheets.Add("#AdjustmentISAccounts");
-                var wsOther = wb.Worksheets.Add("OtherWs");
-
-                ws.Cells["A2:A4"].Formula = "Index('#AdjustmentISAccounts'!$D:$D,$S$5+ROW()-ROW($D$16))";
-                ws.Cells["A2"].Calculate();
-                var aValue = ws.Cells["A2"].Value;
-
-                Assert.AreEqual(0d,aValue);
-
-                SaveAndCleanup(package);
-            }
         }
     }
 }
