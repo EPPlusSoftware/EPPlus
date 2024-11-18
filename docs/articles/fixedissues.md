@@ -1,4 +1,14 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.5.0
+### Fixed issues and minor features
+ * Added signatures to the EPPlus.dll's and the EPPlus Nuget package.
+ * Added new properties RepeatItemLabels and InsertBlankRow to ExcelPivotTableField
+ * A NullReferenceException was sometimes thrown when saving line charts with droplines.
+ * Fix for cells with null values and no style id getting incorrect styling.
+ * Fixed an issue where two VLOOKUPs on the same worksheet intersected the same range. (kolla ev. #1671 för bättre beskrivning, tror det var du som fixade den).
+ * Added AllowDuplicateColumnNames to ToDataTableOptions. This allows the exported range in the ToDataTable method to have duplicate column names.
+ * EPPlus encoded CR and TAB characters in the shared string to _0x000D_ and _0x000A_, which was not necessary. 
+ * NullReferenceException thrown in some cases when saving a line chart with droplines
 
 ## Version 7.4.2
 * Added support the array attribute on table column formulas.
