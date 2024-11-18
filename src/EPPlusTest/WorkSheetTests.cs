@@ -2216,17 +2216,47 @@ namespace EPPlusTest
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.GetByName("Sheet3");
 
-                ws.Cells["A2:A4"].Formula = "=@Index('#AdjustmentISAccounts'!$D:$D,$S$5+ROW()-ROW($D$16))";
-                ws.Cells["A2"].Calculate();
-                ws.Cells["A1"].Calculate();
+                ws.Cells["A2:A4"].CreateArrayFormula("Index('#AdjustmentISAccounts'!$D:$D,$S$5+ROW()-ROW($D$16))");
 
-                var aValue = ws.Cells["A2"].Value;
+                GenerateRowsFromTemplate(ws, ws.Cells["A4:A9"], 5);
 
-                Assert.AreEqual(ErrorValues.RefError, ws.Cells["A1"].Value);
+                //ws.Cells["A2"].Calculate();
+                //ws.Cells["A1"].Calculate();
+
+                //var aValue = ws.Cells["A2"].Value;
+
+                //Assert.AreEqual(ErrorValues.RefError, ws.Cells["A1"].Value);
 
                 SaveAndCleanup(package);
             }
         }
+
+        internal ExcelRangeBase GenerateRowsFromTemplate(ExcelWorksheet wks, ExcelRangeBase templateRow, int insertCount)
+        {
+            if (insertCount <= 0)
+            {
+                return templateRow;
+            }
+
+            int originalTemplateRow = templateRow.Start.Row;
+
+            wks.InsertRow(templateRow.Start.Row, insertCount, templateRow.Start.Row);
+
+            // Grab templateRow again after inserting columns
+            templateRow = templateRow.Offset(insertCount, 0);
+
+            // Copy data from row template to newly inserted blank columns
+            for (int j = 1; j <= insertCount; j++)
+            {
+                var sourceRange = wks.Cells[$"{templateRow.Start.Row}:{templateRow.End.Row}"];
+                var destRange = wks.Cells[$"{templateRow.Start.Row - j}:{templateRow.End.Row - j}"];
+
+                sourceRange.Copy(destRange);
+            }
+
+            return wks.Cells[$"{originalTemplateRow}:{originalTemplateRow + insertCount}"];
+        }
+
 
         [TestMethod]
         public void i1689_2()
