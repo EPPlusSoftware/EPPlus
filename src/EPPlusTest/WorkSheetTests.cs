@@ -2218,12 +2218,12 @@ namespace EPPlusTest
 
                 ws.Cells["A2:A4"].CreateArrayFormula("Index('#AdjustmentISAccounts'!$D:$D,$S$5+ROW()-ROW($D$16))");
 
+                var aValue = ws.Cells["A2"].Formula;
+
                 GenerateRowsFromTemplate(ws, ws.Cells["A4:A9"], 5);
 
                 //ws.Cells["A2"].Calculate();
                 //ws.Cells["A1"].Calculate();
-
-                //var aValue = ws.Cells["A2"].Value;
 
                 //Assert.AreEqual(ErrorValues.RefError, ws.Cells["A1"].Value);
 
