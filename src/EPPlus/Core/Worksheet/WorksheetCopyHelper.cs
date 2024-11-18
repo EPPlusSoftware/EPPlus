@@ -31,7 +31,6 @@ using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Linq;
-using OfficeOpenXml.Table;
 
 namespace OfficeOpenXml.Core.Worksheet
 {

@@ -1,11 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -157,23 +153,33 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
             ws.Cells["D2"].Value = 22.1;
             ws.Cells["E2"].Formula = "D2-SUM(A2:B2)";
 
+            ws.Cells["A3"].Value = 0.2;
+            ws.Cells["B3"].Value = -21.9;
+            ws.Cells["E3"].Formula = "SUM(A3:B3)";
 
-            ws.Cells["A3"].Value = 1;
-            ws.Cells["B3"].Value = 9000;
-            ws.Cells["C3"].Formula = "A3/B3";
-            ws.Cells["D3"].Formula = "1+C3";
-            ws.Cells["E3"].Formula = "D3-1";
+            ws.Cells["A4"].Value = -0.2;
+            ws.Cells["B4"].Value = -21.9;
+            ws.Cells["D4"].Value = -22.1;
+            ws.Cells["E4"].Formula = "D4-SUM(A4:B4)";
 
-            p.Workbook.Calculate(
-                                new ExcelCalculationOption
-                                {
-                                    PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel
-                                });
 
-            var res = float.Parse( ws.Cells["D2"].Value.ToString()) - (float.Parse( ws.Cells["A2"].Value.ToString()) + float.Parse(ws.Cells["B2"].Value.ToString()));
+            ws.Cells["A5"].Value = -0.2;
+            ws.Cells["B5"].Value = 21.9;
+            ws.Cells["D5"].Value = -22.1;
+            ws.Cells["E5"].Formula = "D5-SUM(A5:B5)";
+
+            p.Workbook.Calculate();
 
             Assert.AreEqual(0d, ws.Cells["E2"].Value);
-            //Assert.AreEqual(0, ws.Cells["E3"].Value);
+            Assert.AreEqual(-21.7d, ws.Cells["E3"].Value);
+            Assert.AreEqual(0d, ws.Cells["E4"].Value);
+            Assert.AreEqual(-43.8, ws.Cells["E5"].Value);
+
+            var r = RoundingHelper.GetSignificantFigures(-123456.0987654321d, 15);
+            Assert.AreEqual(-123456.098765432, r);
+
+            var r2 = RoundingHelper.GetSignificantFigures(0.000111111111111173d, 15);
+            Assert.AreEqual(0.000111111111111173, r2);
         }
     }
 }

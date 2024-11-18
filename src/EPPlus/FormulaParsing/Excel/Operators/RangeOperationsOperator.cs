@@ -10,37 +10,32 @@
  *************************************************************************************************
   05/30/2022         EPPlus Software AB       EPPlus 6.1
  *************************************************************************************************/
-using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
     internal static class RangeOperationsOperator
     {
         private const double DoublePrecision = 0.000000000000001d;
-        private static object ApplyOperator(double l, double r, Operators op, out bool error)
+        private static object ApplyOperator(double l, double r, Operators op, out bool error, ParsingContext context)
         {
             error = false;
             switch(op)
             {
                 case Operators.Plus:
-                    return l + r;
+                    return context.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel ? RoundingHelper.GetSignificantFigures(l + r, 15) : l + r;
                 case Operators.Minus:
-                    return l - r;
+                    return context.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel ? RoundingHelper.GetSignificantFigures(l - r, 15) : l - r;
                 case Operators.Multiply:
-                    return l * r;
+                    return context.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel ? RoundingHelper.GetSignificantFigures(l * r, 15) : l * r;
                 case Operators.Divide:
-                    return l / r;
+                    return context.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel ? RoundingHelper.GetSignificantFigures(l / r, 15) : l / r;
                 case Operators.LessThan:
                     return l < r;
                 case Operators.LessThanOrEqual:
@@ -211,13 +206,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             return ConvertUtil.IsNumericOrDate(val, true, true);
         }
 
-        private static void SetValue(Operators op, InMemoryRange resultRange, int row, int col, object leftVal, object rightVal)
+        private static void SetValue(Operators op, InMemoryRange resultRange, int row, int col, object leftVal, object rightVal, ParsingContext context)
         {
             if (IsNumeric(leftVal??0D) && IsNumeric(rightVal??0))
             {
                 var l = ConvertUtil.GetValueDouble(leftVal, false, false, true);
                 var r = ConvertUtil.GetValueDouble(rightVal, false, false, true);
-                var result = ApplyOperator(l, r, op, out bool error);
+                var result = ApplyOperator(l, r, op, out bool error, context);
                 SetValue(resultRange, row, col, result, error);
             }
             else
@@ -308,7 +303,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 for (var col = 0; col < resultRange.Size.NumberOfCols; col++)
                 {
                     var leftVal = GetCellValue(lr, row, col);
-                    SetValue(op, resultRange, row, col, leftVal, right.Result);
+                    SetValue(op, resultRange, row, col, leftVal, right.Result, context);
                 }
             }
             return resultRange;
@@ -324,7 +319,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                 {
                     var leftVal = left.Result;
                     var rightVal = GetCellValue(rr, row, col);
-                    SetValue(op, resultRange, row, col, leftVal, rightVal);
+                    SetValue(op, resultRange, row, col, leftVal, rightVal, context);
                 }
             }
             return resultRange;
@@ -349,13 +344,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         {
                             var leftVal = GetCellValue(lr, 0, col);
                             var rightVal = GetCellValue(rr, row, col);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal);
+                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
                         }
                         else if (rr.Size.NumberOfRows == 1)
                         {
                             var leftVal = GetCellValue(lr, row, col);
                             var rightVal = GetCellValue(rr, 0, col);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal);
+                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
                         }
                     }
                     else if (shouldUseSingleCol)
@@ -364,13 +359,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         {
                             var leftVal = GetCellValue(lr, row, 0);
                             var rightVal = GetCellValue(rr, row, col);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal);
+                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
                         }
                         else if (rr.Size.NumberOfCols == 1)
                         {
                             var leftVal = GetCellValue(lr, row, col);
                             var rightVal = GetCellValue(rr, row, 0);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal);
+                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
                         }
                     }
                     else if (shouldUseSingleCell)
@@ -379,13 +374,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         {
                             var leftVal = GetCellValue(lr, 0, 0);
                             var rightVal = GetCellValue(rr, row, col);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal);
+                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
                         }
                         else
                         {
                             var leftVal = GetCellValue(lr, row, col);
                             var rightVal = GetCellValue(rr, 0, 0);
-                            SetValue(op, resultRange, row, col, leftVal, rightVal);
+                            SetValue(op, resultRange, row, col, leftVal, rightVal, context);
                         }
                     }
                     else if (AddressIsNotAvailable(lr.Size, rr.Size, row, col))
@@ -396,7 +391,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     {
                         var leftVal = GetCellValue(lr, row, col);
                         var rightVal = GetCellValue(rr, row, col);
-                        SetValue(op, resultRange, row, col, leftVal, rightVal);
+                        SetValue(op, resultRange, row, col, leftVal, rightVal, context);
                     }
                 }
             }

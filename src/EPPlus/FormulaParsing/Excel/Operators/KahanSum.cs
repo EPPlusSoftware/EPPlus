@@ -10,10 +10,7 @@
  *************************************************************************************************
   27/07/2023         EPPlus Software AB         Implemented function
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
@@ -58,38 +55,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 
         public static implicit operator double(KahanSum kh) => kh.Get();
 
-        public double Get2()
-        {
-            return _sum + _c;
-        }
-
         public double Get()
         {
-            return SetSigFigs(_sum - _c, 15);
-        }
-
-        public static double SetSigFigs(double d, int digits)
-        {
-            if (d == 0.0)
-            {
-                return 0.0;
-            }
-            else
-            {
-                double leftSideNumbers = Math.Floor(Math.Log10(Math.Abs(d))) + 1;
-                double scale = Math.Pow(10, leftSideNumbers);
-                double result = scale * Math.Round(d / scale, digits, MidpointRounding.AwayFromZero);
-
-                // Clean possible precision error.
-                if ((int)leftSideNumbers >= digits)
-                {
-                    return Math.Round(result, 0, MidpointRounding.AwayFromZero);
-                }
-                else
-                {
-                    return Math.Round(result, digits - (int)leftSideNumbers, MidpointRounding.AwayFromZero);
-                }
-            }
+            return RoundingHelper.GetSignificantFigures(_sum - _c, 15);
         }
 
         public void Clear()

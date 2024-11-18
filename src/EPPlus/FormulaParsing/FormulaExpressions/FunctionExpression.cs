@@ -12,14 +12,12 @@
  *************************************************************************************************/
 using System.Linq;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
-using System.Runtime.Serialization.Formatters;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {

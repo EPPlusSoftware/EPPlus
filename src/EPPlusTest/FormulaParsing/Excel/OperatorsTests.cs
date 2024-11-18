@@ -27,17 +27,12 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
-using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace EPPlusTest.Excel
@@ -229,7 +224,8 @@ namespace EPPlusTest.Excel
             var operatorResult = Operator.Concat.Apply(result1, result2, ctx);
             Assert.AreEqual($"{date1.ToString(dateFormat)}{date2.ToString(dateFormat)}", operatorResult.Result);
             operatorResult = Operator.Divide.Apply(result1, result2, ctx);
-            Assert.AreEqual(numericDate1 / numericDate2, operatorResult.Result);
+            var normResult = numericDate1 / numericDate2;
+            Assert.AreEqual(normResult, operatorResult.Result);
             operatorResult = Operator.Exp.Apply(result1, result2, ctx);
             Assert.AreEqual(Math.Pow(numericDate1, numericDate2), operatorResult.Result);
             operatorResult = Operator.Minus.Apply(result1, result2, ctx);
