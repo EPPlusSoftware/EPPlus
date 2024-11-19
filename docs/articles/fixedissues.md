@@ -1,3 +1,8 @@
+# Features / Fixed issues - EPPlus 8
+## Version 8.0.0
+### Features
+* Added IsEmpty() method on ExcelRange. Can test for value, comments, threaded comments and formulas.
+
 # Features / Fixed issues - EPPlus 7
 ## Version 7.4.0
 ### Features
