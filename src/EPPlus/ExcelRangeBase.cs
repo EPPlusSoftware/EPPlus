@@ -844,7 +844,7 @@ namespace OfficeOpenXml
         /// <param name="MinimumWidth">Minimum column width</param>
         public void AutoFitColumns(double MinimumWidth)
         {
-            AutoFitColumns(MinimumWidth, 255d);
+            AutoFitColumns(MinimumWidth, 256d);
         }
         /// <summary>
         /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.

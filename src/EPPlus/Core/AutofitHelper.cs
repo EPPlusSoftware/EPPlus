@@ -60,9 +60,9 @@ namespace OfficeOpenXml.Core
             {
                 MinimumWidth = 0d;
             }
-            if (MaximumWidth > 255d)
+            if (MaximumWidth > 265d)
             {
-                MaximumWidth = 255d;
+                MaximumWidth = 256d;
             }
             if (MinimumWidth >= MaximumWidth)
             {
