@@ -4,6 +4,8 @@ using System.Xml;
 using System.Linq;
 using System;
 using System.IO;
+using OfficeOpenXml.Table.PivotTable;
+
 namespace EPPlusTest.Issues
 {
     [TestClass]
@@ -48,12 +50,12 @@ namespace EPPlusTest.Issues
                 foreach (ExcelWorksheet worksheet in p.Workbook.Worksheets)
                 {
                     foreach (var table in worksheet.PivotTables)
-                    {                        
+                    {
                         table.Calculate(refreshCache: true);
                     }
                 }
 
-                SaveWorkbook("s692-2.xlsx",p);
+                SaveWorkbook("s692-2.xlsx", p);
             }
         }
         [TestMethod]
@@ -61,19 +63,19 @@ namespace EPPlusTest.Issues
         {
             using (ExcelPackage p = OpenTemplatePackage("s713.xlsx"))
             {
-               ExcelWorkbook workbook = p.Workbook;
-               workbook.Worksheets.Delete("pivot");
+                ExcelWorkbook workbook = p.Workbook;
+                workbook.Worksheets.Delete("pivot");
 
                 var ns = new XmlNamespaceManager(new NameTable());
                 ns.AddNamespace("d", @"http://schemas.openxmlformats.org/spreadsheetml/2006/main");
 
-                var node = workbook.WorkbookXml.SelectSingleNode("//d:pivotCaches", ns); 
+                var node = workbook.WorkbookXml.SelectSingleNode("//d:pivotCaches", ns);
                 if (node != null && node.ChildNodes.Count == 0)
                 {
                     node.ParentNode.RemoveChild(node);
                 }
 
-               SaveAndCleanup(p);
+                SaveAndCleanup(p);
             }
         }
         [TestMethod]
@@ -93,7 +95,7 @@ namespace EPPlusTest.Issues
                 cf.Refresh();
                 Assert.IsTrue(cf.SharedItems[0] is DateTime);
                 Assert.IsTrue(cf.SharedItems[1] is DateTime);
-                SaveWorkbook("i1554-SecondDate.xlsx",package);
+                SaveWorkbook("i1554-SecondDate.xlsx", package);
             }
         }
 
@@ -185,7 +187,7 @@ namespace EPPlusTest.Issues
 
                 var ws2 = workbook.Worksheets["High Level Summary"];
                 var pt = ws2.PivotTables[0];
-                var slicer1 =ws2.Drawings[0].As.Slicer.PivotTableSlicer;
+                var slicer1 = ws2.Drawings[0].As.Slicer.PivotTableSlicer;
 
                 Assert.AreEqual(pt.Fields[0].Items.Count, 5);
                 Assert.AreEqual(4, slicer1.Cache.Data.Items.Count);

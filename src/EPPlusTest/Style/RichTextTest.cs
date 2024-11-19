@@ -29,7 +29,10 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Export.ToDataTable;
 using OfficeOpenXml.Style;
+using System;
+using System.Data;
 using System.Drawing;
 
 namespace EPPlusTest.Style
@@ -236,13 +239,13 @@ namespace EPPlusTest.Style
                 rt.Add("Some");
                 rt.Add("Thing");
 
-                rt[0].Bold = false; 
+                rt[0].Bold = false;
                 rt[0].Italic = false;
 
                 rt[0].UnderLine = true;
                 rt[0].UnderLineType = ExcelUnderLineType.Double;
 
-                rt[1].Bold = false; 
+                rt[1].Bold = false;
                 rt[1].Italic = false;
                 rt[1].UnderLine = false;
 
@@ -263,6 +266,93 @@ namespace EPPlusTest.Style
                 Assert.AreEqual(false, rt[1].Bold);
                 Assert.AreEqual(false, rt[1].Italic);
                 Assert.AreEqual(false, rt[1].UnderLine);
+            }
+        }
+        [TestMethod]
+        public void i1683()
+        {
+            using (var package = OpenTemplatePackage("i1683.xlsx"))
+            {
+                var dataSheet = package.Workbook.Worksheets["Data"];
+                var pivotSheet = package.Workbook.Worksheets["Pivot"];
+
+                var val = dataSheet?.GetValueInner(4, 2);
+                var otherVal = dataSheet?.GetValueInner(4, 3);
+
+                //create pivot table
+                var pivotDataRange = dataSheet.Cells[4, 2, 14, 8];
+                var pivotTable = pivotSheet.PivotTables.Add(pivotSheet.Cells["C3"], pivotDataRange, "TestPivotTable");
+
+                Assert.AreEqual("序号", pivotTable.Fields[0].Name);
+                Assert.AreEqual("序号_Seq", pivotTable.Fields[1].Name);
+
+                SaveAndCleanup(package);
+            }
+        }
+        //i1683 issue 1683
+        [TestMethod]
+        public void RichTextInnerValueShouldShowNameInPivotTable()
+        {
+            using (var package = OpenPackage("richTextPivotName.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var wsData = wb.Worksheets.Add("dataWs");
+                var wsPivot = wb.Worksheets.Add("pivotWs");
+
+                wsData.Cells["A1"].RichText.Add("Year");
+                wsData.Cells["B1"].RichText.Add("Employees");
+                wsData.Cells["C1"].Value = "Products";
+
+                wsData.Cells["A2:A10"].Formula = "2000 + ROW()";
+                wsData.Cells["B2:B10"].Formula = "5 + ROW() - (MOD(2,ROW()))";
+                wsData.Cells["C2:C10"].Formula = "100 + ROW()*2";
+
+                wsData.Cells["A2:C10"].Calculate();
+
+                var range = wsData.Cells[1, 1, 10, 3];
+                var pivotTable = wsPivot.PivotTables.Add(wsPivot.Cells["C3"], range, "RichTextPT");
+
+                Assert.AreEqual("Year", pivotTable.Fields[0].Name);
+                Assert.AreEqual("Employees", pivotTable.Fields[1].Name);
+                Assert.AreEqual("Products", pivotTable.Fields[2].Name);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void RichTextToDataTable()
+        {
+            using (var package = OpenPackage("richTextDataTable.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var wsData = wb.Worksheets.Add("dataWs");
+                var wsPivot = wb.Worksheets.Add("pivotWs");
+
+                wsData.Cells["A1"].RichText.Add("Year");
+                wsData.Cells["B1"].RichText.Add("Employees");
+                wsData.Cells["C1"].Value = "Products";
+
+                wsData.Cells["A2:A10"].Formula = "2000 + ROW()";
+                wsData.Cells["B2:B10"].Formula = "5 + ROW() - (MOD(2,ROW()))";
+                wsData.Cells["C2:C10"].Formula = "100 + ROW()*2";
+
+                wsData.Cells["A2:C10"].Calculate();
+
+                var range = wsData.Cells[1, 1, 10, 3];
+
+                var options = ToDataTableOptions.Create();
+                options.DataTableName = "dt2";
+                options.FirstRowIsColumnNames = true;
+                options.Mappings.Clear();
+
+                var table2 = new DataTable();
+
+                table2.Columns.Add("Year");
+
+                var table = range.ToDataTable(options, table2);
+
+                var row = table.Columns[0];
             }
         }
     }
