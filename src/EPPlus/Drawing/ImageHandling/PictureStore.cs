@@ -386,7 +386,40 @@ namespace OfficeOpenXml.Drawing
                     return "image/jpeg";
             }
         }
-        internal static string SavePicture(byte[] image, IPictureContainer container, ePictureType type)
+        //internal static string SavePicture(byte[] image, IPictureContainer container, ePictureType type)
+        //{
+        //    var store = container.RelationDocument.Package.PictureStore;
+        //    var ii = store.AddImage(image, container.UriPic, type);
+
+        //    container.ImageHash = ii.Hash;
+        //    var hashes = container.RelationDocument.Hashes;
+        //    if (hashes.ContainsKey(ii.Hash))
+        //    {
+        //        var relID = hashes[ii.Hash].RelId;
+        //        hashes[ii.Hash].RefCount++;
+
+        //        Console.WriteLine($"SavePicture. RelId:{relID}, HashRefCount: {hashes[ii.Hash].RefCount}");
+
+        //        container.RelPic = container.RelationDocument.RelatedPart.GetRelationship(relID);
+        //        container.UriPic = UriHelper.ResolvePartUri(container.RelPic.SourceUri, container.RelPic.TargetUri);
+        //        return relID;
+        //    }
+        //    else
+        //    {
+        //        container.UriPic = ii.Uri;
+        //        container.ImageHash = ii.Hash;
+        //    }
+
+        //    //Set the Image and save it to the package.
+        //    container.RelPic = container.RelationDocument.RelatedPart.CreateRelationship(UriHelper.GetRelativeUri(container.RelationDocument.RelatedUri, container.UriPic), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+
+        //    //AddNewPicture(img, picRelation.Id);
+        //    hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id) { RefCount = 1});
+
+        //    return container.RelPic.Id;
+        //}
+
+        internal string SavePicture(byte[] image, IPictureContainer container, ePictureType type)
         {
             var store = container.RelationDocument.Package.PictureStore;
             var ii = store.AddImage(image, container.UriPic, type);
@@ -414,7 +447,7 @@ namespace OfficeOpenXml.Drawing
             container.RelPic = container.RelationDocument.RelatedPart.CreateRelationship(UriHelper.GetRelativeUri(container.RelationDocument.RelatedUri, container.UriPic), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
 
             //AddNewPicture(img, picRelation.Id);
-            hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id) { RefCount = 1});
+            hashes.Add(ii.Hash, new HashInfo(container.RelPic.Id) { RefCount = 1 });
 
             return container.RelPic.Id;
         }

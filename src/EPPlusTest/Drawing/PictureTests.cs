@@ -278,6 +278,7 @@ namespace EPPlusTest.Drawing
                 Console.WriteLine($"Finish creating picture");
 
                 Console.WriteLine($"Begin change image");
+
                 originalSvg.Image.SetImage(GetResourceFile("EPPlus.png"));
 
                 Console.WriteLine($"changed picture check rels");
@@ -306,13 +307,13 @@ namespace EPPlusTest.Drawing
 
 				foreach(var image in package.PictureStore._images)
 				{
-					Console.WriteLine($"image key: {image.Key}, image value: {image.Value}");
+					Console.WriteLine($"image key: {image.Key}, image value: {image.Value.Uri}");
 				}
 				Console.WriteLine("Other package picturestore:");
 
                 foreach (var image in _pck.PictureStore._images)
                 {
-                    Console.WriteLine($"image key: {image.Key}, image value: {image.Value}");
+                    Console.WriteLine($"image key: {image.Key}, image value: {image.Value.Uri}");
                 }
 
                 var rel = ws.Drawings.Part.GetRelationship("rId1");
