@@ -1,3 +1,8 @@
+# Features / Fixed issues - EPPlus 8
+## Version 8.0.0
+### Features
+* Added a new rounding that is more true to Excels precision. You can swtich between .Net and Excel precision with ParsingContext.
+
 # Features / Fixed issues - EPPlus 7
 
 ## Version 7.4.2
