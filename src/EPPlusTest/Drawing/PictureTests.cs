@@ -254,20 +254,33 @@ namespace EPPlusTest.Drawing
 		{
 			using (ExcelPackage package = OpenPackage("SvgToPng.xlsx", true))
 			{
-				var wb = package.Workbook;
+                Console.WriteLine($"Start SvgToPng");
+                var wb = package.Workbook;
 				var ws = wb.Worksheets.Add("NewSheet");
 
-				var originalSvg = ws.Drawings.AddPicture("svgOrig", GetResourceFile("car-silhouette-color-low-poly.svg"));
-				originalSvg.Image.SetImage(GetResourceFile("EPPlus.png"));
+                Console.WriteLine(string.Format("file name: {0}", wb._package.File.Name));
 
-				Assert.IsTrue(ws.Drawings.Part.RelationshipExists("rId1"));
-				var rel = ws.Drawings.Part.GetRelationship("rId1");
+                Console.WriteLine($"Creating picture");
+                var originalSvg = ws.Drawings.AddPicture("svgOrig", GetResourceFile("car-silhouette-color-low-poly.svg"));
+                Console.WriteLine($"Finish creating picture");
+
+                Console.WriteLine($"Begin change image");
+                originalSvg.Image.SetImage(GetResourceFile("EPPlus.png"));
+                Console.WriteLine($"End change image");
+
+                Console.WriteLine($"Begin rel exists");
+                Assert.IsTrue(ws.Drawings.Part.RelationshipExists("rId1"));
+                Console.WriteLine($"end rel exists");
+
+                var rel = ws.Drawings.Part.GetRelationship("rId1");
 
 				var relUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, rel.TargetUri);
 
+                Console.WriteLine($"Begin are Equal originalSvg and relUri");
                 Assert.AreEqual(originalSvg.Part.Uri, relUri);
+                Console.WriteLine($"End originalSvg and relUri");
 
-				Console.WriteLine($"Package Name:{package.File.FullName}");
+                Console.WriteLine($"Package Name:{package.File.FullName}");
 
                 Assert.AreEqual("../media/image1.png", rel.TargetUri.OriginalString);
 
