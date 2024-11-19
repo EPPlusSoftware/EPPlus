@@ -266,6 +266,9 @@ namespace EPPlusTest.Drawing
 				var relUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, rel.TargetUri);
 
                 Assert.AreEqual(originalSvg.Part.Uri, relUri);
+
+				Console.WriteLine($"Package Name:{package.File.FullName}");
+
                 Assert.AreEqual("../media/image1.png", rel.TargetUri.OriginalString);
 
                 SaveAndCleanup(package);
