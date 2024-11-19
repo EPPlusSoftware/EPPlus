@@ -343,6 +343,18 @@ namespace EPPlusTest.Core.Range
             range = ws.Cells["A6:B6"];
             isEmpty = range.IsEmpty();
             Assert.IsFalse(isEmpty);
+            isEmpty = range.IsEmpty(false, false);
+            Assert.IsTrue(isEmpty);
+
+            //Threaded Comment
+            var p1 = ws.ThreadedComments.Persons.Add("Luther");
+            var p2 = ws.ThreadedComments.Persons.Add("Josh");
+            var thread = ws.Cells["A8"].AddThreadedComment();
+            var r1 = thread.AddComment(p2.Id, "This is my comment");
+            var r2 = thread.AddComment(p1.Id, "This is someones reply");
+            range = ws.Cells["A8:B8"];
+            isEmpty = range.IsEmpty();
+            Assert.IsFalse(isEmpty);
             isEmpty = range.IsEmpty(false, false, false);
             Assert.IsTrue(isEmpty);
 
