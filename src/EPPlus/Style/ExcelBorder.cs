@@ -124,17 +124,19 @@ namespace OfficeOpenXml.Style
         /// Set the border style around the range.
         /// </summary>
         /// <param name="Style">The border style</param>
-        public void BorderAround(ExcelBorderStyle Style, bool overrideNeigbourCellBorder = false)
+        /// <param name="overrideNeigbourCellBorder">Set to true to override the border of adjacent cells.</param>
+        public void BorderAround(ExcelBorderStyle Style, bool overrideNeigbourCellBorder = true)
         {
             BorderAround(Style, Color.Empty, overrideNeigbourCellBorder);
         }
-        
+
         /// <summary>
         /// Set the border style around the range.
         /// </summary>
         /// <param name="Style">The border style</param>
         /// <param name="Color">The color of the border</param>
-        public void BorderAround(ExcelBorderStyle Style, System.Drawing.Color Color, bool overrideNeigbourCellBorder = false)
+        /// <param name="overrideNeigbourCellBorder">Set to true to override the border of adjacent cells.</param>
+        public void BorderAround(ExcelBorderStyle Style, System.Drawing.Color Color, bool overrideNeigbourCellBorder = true)
         {
             var addr = new ExcelAddressBase(_address);
             if (addr.Addresses?.Count > 1)

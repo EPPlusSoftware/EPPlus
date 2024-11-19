@@ -1,3 +1,10 @@
+# Features / Fixed issues - EPPlus 8
+## Version 8.0.0
+### Features
+Override borders in Adjacent cells in BorderAround method.
+
+### Fixed issues
+
 # Features / Fixed issues - EPPlus 7
 ## Version 7.4.0
 ### Features
