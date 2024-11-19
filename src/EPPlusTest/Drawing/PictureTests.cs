@@ -5,6 +5,7 @@ using OfficeOpenXml.Utils;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace EPPlusTest.Drawing
 {
@@ -272,9 +273,24 @@ namespace EPPlusTest.Drawing
                 Assert.IsTrue(ws.Drawings.Part.RelationshipExists("rId1"));
                 Console.WriteLine($"end rel exists");
 
+				Console.WriteLine($"Drawings count: {ws.Drawings.Count}");
+                var pics = ws.Drawings.Where(x => x.DrawingType == eDrawingType.Picture).Select(x => x.As.Picture);
+				foreach(var pic in pics)
+				{
+					Console.WriteLine($"{pic.Name}");
+                    Console.WriteLine($"{pic.Image.Type}");
+                }
+
                 var rel = ws.Drawings.Part.GetRelationship("rId1");
 
-				var relUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, rel.TargetUri);
+				foreach(var aRel in ws.Drawings.Part._rels)
+				{
+					Console.WriteLine($"Id: {aRel.Id}, Name: {rel.TargetUri.OriginalString}");
+					var resUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, aRel.TargetUri);
+					Console.WriteLine($"ResolvedUri:{resUri.OriginalString}");
+                }
+
+                var relUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, rel.TargetUri);
 
                 Console.WriteLine($"Begin are Equal originalSvg and relUri");
                 Assert.AreEqual(originalSvg.Part.Uri, relUri);

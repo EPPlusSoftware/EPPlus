@@ -396,6 +396,9 @@ namespace OfficeOpenXml.Drawing
             {
                 var relID = hashes[ii.Hash].RelId;
                 hashes[ii.Hash].RefCount++;
+
+                Console.WriteLine($"SavePicture. RelId:{relID}, HashRefCount: {hashes[ii.Hash].RefCount}");
+
                 container.RelPic = container.RelationDocument.RelatedPart.GetRelationship(relID);
                 container.UriPic = UriHelper.ResolvePartUri(container.RelPic.SourceUri, container.RelPic.TargetUri);
                 return relID;
