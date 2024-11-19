@@ -304,6 +304,17 @@ namespace EPPlusTest.Drawing
                     Console.WriteLine($"{pic.Image.Type}");
                 }
 
+				foreach(var image in package.PictureStore._images)
+				{
+					Console.WriteLine($"image key: {image.Key}, image value: {image.Value}");
+				}
+				Console.WriteLine("Other package picturestore:");
+
+                foreach (var image in _pck.PictureStore._images)
+                {
+                    Console.WriteLine($"image key: {image.Key}, image value: {image.Value}");
+                }
+
                 var rel = ws.Drawings.Part.GetRelationship("rId1");
 
 				foreach(var aRel in ws.Drawings.Part._rels)
