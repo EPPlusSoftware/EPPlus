@@ -221,6 +221,7 @@ namespace OfficeOpenXml.Drawing
             do
             {
                 uri = new Uri(string.Format(sUri, _id++), UriKind.Relative);
+                Console.WriteLine($"Get new Uri other: {uri.OriginalString}");
             }
             while (package.PartExists(uri));
             return uri;

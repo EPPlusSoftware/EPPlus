@@ -263,10 +263,33 @@ namespace EPPlusTest.Drawing
 
                 Console.WriteLine($"Creating picture");
                 var originalSvg = ws.Drawings.AddPicture("svgOrig", GetResourceFile("car-silhouette-color-low-poly.svg"));
+
+                Console.WriteLine($"Created picture check rels");
+
+                foreach (var aRel in ws.Drawings.Part._rels)
+                {
+                    Console.WriteLine($"Id: {aRel.Id}, Name: {aRel.TargetUri.OriginalString}");
+                    var resUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, aRel.TargetUri);
+                    Console.WriteLine($"ResolvedUri:{resUri.OriginalString}");
+                }
+
+                Console.WriteLine($"Created picture check rels end" );
+
                 Console.WriteLine($"Finish creating picture");
 
                 Console.WriteLine($"Begin change image");
                 originalSvg.Image.SetImage(GetResourceFile("EPPlus.png"));
+
+                Console.WriteLine($"changed picture check rels");
+
+                foreach (var aRel in ws.Drawings.Part._rels)
+                {
+                    Console.WriteLine($"Id: {aRel.Id}, Name: {aRel.TargetUri.OriginalString}");
+                    var resUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, aRel.TargetUri);
+                    Console.WriteLine($"ResolvedUri:{resUri.OriginalString}");
+                }
+                Console.WriteLine($"changed picture check rels END");
+
                 Console.WriteLine($"End change image");
 
                 Console.WriteLine($"Begin rel exists");
