@@ -533,8 +533,8 @@ namespace OfficeOpenXml.Drawing
 
             if (_drawings.Part.RelationshipExists(relId))
             {
-                IPictureContainer container = this;
-                var thePart = _drawings.Part.Package.GetPart(container.UriPic);
+                IPictureContainer thisPicture = this;
+                var thePart = _drawings.Part.Package.GetPart(thisPicture.UriPic);
                 if (Part != thePart)
                 {
                     Part = thePart;

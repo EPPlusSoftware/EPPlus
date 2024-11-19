@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Linq;
+using OfficeOpenXml.Drawing.Interfaces;
 
 namespace EPPlusTest.Drawing
 {
@@ -251,10 +252,16 @@ namespace EPPlusTest.Drawing
 
 
 		[TestMethod]
-		public void SwitchFromSvgToPng()
+		public void ZZZZZZZSwitchFromSvgToPng()
 		{
 			using (ExcelPackage package = OpenPackage("SvgToPng.xlsx", true))
 			{
+				ExcelPackage otherPackage = new ExcelPackage();
+				var someWs = otherPackage.Workbook.Worksheets.Add("SomeWorksheet");
+				someWs.Drawings.AddPicture("picturetiff", GetResourceFile("Code.tif"));
+                someWs.Drawings.AddPicture("pictureSvg", GetResourceFile("car-silhouette-color-low-poly.svg"));
+                someWs.Drawings.AddPicture("picturePng", GetResourceFile("EPPlus.png"));
+
                 Console.WriteLine($"Start SvgToPng");
                 var wb = package.Workbook;
 				var ws = wb.Worksheets.Add("NewSheet");
@@ -263,6 +270,9 @@ namespace EPPlusTest.Drawing
 
                 Console.WriteLine($"Creating picture");
                 var originalSvg = ws.Drawings.AddPicture("svgOrig", GetResourceFile("car-silhouette-color-low-poly.svg"));
+
+                var picRelDrawing = ((IPictureRelationDocument)ws.Drawings);
+                Console.WriteLine("PicRel drawings package: " + picRelDrawing.Package.File.Name);
 
                 Console.WriteLine($"Created picture check rels");
 
@@ -280,6 +290,12 @@ namespace EPPlusTest.Drawing
                 Console.WriteLine($"Begin change image");
 
                 originalSvg.Image.SetImage(GetResourceFile("EPPlus.png"));
+
+                var picRelDrawing2 = ((IPictureRelationDocument)ws.Drawings);
+                Console.WriteLine("PicRel drawings package After: " + picRelDrawing2.Package.File.Name);
+
+                var picRelDrawing3 = ((IPictureRelationDocument)originalSvg._drawings);
+                Console.WriteLine("PicRel drawings package After from picture: " + picRelDrawing3.Package.File.Name);
 
                 Console.WriteLine($"changed picture check rels");
 
@@ -335,6 +351,7 @@ namespace EPPlusTest.Drawing
 
                 Assert.AreEqual("../media/image1.png", rel.TargetUri.OriginalString);
 
+				otherPackage.Dispose();
                 SaveAndCleanup(package);
             }
 		}

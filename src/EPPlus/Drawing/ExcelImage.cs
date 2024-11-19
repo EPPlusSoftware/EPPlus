@@ -338,9 +338,9 @@ namespace OfficeOpenXml.Drawing
                 }
                 ImageBytes = image;
             }
-            var picStore = _container.RelationDocument.Package.PictureStore;
-            picStore.SavePicture(image, _container, pictureType);
-            //PictureStore.SavePicture(image, _container, pictureType);
+
+            PictureStore.SavePicture(image, _container, pictureType);
+
             using (var ms = RecyclableMemory.GetStream(image))
             {
                 if (_container.RelationDocument.Package.Settings.ImageSettings.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
