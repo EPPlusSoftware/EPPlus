@@ -21,7 +21,7 @@ namespace OfficeOpenXml
     {
         internal double Height=-1;
         internal bool Hidden;
-        internal bool Collapsed;        
+        internal bool Collapsed;
         internal short OutlineLevel;
         internal bool PageBreak;
         internal bool Phonetic;
