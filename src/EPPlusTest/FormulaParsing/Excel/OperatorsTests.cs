@@ -34,6 +34,7 @@ using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing;
 using System.Globalization;
 using System.Threading;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace EPPlusTest.Excel
 {
@@ -249,5 +250,29 @@ namespace EPPlusTest.Excel
 			Assert.IsFalse((bool)operatorResult.Result);
             Thread.CurrentThread.CurrentCulture = culture;
         }
-	}
+
+        [TestMethod]
+        public void ChangePrecisionTest()
+        {
+            var ctx = ParsingContext.Create();
+            var pc = ParsingConfiguration.Create();
+            
+            double anum = 42055, bnum = 42339;
+            var normResult = anum / bnum;
+
+            CompileResult a = new CompileResult(anum.ToString("n"), DataType.String);
+            CompileResult b = new CompileResult(bnum.ToString("n"), DataType.String);
+
+            pc.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet;
+            ctx.Configuration = pc;
+            var DotNetResult = Operator.Divide.Apply(a, b, ctx);
+            Assert.AreEqual(normResult, DotNetResult.Result);
+
+            pc.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel;
+            ctx.Configuration = pc;
+            var ExcelResult = Operator.Divide.Apply(a, b, ctx);
+            Assert.AreEqual(0.993292236472283d, ExcelResult.Result);
+            Assert.AreNotEqual(normResult, ExcelResult.Result);
+        }
+    }
 }
