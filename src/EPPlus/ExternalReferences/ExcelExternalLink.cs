@@ -13,7 +13,6 @@
 using OfficeOpenXml.Packaging;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.ExternalReferences
@@ -27,7 +26,7 @@ namespace OfficeOpenXml.ExternalReferences
         internal ExcelExternalLink(ExcelWorkbook wb)
         {
             _wb = wb;
-            As = new ExcelExternalLinkAsType(this);            
+            As = new ExcelExternalLinkAsType(this);
             Part = null;
             WorkbookElement = null;
         }

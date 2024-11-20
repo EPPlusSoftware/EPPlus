@@ -11,30 +11,21 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
-using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
+using OfficeOpenXml.Core.Worksheet.XmlWriter;
 using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Chart.ChartEx;
-using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Controls;
-using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Packaging.Ionic;
-using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
-using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -87,8 +78,8 @@ namespace OfficeOpenXml.Drawing
             if (node != null)   //No drawing, chart xml only. This currently happends when created from a chart template
             {
                 TopNode = node;
-                
-                if(DrawingType==eDrawingType.Control || drawings.Worksheet.Workbook._nextDrawingId >= 1025)
+
+                if(DrawingType==eDrawingType.Control || DrawingType==eDrawingType.OleObject || drawings.Worksheet.Workbook._nextDrawingId >= 1025)
                 {
                     _id = drawings.Worksheet._nextControlId++;
                 }
@@ -634,9 +625,14 @@ namespace OfficeOpenXml.Drawing
         {
             var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager);
             var control = drawings.Worksheet.Controls.GetControlByShapeId(shapeId);
+            var oleObject = control == null ? drawings.Worksheet.OleObjects.GetOleObjectByShapeId(shapeId) : null;
             if (control != null)
             {
                 return ControlFactory.GetControl(drawings, drawNode, control, parent);
+            }
+            else if(oleObject != null)
+            {
+                return OleObjectFactory.GetOleObject(drawings, drawNode, oleObject, parent);
             }
             else
             {
@@ -1331,7 +1327,7 @@ namespace OfficeOpenXml.Drawing
         internal XmlElement CreateClientData()
         {
             XmlElement clientDataNode = TopNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings);
-            clientDataNode.SetAttribute("fPrintsWithSheet", "0");
+            //clientDataNode.SetAttribute("fPrintsWithSheet", "0");
             TopNode.GetChildAtPosition(2).GetChildAtPosition(0).GetChildAtPosition(0).AppendChild(clientDataNode);
             TopNode.AppendChild(clientDataNode);
             return clientDataNode;
@@ -1395,6 +1391,9 @@ namespace OfficeOpenXml.Drawing
                 case eDrawingType.GroupShape:
                     drawNode = CopyGroupShape(worksheet);
                     break;
+                case eDrawingType.OleObject:
+                    drawNode = CopyOleObject(worksheet, row, col, rowOffset, colOffset);
+                    return;
             }
             //Set position of the drawing copy.
             var copy = GetDrawing(worksheet._drawings, drawNode);
@@ -1416,7 +1415,7 @@ namespace OfficeOpenXml.Drawing
             return drawNode;
         }
 
-        private void CopyGroupShape(ExcelWorksheet targetWorksheet, ExcelDrawing sourceDrawing, XmlNode targetDrawNode)
+        private void CopyGroupShape(ExcelWorksheet targetWorksheet, ExcelDrawing sourceDrawing, XmlNode targetDrawNode, ExcelGroupShape parent = null)
         {
             if (sourceDrawing is ExcelChart chart)
             {
@@ -1442,13 +1441,17 @@ namespace OfficeOpenXml.Drawing
             {
                 sourceDrawing.CopySlicer(targetWorksheet, true, targetDrawNode);
             }
+            else if( sourceDrawing is ExcelOleObject ole)
+            {
+                sourceDrawing.CopyOleObject(targetWorksheet, 0, 0, 0, 0, true, targetDrawNode, parent);
+            }
             else if (sourceDrawing is ExcelGroupShape groupShape)
             {
                 int nodeIndex = 2;
                 for (int j = 0; j < groupShape.Drawings.Count; j++)
                 {
-                    //börja på 2 men child nodes måste inkrementeras med 1 varje varv så vi kikar på nästa nod!
-                    CopyGroupShape(targetWorksheet, groupShape.Drawings[j], targetDrawNode.ChildNodes[nodeIndex++]);
+                    //Start at index 2 but child nodes must be incremented by 1 each loop so that we check the next node.
+                    CopyGroupShape(targetWorksheet, groupShape.Drawings[j], targetDrawNode.ChildNodes[nodeIndex++], groupShape);
                 }
             }
         }
@@ -1643,6 +1646,79 @@ namespace OfficeOpenXml.Drawing
                                         copy.To.Column + ", " + copy.To.ColumnOff + ", " + copy.To.Row + ", " + copy.To.RowOff;
             }
            return drawNode;
+        }
+
+        private XmlNode CopyOleObject(ExcelWorksheet worksheet, int row, int col, int rowOffset, int colOffset, bool isGroupShape = false, XmlNode groupDrawNode = null, ExcelGroupShape parent = null)
+        {
+            var ole = this as ExcelOleObject;
+            //copy drawing
+            XmlNode drawNode = null;
+            if (isGroupShape && groupDrawNode != null)
+            {
+                drawNode = groupDrawNode.FirstChild;
+            }
+            else
+            {
+                //Create node in drawing.xml
+                drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, true);
+                drawNode.InnerXml = TopNode.InnerXml;
+            }
+
+            //create worksheet node
+            XmlNode oleNode = worksheet.CreateOleContainerNode();
+            ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:xdr", ExcelPackage.schemaSheetDrawings);   //Make sure the namespace exists
+            ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:x14", ExcelPackage.schemaMainX14);   //Make sure the namespace exists
+            ((XmlElement)worksheet.TopNode).SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);   //Make sure the namespace exists
+            XmlNode newNode;
+            if (ole._oleObject.TopNode.OwnerDocument == oleNode.OwnerDocument)
+            {
+                newNode = ole._oleObject.TopNode.ParentNode.ParentNode.CloneNode(true);
+            }
+            else
+            {
+                newNode = oleNode.OwnerDocument.ImportNode(ole._oleObject.TopNode.ParentNode.ParentNode, true);
+            }
+            oleNode.AppendChild(newNode);
+            //Copy OleObject & Image
+            var shapeId = WorksheetCopyHelper.CopyOleObject(worksheet._package, worksheet, ole, worksheet._drawings.DrawingXml);
+
+            if (!isGroupShape)
+            {
+                //Create the copy
+                var copy = GetDrawing(worksheet._drawings, drawNode);
+                var width = GetPixelWidth();
+                var height = GetPixelHeight();
+                copy.SetPosition(row, rowOffset, col, colOffset);
+                copy.SetPixelWidth(width);
+                copy.SetPixelHeight(height);
+                copy.GetPositionSize();
+
+                //Update position in worksheet xml
+                var fromCol = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:from/xdr:col", worksheet.NameSpaceManager);
+                var fromColOff = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:from/xdr:colOff", worksheet.NameSpaceManager);
+                var fromRow = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:from/xdr:row", worksheet.NameSpaceManager);
+                var fromRowOff = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:from/xdr:rowOff", worksheet.NameSpaceManager);
+                fromCol.InnerText = copy.From.Column.ToString();
+                fromColOff.InnerText = copy.From.ColumnOff.ToString();
+                fromRow.InnerText = copy.From.Row.ToString();
+                fromRowOff.InnerText = copy.From.RowOff.ToString();
+                var toCol = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:to/xdr:col", worksheet.NameSpaceManager);
+                var toColOff = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:to/xdr:colOff", worksheet.NameSpaceManager);
+                var toRow = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:to/xdr:row", worksheet.NameSpaceManager);
+                var toRowOff = newNode.SelectSingleNode("mc:Choice/d:oleObject/d:objectPr/d:anchor/d:to/xdr:rowOff", worksheet.NameSpaceManager);
+                toCol.InnerText = copy.To.Column.ToString();
+                toColOff.InnerText = copy.To.ColumnOff.ToString();
+                toRow.InnerText = copy.To.Row.ToString();
+                toRowOff.InnerText = copy.To.RowOff.ToString();
+            }
+            var oleInternal = new OleObjectInternal(worksheet.NameSpaceManager, newNode.FirstChild.FirstChild);
+            int shapeIdKey = int.Parse(shapeId);
+            if (!worksheet.OleObjects._dict.ContainsKey(shapeIdKey))
+                worksheet.OleObjects._dict.Add(shapeIdKey, oleInternal);
+            var oleObject = OleObjectFactory.GetOleObject(worksheet.Drawings, drawNode.SelectSingleNode("xdr:sp", NameSpaceManager) as XmlElement, oleInternal, parent) as ExcelOleObject;
+            oleObject.Name = worksheet.Drawings.GetUniqueDrawingName(oleObject.Name);
+            worksheet.Drawings.AddDrawingInternal(oleObject);
+            return drawNode;
         }
 
         private XmlNode CopyChart(ExcelWorksheet worksheet, bool isGroupShape = false, XmlNode groupDrawNode = null)

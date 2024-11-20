@@ -14,7 +14,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.Utils.CompundDocument
@@ -22,12 +21,20 @@ namespace OfficeOpenXml.Utils.CompundDocument
     [DebuggerDisplay("FullName: {FullName}")]
     internal class CompoundDocumentItem : IComparable<CompoundDocumentItem>
     {
-        public CompoundDocumentItem()
+        private CompoundDocumentItem()
         {
-            Children = new List<CompoundDocumentItem>();
+
+        }
+        public CompoundDocumentItem(string name, byte[] stream, byte objectType = 2, CompoundDocumentItem parent=null)
+        {
+            Name = name;
+            ObjectType = objectType;
+            Stream = stream;
+            StreamSize = (stream == null ? 0 : stream.Length);
+            Parent = parent;
         }
         public CompoundDocumentItem Parent { get; set; }
-        public List<CompoundDocumentItem> Children { get; set; }
+        public List<CompoundDocumentItem> Children { get; set; } = new List<CompoundDocumentItem>();
 
         public string Name
         {
@@ -135,29 +142,32 @@ namespace OfficeOpenXml.Utils.CompundDocument
             set;
         }
         internal bool _handled = false;
-        internal void Read(BinaryReader br)
+        internal static CompoundDocumentItem Read(BinaryReader br)
         {
+            var cd=new CompoundDocumentItem();
             var s = br.ReadBytes(0x40);
             var sz = br.ReadInt16();
             if (sz > 0)
             {
-                Name = UTF8Encoding.Unicode.GetString(s, 0, sz - 2);
+                cd.Name = UTF8Encoding.Unicode.GetString(s, 0, sz - 2);
             }
-            ObjectType = br.ReadByte();
-            ColorFlag = br.ReadByte();
-            LeftSibling = br.ReadInt32();
-            RightSibling = br.ReadInt32();
-            ChildID = br.ReadInt32();
+            cd.ObjectType = br.ReadByte();
+            cd.ColorFlag = br.ReadByte();
+            cd.LeftSibling = br.ReadInt32();
+            cd.RightSibling = br.ReadInt32();
+            cd.ChildID = br.ReadInt32();
 
             //Clsid;
-            ClsID = new Guid(br.ReadBytes(16));
+            var b = br.ReadBytes(16);
+            cd.ClsID = new Guid(b);
 
-            StatBits = br.ReadInt32();
-            CreationTime = br.ReadInt64();
-            ModifiedTime = br.ReadInt64();
+            cd.StatBits = br.ReadInt32();
+            cd.CreationTime = br.ReadInt64();
+            cd.ModifiedTime = br.ReadInt64();
 
-            StartingSectorLocation = br.ReadInt32();
-            StreamSize = br.ReadInt64();
+            cd.StartingSectorLocation = br.ReadInt32();
+            cd.StreamSize = br.ReadInt64();
+            return cd;
         }
         internal void Write(BinaryWriter bw)
         {
@@ -171,7 +181,9 @@ namespace OfficeOpenXml.Utils.CompundDocument
             bw.Write(LeftSibling);
             bw.Write(RightSibling);
             bw.Write(ChildID);
+
             bw.Write(ClsID.ToByteArray());
+
             bw.Write(StatBits);
             bw.Write(CreationTime);
             bw.Write(ModifiedTime);

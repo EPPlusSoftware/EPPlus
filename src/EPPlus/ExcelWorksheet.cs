@@ -53,6 +53,7 @@ using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 using System.Collections;
+using OfficeOpenXml.Drawing.OleObject;
 
 namespace OfficeOpenXml
 {
@@ -2512,6 +2513,11 @@ namespace OfficeOpenXml
                 ctrl.ControlPropertiesXml.Save(ctrl.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
                 ctrl.UpdateXml();
             }
+            else if(d is ExcelOleObject o)
+            {
+                if(o._oleObjectPart != null && o._linkedOleObjectXml != null)
+                    o._linkedOleObjectXml.Save(o._oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+            }
             if (d is ExcelGroupShape grp)
             {
                 foreach (var sd in grp.Drawings)
@@ -3488,6 +3494,29 @@ namespace OfficeOpenXml
                 return _controls;
             }
         }
+
+        internal OleObjectsCollectionInternal _oleObjects = null;
+        internal OleObjectsCollectionInternal OleObjects
+        {
+            get
+            {
+                if(_oleObjects ==null)
+                {
+                    _oleObjects = new OleObjectsCollectionInternal(NameSpaceManager, TopNode);
+                }
+                return _oleObjects;
+            }
+        }
+        internal XmlNode CreateOleContainerNode()
+        {
+            var node = GetNode("d:oleObjects");
+            if (node == null)
+            {
+                node = CreateNode("d:oleObjects");
+            }
+            return node;
+        }
+
         /// <summary>
         /// A collection of row specific properties in the worksheet.
         /// </summary>

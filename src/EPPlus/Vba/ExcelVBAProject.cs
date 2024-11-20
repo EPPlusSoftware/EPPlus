@@ -31,6 +31,9 @@ namespace OfficeOpenXml.VBA
         const string schemaRelVba = "http://schemas.microsoft.com/office/2006/relationships/vbaProject";
         internal const string PartUri = @"/xl/vbaProject.bin";
 
+        //Steam Name Constants
+        private const string VBA_PROJECT_STREAM_NAME = "_VBA_PROJECT";
+        private const string DIR_STREAM_NAME = "dir";
         internal ExcelVbaProject(ExcelWorkbook wb)
         {
             _wb = wb;
@@ -148,7 +151,7 @@ namespace OfficeOpenXml.VBA
             Document = new CompoundDocument(vba);
 
             ReadDirStream();
-            ProjectStreamText = Encoding.GetEncoding(CodePage).GetString(Document.Storage.DataStreams["PROJECT"]);
+            ProjectStreamText = Encoding.GetEncoding(CodePage).GetString(Document.Storage.DataStreams["PROJECT"].Stream);
             ReadModules();
             ReadProjectProperties();
         }
@@ -156,7 +159,7 @@ namespace OfficeOpenXml.VBA
         {
             foreach (var modul in Modules)
             {
-                var stream = Document.Storage.SubStorage["VBA"].DataStreams[modul.streamName];
+                var stream = Document.Storage.SubStorage["VBA"].DataStreams[modul.streamName].Stream;
                 var byCode = VBACompression.DecompressPart(stream, (int)modul.ModuleOffset);
                 string code = Encoding.GetEncoding(CodePage).GetString(byCode);
                 int pos=0;
@@ -439,7 +442,7 @@ namespace OfficeOpenXml.VBA
         }
         private void ReadDirStream()
         {
-            byte[] dir = VBACompression.DecompressPart(Document.Storage.SubStorage["VBA"].DataStreams["dir"]);
+            byte[] dir = VBACompression.DecompressPart(Document.Storage.SubStorage["VBA"].DataStreams["dir"].Stream);
             using (var ms = RecyclableMemory.GetStream(dir))
             {
                 BinaryReader br = new BinaryReader(ms);
@@ -595,6 +598,19 @@ namespace OfficeOpenXml.VBA
                 }
             }
         }
+        private string GetString(BinaryReader br, uint size)
+        {
+            return GetString(br, size, System.Text.Encoding.GetEncoding(CodePage));
+        }
+        private string GetString(BinaryReader br, uint size, Encoding encoding)
+        {
+            return BinaryHelper.GetString(br, size, encoding);
+        }
+
+        private string GetStringAndUnicodeString(BinaryReader br, uint size)
+        {
+            return BinaryHelper.GetStringAndUnicodeString(br, size, System.Text.Encoding.GetEncoding(CodePage));
+        }
         #endregion
 
         #region Save Project
@@ -607,12 +623,13 @@ namespace OfficeOpenXml.VBA
                 var store = new CompoundDocument.StoragePart();
                 doc.Storage.SubStorage.Add("VBA", store);
 
-                store.DataStreams.Add("_VBA_PROJECT", CreateVBAProjectStream());
-                store.DataStreams.Add("dir", CreateDirStream());
+                store.DataStreams.Add(VBA_PROJECT_STREAM_NAME, new CompoundDocumentItem(VBA_PROJECT_STREAM_NAME, CreateVBAProjectStream()));
+                store.DataStreams.Add(DIR_STREAM_NAME, new CompoundDocumentItem(DIR_STREAM_NAME, CreateDirStream()));
                 foreach (var module in Modules)
                 {
                     module.ModuleOffset = 0;
-                    store.DataStreams.Add(module.Name, VBACompression.CompressPart(Encoding.GetEncoding(CodePage).GetBytes(module.Attributes.GetAttributeText() + module.Code)));
+                    store.DataStreams.Add(module.Name, 
+                        new CompoundDocumentItem(module.Name, VBACompression.CompressPart(Encoding.GetEncoding(CodePage).GetBytes(module.Attributes.GetAttributeText() + module.Code))));
                 }
 
                 //Copy streams from the template, if used.
@@ -634,8 +651,8 @@ namespace OfficeOpenXml.VBA
                     }
                 }
 
-                doc.Storage.DataStreams.Add("PROJECT", CreateProjectStream());
-                doc.Storage.DataStreams.Add("PROJECTwm", CreateProjectwmStream());
+                doc.Storage.DataStreams.Add("PROJECT", new CompoundDocumentItem("PROJECT", CreateProjectStream()));
+                doc.Storage.DataStreams.Add("PROJECTwm", new CompoundDocumentItem("PROJECTwm", CreateProjectwmStream()));
 
                 if (Part == null)
                 {
@@ -1094,31 +1111,7 @@ namespace OfficeOpenXml.VBA
             return Encrypt(new byte[] { (byte)(Protection.VisibilityState ? 0xFF : 0) }); 
         }
         #endregion
-        private string GetString(BinaryReader br, uint size)
-        {
-            return GetString(br, size, System.Text.Encoding.GetEncoding(CodePage));
-        }
-        private string GetString(BinaryReader br, uint size, Encoding enc)
-        {
-            if (size > 0)
-            {
-                byte[] byteTemp = new byte[size];
-                byteTemp = br.ReadBytes((int)size);
-                return enc.GetString(byteTemp);
-            }
-            else
-            {
-                return "";
-            }
-        }
-        private string GetStringAndUnicodeString(BinaryReader br, uint size)
-        {
-            string s = GetString(br, size);
-            int reserved = br.ReadUInt16();
-            uint sizeUC = br.ReadUInt32();
-            string sUC = GetString(br, sizeUC, System.Text.Encoding.Unicode);
-            return sUC.Length == 0 ? s : sUC;
-        }
+
 
         internal CompoundDocument Document { get; set; }
         internal Packaging.ZipPackagePart Part { get; set; }

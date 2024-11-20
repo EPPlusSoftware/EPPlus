@@ -28,6 +28,11 @@ namespace OfficeOpenXml.Encryption
     /// </summary>
     internal class EncryptedPackageHandler
     {
+        //StreamName Constants
+        const string VERSION_STREAM_NAME = "Version";
+        const string STRONG_ENCRYPTION_DATA_SPACE_STREAM_NAME = "StrongEncryptionDataSpace";
+        const string DATA_SPACE_MAP_STREAM_NAME = "DataSpaceMap";
+        const string PRIMARY_STREAM_NAME = "\x06Primary";
         /// <summary>
         /// Read the package from the OLE document and decrypt it using the supplied password
         /// </summary>
@@ -47,6 +52,7 @@ namespace OfficeOpenXml.Encryption
                 throw (new InvalidDataException(string.Format("File {0} is not an encrypted package", fi.FullName)));
             }
         }
+
         //Helpmethod to output the streams in the storage
         //private void WriteDoc(CompoundDocument.StoragePart storagePart, string p)
         //{
@@ -105,6 +111,8 @@ namespace OfficeOpenXml.Encryption
             }
             throw(new ArgumentException("Unsupported encryption version."));
         }
+        private const string ENCRYPTION_INFO_STREAM_NAME = "EncryptionInfo";
+        private const string ENCRYPTED_PACKAGE_STREAM_NAME = "EncryptedPackage";
         private MemoryStream EncryptPackageAgile(byte[] package, ExcelEncryption encryption)
         {
             var xml= "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n";
@@ -185,12 +193,11 @@ namespace OfficeOpenXml.Encryption
             //Add the dataspace streams
             CreateDataSpaces(doc);
             //EncryptionInfo...
-            doc.Storage.DataStreams.Add("EncryptionInfo", ms.ToArray());
+            doc.Storage.DataStreams.Add(ENCRYPTION_INFO_STREAM_NAME, new CompoundDocumentItem(ENCRYPTION_INFO_STREAM_NAME, ms.ToArray()));
             ms.Dispose();
 
             //...and the encrypted package
-            doc.Storage.DataStreams.Add("EncryptedPackage", encrData);
-
+            doc.Storage.DataStreams.Add(ENCRYPTED_PACKAGE_STREAM_NAME, new CompoundDocumentItem(ENCRYPTED_PACKAGE_STREAM_NAME, encrData));
             ms = RecyclableMemory.GetStream();
             doc.Save(ms);
             //ms.Write(e,0,e.Length);
@@ -296,7 +303,7 @@ namespace OfficeOpenXml.Encryption
             var doc = new CompoundDocument();
             CreateDataSpaces(doc);
 
-            doc.Storage.DataStreams.Add("EncryptionInfo", encryptionInfo.WriteBinary());
+            doc.Storage.DataStreams.Add(ENCRYPTION_INFO_STREAM_NAME, new CompoundDocumentItem(ENCRYPTION_INFO_STREAM_NAME, encryptionInfo.WriteBinary()));
             
             //Encrypt the package
             byte[] encryptedPackage = EncryptData(encryptionKey, package, false);
@@ -304,7 +311,7 @@ namespace OfficeOpenXml.Encryption
             {
                 ms.Write(BitConverter.GetBytes((ulong)package.Length), 0, 8);
                 ms.Write(encryptedPackage, 0, encryptedPackage.Length);
-                doc.Storage.DataStreams.Add("EncryptedPackage", ms.ToArray());
+                doc.Storage.DataStreams.Add(ENCRYPTED_PACKAGE_STREAM_NAME, new CompoundDocumentItem(ENCRYPTED_PACKAGE_STREAM_NAME, ms.ToArray()));
             }
 
             var ret = RecyclableMemory.GetStream();
@@ -318,12 +325,12 @@ namespace OfficeOpenXml.Encryption
             var ds = new CompoundDocument.StoragePart();
             doc.Storage.SubStorage.Add("\x06" + "DataSpaces", ds);
             var ver=new CompoundDocument.StoragePart();
-            ds.DataStreams.Add("Version", CreateVersionStream());
-            ds.DataStreams.Add("DataSpaceMap", CreateDataSpaceMap());
+            ds.DataStreams.Add(VERSION_STREAM_NAME, new  CompoundDocumentItem(VERSION_STREAM_NAME, CreateVersionStream()));
+            ds.DataStreams.Add(DATA_SPACE_MAP_STREAM_NAME, new CompoundDocumentItem(DATA_SPACE_MAP_STREAM_NAME,  CreateDataSpaceMap()));
             
             var dsInfo=new CompoundDocument.StoragePart();
             ds.SubStorage.Add("DataSpaceInfo", dsInfo);
-            dsInfo.DataStreams.Add("StrongEncryptionDataSpace", CreateStrongEncryptionDataSpaceStream());
+            dsInfo.DataStreams.Add(STRONG_ENCRYPTION_DATA_SPACE_STREAM_NAME, new CompoundDocumentItem(STRONG_ENCRYPTION_DATA_SPACE_STREAM_NAME, CreateStrongEncryptionDataSpaceStream()));
             
             var transInfo=new CompoundDocument.StoragePart();
             ds.SubStorage.Add("TransformInfo", transInfo);
@@ -331,7 +338,7 @@ namespace OfficeOpenXml.Encryption
             var strEncTrans=new CompoundDocument.StoragePart();
             transInfo.SubStorage.Add("StrongEncryptionTransform", strEncTrans);
             
-            strEncTrans.DataStreams.Add("\x06Primary", CreateTransformInfoPrimary());
+            strEncTrans.DataStreams.Add(PRIMARY_STREAM_NAME, new CompoundDocumentItem(PRIMARY_STREAM_NAME, CreateTransformInfoPrimary()));
         }
         private byte[] CreateStrongEncryptionDataSpaceStream()
         {
@@ -513,9 +520,9 @@ namespace OfficeOpenXml.Encryption
             if(doc.Storage.DataStreams.ContainsKey("EncryptionInfo") &&
                doc.Storage.DataStreams.ContainsKey("EncryptedPackage"))
             {
-                var encryptionInfo = EncryptionInfo.ReadBinary(doc.Storage.DataStreams["EncryptionInfo"]);
+                var encryptionInfo = EncryptionInfo.ReadBinary(doc.Storage.DataStreams["EncryptionInfo"].Stream);
                 
-                return DecryptDocument(doc.Storage.DataStreams["EncryptedPackage"], encryptionInfo, encryption.Password);
+                return DecryptDocument(doc.Storage.DataStreams["EncryptedPackage"].Stream, encryptionInfo, encryption.Password);
             }
             else
             {

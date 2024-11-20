@@ -441,6 +441,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 ix++;
                 if (c != ' ') pc = c;
             }
+
             if (current.Length > 0 || (flags & statFlags.isString) == statFlags.isString)
             {
                 HandleToken(l, pc, ref current, ref flags, ref variableFuncPositions);

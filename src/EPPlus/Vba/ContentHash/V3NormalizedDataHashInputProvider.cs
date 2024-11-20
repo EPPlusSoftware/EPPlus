@@ -463,8 +463,8 @@ namespace OfficeOpenXml.Vba.ContentHash
              * SET Text TO result of Decompression(CompressedContainer) (section 2.4.1)
              **/
             var vbaStorage = p.Document.Storage.SubStorage["VBA"];
-            var stream = vbaStorage.DataStreams[module.Name];
-            var text = VBACompression.DecompressPart(stream, (int)module.ModuleOffset);
+            var ds = vbaStorage.DataStreams[module.Name];
+            var text = VBACompression.DecompressPart(ds.Stream, (int)module.ModuleOffset);
             var totalText = Encoding.GetEncoding(p.CodePage).GetString(text);
 
             var lines = new List<byte[]>();

@@ -10,7 +10,7 @@ namespace OfficeOpenXml.Drawing
     public enum eDrawingType
     {
         /// <summary>
-        /// A unspecified drawing
+        /// An unspecified drawing
         /// </summary>
         Drawing,
         /// <summary>
@@ -36,6 +36,10 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// A drawing grouping other drawings together.
         /// </summary>
-        GroupShape
+        GroupShape,
+        /// <summary>
+        /// An Ole Object drawing
+        /// </summary>
+        OleObject,
     }
 }

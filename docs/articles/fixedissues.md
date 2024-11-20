@@ -1,3 +1,11 @@
+# Features / Fixed issues - EPPlus 8
+## Version 8.0.0
+### Features
+* Added IsEmpty() method on ExcelRange. Can test for value, comments, threaded comments and formulas.
+* Override borders in Adjacent cells in BorderAround method.
+
+### Fixed issues
+
 # Features / Fixed issues - EPPlus 7
 
 ## Version 7.4.2

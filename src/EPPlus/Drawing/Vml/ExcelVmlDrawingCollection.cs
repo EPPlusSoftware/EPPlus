@@ -20,9 +20,6 @@ using OfficeOpenXml.Drawing.Controls;
 using System.Text;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Constants;
-using System.IO;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -73,6 +70,10 @@ namespace OfficeOpenXml.Drawing.Vml
                     case "Dialog":
                     case "Scroll":
                         vmlDrawing = new ExcelVmlDrawingControl(_ws, node, NameSpaceManager);
+                        _drawings.Add(vmlDrawing);
+                        break;
+                    case "Pict":
+                        vmlDrawing = new ExcelVmlDrawingPicture(node, NameSpaceManager, ws);
                         _drawings.Add(vmlDrawing);
                         break;
                     default:    //Comments
@@ -152,7 +153,6 @@ namespace OfficeOpenXml.Drawing.Vml
             CreateVmlPart(false); //Create the vml part to be able to create related parts (like blip fill images).
             int row = cell.Start.Row, col = cell.Start.Column;
             var node = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
-
             int r = cell._fromRow, c = cell._fromCol;
             var prev = _drawingsCellStore.PrevCell(ref r, ref c);
             if (prev)
@@ -190,6 +190,102 @@ namespace OfficeOpenXml.Drawing.Vml
             node.InnerXml = vml;
             return node;
         }
+
+        internal ExcelVmlDrawingPicture AddOlePicture(string spid, Uri mediaUri)
+        {
+            if(VmlDrawingXml == null)
+                UpdateShapeTypeForOleObject();
+            XmlNode node = AddOleObjectDrawing(spid, mediaUri);
+            var draw = new ExcelVmlDrawingPicture(node, NameSpaceManager, _ws);
+            _drawings.Add(draw);
+            if (_drawingsDict.ContainsKey(draw.Id) == false)
+            {
+                _drawingsDict.Add(draw.Id, _drawings.Count - 1);
+            }
+            return draw;
+        }
+
+        private void UpdateShapeTypeForOleObject()
+        {
+            string vml = string.Format("<xml xmlns:v=\"{0}\" xmlns:o=\"{1}\" xmlns:x=\"{2}\">",
+                ExcelPackage.schemaMicrosoftVml,
+                ExcelPackage.schemaMicrosoftOffice,
+                ExcelPackage.schemaMicrosoftExcel);
+
+            vml += "<o:shapelayout v:ext=\"edit\">";
+            vml += "<o:idmap v:ext=\"edit\" data=\"1\"/>";
+            vml += "</o:shapelayout>";
+            vml += "<v:shapetype id=\"_x0000_t75\" coordsize=\"21600,21600\" o:spt=\"75\" o:preferrelative=\"t\" path=\"m@4@5l@4@11@9@11@9@5xe\" filled=\"f\" stroked=\"f\">";
+            vml += "<v:stroke joinstyle=\"miter\"/>";
+            vml += "<v:formulas>";
+            vml += "<v:f eqn=\"if lineDrawn pixelLineWidth 0\"/>";
+            vml += "<v:f eqn=\"sum @0 1 0\"/>";
+            vml += "<v:f eqn=\"sum 0 0 @1\"/>";
+            vml += "<v:f eqn=\"prod @2 1 2\"/>";
+            vml += "<v:f eqn=\"prod @3 21600 pixelWidth\"/>";
+            vml += "<v:f eqn=\"prod @3 21600 pixelHeight\"/>";
+            vml += "<v:f eqn=\"sum @0 0 1\"/>";
+            vml += "<v:f eqn=\"prod @6 1 2\"/>";
+            vml += "<v:f eqn=\"prod @7 21600 pixelWidth\"/>";
+            vml += "<v:f eqn=\"sum @8 21600 0\"/>";
+            vml += "<v:f eqn=\"prod @7 21600 pixelHeight\"/>";
+            vml += "<v:f eqn=\"sum @10 21600 0\"/>";
+            vml += "</v:formulas>";
+            vml += "<v:path o:extrusionok=\"f\" gradientshapeok=\"t\" o:connecttype=\"rect\"/>";
+            vml += "<o:lock v:ext=\"edit\" aspectratio=\"t\"/>";
+            vml += "</v:shapetype>";
+            vml += "</xml>";
+            VmlDrawingXml.LoadXml(vml);
+        }
+
+        internal XmlNode AddOleObjectDrawing(string spid, Uri mediaUri)
+        {
+            CreateVmlPart(false); //Create the vml part to be able to create related parts (like blip fill images).
+            var shapeElement = VmlDrawingXml.CreateElement("v", "shape", ExcelPackage.schemaMicrosoftVml);
+            VmlDrawingXml.DocumentElement.AppendChild(shapeElement);
+
+            //Create relationship to image here
+            bool exsists = false;
+            ZipPackageRelationship vmlRel = new ZipPackageRelationship(); ;
+            foreach(var rel in Part._rels)
+            {
+                if(rel.TargetUri == mediaUri)
+                {
+                    exsists = true;
+                    vmlRel.Id = rel.Id;
+                    break;
+                }
+            }
+            if(!exsists)
+                vmlRel = Part.CreateRelationship(mediaUri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+
+            shapeElement.SetAttribute("id", "_x0000_s" + spid);
+            shapeElement.SetAttribute("type", "#_x0000_t75");
+            shapeElement.SetAttribute("style", "position:absolute; margin-left:0;margin-top:0;width:61.5pt;height40.5pt:; z-index:1"); //SET VALUE BASED ON MEDIA ;mso-wrap-style:tight
+            shapeElement.SetAttribute("filled", "t");
+            shapeElement.SetAttribute("fillcolor", "window [65]");
+            shapeElement.SetAttribute("stroked", "t");
+            shapeElement.SetAttribute("strokecolor", "windowText [64]");
+            shapeElement.SetAttribute("insetmode", ExcelPackage.schemaMicrosoftOffice, "auto");
+
+            StringBuilder vml = new StringBuilder();
+            vml.Append("<v:fill color2=\"window [65]\" />");
+            vml.AppendFormat("<v:imagedata o:relid=\"{0}\" o:title=\"\" />", vmlRel.Id);
+            vml.Append("<x:ClientData ObjectType=\"Pict\">");
+            //vml.Append("<x:MoveWithCells />");
+            vml.Append("<x:SizeWithCells />");
+            vml.AppendFormat("<x:Anchor>0, 0, 0, 0, 1, 32, 3, 12</x:Anchor>"); //SET VALUE BASED ON MEDIA
+            //vml.Append("<x:AutoFill>False</x:AutoFill>");
+            vml.Append("<x:CF>Pict</x:CF>");
+            vml.Append("<x:AutoPict/>");
+            //vml.Append("<x:DDE />");
+            //vml.Append("<x:Camera />");
+            vml.Append("</x:ClientData>");
+
+            shapeElement.InnerXml = vml.ToString();
+            return shapeElement;
+        }
+
         internal ExcelVmlDrawingControl AddControl(ExcelControl ctrl, string name)
         {
             XmlNode node = AddControlDrawing(ctrl, name);

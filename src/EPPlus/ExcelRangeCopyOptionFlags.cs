@@ -15,7 +15,7 @@ using System;
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// Flag enum, specify all flags that you want to exclude from the copy.
+    /// Copy options enum. Specify the flags that you want to exclude from the copy or if you want to transpose the output.
     /// </summary>
     [Flags]    
     public enum ExcelRangeCopyOptionFlags : int
@@ -64,5 +64,22 @@ namespace OfficeOpenXml
         /// Exclude drawings from being copied
         /// </summary>
         ExcludeDrawings = 0x400,
+        /// <summary>
+        /// Exclude any table within the range. 
+        /// </summary>
+        ExcludeTables = 0x800,
+        /// <summary>
+        /// Exclude any pivot table within the range. 
+        /// EPPlus will only copy pivot tables within the same workbooks.
+        /// </summary>
+        ExcludePivotTables = 0x1000,
+        /// <summary>
+        /// Exclude hidden cells in the range.
+        /// </summary>
+        ExcludeHiddenCells = 0x2000,
+        /// <summary>
+        /// Fill range with repeated data. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
+        /// </summary>
+        Fill = 0x4000,
     }
 }
