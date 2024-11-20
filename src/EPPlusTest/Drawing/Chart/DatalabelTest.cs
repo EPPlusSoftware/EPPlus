@@ -330,20 +330,42 @@ namespace EPPlusTest.Drawing.Chart
             }
         }
 
-        //[TestMethod]
-        //public void NormalBarChart()
-        //{
-        //    var sheet3 = _pck.Workbook.Worksheets.Add("SimpleBar");
+        [TestMethod]
+        public void NormalBarChart()
+        {
+            using (var package = new ExcelPackage("manualLayoutChart.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets.Add("ManualLayout");
 
-        //    sheet3.Tables.Add(sheet3.Cells["A1:B1"], "modeFactorTable2");
+                //Create some values
+                ws.Cells["A1:A2"].Value = 5;
+                ws.Cells["B1:B2"].Value = 10;
 
-        //    sheet3.Cells["A1"].Value = 5;
-        //    sheet3.Cells["B1"].Value = 10;
+                //Create a column chart
+                var sChart = ws.Drawings.AddBarChart("ColumnChart", eBarChartType.ColumnClustered);
 
-        //    var sChart = sheet3.Drawings.Coun("simpleBar);
+                //Add series (clustered columns) to the chart. In this case 2 per series
+                var s1 = sChart.Series.Add(ws.Cells["A1:A2"]);
+                var s2 = sChart.Series.Add(ws.Cells["B1:B2"]);
 
-        //    sChart.Series.Add(sheet3.Cells["A1"]);
-        //    sChart.Series.Add(sheet3.Cells["B1"]);
-        //}
+                //Add a general datalabel
+                var label = s1.DataLabel;
+                label.ShowValue = true;
+
+                //Add a specific datalabel to the firs column in the cluster
+                var dl = label.DataLabels.Add(0);
+
+                //Offset the data label 10% of the charts width to the left
+                //AKA Remove 10 from x coordinate
+                dl.Layout.ManualLayout.Left = -10;
+
+                //Offset the data label 10% of the charts height to the top
+                //AKA remove 10 from y coordinate
+                dl.Layout.ManualLayout.Top = -10;
+
+                //Save the package at a path
+                package.SaveAs(@"C:\temp\manualLayoutChart.xlsx");
+            }
+        }
     }
 }
