@@ -98,7 +98,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
     /// <summary>
     /// Limited operators
     /// </summary>
-    public enum LimitedOperators
+    public enum CriteriaOperators
     {
         /// <summary>
         /// Equals

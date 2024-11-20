@@ -21,38 +21,57 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         /// <summary>
         /// Constructor
         /// </summary>
-        public OperatorsDict()
+        public OperatorsDict(bool criterianOperatiors)
         {
-            Add("+", Operator.Plus);
-            Add("-", Operator.Minus);
-            Add("*", Operator.Multiply);
-            Add("/", Operator.Divide);
-            Add("^", Operator.Exp);
             Add("=", Operator.Eq);
             Add(">", Operator.GreaterThan);
             Add(">=", Operator.GreaterThanOrEqual);
             Add("<", Operator.LessThan);
             Add("<=", Operator.LessThanOrEqual);
             Add("<>", Operator.NotEqualsTo);
-            Add("&", Operator.Concat);
-            Add(":", Operator.Colon);
-            Add(Operator.IntersectIndicator, Operator.Intersect);
+            if (criterianOperatiors==false)
+            {
+                Add("+", Operator.Plus);
+                Add("-", Operator.Minus);
+                Add("*", Operator.Multiply);
+                Add("/", Operator.Divide);
+                Add("^", Operator.Exp);
+                Add("&", Operator.Concat);
+                Add(":", Operator.Colon);
+                Add(Operator.IntersectIndicator, Operator.Intersect);
+            }
         }
 
         private static IDictionary<string, IOperator> _instance;
 
         /// <summary>
-        /// Instance of the OperatorsDict
+        /// AllOperators of the OperatorsDict
         /// </summary>
-        public static IDictionary<string, IOperator> Instance
+        public static IDictionary<string, IOperator> AllOperators
         {
             get 
             {
                 if (_instance == null)
                 {
-                    _instance = new OperatorsDict();
+                    _instance = new OperatorsDict(false);
                 }
                 return _instance;
+            }
+        }
+        private static IDictionary<string, IOperator> _criteriaOperators;
+
+        /// <summary>
+        /// AllOperators of the OperatorsDict
+        /// </summary>
+        public static IDictionary<string, IOperator> CriteriaOperators
+        {
+            get
+            {
+                if (_criteriaOperators == null)
+                {
+                    _criteriaOperators = new OperatorsDict(true);
+                }
+                return _criteriaOperators;
             }
         }
     }
@@ -85,7 +104,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         private static IDictionary<Operators, IOperator> _instance;
 
         /// <summary>
-        /// Instance of the OperatorsDict
+        /// AllOperators of the OperatorsDict
         /// </summary>
         public static IDictionary<Operators, IOperator> Instance
         {

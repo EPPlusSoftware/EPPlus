@@ -7,7 +7,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
-		<PackageLicenseFile>license.md</PackageLicenseFile>
+		<PackageLicenseFile>license.md</PackageLicenseFile>		
 		<Company>EPPlus Software AB</Company>
 		<Product>EPPlus</Product>
 		<Description>A spreadsheet library for .NET framework and .NET core</Description>
@@ -30,7 +30,7 @@
 			* Minor features and bug fixes. See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
 
 			## Version 7.4.1
-			* Updated for vulnerability in System.Text.Json - Microsoft.Extensions.Configuration.Json 8.0.0 -> 8.0.1
+			* Updated for vulnerability in System.Text.Json - Microsoft.Extensions.Configuration.Json 8.0.0 -&gt; 8.0.1
 
 			## Version 7.4.0
 			* Conditional formatting in Pivot Tables.

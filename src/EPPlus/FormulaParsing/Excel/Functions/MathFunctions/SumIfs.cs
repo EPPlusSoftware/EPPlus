@@ -15,9 +15,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
@@ -33,18 +35,90 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             config.IgnoreNumberOfArgsFromStart = 1;
             config.ArrayArgInterval = 1;
+            
         }
 
         public override int ArgumentMinLength => 3;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            if (argumentIndex % 2 == 0 && argumentIndex > 0)
+            if(argumentIndex==0)
+            {
+                return FunctionParameterInformation.AdjustParameterAddress;
+            }
+            if (argumentIndex % 2 == 0)
             {
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
             return FunctionParameterInformation.Normal;
         }));
+        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+        {
+            if(index == 0)
+            {
+                //Return the addresses matching the criterias in the queu
+                var valueAddress = args[0].Address;
+                var argRanges = new List<RangeOrValue>();
+                var criterias = new List<object>();
+                for (var ix = 1; ix < 31; ix += 2)
+                {
+                    if (args.Count <= ix) break;
+                    var arg = args[ix];
+                    if (arg.Result is IRangeInfo rangeInfo)
+                    {
+                        argRanges.Add(new RangeOrValue { Range = rangeInfo });
+                    }
+                    else
+                    {
+                        argRanges.Add(new RangeOrValue { Value = arg.ResultValue });
+                    }
+                    criterias.Add(args[ix + 1].ResultValue);
+                }
+                IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], null);
+                var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
+                for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
+                {
+                    var indexes = GetMatchIndexes(argRanges[ix], criterias[ix], null);
+                    matchIndexes = matchIndexes.Intersect(indexes);
+                }
 
+                addresses = new Queue<FormulaRangeAddress>();
+                var pIx = int.MinValue;
+                if(valueAddress.FromCol==valueAddress.ToCol)
+                {
+                    var c = valueAddress.FromCol;
+                    foreach (var ix in matchIndexes)
+                    {                        
+                        if(ix==pIx+1)
+                        {
+                            addresses.Peek().ToRow++;
+                        }
+                        else
+                        {
+                            var r = valueAddress.FromRow + ix;
+                            addresses.Enqueue(new FormulaRangeAddress() { FromRow = r, ToRow = r, FromCol = c, ToCol = c });
+                        }
+                        pIx = ix;
+                    }
+                }
+                else
+                {
+                    var r = valueAddress.FromRow;
+                    foreach (var ix in matchIndexes)
+                    {
+                        if (ix == pIx + 1)
+                        {
+                            addresses.Peek().ToCol++;
+                        }
+                        else
+                        {
+                            var c = valueAddress.FromCol + ix;
+                            addresses.Enqueue(new FormulaRangeAddress() { FromRow = r, ToRow = r, FromCol = c, ToCol = c });
+                        }
+                        pIx = ix;
+                    }
+                }
+            }
+        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var valueRange = arguments[0].ValueAsRangeInfo;

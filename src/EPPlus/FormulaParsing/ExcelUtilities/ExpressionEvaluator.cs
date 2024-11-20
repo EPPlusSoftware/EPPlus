@@ -151,7 +151,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 if (operatorCandidate != "*")
                 {
                     IOperator op;
-                    if (OperatorsDict.Instance.TryGetValue(operatorCandidate, out op))
+                    if (OperatorsDict.CriteriaOperators.TryGetValue(operatorCandidate, out op))
                     {
                         var right = expression.Replace(operatorCandidate, string.Empty);
                         if (left == null && string.IsNullOrEmpty(right))
@@ -170,7 +170,7 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                         if (rightIsNumeric && op.Operator == Operators.Minus)
                         {
                             rightNum *= -1;
-                            op = OperatorsDict.Instance["="];
+                            op = OperatorsDict.AllOperators["="];
                         }
                         if (leftIsNumeric && rightIsNumeric)
                         {
@@ -184,9 +184,28 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                         {
                             return op.Operator == Operators.NotEqualTo;
                         }
-                        if (rightIsNumeric == false && Enum.IsDefined(typeof(LimitedOperators), (LimitedOperators)op.Operator) == false)
+                        if (rightIsNumeric == false)
                         {
-                            return _wildCardValueMatcher.IsMatch(expression, left) == 0;
+                            var result = _wildCardValueMatcher.IsMatch(right, left);
+                            switch(op.Operator)
+                            {
+                                case Operators.Equals:
+                                    return result == 0;
+                                case Operators.GreaterThanOrEqual:
+                                    return result <= 0;
+                                case Operators.GreaterThan:
+                                    return result < 0;
+                                case Operators.LessThanOrEqual:
+                                    return result >= 0;
+                                case Operators.LessThan:
+                                    return result > 0;
+                                case Operators.NotEqualTo:
+                                    return result != 0;
+                                default:
+                                    throw new InvalidOperationException("Unsupported wildcard operator");
+
+                            }
+
                         }
                         return EvaluateOperator(left, right, op);
                     }

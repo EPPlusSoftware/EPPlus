@@ -39,7 +39,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             var bracketCount = 0;
             var lastOpeningParanthesesPos = -1;
             var lastCommaPos=-1;
-            var operators = OperatorsDict.Instance;
+            var operators = OperatorsDict.AllOperators;
             Stack<Token> operatorStack = new Stack<Token>();
             var expressions = new List<Token>();
             for (int i = 0; i < tokens.Count; i++)

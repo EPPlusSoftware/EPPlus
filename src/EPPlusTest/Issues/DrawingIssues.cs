@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using System.IO;
 namespace EPPlusTest.Issues
 {
 	[TestClass]
@@ -54,6 +55,15 @@ namespace EPPlusTest.Issues
 
                 var sheet = package.Workbook.Worksheets[0];
                 CopyRows(sheet, 1, 10, 11, 20);
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s762()
+        {
+            using (var package = OpenTemplatePackage("s762.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
                 SaveAndCleanup(package);
             }
         }
