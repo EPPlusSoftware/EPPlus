@@ -60,34 +60,6 @@ namespace EPPlusTest.Drawing.Chart
         [TestMethod]
         public void AddingManualLayout()
         {
-            var bChart = cSheet.Drawings[0].As.Chart.BarChart;
-
-            bChart.XAxis.RemoveGridlines(true, true);
-            bChart.YAxis.RemoveGridlines(true, true);
-
-            for (int i = 0; i < bChart.Series.Count; i++)
-            {
-                var label = bChart.Series[i].DataLabel.DataLabels.Add(0);
-                AdjustDataLabelItem(ref label);
-                if (i == 3 || i == 2)
-                {
-                    label.Layout.ManualLayout.Top = 5;
-                }
-                else if (i == 4)
-                {
-                    label.Layout.ManualLayout.Top = 0;
-
-                }
-                else if (i == 5)
-                {
-                    label.Layout.ManualLayout.Top = -5;
-                }
-            }
-        }
-
-        [TestMethod]
-        public void AddingManualLayout_2()
-        {
             //Get the bar chart from drawings
             var bChart = cSheet.Drawings[0].As.Chart.BarChart;
 
@@ -357,5 +329,21 @@ namespace EPPlusTest.Drawing.Chart
                 SaveAndCleanup(pck);
             }
         }
+
+        //[TestMethod]
+        //public void NormalBarChart()
+        //{
+        //    var sheet3 = _pck.Workbook.Worksheets.Add("SimpleBar");
+
+        //    sheet3.Tables.Add(sheet3.Cells["A1:B1"], "modeFactorTable2");
+
+        //    sheet3.Cells["A1"].Value = 5;
+        //    sheet3.Cells["B1"].Value = 10;
+
+        //    var sChart = sheet3.Drawings.Coun("simpleBar);
+
+        //    sChart.Series.Add(sheet3.Cells["A1"]);
+        //    sChart.Series.Add(sheet3.Cells["B1"]);
+        //}
     }
 }
