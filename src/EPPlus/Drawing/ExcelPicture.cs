@@ -523,7 +523,7 @@ namespace OfficeOpenXml.Drawing
 		{
 			get
 			{
-				return GetXmlNodeAngel(_rotationPath);
+				return GetXmlNodeAngle(_rotationPath);
 			}
 			set
 			{

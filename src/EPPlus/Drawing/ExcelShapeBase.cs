@@ -10,17 +10,13 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Drawing.Style;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Xml;
-using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -48,8 +44,10 @@ namespace OfficeOpenXml.Drawing
         private string _textVerticalPath = "{0}xdr:txBody/a:bodyPr/@vert";
         private string _fontPath = "{0}xdr:txBody/a:p/a:pPr/a:defRPr";
         private string _textBodyPath = "{0}xdr:txBody/a:bodyPr";
+        private string _presetGeometryPath = "{0}xdr:spPr/a:prstGeom/a:avLst";
 
-		internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null) :
+
+        internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null) :
             base(drawings, node, topPath, nvPrPath, parent)
         {
             Init(string.IsNullOrEmpty(_topPath) ? "" : _topPath + "/");
@@ -75,6 +73,7 @@ namespace OfficeOpenXml.Drawing
             _textVerticalPath = string.Format(_textVerticalPath, topPath);
             _fontPath = string.Format(_fontPath, topPath);
             _textBodyPath = string.Format(_textBodyPath, topPath);
+            _presetGeometryPath = string.Format(_presetGeometryPath, topPath);
             AddSchemaNodeOrder(SchemaNodeOrder, new string[] { "nvSpPr", "spPr", "txSp", "style", "txBody", "hlinkClick", "hlinkHover", "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "blipFill", "gradFill", "pattFill", "grpFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d", "pPr", "r", "br", "fld", "endParaRPr", "lnRef", "fillRef", "effectRef", "fontRef" });
         }
         /// <summary>
@@ -395,7 +394,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeAngel(_rotationPath);
+                return GetXmlNodeAngle(_rotationPath);
             }
             set
             {
@@ -459,6 +458,39 @@ namespace OfficeOpenXml.Drawing
                 return _textBody;
             }
         }
+
+
+        private Dictionary <string, string> fmla = new Dictionary<string, string>();
+
+        public void AddShapeGuide(string name, int value)
+        {
+            if (fmla.ContainsKey(name)) throw new Exception("Name already exsists in Preset Geometry Nodes List");
+            fmla.Add(name, value.ToString());
+            //create xml node
+            var avLst = TopNode.SelectSingleNode(_presetGeometryPath, NameSpaceManager);
+            XmlElement gd = avLst.OwnerDocument.CreateElement("a:gd", "http://schemas.openxmlformats.org/drawingml/2006/main");
+            gd.SetAttribute("name", name);
+            gd.SetAttribute("fmla", "val " + value.ToString());
+            avLst.AppendChild(gd);
+        }
+
+        public void EditShapeGuide(string name, int value)
+        {
+            if (fmla.ContainsKey(name)) throw new Exception("Name already exsists in Preset Geometry Nodes List");
+            fmla[name] = value.ToString();
+            //create xml node
+            var gd = TopNode.SelectSingleNode(_presetGeometryPath + "/a:gd[@name =\"{name}\"]", NameSpaceManager);
+            gd.Attributes["fmla"].Value = value.ToString();
+        }
+
+        public void RemoveShapeGuide(string name)
+        {
+            fmla.Remove(name);
+            var gd = TopNode.SelectSingleNode(_presetGeometryPath + "a:gd[@name =\"{name}\"]", NameSpaceManager);
+            var parent = gd.ParentNode;
+            parent.RemoveChild(gd);
+        }
+
 
         internal override void CellAnchorChanged()
         {

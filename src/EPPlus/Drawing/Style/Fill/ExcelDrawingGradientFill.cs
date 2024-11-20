@@ -92,9 +92,9 @@ namespace OfficeOpenXml.Drawing.Style.Fill
                 _xml.SetXmlNodeString("@flip", TileFlip.ToString().ToLower());
             }
 
-            if (ShadePath==eShadePath.Linear && LinearSettings.Angel!=0 && LinearSettings.Scaled==false)
+            if (ShadePath==eShadePath.Linear && LinearSettings.Angle!=0 && LinearSettings.Scaled==false)
             {
-                _xml.SetXmlNodeAngle("a:lin/@ang", LinearSettings.Angel);
+                _xml.SetXmlNodeAngle("a:lin/@ang", LinearSettings.Angle);
                 _xml.SetXmlNodeBool("a:lin/@scaled", LinearSettings.Scaled);
             }
             else if(ShadePath != eShadePath.Linear)

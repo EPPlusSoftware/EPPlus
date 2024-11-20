@@ -85,7 +85,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
                         return GetXmlNodePercentage("@val") ?? 0;
                     case eColorTransformDataType.Angle:
                     case eColorTransformDataType.FixedAngle90:
-                        return GetXmlNodeAngel("@val");
+                        return GetXmlNodeAngle("@val");
                     default:
                         return 1; //Boolean
                 }

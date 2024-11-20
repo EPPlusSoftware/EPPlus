@@ -23,7 +23,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         }
         internal ExcelDrawingGradientFillLinearSettings(XmlHelper xml)
         {
-            Angel = xml.GetXmlNodeAngel("a:lin/@ang");
+            Angle = xml.GetXmlNodeAngle("a:lin/@ang");
             Scaled = xml.GetXmlNodeBool("a:lin/@scaled", false);
         }
 
@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Drawing.Style.Fill
         /// The direction of color change for the gradient.To define this angle, let its value
         /// be x measured clockwise.Then( -sin x, cos x) is a vector parallel to the line of constant color in the gradient fill.
         /// </summary>
-        public double Angel { get; set; }
+        public double Angle { get; set; }
         /// <summary>
         /// If the gradient angle scales with the fill.
         /// </summary>

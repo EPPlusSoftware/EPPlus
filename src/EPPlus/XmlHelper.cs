@@ -1041,7 +1041,7 @@ namespace OfficeOpenXml
                 return defaultValue;
             }
         }
-        internal double GetXmlNodeAngel(string path, double defaultValue = 0)
+        internal double GetXmlNodeAngle(string path, double defaultValue = 0)
         {
             int a = GetXmlNodeInt(path);
             if (a < 0) return defaultValue;
