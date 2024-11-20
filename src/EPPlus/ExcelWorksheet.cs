@@ -1455,11 +1455,12 @@ namespace OfficeOpenXml
             var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
             if (isRt && v._value is ExcelRichTextCollection rtc)
             {
+                if (rtc._cells == null) rtc._cells = r;
                 return rtc;
             }
             else
             {
-                var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);                
+                var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);
                 if (string.IsNullOrEmpty(text))
                 {
                     var item = new ExcelRichTextCollection(Workbook, r);

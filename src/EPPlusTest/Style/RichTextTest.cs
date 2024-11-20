@@ -265,5 +265,20 @@ namespace EPPlusTest.Style
                 Assert.AreEqual(false, rt[1].UnderLine);
             }
         }
+
+
+        [TestMethod]
+        public void CheckRichTextProperties()
+        {
+            using var p = OpenTemplatePackage("Markups.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var C4 = ws.Cells["C4"];
+            var C5 = ws.Cells["C5"];
+
+            Assert.AreEqual(C4.Style.Font.Name, C4.RichText[0].FontName);
+            Assert.AreEqual(C4.Style.Font.Size, C4.RichText[0].Size);
+            Assert.AreEqual("Arial", C4.RichText[1].FontName);
+
+        }
     }
 }
