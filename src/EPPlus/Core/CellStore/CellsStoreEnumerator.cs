@@ -13,9 +13,6 @@
 using System.Collections.Generic;
 using System.Collections;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.Core.CellStore
 {

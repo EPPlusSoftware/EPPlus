@@ -1276,6 +1276,26 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
+        /// Returns true if the range is empty.
+        /// </summary>
+        public bool IsEmpty(bool formula = true, bool comment = true, bool threadedComment = true)
+        {
+            var cells = new CellStoreEnumerator<ExcelValue>(this.Worksheet._values, this.Start.Row, this.Start.Column, this.End.Row, this.End.Column);
+            while (cells.Next())
+            {
+                if (cells.Value._value == null)
+                {
+                    if (formula && this.Worksheet.Cells[cells.CellAddress].Formula != null) return false;
+                    if (comment && this.Worksheet.Cells[cells.CellAddress].Comment != null) return false;
+                    if (threadedComment && this.Worksheet.Cells[cells.CellAddress].ThreadedComment != null) return false;
+                    continue;
+                }
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// If the value is in richtext format.
         /// </summary>
         public bool IsRichText
