@@ -18,6 +18,7 @@ using System.Xml.XPath;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Utils;
 using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
@@ -35,12 +36,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            if (argumentIndex % 2 == 1)
+            if (argumentIndex == 0)
+            {
+                return FunctionParameterInformation.AdjustParameterAddress;
+            }
+            if (argumentIndex % 2 == 0)
             {
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
             return FunctionParameterInformation.Normal;
         }));
+        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+        {
+            if (index == 0)
+            {
+                IEnumerable<int> matchIndexes = GetMatchingIndiciesFromArguments(args);
+                addresses = EnqueueMatchingAddresses(args[0].Address, matchIndexes);
+            }
+        }
 
         public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {

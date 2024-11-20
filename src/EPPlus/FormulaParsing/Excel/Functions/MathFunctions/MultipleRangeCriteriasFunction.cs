@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Utils;
@@ -96,5 +98,76 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return result;
         }
+        protected static Queue<FormulaRangeAddress> EnqueueMatchingAddresses(FormulaRangeAddress valueAddress, IEnumerable<int> matchIndexes)
+        {
+            Queue<FormulaRangeAddress> addresses = new Queue<FormulaRangeAddress>();
+            var pIx = int.MinValue;
+            if (valueAddress.FromCol == valueAddress.ToCol)
+            {
+                var c = valueAddress.FromCol;
+                foreach (var ix in matchIndexes)
+                {
+                    if (ix == pIx + 1)
+                    {
+                        addresses.Peek().ToRow++;
+                    }
+                    else
+                    {
+                        var r = valueAddress.FromRow + ix;
+                        addresses.Enqueue(new FormulaRangeAddress() { FromRow = r, ToRow = r, FromCol = c, ToCol = c });
+                    }
+                    pIx = ix;
+                }
+            }
+            else
+            {
+                var r = valueAddress.FromRow;
+                foreach (var ix in matchIndexes)
+                {
+                    if (ix == pIx + 1)
+                    {
+                        addresses.Peek().ToCol++;
+                    }
+                    else
+                    {
+                        var c = valueAddress.FromCol + ix;
+                        addresses.Enqueue(new FormulaRangeAddress() { FromRow = r, ToRow = r, FromCol = c, ToCol = c });
+                    }
+                    pIx = ix;
+                }
+            }
+
+            return addresses;
+        }
+        protected IEnumerable<int> GetMatchingIndiciesFromArguments(IList<CompileResult> args)
+        {
+            //Return the addresses matching the criterias in the queu
+            var argRanges = new List<RangeOrValue>();
+            var criterias = new List<object>();
+            for (var ix = 1; ix < 31; ix += 2)
+            {
+                if (args.Count <= ix) break;
+                var arg = args[ix];
+                if (arg.Result is IRangeInfo rangeInfo)
+                {
+                    argRanges.Add(new RangeOrValue { Range = rangeInfo });
+                }
+                else
+                {
+                    argRanges.Add(new RangeOrValue { Value = arg.ResultValue });
+                }
+                criterias.Add(args[ix + 1].ResultValue);
+            }
+            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], null);
+            var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
+            for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
+            {
+                var indexes = GetMatchIndexes(argRanges[ix], criterias[ix], null);
+                matchIndexes = matchIndexes.Intersect(indexes);
+            }
+
+            return matchIndexes;
+        }
+
     }
 }

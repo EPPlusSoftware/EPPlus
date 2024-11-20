@@ -89,10 +89,10 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void EvaluateShouldReturnFalseOperatorIsNotBoolean()
+        public void EvaluateShouldReturnTrueOperator()
         {
             var result = _evaluator.Evaluate(1d, "+1");
-            Assert.IsFalse(result);
+            Assert.IsTrue(result);
         }
         [TestMethod]
         public void EvaluateShouldEvaluateToGreaterThanMinusOne ()
