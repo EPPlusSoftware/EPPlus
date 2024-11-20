@@ -525,32 +525,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
             }
         }
 
-        //private static IOperator _percent;
-        //public static IOperator Percent
-        //{
-        //    get
-        //    {
-        //        if (_percent == null)
-        //        {
-        //            _percent = new Operator(Operators.Percent, PrecedencePercent, (l, r, ctx) =>
-        //                {
-        //                    l = l ?? CompileResult.ZeroInt;
-        //                    r = r ?? CompileResult.ZeroInt;
-        //                    if (l.DataType == DataType.Integer && r.DataType == DataType.Integer)
-        //                    {
-        //                        return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Integer);
-        //                    }
-        //                    else if (CanDoNumericOperation(l, r))
-        //                    {
-        //                        return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Decimal);
-        //                    }
-        //                    return new CompileResult(eErrorType.Value);
-        //                });
-        //        }
-        //        return _percent;
-        //    }
-        //}
-
         private static object GetObjFromOther(CompileResult obj, CompileResult other)
         {
             if (obj.Result == null)

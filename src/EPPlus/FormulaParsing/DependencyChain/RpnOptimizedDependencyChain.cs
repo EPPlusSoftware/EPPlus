@@ -22,6 +22,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal List<int> _startOfChain = new List<int>();
         internal bool HasDynamicArrayFormula=false;
         internal Dictionary<int, Dictionary<string, CompileResult>> _expressionCache = new Dictionary<int, Dictionary<string, CompileResult>>();
+        internal bool HasAnyArrayFormula { get; set; } = false;
         public RpnOptimizedDependencyChain(ExcelWorkbook wb, ExcelCalculationOption options)
         {
             _tokenizer = SourceCodeTokenizer.Default;

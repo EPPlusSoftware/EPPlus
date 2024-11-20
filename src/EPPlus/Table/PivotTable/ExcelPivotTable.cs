@@ -1733,7 +1733,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             SetXmlNodeString("d:location/@ref", Address.Address);
 
-            foreach (var field in Fields)
+            foreach(var field in Fields)
             {
                 field.SaveToXml();
             }

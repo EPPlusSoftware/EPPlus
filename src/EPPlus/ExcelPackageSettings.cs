@@ -10,7 +10,6 @@
  *************************************************************************************************
   09/10/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
 using System.Collections.Generic;
 using System;
 
@@ -73,6 +72,6 @@ namespace OfficeOpenXml
         /// Any auto- or table- filters created will be applied on save.
         /// In the case you want to handle this manually, set this property to false.
         /// </summary>
-        public bool ApplyFiltersOnSave { get; set; } = true;
+        public bool ApplyFiltersOnSave { get; set; } = false;
     }
 }

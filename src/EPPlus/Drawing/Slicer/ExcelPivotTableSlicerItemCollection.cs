@@ -53,7 +53,7 @@ namespace OfficeOpenXml.Drawing.Slicer
                 {
                     _items.RemoveAt(_items.Count - 1);
                 }
-            }
+            }            
         }
 
         /// <summary>

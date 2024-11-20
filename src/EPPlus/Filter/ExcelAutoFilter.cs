@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
-using System;
 using System.Xml;
 namespace OfficeOpenXml.Filter
 {
