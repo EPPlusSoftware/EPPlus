@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Drawing
     internal class PictureStore : IDisposable
     {
         ExcelPackage _pck;
-        internal static int _id = 1;
+        internal int _id = 1;
         internal Dictionary<string, ImageInfo> _images;
         public PictureStore(ExcelPackage pck)
         {
@@ -391,7 +391,7 @@ namespace OfficeOpenXml.Drawing
         {
             var store = container.RelationDocument.Package.PictureStore;
 
-            Console.WriteLine("SavePicture ContainerPictureStore" + container.RelationDocument.Package.File.FullName);
+            Console.WriteLine("SavePicture ContainerPictureStore " + container.RelationDocument.Package.File.FullName);
 
             var ii = store.AddImage(image, container.UriPic, type);
 
