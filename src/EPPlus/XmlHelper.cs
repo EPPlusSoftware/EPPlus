@@ -1223,8 +1223,6 @@ namespace OfficeOpenXml
             Uri uri = new Uri(string.Format(sUri, id), UriKind.Relative);
             while (package.PartExists(uri))
             {
-                Console.WriteLine($"PartExists with uri:{uri}");
-
                 uri = new Uri(string.Format(sUri, ++id), UriKind.Relative);
             }
             return uri;

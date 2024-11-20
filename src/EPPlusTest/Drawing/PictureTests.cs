@@ -252,7 +252,7 @@ namespace EPPlusTest.Drawing
 
 
 		[TestMethod]
-		public void ZZZZZZZSwitchFromSvgToPng()
+		public void SwitchFromSvgToPng()
 		{
 			using (ExcelPackage package = OpenPackage("SvgToPng.xlsx", true))
 			{
@@ -262,93 +262,20 @@ namespace EPPlusTest.Drawing
                 someWs.Drawings.AddPicture("pictureSvg", GetResourceFile("car-silhouette-color-low-poly.svg"));
                 someWs.Drawings.AddPicture("picturePng", GetResourceFile("EPPlus.png"));
 
-                Console.WriteLine($"Start SvgToPng");
                 var wb = package.Workbook;
 				var ws = wb.Worksheets.Add("NewSheet");
 
-                Console.WriteLine(string.Format("file name: {0}", wb._package.File.Name));
-
-                Console.WriteLine($"Creating picture");
                 var originalSvg = ws.Drawings.AddPicture("svgOrig", GetResourceFile("car-silhouette-color-low-poly.svg"));
-
-                var picRelDrawing = ((IPictureRelationDocument)ws.Drawings);
-                Console.WriteLine("PicRel drawings package: " + picRelDrawing.Package.File.Name);
-
-                Console.WriteLine($"Created picture check rels");
-
-                foreach (var aRel in ws.Drawings.Part._rels)
-                {
-                    Console.WriteLine($"Id: {aRel.Id}, Name: {aRel.TargetUri.OriginalString}");
-                    var resUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, aRel.TargetUri);
-                    Console.WriteLine($"ResolvedUri:{resUri.OriginalString}");
-                }
-
-                Console.WriteLine($"Created picture check rels end" );
-
-                Console.WriteLine($"Finish creating picture");
-
-                Console.WriteLine($"Begin change image");
 
                 originalSvg.Image.SetImage(GetResourceFile("EPPlus.png"));
 
-                var picRelDrawing2 = ((IPictureRelationDocument)ws.Drawings);
-                Console.WriteLine("PicRel drawings package After: " + picRelDrawing2.Package.File.Name);
-
-                var picRelDrawing3 = ((IPictureRelationDocument)originalSvg._drawings);
-                Console.WriteLine("PicRel drawings package After from picture: " + picRelDrawing3.Package.File.Name);
-
-                Console.WriteLine($"changed picture check rels");
-
-                foreach (var aRel in ws.Drawings.Part._rels)
-                {
-                    Console.WriteLine($"Id: {aRel.Id}, Name: {aRel.TargetUri.OriginalString}");
-                    var resUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, aRel.TargetUri);
-                    Console.WriteLine($"ResolvedUri:{resUri.OriginalString}");
-                }
-                Console.WriteLine($"changed picture check rels END");
-
-                Console.WriteLine($"End change image");
-
-                Console.WriteLine($"Begin rel exists");
                 Assert.IsTrue(ws.Drawings.Part.RelationshipExists("rId1"));
-                Console.WriteLine($"end rel exists");
-
-				Console.WriteLine($"Drawings count: {ws.Drawings.Count}");
-                var pics = ws.Drawings.Where(x => x.DrawingType == eDrawingType.Picture).Select(x => x.As.Picture);
-				foreach(var pic in pics)
-				{
-					Console.WriteLine($"{pic.Name}");
-                    Console.WriteLine($"{pic.Image.Type}");
-                }
-
-				foreach(var image in package.PictureStore._images)
-				{
-					Console.WriteLine($"image key: {image.Key}, image value: {image.Value.Uri}");
-				}
-				Console.WriteLine("Other package picturestore:");
-
-                foreach (var image in _pck.PictureStore._images)
-                {
-                    Console.WriteLine($"image key: {image.Key}, image value: {image.Value.Uri}");
-                }
 
                 var rel = ws.Drawings.Part.GetRelationship("rId1");
 
-				foreach(var aRel in ws.Drawings.Part._rels)
-				{
-					Console.WriteLine($"Id: {aRel.Id}, Name: {rel.TargetUri.OriginalString}");
-					var resUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, aRel.TargetUri);
-					Console.WriteLine($"ResolvedUri:{resUri.OriginalString}");
-                }
-
                 var relUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, rel.TargetUri);
 
-                Console.WriteLine($"Begin are Equal originalSvg and relUri");
                 Assert.AreEqual(originalSvg.Part.Uri, relUri);
-                Console.WriteLine($"End originalSvg and relUri");
-
-                Console.WriteLine($"Package Name:{package.File.FullName}");
-
                 Assert.AreEqual("../media/image1.png", rel.TargetUri.OriginalString);
 
 				otherPackage.Dispose();

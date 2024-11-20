@@ -222,7 +222,6 @@ namespace OfficeOpenXml.Drawing
             do
             {
                 uri = new Uri(string.Format(sUri, _id++), UriKind.Relative);
-                Console.WriteLine($"Get new Uri other: {uri.OriginalString}");
             }
             while (package.PartExists(uri));
             return uri;
@@ -390,8 +389,6 @@ namespace OfficeOpenXml.Drawing
         internal static string SavePicture(byte[] image, IPictureContainer container, ePictureType type)
         {
             var store = container.RelationDocument.Package.PictureStore;
-
-            Console.WriteLine("SavePicture ContainerPictureStore " + container.RelationDocument.Package.File.FullName);
 
             var ii = store.AddImage(image, container.UriPic, type);
 
