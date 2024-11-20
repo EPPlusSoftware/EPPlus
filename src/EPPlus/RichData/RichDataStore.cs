@@ -126,10 +126,10 @@ namespace OfficeOpenXml.RichData
             return rdv;
         }
 
-        internal ExcelRichValueStructure GetStructure(RichDataStructureTypes structureType)
-        {
-            return _workbook.RichData.Structures.GetByType(structureType);
-        }
+        //internal ExcelRichValueStructure GetStructure(RichDataStructureTypes structureType)
+        //{
+        //    return _workbook.RichData.Structures.GetByType(structureType);
+        //}
 
         internal void AddRichData(int row, int col, ExcelRichValue richValue)
         {

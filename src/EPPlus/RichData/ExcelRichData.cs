@@ -19,6 +19,7 @@ using OfficeOpenXml.RichData.RichValues.Relations;
 using OfficeOpenXml.RichData.Structures;
 using OfficeOpenXml.RichData.Structures.SupportingPropertyBags;
 using OfficeOpenXml.RichData.Types;
+using OfficeOpenXml.RichData.WebImages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,7 @@ namespace OfficeOpenXml.RichData
             // this will initialize the metadata, it is needed for the Rich data...
 
             Structures = new ExcelRichValueStructureCollection(wb, this);
+            WebImages = new WebImagesSupportingRichDataCollection(wb, this);
             RichValueRels = new RichValueRelCollection(wb);
             Values = new ExcelRichValueCollection(wb, this);
             SupportingPropertyBagStructures = new SupportingPropertyBagStructureCollection(wb);
@@ -62,6 +64,8 @@ namespace OfficeOpenXml.RichData
         internal RichValueRelCollection RichValueRels { get; }
 
         internal SupportingPropertyBagStructureCollection SupportingPropertyBagStructures { get; }
+
+        internal WebImagesSupportingRichDataCollection WebImages { get; set; }
 
         internal SupportingPropertyBags SupportingPropertyBags { get; }
 
@@ -85,6 +89,7 @@ namespace OfficeOpenXml.RichData
             ValueTypes.CreatePart();
             Structures.CreatePart();
             Values.CreatePart();
+            RichDataArrays.CreatePart();
         }
 
         internal void SetHasValuesOnParts()
@@ -95,6 +100,7 @@ namespace OfficeOpenXml.RichData
                 Structures.Part.ShouldBeSaved = true;
                 Values.Part.ShouldBeSaved = true;
                 RichValueRels.Part.ShouldBeSaved = true;
+                RichDataArrays.Part.ShouldBeSaved = true;
             }
         }
 

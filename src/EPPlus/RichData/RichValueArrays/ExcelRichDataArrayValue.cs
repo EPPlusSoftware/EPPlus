@@ -15,6 +15,7 @@ using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -23,10 +24,13 @@ namespace OfficeOpenXml.RichData.RichValueArrays
 {
     internal class ExcelRichDataArrayValue : IndexEndpoint
     {
-        public ExcelRichDataArrayValue(RichDataIndexStore store, XmlReader xr) : base(store, RichDataEntities.RichDataArrayValue)
+        public ExcelRichDataArrayValue(ExcelRichData richData, RichDataIndexStore store, XmlReader xr) : base(store, RichDataEntities.RichDataArrayValue)
         {
+            _richData = richData;
             ReadXml(xr);
         }
+
+        private readonly ExcelRichData _richData;
 
         public ExcelRichDataArrayValueType ValueType
         {
@@ -44,7 +48,16 @@ namespace OfficeOpenXml.RichData.RichValueArrays
                     var t = xr.GetAttribute("t");
                     ValueType = ToValueType(t);
                     xr.Read();
-                    Value = xr.Value;
+                    if(ValueType == ExcelRichDataArrayValueType.RichValue)
+                    {
+                        var rvIx = int.Parse(xr.Value);
+                        var rvId = _richData.Values.GetIdByIndex(rvIx);
+                        Value = rvId.ToString();
+                    }
+                    else
+                    {
+                        Value = xr.Value;
+                    }
                 }
                 else if (xr.IsEndElementWithName("v"))
                 {
@@ -76,6 +89,42 @@ namespace OfficeOpenXml.RichData.RichValueArrays
                 default:
                     throw new ArgumentException($"Invalid rich data array value type: {t}");
             }
+        }
+
+        private string GetValueTypeForXml()
+        {
+            switch(ValueType)
+            {
+                case ExcelRichDataArrayValueType.RealNumber:
+                    return "d";
+                case ExcelRichDataArrayValueType.Integer:
+                    return "i";
+                case ExcelRichDataArrayValueType.Boolean:
+                    return "b";
+                case ExcelRichDataArrayValueType.Error:
+                    return "e";
+                case ExcelRichDataArrayValueType.Text:
+                    return "s";
+                case ExcelRichDataArrayValueType.RichValue:
+                    return "r";
+                case ExcelRichDataArrayValueType.Array:
+                    return "a";
+                default:
+                    return "s";
+            }
+        }
+
+        internal void WriteXml(StreamWriter sw)
+        {
+            var vt = GetValueTypeForXml();
+            var val = Value;
+            if(ValueType == ExcelRichDataArrayValueType.RichValue)
+            {
+                var rvId = uint.Parse(Value);
+                var rvIx = _richData.Values.GetIndexById(rvId);
+                val = rvIx.ToString();
+            }
+            sw.Write($"<v t=\"{vt}\">{val}</v>");
         }
     }
 }

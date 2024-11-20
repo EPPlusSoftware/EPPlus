@@ -34,5 +34,80 @@ namespace OfficeOpenXml.RichData.Structures.Constants
         public const string StockHistoryCache = "_stockhistorycache";
         public const string ExternalCodeServiceObject = "_python";
         public const string SourceAttribution = "_sourceattribution";
+
+        internal static RichDataStructureTypes GetStructureType(string name)
+        {
+            switch(name)
+            {
+                case Error:
+                    return RichDataStructureTypes.Error;
+                case LocalImage:
+                    return RichDataStructureTypes.LocalImage;
+                case WebImage:
+                    return RichDataStructureTypes.WebImage;
+                case LinkedEntity:
+                    return RichDataStructureTypes.LinkedEntity;
+                case LinkedEntity2:
+                    return RichDataStructureTypes.LinkedEntity2;
+                case LinkedEntityCore:
+                    return RichDataStructureTypes.LinkedEntityCore;
+                case LinkedEntity2Core:
+                    return RichDataStructureTypes.LinkedEntity2Core;
+                case FormattedNumber:
+                    return RichDataStructureTypes.FormattedNumber;
+                case Hyperlink:
+                    return RichDataStructureTypes.Hyperlink;
+                case Array:
+                    return RichDataStructureTypes.Array;
+                case Entity:
+                    return RichDataStructureTypes.Entity;
+                case StockHistoryCache:
+                    return RichDataStructureTypes.StockHistoryCache;
+                case ExternalCodeServiceObject:
+                    return RichDataStructureTypes.ExternalCodeServiceObject;
+                case SourceAttribution:
+                    return RichDataStructureTypes.SourceAttribution;
+                default:
+                    throw new InvalidOperationException("Invalid structure type: " + name);
+                    
+            }
+        }
+
+        internal static string GetStructureName(RichDataStructureTypes structureType)
+        {
+            switch(structureType)
+            {
+                case RichDataStructureTypes.Error:
+                    return Error;
+                case RichDataStructureTypes.LocalImage:
+                    return LocalImage;
+                case RichDataStructureTypes.WebImage:
+                    return WebImage;
+                case RichDataStructureTypes.LinkedEntity:
+                    return LinkedEntity;
+                case RichDataStructureTypes.LinkedEntity2:
+                    return LinkedEntity2;
+                case RichDataStructureTypes.LinkedEntityCore:
+                    return LinkedEntityCore;
+                case RichDataStructureTypes.LinkedEntity2Core:
+                    return LinkedEntity2Core;
+                case RichDataStructureTypes.FormattedNumber:
+                    return FormattedNumber;
+                case RichDataStructureTypes.Hyperlink:
+                    return Hyperlink;
+                case RichDataStructureTypes.Array:
+                    return Array;
+                case RichDataStructureTypes.Entity:
+                    return Entity;
+                case RichDataStructureTypes.StockHistoryCache:
+                    return StockHistoryCache;
+                case RichDataStructureTypes.ExternalCodeServiceObject:
+                    return ExternalCodeServiceObject;
+                case RichDataStructureTypes.SourceAttribution:
+                    return SourceAttribution;
+                default:
+                    throw new NotImplementedException("Not supported structureType: " + structureType.ToString());
+            }
+        }
     }
 }

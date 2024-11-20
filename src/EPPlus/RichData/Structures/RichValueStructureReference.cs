@@ -10,22 +10,30 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.RichData.IndexRelations;
-using OfficeOpenXml.RichData.Structures;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OfficeOpenXml.RichData.RichValues
+namespace OfficeOpenXml.RichData.Structures
 {
-    internal class ExcelPreserveRichValue : ExcelRichValue
+    internal class RichValueStructureReference
     {
-        public ExcelPreserveRichValue(RichDataIndexStore store, ExcelRichData richData, uint structureId, ExcelRichValueStructure structure)
-            : base(store, richData, structure.StructureType)
+        public RichValueStructureReference(uint id)
         {
-            StructureId = structureId;
-            Structure = structure;
+            Id = id;
+            WordIds = new List<int>();
+        }
+
+        public uint Id { get; }
+
+        public List<int> WordIds { get; }
+
+        public bool AreEqual(List<int> wordIds)
+        {
+            if (WordIds.Count != wordIds.Count) return false;
+            return WordIds.OrderBy(x => x).SequenceEqual(wordIds.OrderBy(x => x));
         }
     }
 }

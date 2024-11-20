@@ -27,13 +27,23 @@ namespace OfficeOpenXml.CellPictures
         /// <summary>
         /// Constructor
         /// </summary>
-        internal ExcelCellPicture(uint vmId, Uri imageUri, PictureStore pictureStore) : base(vmId, RichDataReferenceTypes.LocalImage)
+        internal ExcelCellPicture(uint vmId, Uri imageUri, PictureStore pictureStore, ExcelCellPictureTypes pictureType) : base(vmId, PictureTypeToReferenceType(pictureType))
         {
             _pictureStore = pictureStore;
             ImageUri = imageUri;
+            PictureType = pictureType;
         }
 
         private readonly PictureStore _pictureStore;
+
+        private static RichDataReferenceTypes PictureTypeToReferenceType(ExcelCellPictureTypes pictureType)
+        {
+            if(pictureType == ExcelCellPictureTypes.WebImage)
+            {
+                return RichDataReferenceTypes.WebImage;
+            }
+            return RichDataReferenceTypes.LocalImage;
+        }
 
         /// <summary>
         /// Internal uri in the workbook of the image.
@@ -41,6 +51,15 @@ namespace OfficeOpenXml.CellPictures
         internal Uri ImageUri
         {
             get; set;
+        }
+
+        /// <summary>
+        /// Type of cell picture
+        /// </summary>
+        public ExcelCellPictureTypes PictureType
+        {
+            get;
+            private set;
         }
 
         /// <summary>

@@ -62,5 +62,17 @@ namespace OfficeOpenXml.RichData.RichValues.LocalImage
                 SetValue(StructureKeyNames.LocalImages.Image.CalcOrigin, (int?)value);
             }
         }
+
+        public string Text
+        {
+            get
+            {
+                return GetValue(StructureKeyNames.LocalImages.Image.Text);
+            }
+            set
+            {
+                SetValue(StructureKeyNames.LocalImages.Image.Text, value);
+            }
+        }
     }
 }

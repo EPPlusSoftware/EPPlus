@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  11/11/2024         EPPlus Software AB       Initial release EPPlus 8
+ *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
@@ -11,8 +23,11 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace OfficeOpenXml.RichData.RichValues
 {
@@ -21,18 +36,20 @@ namespace OfficeOpenXml.RichData.RichValues
         public ExcelRichValue(RichDataIndexStore store, ExcelRichData richData, RichDataStructureTypes structureType)
             : base(store, RichDataEntities.RichValue)
         {
-            var structure = richData.Structures.GetByType(structureType);
-            StructureId = structure.Id;
-            Structure = structure;
+            //var structure = richData.Structures.GetByType(structureType);
+            //StructureId = structure.Id;
+            //Structure = structure;
             _richData = richData;
             _indexStore = store;
+            _structureType = structureType;
             As = new ExcelRichValueAsType(this);
-            richData.Structures.CreateRelation(this, structure, IndexType.ZeroBasedPointer);
+            //richData.Structures.CreateRelation(this, structure, IndexType.ZeroBasedPointer);
         }
 
 
         private readonly ExcelRichData _richData;
         private readonly RichDataIndexStore _indexStore;
+        private readonly RichDataStructureTypes _structureType;
         public uint StructureId { get; set; }
         public ExcelRichValueStructure Structure { get; set; }
         //public List<string> Values { get; } = new List<string>();
@@ -70,6 +87,33 @@ namespace OfficeOpenXml.RichData.RichValues
                     _relations[key.Name] = relation;
                     _keysAndValues[key.Name] = targetRv.Id.ToString();
                 }
+                else if(Structure.Type == StructureTypes.WebImage && key.Name == StructureKeyNames.WebImage.WebImageIdentifier) 
+                {
+                    var imgIx = _keysAndValues[key.Name];
+                    var imgId = _richData.WebImages.GetIdByIndex(int.Parse(imgIx));
+                    var img = _richData.WebImages.Get(imgId);
+                    AddRelationTo(img);
+                }
+            }
+        }
+
+        internal void SetStructure(ExcelRichData richData)
+        {
+            _keysAndValues = _keysAndValues.Where(kvp => !string.IsNullOrEmpty(kvp.Value)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            var keyNames = _keysAndValues.Select(kvp => kvp.Key).ToList();
+            //var hash = ExcelRichValueStructure.CreateKeyHash(keyNames);
+            var existingStructure = Structure;
+            var existingStructureRel = default(IndexRelation);
+            if(existingStructure != null)
+            {
+                existingStructureRel = GetIncomingRelations(x => x.To.EntityType == RichDataEntities.RichStructure).FirstOrDefault();
+            }
+            Structure = richData.Structures.GetByType(_structureType, keyNames);
+            StructureId = Structure.Id;
+            if(existingStructure != null && existingStructure.Id != StructureId && existingStructureRel != null)
+            {
+                existingStructure.OnConnectedEntityDeleted(new ConnectedEntityDeletedEventArgs(this, existingStructureRel, _indexStore, new RelationDeletions(_indexStore)));
+                AddRelationTo(Structure);
             }
         }
 
@@ -288,15 +332,14 @@ namespace OfficeOpenXml.RichData.RichValues
 
         public void SetValue(string key, string value)
         {
-            if (Structure.StructureType != RichDataStructureTypes.Preserve && !Structure.IsValidKey(key))
-            {
-                throw new InvalidOperationException($"Invalid key for rich data of type {Structure.StructureType}: " + key);
-            }
             if (_keysAndValues.ContainsKey(key))
             {
                 _keysAndValues.Remove(key);
             }
-            _keysAndValues[key] = value;
+            if(!string.IsNullOrEmpty(value))
+            {
+                _keysAndValues[key] = value;
+            }
         }
 
         protected void SetValue(string key, int value)
@@ -309,6 +352,24 @@ namespace OfficeOpenXml.RichData.RichValues
             if(value.HasValue)
             {
                 SetValue(key, value.ToString());
+            }
+            else
+            {
+                SetValue(key, string.Empty);
+            }
+        }
+
+        protected void SetValue(string key, double? value)
+        {
+            SetValue(key, value.HasValue ? value.Value.ToString(CultureInfo.InvariantCulture) : null);
+        }
+
+
+        protected void SetValue(string key, bool? value)
+        {
+            if (value.HasValue)
+            {
+                SetValue(key, value.Value ? 1 : 0);
             }
             else
             {
@@ -332,6 +393,34 @@ namespace OfficeOpenXml.RichData.RichValues
                 if (int.TryParse(_keysAndValues[key], out var value))
                 {
                     return value;
+                }
+            }
+            return null;
+        }
+
+        protected double? GetValueDouble(string key)
+        {
+            if (_keysAndValues.ContainsKey(key))
+            {
+                try
+                {
+                    return double.Parse(_keysAndValues[key], CultureInfo.InvariantCulture);
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            return null;
+        }
+
+        protected bool? GetValueBool(string key)
+        {
+            if (_keysAndValues.ContainsKey(key))
+            {
+                if (int.TryParse(_keysAndValues[key], out var value))
+                {
+                    return value > 0;
                 }
             }
             return null;

@@ -55,21 +55,33 @@ namespace OfficeOpenXml.CellPictures
             if (richValue.Structure.StructureType == RichDataStructureTypes.LocalImage)
             {
                 var rdLi = richValue.As.LocalImage;
-                var pic = new ExcelCellPicture(vmId, rdLi.ImageUri, _pictureStore)
+                var pic = new ExcelCellPicture(vmId, rdLi.ImageUri, _pictureStore, ExcelCellPictureTypes.LocalImage)
                 {
                     CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
+                    AltText = rdLi.Text,
                     CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
                 };
                 return pic;
             }
-            else if (richValue.Structure.StructureType == RichDataStructureTypes.LocalImageWithAltText)
+            //else if (richValue.Structure.StructureType == RichDataStructureTypes.LocalImageWithAltText)
+            //{
+            //    var rdLia = richValue.As.LocalImageAltText;
+            //    var pic = new ExcelCellPicture(vmId, rdLia.ImageUri, _pictureStore, ExcelCellPictureTypes.LocalImage)
+            //    {
+            //        CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
+            //        CalcOrigin = rdLia.CalcOrigin ?? CalcOrigins.None,
+            //        AltText = rdLia.Text
+            //    };
+            //    return pic;
+            //}
+            else if (richValue.Structure.StructureType == RichDataStructureTypes.WebImage)
             {
-                var rdLia = richValue.As.LocalImageAltText;
-                var pic = new ExcelCellPicture(vmId, rdLia.ImageUri, _pictureStore)
+                var rdWi = richValue.As.WebImage;
+                var pic = new ExcelCellPicture(vmId, rdWi.ImageUri, _pictureStore, ExcelCellPictureTypes.WebImage)
                 {
                     CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
-                    CalcOrigin = rdLia.CalcOrigin ?? CalcOrigins.None,
-                    AltText = rdLia.Text
+                    AltText = rdWi.Text,
+                    CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None
                 };
                 return pic;
             }
@@ -94,23 +106,29 @@ namespace OfficeOpenXml.CellPictures
 
         private ExcelRichValue CreateImageRichValue(Uri imageUri, CalcOrigins calcOrigin, string altText)
         {
-            if (!string.IsNullOrEmpty(altText))
+            //if (!string.IsNullOrEmpty(altText))
+            //{
+            //    return new LocalImageAltTextRichValue(_sheet.Workbook)
+            //    {
+            //        ImageUri = imageUri,
+            //        CalcOrigin = calcOrigin,
+            //        Text = altText
+            //    };
+            //}
+            //else
+            //{
+            //    return new LocalImageRichValue(_sheet.Workbook)
+            //    {
+            //        ImageUri = imageUri,
+            //        CalcOrigin = calcOrigin
+            //    };
+            //}
+            return new LocalImageRichValue(_sheet.Workbook)
             {
-                return new LocalImageAltTextRichValue(_sheet.Workbook)
-                {
-                    ImageUri = imageUri,
-                    CalcOrigin = calcOrigin,
-                    Text = altText
-                };
-            }
-            else
-            {
-                return new LocalImageRichValue(_sheet.Workbook)
-                {
-                    ImageUri = imageUri,
-                    CalcOrigin = calcOrigin
-                };
-            }
+                ImageUri = imageUri,
+                CalcOrigin = calcOrigin,
+                Text = altText
+            };
         }
 
         public void SetCellPicture(int row, int col, Stream imageStream, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
@@ -140,7 +158,6 @@ namespace OfficeOpenXml.CellPictures
             // Add image to picture store and create relation
             var imageInfo = AddToPictureStore(imageBytes);
             
-            var structureType = string.IsNullOrEmpty(altText) ? RichDataStructureTypes.LocalImage : RichDataStructureTypes.LocalImageWithAltText;
             var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
             var imageUri = UriHelper.ResolvePartUri(rdUri, imageInfo.Uri);
 
@@ -175,16 +192,6 @@ namespace OfficeOpenXml.CellPictures
                     // there was rich data connected to the cell, we leave it as it is
                 }
                 AddNewPicture(row, col, altText, calcOrigin, imageUri);
-                //var imageRichValue = CreateImageRichValue(imageUri, calcOrigin, altText);
-                //_richDataStore.UpdateRichData(row, col, imageRichValue, out uint vmId);
-                //var newPic = GetExcelCellPictureByRichValue(imageRichValue, row, col, vmId);
-                //if(!_referenceCache.Contains(newPic.ImageUri, newPic.CalcOrigin))
-                //{
-                //    _referenceCache.AddReference(newPic.ImageUri, newPic.CalcOrigin);
-                //}
-                //SetCellValue(row, col, newPic);
-                //md.vm = vmId;
-                //_sheet._metadataStore.SetValue(row, col, md);
             }
         }
 

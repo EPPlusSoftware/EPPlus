@@ -54,15 +54,16 @@ namespace OfficeOpenXml.RichData.Structures.Constants
             internal static readonly List<ExcelRichValueStructureKey> Image =
                 [
                     new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.Image.RelLocalImageIdentifier, RichValueDataType.Integer),
-                    new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.Image.CalcOrigin, RichValueDataType.Integer)
+                    new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.Image.CalcOrigin, RichValueDataType.Integer),
+                    new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.Image.Text, RichValueDataType.String)
                 ];
 
-            internal static readonly List<ExcelRichValueStructureKey> ImageAltText =
-                [
-                    new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.RelLocalImageIdentifier, RichValueDataType.Integer),
-                    new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.CalcOrigin, RichValueDataType.Integer),
-                    new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.Text, RichValueDataType.String)
-                ];
+            //internal static readonly List<ExcelRichValueStructureKey> ImageAltText =
+            //    [
+            //        new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.RelLocalImageIdentifier, RichValueDataType.Integer),
+            //        new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.CalcOrigin, RichValueDataType.Integer),
+            //        new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.Text, RichValueDataType.String)
+            //    ];
         }
 
         internal static class WebImage
@@ -79,6 +80,34 @@ namespace OfficeOpenXml.RichData.Structures.Constants
                     new ExcelRichValueStructureKey(StructureKeyNames.WebImage.CalcOrigin, RichValueDataType.Integer),
                 ];
         }
-       
+
+        private static Dictionary<string, Dictionary<string, RichValueDataType>> _dataTypes = new Dictionary<string, Dictionary<string, RichValueDataType>>();
+
+        private static void RegisterKeys(string structureName, List<ExcelRichValueStructureKey> keys)
+        {
+            _dataTypes[structureName] = new Dictionary<string, RichValueDataType>();
+            foreach(var key in keys)
+            {
+                _dataTypes[structureName][key.Name] = key.DataType;
+            }
+        }
+
+        internal static RichValueDataType? GetKeyDataType(string structureName, string keyName)
+        {
+            if(_dataTypes.Count == 0)
+            {
+                RegisterKeys(StructureTypes.Error, Errors.Propagated);
+                RegisterKeys(StructureTypes.Error, Errors.Field);
+                RegisterKeys(StructureTypes.Error, Errors.Spill);
+                RegisterKeys(StructureTypes.Error, Errors.WithSubType);
+                RegisterKeys(StructureTypes.LocalImage, LocalImage.Image);
+                RegisterKeys(StructureTypes.WebImage, WebImage.Image);
+            }
+            if(_dataTypes.ContainsKey(structureName) && _dataTypes[structureName].ContainsKey(keyName))
+            {
+                return _dataTypes[structureName][keyName];
+            }
+            return null;
+        }
     }
 }

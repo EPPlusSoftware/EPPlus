@@ -24,6 +24,7 @@ using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.RichData.Structures.Errors;
 using OfficeOpenXml.RichData.Structures.LocalImages;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.Structures.Constants;
 
 namespace OfficeOpenXml.RichData.Structures
 {
@@ -32,9 +33,10 @@ namespace OfficeOpenXml.RichData.Structures
         private ExcelWorkbook _wb;
         private ZipPackagePart _part;
         private ExcelRichData _richData;
+        private readonly StructureKeyNamesCache _keyNamesCache = new StructureKeyNamesCache();
         private Uri _uri;
         private const string PART_URI_PATH = "/xl/richData/rdrichvaluestructure.xml";
-        private Dictionary<RichDataStructureTypes, uint> _structures = new Dictionary<RichDataStructureTypes, uint>();
+        private Dictionary<RichDataStructureTypes, List<RichValueStructureReference>> _structures = new Dictionary<RichDataStructureTypes, List<RichValueStructureReference>>();
         internal ExcelRichValueStructureCollection(ExcelWorkbook wb, ExcelRichData richData)
             : base(wb.IndexStore, RichDataEntities.RichStructure)
         {
@@ -61,6 +63,16 @@ namespace OfficeOpenXml.RichData.Structures
             }
         }
 
+        private void AddStructure(RichDataStructureTypes structureType, uint id)
+        {
+            if(!_structures.ContainsKey(structureType))
+            {
+                _structures[structureType] = new List<RichValueStructureReference>();
+            }
+            var reference = new RichValueStructureReference(id);
+            _structures[structureType].Add(reference);
+        }
+
         internal ZipPackagePart Part { get { return _part; } }
         private void ReadXml(Stream stream)
         {
@@ -77,7 +89,7 @@ namespace OfficeOpenXml.RichData.Structures
                     if(structureFlag != RichDataStructureTypes.Preserve)
                     {
                         //_structures.Add(structureFlag, StructureItems.Count - 1);
-                        _structures.Add(structureFlag, structure.Id);
+                        AddStructure(structureFlag, structure.Id);
                     }
                 }
                 else if (xr.IsElementWithName("extLst"))
@@ -132,36 +144,54 @@ namespace OfficeOpenXml.RichData.Structures
             _part.SaveHandler = Save;
         }
 
-        internal uint GetStructureId(RichDataStructureTypes structure)
-        {
-            if (_structures.TryGetValue(structure, out uint id))
-            {
-                //index = structure.Id;
-                return id;
-            }
-            return AddStructure(structure);
-            //return StructureItems.Count - 1;
-        }
-
-        internal ExcelRichValueStructure GetByType(RichDataStructureTypes structure)
-        {
-            if (_structures.TryGetValue(structure, out uint id))
-            {
-                return GetItemById(id);
-            }
-            var id2 = AddStructure(structure);
-            return GetItemById(id2);
-            //return default;
-        }
+        //internal ExcelRichValueStructure GetByType(RichDataStructureTypes structure)
+        //{
+        //    if (_structures.TryGetValue(structure, out uint id))
+        //    {
+        //        return GetItemById(id);
+        //    }
+        //    var id2 = AddStructure(structure);
+        //    return GetItemById(id2);
+        //    //return default;
+        //}
         private uint AddStructure(RichDataStructureTypes structureType)
         {
             var si = RichValueStructureFactory.Create(structureType, _wb.IndexStore);
             //StructureItems.Add(si);
             Add(si);
             //_structures.Add(structureType, StructureItems.Count - 1);
-            _structures.Add(structureType, si.Id);
+            AddStructure(structureType, si.Id);
             return si.Id;
         }
+
+        internal ExcelRichValueStructure GetByType(RichDataStructureTypes structure, List<string> keyNames)
+        {
+            var keyIds = _keyNamesCache.GetIds(keyNames);
+            if (_structures.TryGetValue(structure, out List<RichValueStructureReference> structureRefs))
+            {
+                foreach(var reference in structureRefs)
+                {
+                    if(reference.AreEqual(keyIds))
+                    {
+                        return Get(reference.Id);
+                    }
+                }
+            }
+            var keys = new List<ExcelRichValueStructureKey>();
+            var structureName = StructureTypes.GetStructureName(structure);
+            foreach (var key in keyNames)
+            {
+                var dt = StructureKeys.GetKeyDataType(structureName, key);
+                if(dt.HasValue)
+                {
+                    var structureKey = new ExcelRichValueStructureKey(key, dt.Value);
+                    keys.Add(structureKey);
+                }
+            }
+            var rvStructure = RichValueStructureFactory.Create(structure, keys, _wb.IndexStore);
+            return rvStructure;
+        }
+
         //public List<ExcelRichValueStructure> StructureItems { get; } = [];
         public string ExtLstXml { get; set; }
     }

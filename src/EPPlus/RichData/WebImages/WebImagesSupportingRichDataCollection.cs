@@ -14,6 +14,8 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.RichValueArrays;
+using OfficeOpenXml.RichData.RichValues.WebImages;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -22,11 +24,11 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace OfficeOpenXml.RichData.RichValueArrays
+namespace OfficeOpenXml.RichData.WebImages
 {
-    internal class ExcelRichDataArrayCollection : IndexedCollection<ExcelRichDataArray>
+    internal class WebImagesSupportingRichDataCollection : IndexedCollection<WebImagesSupportingRichData>
     {
-        const string PART_URI_PATH = "/xl/richData/rdarray.xml";
+        const string PART_URI_PATH = "/xl/richData/rdRichValueWebImage.xml";
         private readonly Uri _uri;
         private ExcelWorkbook _wb;
         private readonly ExcelRichData _richData;
@@ -34,12 +36,12 @@ namespace OfficeOpenXml.RichData.RichValueArrays
         ZipPackagePart _part;
         internal ZipPackagePart Part { get { return _part; } }
 
-        public ExcelRichDataArrayCollection(ExcelWorkbook wb, ExcelRichData richData) : base(wb.IndexStore, RichDataEntities.RichDataArray)
+        public WebImagesSupportingRichDataCollection(ExcelWorkbook wb, ExcelRichData richData) : base(wb.IndexStore, RichDataEntities.WebImage)
         {
             _wb = wb;
             _richData = richData;
             _indexStore = wb.IndexStore;
-            var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataRichDataValueArray).FirstOrDefault();
+            var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataWebImage).FirstOrDefault();
             if (r == null)
             {
                 _uri = new Uri(PART_URI_PATH, UriKind.Relative);
@@ -49,6 +51,12 @@ namespace OfficeOpenXml.RichData.RichValueArrays
                 _uri = UriHelper.ResolvePartUri(r.SourceUri, r.TargetUri);
             }
             LoadPart(wb);
+        }
+
+        private string ExtLstXml
+        {
+            get;
+            set;
         }
 
         private void LoadPart(ExcelWorkbook wb)
@@ -64,8 +72,8 @@ namespace OfficeOpenXml.RichData.RichValueArrays
         {
             if (_part == null)
             {
-                _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataArray);
-                _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaRichDataRichDataValueArray);
+                _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataWebImage);
+                _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaRichDataWebImage);
             }
             _part.SaveHandler = Save;
         }
@@ -75,10 +83,18 @@ namespace OfficeOpenXml.RichData.RichValueArrays
             var xr = XmlReader.Create(stream);
             while (xr.Read())
             {
-                if (xr.IsElementWithName("a"))
+                if (xr.IsElementWithName("webImageSrd"))
                 {
-                    var array = new ExcelRichDataArray(_richData, _indexStore, xr);
+                    var array = new WebImagesSupportingRichData(_wb, _part, xr);
                     Add(array);
+                }
+                else if(xr.IsElementWithName("extLst"))
+                {
+                    ExtLstXml = xr.ReadElementContentAsString();
+                }
+                else if(xr.IsEndElementWithName("webImagesSrd"))
+                {
+                    break;
                 }
             }
         }
@@ -89,12 +105,12 @@ namespace OfficeOpenXml.RichData.RichValueArrays
             stream.CompressionLevel = (Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
             var sw = new StreamWriter(stream);
             sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
-            sw.Write($"<arrayData xmlns=\"{Schemas.schemaRichData2}\" count=\"{this.Count}\">");
+            sw.Write($"<webImagesSrd xmlns=\"{Schemas.schemaWebImage}\" xmlns:r=\"{ExcelPackage.schemaRelationships}\">");
             foreach (var item in this)
             {
                 item.WriteXml(sw);
             }
-            sw.Write("</arrayData>");
+            sw.Write("</webImagesSrd>");
             sw.Flush();
         }
     }

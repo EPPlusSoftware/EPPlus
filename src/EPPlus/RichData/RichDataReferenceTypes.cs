@@ -17,6 +17,10 @@ namespace OfficeOpenXml.RichData
         /// <summary>
         /// Local image (in cell picture)
         /// </summary>
-        LocalImage = 1
+        LocalImage = 1,
+        /// <summary>
+        /// Web image (added via the IMAGE function or a complex data type connected to an external service).
+        /// </summary>
+        WebImage = 2
     }
 }

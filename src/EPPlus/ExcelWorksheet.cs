@@ -1437,23 +1437,39 @@ namespace OfficeOpenXml
                         if(rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImage)
                         {
                             var rdLi = rd.As.LocalImage;
-                            var pic = new ExcelCellPicture(currentVm, rdLi.ImageUri, Workbook._package.PictureStore)
-                            {
-                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
-                                CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
-                            };
-                            SetValueInner(row, col, pic);
-                        }
-                        else if(rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImageWithAltText)
-                        {
-                            var rdLi = rd.As.LocalImageAltText;
-                            var pic = new ExcelCellPicture(currentVm, rdLi.ImageUri, Workbook._package.PictureStore)
+                            var pic = new ExcelCellPicture(currentVm, rdLi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.LocalImage)
                             {
                                 CellAddress = new ExcelAddress(this.Name, row, col, row, col),
                                 AltText = rdLi.Text,
                                 CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
                             };
                             SetValueInner(row, col, pic);
+                        }
+                        else  if(rd != null && rd.Structure.StructureType == RichDataStructureTypes.WebImage)
+                        {
+                            var rdWi = rd.As.WebImage;
+                            var pic = new ExcelCellPicture(currentVm, rdWi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.WebImage)
+                            {
+                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
+                                AltText = rdWi.Text,
+                                CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None
+                            };
+                            SetValueInner(row, col, pic);
+                        }
+                        //else if(rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImageWithAltText)
+                        //{
+                        //    var rdLi = rd.As.LocalImageAltText;
+                        //    var pic = new ExcelCellPicture(currentVm, rdLi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.LocalImage)
+                        //    {
+                        //        CellAddress = new ExcelAddress(this.Name, row, col, row, col),
+                        //        AltText = rdLi.Text,
+                        //        CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
+                        //    };
+                        //    SetValueInner(row, col, pic);
+                        //}
+                        else if(rd != null && rd.Structure.StructureType == RichDataStructureTypes.WebImage)
+                        {
+                            // TODO: create web image
                         }
                         else
                         {

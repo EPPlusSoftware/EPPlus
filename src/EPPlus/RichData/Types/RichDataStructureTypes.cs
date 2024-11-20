@@ -10,29 +10,33 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using System;
+
 namespace OfficeOpenXml.RichData
 {
+    [Flags]
     internal enum RichDataStructureTypes
     {
-        ErrorWithSubType,
-        ErrorSpill,
-        ErrorPropagated,
-        ErrorField,
-        LocalImage,
-        LocalImageWithAltText,
-        WebImage,
-        ImageUrl,
-        LinkedEntity,
-        LinkedEntityCore,
-        LinkedEntity2,
-        LinkedEntity2Core,
-        FormattedNumber,
-        Hyperlink,
-        Entity,
-        Array,
-        StockHistoryCache,
-        ExternalCodeServiceObject,
-        SourceAttribution,
-        Preserve
+        None = 0,
+        Error = 0x1,                    
+        ErrorWithSubType = 0x2,        
+        ErrorSpill = 0x4,               
+        ErrorPropagated = 0x8,          
+        ErrorField = 0x10,              
+        LocalImage = 0x20,              
+        WebImage = 0x40,                
+        ImageUrl = 0x80,                
+        LinkedEntity = 0x100,           
+        LinkedEntityCore = 0x200,      
+        LinkedEntity2 = 0x400,          
+        LinkedEntity2Core = 0x800,      
+        FormattedNumber = 0x1000,      
+        Hyperlink = 0x2000,            
+        Entity = 0x4000,               
+        Array = 0x8000,                 
+        StockHistoryCache = 0x10000,   
+        ExternalCodeServiceObject = 0x20000,
+        SourceAttribution = 0x40000,    
+        Preserve = 0x80000              
     }
 }

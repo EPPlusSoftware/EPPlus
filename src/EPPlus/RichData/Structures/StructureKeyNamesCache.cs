@@ -17,12 +17,42 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.Structures
 {
-    internal static class StructureExtensions
+    internal class StructureKeyNamesCache
     {
-        public static string[] ToNameArray(this List<ExcelRichValueStructureKey> list)
+        private int _nextId = 0;
+        private readonly Dictionary<string, int> _words = new Dictionary<string, int>();
+        private readonly Dictionary<int, string> _wordsById = new Dictionary<int, string>();
+
+        public int GetId(string word)
         {
-            if (list == null) return null;
-            return list.Select(x => x.Name).ToArray();
+            if(!_words.ContainsKey(word))
+            {
+                var id = ++_nextId;
+                _words[word] = id;
+                _wordsById[id] = word;
+                return id;
+            }
+            return _words[word];
+        }
+
+        public List<int> GetIds(IEnumerable<string> words)
+        {
+            var result = new List<int>();
+            foreach(var word in words)
+            {
+                var id = GetId(word);
+                result.Add(id);
+            }
+            return result;
+        }
+
+        public string GetWord(int id)
+        {
+            if(!_wordsById.ContainsKey(id))
+            {
+                return null;
+            }
+            return _wordsById[id];
         }
     }
 }

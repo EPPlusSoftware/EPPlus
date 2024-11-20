@@ -19,18 +19,18 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.Structures.LocalImages
 {
-    internal class LocalImageWithAltTextStructure : LocalImageBaseStructure
-    {
-        public LocalImageWithAltTextStructure(RichDataIndexStore store) : this(StructureKeys.LocalImage.ImageAltText, store)
-        {
+    //internal class LocalImageWithAltTextStructure : LocalImageBaseStructure
+    //{
+    //    public LocalImageWithAltTextStructure(RichDataIndexStore store) : this(StructureKeys.LocalImage.ImageAltText, store)
+    //    {
 
-        }
+    //    }
 
-        public LocalImageWithAltTextStructure(List<ExcelRichValueStructureKey> keys, RichDataIndexStore store) : base(keys, store)
-        {
+    //    public LocalImageWithAltTextStructure(List<ExcelRichValueStructureKey> keys, RichDataIndexStore store) : base(keys, store)
+    //    {
 
-        }
+    //    }
 
-        public override RichDataStructureTypes StructureType => RichDataStructureTypes.LocalImageWithAltText;
-    }
+    //    public override RichDataStructureTypes StructureType => RichDataStructureTypes.LocalImageWithAltText;
+    //}
 }

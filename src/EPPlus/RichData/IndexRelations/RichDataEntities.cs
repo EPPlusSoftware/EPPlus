@@ -34,6 +34,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         RichValueRel,
         RichDataArray,
         RichDataArrayValue,
-        SubRelations
+        SubRelations,
+        WebImage
     }
 }
