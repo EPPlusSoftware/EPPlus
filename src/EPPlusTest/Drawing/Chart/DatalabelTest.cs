@@ -86,6 +86,41 @@ namespace EPPlusTest.Drawing.Chart
         }
 
         [TestMethod]
+        public void AddingManualLayout_2()
+        {
+            //Get the bar chart from drawings
+            var bChart = cSheet.Drawings[0].As.Chart.BarChart;
+
+            //Remove gridlines to see our numbers clearer.
+            bChart.XAxis.RemoveGridlines(true, true);
+            bChart.YAxis.RemoveGridlines(true, true);
+
+            for (int i = 0; i < bChart.Series.Count; i++)
+            {
+                var genLabel = bChart.Series[i].DataLabel;
+                //Add a new datalabel, all others will still adhere to the rules of genLabel
+                var label = genLabel.DataLabels.Add(0);
+
+                label.Layout.ManualLayout.Left = -30;
+
+                //Spacing out clumped up labels
+                if (i == 3 || i == 2)
+                {
+                    label.Layout.ManualLayout.Top = 5;
+                }
+                else if (i == 4)
+                {
+                    label.Layout.ManualLayout.Top = 0;
+
+                }
+                else if (i == 5)
+                {
+                    label.Layout.ManualLayout.Top = -5;
+                }
+            }
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void ShouldThrowWhenTopPastBottom()
         {
