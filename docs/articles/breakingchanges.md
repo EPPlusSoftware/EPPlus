@@ -143,3 +143,4 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 
 ### Breaking changes from EPPlus 8.0
 * Set ExcelPackageSettings.ApplyFiltersOnSave default value to false.
+* RichText now returns font name, size and font family from cell style if not set.
