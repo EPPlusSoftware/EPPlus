@@ -844,9 +844,8 @@ namespace OfficeOpenXml
         /// <param name="MinimumWidth">Minimum column width</param>
         public void AutoFitColumns(double MinimumWidth)
         {
-            AutoFitColumns(MinimumWidth, double.MaxValue);
+            AutoFitColumns(MinimumWidth, 256d);
         }
-
         /// <summary>
         /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
         /// </summary>
@@ -1274,6 +1273,26 @@ namespace OfficeOpenXml
                     throw new InvalidOperationException($"Auto filter collides with pivot table {pt.Name}");
                 }
             }
+        }
+
+        /// <summary>
+        /// Returns true if the range is empty.
+        /// </summary>
+        public bool IsEmpty(bool formula = true, bool comment = true, bool threadedComment = true)
+        {
+            var cells = new CellStoreEnumerator<ExcelValue>(this.Worksheet._values, this.Start.Row, this.Start.Column, this.End.Row, this.End.Column);
+            while (cells.Next())
+            {
+                if (cells.Value._value == null)
+                {
+                    if (formula && this.Worksheet.Cells[cells.CellAddress].Formula != null) return false;
+                    if (comment && this.Worksheet.Cells[cells.CellAddress].Comment != null) return false;
+                    if (threadedComment && this.Worksheet.Cells[cells.CellAddress].ThreadedComment != null) return false;
+                    continue;
+                }
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
