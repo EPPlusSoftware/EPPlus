@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
@@ -108,6 +109,45 @@ namespace OfficeOpenXml.RichData.Structures.Constants
                 return _dataTypes[structureName][keyName];
             }
             return null;
+        }
+
+        internal static List<ExcelRichValueStructureKey> GetDefaultKeysByType(RichDataStructureTypes structureType)
+        {
+            switch (structureType)
+            {
+                case RichDataStructureTypes.Error:
+                    if((structureType & RichDataStructureTypes.ErrorSpill) != 0)
+                    {
+                        return Errors.Spill;
+                    }
+                    else if((structureType & RichDataStructureTypes.ErrorPropagated) != 0)
+                    {
+                        return Errors.Propagated;
+                    }
+                    else if((structureType & RichDataStructureTypes.ErrorWithSubType) != 0)
+                    {
+                        return Errors.WithSubType;
+                    }
+                    else if((structureType & RichDataStructureTypes.ErrorField) != 0)
+                    {
+                        return Errors.Field;
+                    }
+                    break;
+                case RichDataStructureTypes.LocalImage:
+                    return LocalImage.Image;
+                case RichDataStructureTypes.WebImage:
+                    return WebImage.Image;
+                default:
+                    return null;
+
+            }
+            return null;
+        }
+
+        internal static ExcelRichValueStructureKey GetKey(RichDataStructureTypes structureType, string name)
+        {
+            var keys = GetDefaultKeysByType(structureType);
+            return keys.FirstOrDefault(x => x.Name == name);
         }
     }
 }

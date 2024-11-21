@@ -58,7 +58,7 @@ namespace OfficeOpenXml.CellPictures
         public ExcelCellPicture Get()
         {
             var v = _sheet.Cells[_range._fromRow, _range._fromCol].Value;
-            if(v != null && v is RichDataReferenceValueError rdr && rdr.ReferenceType == RichDataReferenceTypes.LocalImage)
+            if(v != null && v is RichDataReferenceValueError rdr && (rdr.ReferenceType == RichDataReferenceTypes.LocalImage || rdr.ReferenceType == RichDataReferenceTypes.WebImage))
             {
                 return rdr as ExcelCellPicture;
             }

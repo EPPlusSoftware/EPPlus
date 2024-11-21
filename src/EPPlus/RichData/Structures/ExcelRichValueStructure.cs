@@ -94,16 +94,22 @@ namespace OfficeOpenXml.RichData.Structures
             return null;
         }
 
+        internal int? GetRelationIndex(string keyName)
+        {
+            return GetRelationIndexByName(keyName, Keys);
+        }
+
         /// <summary>
         /// Returns the 0-based index of a key that is a Rich Value relation and its property Name is equal to <paramref name="name"/>.
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="keys"></param>
         /// <returns>index of the found key or null if no such key exists</returns>
-        internal int? GetRelationIndexByName(string name)
+        internal static int? GetRelationIndexByName(string name, List<ExcelRichValueStructureKey> keys)
         {
-            for(var i = 0; i < Keys.Count;i++)
+            for(var i = 0; i < keys.Count;i++)
             {
-                var key = Keys[i];
+                var key = keys[i];
                 if(key.IsRelation && key.RelationName == name)
                 {
                     return i;

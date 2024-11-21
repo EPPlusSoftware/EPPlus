@@ -80,20 +80,24 @@ namespace OfficeOpenXml.RichData.RichValues
 
         private ExcelRichValue ReadItem(XmlReader xr)
         {
-            var structureId = int.Parse(xr.GetAttribute("s"));
-            var structure = _structures[structureId];
+            var structureIx = int.Parse(xr.GetAttribute("s"));
+            var structureId = _structures.GetIdByIndex(structureIx);
+            var structure = _structures.Get(structureId);
             //var item = new ExcelRichValue(int.Parse(xr.GetAttribute("s")));
             var item = ExcelRichValueFactory.Create(structure, structure.Id, _wb.IndexStore, _richData);
             //item.Structure = _structures.StructureItems[item.StructureId];
 
-            var keys = structure.Keys.ToNameArray();
+            //var keys = structure.Keys.ToNameArray()
             int keyIx = 0;
             while (xr.IsEndElementWithName("rv") == false)
             {
                 if (xr.IsElementWithName("v"))
                 {
-                    if (keyIx >= keys.Length) continue;
-                    item.SetValue(keys[keyIx++], xr.ReadElementContentAsString());
+                    if (keyIx >= structure.Keys.Count) continue;
+                    //item.SetValue(keys[keyIx++], xr.ReadElementContentAsString());
+                    var val = new ExcelRichValueValue(structure.Keys[keyIx++], xr.ReadElementContentAsString(), _wb.IndexStore);
+                    _richData.RichValueValues.Add(val);
+                    item.Values.Add(val);
                 }
                 else if (xr.IsElementWithName("fb"))
                 {
@@ -106,8 +110,9 @@ namespace OfficeOpenXml.RichData.RichValues
                 }
 
             }
-            item.SetStructure(_richData);
-            item.InitRelations(this);
+            //item.SetStructure(_richData);
+            //item.InitRelations(this);
+            item.PostProcessInitialRead();
             return item;
         }
         private RichValueFallbackType GetFBType(string t)

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using EPPlusTest.Properties;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,14 @@ namespace EPPlusTest.InCellImages
         {
             using var package = OpenTemplatePackage("ImageFunction1.xlsx");
             var sheet = package.Workbook.Worksheets.First();
-            var pic = sheet.Cells["A1"].Picture.Get();
-            var uri = pic.ImageUri;
+            var webPic = sheet.Cells["A1"].Picture.Get();
+            var uri = webPic.ImageUri;
+
+            //sheet.Cells["A2"].Picture.Set(Resources.Png2ByteArray);
+            var localPic = sheet.Cells["A2"].Picture.Get();
+            var lpBytes = localPic.GetImageBytes();
+
+            var imageBytes = webPic.GetImageBytes();
         }
     }
 }

@@ -52,7 +52,7 @@ namespace OfficeOpenXml.CellPictures
 
         private ExcelCellPicture GetExcelCellPictureByRichValue(ExcelRichValue richValue, int row, int col, uint vmId)
         {
-            if (richValue.Structure.StructureType == RichDataStructureTypes.LocalImage)
+            if (richValue.StructureType == RichDataStructureTypes.LocalImage)
             {
                 var rdLi = richValue.As.LocalImage;
                 var pic = new ExcelCellPicture(vmId, rdLi.ImageUri, _pictureStore, ExcelCellPictureTypes.LocalImage)
@@ -198,6 +198,7 @@ namespace OfficeOpenXml.CellPictures
         private void AddNewPicture(int row, int col, string altText, CalcOrigins calcOrigin, Uri imageUri)
         {
             var imageRichValue = CreateImageRichValue(imageUri, calcOrigin, altText);
+            imageRichValue.SetStructure(_sheet.Workbook.RichData);
             _richDataStore.AddRichData(row, col, imageRichValue, out uint vmId);
             var newPic = GetExcelCellPictureByRichValue(imageRichValue, row, col, vmId);
             SetCellValue(row, col, newPic);

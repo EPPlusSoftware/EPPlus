@@ -30,6 +30,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
         FutureMetadataDynamicArrayBlock,
         MetadataType,
         RichValue,
+        RichValueValue,
         RichStructure,
         RichValueRel,
         RichDataArray,

@@ -48,6 +48,7 @@ namespace OfficeOpenXml.RichData
             Structures = new ExcelRichValueStructureCollection(wb, this);
             WebImages = new WebImagesSupportingRichDataCollection(wb, this);
             RichValueRels = new RichValueRelCollection(wb);
+            RichValueValues = new ExcelRichValueValueCollection(wb.IndexStore);
             Values = new ExcelRichValueCollection(wb, this);
             SupportingPropertyBagStructures = new SupportingPropertyBagStructureCollection(wb);
             SupportingPropertyBags = new SupportingPropertyBags(wb);
@@ -60,6 +61,8 @@ namespace OfficeOpenXml.RichData
 
         internal ExcelRichDataValueTypeInfo ValueTypes { get; }
         internal ExcelRichValueStructureCollection Structures { get; }
+
+        internal ExcelRichValueValueCollection RichValueValues { get; set; }
         internal ExcelRichValueCollection Values { get; }
         internal RichValueRelCollection RichValueRels { get; }
 

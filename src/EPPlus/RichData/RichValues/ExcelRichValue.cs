@@ -28,6 +28,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.RichData.RichValues
 {
@@ -42,6 +43,7 @@ namespace OfficeOpenXml.RichData.RichValues
             _richData = richData;
             _indexStore = store;
             _structureType = structureType;
+            Values = new IndexedSubsetCollection<ExcelRichValueValue>(_richData.RichValueValues);
             As = new ExcelRichValueAsType(this);
             //richData.Structures.CreateRelation(this, structure, IndexType.ZeroBasedPointer);
         }
@@ -52,11 +54,14 @@ namespace OfficeOpenXml.RichData.RichValues
         private readonly RichDataStructureTypes _structureType;
         public uint StructureId { get; set; }
         public ExcelRichValueStructure Structure { get; set; }
+
+        public RichDataStructureTypes StructureType => _structureType;
         //public List<string> Values { get; } = new List<string>();
 
         public ExcelRichValueAsType As { get; private set; }
 
-        private Dictionary<string, string> _keysAndValues = new Dictionary<string, string>();
+        //private Dictionary<string, string> _keysAndValues = new Dictionary<string, string>();
+        public IndexedSubsetCollection<ExcelRichValueValue> Values { get; private set; }
 
         private Dictionary<string, IndexRelation> _relations = new Dictionary<string, IndexRelation>();
 
@@ -64,49 +69,65 @@ namespace OfficeOpenXml.RichData.RichValues
 
         public string FallbackValue { get; set; }
 
-
-        public void InitRelations(ExcelRichValueCollection values)
+        internal virtual void PostProcessInitialRead()
         {
-            for (var ix = 0; ix < Structure.Keys.Count; ix++)
+            for(var ix = 0; ix < Values.Count; ix++)
             {
-                var key = Structure.Keys[ix];
-                // RvRel - relations
-                if (key.IsRelation)
+                var val = Values[ix];
+                var intVal = val.ValueInt;
+                if(val.Key.DataType == RichValueDataType.RichValue && intVal.HasValue)
                 {
-                    var rvRelVal = _keysAndValues[key.Name];
-                    var rvRelId = _richData.RichValueRels.GetIdByIndex(int.Parse(rvRelVal));
-                    var rvRel = _richData.RichValueRels.Get(rvRelId);
-                    SetRelation(key.Name, key.RelationName, rvRel.TargetUri);
-                }
-                // relation to another richvalue by index
-                else if(key.DataType == RichValueDataType.RichValue)
-                {
-                    var rvIndex = int.Parse(_keysAndValues[key.Name]);
-                    var targetRv = values[rvIndex];
-                    var relation = AddRelationTo(targetRv, IndexType.ZeroBasedPointer);
-                    _relations[key.Name] = relation;
-                    _keysAndValues[key.Name] = targetRv.Id.ToString();
-                }
-                else if(Structure.Type == StructureTypes.WebImage && key.Name == StructureKeyNames.WebImage.WebImageIdentifier) 
-                {
-                    var imgIx = _keysAndValues[key.Name];
-                    var imgId = _richData.WebImages.GetIdByIndex(int.Parse(imgIx));
-                    var img = _richData.WebImages.Get(imgId);
-                    AddRelationTo(img);
+                    var rvId = _richData.Values.GetIdByIndex(intVal.Value);
+                    var rv = _richData.Values.Get(rvId);
+                    val.AddRelationTo(rv);
                 }
             }
         }
 
-        internal void SetStructure(ExcelRichData richData)
+
+        //public void InitRelations(ExcelRichValueCollection values)
+        //{
+        //    for (var ix = 0; ix < Structure.Keys.Count; ix++)
+        //    {
+        //        var key = Structure.Keys[ix];
+        //        // RvRel - relations
+        //        if (key.IsRelation)
+        //        {
+        //            var rvRelVal = _keysAndValues[key.Name];
+        //            var rvRelId = _richData.RichValueRels.GetIdByIndex(int.Parse(rvRelVal));
+        //            var rvRel = _richData.RichValueRels.Get(rvRelId);
+        //            SetRelation(key.Name, key.RelationName, rvRel.TargetUri);
+        //        }
+        //        // relation to another richvalue by index
+        //        else if(key.DataType == RichValueDataType.RichValue)
+        //        {
+        //            var rvIndex = int.Parse(_keysAndValues[key.Name]);
+        //            var targetRv = values[rvIndex];
+        //            var relation = AddRelationTo(targetRv, IndexType.ZeroBasedPointer);
+        //            _relations[key.Name] = relation;
+        //            _keysAndValues[key.Name] = targetRv.Id.ToString();
+        //        }
+        //        else if(Structure.Type == StructureTypes.WebImage && key.Name == StructureKeyNames.WebImage.WebImageIdentifier) 
+        //        {
+        //            var imgIx = _keysAndValues[key.Name];
+        //            var imgId = _richData.WebImages.GetIdByIndex(int.Parse(imgIx));
+        //            var img = _richData.WebImages.Get(imgId);
+        //            AddRelationTo(img);
+        //        }
+        //    }
+        //}
+
+        internal virtual void SetStructure(ExcelRichData richData)
         {
-            _keysAndValues = _keysAndValues.Where(kvp => !string.IsNullOrEmpty(kvp.Value)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            var keyNames = _keysAndValues.Select(kvp => kvp.Key).ToList();
+            //_keysAndValues = _keysAndValues.Where(kvp => !string.IsNullOrEmpty(kvp.Value)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+            //var keyNames = _keysAndValues.Select(kvp => kvp.Key).ToList();
+            var keyNames = Values.Select(v => v.Key.Name).ToList();
             //var hash = ExcelRichValueStructure.CreateKeyHash(keyNames);
             var existingStructure = Structure;
             var existingStructureRel = default(IndexRelation);
             if(existingStructure != null)
             {
-                existingStructureRel = GetIncomingRelations(x => x.To.EntityType == RichDataEntities.RichStructure).FirstOrDefault();
+                existingStructureRel = GetOutgoingRelations(x => x.To.EntityType == RichDataEntities.RichStructure).FirstOrDefault();
             }
             Structure = richData.Structures.GetByType(_structureType, keyNames);
             StructureId = Structure.Id;
@@ -136,11 +157,12 @@ namespace OfficeOpenXml.RichData.RichValues
                 sw.Write(FallbackValue);
                 sw.Write("</fb>");
             }
-            foreach (var key in Structure.Keys.ToNameArray())
+            //foreach (var key in Structure.Keys.ToNameArray())
+            foreach(var val in Values)
             {
-                if(_relations.ContainsKey(key))
+                if(_relations.ContainsKey(val.Key.Name))
                 {
-                    var relation = _relations[key];
+                    var relation = _relations[val.Key.Name];
                     if(relation.To.EntityType == RichDataEntities.RichValueRel)
                     {
                         var relIx = _richData.RichValueRels.GetIndexById(relation.To.Id);
@@ -153,9 +175,19 @@ namespace OfficeOpenXml.RichData.RichValues
 
                     }
                 }
-                else
+                else if(val.Key.DataType == RichValueDataType.RichValue)
                 {
-                    sw.Write($"<v>{ConvertUtil.ExcelEscapeString(_keysAndValues[key])}</v>");
+                    var rvId = val.ValueUint;
+                    if(rvId.HasValue)
+                    {
+                        var rvIx = Values.GetZeroBasedIndex(rvId.Value);
+                        sw.Write($"<v>{rvIx}</v>");
+
+                    }
+                }
+                else 
+                {
+                    sw.Write($"<v>{ConvertUtil.ExcelEscapeString(val.Value)}</v>");
                 }
             }
             sw.Write("</rv>");
@@ -272,12 +304,23 @@ namespace OfficeOpenXml.RichData.RichValues
 
         public void SetRelation(string key, string relationName, Uri relUri)
         {
-            var index = Structure.GetRelationIndexByName(relationName);
+            int? index;
+            List<ExcelRichValueStructureKey> keys;
+            if(Structure != null)
+            {
+                index = Structure.GetRelationIndex(relationName);
+                keys = Structure.Keys;
+            }
+            else
+            {
+                keys = StructureKeys.GetDefaultKeysByType(_structureType);
+                index = ExcelRichValueStructure.GetRelationIndexByName(relationName, keys);
+            }
             if (!index.HasValue)
             {
                 throw new InvalidOperationException($"Cannot create a relation from structure {Structure.Type}/{Structure.StructureType}");
             }
-            var rel = Structure.Keys[index.Value].Name;
+            var rel = keys[index.Value].Name;
             var relationshipType = RichValueRelationMappings.GetSchema(rel);
             _richData.RichValueRels.AddItem(relUri, relationshipType, this, out IndexRelation r);
             //SetValue(key, relIx);
@@ -330,16 +373,28 @@ namespace OfficeOpenXml.RichData.RichValues
             return null;
         }
 
-        public void SetValue(string key, string value)
+        public virtual void SetValue(string key, string value)
         {
-            if (_keysAndValues.ContainsKey(key))
+            var val = Values.FirstOrDefault(x => x.Key.Name == key);
+            if(val == null)
             {
-                _keysAndValues.Remove(key);
+                var k = StructureKeys.GetKey(_structureType, key);
+                val = new ExcelRichValueValue(k, value, _indexStore);
+                _richData.RichValueValues.Add(val);
+                Values.Add(val);
             }
-            if(!string.IsNullOrEmpty(value))
+            else
             {
-                _keysAndValues[key] = value;
+                val.Value = value;
             }
+            //if (_keysAndValues.ContainsKey(key))
+            //{
+            //    _keysAndValues.Remove(key);
+            //}
+            //if(!string.IsNullOrEmpty(value))
+            //{
+            //    _keysAndValues[key] = value;
+            //}
         }
 
         protected void SetValue(string key, int value)
@@ -379,51 +434,59 @@ namespace OfficeOpenXml.RichData.RichValues
 
         public string GetValue(string key)
         {
-            if(_keysAndValues.ContainsKey(key))
-            {
-                return _keysAndValues[key];
-            }
-            return string.Empty;
+            var val = Values.FirstOrDefault(x => x.Key.Name == key);
+            return val?.Value;
+            //if(_keysAndValues.ContainsKey(key))
+            //{
+            //    return _keysAndValues[key];
+            //}
+            //return string.Empty;
         }
 
         protected int? GetValueInt(string key)
         {
-            if (_keysAndValues.ContainsKey(key))
-            {
-                if (int.TryParse(_keysAndValues[key], out var value))
-                {
-                    return value;
-                }
-            }
-            return null;
+            var val = Values.FirstOrDefault(x => x.Key.Name == key);
+            return val?.ValueInt;
+            //if (_keysAndValues.ContainsKey(key))
+            //{
+            //    if (int.TryParse(_keysAndValues[key], out var value))
+            //    {
+            //        return value;
+            //    }
+            //}
+            //return null;
         }
 
         protected double? GetValueDouble(string key)
         {
-            if (_keysAndValues.ContainsKey(key))
-            {
-                try
-                {
-                    return double.Parse(_keysAndValues[key], CultureInfo.InvariantCulture);
-                }
-                catch
-                {
-                    return null;
-                }
-            }
-            return null;
+            var val = Values.FirstOrDefault(x => x.Key.Name == key);
+            return val?.ValueDouble;
+            //if (_keysAndValues.ContainsKey(key))
+            //{
+            //    try
+            //    {
+            //        return double.Parse(_keysAndValues[key], CultureInfo.InvariantCulture);
+            //    }
+            //    catch
+            //    {
+            //        return null;
+            //    }
+            //}
+            //return null;
         }
 
         protected bool? GetValueBool(string key)
         {
-            if (_keysAndValues.ContainsKey(key))
-            {
-                if (int.TryParse(_keysAndValues[key], out var value))
-                {
-                    return value > 0;
-                }
-            }
-            return null;
+            var val = Values.FirstOrDefault(x => x.Key.Name == key);
+            return val?.ValueBool;
+            //if (_keysAndValues.ContainsKey(key))
+            //{
+            //    if (int.TryParse(_keysAndValues[key], out var value))
+            //    {
+            //        return value > 0;
+            //    }
+            //}
+            //return null;
         }
 
         public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)

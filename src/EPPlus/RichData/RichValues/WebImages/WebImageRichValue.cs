@@ -13,27 +13,52 @@ namespace OfficeOpenXml.RichData.RichValues.WebImages
     {
         public WebImageRichValue(ExcelWorkbook workbook) : this(workbook.IndexStore, workbook.RichData)
         {
-            
+            _richData = workbook.RichData;   
         }
         public WebImageRichValue(RichDataIndexStore store, ExcelRichData richData) : base(store, richData, RichDataStructureTypes.WebImage)
         {
+            _richData = richData;
         }
+
+        private readonly ExcelRichData _richData;
 
         public Uri ImageUri
         {
             get
             {
-                var img = GetFirstIncomingRelByType<WebImagesSupportingRichData>();
-                if(img != null)
+                if(WebImageIdentifier.HasValue)
                 {
+                    var img = _richData.WebImages.Get(WebImageIdentifier.Value);
                     return img.Blip;
                 }
                 return null;
             }
+        }
+
+        internal uint? WebImageIdentifier
+        {
+            get
+            {
+                var id = GetValueInt(StructureKeyNames.WebImage.WebImageIdentifier);
+                if(!id.HasValue)
+                {
+                    return null;
+                }
+                return (uint)id;
+            }
             set
             {
-                // TODO: should not be imageidentifier
-                SetRelation(StructureKeyNames.WebImage.WebImageIdentifier, "LocalImageIdentifier", value);
+                SetValue(StructureKeyNames.WebImage.WebImageIdentifier, value);
+            }
+        }
+
+        internal override void PostProcessInitialRead()
+        {
+            base.PostProcessInitialRead();
+            if(WebImageIdentifier.HasValue)
+            {
+                var imgId = _richData.WebImages.GetIdByIndex((int)WebImageIdentifier.Value);
+                WebImageIdentifier = imgId;
             }
         }
 

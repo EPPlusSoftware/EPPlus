@@ -33,6 +33,12 @@ namespace OfficeOpenXml.RichData.RichValues.LocalImage
         {
         }
 
+        internal override void SetStructure(ExcelRichData richData)
+        {
+            base.SetStructure(richData);
+            // the first key is a relation and not included in the _keysAndvalues dictionary.
+        }
+
         public Uri ImageUri
         {
             get

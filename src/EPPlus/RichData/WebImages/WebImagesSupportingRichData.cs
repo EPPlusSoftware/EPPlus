@@ -67,7 +67,7 @@ namespace OfficeOpenXml.RichData.WebImages
                 else if(xr.IsElementWithName("blip"))
                 {
                     var blipRelationId = xr.GetAttribute("r:id");
-                    var blipRel = _part.GetRelationship(blipRelationId);
+                    _blipRel = _part.GetRelationship(blipRelationId);
                 }
                 else if(xr.IsEndElementWithName("webImageSrd"))
                 {

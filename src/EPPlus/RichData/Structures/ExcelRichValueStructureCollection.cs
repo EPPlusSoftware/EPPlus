@@ -63,13 +63,14 @@ namespace OfficeOpenXml.RichData.Structures
             }
         }
 
-        private void AddStructure(RichDataStructureTypes structureType, uint id)
+        private void AddStructure(RichDataStructureTypes structureType, uint id, List<int> ids)
         {
             if(!_structures.ContainsKey(structureType))
             {
                 _structures[structureType] = new List<RichValueStructureReference>();
             }
             var reference = new RichValueStructureReference(id);
+            reference.WordIds.AddRange(ids);
             _structures[structureType].Add(reference);
         }
 
@@ -89,7 +90,8 @@ namespace OfficeOpenXml.RichData.Structures
                     if(structureFlag != RichDataStructureTypes.Preserve)
                     {
                         //_structures.Add(structureFlag, StructureItems.Count - 1);
-                        AddStructure(structureFlag, structure.Id);
+                        var ids = _keyNamesCache.GetIds(structure.Keys.Select(k => k.Name));
+                        AddStructure(structureFlag, structure.Id, ids);
                     }
                 }
                 else if (xr.IsElementWithName("extLst"))
@@ -160,7 +162,8 @@ namespace OfficeOpenXml.RichData.Structures
             //StructureItems.Add(si);
             Add(si);
             //_structures.Add(structureType, StructureItems.Count - 1);
-            AddStructure(structureType, si.Id);
+            var ids = _keyNamesCache.GetIds(si.Keys.Select(k => k.Name));
+            AddStructure(structureType, si.Id, ids);
             return si.Id;
         }
 

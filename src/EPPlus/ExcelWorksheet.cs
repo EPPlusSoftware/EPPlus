@@ -1434,6 +1434,7 @@ namespace OfficeOpenXml
                     if(currentVm > 0)
                     {
                         var rd = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
+                        rd.SetStructure(_package.Workbook.RichData);
                         if(rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImage)
                         {
                             var rdLi = rd.As.LocalImage;
