@@ -6,6 +6,27 @@
 * Override borders in Adjacent cells in BorderAround method.
 
 # Features / Fixed issues - EPPlus 7
+## Version 7.5.1
+* Style set on column/row level did not save on cells with a value and styleId is 0.
+* Fix for inserting rows after array formulas when referring to worksheets with '#' as part of the worksheet name.
+* Pivottable Field.Names on a field with rich text now returns the text content instead of OfficeOpenXml.Style.ExcelRichTextCollection
+* Fixed .ToDataTable not reading rich text correctly in rare cases.
+* ExcelPicture.Image.SetImage(" can now correctly be set to a .svg even if the original ExcelPicture was not created with a .svg file. And vice versa for other file formats.
+* Fixed reference mismatches in some cases after removing and adding a picture multiple times. When referring to the same picture with multiple ExcelPicture's.
+* Files created in the /media zipped subfolder now have the correct name index for a given workbook. Even if other workbooks in the same session reference the same image/images.
+* Shared formulas failed to calculate if a worksheet was copied.
+* Formulas referencing a deleted worksheet was not calculated correctly.
+
+## Version 7.5.0
+### Fixed issues and minor features
+ * Added signatures to the EPPlus.dll's and the EPPlus Nuget package.
+ * Added new properties RepeatItemLabels and InsertBlankRow to ExcelPivotTableField
+ * A NullReferenceException was sometimes thrown when saving line charts with droplines.
+ * Fix for cells with null values and no style id getting incorrect styling.
+ * Fixed an issue where two VLOOKUPs on the same worksheet intersected the same range. (kolla ev. #1671 för bättre beskrivning, tror det var du som fixade den).
+ * Added AllowDuplicateColumnNames to ToDataTableOptions. This allows the exported range in the ToDataTable method to have duplicate column names.
+ * EPPlus encoded CR and TAB characters in the shared string to _0x000D_ and _0x000A_, which was not necessary. 
+ * NullReferenceException thrown in some cases when saving a line chart with droplines
 
 ## Version 7.4.2
 * Added support the array attribute on table column formulas.

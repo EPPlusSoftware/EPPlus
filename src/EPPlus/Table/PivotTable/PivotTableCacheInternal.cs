@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security;
 using System.Text;
 using System.Xml;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -592,7 +593,17 @@ namespace OfficeOpenXml.Table.PivotTable
             xml += string.Format("<cacheFields count=\"{0}\">", sourceRange._toCol - sourceRange._fromCol + 1);
             for (int col = sourceRange._fromCol; col <= sourceRange._toCol; col++)
             {
-                var name = sourceWorksheet?.GetValueInner(sourceRange._fromRow, col);
+                var innerValue = sourceWorksheet?.GetValueInner(sourceRange._fromRow, col);
+                string name = "";
+                if(innerValue is ExcelRichTextCollection)
+                {
+                    name = ((ExcelRichTextCollection)innerValue).Text;
+                }
+                else
+                {
+                    name = innerValue.ToString();
+                }
+
                 if (name == null || name.ToString() == "")
                 {
                     xml += string.Format("<cacheField name=\"Column{0}\" numFmtId=\"0\">", col - sourceRange._fromCol + 1);

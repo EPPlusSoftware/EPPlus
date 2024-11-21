@@ -26,6 +26,7 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using EPPlusTest.Properties;
 using EPPlusTest.Table;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -39,6 +40,7 @@ using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
@@ -55,6 +57,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace EPPlusTest
 {
@@ -6248,8 +6251,6 @@ namespace EPPlusTest
 
                 SaveAndCleanup(package);
             }
-        }
-
-        
+        }       
     }
 }

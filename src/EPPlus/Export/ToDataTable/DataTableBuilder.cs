@@ -52,7 +52,8 @@ namespace OfficeOpenXml.Export.ToDataTable
                 fromCol = _range.Start.Row;
                 toCol = _range.End.Row;
             }
-            var columnNames = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
+            //var columnNames = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
+            var columnNames = new Dictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
             if(_dataTable == null)
             {
                 _dataTable = string.IsNullOrEmpty(_options.DataTableName) ? new DataTable() : new DataTable(_options.DataTableName);
@@ -83,11 +84,27 @@ namespace OfficeOpenXml.Export.ToDataTable
                 {
                     row--;
                 }
-                if(columnNames.Contains(name))
+                if(columnNames.ContainsKey(name) == false)
+                {
+                    columnNames[name] = 1;
+                }
+                else if(_options.AllowDuplicateColumnNames)
+                {
+                    if (columnNames[name] == 1)
+                    {
+                        var newName = $"{name}1";
+                        var prevCol = _dataTable.Columns[name];
+                        prevCol.ColumnName = newName;
+                        _options.Mappings.SetNewName(name, newName);
+                    }
+                    var colNameSuffix = columnNames[name] + 1;
+                    name = $"{name}{colNameSuffix}";
+                    columnNames[name] = colNameSuffix;
+                }
+                else
                 {
                     throw new InvalidOperationException($"Duplicate column name : {name}");
                 }
-                columnNames.Add(name);
                 // find type
                 if (_options.DataIsTransposed)
                 {

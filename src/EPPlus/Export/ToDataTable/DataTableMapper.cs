@@ -1,9 +1,11 @@
 ﻿using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.RichData;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.Export.ToDataTable
 {
@@ -54,6 +56,12 @@ namespace OfficeOpenXml.Export.ToDataTable
             for(var col = _range.Start.Column; col <= _range.End.Column; col++)
             {
                 var cellVal = _range.Worksheet.GetValueInner(row, col);
+
+                if(cellVal is ExcelRichTextCollection)
+                {
+                    cellVal = ((ExcelRichTextCollection)cellVal).Text;
+                }
+
                 if (cellVal == null) continue;
                 if (string.Compare(columnName, cellVal.ToString(), StringComparison.OrdinalIgnoreCase) == 0)
                 {

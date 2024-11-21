@@ -189,7 +189,6 @@ namespace OfficeOpenXml.Table.PivotTable
         public void Refresh()
         {
             _field.Cache.Refresh();
-            MatchValueToIndex();
             _hiddenItemIndex = null;
         }
 

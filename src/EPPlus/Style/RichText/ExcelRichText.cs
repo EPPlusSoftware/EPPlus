@@ -353,7 +353,7 @@ namespace OfficeOpenXml.Style
             sb.Append("<span style=\"");
             HtmlRichText.GetRichTextStyle(this, sb);
             sb.Append("\">");
-            sb.Append(Text);
+            sb.Append(ConvertUtil.ExcelEscapeAndEncodeString(Text));
             sb.Append("</span>");
         }
 
@@ -473,7 +473,7 @@ namespace OfficeOpenXml.Style
                     sb.Append("<rPr>");
                     if (!String.IsNullOrEmpty(_fontName))
                     {
-                        sb.Append($"<rFont val=\"{_fontName}\"/>");
+                        sb.Append($"<rFont val=\"{_fontName.EncodeXMLAttribute()}\"/>");
                     }
                     if (Charset != 0)
                     {
