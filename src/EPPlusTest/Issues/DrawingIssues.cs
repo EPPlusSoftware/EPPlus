@@ -57,6 +57,20 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void i1673()
+        {
+            using (var package = OpenTemplatePackage("i1673.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets[0];
+                ws.Drawings.Count();
+
+                SaveAndCleanup(package);
+            }
+        }
+
         public void CopyRows(ExcelWorksheet excelWorksheet, int sourceFrom, int sourceTo, int destFrom, int destTo)
         {
             for (int i = destFrom; i <= destTo; i++)

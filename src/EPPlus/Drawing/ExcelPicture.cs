@@ -62,11 +62,13 @@ namespace OfficeOpenXml.Drawing
 
             if(picNode != null)
             {
-                if (picNode.Attributes["embed", ExcelPackage.schemaRelationships] != null)
+
+                var embedAttr = picNode.Attributes["embed", ExcelPackage.schemaRelationships];
+                if (embedAttr != null && string.IsNullOrEmpty(embedAttr.Value) == false)
                 {
                     LocationType = LocationType | PictureLocation.Embed;
                     IPictureContainer container = this;
-                    container.RelPic = drawings.Part.GetRelationship(picNode.Attributes["embed", ExcelPackage.schemaRelationships].Value);
+                    container.RelPic = drawings.Part.GetRelationship(embedAttr.Value);
                     container.UriPic = UriHelper.ResolvePartUri(drawings.UriDrawing, container.RelPic.TargetUri);
 
                     if (drawings.Part.Package.PartExists(container.UriPic))
@@ -104,11 +106,14 @@ namespace OfficeOpenXml.Drawing
                     container.ImageHash = ii.Hash;
                 }
 
-                if (picNode.Attributes["link", ExcelPackage.schemaRelationships] != null)
+                var linkAttr = picNode.Attributes["link", ExcelPackage.schemaRelationships];
+
+                if (linkAttr != null && string.IsNullOrEmpty(linkAttr.Value) == false )
                 {
                     LocationType = LocationType | PictureLocation.Link;
-                    LinkedImageRel = drawings.Part.GetRelationship(picNode.Attributes["link", ExcelPackage.schemaRelationships].Value);
+                    LinkedImageRel = drawings.Part.GetRelationship(linkAttr.Value);
                     IPictureContainer container = this;
+
                     if(container.RelPic == null && container.UriPic == null)
                     {
                         container.RelPic = LinkedImageRel;
