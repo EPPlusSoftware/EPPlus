@@ -2,11 +2,6 @@
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -29,7 +24,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
         public void FromMinus1To1()
         {
             var n = -0.0699999999999994;
-            var result = RoundingHelper.RoundToSignificantFig(n, 15);
+            var result = RoundingHelper.RoundToSignificantFig(n, 2);
             Assert.AreEqual(-0.07, result);
 
             n = -0.06999999999999;
@@ -37,7 +32,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
             Assert.AreEqual(-0.06999999999999, result);
 
             n = 0.0700000000000003;
-            result = RoundingHelper.RoundToSignificantFig(n, 15);
+            result = RoundingHelper.RoundToSignificantFig(n, 2);
             Assert.AreEqual(0.07, result);
 
             using (var p = new ExcelPackage())
