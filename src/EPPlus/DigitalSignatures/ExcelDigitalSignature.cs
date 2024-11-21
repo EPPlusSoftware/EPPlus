@@ -82,6 +82,8 @@ namespace OfficeOpenXml.DigitalSignatures
 
         internal string ValidSigLnImage;
         internal string InvalidSigLnImg;
+        internal string SignatureText;
+        internal string SignatureImage;
 
         internal ExcelDigitalSignature(ExcelWorkbook wb, XmlNamespaceManager ns, ZipPackagePart part) : base(ns)
         {
@@ -108,13 +110,16 @@ namespace OfficeOpenXml.DigitalSignatures
                     ValidSigLnImage = _doc.SelectSingleNode("//*[@Id='idValidSigLnImg']").InnerText;
                     InvalidSigLnImg = _doc.SelectSingleNode("//*[@Id='idInvalidSigLnImg']").InnerText;
 
+                    SignatureImage = signatureProperty.sigInfo1.SignatureImage;
+                    SignatureText = signatureProperty.sigInfo1.SignatureText;
+
                     //Could be made more effective if we only find the id string via part instead.
                     //Must load drawings to find SetupID in one of the shapes in one of the files.
                     //Worksheets must exist to load drawings.
                     //var worksheets = _wb.Worksheets;
                     //_wb.LoadAllVmlDrawings("");
 
-                    //SetupId = new Guid(signatureProperty.sigInfo1.SetUpId);
+                    SetupId = new Guid(signatureProperty.sigInfo1.SetUpId);
                     //_wb.DigitialSignatures.GetSignatureBySignatureLineGuid(SetupId);
                 }
             }

@@ -28,7 +28,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
     public class DigitalSignatureTests : TestBase
     {
         [TestMethod]
-        public void CreateDigitalSignatureLine()
+        public void CreateDigitalSignatureAndReadIt()
         {
             using (ExcelPackage package = OpenPackage("DigSig_SignatureLine.xlsx", true))
             {
@@ -42,10 +42,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadOnly);
 
-                //var sigLine = ws.Workbook.DigitialSignatures.AddSignatureLine(store.Certificates[1], ws);
-                //sigLine.VmlDrawing.Signer = "AttemptedSigner";
-                //sigLine.VmlDrawing.Title = "AttemptedTitle";
-
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
                 var info = digSig.SigningInformation;
 
@@ -58,6 +54,21 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.StateOrProvince = "WayUpHigh";
 
                 SaveAndCleanup(package);
+            }
+            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets[0];
+
+                var digSig = wb.DigitialSignatures[0];
+                var info = digSig.SigningInformation;
+                Assert.AreEqual("A Title", info.SignerRoleTitle);
+                Assert.AreEqual("Some", info.Address1);
+                Assert.AreEqual("Where", info.Address2);
+                Assert.AreEqual("Over", info.ZIPorPostalCode);
+                Assert.AreEqual("The", info.City);
+                Assert.AreEqual("Rainbow", info.CountryOrRegion);
+                Assert.AreEqual("WayUpHigh", info.StateOrProvince);
             }
         }
 
