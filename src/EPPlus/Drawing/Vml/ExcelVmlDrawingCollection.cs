@@ -21,15 +21,7 @@ using System.Text;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Constants;
-using System.IO;
 using OfficeOpenXml.Drawing.OleObject;
-using System.Data.SqlTypes;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Drawing.EMF;
-using OfficeOpenXml.DigitalSignatures;
-using OfficeOpenXml.Packaging.Ionic.Zip;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -101,6 +93,9 @@ namespace OfficeOpenXml.Drawing.Vml
                             //TODO: Possibly change so vmldrawings only holds/lookups ids to the wb?
                             //So that the objects themselves are ensured to only be in one place.
                             SignatureLines.Add(sigLine);
+
+                            ws.Workbook.DigitialSignatures.AddExcelSignatureLine(sigLine);
+
                             vmlDrawing = sigLine;
                             _drawings.Add(vmlDrawing);
                         }

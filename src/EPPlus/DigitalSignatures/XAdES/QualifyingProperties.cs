@@ -12,7 +12,7 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
         string Target = "#idPackageSignature";
         string XadesNS = "http://uri.etsi.org/01903/v1.3.2#";
 
-        internal QualifyingProperties(XmlElement signedPropertiesNode, AdditionalSignatureInfo info)
+        internal QualifyingProperties(XmlElement signedPropertiesNode, AdditionalSignatureInfo info, List<string> TypeQualifiers, ref CommitmentType type)
         {
             var parentAttributes = signedPropertiesNode.ParentNode.Attributes;
 
@@ -20,13 +20,13 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
             Target = parentAttributes.GetNamedItem("Target").InnerText;
             XadesNS = parentAttributes.GetNamedItem($"xmlns:{Prefix}").InnerText;
 
-            SignedProps = new SignedProperties(signedPropertiesNode, info);
+            SignedProps = new SignedProperties(signedPropertiesNode, info, TypeQualifiers, ref type);
         }
 
-        internal QualifyingProperties(string prefix, X509Certificate2 cert, string decription, List<string> TypeQualifiers, AdditionalSignatureInfo info)
+        internal QualifyingProperties(string prefix, X509Certificate2 cert, CommitmentType type, List<string> TypeQualifiers, AdditionalSignatureInfo info)
         {
             Prefix = prefix;
-            SignedProps = new SignedProperties(cert, decription, Prefix, TypeQualifiers, info);
+            SignedProps = new SignedProperties(cert, type, Prefix, TypeQualifiers, info);
         }
 
         internal string GetXML()

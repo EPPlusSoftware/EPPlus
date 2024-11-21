@@ -35,14 +35,36 @@ namespace OfficeOpenXml.DigitalSignatures
         bool shouldSave = true;
         bool wasRead = false;
         private SignatureProperty signatureProperty;
+
+        /// <summary>
+        /// Details about the signer of a DigitalSignature, such as role, title, address etc.
+        /// </summary>
         public AdditionalSignatureInfo SigningInformation = new AdditionalSignatureInfo();
 
-        public string PurposeForSigning = "";
-        public CommitmentType commitmentType = CommitmentType.None;
         /// <summary>
-        /// Signature is verified to be valid
+        /// Reason for signing the document-
         /// </summary>
-        public bool Verified { get; private set; } = false;
+        public string PurposeForSigning = "";
+        /// <summary>
+        /// Commitment Type.
+        /// </summary>
+        public CommitmentType CommitmentTyping = CommitmentType.None;
+
+        internal Guid SetupId;
+        //private bool _verified = false;
+
+        /// <summary>
+        /// Wheter the Signature is verified to be valid
+        /// </summary>
+        public bool Verified 
+        {
+            get
+            {
+                SignedXml signedXml = new SignedXml(_doc);
+                return signedXml.CheckSignatureReturningKey(out AsymmetricAlgorithm pubKey);
+            }
+        }
+
         QualifyingProperties qualifyingProperties;
         ExcelSignatureLineStamp _signatureLine;
 
@@ -79,23 +101,27 @@ namespace OfficeOpenXml.DigitalSignatures
             if(officeObj != null)
             {
                 signatureProperty = new SignatureProperty((XmlElement)officeObj, SigningInformation);
-                if(string.IsNullOrEmpty(signatureProperty.sigInfo1.SetUpId) == false)
-                {
-                    //SignatureLineSetupId = new Guid(signatureProperty.sigInfo1.SetUpId);
+                PurposeForSigning = signatureProperty.sigInfo1.SignatureComments;
 
+                if (string.IsNullOrEmpty(signatureProperty.sigInfo1.SetUpId) == false)
+                {
                     ValidSigLnImage = _doc.SelectSingleNode("//*[@Id='idValidSigLnImg']").InnerText;
                     InvalidSigLnImg = _doc.SelectSingleNode("//*[@Id='idInvalidSigLnImg']").InnerText;
 
-                    //Could be made more effective if we only find the id string instead.
+                    //Could be made more effective if we only find the id string via part instead.
                     //Must load drawings to find SetupID in one of the shapes in one of the files.
                     //Worksheets must exist to load drawings.
-                    var worksheets = _wb.Worksheets;
-                    _wb.LoadAllDrawings("");
+                    //var worksheets = _wb.Worksheets;
+                    //_wb.LoadAllVmlDrawings("");
+
+                    //SetupId = new Guid(signatureProperty.sigInfo1.SetUpId);
+                    //_wb.DigitialSignatures.GetSignatureBySignatureLineGuid(SetupId);
                 }
             }
 
+            var typeQualifiers = new List<string>();
             var signedPropertiesNode = _doc.SelectSingleNode("//*[@Id='idSignedProperties']");
-            qualifyingProperties = new QualifyingProperties((XmlElement)signedPropertiesNode, SigningInformation);
+            qualifyingProperties = new QualifyingProperties((XmlElement)signedPropertiesNode, SigningInformation, typeQualifiers, ref CommitmentTyping);
 
             string keyInfo = _doc.GetElementsByTagName("KeyInfo")[0].InnerText;
             string serialInFile = qualifyingProperties.SignedProps.SignatureProps.Serial;
@@ -133,23 +159,6 @@ namespace OfficeOpenXml.DigitalSignatures
             _originPart.CreateRelationship(string.Format("sig{0}.xml", num), TargetMode.Internal, relType);
         }
 
-        private string GetCommitmentTypeString(CommitmentType type)
-        {
-            switch (type) 
-            {
-                case CommitmentType.None:
-                    return "None";
-                case CommitmentType.Approved:
-                    return "Approved this document";
-                case CommitmentType.Created:
-                    return "Created this document";
-                case CommitmentType.CreatedAndApproved:
-                    return "Created and approved this document";
-                default: 
-                    throw new NotImplementedException();
-            }
-        }
-
         internal void Save()
         {
             if (shouldSave)
@@ -167,7 +176,7 @@ namespace OfficeOpenXml.DigitalSignatures
                 };
 
                 qualifyingProperties = new QualifyingProperties
-                    ("xd", Certificate, GetCommitmentTypeString(commitmentType), signatureComments, SigningInformation);
+                    ("xd", Certificate, CommitmentTyping, signatureComments, SigningInformation);
 
                 var docTest = qualifyingProperties.GetDocument();
                 _doc = docTest;
@@ -217,13 +226,13 @@ namespace OfficeOpenXml.DigitalSignatures
                 var doc = new XmlDocument();
                 doc.LoadXml(outPutDoc.OuterXml);
 
-                Verified = VerifyXmlFile(doc, key);
-
                 var declaration = outPutDoc.CreateXmlDeclaration("1.0", "UTF-8", "");
                 outPutDoc.InsertBefore(declaration, node);
 
                 var stream = _part.GetStream();
                 stream.Position = 0;
+
+                _doc = outPutDoc;
 
                 outPutDoc.Save(stream);
 
@@ -256,7 +265,8 @@ namespace OfficeOpenXml.DigitalSignatures
             // Check the signature and return the result.
             return signedXml.CheckSignature(Key);
         }
-        public Reference CreatePackageReference(ref ExcelSignedXml signedXml)
+
+        internal Reference CreatePackageReference(ref ExcelSignedXml signedXml)
         {
             Reference packageReference = new()
             {
@@ -292,7 +302,7 @@ namespace OfficeOpenXml.DigitalSignatures
             return packageReference;
         }
 
-        public Reference CreateOfficeReference(ref ExcelSignedXml signedXml)
+        internal Reference CreateOfficeReference(ref ExcelSignedXml signedXml)
         {
             Reference officeReference = new()
             {
@@ -337,7 +347,7 @@ namespace OfficeOpenXml.DigitalSignatures
             return officeReference;
         }
 
-        public Reference CreatePropertiesReference(ref ExcelSignedXml signedXml) 
+        internal Reference CreatePropertiesReference(ref ExcelSignedXml signedXml) 
         {
             Reference signedPropertiesReference = new()
             {

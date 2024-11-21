@@ -1,17 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using OfficeOpenXml;
-using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Drawing;
 using System.IO;
-using System.Xml.Linq;
 using System.Security.Cryptography;
-using System.Runtime.ConstrainedExecution;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
@@ -19,24 +14,27 @@ namespace EPPlusTest.Drawing.DigitalSignatures
     public class DigitalSignatureLineTests : TestBase
     {
         const string SubFolder = "DigitalSignatureLines\\";
-        private X509Certificate2 cert;
-        
-        void MakeSelfCert()
+
+        X509Certificate2 GetSelfCert()
         {
             var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
             var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
 
             var certPrivate = finalCert.Export(X509ContentType.Pfx);
             var certPublic = finalCert.Export(X509ContentType.Cert);
-            cert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
+            return new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
         }
 
         [ClassInitialize]
-        public void Init(TestContext context)
+        public static void Init(TestContext context)
         {
             CreatePathIfNotExists(_worksheetPath + SubFolder);
-            ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx", true);
-            MakeSelfCert();
+        }
+
+        [ClassCleanup]
+        public static void Cleanup()
+        {
+
         }
 
         [TestMethod]
@@ -239,6 +237,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var sSlineStamp = package.Workbook.Worksheets.Add("SignedSignatureLineStamp");
                 var manySlineStamps = package.Workbook.Worksheets.Add("ManySignedSignatureLineStamp");
 
+                var cert = GetSelfCert();
+
                 var sLine = sSline.AddSignatureLine();
                 sLine.Sign(cert, signatureImage);
 
@@ -260,14 +260,21 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var manySlineStamps = package.Workbook.Worksheets.Add("ManySignedSignatureLineStamp");
 
                 var sLine = sSline.AddSignatureLine();
+
+                var cert = GetSelfCert();
+
                 sLine.Sign(cert, signatureImage);
 
                 SaveAndCleanup(package);
             }
 
-
             using (ExcelPackage package = OpenPackage($"{SubFolder}SignedSignatureLinesResaved.xlsx"))
             {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets[0];
+
+                var sig = wb.DigitialSignatures[0];
+
                 SaveAndCleanup(package);
             }
         }

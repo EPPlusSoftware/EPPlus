@@ -132,7 +132,23 @@ namespace OfficeOpenXml
 			}
 		}
 
-		internal string GetSlicerName(string name)
+        internal void LoadAllVmlDrawings(string loadingWsName)
+		{
+            if (_worksheets._areVmlDrawingsLoaded)
+            {
+                return;
+            }
+            _worksheets._areVmlDrawingsLoaded = true;
+            foreach (var ws in Worksheets)
+            {
+                if (loadingWsName.Equals(ws.Name, StringComparison.OrdinalIgnoreCase) == false)
+                {
+                    var vmlDrawings = ws.VmlDrawings;
+                }
+            }
+        }
+
+        internal string GetSlicerName(string name)
 		{
 			if (_slicerNames == null) LoadSlicerNames();
 			return GetUniqueName(name, _slicerNames);

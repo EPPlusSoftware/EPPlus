@@ -77,6 +77,35 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         }
 
         [TestMethod]
+        public void ReadCommitmentTypeAndTypeQualifier()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("DigSig_FullSignatureAndLine.xlsx"))
+            {
+                var wb = package.Workbook;
+
+                var digSig = wb.DigitialSignatures[0];
+                Assert.AreEqual(CommitmentType.Approved, digSig.CommitmentTyping);
+                Assert.AreEqual("MyPurposeIsMyOwn", digSig.PurposeForSigning);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void ReadCommitmentTypeAndTypeQualifierWhenNone()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("DigSig_FullSignatureAndLineNone.xlsx"))
+            {
+                var wb = package.Workbook;
+
+                var digSig = wb.DigitialSignatures[0];
+                Assert.AreEqual(CommitmentType.None, digSig.CommitmentTyping);
+                Assert.AreEqual("MyPurposeIsMyOwn", digSig.PurposeForSigning);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
         public void CreateFunctionalStampTemplateFromValidEmf()
         {
             var path = GetOutputFile("", "bmpValidStamp.emf").FullName;

@@ -85,7 +85,7 @@ namespace OfficeOpenXml.DigitalSignatures
             var digSig = new ExcelDigitalSignature(_wb, _ns, _signatures.Count + 1);
 
             digSig.Certificate = certificate;
-            digSig.commitmentType = cType;
+            digSig.CommitmentTyping = cType;
             digSig.PurposeForSigning = purposeForSigning;
 
             _signatures.Add(digSig);
