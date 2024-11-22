@@ -104,7 +104,14 @@ namespace OfficeOpenXml.Drawing
 
             if(SignatureImage != null && SignatureImage.ImageBytes.Length > 0)
             {
-                Emf.SaveImage(SignatureImage.ImageBytes);
+                if(SignatureImage.Type == ePictureType.Bmp)
+                {
+                    Emf.SaveImage(SignatureImage.ImageBytes);
+                }
+                else
+                {
+                    throw new InvalidOperationException($"SignatureImage must be .bmp format/type. SignatureImage was of type {SignatureImage.Type}");
+                }
             }
 
             if (ShowSignDate)

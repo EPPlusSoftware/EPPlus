@@ -378,77 +378,15 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 emfImage.Save(changedOutput.FullName);
             }
         }
+
         private void DecodeAndSaveEmf(string base64String, string savePath)
         {
             var decodedBytes = Convert.FromBase64String(base64String);
             File.WriteAllBytes(savePath, decodedBytes);
         }
 
-
         [TestMethod]
-        public void TemplateTest()
-        {
-            var stampTemplate = new EmfImage();
-            stampTemplate.Read(@"C:\epplusTest\templates\SignatureLineStampTemplate.emf");
-
-            var records = stampTemplate.records;
-
-            var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW);
-
-            ((EMR_EXTTEXTOUTW)textRecords[0]).Text = "";
-            //((EMR_EXTTEXTOUTW)textRecords[1]).Text = "";
-
-            stampTemplate.Save(@"C:\epplusTest\templates\SignatureLineStampTemplateNew.emf");
-        }
-
-        [TestMethod]
-        public void CreateTwoEmptySignatureLine()
-        {
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine_Empty2.xlsx", true))
-            {
-                var wb = package.Workbook;
-                var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
-
-                var sLine = ws.AddSignatureLine();
-
-                var sLine2 = ws.AddSignatureLine();
-
-                SaveAndCleanup(package);
-            }
-        }
-
-        [TestMethod]
-        public void CreateSignatureLineWithSuggestedSigner()
-        {
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine_SSigner.xlsx", true))
-            {
-                var wb = package.Workbook;
-                var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
-
-                var sLine = ws.AddSignatureLine();
-                sLine.Signer = "ASuggestedSigner";
-
-                SaveAndCleanup(package);
-            }
-        }
-        [TestMethod]
-        public void CreateSignatureLineWithSuggestedSignerAndTitle()
-        {
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine_SSignerTitle.xlsx", true))
-            {
-                var wb = package.Workbook;
-                var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
-
-                var sLine = ws.AddSignatureLine();
-                sLine.Signer = "ASuggestedSigner";
-                sLine.Title = "ASuggestedTitle";
-
-                SaveAndCleanup(package);
-            }
-        }
-
-        [TestMethod]
-        public void CreateSignatureLineWithALL()
+        public void CreateSignatureLineWithALLWithoutSignatureAndSpecialSymbols()
         {
             using (ExcelPackage package = OpenPackage("DigSig_SignatureLine_ALL.xlsx", true))
             {
@@ -456,13 +394,65 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
 
                 var sLine = ws.AddSignatureLine();
-                sLine.Signer = "ASuggestedSigner";
-                sLine.Title = "ASuggestedTitle";
+                sLine.Signer = "Ossian Edström åäö";
+                sLine.Title = "#Maker \"Quotation`¨'m!";
                 sLine.Email = "Example@Site.com";
                 sLine.SigningInstructions = "Hey please sign this because x and y so it will be z";
                 sLine.AllowComments = true;
                 sLine.ShowSignDate = true;
 
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine_ALL.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets[0];
+
+                var sLine = ws.SignatureLines[0];
+                Assert.AreEqual("Ossian Edström åäö", sLine.Signer);
+                Assert.AreEqual("#Maker \"Quotation`¨'m!", sLine.Title);
+                Assert.AreEqual("Example@Site.com", sLine.Email);
+                Assert.AreEqual("Hey please sign this because x and y so it will be z", sLine.SigningInstructions);
+                Assert.IsTrue(sLine.AllowComments);
+                Assert.IsTrue(sLine.ShowSignDate);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void ReadDigitalSignatureLineStamp()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("FullStamp.xlsx"))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets[0];
+
+                var signatures = package.Workbook.DigitialSignatures;
+
+                DecodeAndSaveEmf(signatures[0].ValidSigLnImage, GetOutputFile("", "validStamp.emf").FullName);
+                DecodeAndSaveEmf(signatures[0].InvalidSigLnImg, GetOutputFile("", "invalidStamp.emf").FullName);
+            }
+        }
+
+        [TestMethod, ExpectedException(typeof(InvalidOperationException))]
+        public void CreateSignatureLineChangeImage()
+        {
+            var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
+
+            using (ExcelPackage package = OpenPackage("CreateSignatureLineChangeImage.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("New ws");
+
+                var stamp = ws.AddSignatureLineStamp();
+                var cert = GetSelfCert();
+                stamp.Sign(cert, signatureImage);
+
+                //Arguably if there is a way to throw here we should.
+                signatureImage.SetImage(GetResourceFile("EPPlus.png"));
+
+                //Currently we throw in save
                 SaveAndCleanup(package);
             }
         }
