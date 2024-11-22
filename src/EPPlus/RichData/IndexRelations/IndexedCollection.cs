@@ -214,6 +214,11 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return null;
         }
 
+        IndexEndpoint IndexedCollectionInterface.GetByIndex(int index)
+        {
+            return _list[index];
+        }
+
         public T this[int index]
         {
             get

@@ -11,9 +11,11 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
+using OfficeOpenXml.RichData.RichValues;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -77,6 +79,8 @@ namespace OfficeOpenXml.RichData.WebImages
             while (xr.Read());
         }
 
+        private readonly Uri _baseUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
+
         public Uri Address => _addressRel.TargetUri;
 
         public Uri MoreImagesAddress => _moreImagesAddressRel?.TargetUri;
@@ -84,7 +88,7 @@ namespace OfficeOpenXml.RichData.WebImages
         /// <summary>
         /// BLIP (Binary Large Image or Picture). Uri to the local picture in the worksheet
         /// </summary>
-        public Uri Blip => _blipRel?.TargetUri;
+        public Uri Blip => _blipRel.TargetUri != null ? UriHelper.ResolvePartUri(_baseUri, _blipRel.TargetUri) : null;
 
         internal void WriteXml(StreamWriter sw)
         {

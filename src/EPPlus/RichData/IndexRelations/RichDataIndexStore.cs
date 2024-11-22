@@ -115,6 +115,11 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return null;
         }
 
+        public IndexEndpoint GetItemByIndex(int index, RichDataEntities entity)
+        {
+            return _collections[entity].GetByIndex(index);
+        }
+
         public int? GetIndexByItem(IndexEndpoint endpoint)
         {
             if (endpoint == null) return null;

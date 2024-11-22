@@ -172,16 +172,29 @@ namespace OfficeOpenXml.RichData.Structures
 
         public static ExcelRichValueStructure Create(RichDataStructureTypes structureType, List<ExcelRichValueStructureKey> keys, RichDataIndexStore store)
         {
-            switch (structureType)
+            if((structureType & RichDataStructureTypes.Error) == RichDataStructureTypes.Error)
             {
-                case RichDataStructureTypes.ErrorSpill:
+                if ((structureType & RichDataStructureTypes.ErrorSpill) == RichDataStructureTypes.ErrorSpill)
+                {
                     return new ErrorSpillStructure(keys, store);
-                case RichDataStructureTypes.ErrorPropagated:
+                }
+                else if ((structureType & RichDataStructureTypes.ErrorPropagated) != RichDataStructureTypes.ErrorPropagated)
+                {
                     return new ErrorPropagatedStructure(keys, store);
-                case RichDataStructureTypes.ErrorWithSubType:
+                }
+                else if ((structureType & RichDataStructureTypes.ErrorWithSubType) == RichDataStructureTypes.ErrorWithSubType)
+                {
                     return new ErrorWithSubTypeStructure(keys, store);
-                case RichDataStructureTypes.ErrorField:
+                }
+                else if ((structureType & RichDataStructureTypes.ErrorField) != RichDataStructureTypes.ErrorField)
+                {
                     return new ErrorWithSubTypeStructure(keys, store);
+                }
+                var typeName = StructureTypes.GetStructureName(RichDataStructureTypes.Error);
+                return new RichDataPreserveStructure(typeName, RichDataStructureTypes.Error, keys, store);
+            }
+            switch (structureType)
+            {  
                 case RichDataStructureTypes.LocalImage:
                     return new LocalImageStructure(keys, store);
                 case RichDataStructureTypes.WebImage:

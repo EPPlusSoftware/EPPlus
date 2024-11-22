@@ -24,6 +24,8 @@ namespace OfficeOpenXml.RichData.IndexRelations
         private readonly List<uint> _items = new List<uint>();
         public EventHandler<CollectionIsEmptyEventArgs> CollectionIsEmpty;
 
+        public IndexedCollection<T> ParentCollection => _collection;
+
         public void Add(T item)
         {
             item.EndpointDeleted += OnEndpointDeleted;

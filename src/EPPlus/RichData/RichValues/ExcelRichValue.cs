@@ -52,6 +52,7 @@ namespace OfficeOpenXml.RichData.RichValues
         private readonly ExcelRichData _richData;
         private readonly RichDataIndexStore _indexStore;
         private readonly RichDataStructureTypes _structureType;
+        protected ExcelRichData RichData => _richData;
         public uint StructureId { get; set; }
         public ExcelRichValueStructure Structure { get; set; }
 
@@ -77,9 +78,9 @@ namespace OfficeOpenXml.RichData.RichValues
                 var intVal = val.ValueInt;
                 if(val.Key.DataType == RichValueDataType.RichValue && intVal.HasValue)
                 {
-                    var rvId = _richData.Values.GetIdByIndex(intVal.Value);
-                    var rv = _richData.Values.Get(rvId);
-                    val.AddRelationTo(rv);
+                    var refRv = _indexStore.GetItemByIndex(intVal.Value, RichDataEntities.RichValue);
+                    val.Value = refRv.Id.ToString();
+                    val.AddRelationTo(refRv);
                 }
             }
         }
@@ -121,7 +122,7 @@ namespace OfficeOpenXml.RichData.RichValues
         {
             //_keysAndValues = _keysAndValues.Where(kvp => !string.IsNullOrEmpty(kvp.Value)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             //var keyNames = _keysAndValues.Select(kvp => kvp.Key).ToList();
-            var keyNames = Values.Select(v => v.Key.Name).ToList();
+            var keyNames = Values.Where(v => !string.IsNullOrEmpty(v.Value)).Select(v => v.Key.Name).ToList();
             //var hash = ExcelRichValueStructure.CreateKeyHash(keyNames);
             var existingStructure = Structure;
             var existingStructureRel = default(IndexRelation);
@@ -180,12 +181,17 @@ namespace OfficeOpenXml.RichData.RichValues
                     var rvId = val.ValueUint;
                     if(rvId.HasValue)
                     {
-                        var rvIx = Values.GetZeroBasedIndex(rvId.Value);
+                        var rvIx = _richData.Values.GetIndexById(rvId.Value);
                         sw.Write($"<v>{rvIx}</v>");
 
                     }
                 }
-                else 
+                else if(val.Key.Name == StructureKeyNames.WebImage.WebImageIdentifier)
+                {
+                    var imageIx = _richData.WebImages.GetIndexById(val.ValueUint.Value);
+                    sw.Write($"<v>{imageIx}</v>");
+                }
+                else if(!string.IsNullOrEmpty(val.Value))
                 {
                     sw.Write($"<v>{ConvertUtil.ExcelEscapeString(val.Value)}</v>");
                 }
@@ -302,7 +308,7 @@ namespace OfficeOpenXml.RichData.RichValues
         //}
         #endregion
 
-        public void SetRelation(string key, string relationName, Uri relUri)
+        public void SetRelation(string key, string relationName, Uri relUri, out uint rvRelId)
         {
             int? index;
             List<ExcelRichValueStructureKey> keys;
@@ -322,7 +328,8 @@ namespace OfficeOpenXml.RichData.RichValues
             }
             var rel = keys[index.Value].Name;
             var relationshipType = RichValueRelationMappings.GetSchema(rel);
-            _richData.RichValueRels.AddItem(relUri, relationshipType, this, out IndexRelation r);
+            var rvRel = _richData.RichValueRels.AddItem(relUri, relationshipType, this, out IndexRelation r);
+            rvRelId = rvRel.Id;
             //SetValue(key, relIx);
             _relations.Add(key, r);
         }

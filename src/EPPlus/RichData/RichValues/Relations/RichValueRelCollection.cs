@@ -88,7 +88,7 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
             item.RelationId = id;
             item.Type = rel.RelationshipType;
             item.TargetUri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-
+            _cachedRels.Add(item.TargetUri.OriginalString, item);
             return item;
         }
 
@@ -140,26 +140,6 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
             rel = _indexStore.CreateAndAddRelation(relationOwner, rvRel, IndexType.ZeroBasedPointer);
             return rvRel;
         }
-
-        //public RichValueRel GetItem(string relId, out int ix)
-        //{
-        //    ix = -1;
-        //    var item = Items.FirstOrDefault(x => x.Id == relId);
-        //    if (item != null)
-        //    {
-        //        ix = Items.IndexOf(item);
-        //    }
-        //    return item;
-        //}
-
-        //public RichValueRel GetItem(int relIx)
-        //{
-        //    if (relIx < 0 || relIx >= Items.Count)
-        //    {
-        //        throw new ArgumentOutOfRangeException(nameof(relIx));
-        //    }
-        //    return Items[relIx];
-        //}
 
         internal void SetNewTarget(uint newId, Uri targetUri)
         {

@@ -35,6 +35,8 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         IndexEndpoint GetById(uint id);
 
+        IndexEndpoint GetByIndex(int index);
+
         public Type IndexedType { get; }
     }
 }

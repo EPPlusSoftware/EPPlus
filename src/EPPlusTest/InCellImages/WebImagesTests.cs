@@ -19,10 +19,12 @@ namespace EPPlusTest.InCellImages
             var uri = webPic.ImageUri;
 
             //sheet.Cells["A2"].Picture.Set(Resources.Png2ByteArray);
-            var localPic = sheet.Cells["A2"].Picture.Get();
+            var localPic = sheet.Cells["B1"].Picture.Get();
             var lpBytes = localPic.GetImageBytes();
 
             var imageBytes = webPic.GetImageBytes();
+
+            SaveWorkbook("ImageFunction1_Output.xlsx", package);
         }
     }
 }

@@ -192,6 +192,15 @@ namespace OfficeOpenXml.RichData.Structures
                 }
             }
             var rvStructure = RichValueStructureFactory.Create(structure, keys, _wb.IndexStore);
+            var keyNames2 = rvStructure.Keys.Select(k => k.Name);
+            if(!_structures.ContainsKey(structure))
+            {
+                _structures[structure] = new List<RichValueStructureReference>();
+            }
+            var newStructureRef = new RichValueStructureReference(rvStructure.Id);
+            newStructureRef.WordIds.AddRange(_keyNamesCache.GetIds(keyNames2));
+            _structures[structure].Add(newStructureRef);
+            Add(rvStructure);
             return rvStructure;
         }
 

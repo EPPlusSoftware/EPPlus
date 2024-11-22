@@ -47,7 +47,8 @@ namespace OfficeOpenXml.RichData.RichValues.LocalImage
             }
             set
             {
-                SetRelation(StructureKeyNames.LocalImages.Image.RelLocalImageIdentifier, "LocalImageIdentifier", value);
+                SetRelation(StructureKeyNames.LocalImages.Image.RelLocalImageIdentifier, "LocalImageIdentifier", value, out uint rvRelId);
+                SetValue(StructureKeyNames.LocalImages.Image.RelLocalImageIdentifier, rvRelId);
                 
             }
         }
@@ -79,6 +80,21 @@ namespace OfficeOpenXml.RichData.RichValues.LocalImage
             {
                 SetValue(StructureKeyNames.LocalImages.Image.Text, value);
             }
+        }
+
+        internal override void PostProcessInitialRead()
+        {
+            base.PostProcessInitialRead();
+            var value = Values.FirstOrDefault(k => k.Key.Name == StructureKeyNames.LocalImages.Image.RelLocalImageIdentifier);
+            if(value.ValueInt.HasValue)
+            {
+                var rvRelId = RichData.RichValueRels.GetIdByIndex(value.ValueInt.Value);
+                var rvRel = RichData.RichValueRels.Get(rvRelId);
+                SetRelation(value.Key.Name, value.Key.RelationName, rvRel.TargetUri, out uint rid);
+                SetValue(StructureKeyNames.LocalImages.Image.RelLocalImageIdentifier, rvRelId);
+            }
+            
+           
         }
     }
 }
