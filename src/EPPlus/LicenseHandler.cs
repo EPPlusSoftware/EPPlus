@@ -62,27 +62,34 @@ namespace OfficeOpenXml
 
         internal static bool ValidateLicenseKey(string licenseKey, out EPPlusLicenseInfo licenseInfo)
         {
-            GetLicenseDataFromKey(licenseKey, out byte version, out string licenseNo, out DateTime fromDate, out DateTime toDate, out EPPlusCommercialLicenseType licenseType, out short numberOfLicenses, out byte[] signature, 512 / 8);
-            
-            licenseInfo = new EPPlusLicenseInfo()
+            try
             {
-                LicenseNumber = licenseNo,
-                LicenseType = licenseType,
-                LicenseValidFrom = fromDate,
-                LicenseValidTo = EnumUtil.HasFlag(licenseType, EPPlusCommercialLicenseType.Subscription) && EnumUtil.HasNotFlag(licenseType, EPPlusCommercialLicenseType.TemporaryKey) ? toDate.AddDays(30) :toDate,
-                NumberOfLicensedDevelopers = numberOfLicenses
-            };
-            var tb = GetLicenseData(version, licenseNo, fromDate, toDate, (byte)licenseType, numberOfLicenses);
-            var rsaClient = new RSACryptoServiceProvider();
-            rsaClient.FromXmlString(_key);
-            if (rsaClient.VerifyData(tb, "2.16.840.1.101.3.4.2.1", signature))
-            {                
-                return ValidateLicenseDates(licenseInfo);
+                GetLicenseDataFromKey(licenseKey, out byte version, out string licenseNo, out DateTime fromDate, out DateTime toDate, out EPPlusCommercialLicenseType licenseType, out short numberOfLicenses, out byte[] signature, 512 / 8);
+                
+                licenseInfo = new EPPlusLicenseInfo()
+                {
+                    LicenseNumber = licenseNo,
+                    LicenseType = licenseType,
+                    LicenseValidFrom = fromDate,
+                    LicenseValidTo = EnumUtil.HasFlag(licenseType, EPPlusCommercialLicenseType.Subscription) && EnumUtil.HasNotFlag(licenseType, EPPlusCommercialLicenseType.TemporaryKey) ? toDate.AddDays(30) : toDate,
+                    NumberOfLicensedDevelopers = numberOfLicenses
+                };
+                var tb = GetLicenseData(version, licenseNo, fromDate, toDate, (byte)licenseType, numberOfLicenses);
+                var rsaClient = new RSACryptoServiceProvider();
+                rsaClient.FromXmlString(_key);
+                if (rsaClient.VerifyData(tb, "2.16.840.1.101.3.4.2.1", signature))
+                {
+                    return ValidateLicenseDates(licenseInfo);
+                }
+                else
+                {
+                    throw new InvalidLicenseKeyException("The license key is not valid. Please use the license key as stated on your license document or on your account at https://epplussoftware.com");
+                }
             }
-            else
+            catch
             {
-                throw new InvalidLicenseKeyException("The license key is not valid. Please use the license key as stated on your license document or on your account at https://epplussoftware.com");
-            }
+                throw new InvalidLicenseKeyException("The license key is not in a valid format. Please check that you have the entire key without any white-spaces.");
+            }        
         }
 
         private static bool ValidateLicenseDates(EPPlusLicenseInfo licenseInfo)
