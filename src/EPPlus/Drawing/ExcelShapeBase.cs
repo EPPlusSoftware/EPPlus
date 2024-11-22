@@ -10,12 +10,14 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Shape;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -46,6 +48,7 @@ namespace OfficeOpenXml.Drawing
         private string _textBodyPath = "{0}xdr:txBody/a:bodyPr";
         private string _presetGeometryPath = "{0}xdr:spPr/a:prstGeom/a:avLst";
 
+        private Dictionary<string, ShapeGuidePoint> AdjustmentPoints = null;
 
         internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null) :
             base(drawings, node, topPath, nvPrPath, parent)
@@ -459,169 +462,65 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-
-        private static Dictionary<eShapeStyle, Dictionary<string, string>> ShapeGuide = new Dictionary<eShapeStyle, Dictionary<string, string>>()
+        /// <summary>
+        /// Get a list of available adjustment point names.
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetShapeGuidesNames()
         {
-            { eShapeStyle.BentConnector3, Adjust1 },
-            { eShapeStyle.CurvedConnector3, Adjust1 },
-            { eShapeStyle.RoundRect, Adjust1 },
-            { eShapeStyle.Snip1Rect, Adjust1 },
-            { eShapeStyle.Snip2SameRect, Adjust2 },
-            { eShapeStyle.Snip2DiagRect, Adjust2 },
-            { eShapeStyle.SnipRoundRect, Adjust2 },
-            { eShapeStyle.Round1Rect, Adjust1 },
-            { eShapeStyle.Round2SameRect, Adjust2 },
-            { eShapeStyle.Round2DiagRect, Adjust2 },
-            { eShapeStyle.Triangle, Adjust1 },
-            { eShapeStyle.Parallelogram, Adjust1 },
-            { eShapeStyle.Trapezoid, Adjust1 },
-            { eShapeStyle.Hexagon, AdjustVf },
-            { eShapeStyle.Octagon, Adjust1 },
-            { eShapeStyle.Pie, Adjust2 },
-            { eShapeStyle.Chord, Adjust2 },
-            { eShapeStyle.Teardrop, Adjust1 },
-            { eShapeStyle.Frame, Adjust1 },
-            { eShapeStyle.HalfFrame, Adjust2 },
-            { eShapeStyle.Corner, Adjust2 },
-            { eShapeStyle.DiagStripe, Adjust1 },
-            { eShapeStyle.Plus, Adjust1 },
-            { eShapeStyle.Plaque, Adjust1 },
-            { eShapeStyle.Can, Adjust1 },
-            { eShapeStyle.Cube, Adjust1 },
-            { eShapeStyle.Bevel, Adjust1 },
-            { eShapeStyle.Donut, Adjust1 },
-            { eShapeStyle.NoSmoking, Adjust1 },
-            { eShapeStyle.BlockArc, Adjust3 },
-            { eShapeStyle.FoldedCorner¨, Adjust1 },
-            { eShapeStyle.SmileyFace, Adjust1 },
-            { eShapeStyle.Sun, Adjust1 },
-            { eShapeStyle.Moon, Adjust1 },
-            { eShapeStyle.Arc, Adjust2 },
-            { eShapeStyle.BracketPair, Adjust1 },
-            { eShapeStyle.BracePair, Adjust1 },
-            { eShapeStyle.LeftBracket, Adjust1 },
-            { eShapeStyle.RightBracket, Adjust1 },
-            { eShapeStyle.LeftBrace, Adjust2 },
-            { eShapeStyle.RightBrace, Adjust2 },
-            { eShapeStyle.RightArrow, Adjust2 },
-            { eShapeStyle.LeftArrow, Adjust2 },
-            { eShapeStyle.UpArrow, Adjust2 },
-            { eShapeStyle.DownArrow, Adjust2 },
-            { eShapeStyle.LeftRightArrow, Adjust2 },
-            { eShapeStyle.UpDownArrow, Adjust2 },
-            { eShapeStyle.QuadArrow, Adjust3 },
-            { eShapeStyle.LeftRightUpArrow, Adjust3 },
-            { eShapeStyle.BentArrow, Adjust4 },
-            { eShapeStyle.UturnArrow, Adjust5 },
-            { eShapeStyle.LeftUpArrow, Adjust3 },
-            { eShapeStyle.BentUpArrow, Adjust3 },
-            { eShapeStyle.CurvedRightArrow, Adjust3 },
-            { eShapeStyle.CurvedLeftArrow, Adjust3 },
-            { eShapeStyle.CurvedUpArrow, Adjust3 },
-            { eShapeStyle.CurvedDownArrow, Adjust3 },
-            { eShapeStyle.StripedRightArrow, Adjust2 },
-            { eShapeStyle.NotchedRightArrow, Adjust2 },
-            { eShapeStyle.HomePlate, Adjust1 },
-            { eShapeStyle.Chevron, Adjust1 },
-            { eShapeStyle.RightArrowCallout, Adjust4 },
-            { eShapeStyle.DownArrowCallout, Adjust4 },
-            { eShapeStyle.LeftArrowCallout, Adjust4 },
-            { eShapeStyle.UpArrowCallout, Adjust4 },
-            { eShapeStyle.LeftRightArrowCallout, Adjust4 },
-            { eShapeStyle.QuadArrowCallout, Adjust4 },
-            { eShapeStyle.CircularArrow, Adjust5 },
-            { eShapeStyle.MathPlus, Adjust1 },
-            { eShapeStyle.MathMinus, Adjust1 },
-            { eShapeStyle.MathMultiply, Adjust1 },
-            { eShapeStyle.MathDivide, Adjust3 },
-            { eShapeStyle.MathEqual, Adjust2 },
-            { eShapeStyle.MathNotEqual, Adjust3 },
-            { eShapeStyle.Star4, Adjust1 },
-            { eShapeStyle.Star5, AdjustHfVf },
-            { eShapeStyle.Star6, AdjustHf },
-            { eShapeStyle.Star7, AdjustHfVf },
-            { eShapeStyle.Star8, Adjust1 },
-            { eShapeStyle.Star10, AdjustHf },
-            { eShapeStyle.Star12, Adjust1 },
-            { eShapeStyle.Star16, Adjust1 },
-            { eShapeStyle.Star24, Adjust1 },
-            { eShapeStyle.Star32, Adjust1 },
-            { eShapeStyle.Ribbon2, Adjust2 },
-            { eShapeStyle.Ribbon, Adjust2 },
-            { eShapeStyle.EllipseRibbon2, Adjust3 },
-            { eShapeStyle.EllipseRibbon, Adjust3 },
-            { eShapeStyle.VerticalScroll, Adjust1 },
-            { eShapeStyle.HorizontalScroll, Adjust1 },
-            { eShapeStyle.Wave, Adjust2 },
-            { eShapeStyle.DoubleWave, Adjust2 },
-            { eShapeStyle.WedgeRectCallout, Adjust2 },
-            { eShapeStyle.WedgeRoundRectCallout, Adjust3 },
-            { eShapeStyle.WedgeEllipseCallout, Adjust2 },
-            { eShapeStyle.CloudCallout, Adjust2 },
-            { eShapeStyle.BorderCallout1, Adjust4 },
-            { eShapeStyle.BorderCallout2, Adjust6 },
-            { eShapeStyle.BorderCallout3, Adjust8 },
-            { eShapeStyle.AccentCallout1, Adjust4 },
-            { eShapeStyle.AccentCallout2, Adjust6 },
-            { eShapeStyle.AccentCallout3, Adjust8 },
-            { eShapeStyle.Callout1, Adjust4 },
-            { eShapeStyle.Callout2, Adjust6 },
-            { eShapeStyle.Callout3, Adjust8 },
-            { eShapeStyle.AccentBorderCallout1, Adjust4 },
-            { eShapeStyle.AccentBorderCallout2, Adjust6 },
-            { eShapeStyle.AccentBorderCallout3, Adjust8 },
-            { eShapeStyle.BentConnector3, Adjust1 },
-            { eShapeStyle.CurvedConnector3, Adjust1 },
-        };
-
-        private static Dictionary<string, string> Adjust1 = new Dictionary<String, string>() { { "adj", "val " } };
-        private static Dictionary<string, string> Adjust2 = new Dictionary<String, string>() { { "adj1", "val " }, {"adj2", "val " } };
-        private static Dictionary<string, string> Adjust3 = new Dictionary<String, string>() { { "adj1", "val " }, { "adj2", "val " } , { "adj3", "val " } };
-        private static Dictionary<string, string> Adjust4 = new Dictionary<String, string>() { { "adj1", "val " }, { "adj2", "val " }, { "adj3", "val " }, { "adj4", "val " } };
-        private static Dictionary<string, string> Adjust5 = new Dictionary<String, string>() { { "adj1", "val " }, { "adj2", "val " }, { "adj3", "val " }, { "adj4", "val " }, { "adj5", "val " } };
-        private static Dictionary<string, string> Adjust6 = new Dictionary<String, string>() { { "adj1", "val " }, { "adj2", "val " }, { "adj3", "val " }, { "adj4", "val " }, { "adj5", "val " }, { "adj6", "val " } };
-        private static Dictionary<string, string> Adjust8 = new Dictionary<String, string>() { { "adj1", "val " }, { "adj2", "val " }, { "adj3", "val " }, { "adj4", "val " }, { "adj5", "val " }, { "adj6", "val " }, { "adj7", "val " }, { "adj8", "val " } };
-        private static Dictionary<string, string> AdjustVf = new Dictionary<string, string>() { { "adj", "val " }, { "vf", "val " } };
-        private static Dictionary<string, string> AdjustHf = new Dictionary<string, string>() { { "adj", "val " }, { "hf", "val " } };
-        private static Dictionary<string, string> AdjustHfVf = new Dictionary<string, string>() { { "adj", "val " }, { "hf", "val " }, { "vf", "val " } };
-
-        /* Set default values for each shape
-         * when calling adjust shape we create a new dictionary and pull a copy of the one we want and populate with default values
-         * change value we want to change
-         * dict can't be added to or elements can't be removed once inited
-         * ¨get list of keys in dict to change
-         * several methods for edit that accept name and value, dictionary, params
-         * 
-         */
-
-        //rename dictionary this should get layout from static dicts.
-        private Dictionary <string, string> fmla = new Dictionary<string, string>();
-
-        //returns a list of available shape adjustments keys
-        public string[] GetShapeGuideAdjustments()
-        {
-            
+            if(AdjustmentPoints == null || AdjustmentPoints.Count == 0)
+            {
+                return new List<string>();
+            }
+            return AdjustmentPoints.Keys.ToList();
         }
 
-        //THis is THE main method, need new name? 
-        public void EditShapeGuide(string name, int value)
+        /// <summary>
+        /// Adjust the named point with value.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <exception cref="Exception"></exception>
+        public void AdjustShapeGuides(string name, int value)
         {
-            if (fmla.ContainsKey(name)) throw new Exception("Name already exsists in Preset Geometry Nodes List");
-            fmla[name] = value.ToString();
+            if (AdjustmentPoints == null || AdjustmentPoints.Count == 0)
+            {
+                AdjustmentPoints = ShapeGuidesFactory.GetAdjustmentPoints(Style);
+                if(AdjustmentPoints == null)
+                {
+                    throw new Exception("Shape does not contain any adjustment points");
+                }
+            }
+            AdjustmentPoints[name].Value = value;
             //create xml node
             var gd = TopNode.SelectSingleNode(_presetGeometryPath + "/a:gd[@name =\"{name}\"]", NameSpaceManager);
-            gd.Attributes["fmla"].Value = value.ToString();
+            if (gd == null)
+            {
+                gd = TopNode.OwnerDocument.CreateElement("gd", NameSpaceManager.LookupNamespace("a"));
+                ((XmlElement)gd).SetAttribute("name", name);
+                ((XmlElement)gd).SetAttribute("fmla", AdjustmentPoints[name].fmlaValue);
+                var parent = TopNode.SelectSingleNode(_presetGeometryPath, NameSpaceManager);
+                parent.AppendChild(gd);
+            }
+            else
+            {
+                gd.Attributes["fmla"].Value = AdjustmentPoints[name].fmlaValue;
+            }
         }
 
-        //change to remove all 
-        public void RemoveShapeGuideAdjustments()
+        /// <summary>
+        /// Remove all the shapes adjustments.
+        /// </summary>
+        public void RemoveShapeGuides()
         {
-            fmla.Remove(name);
-            var gd = TopNode.SelectSingleNode(_presetGeometryPath + "a:gd[@name =\"{name}\"]", NameSpaceManager);
-            var parent = gd.ParentNode;
-            parent.RemoveChild(gd);
+            foreach (var point in AdjustmentPoints)
+            {
+                var gd = TopNode.SelectSingleNode(_presetGeometryPath + "a:gd[@name =\"{point.Key}\"]", NameSpaceManager);
+                var parent = gd.ParentNode;
+                parent.RemoveChild(gd);
+            }
+            AdjustmentPoints.Clear();
         }
-
 
         internal override void CellAnchorChanged()
         {

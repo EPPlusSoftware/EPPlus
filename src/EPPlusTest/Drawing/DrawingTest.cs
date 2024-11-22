@@ -1186,8 +1186,13 @@ namespace EPPlusTest
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
-            var shape = ws.Drawings.AddShape("Rounded Rekt", eShapeStyle.RoundRect);
-            shape.AddShapeGuide("adj", 49999); //User may not chose the name...
+            var roundrekt = ws.Drawings.AddShape("Rounded Rekt", eShapeStyle.RoundRect);
+            roundrekt.AdjustShapeGuides("adj", 0);
+            roundrekt.SetPosition(1, 0, 1, 0);
+            var roundrekt1 = ws.Drawings.AddShape("Rounded Rekt1", eShapeStyle.RoundRect);
+            roundrekt1.AdjustShapeGuides("adj", 50000);
+            roundrekt1.SetPosition(1, 0, 5, 0);
+            var myadjust = roundrekt.GetShapeGuidesNames();
 
             p.SaveAs(@"C:\epplustest\testoutput\ShapeGuideTest.xlsx");
         }
