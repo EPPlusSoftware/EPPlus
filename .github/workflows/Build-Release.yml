@@ -1,0 +1,75 @@
+# This workflow will build, test, sign and pack the release branches for EPPlus.
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Build Release Branches
+
+on:
+  push:
+    branches: [ "release/**" ]
+  pull_request:
+    branches: [ "release/**" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+    - name: Restore dependencies
+      run: dotnet restore ./src/EPPlus.sln
+    - name: Build
+      run: dotnet build ./src/EPPlus.sln --no-restore --configuration Release
+    - name: Test
+      run: dotnet test ./src/EPPlus.sln --no-build --verbosity normal --configuration Release
+    - name: Install AzureSignTool
+      run: dotnet tool install --global AzureSignTool --version 6.0.0 
+    - name: Install NuGetKeyVaultSignTool
+      run: dotnet tool install --global NuGetKeyVaultSignTool
+
+    - name: Add .NET tools to PATH
+      run: echo "${{ runner.tool_cache }}/.dotnet/tools" >> $env:GITHUB_PATH
+    - name: Authenticate to Azure
+      uses: Azure/login@v2
+      with:
+        creds: '{"clientId":"${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }}","clientSecret":"${{ secrets.EPPLUS_CODE_SIGNING_SECRET }}","subscriptionId":"${{ secrets.EPPLUS_CODE_SIGNING_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }}"}'
+    - name: Sign EPPlus.dll with AzureSignTool
+      run: |
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\net8.0\EPPlus.dll" 
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\net7.0\EPPlus.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\net6.0\EPPlus.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\netstandard2.1\EPPlus.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\netstandard2.0\EPPlus.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\net462\EPPlus.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus\bin\Release\net35\EPPlus.dll"
+    - name: Sign EPPlus.Interface.dll with AzureSignTool
+      run: |
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\net8.0\EPPlus.Interfaces.dll" 
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\net7.0\EPPlus.Interfaces.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\net6.0\EPPlus.Interfaces.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\netstandard2.1\EPPlus.Interfaces.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\netstandard2.0\EPPlus.Interfaces.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\net462\EPPlus.Interfaces.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.Interfaces\bin\Release\net35\EPPlus.Interfaces.dll"
+    - name: Sign EPPlus.System.Drawing.dll with AzureSignTool
+      run: |
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\net8.0\EPPlus.System.Drawing.dll" 
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\net7.0\EPPlus.System.Drawing.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\net6.0\EPPlus.System.Drawing.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\netstandard2.1\EPPlus.System.Drawing.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\netstandard2.0\EPPlus.System.Drawing.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\net462\EPPlus.System.Drawing.dll"
+        azuresigntool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 ".\src\EPPlus.System.Drawing\bin\Release\net35\EPPlus.System.Drawing.dll"
+    - name: Pack NuGet package
+      run: dotnet pack ./src/EPPlus.sln --configuration Release --output ./output
+    - name: Sign NuGet package
+      run: |
+        NuGetKeyVaultSignTool.exe sign -kvu ${{ secrets.EPPLUS_CODE_SIGNING_KEY_VAULT_URL}} -kvc ${{ secrets.EPPLUS_CODE_SIGNING_CERTIFICATE_NAME }} -kvi ${{ secrets.EPPLUS_CODE_SIGNING_APPLICATION_ID }} -kvs ${{ secrets.EPPLUS_CODE_SIGNING_SECRET }} -kvt ${{ secrets.EPPLUS_CODE_SIGNING_TENENT_ID }} -tr http://timestamp.globalsign.com/tsa/advanced -fd sha256 -td sha256 -own EPPlusSoftware ".\output\*.nupkg"
+    - name: Upload NuGet package as artifact
+      uses: actions/upload-artifact@v4
+      with:
+          name: signed-nuget-package
+          path: ./output/*.nupkg

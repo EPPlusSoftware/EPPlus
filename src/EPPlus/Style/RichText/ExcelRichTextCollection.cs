@@ -290,7 +290,7 @@ namespace OfficeOpenXml.Style
             StringBuilder sb = new StringBuilder();
             foreach (var item in _list)
             {
-                item.WriteRichTextAttributes(sb);
+                    item.WriteRichTextAttributes(sb);
             }
             return sb.ToString();
         }

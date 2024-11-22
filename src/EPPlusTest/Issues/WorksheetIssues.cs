@@ -489,5 +489,25 @@ namespace EPPlusTest.Issues
 
             }
         }
+        [TestMethod]
+        public void I1628()
+        {
+            using (var p = OpenPackage("i1628.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "A\r\n\tB";
+                SaveAndCleanup(p);
+
+            }
+        }
+        [TestMethod]
+        public void I1691()
+        {
+            using (var p = OpenTemplatePackage("i1691.xlsx"))
+            {
+				var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

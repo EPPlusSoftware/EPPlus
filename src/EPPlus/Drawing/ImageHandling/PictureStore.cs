@@ -20,6 +20,7 @@ using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.Packaging;
 using System.Linq;
+using System.Runtime.CompilerServices;
 namespace OfficeOpenXml.Drawing
 {
     internal class ImageInfo
@@ -33,7 +34,7 @@ namespace OfficeOpenXml.Drawing
     internal class PictureStore : IDisposable
     {
         ExcelPackage _pck;
-        internal static int _id = 1;
+        internal int _id = 1;
         internal Dictionary<string, ImageInfo> _images;
         public PictureStore(ExcelPackage pck)
         {
@@ -388,6 +389,7 @@ namespace OfficeOpenXml.Drawing
         internal static string SavePicture(byte[] image, IPictureContainer container, ePictureType type)
         {
             var store = container.RelationDocument.Package.PictureStore;
+
             var ii = store.AddImage(image, container.UriPic, type);
 
             container.ImageHash = ii.Hash;
@@ -395,6 +397,8 @@ namespace OfficeOpenXml.Drawing
             if (hashes.ContainsKey(ii.Hash))
             {
                 var relID = hashes[ii.Hash].RelId;
+                hashes[ii.Hash].RefCount++;
+
                 container.RelPic = container.RelationDocument.RelatedPart.GetRelationship(relID);
                 container.UriPic = UriHelper.ResolvePartUri(container.RelPic.SourceUri, container.RelPic.TargetUri);
                 return relID;

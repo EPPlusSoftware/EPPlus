@@ -151,5 +151,19 @@ namespace OfficeOpenXml.Export.ToDataTable
         {
             return _mappingIndexes.ContainsKey(index);
         }
+
+        internal bool SetNewName(string existingName, string newName)
+        {
+            for(var i = 0; i < Count; i++)
+            {
+                var mapping = this[i];
+                if(mapping.DataColumnName == existingName)
+                {
+                    mapping.DataColumnName = newName;
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

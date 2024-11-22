@@ -212,6 +212,48 @@ namespace EPPlusTest
                 SwitchBackToCurrentCulture();
             }
         }
+        [TestMethod]
+        public void s763_1()
+        {
+            using (ExcelPackage p = OpenPackage("s763.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var decimalList = new List<decimal>();
+                decimalList = Enumerable.Range(1, 10).Select(i => (decimal)new Random().NextDouble() * 100000).ToList();
+                var ws = wb.Worksheets.Add("NumberFormat");
+                var row = 1;
+                foreach (var n in decimalList)
+                {
+                    ws.Cells[row++, 1].Value = n;
+                }
+                ws.Column(1).Style.Numberformat.Format = "#,#0.00";
+
+                Assert.AreEqual(1, ws.GetStyleInner(1, 1));
+                Assert.AreEqual(1, ws.GetStyleInner(10, 1));
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s763_2()
+        {
+            using (ExcelPackage p = OpenPackage("s763_2.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var decimalList = new List<decimal>();
+                decimalList = Enumerable.Range(1, 10).Select(i => (decimal)new Random().NextDouble() * 100000).ToList();
+                var ws = wb.Worksheets.Add("NumberFormat");
+                var col = 1;
+                foreach (var n in decimalList)
+                {
+                    ws.Cells[1, col++].Value = n;
+                }
+                ws.Row(1).Style.Numberformat.Format = "#,#0.00";
+
+                Assert.AreEqual(1, ws.GetStyleInner(1, 1));
+                Assert.AreEqual(1, ws.GetStyleInner(1, 10));
+                SaveAndCleanup(p);
+            }
+        }
         public string TextHandler(NumberFormatToTextArgs options)
         {
             switch(options.NumberFormat.NumFmtId)

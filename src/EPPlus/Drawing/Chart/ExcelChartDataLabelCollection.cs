@@ -13,6 +13,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Chart
@@ -24,7 +25,9 @@ namespace OfficeOpenXml.Drawing.Chart
     {
         ExcelChart _chart;
         private readonly List<ExcelChartDataLabelItem> _list;
-        internal ExcelChartDataLabelCollection(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder) : base(ns, topNode)
+        ExcelChartDataLabelStandard parentDatalabel;
+
+        internal ExcelChartDataLabelCollection(ExcelChart chart, XmlNamespaceManager ns, XmlNode topNode, string[] schemaNodeOrder, ExcelChartDataLabelStandard parent) : base(ns, topNode)
         {
             SchemaNodeOrder = schemaNodeOrder;
             _list = new List<ExcelChartDataLabelItem>();
@@ -32,6 +35,8 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 _list.Add(new ExcelChartDataLabelItem(chart, ns, dataLabelNode, "", schemaNodeOrder));
             }
+
+            parentDatalabel = parent;
             _chart = chart;
         }
         /// <summary>
@@ -60,6 +65,14 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             XmlElement element = CreateElement(idx);
             var dl = new ExcelChartDataLabelItem(_chart, NameSpaceManager, element, "dLbl", SchemaNodeOrder) { Index=idx };
+
+            //initialize item with parent values
+            dl.ShowSeriesName = parentDatalabel.ShowSeriesName;
+            dl.ShowCategory = parentDatalabel.ShowCategory;
+            dl.ShowLegendKey = parentDatalabel.ShowLegendKey;
+            dl.ShowLeaderLines = true;
+            dl.ShowValue = true;
+            dl.Position = eLabelPosition.Center;
 
             if (idx < _list.Count)
             {

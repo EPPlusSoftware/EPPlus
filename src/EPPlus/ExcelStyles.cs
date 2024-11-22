@@ -692,7 +692,6 @@ namespace OfficeOpenXml
             while (cse2.Next())
             {
                 var s = cse2.Value._styleId;
-                if (s == 0) continue;
                 if (styleCashe.ContainsKey(s))
                 {
                     ws.SetStyleInner(cse2.Row, cse2.Column, styleCashe[s]);
@@ -710,7 +709,6 @@ namespace OfficeOpenXml
             cse2 = new CellStoreEnumerator<ExcelValue>(ws._values, 0, 1, 0, address._toCol);
             while (cse2.Next())
             {
-                if (cse2.Value._styleId == 0) continue;
                 for (int r = address._fromRow; r <= address._toRow; r++)
                 {
                     if (!ws.ExistsStyleInner(r, cse2.Column))
@@ -820,8 +818,7 @@ namespace OfficeOpenXml
             while (cse.Next())
             {
                 if (cse.Column >= address.Start.Column &&
-                    cse.Column <= address.End.Column &&
-                    cse.Value._styleId != 0)
+                    cse.Column <= address.End.Column)
                 {
                     if (styleCashe.ContainsKey(cse.Value._styleId))
                     {
@@ -843,7 +840,6 @@ namespace OfficeOpenXml
                 cse = new CellStoreEnumerator<ExcelValue>(ws._values, 1, 0, address._toRow, 0);
                 while (cse.Next())
                 {
-                    if (cse.Value._styleId == 0) continue;
                     for (int c = address._fromCol; c <= address._toCol; c++)
                     {
                         if (!ws.ExistsStyleInner(cse.Row, c))

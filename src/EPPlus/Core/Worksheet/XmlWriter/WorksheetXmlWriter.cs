@@ -389,7 +389,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 if (cse.Column > 0)
                 {
                     var val = cse.Value;
-                    int styleID = cellXfs[val._styleId == 0 ? GetStyleIdDefaultWithMemo(cse.Row, cse.Column) : val._styleId].newID;
+                    int styleID = cellXfs[val._styleId].newID;
                     styleID = styleID < 0 ? 0 : styleID;
                     //Add the row element if it's a new row
                     if (cse.Row != row)
@@ -513,11 +513,18 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     }
                     else
                     {
-                        if (v == null && styleID > 0)
+                        if(v == null)
                         {
-                            cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{mdAttr}/>");
+                            if (styleID > 0)
+                            {
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{mdAttr}/>");
+                            }
+                            else
+                            {
+                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" />");
+                            }
                         }
-                        else if (v != null)
+                        else
                         {
                             if (v is ExcelRichTextCollection rt)
                             {
