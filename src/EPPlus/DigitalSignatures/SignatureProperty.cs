@@ -45,10 +45,11 @@ namespace OfficeOpenXml.DigitalSignatures
             doc.AppendChild(root);
         }
 
-        internal void CreateSignatureInfo(AdditionalSignatureInfo signatureInfo)
+        internal void CreateSignatureInfo(AdditionalSignatureInfo signatureInfo, string purpose)
         {
             sigInfo1 = new SignatureInfoV1();
-            if(signatureInfo.Address1 != null || signatureInfo.Address2 != null) 
+            sigInfo1.SignatureComments = purpose;
+            if (signatureInfo.Address1 != null || signatureInfo.Address2 != null) 
             {
                 sigInfo2 = new SignatureInfoV2(signatureInfo);
             }

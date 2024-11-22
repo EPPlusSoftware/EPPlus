@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Drawing
             {
                 return _signatureText;
             }
-            private set
+            internal set
             {
                 if (string.IsNullOrEmpty(value))
                 {

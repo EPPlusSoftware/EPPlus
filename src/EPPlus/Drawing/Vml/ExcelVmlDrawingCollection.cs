@@ -93,8 +93,7 @@ namespace OfficeOpenXml.Drawing.Vml
                             //TODO: Possibly change so vmldrawings only holds/lookups ids to the wb?
                             //So that the objects themselves are ensured to only be in one place.
                             SignatureLines.Add(sigLine);
-
-                            ws.Workbook.DigitialSignatures.AddExcelSignatureLine(sigLine);
+                            ws.Workbook._signatureLinesWorkbook.Add(sigLine.SetupID, sigLine);
 
                             vmlDrawing = sigLine;
                             _drawings.Add(vmlDrawing);

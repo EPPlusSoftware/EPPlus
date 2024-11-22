@@ -41,7 +41,7 @@ namespace OfficeOpenXml.Drawing
             {
                 return _signatureImage;
             }
-            private set
+            internal set
             {
                 if (value.Type != ePictureType.Bmp)
                 {
@@ -59,7 +59,8 @@ namespace OfficeOpenXml.Drawing
         }
 
         /// <summary>
-        /// The digital signature this signatureline is linked to if any.
+        /// The digital signature this signatureline is linked to one.
+        /// Must be set via Sign methods.
         /// </summary>
         public ExcelDigitalSignature DigitalSignature
         {

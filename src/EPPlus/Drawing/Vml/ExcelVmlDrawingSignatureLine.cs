@@ -119,7 +119,7 @@ namespace OfficeOpenXml.Drawing.Vml
         }
 
         /// <summary>
-        /// Determines if a valid signature shows the sign date
+        /// Determines if signature allows comments such as commitment type and purpose
         /// </summary>
         public bool AllowComments
         {

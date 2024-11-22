@@ -7,6 +7,7 @@ using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Drawing;
 using System.IO;
 using System.Security.Cryptography;
+using OfficeOpenXml.DigitalSignatures;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
@@ -247,7 +248,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         }
 
         [TestMethod]
-        public void ReadAndResaveGeneratedSignature()
+        public void CreateSignAndResaveSigLine()
         {
             var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
 
@@ -255,14 +256,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = package.Workbook;
                 var sSline = package.Workbook.Worksheets.Add("SignedSignatureLine");
-                var manysSlines = package.Workbook.Worksheets.Add("ManySignedSignatureLine");
-                var sSlineStamp = package.Workbook.Worksheets.Add("SignedSignatureLineStamp");
-                var manySlineStamps = package.Workbook.Worksheets.Add("ManySignedSignatureLineStamp");
 
                 var sLine = sSline.AddSignatureLine();
 
                 var cert = GetSelfCert();
-
                 sLine.Sign(cert, signatureImage);
 
                 SaveAndCleanup(package);
@@ -271,9 +268,85 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             using (ExcelPackage package = OpenPackage($"{SubFolder}SignedSignatureLinesResaved.xlsx"))
             {
                 var wb = package.Workbook;
-                var ws = wb.Worksheets[0];
 
                 var sig = wb.DigitialSignatures[0];
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void CreateSignAndResaveSigLineFullInfo()
+        {
+            var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
+            var fileName = $"{SubFolder}SignedSignatureLinesResavedFullInfo.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var sSline = package.Workbook.Worksheets.Add("SignedSignatureLine");
+
+                var cert = GetSelfCert();
+
+                var sLine = sSline.AddSignatureLine();
+                sLine.SigningInstructions = "These are Instructions";
+                sLine.Signer = "ASigner";
+                sLine.Title = "SomeDeveloper";
+                sLine.Email = "Some@developer.se";
+                sLine.AllowComments = true;
+                sLine.ShowSignDate = true;
+
+                sLine.Sign(cert, signatureImage);
+
+                var digSig = sLine.DigitalSignature;
+
+                var info = digSig.SigningInformation;
+
+                info.SignerRoleTitle = "A Title";
+                info.Address1 = "Some";
+                info.Address2 = "Where";
+                info.ZIPorPostalCode = "Over";
+                info.City = "The";
+                info.CountryOrRegion = "Rainbow";
+                info.StateOrProvince = "WayUpHigh";
+
+                digSig.PurposeForSigning = "My Purpose is My Own";
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage(fileName))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets[0];
+
+                var sigLine = ws.SignatureLines[0];
+
+                //Getting signature from signatureline
+                var sig = sigLine.DigitalSignature;
+                var info = sig.SigningInformation;
+
+                //Check signatureline is equal
+                Assert.AreEqual("A Title", info.SignerRoleTitle);
+                Assert.AreEqual("Some", info.Address1);
+                Assert.AreEqual("Where", info.Address2);
+                Assert.AreEqual("Over", info.ZIPorPostalCode);
+                Assert.AreEqual("The", info.City);
+                Assert.AreEqual("Rainbow", info.CountryOrRegion);
+                Assert.AreEqual("WayUpHigh", info.StateOrProvince);
+
+                Assert.AreEqual("My Purpose is My Own", sig.PurposeForSigning);
+                Assert.AreEqual(CommitmentType.CreatedAndApproved, sig.CommitmentTyping);
+
+                //Check data on the signatureline itself.
+                Assert.AreEqual("These are Instructions", sigLine.SigningInstructions);
+                Assert.AreEqual("SomeDeveloper", sigLine.Title);
+                Assert.AreEqual("Some@developer.se", sigLine.Email);
+                Assert.IsTrue(sigLine.AllowComments);
+                Assert.IsTrue(sigLine.ShowSignDate);
+                Assert.AreEqual(sigLine.SignatureImage.Type, signatureImage.Type);
+                Assert.IsTrue(Enumerable.SequenceEqual(sigLine.SignatureImage.ImageBytes, signatureImage.ImageBytes));
 
                 SaveAndCleanup(package);
             }

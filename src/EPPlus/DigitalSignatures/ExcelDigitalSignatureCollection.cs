@@ -106,6 +106,18 @@ namespace OfficeOpenXml.DigitalSignatures
             throw new AccessViolationException($"DigitalSignature {digitalSignature} is not connected to any signature lines.");
         }
 
+        internal ExcelDigitalSignature GetSignatureBySignatureLineGuid(Guid id)
+        {
+            foreach (var sig in _signatures)
+            {
+                if (sig.SignatureLine != null && sig.SignatureLine.SetupID.Equals(id))
+                {
+                    return sig;
+                }
+            }
+            return null;
+        }
+
         //public ExcelSignatureLine AddSignatureLine(X509Certificate2 certificate, ExcelWorksheet ws, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
         //{
         //    _signatureLines.Add(new ExcelSignatureLine(ws));
@@ -117,17 +129,6 @@ namespace OfficeOpenXml.DigitalSignatures
             foreach (var sig in _signatures)
             {
                 if(sig.PartUri == fileName)
-                {
-                    return sig;
-                }
-            }
-            return null;
-        }
-        internal ExcelDigitalSignature GetSignatureBySignatureLineGuid(Guid id)
-        {
-            foreach (var sig in _signatures)
-            {
-                if (sig.SignatureLine != null && sig.SignatureLine.SetupID.Equals(id))
                 {
                     return sig;
                 }

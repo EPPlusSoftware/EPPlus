@@ -39,6 +39,7 @@ using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.DigitalSignatures;
+using System.Security.Cryptography.Xml;
 
 namespace OfficeOpenXml
 {
@@ -227,12 +228,12 @@ namespace OfficeOpenXml
             _package = package;
             SetUris();
 
-            //if (SignatureOriginUri != null)
-            //{
-            //    _digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
-            //}
+			//if (SignatureOriginUri != null)
+			//{
+			//	_digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
+			//}
 
-            _names = new ExcelNamedRangeCollection(this);
+			_names = new ExcelNamedRangeCollection(this);
             _namespaceManager = namespaceManager;
             TopNode = WorkbookXml.DocumentElement;
             SchemaNodeOrder = new string[] { "fileVersion", "fileSharing", "workbookPr", "workbookProtection", "bookViews", "sheets", "functionGroups", "functionPrototypes", "externalReferences", "definedNames", "calcPr", "oleSize", "customWorkbookViews", "pivotCaches", "smartTagPr", "smartTagTypes", "webPublishing", "fileRecoveryPr", "webPublishObjects", "extLst" };
@@ -880,6 +881,18 @@ namespace OfficeOpenXml
 		}
 
         internal Dictionary<Guid, ExcelSignatureLineStamp> _signatureLinesWorkbook = new Dictionary<Guid, ExcelSignatureLineStamp>();
+        internal ExcelSignatureLineStamp GetSignatureLineStamp(Guid id)
+        {
+			return _signatureLinesWorkbook[id];
+            //foreach (var sig in _signatures)
+            //{
+            //    if (sig.SignatureLine != null && sig.SignatureLine.SetupID.Equals(id))
+            //    {
+            //        return sig;
+            //    }
+            //}
+            //return null;
+        }
 
         internal ExcelDigitalSignatureCollection _digSig = null;
 
