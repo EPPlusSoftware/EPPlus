@@ -481,7 +481,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="name"></param>
         /// <param name="value"></param>
         /// <exception cref="Exception"></exception>
-        public void AdjustShapeGuides(string name, int value)
+        public void SetShapeGuide(string name, int value)
         {
             if (AdjustmentPoints == null || AdjustmentPoints.Count == 0)
             {
@@ -492,19 +492,22 @@ namespace OfficeOpenXml.Drawing
                 }
             }
             AdjustmentPoints[name].Value = value;
-            //create xml node
-            var gd = TopNode.SelectSingleNode(_presetGeometryPath + "/a:gd[@name =\"{name}\"]", NameSpaceManager);
-            if (gd == null)
+            foreach (KeyValuePair<string, ShapeGuidePoint> guide in AdjustmentPoints)
             {
-                gd = TopNode.OwnerDocument.CreateElement("gd", NameSpaceManager.LookupNamespace("a"));
-                ((XmlElement)gd).SetAttribute("name", name);
-                ((XmlElement)gd).SetAttribute("fmla", AdjustmentPoints[name].fmlaValue);
-                var parent = TopNode.SelectSingleNode(_presetGeometryPath, NameSpaceManager);
-                parent.AppendChild(gd);
-            }
-            else
-            {
-                gd.Attributes["fmla"].Value = AdjustmentPoints[name].fmlaValue;
+                //create xml node
+                var gd = TopNode.SelectSingleNode(_presetGeometryPath + "/a:gd[@name =\"{guide.Key}\"]", NameSpaceManager);
+                if (gd == null)
+                {
+                    gd = TopNode.OwnerDocument.CreateElement("gd", NameSpaceManager.LookupNamespace("a"));
+                    ((XmlElement)gd).SetAttribute("name", guide.Key);
+                    ((XmlElement)gd).SetAttribute("fmla", guide.Value.fmlaValue);
+                    var parent = TopNode.SelectSingleNode(_presetGeometryPath, NameSpaceManager);
+                    parent.AppendChild(gd);
+                }
+                else
+                {
+                    gd.Attributes["fmla"].Value = AdjustmentPoints[name].fmlaValue;
+                }
             }
         }
 
