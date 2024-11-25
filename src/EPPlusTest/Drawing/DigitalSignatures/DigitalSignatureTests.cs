@@ -8,15 +8,14 @@ using OfficeOpenXml;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.DigitalSignatures;
 using System.Collections.Generic;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Drawing.EMF;
 using System.Linq;
-using System.Net;
-
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Chart.Style;
 //REMEMBER:
 //1. Cannonize
 //2. Transform
@@ -30,6 +29,16 @@ namespace EPPlusTest.Drawing.DigitalSignatures
     [TestClass]
     public class DigitalSignatureTests : TestBase
     {
+        X509Certificate2 GetSelfCert()
+        {
+            var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+            var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
+
+            var certPrivate = finalCert.Export(X509ContentType.Pfx);
+            var certPublic = finalCert.Export(X509ContentType.Cert);
+            return new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
+        }
+
         [TestMethod]
         public void CreateDigitalSignatureAndReadIt()
         {
@@ -109,8 +118,111 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void EnsureSignatureReferencesAreEncodedCorrectly()
+        {
+            using (ExcelPackage package = OpenPackage("NewOfficeReference.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("ANewWorksheet");
+
+                //Add data, pivot table and chart so that Package Reference in digital signature can have more files to hash.
+                //--------------------------------------------------BEGIN--------------------------------------------------------
+                ws.Cells["A1"].Value = "PointsA";
+                ws.Cells["B1"].Value = "PointsB";
+                ws.Cells["C1"].Value = "PointsC";
+
+                for (int i= 2; i <= 100; i++)
+                {
+                    for(int j = 1; j <= 100; j++)
+                    {
+                        ws.Cells[i, j].Value = i+j;
+                    }
+                }
+
+                var pvWs = wb.Worksheets.Add("PivotTableWorksheet");
+                
+                var pt = pvWs.PivotTables.Add(pvWs.Cells["A1"], ws.Cells["A1:C10"], "APivotTable");
+
+                pt.RowFields.Add(pt.Fields["PointsA"]);
+                pt.DataFields.Add(pt.Fields["PointsB"]);
+                pt.DataOnRows = true;
+
+                var chart = pvWs.Drawings.AddPieChart("PivotChart", ePieChartType.PieExploded3D, pt);
+                chart.SetPosition(1, 0, 4, 0);
+                chart.SetSize(800, 600);
+                chart.Legend.Remove();
+                chart.Series[0].DataLabel.ShowCategory = true;
+                chart.Series[0].DataLabel.Position = eLabelPosition.OutEnd;
+                chart.StyleManager.SetChartStyle(ePresetChartStyle.Pie3dChartStyle6);
+                //--------------------------------------------------End--------------------------------------------------------
+
+                X509Store store = new X509Store(StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadOnly);
+                wb.DigitialSignatures.AddSignature(store.Certificates[0], CommitmentType.CreatedAndApproved, "ToCompareDigitalSignatures");
+
+                SaveAndCleanup(package);
+            }
+        }
 
         [TestMethod]
+        public void EnsureEpplusHashesRelsTransformsCorrectly()
+        {
+            //.rels file
+            string DotRels = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"rId3\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties\" Target=\"docProps/app.xml\"/><Relationship Id=\"rId2\" Type=\"http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties\" Target=\"docProps/core.xml\"/><Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"xl/workbook.xml\"/><Relationship Id=\"rId4\" Type=\"http://schemas.openxmlformats.org/package/2006/relationships/digital-signature/origin\" Target=\"_xmlsignatures/origin.sigs\"/></Relationships>";
+
+            var manifest = new DigSigManifest();
+            manifest.AddRelsPartToManifest("/_rels/.rels?ContentType=application/vnd.openxmlformats-package.relationships+xml", DotRels);
+            manifest.SortReferencesAndAddToDoc();
+
+            var EpplusRelReference = manifest.GetDoc();
+
+            string ExcelRelReference = "<Reference URI=\"/_rels/.rels?ContentType=application/vnd.openxmlformats-package.relationships+xml\"><Transforms><Transform  Algorithm=\"http://schemas.openxmlformats.org/package/2006/RelationshipTransform\"><mdssi:RelationshipReference xmlns:mdssi=\"http://schemas.openxmlformats.org/package/2006/digital-signature\" SourceId=\"rId1\" /></Transform><Transform Algorithm=\"http://www.w3.org/TR/2001/REC-xml-c14n-20010315\" /></Transforms><DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\" /><DigestValue>+nAd0bim5u961Z6hkrztwiSj8HA=</DigestValue></Reference>";
+            var excelDoc = new XmlDocument();
+            excelDoc.LoadXml(ExcelRelReference);
+
+           Assert.AreEqual(excelDoc.InnerText, EpplusRelReference.InnerText);
+        }
+
+        [TestMethod]
+        public void EnsureEpplusHashesDrawingsCorrectly()
+        {
+            //Drawing1 file
+            string DrawingXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n<xdr:wsDr xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"><xdr:twoCellAnchor><xdr:from><xdr:col>4</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>1</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:from><xdr:to><xdr:col>16</xdr:col><xdr:colOff>304800</xdr:colOff><xdr:row>31</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:to><xdr:graphicFrame macro=\"\"><xdr:nvGraphicFramePr><xdr:cNvPr id=\"2\" name=\"PivotChart\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\" id=\"{00000000-0008-0000-0100-000002000000}\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/></xdr:xfrm><a:graphic><a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/chart\"><c:chart xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"rId1\"/></a:graphicData></a:graphic></xdr:graphicFrame><xdr:clientData/></xdr:twoCellAnchor></xdr:wsDr>";
+            var uriQuery = "/xl/drawings/_rels/drawing1.xml.rels?ContentType=application/vnd.openxmlformats-package.relationships+xml";
+            var manifestReference = new ManifestReference(uriQuery, DrawingXml);
+
+            var EpplusRelReference = manifestReference.xmlDigSig;
+
+            string ExcelRelReference = "<Reference URI=\"/xl/drawings/drawing1.xml?ContentType=application/vnd.openxmlformats-officedocument.drawing+xml\"> <DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\" /><DigestValue>9PPC/LpKQHYwAJRKNyzzxQfRZ3I=</DigestValue></Reference>";
+            var excelDoc = new XmlDocument();
+            excelDoc.LoadXml(ExcelRelReference);
+
+            Assert.AreEqual(excelDoc.InnerText, EpplusRelReference.InnerText);
+        }
+
+        [TestMethod]
+        public void EnsureSignatureReferencesAreEncodedCorrectly2()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("ExcelFileToSign.xlsx"))
+            {
+                var wb = package.Workbook;
+
+                X509Store store = new X509Store(StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadOnly);
+                wb.DigitialSignatures.AddSignature(store.Certificates[0], CommitmentType.CreatedAndApproved, "Compare");
+
+                SaveAndCleanup(package);
+            }
+
+            //Open signed package
+            using (ExcelPackage package = OpenPackage("ExcelFileToSign.xlsx"))
+            {
+
+            }
+        }
+
+            [TestMethod]
         public void CreateFunctionalStampTemplateFromValidEmf()
         {
             var path = GetOutputFile("", "bmpValidStamp.emf").FullName;

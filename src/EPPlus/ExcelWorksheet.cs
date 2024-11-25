@@ -15,7 +15,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Security;
 using System.Text;
 using System.Xml;
 using System.Linq;
@@ -31,12 +30,10 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Filter;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
-using System.Text.RegularExpressions;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.ThreadedComments;
@@ -46,12 +43,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.FormulaParsing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 using System.Collections;
 using OfficeOpenXml.Drawing.OleObject;
 
@@ -2492,11 +2484,8 @@ namespace OfficeOpenXml
                         HandleSaveForIndividualDrawings(d);
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;
-                    var stream = partPack.GetStream(FileMode.Create, FileAccess.Write);
-                    var xr = new XmlTextWriter(stream, Encoding.UTF8);
-                    xr.Formatting = Formatting.None;
-
-                    Drawings.DrawingXml.Save(xr);
+                    var partStream = partPack.GetStream(FileMode.Create, FileAccess.Write);
+                    Drawings.DrawingXml.Save(partStream);
                 }
             }
         }
@@ -2505,9 +2494,8 @@ namespace OfficeOpenXml
         {
             if (d is ExcelChart c)
             {
-                var xr = new XmlTextWriter(c.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
-                xr.Formatting = Formatting.None;
-                c.ChartXml.Save(xr);
+                var chartStream = c.Part.GetStream(FileMode.Create, FileAccess.Write);
+                c.ChartXml.Save(chartStream);
             }
             else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
             {

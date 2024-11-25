@@ -32,7 +32,6 @@ namespace OfficeOpenXml.DigitalSignatures
 
         XmlDocument _doc;
 
-        bool shouldSave = true;
         bool wasRead = false;
         private SignatureProperty signatureProperty;
 
@@ -159,7 +158,6 @@ namespace OfficeOpenXml.DigitalSignatures
                 }
             }
 
-            shouldSave = Certificate != null;
             wasRead = true;
         }
 
@@ -180,87 +178,84 @@ namespace OfficeOpenXml.DigitalSignatures
 
         internal void Save()
         {
-            if (shouldSave)
+            if (Verified == false && Certificate != null)
             {
-                if (true)
+                if (SignatureLine != null)
                 {
-                    if (SignatureLine != null)
-                    {
-                        SignatureLine.SaveSignatureLineWithDigitalSignature(Certificate.IssuerName.Name.Substring(3));
-                        ValidSigLnImage = SignatureLine.ValidSigLnImage;
-                        InvalidSigLnImg = SignatureLine.InvalidSigLnImg;
-                    }
+                    SignatureLine.SaveSignatureLineWithDigitalSignature(Certificate.IssuerName.Name.Substring(3));
+                    ValidSigLnImage = SignatureLine.ValidSigLnImage;
+                    InvalidSigLnImg = SignatureLine.InvalidSigLnImg;
+                }
 
-                    var signatureComments = new List<string>
-                {
-                    PurposeForSigning
-                };
+                var signatureComments = new List<string>
+            {
+                PurposeForSigning
+            };
 
-                    qualifyingProperties = new QualifyingProperties
-                        ("xd", Certificate, CommitmentTyping, signatureComments, SigningInformation);
+                qualifyingProperties = new QualifyingProperties
+                    ("xd", Certificate, CommitmentTyping, signatureComments, SigningInformation);
 
-                    var docTest = qualifyingProperties.GetDocument();
-                    _doc = docTest;
+                var docTest = qualifyingProperties.GetDocument();
+                _doc = docTest;
 
-                    RSA key;
+                RSA key;
 #if NET35
                 key = (RSA)Certificate.PrivateKey;
 #else
-                    key = Certificate.GetRSAPrivateKey();
+                key = Certificate.GetRSAPrivateKey();
 #endif
-                    ExcelSignedXml signedXml = new(_doc)
-                    {
-                        SigningKey = key,
-                    };
+                ExcelSignedXml signedXml = new(_doc)
+                {
+                    SigningKey = key,
+                };
 
-                    signedXml.Signature.Id = "idPackageSignature";
-                    signedXml.SignedInfo.CanonicalizationMethod = SignedXml.XmlDsigCanonicalizationUrl;
-                    signedXml.SignedInfo.SignatureMethod = SignedXml.XmlDsigRSASHA1Url;
+                signedXml.Signature.Id = "idPackageSignature";
+                signedXml.SignedInfo.CanonicalizationMethod = SignedXml.XmlDsigCanonicalizationUrl;
+                signedXml.SignedInfo.SignatureMethod = SignedXml.XmlDsigRSASHA1Url;
 
-                    signedXml.KeyInfo = new KeyInfo();
-                    signedXml.KeyInfo.AddClause(new KeyInfoX509Data(Certificate));
+                signedXml.KeyInfo = new KeyInfo();
+                signedXml.KeyInfo.AddClause(new KeyInfoX509Data(Certificate));
 
-                    CreatePackageReference(ref signedXml);
-                    CreateOfficeReference(ref signedXml);
-                    CreatePropertiesReference(ref signedXml);
-                    CreateSignatureLineReferences(ref signedXml);
+                CreatePackageReference(ref signedXml);
+                CreateOfficeReference(ref signedXml);
+                CreatePropertiesReference(ref signedXml);
+                CreateSignatureLineReferences(ref signedXml);
 
-                    var value = signedXml.SignatureValue;
+                var value = signedXml.SignatureValue;
 
-                    signedXml.ComputeSignature();
+                signedXml.ComputeSignature();
 
-                    var value2 = signedXml.SignatureValue;
+                var value2 = signedXml.SignatureValue;
 
-                    XmlElement xmlDigitalSignature = signedXml.GetXml();
+                XmlElement xmlDigitalSignature = signedXml.GetXml();
 
-                    var outPutDoc = new XmlDocument()
-                    {
-                        PreserveWhitespace = true,
-                    };
+                var outPutDoc = new XmlDocument()
+                {
+                    PreserveWhitespace = true,
+                };
 
-                    var node = outPutDoc.ImportNode(xmlDigitalSignature, true);
-                    outPutDoc.AppendChild(node);
+                var node = outPutDoc.ImportNode(xmlDigitalSignature, true);
+                outPutDoc.AppendChild(node);
 
-                    var sigValue = outPutDoc.GetElementsByTagName("SignatureValue")[0];
-                    sigValue.InnerText = Convert.ToBase64String(signedXml.SignatureValue, Base64FormattingOptions.InsertLineBreaks);
+                var sigValue = outPutDoc.GetElementsByTagName("SignatureValue")[0];
+                sigValue.InnerText = Convert.ToBase64String(signedXml.SignatureValue, Base64FormattingOptions.InsertLineBreaks);
 
-                    var doc = new XmlDocument();
-                    doc.LoadXml(outPutDoc.OuterXml);
+                var doc = new XmlDocument();
+                doc.LoadXml(outPutDoc.OuterXml);
 
-                    var declaration = outPutDoc.CreateXmlDeclaration("1.0", "UTF-8", "");
-                    outPutDoc.InsertBefore(declaration, node);
+                var declaration = outPutDoc.CreateXmlDeclaration("1.0", "UTF-8", "");
+                outPutDoc.InsertBefore(declaration, node);
 
-                    var stream = _part.GetStream();
-                    stream.Position = 0;
+                var stream = _part.GetStream();
+                stream.Position = 0;
 
-                    _doc = outPutDoc;
+                _doc = outPutDoc;
 
-                    outPutDoc.Save(stream);
+                outPutDoc.Save(stream);
 
-                    if (stream.Length > stream.Position)
-                    {
-                        stream.SetLength(stream.Position);
-                    }
+                if (stream.Length > stream.Position)
+                {
+                    stream.SetLength(stream.Position);
                 }
             }
         }

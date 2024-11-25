@@ -467,8 +467,6 @@ namespace EPPlusTest
                 Assert.IsNotNull(r.Value);
             }
         }
-
-
         protected void AssertNoChange(ExcelRangeBase range)
         {
             foreach (var r in range)

@@ -70,14 +70,12 @@ namespace OfficeOpenXml.DigitalSignatures
             {
                 sb.Append($"{sigInfo2.GetXml()}");
             }
-            sb.Append($"</SignatureProperty>");
 
             if (PropertySignatureTime != null)
             {
-                sb.Append($"<SignatureProperty Id=\"{Id}\" Target=\"{Target}\">");
                 sb.Append($"{PropertySignatureTime.GetXml()}");
-                sb.Append($"</SignatureProperty>");
             }
+            sb.Append($"</SignatureProperty>");
             sb.Append($"</SignatureProperties>");
 
             return sb.ToString();

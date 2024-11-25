@@ -20,7 +20,7 @@ namespace OfficeOpenXml.DigitalSignatures
         string relTransformUri = "http://schemas.openxmlformats.org/package/2006/RelationshipTransform";
         string relReference = "<mdssi:RelationshipReference xmlns:mdssi=\"http://schemas.openxmlformats.org/package/2006/digital-signature\" SourceId=\"{0}\"/>";
 
-        internal List<string> FilterRemoveRelsWith = new List<string> { "../customXml", "docProps/", "/_xmlsignatures" };
+        internal List<string> FilterRemoveRelsWith = new List<string> { "../customXml", "docProps/", "/_xmlsignatures", "_xmlsignatures/origin.sigs" };
 
         int RIdCount = 0;
         List<string> _idList = new List<string>();
@@ -67,7 +67,7 @@ namespace OfficeOpenXml.DigitalSignatures
             {
                 var targetStr = node.GetAttribute("Target") ?? "";
 
-                if (IsValidReference(targetStr))
+                if (ShouldAddTransform(targetStr))
                 {
                     var id = node.GetAttribute("Id");
 
@@ -91,7 +91,7 @@ namespace OfficeOpenXml.DigitalSignatures
             TransformXml += "</Transform>";
         }
 
-        bool IsValidReference(string targetStr)
+        bool ShouldAddTransform(string targetStr)
         {
             foreach(string filterValue in FilterRemoveRelsWith)
             {

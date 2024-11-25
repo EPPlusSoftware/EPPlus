@@ -794,10 +794,7 @@ namespace OfficeOpenXml
         {
             Packaging.ZipPackagePart part = _zipPackage.GetPart(uri);
             var stream = part.GetStream(FileMode.Create, FileAccess.Write);
-            var xr = new XmlTextWriter(stream, Encoding.UTF8);
-            xr.Formatting = Formatting.None;
-
-            xmlDoc.Save(xr);
+            xmlDoc.Save(stream);
         }
         /// <summary>
 		/// Saves the XmlDocument into the package at the specified Uri.
@@ -829,10 +826,7 @@ namespace OfficeOpenXml
                 }
             }
             var stream = part.GetStream(FileMode.Create, FileAccess.Write);
-            var xr = new XmlTextWriter(stream, Encoding.UTF8);
-            xr.Formatting = Formatting.None;
-
-            xmlDoc.Save(xr);
+            xmlDoc.Save(stream);
         }
 
         #endregion
