@@ -1352,20 +1352,29 @@ namespace OfficeOpenXml
         /// Insert cells into the worksheet and shift the cells to the selected direction.
         /// </summary>
         /// <param name="shift">The direction that the cells will shift.</param>
-        public void Insert(eShiftTypeInsert shift)
+        public ExcelRangeBase Insert(eShiftTypeInsert shift)
         {
             if (shift == eShiftTypeInsert.EntireColumn)
             {
                 WorksheetRangeInsertHelper.InsertColumn(_worksheet, _fromCol, Columns, _fromCol - 1);
+                var offset = this.Offset(0, (_toCol - _fromCol) + 1);
+                return offset.EntireColumn.Range;
             }
             else if (shift == eShiftTypeInsert.EntireRow)
             {
                 WorksheetRangeInsertHelper.InsertRow(_worksheet, _fromRow, Rows, _fromRow - 1);
+                var offset = this.Offset((_toRow - _fromRow) + 1, 0);
+                return offset.EntireRow.Range;
             }
             else
             {
                 WorksheetRangeInsertHelper.Insert(this, shift, true, false);
+                if (shift == eShiftTypeInsert.Down)
+                    return this.Offset((_toRow - _fromRow) + 1, 0);
+                else if (shift == eShiftTypeInsert.Right)
+                    return this.Offset(0, (_toCol - _fromCol) + 1); 
             }
+            return null;
         }
         /// <summary>
         /// Delete the range from the worksheet and shift affected cells in the selected direction.
