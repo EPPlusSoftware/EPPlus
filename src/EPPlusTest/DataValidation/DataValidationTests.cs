@@ -1243,5 +1243,17 @@ namespace EPPlusTest.DataValidation
                 Assert.IsNull(readValidation.Formula2.Value);
             }
         }
+
+        [TestMethod]
+        public void Issue1714()
+        {
+            using var p = OpenTemplatePackage("DataValidationIssue1714.xlsx");
+            foreach (var v in p.Workbook.Worksheets[0].DataValidations)
+            {
+                Assert.IsTrue(v.AllowBlank);
+                Assert.IsFalse(v.ShowInputMessage);
+                Assert.IsTrue(v.ShowErrorMessage);
+            }
+        }
     }
 }

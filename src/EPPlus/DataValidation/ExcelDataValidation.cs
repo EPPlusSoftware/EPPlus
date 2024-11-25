@@ -323,10 +323,10 @@ namespace OfficeOpenXml.DataValidation
 
             imeModeString = xr.GetAttribute("imeMode");
 
-            AllowBlank = xr.GetAttribute("allowBlank") == "1" ? true : false;
+            AllowBlank = xr.GetAttribute("allowBlank") == "1" || xr.GetAttribute("allowBlank") == "true" ? true : false;
 
-            ShowInputMessage = xr.GetAttribute("showInputMessage") == "1" ? true : false;
-            ShowErrorMessage = xr.GetAttribute("showErrorMessage") == "1" ? true : false;
+            ShowInputMessage = xr.GetAttribute("showInputMessage") == "1" || xr.GetAttribute("showInputMessage") == "true" ? true : false;
+            ShowErrorMessage = xr.GetAttribute("showErrorMessage") == "1" || xr.GetAttribute("showErrorMessage") == "true" ? true : false;
 
             ErrorTitle = xr.GetAttribute("errorTitle");
             Error = xr.GetAttribute("error");
