@@ -1202,7 +1202,5 @@ namespace EPPlusTest
 
             //p.SaveAs(@"C:\epplustest\testoutput\ShapeGuideTest.xlsx");
         }
-
-        //FIXA ANGEL ANGLE RENAME I BREAKINGCHANGES!
     }
 }
