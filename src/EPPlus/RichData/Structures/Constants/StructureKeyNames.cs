@@ -46,6 +46,12 @@ namespace OfficeOpenXml.RichData.Structures.Constants
                 public const string ErrorType = "errorType";
                 public const string SubType = "subType";
             }
+
+            internal static class Busy
+            {
+                public const string ErrorType = "errorType";
+                public const string TargetValue = "targetValue";
+            }
         }
 
         internal static class LocalImages

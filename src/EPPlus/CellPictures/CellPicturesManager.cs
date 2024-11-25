@@ -17,11 +17,14 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.RichValues;
 using OfficeOpenXml.RichData.RichValues.LocalImage;
 using OfficeOpenXml.RichData.RichValues.Relations;
+using OfficeOpenXml.RichData.RichValues.WebImages;
 using OfficeOpenXml.RichData.Structures.Constants;
 using OfficeOpenXml.RichData.Structures.LocalImages;
+using OfficeOpenXml.RichData.WebImages;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -63,23 +66,13 @@ namespace OfficeOpenXml.CellPictures
                 };
                 return pic;
             }
-            //else if (richValue.Structure.StructureType == RichDataStructureTypes.LocalImageWithAltText)
-            //{
-            //    var rdLia = richValue.As.LocalImageAltText;
-            //    var pic = new ExcelCellPicture(vmId, rdLia.ImageUri, _pictureStore, ExcelCellPictureTypes.LocalImage)
-            //    {
-            //        CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
-            //        CalcOrigin = rdLia.CalcOrigin ?? CalcOrigins.None,
-            //        AltText = rdLia.Text
-            //    };
-            //    return pic;
-            //}
             else if (richValue.Structure.StructureType == RichDataStructureTypes.WebImage)
             {
                 var rdWi = richValue.As.WebImage;
                 var pic = new ExcelCellPicture(vmId, rdWi.ImageUri, _pictureStore, ExcelCellPictureTypes.WebImage)
                 {
                     CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
+                    ExternalAddress = rdWi.ExternalAddressUri,
                     AltText = rdWi.Text,
                     CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None
                 };
@@ -104,31 +97,41 @@ namespace OfficeOpenXml.CellPictures
             return _validPictureTypes.Any(x => x == type);
         }
 
-        private ExcelRichValue CreateImageRichValue(Uri imageUri, CalcOrigins calcOrigin, string altText)
+        private ExcelRichValue CreateLocalImageRichValue(Uri imageUri, CalcOrigins calcOrigin, string altText)
         {
-            //if (!string.IsNullOrEmpty(altText))
-            //{
-            //    return new LocalImageAltTextRichValue(_sheet.Workbook)
-            //    {
-            //        ImageUri = imageUri,
-            //        CalcOrigin = calcOrigin,
-            //        Text = altText
-            //    };
-            //}
-            //else
-            //{
-            //    return new LocalImageRichValue(_sheet.Workbook)
-            //    {
-            //        ImageUri = imageUri,
-            //        CalcOrigin = calcOrigin
-            //    };
-            //}
             return new LocalImageRichValue(_sheet.Workbook)
             {
                 ImageUri = imageUri,
                 CalcOrigin = calcOrigin,
                 Text = altText
             };
+        }
+
+        private ExcelRichValue CreateWebImageRichValue(Uri blipUri, Uri addressUri, CalcOrigins calcOrigin, string altText, WebImageSizing? sizing = null, double? height = null, double? width = null)
+        {
+            return CreateWebImageRichValue(blipUri, addressUri, null, calcOrigin, altText, sizing, height, width);
+        }
+
+        private ExcelRichValue CreateWebImageRichValue(Uri blipUri, Uri addressUri, Uri moreImagesUri, CalcOrigins calcOrigin, string altText, WebImageSizing? sizing = null, double? height = null, double? width = null)
+        {
+            var wb = _sheet.Workbook;
+            var img = new WebImageRichValue(_sheet.Workbook);
+            if (wb.RichData.WebImages.TryGet(blipUri, addressUri, null, out uint imageId))
+            {
+                img.WebImageIdentifier = imageId;
+            }
+            else
+            {
+                var newImg = wb.RichData.WebImages.AddItem(blipUri, addressUri, moreImagesUri, img, out IndexRelation rel);
+                img.WebImageIdentifier = newImg.Id;
+            }
+
+            img.CalcOrigin = calcOrigin;
+            img.Text = altText;
+            img.ImageSizing = sizing;
+            img.ImageHeight = height;
+            img.ImageWidth = width;
+            return img;
         }
 
         public void SetCellPicture(int row, int col, Stream imageStream, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
@@ -195,15 +198,74 @@ namespace OfficeOpenXml.CellPictures
             }
         }
 
+        public void SetWebPicture(int row, int col, Uri addressUri, byte[] imageBytes, string altText, CalcOrigins calcOrigin = CalcOrigins.Formula, WebImageSizing? sizing = null, double? height = null, double? width = null)
+        {
+            // Add image to picture store and create relation
+            var imageInfo = AddToPictureStore(imageBytes);
+            var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
+            var imageUri = UriHelper.ResolvePartUri(rdUri, imageInfo.Uri);
+
+            if (_referenceCache.Contains(imageUri, calcOrigin, out uint cachedVmId))
+            {
+                AddReferenceToPicture(row, col, calcOrigin, imageUri, cachedVmId);
+                return;
+            }
+
+            var hasRv = _richDataStore.HasRichData(row, col, out MetaDataReference md);
+            // no existing rich data, add new
+            if (!hasRv)
+            {
+                AddNewWebPicture(row, col, imageUri, addressUri, altText, calcOrigin, sizing, height, width);
+            }
+            else
+            {
+                var existingPic = GetCellPicture(row, col);
+                if (existingPic != null)
+                {
+                    if (existingPic.ImageUri.OriginalString == imageUri.OriginalString)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        _referenceCache.RemoveReference(existingPic.ImageUri, calcOrigin, out int numberOfRefsLeft);
+                    }
+                }
+                else
+                {
+                    // there was rich data connected to the cell, we leave it as it is
+                }
+                AddNewWebPicture(row, col, imageUri, addressUri, altText, calcOrigin, sizing, height, width);
+            }
+        }
+
         private void AddNewPicture(int row, int col, string altText, CalcOrigins calcOrigin, Uri imageUri)
         {
-            var imageRichValue = CreateImageRichValue(imageUri, calcOrigin, altText);
+            var imageRichValue = CreateLocalImageRichValue(imageUri, calcOrigin, altText);
             imageRichValue.SetStructure(_sheet.Workbook.RichData);
             _richDataStore.AddRichData(row, col, imageRichValue, out uint vmId);
             var newPic = GetExcelCellPictureByRichValue(imageRichValue, row, col, vmId);
             SetCellValue(row, col, newPic);
             SetValueMetadata(row, col, vmId);
             if(!_referenceCache.Contains(imageUri, calcOrigin))
+            {
+                _referenceCache.Add(imageUri, calcOrigin, vmId);
+            }
+            else
+            {
+                _referenceCache.AddReference(imageUri, calcOrigin);
+            }
+        }
+
+        private void AddNewWebPicture(int row, int col, Uri imageUri, Uri addressUri, string altText, CalcOrigins calcOrigin, WebImageSizing? sizing, double? height, double? width)
+        {
+            var imageRichValue = CreateWebImageRichValue(imageUri, addressUri, calcOrigin, altText, sizing, width, height);
+            imageRichValue.SetStructure(_sheet.Workbook.RichData);
+            _richDataStore.AddRichData(row, col, imageRichValue, out uint vmId);
+            var newPic = GetExcelCellPictureByRichValue(imageRichValue, row, col, vmId);
+            SetCellValue(row, col, newPic);
+            SetValueMetadata(row, col, vmId);
+            if (!_referenceCache.Contains(imageUri, calcOrigin))
             {
                 _referenceCache.Add(imageUri, calcOrigin, vmId);
             }

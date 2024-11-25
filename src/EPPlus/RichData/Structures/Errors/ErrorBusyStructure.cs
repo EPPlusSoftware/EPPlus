@@ -10,34 +10,27 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.Structures.Constants;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace OfficeOpenXml.RichData
+namespace OfficeOpenXml.RichData.Structures.Errors
 {
-    [Flags]
-    internal enum RichDataStructureTypes
+    internal class ErrorBusyStructure : ErrorBaseStructure
     {
-        None = 0,
-        Error = 0x1,
-        ErrorWithSubType = 0x2,
-        ErrorSpill = 0x4,
-        ErrorPropagated = 0x8,
-        ErrorField = 0x10,
-        ErrorBusy = 0x20,
-        LocalImage = 0x40,
-        WebImage = 0x80,
-        ImageUrl = 0x100,
-        LinkedEntity = 0x200,
-        LinkedEntityCore = 0x400,
-        LinkedEntity2 = 0x800,
-        LinkedEntity2Core = 0x1000,
-        FormattedNumber = 0x2000,
-        Hyperlink = 0x4000,
-        Entity = 0x8000,
-        Array = 0x10000,
-        StockHistoryCache = 0x20000,
-        ExternalCodeServiceObject = 0x40000,
-        SourceAttribution = 0x80000,
-        Preserve = 0x100000
+        public ErrorBusyStructure(RichDataIndexStore store) : this(StructureKeys.Errors.Busy, store)
+        {
+
+        }
+
+        public ErrorBusyStructure(List<ExcelRichValueStructureKey> keys, RichDataIndexStore store) : base(keys, store)
+        {
+
+        }
+
+        public override RichDataStructureTypes StructureType => RichDataStructureTypes.ErrorBusy;
     }
 }

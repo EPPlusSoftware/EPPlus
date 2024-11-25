@@ -15,6 +15,7 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.RichValueArrays;
+using OfficeOpenXml.RichData.RichValues.Relations;
 using OfficeOpenXml.RichData.RichValues.WebImages;
 using OfficeOpenXml.Utils;
 using System;
@@ -31,6 +32,10 @@ namespace OfficeOpenXml.RichData.WebImages
         const string PART_URI_PATH = "/xl/richData/rdRichValueWebImage.xml";
         private readonly Uri _uri;
         private ExcelWorkbook _wb;
+        private Dictionary<string, uint> _cachedImages = new Dictionary<string, uint>();
+        private Dictionary<string, string> _blipRelations = new Dictionary<string, string>();
+        private Dictionary<string, string> _addressRelations = new Dictionary<string, string>();
+        private Dictionary<string, string> _moreImagesRelations = new Dictionary<string, string>();
         private readonly ExcelRichData _richData;
         private readonly RichDataIndexStore _indexStore;
         ZipPackagePart _part;
@@ -51,6 +56,49 @@ namespace OfficeOpenXml.RichData.WebImages
                 _uri = UriHelper.ResolvePartUri(r.SourceUri, r.TargetUri);
             }
             LoadPart(wb);
+        }
+
+        private string GetKey(Uri blipUri, Uri moreImagesUri, Uri addressUri)
+        {
+            var sb = new StringBuilder();
+            if(blipUri != null && !string.IsNullOrEmpty(blipUri.OriginalString))
+            {
+                sb.AppendFormat("blip:{0}", blipUri.OriginalString);
+            }
+            if(moreImagesUri != null && !string.IsNullOrEmpty(moreImagesUri.OriginalString))
+            {
+                sb.AppendFormat("mi:{0}", moreImagesUri.OriginalString);
+            }
+            if(addressUri != null && !string.IsNullOrEmpty(addressUri.OriginalString))
+            {
+                sb.AppendFormat("a:{0}", addressUri.OriginalString);
+            }
+            return sb.ToString();
+        }
+
+        public override void Add(WebImagesSupportingRichData item)
+        {
+            var key = GetKey(item.Blip, item.MoreImagesAddress, item.Address);
+            if(!_cachedImages.ContainsKey(key))
+            {
+                base.Add(item);
+            }
+            else
+            {
+                _cachedImages[key] = item.Id;
+            }
+        }
+
+        public bool TryGet(Uri blipUri, Uri moreImagesUri, Uri addressUri, out uint id)
+        {
+            var key = GetKey(blipUri, moreImagesUri, addressUri);
+            if(_cachedImages.ContainsKey(key))
+            {
+                id = _cachedImages[key];
+                return true;
+            }
+            id = 0;
+            return false;
         }
 
         private string ExtLstXml
@@ -78,6 +126,82 @@ namespace OfficeOpenXml.RichData.WebImages
             _part.SaveHandler = Save;
         }
 
+        private void EnsurePartExists(out bool partNotLoaded)
+        {
+            partNotLoaded = false;
+            if (_part == null)
+            {
+                if (_wb._package.ZipPackage.PartExists(_uri))
+                {
+                    _part = _wb._package.ZipPackage.GetPart(_uri);
+                    partNotLoaded = true;
+                }
+                else
+                {
+                    _part = _wb._package.ZipPackage.CreatePart(_uri, ContentTypes.contentTypeRichDataWebImage);
+                    _wb.Part.CreateRelationship(_uri, TargetMode.Internal, Relationsships.schemaRichDataWebImage);
+                    _part.SaveHandler = Save;
+                }
+            }
+        }
+
+        internal WebImagesSupportingRichData AddItem(Uri blipUri, Uri addressUri, Uri moreImagesUri, IndexEndpoint relationOwner, out IndexRelation rel)
+        {
+            EnsurePartExists(out bool partNotLoaded);
+            if (partNotLoaded)
+            {
+                ReadXml(_part.GetStream());
+            }
+
+            string blipRelId;
+            if(_blipRelations.ContainsKey(blipUri.OriginalString))
+            {
+                blipRelId = _blipRelations[blipUri.OriginalString];
+            }
+            else
+            {
+                var blipRel = _part.CreateRelationship(blipUri, TargetMode.Internal, ExcelPackage.schemaImage);
+                blipRelId = blipRel.Id;
+                _blipRelations[blipUri.OriginalString] = blipRelId;
+            }
+            string addressRelId;
+            if (_addressRelations.ContainsKey(addressUri.OriginalString))
+            {
+                addressRelId = _addressRelations[addressUri.OriginalString];
+            }
+            else
+            {
+                var addressRel = _part.CreateRelationship(addressUri, TargetMode.External, ExcelPackage.schemaHyperlink);
+                addressRelId = addressRel.Id;
+                _addressRelations[addressUri.OriginalString] = addressRelId;
+            }
+            string moreImagesRelId = null;
+            if(moreImagesUri != null)
+            {
+                if (_moreImagesRelations.ContainsKey(moreImagesUri.OriginalString))
+                {
+                    moreImagesRelId = _moreImagesRelations[moreImagesUri.OriginalString];
+                }
+                else
+                {
+                    var moreImagesRel = _part.CreateRelationship(moreImagesUri, TargetMode.External, ExcelPackage.schemaHyperlink);
+                    moreImagesRelId = moreImagesRel.Id;
+                    _moreImagesRelations[moreImagesUri.OriginalString] = moreImagesRelId;
+                }
+            }
+           
+            var image = new WebImagesSupportingRichData(_wb, _part)
+            {
+                BlipRelationId = blipRelId,
+                AddressRelationId = addressRelId,
+                MoreImagesRelationId = moreImagesRelId,
+            };
+            Add(image);
+
+            rel = _wb.IndexStore.CreateAndAddRelation(relationOwner, image, IndexType.ZeroBasedPointer);
+            return image;
+        }
+
         private void ReadXml(Stream stream)
         {
             var xr = XmlReader.Create(stream);
@@ -85,8 +209,8 @@ namespace OfficeOpenXml.RichData.WebImages
             {
                 if (xr.IsElementWithName("webImageSrd"))
                 {
-                    var array = new WebImagesSupportingRichData(_wb, _part, xr);
-                    Add(array);
+                    var webImage = new WebImagesSupportingRichData(_wb, _part, xr);
+                    Add(webImage);
                 }
                 else if(xr.IsElementWithName("extLst"))
                 {

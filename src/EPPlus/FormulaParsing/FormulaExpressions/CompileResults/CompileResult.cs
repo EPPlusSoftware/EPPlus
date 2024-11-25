@@ -14,6 +14,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml;
 using System;
 using System.Linq;
 

@@ -48,6 +48,12 @@ namespace OfficeOpenXml.RichData.Structures.Constants
                     new ExcelRichValueStructureKey(StructureKeyNames.Errors.WithSubType.ErrorType, RichValueDataType.Integer),
                     new ExcelRichValueStructureKey(StructureKeyNames.Errors.WithSubType.SubType, RichValueDataType.Integer)
                 ];
+
+            internal static readonly List<ExcelRichValueStructureKey> Busy =
+                [
+                    new ExcelRichValueStructureKey(StructureKeyNames.Errors.Busy.ErrorType, RichValueDataType.Integer),
+                    new ExcelRichValueStructureKey(StructureKeyNames.Errors.Busy.TargetValue, RichValueDataType.RichValue)
+                ];
         }
 
         internal static class LocalImage

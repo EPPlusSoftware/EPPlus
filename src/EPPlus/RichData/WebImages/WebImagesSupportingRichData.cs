@@ -52,6 +52,58 @@ namespace OfficeOpenXml.RichData.WebImages
         private ZipPackageRelationship _moreImagesAddressRel;
         private ZipPackageRelationship _blipRel;
 
+        public string AddressRelationId
+        {
+            get
+            {
+                if (_addressRel == null) return null;
+                return _addressRel.Id;
+            }
+            set
+            {
+                if(!string.IsNullOrEmpty(value))
+                {
+                    _addressRel = _part.GetRelationship(value);
+                }
+                
+            }
+        }
+
+        public string MoreImagesRelationId
+        {
+            get
+            {
+                if (_moreImagesAddressRel == null) return null;
+                return _moreImagesAddressRel.Id;
+            }
+            set
+            {
+                if(!string.IsNullOrEmpty(value))
+                {
+                    _moreImagesAddressRel = _part.GetRelationship(value);
+                }
+            }
+        }
+
+        public string BlipRelationId
+        {
+            get
+            {
+                if (_blipRel == null) return null;
+                return _blipRel.Id;
+            }
+            set
+            {
+                if(!string.IsNullOrEmpty(value))
+                {
+                    _blipRel = _part.GetRelationship(value);
+                }
+                
+            }
+        }
+
+
+
         private void ReadXml(XmlReader xr)
         {
             do

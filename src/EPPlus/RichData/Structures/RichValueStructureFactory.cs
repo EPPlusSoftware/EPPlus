@@ -151,6 +151,29 @@ namespace OfficeOpenXml.RichData.Structures
 
         public static ExcelRichValueStructure Create(RichDataStructureTypes structureType, RichDataIndexStore store)
         {
+            if((structureType & RichDataStructureTypes.Error) != 0)
+            {
+                if ((structureType & RichDataStructureTypes.ErrorSpill) == RichDataStructureTypes.ErrorSpill)
+                {
+                    return new ErrorSpillStructure(store);
+                }
+                else if ((structureType & RichDataStructureTypes.ErrorPropagated) != RichDataStructureTypes.ErrorPropagated)
+                {
+                    return new ErrorPropagatedStructure(store);
+                }
+                else if ((structureType & RichDataStructureTypes.ErrorWithSubType) == RichDataStructureTypes.ErrorWithSubType)
+                {
+                    return new ErrorWithSubTypeStructure(store);
+                }
+                else if ((structureType & RichDataStructureTypes.ErrorField) != RichDataStructureTypes.ErrorField)
+                {
+                    return new ErrorWithSubTypeStructure(store);
+                }
+                else if ((structureType & RichDataStructureTypes.ErrorBusy) != RichDataStructureTypes.ErrorBusy)
+                {
+                    return new ErrorBusyStructure(store);
+                }
+            }
             switch (structureType)
             {
                 case RichDataStructureTypes.ErrorSpill:
@@ -161,8 +184,12 @@ namespace OfficeOpenXml.RichData.Structures
                     return new ErrorWithSubTypeStructure(store);
                 case RichDataStructureTypes.ErrorField:
                     return new ErrorWithSubTypeStructure(store);
+                case RichDataStructureTypes.ErrorBusy: 
+                    return new ErrorBusyStructure(store);
                 case RichDataStructureTypes.LocalImage:
                     return new LocalImageStructure(store);
+                case RichDataStructureTypes.WebImage:
+                    return new WebImageStructure(store);
                 //case RichDataStructureTypes.LocalImageWithAltText:
                 //    return new LocalImageWithAltTextStructure(store);
                 default:
@@ -190,6 +217,10 @@ namespace OfficeOpenXml.RichData.Structures
                 {
                     return new ErrorWithSubTypeStructure(keys, store);
                 }
+                else if((structureType & RichDataStructureTypes.ErrorBusy) != RichDataStructureTypes.ErrorBusy)
+                {
+                    return new ErrorBusyStructure(keys, store);
+                }
                 var typeName = StructureTypes.GetStructureName(RichDataStructureTypes.Error);
                 return new RichDataPreserveStructure(typeName, RichDataStructureTypes.Error, keys, store);
             }
@@ -198,7 +229,7 @@ namespace OfficeOpenXml.RichData.Structures
                 case RichDataStructureTypes.LocalImage:
                     return new LocalImageStructure(keys, store);
                 case RichDataStructureTypes.WebImage:
-                    return new WebImageStructure(store);
+                    return new WebImageStructure(keys, store);
                 //case RichDataStructureTypes.LocalImageWithAltText:
                 //    return new LocalImageWithAltTextStructure(keys, store);
                 default:

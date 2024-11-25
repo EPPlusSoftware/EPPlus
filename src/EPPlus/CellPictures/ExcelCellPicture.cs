@@ -54,6 +54,14 @@ namespace OfficeOpenXml.CellPictures
         }
 
         /// <summary>
+        /// External Uri, only set for images retrieved via the IMAGE function
+        /// </summary>
+        public Uri ExternalAddress
+        {
+            get; internal set;
+        }
+
+        /// <summary>
         /// Type of cell picture
         /// </summary>
         public ExcelCellPictureTypes PictureType

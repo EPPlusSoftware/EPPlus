@@ -85,6 +85,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         /// <summary>
         /// Local image data type
         /// </summary>
-        LocalImage = 15
+        LocalImage = 15,
+        /// <summary>
+        /// Web image data type
+        /// </summary>
+        WebImage = 16
     }
 }

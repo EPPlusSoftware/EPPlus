@@ -17,6 +17,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.Utils.RemoteCalls;
+using OfficeOpenXml.CellPictures;
+using System.IO;
+using System.Net;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -33,13 +36,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             var ctx = task.ParsingContext;
             // execute the rest of the function here
-            throw new NotImplementedException();
+            return null;
         }
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var url = ArgToString(arguments, 0);
-            if(string.IsNullOrEmpty(url) || url.Length < 8 || IsValidHttpsUrl(url))
+            if(string.IsNullOrEmpty(url) || url.Length < 8 || !IsValidHttpsUrl(url))
             {
                 return CreateResult(eErrorType.Value);
             }
@@ -71,10 +74,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 if(e3 != null) return CreateResult(e3, DataType.ExcelError);
             }
             var httpTask = new HttpRemoteTask(url, this, context);
-            RemoteCallManager.QueueTask(httpTask);
+            //RemoteCallManager.QueueTask(httpTask);
             // return #BUSY error
 
-            throw new NotImplementedException();
+            var cellPictureManager = new CellPicturesManager(context.CurrentWorksheet);
+            var httpsService = context.CurrentWorksheet._package.Settings.ImageFunctionService;
+            if(httpsService == null)
+            {
+                return CreateResult(eErrorType.Value);
+            }
+            var imageBytes = httpsService.Download(url);
+            cellPictureManager.SetWebPicture(context.CurrentCell.Row, context.CurrentCell.Column, new Uri(url), imageBytes, null);
+            var cellPic = context.CurrentWorksheet.GetValue(context.CurrentCell.Row, context.CurrentCell.Column);
+            return CreateResult(cellPic, DataType.WebImage);
         }
 
         private bool IsValidHttpsUrl(string url)

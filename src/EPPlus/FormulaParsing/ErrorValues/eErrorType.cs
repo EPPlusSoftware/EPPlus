@@ -53,5 +53,9 @@ namespace OfficeOpenXml
         /// Spill error from a dynamic array formula.
         /// </summary>
         Spill,
+        /// <summary>
+        /// Busy error, waiting for a remote call
+        /// </summary>
+        Busy
     }
 }

@@ -35,6 +35,19 @@ namespace OfficeOpenXml.RichData.RichValues.WebImages
             }
         }
 
+        public Uri ExternalAddressUri
+        {
+            get
+            {
+                if (WebImageIdentifier.HasValue)
+                {
+                    var img = _richData.WebImages.Get(WebImageIdentifier.Value);
+                    return img.Address;
+                }
+                return null;
+            }
+        }
+
         internal uint? WebImageIdentifier
         {
             get
@@ -98,16 +111,16 @@ namespace OfficeOpenXml.RichData.RichValues.WebImages
         /// At 2, image maintains its original size and MAY exceed the cell boundary.
         /// At 3, image size is customized by "ImageHeight" and "ImageWidth".
         /// </summary>
-        public int? ImageSizing
+        public WebImageSizing? ImageSizing
         {
             get
             {
                 var v = GetValueInt(StructureKeyNames.WebImage.ImageSizing);
-                return v.HasValue && v >= 0 && v <= 3 ? v : 0;
+                return v.HasValue && v >= 0 && v <= 3 ?(WebImageSizing?)v : WebImageSizing.FitToCellMaintainRatio;
             }
             set
             {
-                SetValue(StructureKeyNames.WebImage.ImageSizing, value);
+                SetValue(StructureKeyNames.WebImage.ImageSizing, (int?)value);
             }
         }
 
@@ -118,7 +131,7 @@ namespace OfficeOpenXml.RichData.RichValues.WebImages
         {
             get
             {
-                if (ImageSizing != 3) return null;
+                if (ImageSizing != WebImageSizing.CustomizeByHeightAndWidth) return null;
                 return GetValueDouble(StructureKeyNames.WebImage.ImageHeight);
             }
             set
@@ -134,7 +147,7 @@ namespace OfficeOpenXml.RichData.RichValues.WebImages
         {
             get
             {
-                if (ImageSizing != 3) return null;
+                if (ImageSizing != WebImageSizing.CustomizeByHeightAndWidth) return null;
                 return GetValueDouble(StructureKeyNames.WebImage.ImageWidth);
             }
             set
