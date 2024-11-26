@@ -26,6 +26,7 @@ using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -633,8 +634,20 @@ namespace OfficeOpenXml.FormulaParsing
                         else if(cr.ResultType == CompileResultType.LocalImage)
                         {
                             var pic = cr.Result as ExcelCellPicture;
-                            var picManager = new CellPicturesManager(f._ws);
-                            picManager.SetCellPicture(f._row, f._column, pic.GetImageBytes(), pic.AltText, CalcOrigins.Reference);
+                            if(pic.CalcOrigin != CalcOrigins.StandAlone && pic.CalcOrigin != CalcOrigins.StandaloneDecorative)
+                            {
+                                var picManager = new CellPicturesManager(f._ws);
+                                picManager.SetCellPicture(f._row, f._column, pic.GetImageBytes(), pic.AltText, CalcOrigins.Reference);
+                            }
+                        }
+                        else if(cr.ResultType == CompileResultType.WebImage)
+                        {
+                            var pic = cr.Result as ExcelCellPicture;
+                            if(pic.IsReferenceTo(f._ws.Name, f._row, f._column))
+                            {
+                                var picManager = new CellPicturesManager(f._ws);
+                                picManager.SetWebPicture(f._row, f._column, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, CalcOrigins.Reference);
+                            }
                         }
                         else
                         {
@@ -1202,6 +1215,9 @@ namespace OfficeOpenXml.FormulaParsing
                     break;
                 case DataType.Empty:
                     f._expressionStack.Push(Expression.Empty);
+                    break;
+                case DataType.WebImage:
+                    f._expressionStack.Push(new WebImageExpression(result, context));
                     break;
                 default:
                     //throw new InvalidOperationException($"Unhandled compile result for data type {result.DataType}");

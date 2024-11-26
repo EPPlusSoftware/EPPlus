@@ -74,9 +74,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 {
                     return base.ResultType;
                 }
-                else if(ResultValue != null && ResultValue is ExcelCellPicture)
+                else if(ResultValue != null && ResultValue is ExcelCellPicture ecp)
                 {
-                    return CompileResultType.LocalImage;
+                    if(ecp.PictureType == ExcelCellPictureTypes.LocalImage)
+                    {
+                        return CompileResultType.LocalImage;
+                    }
+                    else
+                    {
+                        return CompileResultType.WebImage;
+                    }
                 }
                 return CompileResultType.RangeAddress;
             }

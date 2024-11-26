@@ -144,6 +144,10 @@ namespace OfficeOpenXml.RichData.WebImages
 
         internal void WriteXml(StreamWriter sw)
         {
+            if(_addressRel != null || _blipRel != null)
+            {
+                sw.Write("<webImageSrd>");
+            }
             if(_addressRel != null && !string.IsNullOrEmpty(_addressRel.Id))
             {
                 sw.Write($"<address r:id=\"{_addressRel.Id}\" />");
@@ -154,7 +158,11 @@ namespace OfficeOpenXml.RichData.WebImages
             }
             if(_blipRel != null && !string.IsNullOrEmpty(_blipRel.Id))
             {
-                sw.Write($"<blip ri:id=\"{_blipRel.Id}\" />");
+                sw.Write($"<blip r:id=\"{_blipRel.Id}\" />");
+            }
+            if (_addressRel != null || _blipRel != null)
+            {
+                sw.Write("</webImageSrd>");
             }
         }
 

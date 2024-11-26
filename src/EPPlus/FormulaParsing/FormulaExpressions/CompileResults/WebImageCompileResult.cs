@@ -8,34 +8,48 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  10/29/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults
 {
     /// <summary>
-    /// Result type
+    /// Local image compile result
     /// </summary>
-    public enum CompileResultType
+    public class WebImageCompileResult : CompileResult
     {
         /// <summary>
-        /// A normal compile result containing a value.
+        /// Web image compile result
         /// </summary>
-        Normal = 0,
+        public WebImageCompileResult(object result) 
+            : base(result, DataType.WebImage)
+        {
+            
+        }
+
         /// <summary>
-        /// A compile result referencing a range address. This will allow the result to be used with the colon operator.
+        /// Web image compile result
         /// </summary>
-        RangeAddress = 1,
+        public WebImageCompileResult(object result, ParsingContext ctx)
+            : base(result, DataType.WebImage)
+        {
+            
+        }
+
         /// <summary>
-        /// The result is a dynamic array formula.
+        /// The result is a web image
         /// </summary>
-        DynamicArray = 2,
-        /// <summary>
-        /// A compile result containing a local image or a reference to a local image
-        /// </summary>
-        LocalImage = 3,
-        /// <summary>
-        /// A compile result containing a web image or a reference to a web image
-        /// </summary>
-        WebImage = 4
+        public override CompileResultType ResultType
+        {
+            get
+            {
+                return CompileResultType.WebImage;
+            }
+        }
     }
 }

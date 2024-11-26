@@ -81,9 +81,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     obj = ((DateTime)obj).ToOADate();
                     return DataType.Date;
                 default:
-                    if (obj is ExcelCellPicture)
+                    if (obj is ExcelCellPicture ecp)
                     {
-                        return DataType.LocalImage;
+                        return ecp.PictureType == ExcelCellPictureTypes.LocalImage ? DataType.LocalImage : DataType.WebImage;
                     }
                     else if (obj is ExcelErrorValue)
                     {

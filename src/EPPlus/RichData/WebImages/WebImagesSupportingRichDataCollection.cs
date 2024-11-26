@@ -67,11 +67,11 @@ namespace OfficeOpenXml.RichData.WebImages
             }
             if(moreImagesUri != null && !string.IsNullOrEmpty(moreImagesUri.OriginalString))
             {
-                sb.AppendFormat("mi:{0}", moreImagesUri.OriginalString);
+                sb.AppendFormat("-mi:{0}", moreImagesUri.OriginalString);
             }
             if(addressUri != null && !string.IsNullOrEmpty(addressUri.OriginalString))
             {
-                sb.AppendFormat("a:{0}", addressUri.OriginalString);
+                sb.AppendFormat("-a:{0}", addressUri.OriginalString);
             }
             return sb.ToString();
         }
@@ -82,9 +82,6 @@ namespace OfficeOpenXml.RichData.WebImages
             if(!_cachedImages.ContainsKey(key))
             {
                 base.Add(item);
-            }
-            else
-            {
                 _cachedImages[key] = item.Id;
             }
         }

@@ -551,6 +551,23 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         {            
             _context = ctx;
         }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="ctx">Parsing context</param>
+        /// <param name="ws">Worksheet</param>
+        /// <param name="cell">Cell address</param>
+        public FormulaRangeAddress(ParsingContext ctx, ExcelWorksheet ws, FormulaCellAddress cell)
+        {
+            _context = ctx;
+            WorksheetIx = ws.Index;
+            FromRow = cell.Row;
+            FromCol = cell.Column;
+            ToRow = cell.Row;
+            ToCol = cell.Column;
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>

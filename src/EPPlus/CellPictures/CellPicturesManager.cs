@@ -74,7 +74,8 @@ namespace OfficeOpenXml.CellPictures
                     CellAddress = new ExcelAddress(_sheet.Name, row, col, row, col),
                     ExternalAddress = rdWi.ExternalAddressUri,
                     AltText = rdWi.Text,
-                    CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None
+                    CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None,
+                    Sizing = rdWi.ImageSizing
                 };
                 return pic;
             }
@@ -107,16 +108,16 @@ namespace OfficeOpenXml.CellPictures
             };
         }
 
-        private ExcelRichValue CreateWebImageRichValue(Uri blipUri, Uri addressUri, CalcOrigins calcOrigin, string altText, WebImageSizing? sizing = null, double? height = null, double? width = null)
+        private ExcelRichValue CreateWebImageRichValue(Uri blipUri, Uri addressUri, CalcOrigins calcOrigin, string altText, WebImageSizing sizing = WebImageSizing.FitToCellMaintainRatio, double? height = null, double? width = null)
         {
             return CreateWebImageRichValue(blipUri, addressUri, null, calcOrigin, altText, sizing, height, width);
         }
 
-        private ExcelRichValue CreateWebImageRichValue(Uri blipUri, Uri addressUri, Uri moreImagesUri, CalcOrigins calcOrigin, string altText, WebImageSizing? sizing = null, double? height = null, double? width = null)
+        private ExcelRichValue CreateWebImageRichValue(Uri blipUri, Uri addressUri, Uri moreImagesUri, CalcOrigins calcOrigin, string altText, WebImageSizing sizing = WebImageSizing.FitToCellMaintainRatio, double? height = null, double? width = null)
         {
             var wb = _sheet.Workbook;
             var img = new WebImageRichValue(_sheet.Workbook);
-            if (wb.RichData.WebImages.TryGet(blipUri, addressUri, null, out uint imageId))
+            if (wb.RichData.WebImages.TryGet(blipUri, null, addressUri, out uint imageId))
             {
                 img.WebImageIdentifier = imageId;
             }
@@ -128,6 +129,7 @@ namespace OfficeOpenXml.CellPictures
 
             img.CalcOrigin = calcOrigin;
             img.Text = altText;
+            img.ComputedImage = false;
             img.ImageSizing = sizing;
             img.ImageHeight = height;
             img.ImageWidth = width;
@@ -163,10 +165,11 @@ namespace OfficeOpenXml.CellPictures
             
             var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
             var imageUri = UriHelper.ResolvePartUri(rdUri, imageInfo.Uri);
+            var cacheKey = new LocalImageCacheKey(imageUri, calcOrigin, altText);
 
-            if(_referenceCache.Contains(imageUri, calcOrigin, out uint cachedVmId))
+            if (_referenceCache.Contains(cacheKey, out uint cachedVmId))
             {
-                AddReferenceToPicture(row, col, calcOrigin, imageUri, cachedVmId);
+                AddReferenceToPicture(row, col, cacheKey, cachedVmId);
                 return;
             }
 
@@ -174,7 +177,7 @@ namespace OfficeOpenXml.CellPictures
             // no existing rich data, add new
             if (!hasRv)
             {
-                AddNewPicture(row, col, altText, calcOrigin, imageUri);
+                AddNewLocalPicture(row, col, altText, calcOrigin, imageUri);
             }
             else
             {
@@ -187,27 +190,28 @@ namespace OfficeOpenXml.CellPictures
                     }
                     else
                     {
-                        _referenceCache.RemoveReference(existingPic.ImageUri, calcOrigin, out int numberOfRefsLeft);
+                        _referenceCache.RemoveReference(cacheKey, out int numberOfRefsLeft);
                     }
                 }
                 else
                 {
                     // there was rich data connected to the cell, we leave it as it is
                 }
-                AddNewPicture(row, col, altText, calcOrigin, imageUri);
+                AddNewLocalPicture(row, col, altText, calcOrigin, imageUri);
             }
         }
 
-        public void SetWebPicture(int row, int col, Uri addressUri, byte[] imageBytes, string altText, CalcOrigins calcOrigin = CalcOrigins.Formula, WebImageSizing? sizing = null, double? height = null, double? width = null)
+        public void SetWebPicture(int row, int col, Uri addressUri, byte[] imageBytes, string altText, CalcOrigins calcOrigin = CalcOrigins.Formula, WebImageSizing sizing = WebImageSizing.FitToCellMaintainRatio, double? height = null, double? width = null)
         {
             // Add image to picture store and create relation
+            var cacheKey = new WebPictureCacheKey(addressUri, altText, calcOrigin, sizing, height, width);
             var imageInfo = AddToPictureStore(imageBytes);
             var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
             var imageUri = UriHelper.ResolvePartUri(rdUri, imageInfo.Uri);
 
-            if (_referenceCache.Contains(imageUri, calcOrigin, out uint cachedVmId))
+            if (_referenceCache.Contains(cacheKey, out uint cachedVmId))
             {
-                AddReferenceToPicture(row, col, calcOrigin, imageUri, cachedVmId);
+                AddReferenceToPicture(row, col, cacheKey, cachedVmId);
                 return;
             }
 
@@ -228,7 +232,7 @@ namespace OfficeOpenXml.CellPictures
                     }
                     else
                     {
-                        _referenceCache.RemoveReference(existingPic.ImageUri, calcOrigin, out int numberOfRefsLeft);
+                        _referenceCache.RemoveReference(cacheKey, out int numberOfRefsLeft);
                     }
                 }
                 else
@@ -239,48 +243,50 @@ namespace OfficeOpenXml.CellPictures
             }
         }
 
-        private void AddNewPicture(int row, int col, string altText, CalcOrigins calcOrigin, Uri imageUri)
+        private void AddNewLocalPicture(int row, int col, string altText, CalcOrigins calcOrigin, Uri imageUri)
         {
+            var cacheKey = new LocalImageCacheKey(imageUri, calcOrigin, altText);
             var imageRichValue = CreateLocalImageRichValue(imageUri, calcOrigin, altText);
             imageRichValue.SetStructure(_sheet.Workbook.RichData);
             _richDataStore.AddRichData(row, col, imageRichValue, out uint vmId);
             var newPic = GetExcelCellPictureByRichValue(imageRichValue, row, col, vmId);
             SetCellValue(row, col, newPic);
             SetValueMetadata(row, col, vmId);
-            if(!_referenceCache.Contains(imageUri, calcOrigin))
+            if(!_referenceCache.Contains(cacheKey))
             {
-                _referenceCache.Add(imageUri, calcOrigin, vmId);
+                _referenceCache.Add(cacheKey, vmId);
             }
             else
             {
-                _referenceCache.AddReference(imageUri, calcOrigin);
+                _referenceCache.AddReference(cacheKey);
             }
         }
 
-        private void AddNewWebPicture(int row, int col, Uri imageUri, Uri addressUri, string altText, CalcOrigins calcOrigin, WebImageSizing? sizing, double? height, double? width)
+        private void AddNewWebPicture(int row, int col, Uri imageUri, Uri addressUri, string altText, CalcOrigins calcOrigin, WebImageSizing sizing, double? height, double? width)
         {
+            var cacheKey = new WebPictureCacheKey(addressUri, altText, calcOrigin, sizing, height, width);
             var imageRichValue = CreateWebImageRichValue(imageUri, addressUri, calcOrigin, altText, sizing, width, height);
             imageRichValue.SetStructure(_sheet.Workbook.RichData);
             _richDataStore.AddRichData(row, col, imageRichValue, out uint vmId);
             var newPic = GetExcelCellPictureByRichValue(imageRichValue, row, col, vmId);
             SetCellValue(row, col, newPic);
             SetValueMetadata(row, col, vmId);
-            if (!_referenceCache.Contains(imageUri, calcOrigin))
+            if (!_referenceCache.Contains(cacheKey))
             {
-                _referenceCache.Add(imageUri, calcOrigin, vmId);
+                _referenceCache.Add(cacheKey, vmId);
             }
             else
             {
-                _referenceCache.AddReference(imageUri, calcOrigin);
+                _referenceCache.AddReference(cacheKey);
             }
         }
 
-        private void AddReferenceToPicture(int row, int col, CalcOrigins calcOrigin, Uri imageUri, uint vmId)
+        private void AddReferenceToPicture(int row, int col, PictureCacheKey key, uint vmId)
         {
             var rv = _richDataStore.GetRichValue(vmId);
             var pic = GetExcelCellPictureByRichValue(rv, row, col, vmId);
             SetCellValue(row, col, pic);
-            _referenceCache.AddReference(imageUri, calcOrigin);
+            _referenceCache.AddReference(key);
             SetValueMetadata(row, col, vmId);
         }
 
@@ -293,7 +299,7 @@ namespace OfficeOpenXml.CellPictures
 
         private void SetCellValue(int row, int col, ExcelCellPicture pic)
         {
-            if(pic.CalcOrigin == CalcOrigins.Reference)
+            if(pic.CalcOrigin == CalcOrigins.Reference || pic.CalcOrigin == CalcOrigins.Formula)
             {
                 _sheet.SetValueInner(row, col, pic);
             }
@@ -344,7 +350,16 @@ namespace OfficeOpenXml.CellPictures
             var pic = _sheet.Cells[row, col].Value as ExcelCellPicture;
             if(pic != null)
             {
-                _referenceCache.RemoveReference(pic.ImageUri, pic.CalcOrigin, out int numberOfReferencesLeft);
+                PictureCacheKey key = null;
+                if(pic.PictureType == ExcelCellPictureTypes.LocalImage)
+                {
+                    key = new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
+                }
+                else
+                {
+                    key = new WebPictureCacheKey(pic.ExternalAddress, pic.AltText, pic.CalcOrigin, pic.Sizing ?? WebImageSizing.FitToCellMaintainRatio, null, null);
+                }
+                _referenceCache.RemoveReference(key, out int numberOfReferencesLeft);
                 if (numberOfReferencesLeft <= 0)
                 {
                     _richDataStore.DeleteRichData(row, col);

@@ -28,15 +28,10 @@ namespace OfficeOpenXml.CellPictures
             LastReferenceRemoved?.Invoke(this, new LastReferenceRemovedEventArgs(vmId));
         }
 
-        private string CreateCacheKey(Uri imageUri, CalcOrigins calcOrigin)
-        {
-            return $"{imageUri.OriginalString}-{calcOrigin}";
-        }
-
-        public bool Contains(Uri imageUri, CalcOrigins calcOrigin, out uint vmId)
+        public bool Contains(PictureCacheKey pictureCacheKey, out uint vmId)
         {
             vmId = uint.MaxValue;
-            var key = CreateCacheKey(imageUri, calcOrigin);
+            var key = pictureCacheKey.Key;
             var result = _referenceCache.ContainsKey(key);
             if(result)
             {
@@ -45,15 +40,15 @@ namespace OfficeOpenXml.CellPictures
             return result;
         }
 
-        public bool Contains(Uri imageUri, CalcOrigins calcOrigin)
+        public bool Contains(PictureCacheKey pictureCacheKey)
         {
-            var key = CreateCacheKey(imageUri, calcOrigin);
+            var key = pictureCacheKey.Key;
             return _referenceCache.ContainsKey(key);
         }
 
-        public void Add(Uri imageUri, CalcOrigins calcOrigin, uint vmId)
+        public void Add(PictureCacheKey pictureCacheKey, uint vmId)
         {
-            var key = CreateCacheKey(imageUri, calcOrigin);
+            var key = pictureCacheKey.Key;
             if (!_referenceCache.ContainsKey(key) )
             {
                 _referenceCache[key] = new CellPictureReference(vmId);
@@ -61,9 +56,9 @@ namespace OfficeOpenXml.CellPictures
             _referenceCache[key].AddReference();
         }
 
-        public bool Remove(Uri imageUri, CalcOrigins calcOrigin)
+        public bool Remove(PictureCacheKey pictureCacheKey)
         {
-            var key = CreateCacheKey(imageUri, calcOrigin);
+            var key = pictureCacheKey.Key;
             if ( _referenceCache.ContainsKey(key) )
             {
                 var item = _referenceCache[key];
@@ -78,19 +73,19 @@ namespace OfficeOpenXml.CellPictures
             return false;
         }
 
-        public void AddReference(Uri imageUri, CalcOrigins calcOrigin)
+        public void AddReference(PictureCacheKey pictureCacheKey)
         {
-            var key = CreateCacheKey(imageUri, calcOrigin);
+            var key = pictureCacheKey.Key;
             if(_referenceCache.ContainsKey(key))
             {
                 _referenceCache[key].AddReference();
             }
         }
 
-        public void RemoveReference(Uri imageUri, CalcOrigins calcOrigin, out int numberOfReferencesLeft)
+        public void RemoveReference(PictureCacheKey pictureCacheKey, out int numberOfReferencesLeft)
         {
             numberOfReferencesLeft = 0;
-            var key = CreateCacheKey(imageUri, calcOrigin);
+            var key = pictureCacheKey.Key;
             if (_referenceCache.ContainsKey(key))
             {
                 _referenceCache[key].RemoveReference();

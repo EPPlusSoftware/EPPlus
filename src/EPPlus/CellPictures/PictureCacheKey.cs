@@ -8,31 +8,30 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-namespace OfficeOpenXml
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace OfficeOpenXml.CellPictures
 {
-    internal enum ExpressionType
+    internal abstract class PictureCacheKey
     {
-        Boolean,
-        Date,
-        Decimal,
-        Integer,
-        String,
-        Constant,
-        Enumerable,
-        Variable,
-        //ExcelRange,
-        Group,
-        ValueError,
-        Function,
-        //FunctionArgument,
-        NameValue,
-        CellAddress,
-        //RangeAddress,
-        TableAddress,
-        //RangeDefinition,
-        WebImage,
-        Empty
+        protected abstract string Build();
+
+        private string _key;
+        public string Key
+        {
+            get
+            {
+                if(string.IsNullOrEmpty(_key))
+                {
+                    _key = Build();
+                }
+                return _key;
+            }
+        }
     }
 }

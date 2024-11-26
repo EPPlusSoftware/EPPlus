@@ -11,6 +11,8 @@
   22/11/2024         EPPlus Software AB           EPPlus v8
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,7 @@ using OfficeOpenXml.Utils.RemoteCalls;
 using OfficeOpenXml.CellPictures;
 using System.IO;
 using System.Net;
+using OfficeOpenXml.RichData.RichValues.WebImages;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -47,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 return CreateResult(eErrorType.Value);
             }
             var altText = default(string);
-            var sizing = default(int?);
+            var sizing =WebImageSizing.FitToCellMaintainRatio;
             var height = default(double?);
             var width = default(double?);
             if(arguments.Count > 1)
@@ -56,12 +59,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             if (arguments.Count > 2)
             {
-                sizing = ArgToInt(arguments, 2, out ExcelErrorValue e1, 0);
+                var sizingInt = ArgToInt(arguments, 2, out ExcelErrorValue e1, 0);
                 if (e1 != null) return CreateResult(e1, DataType.ExcelError);
-                if(sizing < 0 || sizing > 3)
+                if(sizingInt < 0 || sizingInt > 3)
                 {
                     return CreateResult(eErrorType.Value);
                 }
+                sizing = (WebImageSizing)sizingInt;
             }
             if(arguments.Count > 3)
             {
@@ -73,6 +77,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 width = ArgToDecimal(arguments, 4, out ExcelErrorValue e3);
                 if(e3 != null) return CreateResult(e3, DataType.ExcelError);
             }
+
+            if(sizing != WebImageSizing.CustomizeByHeightAndWidth && (height.HasValue || width.HasValue))
+            {
+                return CreateResult(eErrorType.Value);
+            }
+            else if(sizing == WebImageSizing.CustomizeByHeightAndWidth && !height.HasValue && !width.HasValue)
+            {
+                return CreateResult(eErrorType.Value);
+            }
+
+            // TODO: cache image url:s and internal image Uri (in the picture store) and make http-call only if the image
+            // is already present in the workbook.
+
             var httpTask = new HttpRemoteTask(url, this, context);
             //RemoteCallManager.QueueTask(httpTask);
             // return #BUSY error
@@ -84,9 +101,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 return CreateResult(eErrorType.Value);
             }
             var imageBytes = httpsService.Download(url);
-            cellPictureManager.SetWebPicture(context.CurrentCell.Row, context.CurrentCell.Column, new Uri(url), imageBytes, null);
+            cellPictureManager.SetWebPicture(context.CurrentCell.Row, context.CurrentCell.Column, new Uri(url), imageBytes, altText, CalcOrigins.Formula, sizing, height, width);
             var cellPic = context.CurrentWorksheet.GetValue(context.CurrentCell.Row, context.CurrentCell.Column);
-            return CreateResult(cellPic, DataType.WebImage);
+            //return CreateResult(cellPic, DataType.WebImage);
+            return new WebImageCompileResult(cellPic);
         }
 
         private bool IsValidHttpsUrl(string url)

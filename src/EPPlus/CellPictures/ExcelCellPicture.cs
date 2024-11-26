@@ -14,7 +14,9 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.RichData;
+using OfficeOpenXml.RichData.RichValues.WebImages;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace OfficeOpenXml.CellPictures
@@ -22,6 +24,7 @@ namespace OfficeOpenXml.CellPictures
     /// <summary>
     /// Represents an in-cell picture
     /// </summary>
+    [DebuggerDisplay("Type: {PictureType}, Filename: {FileName}")]
     public class ExcelCellPicture : RichDataReferenceValueError
     {
         /// <summary>
@@ -107,10 +110,17 @@ namespace OfficeOpenXml.CellPictures
         /// </summary>
         internal CalcOrigins CalcOrigin { get; set; }
 
+        internal WebImageSizing? Sizing { get; set; }
+
         /// <summary>
         /// Address of the cell picture
         /// </summary>
         public ExcelAddress CellAddress { get; set; }
+
+        internal bool IsReferenceTo(string wsName, int row, int col)
+        {
+            return wsName != CellAddress._ws || row != CellAddress._fromRow || col != CellAddress._toCol;
+        }
 
        
     }

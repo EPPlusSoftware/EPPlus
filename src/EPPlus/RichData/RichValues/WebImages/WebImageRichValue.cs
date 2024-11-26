@@ -92,11 +92,11 @@ namespace OfficeOpenXml.RichData.RichValues.WebImages
 
         /// <summary>
         /// Boolean value that when true indicates the image can be generated on demand.
-        public bool? ComputedImage
+        public bool ComputedImage
         {
             get
             {
-                return GetValueBool(StructureKeyNames.WebImage.ComputedImage);
+                return GetValueBool(StructureKeyNames.WebImage.ComputedImage) ?? false;
             }
             set
             {
@@ -111,12 +111,12 @@ namespace OfficeOpenXml.RichData.RichValues.WebImages
         /// At 2, image maintains its original size and MAY exceed the cell boundary.
         /// At 3, image size is customized by "ImageHeight" and "ImageWidth".
         /// </summary>
-        public WebImageSizing? ImageSizing
+        public WebImageSizing ImageSizing
         {
             get
             {
                 var v = GetValueInt(StructureKeyNames.WebImage.ImageSizing);
-                return v.HasValue && v >= 0 && v <= 3 ?(WebImageSizing?)v : WebImageSizing.FitToCellMaintainRatio;
+                return v.HasValue && v >= 0 && v <= 3 ?(WebImageSizing)v : WebImageSizing.FitToCellMaintainRatio;
             }
             set
             {
