@@ -349,17 +349,8 @@ namespace OfficeOpenXml.Packaging
                             partStream.Write(bArr, 0, bArr.Length);
                             partStream.Seek(0, SeekOrigin.Begin);
                             
-                            //Remove unncesesary spaces on end-nodes like Excel
-                            var xmlStr = Encoding.UTF8.GetString(bArr);
-                            xmlStr = xmlStr.Replace(" />", "/>");
-                            var xmlBytes = Encoding.UTF8.GetBytes(xmlStr);
-                            
-                            using(var ms = new MemoryStream(xmlBytes))
-                            {
-                                ms.Seek(0, SeekOrigin.Begin);
-                                var part = GetPart(uri);
-                                Manifest.AddPartToManifest(part, ms);
-                            }
+                            var part = GetPart(uri);
+                            Manifest.AddPartToManifest(part, partStream);
                         }
                     }
                 }
