@@ -1452,7 +1452,40 @@ namespace EPPlusTest.Core.Range.Insert
             Assert.AreEqual(ws.Cells["B1"], b1);
             Assert.AreEqual(ws.Cells["A2"].EntireRow.Range, row1);
             Assert.AreEqual(ws.Cells["B1"].EntireColumn.Range, col1);
+
+            //Biggus Testus
+            var abc123 = ws.Cells["A1:C3"];
+            var abc456 = abc123.Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual(ws.Cells["A4:C6"], abc456);
+            var def123 = abc123.Insert(eShiftTypeInsert.Right);
+            Assert.AreEqual(ws.Cells["D1:F3"], def123);
+
             p.SaveAs(@"C:\epplusTest\Testoutput\insertReturnRangeTest.xlsx");
+        }
+
+        [TestMethod]
+        public void DeleteReturnRangeTest()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            var a1 = ws.Cells["A1"];
+            var a2 = ws.Cells["A2"];
+            a1.Value = "Content";
+            a2.Value = "asd";
+            a1.Delete(eShiftTypeDelete.Up);
+            Assert.AreEqual("asd", a1.Value);
+        }
+
+        [TestMethod]
+        public void NamedRangeReturnRangeTest()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            ExcelNamedRange enr;
+
+            ws.InsertRow
         }
 
     }
