@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Core;
 using OfficeOpenXml.Drawing.Shape;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
@@ -466,20 +467,24 @@ namespace OfficeOpenXml.Drawing
         /// Get a list of available adjustment point names.
         /// </summary>
         /// <returns></returns>
-        public List<string> GetShapeGuidesNames()
+        public EPPlusReadOnlyList<string> GetShapeGuidesNames()
         {
-            if(AdjustmentPoints == null || AdjustmentPoints.Count == 0)
+            if (AdjustmentPoints == null || AdjustmentPoints.Count == 0)
             {
-                return new List<string>();
+                AdjustmentPoints = ShapeGuidesFactory.GetAdjustmentPoints(Style);
+                if(AdjustmentPoints == null)
+                    return new EPPlusReadOnlyList<string>();
             }
-            return AdjustmentPoints.Keys.ToList();
+            EPPlusReadOnlyList<string> strings = new EPPlusReadOnlyList<string>();
+            strings._list = AdjustmentPoints.Keys.ToList();
+            return strings;
         }
 
         /// <summary>
         /// Adjust the named point with value.
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="value"></param>
+        /// <param name="name">The name of the adjustment point. Use GetShapeGuideNames for a list of possible shape guides to adjust.</param>
+        /// <param name="value">The value to set for the shape guide. Value is different from shape to shape. Some shapes clamp the value and some are free.</param>
         /// <exception cref="Exception"></exception>
         public void SetShapeGuide(string name, int value)
         {
