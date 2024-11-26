@@ -63,7 +63,11 @@ namespace OfficeOpenXml.Utils
 #if !NET35
 		private static RecyclableMemoryStreamManager _memoryManager;
 		private static object _dataLock = new object();
-
+		private static RecyclableMemoryStreamManager.Options _defaultOptions = new RecyclableMemoryStreamManager.Options
+        {
+            MaximumLargePoolFreeBytes = 32 * 1024 * 1024,
+            MaximumSmallPoolFreeBytes = 512 * 1024,
+        };
 		public static bool UseRecyclableMemory { get; set; } = true;
 		internal static bool HasMemoryManager
 		{
@@ -80,7 +84,7 @@ namespace OfficeOpenXml.Utils
                 {						
 					if (_memoryManager == null)
                     {
-						_memoryManager = new RecyclableMemoryStreamManager();
+						_memoryManager = new RecyclableMemoryStreamManager(_defaultOptions);
                     }
                 }
                 return _memoryManager;
