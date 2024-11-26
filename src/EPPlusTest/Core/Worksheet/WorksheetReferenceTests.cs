@@ -287,5 +287,29 @@ namespace EPPlusTest.Core.Worksheet
 
             }
         }
+
+        [TestMethod]
+        public void MoveToStart_IsWorksheets1BasedFalse_NoException()
+        {
+            using var p = new ExcelPackage();
+            p.Compatibility.IsWorksheets1Based = false;
+
+            var ws1 = p.Workbook.Worksheets.Add("Sheet 1");
+            var ws2 = p.Workbook.Worksheets.Add("Sheet 2");
+
+            p.Workbook.Worksheets.MoveToStart(ws2.Name);
+        }
+
+        [TestMethod]
+        public void MoveToStart_IsWorksheets1BasedTrue_Exception()
+        {
+            using var p = new ExcelPackage();
+            p.Compatibility.IsWorksheets1Based = true;
+
+            var ws1 = p.Workbook.Worksheets.Add("Sheet 1");
+            var ws2 = p.Workbook.Worksheets.Add("Sheet 2");
+
+            p.Workbook.Worksheets.MoveToStart(ws2.Name);
+        }
     }
 }
