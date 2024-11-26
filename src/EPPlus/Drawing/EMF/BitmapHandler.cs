@@ -58,58 +58,19 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        internal void ReadJpg(byte[] fileBytes, ExcelImageInfo info)
+        internal byte[] GetBitMapBytes()
         {
-            fileHeader = new BitMapFileHeader();
-            informationHeader = new BitmapInformationHeader(40, BitmapInformationHeader.CompressionMethod.BI_JPEG, (int)info.Width, (int)info.Height);
-
-            informationHeader.vRes = (int)info.VerticalResolution;
-            informationHeader.hRes = (int)info.HorizontalResolution;
-
-            fileHeader.Offset = 10 + (int)informationHeader.sizeOfHeader;
-            fileHeader.Size = fileHeader.Offset + (int)fileBytes.Length;
-
-            using (var ms = new MemoryStream(fileBytes))
+            var bitArr = new byte[fileHeader.Size];
+            using (var ms = new MemoryStream(bitArr))
             {
-                using (var br = new BinaryReader(ms))
-                {
-                    int pixelArrLen = (int)informationHeader.imageSize;
-                    //if (pixelArrLen == 0 && informationHeader.ReadCompression == BitmapInformationHeader.CompressionMethod.BI_RGB)
-                    //{
-                    //    pixelArrLen = (int)fileBytes.Length - (int)br.BaseStream.Position;
-                    //}
-                    //else
-                    if(pixelArrLen == 0 && informationHeader.ReadCompression == BitmapInformationHeader.CompressionMethod.BI_JPEG)
-                    {
-                        pixelArrLen = fileBytes.Length;
-                    }
-                    PixelArray = br.ReadBytes(pixelArrLen);
-
-
-                    //int remainingData = fileHeader.Size - (int)br.BaseStream.Position;
-                    //OptionalData2 = br.ReadBytes(remainingData);
-
-                    //br.BaseStream.Seek(0, SeekOrigin.Begin);
-
-                    //fileHeader = new BitMapFileHeader(br);
-                    //informationHeader = new BitmapInformationHeader(br);
-
-                    ////Could be broken out to individual data. ExtraBitMasks only for BI_BITFIELDS/BI_ALPHABITFIELDS etc.
-                    //var sizeOfOptionalData = fileHeader.Offset - (int)br.BaseStream.Position;
-                    //OptionalData = br.ReadBytes(sizeOfOptionalData);
-
-                    //int pixelArrLen = (int)informationHeader.imageSize;
-                    //if (pixelArrLen == 0 && informationHeader.ReadCompression == BitmapInformationHeader.CompressionMethod.BI_RGB)
-                    //{
-                    //    pixelArrLen = (int)fileBytes.Length - (int)br.BaseStream.Position;
-                    //}
-                    //PixelArray = br.ReadBytes(pixelArrLen);
-
-
-                    //int remainingData = fileHeader.Size - (int)br.BaseStream.Position;
-                    //OptionalData2 = br.ReadBytes(remainingData);
-                }
+                var bw = new BinaryWriter(ms);
+                fileHeader.WriteBytes(bw);
+                informationHeader.WriteBytes(bw);
+                bw.Write(OptionalData);
+                bw.Write(PixelArray);
+                bw.Write(OptionalData2);
             }
+            return bitArr;
         }
     }
 }

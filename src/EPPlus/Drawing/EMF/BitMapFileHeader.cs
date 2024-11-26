@@ -110,5 +110,13 @@ namespace OfficeOpenXml.Drawing.EMF
             return false;
         }
 
+        internal void WriteBytes(BinaryWriter bw)
+        {
+            bw.Write((UInt16)Signature);
+            bw.Write(Size);
+            bw.Write(Reserved1);
+            bw.Write(Reserved2);
+            bw.Write(Offset);
+        }
     }
 }

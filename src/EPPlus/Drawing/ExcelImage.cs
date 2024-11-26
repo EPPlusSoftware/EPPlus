@@ -357,6 +357,11 @@ namespace OfficeOpenXml.Drawing
             return this;
         }
 
+        internal void SetRestrictedTypes(ePictureType[] restrictedTypes)
+        {
+            _restrictedTypes = restrictedTypes;
+        }
+
         private void ValidatePictureType(ePictureType pictureType)
         {
             if (Array.Exists(_restrictedTypes, x => x == pictureType))

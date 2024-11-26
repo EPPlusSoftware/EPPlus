@@ -30,6 +30,12 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
+        internal SignatureLineTemplateEmf(byte[] emfBytes) : base(templateName, emfBytes)
+        {
+            signedBy.Text = "";
+            signTextObject.Text = "";
+        }
+
         internal SignatureLineTemplateEmf() : base(templateName)
         {
             signedBy.Text = "";
@@ -59,7 +65,6 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal override void SaveImage(byte[] imageBytes)
         {
-            var imageRecord = (EMR_STRETCHDIBITS)records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
             imageRecord.ReadBmpAndUpdateImage(imageBytes, false, true);
         }
     }

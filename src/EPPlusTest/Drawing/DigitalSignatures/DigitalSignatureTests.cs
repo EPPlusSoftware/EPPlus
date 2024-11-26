@@ -1136,30 +1136,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             }
         }
 
-
-        [TestMethod]
-        public void ReadFileWithSignatureAndSignatureLine()
-        {
-            using (var pck = OpenTemplatePackage("StampSignature.xlsx"))
-            {
-                var wb = pck.Workbook;
-                var ws = wb.Worksheets[0];
-
-                var signature = wb.DigitialSignatures[0];
-                var vmlDrawings = ws.VmlDrawings;
-
-                foreach (var drawrin in vmlDrawings)
-                {
-                    var baseDraw = drawrin;
-                }
-
-                var drawings = ws.Drawings;
-
-                //var ws = pck.Workbook.Worksheets.Add("ws_SignatureLine");
-                //var wb = pck.Workbook;
-            }
-        }
-
         [TestMethod]
         public void AddComment()
         {

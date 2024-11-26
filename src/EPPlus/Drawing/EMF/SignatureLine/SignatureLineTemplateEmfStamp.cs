@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-//var path = isStamp ? "SignatureLineStampTemplate.emf" : "SignatureLineTemplate.emf";
-//LoadTemplateFromResource(path, "OfficeOpenXml.resources.SignatureLineTemplates.zip");
-//IsStamp = isStamp;
-
 namespace OfficeOpenXml.Drawing.EMF
 {
     internal class SignatureLineTemplateEmfStamp : SignatureLineTemplateEmfBase
@@ -50,6 +46,11 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
+
+        internal SignatureLineTemplateEmfStamp(byte[] emfBytes) : base(templateName, emfBytes)
+        {
+        }
+
         internal SignatureLineTemplateEmfStamp() : base(templateName)
         {
         }
@@ -73,7 +74,6 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal override void SaveImage(byte[] imageBytes)
         {
-            var imageRecord = (EMR_STRETCHDIBITS)records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
             imageRecord.ReadBmpAndUpdateImage(imageBytes, true, false);
         }
     }

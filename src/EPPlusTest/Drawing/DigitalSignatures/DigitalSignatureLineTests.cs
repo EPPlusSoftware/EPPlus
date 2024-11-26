@@ -456,5 +456,28 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void ReadFileWithSignatureAndSignatureLineStamp()
+        {
+            using (var pck = OpenTemplatePackage("StampSignature.xlsx"))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets[0];
+
+                var signature = wb.DigitialSignatures[0];
+                var vmlDrawings = ws.VmlDrawings;
+
+                var sline = ws.SignatureLines[0];
+                var bytes = sline.SignatureImage.ImageBytes;
+
+                var templateBmpFile = GetTemplateFile("StampSignatureReconstructed.bmp");
+
+                var templateBytes = File.ReadAllBytes(templateBmpFile.FullName);
+                Assert.IsTrue(bytes.SequenceEqual(templateBytes));
+
+                SaveAndCleanup(pck);
+            }
+        }
     }
 }

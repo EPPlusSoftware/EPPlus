@@ -5,6 +5,7 @@ using System.Linq;
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography.Xml;
 
 namespace EPPlusTest
 {
@@ -143,6 +144,24 @@ namespace EPPlusTest
             textRecords[0].AdjustReferenceToCenterText(127, 10);
 
             generated.Save("C:\\epplusTest\\Testoutput\\MaxTitleGenned.emf");
+        }
+
+        [TestMethod]
+        public void EnsureBitmapCanBeExtractedFromDBitsRecord()
+        {
+            var emf = new EmfImage();
+            emf.Read(GetTemplateFile("5pxSignature.emf").FullName);
+            var imgRecord = (EMR_STRETCHDIBITS)emf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            var bmpBytes = imgRecord.ExtractedBmp.GetBitMapBytes();
+
+            var outputBmpFile = GetOutputFile("", "5pxGreen.bmp");
+            var templateBmpFile = GetTemplateFile("5pxGreen.bmp");
+
+            var templateBytes = File.ReadAllBytes(templateBmpFile.FullName);
+            Assert.IsTrue(bmpBytes.SequenceEqual(templateBytes));
+
+            File.WriteAllBytes(outputBmpFile.FullName, bmpBytes);
         }
     }
 }

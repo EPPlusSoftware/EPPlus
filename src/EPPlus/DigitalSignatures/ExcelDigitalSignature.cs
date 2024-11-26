@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using OfficeOpenXml.VBA;
 using System.Linq;
 using OfficeOpenXml.Drawing;
+using System.IO;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
@@ -131,8 +132,8 @@ namespace OfficeOpenXml.DigitalSignatures
 
                     if(string.IsNullOrEmpty(SignatureImage) == false)
                     {
-                        var imgBytes = Convert.FromBase64String(SignatureImage);
-                        _signatureLine.SignatureImage = new ExcelImage(imgBytes, ePictureType.Bmp);
+                        var emfBytes = Convert.FromBase64String(SignatureImage);
+                        SignatureLine.ReadEmfExtractImage(emfBytes);
                     }
                 }
             }

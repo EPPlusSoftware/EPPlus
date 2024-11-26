@@ -256,11 +256,11 @@ namespace OfficeOpenXml.Drawing.EMF
                 header.Bytes += record.Size;
             }
 
-            BinaryWriter br = new BinaryWriter(ms);
+            BinaryWriter bw = new BinaryWriter(ms);
 
             foreach (var record in records)
             {
-                record.WriteBytes(br);
+                record.WriteBytes(bw);
             }
         }
 

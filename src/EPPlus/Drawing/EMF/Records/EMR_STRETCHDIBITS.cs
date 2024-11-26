@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.Utils;
+using System;
 using System.IO;
 
 namespace OfficeOpenXml.Drawing.EMF
@@ -28,6 +29,8 @@ namespace OfficeOpenXml.Drawing.EMF
         internal float MaxHeight = 75;
         internal float MaxWidth = 111;
 
+        internal BitmapHandler ExtractedBmp;
+        
         internal byte[] BitsSrc
         {
             get
@@ -100,32 +103,38 @@ namespace OfficeOpenXml.Drawing.EMF
 
             //There's undefined variable space here, ensure we reach the header
             var startOfHeader = startOfRecord + offBmiSrc;
+            int padding1Length = 0;
             if(br.BaseStream.Position < startOfHeader)
             {
-                int padding = (int)(startOfHeader - br.BaseStream.Position);
-                Padding1 = new byte[padding];
-                br.Read(Padding1, 0, padding);
+                padding1Length = (int)(startOfHeader - br.BaseStream.Position);
+                Padding1 = new byte[padding1Length];
+                br.Read(Padding1, 0, padding1Length);
             }
-
-            //Should not be neccesary
-            br.BaseStream.Position = startOfHeader;
 
             bitMapHeader = new BitmapInformationHeader(br, cbBmiSrc);
 
             //There's undefined variable space here, ensure we reach the bitmapSpace
             var startOfBitmapBits = startOfRecord + offBitsSrc;
+            int padding2Length = 0;
+
             if (br.BaseStream.Position < startOfBitmapBits)
             {
-                int padding = (int)(startOfBitmapBits - br.BaseStream.Position);
-                _padding2 = new byte[padding];
-                br.Read(_padding2, 0, padding);
+                padding2Length = (int)(startOfBitmapBits - br.BaseStream.Position);
+                _padding2 = new byte[padding2Length];
+                br.Read(_padding2, 0, padding2Length);
             }
-
-            //Should not be neccesary
-            br.BaseStream.Position = startOfBitmapBits;
 
             //Source bitmap bits
             _bitsSrc = br.ReadBytes((int)cbBitsSrc);
+
+            //Helper property to Order information as a valid bitmap outside emf
+            ExtractedBmp = new BitmapHandler();
+            ExtractedBmp.fileHeader = new BitMapFileHeader();
+            ExtractedBmp.informationHeader = bitMapHeader;
+            ExtractedBmp.OptionalData = Padding2;
+            ExtractedBmp.PixelArray = _bitsSrc;
+            ExtractedBmp.fileHeader.Offset = (int)(14/*FileHeader*/+ bitMapHeader.sizeOfHeader + padding2Length);
+            ExtractedBmp.fileHeader.Size = (int)(bitMapHeader.sizeOfHeader + 14/*FileHeader*/ + cbBitsSrc + padding2Length);
 
             int tempPadding = (int)((position + Size) - br.BaseStream.Position);
             if (tempPadding < 0)

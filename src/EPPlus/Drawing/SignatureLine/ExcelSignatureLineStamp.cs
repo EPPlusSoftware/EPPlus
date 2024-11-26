@@ -6,6 +6,7 @@ using OfficeOpenXml.Drawing.Vml;
 using System;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
+using System.Linq;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -19,7 +20,7 @@ namespace OfficeOpenXml.Drawing
         internal ExcelWorkbook wb;
 
         private protected eSignatureLineType _signatureLineType = eSignatureLineType.Stamp;
-
+        ePictureType[] restrictedTypes = Enum.GetValues(typeof(ePictureType)).Cast<ePictureType>().Where(x => x != ePictureType.Bmp).ToArray();
         /// <summary>
         /// The type of signatureline
         /// </summary>
@@ -137,6 +138,11 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
+        internal virtual void ReadEmfExtractImage(byte[] emfBytes)
+        {
+            Emf = _signatureLineType == eSignatureLineType.Stamp ? new SignatureLineTemplateEmfStamp(emfBytes) : new SignatureLineTemplateEmf(emfBytes);
+            SignatureImage = new ExcelImage(Emf.GetBitmapBytes(), ePictureType.Bmp);
+        }
 
         /// <summary>
         /// Sign the signatureline with a new digital signature.

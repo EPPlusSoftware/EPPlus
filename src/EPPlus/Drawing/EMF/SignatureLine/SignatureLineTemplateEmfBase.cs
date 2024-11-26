@@ -10,6 +10,7 @@ namespace OfficeOpenXml.Drawing.EMF
         internal EMR_EXTTEXTOUTW timeStamp;
         internal EMR_EXTTEXTOUTW suggestedSignerObject;
         internal EMR_EXTTEXTOUTW suggestedTitleObject;
+        internal EMR_STRETCHDIBITS imageRecord;
 
         protected const string localZipPath = "OfficeOpenXml.resources.SignatureLineTemplates.zip";
 
@@ -50,6 +51,19 @@ namespace OfficeOpenXml.Drawing.EMF
             return inputString;
         }
 
+        //Load image record from original Emf into template
+        internal SignatureLineTemplateEmfBase(string templateName, byte[] originalBytes) : this(templateName)
+        {
+            var tmp = new EmfImage();
+            tmp.Read(originalBytes);
+            var tmpImageRecord = (EMR_STRETCHDIBITS)tmp.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+            imageRecord.ExtractedBmp = tmpImageRecord.ExtractedBmp;
+        }
+        internal byte[] GetBitmapBytes()
+        {
+            return imageRecord.ExtractedBmp.GetBitMapBytes();
+        }
+
         internal SignatureLineTemplateEmfBase(EmfImage emf)
         {
             Read(emf.GetBytes());
@@ -75,13 +89,12 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Cast<EMR_EXTTEXTOUTW>().ToList();
             timeStamp = textRecords[0];
+            imageRecord = (EMR_STRETCHDIBITS)records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
             return textRecords;
         }
 
         internal void SetImageRecordMax(float MaxHeight, float MaxWidth)
         {
-            var imageRecord = (EMR_STRETCHDIBITS)records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-
             imageRecord.MaxHeight = MaxHeight;
             imageRecord.MaxWidth = MaxWidth;
         }
