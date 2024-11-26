@@ -189,9 +189,9 @@ namespace OfficeOpenXml.DigitalSignatures
                 }
 
                 var signatureComments = new List<string>
-            {
-                PurposeForSigning
-            };
+                {
+                    PurposeForSigning
+                };
 
                 qualifyingProperties = new QualifyingProperties
                     ("xd", Certificate, CommitmentTyping, signatureComments, SigningInformation);

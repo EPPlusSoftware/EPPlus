@@ -8,6 +8,7 @@ using OfficeOpenXml.Drawing;
 using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.DigitalSignatures;
+using System.Runtime.ConstrainedExecution;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
@@ -274,6 +275,87 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void ReadSline()
+        {
+            string origImage;
+            string origValid;
+            string origInvalid;
+
+            //using (var pck = OpenTemplatePackage("PngSline.xlsx"))
+            using (var pck = OpenTemplatePackage("BmpImage.xlsx"))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets[0];
+
+                var aSline = ws.SignatureLines[0];
+                var digSig = wb.DigitialSignatures[0];
+
+                origImage = digSig.SignatureImage;
+                origValid = digSig.ValidSigLnImage;
+                origInvalid = digSig.InvalidSigLnImg;
+
+                var strEmf = Convert.FromBase64String(origImage);
+                var emf = new EmfImage();
+                emf.Read(strEmf);
+
+                DecodeAndSaveEmf(origImage, GetOutputFile(SubFolder, "SignatureImagePng.emf").FullName);
+                DecodeAndSaveEmf(origValid, GetOutputFile(SubFolder, "SignatureImagePngValid.emf").FullName);
+                DecodeAndSaveEmf(origInvalid, GetOutputFile(SubFolder, "SignatureImagePngInvalid.emf").FullName);
+
+                SaveAndCleanup(pck);
+            }
+
+            using (var pck = OpenPackage("BmpImage.xlsx"))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets[0];
+
+                var aSline = ws.SignatureLines[0];
+                var digSig = wb.DigitialSignatures[0];
+
+                Assert.AreEqual(origImage, digSig.SignatureImage);
+                Assert.AreEqual(origValid, digSig.ValidSigLnImage);
+                Assert.AreEqual(origInvalid, digSig.InvalidSigLnImg);
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void VerifySignatureLineEmfs()
+        {
+            var fileName = $"{SubFolder}SignatureLineEmfs.xlsx";
+            var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
+
+            using (var pck = OpenPackage(fileName, true))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets.Add("sLineWs");
+
+                var sLine = ws.AddSignatureLine();
+                sLine.SigningInstructions = "These are Instructions";
+                sLine.Signer = "ASigner";
+                sLine.Title = "SomeDeveloper";
+                sLine.Email = "Some@developer.se";
+                sLine.AllowComments = true;
+                sLine.ShowSignDate = true;
+
+                var cert = GetSelfCert();
+                sLine.Sign(cert, signatureImage);
+
+                SaveAndCleanup(pck);
+            }
+
+            using (var pck = OpenPackage(fileName))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets[0];
+
+                var signature = wb.DigitialSignatures[0];
+            }
+        }
+
 
         [TestMethod]
         public void CreateSignAndResaveSigLineFullInfo()
