@@ -23,12 +23,7 @@ namespace OfficeOpenXml.RichData.RichValues.Errors
 {
     internal class ErrorWithSubTypeRichValue : ErrorRichValueBase
     {
-        public ErrorWithSubTypeRichValue(ExcelWorkbook workbook) : this(workbook.IndexStore, workbook.RichData)
-        {
-            
-        }
-
-        public ErrorWithSubTypeRichValue(RichDataIndexStore store, ExcelRichData richData) : base(store, richData, RichDataStructureTypes.ErrorWithSubType)
+        public ErrorWithSubTypeRichValue(RichDataDatabase richDataDb) : base(richDataDb, RichDataStructureTypes.ErrorWithSubType)
         {
         }
 

@@ -24,29 +24,31 @@ namespace OfficeOpenXml.Metadata
     /// </summary>
     internal class ExcelValueMetadataRecord : IndexEndpoint
     {
-        public ExcelValueMetadataRecord(ExcelMetadata metadata, IndexEndpoint parent, uint typeId, uint valueId, RichDataIndexStore store)
+        public ExcelValueMetadataRecord(MetadataDatabase metadataDb, IndexEndpoint parent, uint typeId, uint valueId, RichDataIndexStore store)
             : base(store, RichDataEntities.ValueMetadataRecord)
         {
             TypeId = typeId;
             ValueId = valueId;
-            _metadata = metadata;
+            _metadataDb = metadataDb;
             _readValueIndex = Convert.ToInt32(valueId);
             _parent = parent;
         }
 
         private readonly IndexEndpoint _parent;
-        private readonly ExcelMetadata _metadata;
+        private readonly MetadataDatabase _metadataDb;
         private readonly int _readValueIndex;
 
-        public void InitRelations(ExcelRichData richData)
+        public void InitRelations(RichDataDatabase richDataDb)
         {
-            base.InitRelations();
-            var parentRel = _parent.GetOutgoingRelations(x => x.IndexType == IndexType.SubRelations && x.AsRelationWithSubRelations().SubRelationEntity == RichDataEntities.RichValue).FirstOrDefault();
-            if(parentRel != null)
-            {
-                var rel = richData.Values.CreateRelation(this, _readValueIndex, IndexType.ZeroBasedPointer);
-                ValueId = rel.To.Id;
-            }
+            //base.InitRelations();
+            //var parentRel = _parent.GetOutgoingRelations(x => x.IndexType == IndexType.SubRelations && x.AsRelationWithSubRelations().SubRelationEntity == RichDataEntities.RichValue).FirstOrDefault();
+            //if(parentRel != null)
+            //{
+            //    var rel = richDataDb.Values.CreateRelation(this, _readValueIndex, IndexType.ZeroBasedPointer);
+            //    ValueId = rel.To.Id;
+            //}
+            var rel = richDataDb.Values.CreateRelation(this, _readValueIndex, IndexType.ZeroBasedPointer);
+            ValueId = rel.To.Id;
         }
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace OfficeOpenXml.Metadata
         {
             get
             {
-                var ix = _metadata.MetadataTypes.GetIndexById(TypeId);
+                var ix = _metadataDb.MetadataTypes.GetIndexById(TypeId);
                 return ix.Value + 1;
             }
         }
@@ -72,7 +74,7 @@ namespace OfficeOpenXml.Metadata
         {
             get
             {
-                var bk = _metadata.FutureMetadataBlocks.Get(ValueId);
+                var bk = _metadataDb.FutureMetadataBlocks.Get(ValueId);
                 var fmType = bk.GetFirstIncomingRelByType<FutureMetadataBase>();
                 return fmType.Blocks.GetZeroBasedIndex(ValueId);
             }

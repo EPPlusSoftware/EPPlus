@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
 
         public abstract void Save(StreamWriter sw);
 
-        public virtual void InitRelations(ExcelRichData richData)
+        public virtual void InitRelations(RichDataDatabase richDataDb)
         {
 
         }

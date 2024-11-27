@@ -10,13 +10,8 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.Export.HtmlExport;
-using OfficeOpenXml.Utils;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.RichData.Structures.SupportingPropertyBags

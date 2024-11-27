@@ -14,15 +14,11 @@ using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.RichData.Structures.Constants;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace OfficeOpenXml.RichData.Structures
 {

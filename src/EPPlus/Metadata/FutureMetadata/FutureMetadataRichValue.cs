@@ -27,26 +27,26 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
 {
     internal class FutureMetadataRichValue : FutureMetadataBase
     {
-        public FutureMetadataRichValue(string name, RichDataIndexStore store, ExcelMetadata metadata)
-            : base(store)
+        public FutureMetadataRichValue(string name, MetadataDatabase metadataDb)
+            : base(metadataDb.IndexStore)
         {
             Name = name;
-            _indexStore = store;
-            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
+            _indexStore = metadataDb.IndexStore;
+            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadataDb.FutureMetadataBlocks);
             Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
-            var type = metadata.MetadataTypes.FirstOrDefault(t => t.Name == name);
+            var type = metadataDb.MetadataTypes.FirstOrDefault(t => t.Name == name);
             if(type != null)
             {
                 type.AddRelationTo(this, IndexType.String);
             }
         }
-        public FutureMetadataRichValue(XmlReader xr, RichDataIndexStore store, ExcelMetadata metadata)
-            : base(store)
+        public FutureMetadataRichValue(XmlReader xr, MetadataDatabase metadataDb)
+            : base(metadataDb.IndexStore)
         {
-            _indexStore = store;
-            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
+            _indexStore = metadataDb.IndexStore;
+            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadataDb.FutureMetadataBlocks);
             Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
-            ReadXml(xr, metadata);
+            ReadXml(xr, metadataDb);
         }
 
         private readonly RichDataIndexStore _indexStore;
@@ -59,14 +59,14 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
 
         public override string Uri { get; set; } = ExtLstUris.RichValueDataUri;
 
-        private void ReadXml(XmlReader xr, ExcelMetadata metadata)
+        private void ReadXml(XmlReader xr, MetadataDatabase metadataDb)
         {
             while(!xr.EOF)
             {
                 if(xr.IsElementWithName("futureMetadata"))
                 {
                     Name = xr.GetAttribute("name");
-                    var type = metadata.MetadataTypes.FirstOrDefault(t => t.Name == Name);
+                    var type = metadataDb.MetadataTypes.FirstOrDefault(t => t.Name == Name);
                     if (type != null)
                     {
                         type.AddRelationTo(this, IndexType.String);

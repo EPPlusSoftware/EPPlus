@@ -19,14 +19,14 @@ namespace OfficeOpenXml.Core.RichValues
         {
             _package = package;
             _ws = ws;
-            _richData = _package.Workbook.RichData;
+            _richDataDb = _package.Workbook.RichData.Db;
             _richDataStore = new RichDataStore(ws);
             _metadataStore = _ws._metadataStore;
         }
 
         private readonly ExcelPackage _package;
         private readonly ExcelWorksheet _ws;
-        private readonly ExcelRichData _richData;
+        private readonly RichDataDatabase _richDataDb;
         private readonly RichDataStore _richDataStore;
         private readonly CellStore<MetaDataReference> _metadataStore;
 
@@ -67,61 +67,16 @@ namespace OfficeOpenXml.Core.RichValues
                 }
             }
             return v;
-
-            //var metaData = _package.Workbook.Metadata;
-            //var valueMetaData = metaData.ValueMetadata[md.vm - 1];
-            //var valueRecord = valueMetaData.Records[0];
-            //var type = _richDataStore.GetMetadataType(md.vm);
-            //if (type.Name.Equals("XLRICHVALUE"))
-            //{
-            //    var fmd = metaData.FutureMetadata[type.Name];
-            //    var ix = fmd.Types[valueRecord.ValueIndex].AsRichData.Index;
-
-            //    var rdValue = _richData.Values.Items[ix];
-
-            //    var errorTypeIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("errorType"));
-            //    if (errorTypeIndex >= 0)
-            //    {
-            //        switch (int.Parse(rdValue.Values[errorTypeIndex]))
-            //        {
-            //            case 4:
-            //                return ErrorValues.NameError;
-            //            case 8:
-            //                var rowOffsetIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("rwOffset"));
-            //                var colOffsetIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("colOffset"));
-            //                if (rowOffsetIndex > -1 && colOffsetIndex > 0)
-            //                {
-            //                    return new ExcelRichDataErrorValue(int.Parse(rdValue.Values[rowOffsetIndex]), int.Parse(rdValue.Values[colOffsetIndex]));
-            //                }
-            //                else
-            //                {
-            //                    return new ExcelRichDataErrorValue(0, 0);
-            //                }
-            //            case 13:
-            //                return ErrorValues.CalcError;
-            //            default:    //We can implement other error types here later, See MS-XLSX 2.3.6.1.3
-            //                return v;
-
-            //        }
-            //    }
-            //}
-            //return v;
         }
 
         internal void SetMetaDataForError(CellStoreEnumerator<ExcelValue> cse, ExcelErrorValue error)
         {
             var metadata = _package.Workbook.Metadata;
-            //var md = _ws._metadataStore.GetValue(cse.Row, cse.Column);
             if(_richDataStore.HasRichData(cse.Row, cse.Column, out MetaDataReference md))
             {
                 var richValue = _richDataStore.GetRichValue(cse.Row, cse.Column);
                 if (richValue == null || IsMdSameError(richValue, error)) return;
             }
-
-            //if (md.vm >= 0 && IsMdSameError(metadata, md, error, cse.Row, cse.Column))
-            //{
-            //    return;
-            //}
             var newRv = default(ExcelRichValue);
             switch (error.Type)
             {
@@ -145,20 +100,11 @@ namespace OfficeOpenXml.Core.RichValues
             if(newRv != null)
             {
                 _richDataStore.AddRichData(cse.Row, cse.Column, newRv);
-                //md.vm = vm;
-                //_ws._metadataStore.SetValue(cse.Row, cse.Column, md);
             }
-            //metadata.CreateRichValueMetadata(_richData, out int newVm);
-            //md.vm = newVm;
-            //_ws._metadataStore.SetValue(cse.Row, cse.Column, md);
         }
 
-        //private bool IsMdSameError(ExcelMetadata metadata, MetaDataReference md, ExcelErrorValue error, int row, int column)
         private bool IsMdSameError(ExcelRichValue richValue, ExcelErrorValue error)
         {
-            //if (md.vm == 0 || md.vm >= metadata.ValueMetadata.Count) return false;
-
-            //var richData = _richDataStore.GetRichValue(md.vm);
             if(richValue == null) return false;
             if (richValue.Structure.Type == StructureTypes.Error)
             {
@@ -181,42 +127,11 @@ namespace OfficeOpenXml.Core.RichValues
                 }
             }
             return false;
-
-            //var vm = metadata.ValueMetadata[md.vm - 1];
-
-            //if (vm.Records.Count > 0 && vm.Records[0].ValueIndex >= 0)
-            //{
-            //    if (_richData.Values.Items.Count > vm.Records[0].ValueIndex)
-            //    {
-            //        var rd = _richData.Values.Items[vm.Records[0].ValueIndex];
-            //        if (rd.Structure.Type.Equals(StructureTypes.Error))
-            //        {
-            //            ;
-            //            switch (error.Type)
-            //            {
-            //                case eErrorType.Calc:
-            //                    if (rd.Values[0] == "13")
-            //                    {
-            //                        return true;
-            //                    }
-            //                    break;
-            //                case eErrorType.Spill:
-            //                    var rdError = (ExcelRichDataErrorValue)error;
-            //                    if (rd.HasValue(["errorType", "colOffset", "rwOffset"], ["8", rdError.SpillColOffset.ToString(CultureInfo.InvariantCulture), rdError.SpillColOffset.ToString(CultureInfo.InvariantCulture)]))
-            //                    {
-            //                        return true;
-            //                    }
-            //                    break;
-            //            }
-            //        }
-            //    }
-            //}
-            //return false;
         }
 
         private ErrorPropagatedRichValue CreatePropagated(eErrorType errorType)
         {
-            var item = new ErrorPropagatedRichValue(_package.Workbook)
+            var item = new ErrorPropagatedRichValue(_richDataDb)
             {
                 Propagated = "1"
             };
@@ -230,13 +145,12 @@ namespace OfficeOpenXml.Core.RichValues
                     break;
 
             }
-            //_richData.Values.Items.Add(item);
             return item;
         }
 
         internal ErrorWithSubTypeRichValue CreateError(eErrorType errorType, int subType)
         {
-            var item = new ErrorWithSubTypeRichValue(_package.Workbook)
+            var item = new ErrorWithSubTypeRichValue(_richDataDb)
             {
                 SubType = subType
             };
@@ -250,20 +164,18 @@ namespace OfficeOpenXml.Core.RichValues
                     break;
 
             }
-            //_richData.Values.Items.Add(item);
             return item;
         }
 
         internal ErrorSpillRichValue CreateErrorSpill(ExcelRichDataErrorValue spillError)
         {
-            var item = new ErrorSpillRichValue(_package.Workbook)
+            var item = new ErrorSpillRichValue(_richDataDb)
             {
                 ColOffset = spillError.SpillColOffset,
                 RwOffset = spillError.SpillRowOffset,
                 SubType = 1,
                 ErrorType = RichDataErrorType.Spill
             };
-            //_richData.Values.Items.Add(item);
             return item;
         }
     }

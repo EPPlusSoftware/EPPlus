@@ -10,29 +10,17 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.RichValues;
 using OfficeOpenXml.RichData.RichValues.LocalImage;
-using OfficeOpenXml.RichData.RichValues.Relations;
 using OfficeOpenXml.RichData.RichValues.WebImages;
 using OfficeOpenXml.RichData.Structures.Constants;
-using OfficeOpenXml.RichData.Structures.LocalImages;
-using OfficeOpenXml.RichData.WebImages;
 using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using static OfficeOpenXml.ExcelWorksheet;
 
 namespace OfficeOpenXml.CellPictures
@@ -100,7 +88,7 @@ namespace OfficeOpenXml.CellPictures
 
         private ExcelRichValue CreateLocalImageRichValue(Uri imageUri, CalcOrigins calcOrigin, string altText)
         {
-            return new LocalImageRichValue(_sheet.Workbook)
+            return new LocalImageRichValue(_sheet.Workbook.RichData.Db)
             {
                 ImageUri = imageUri,
                 CalcOrigin = calcOrigin,
@@ -116,14 +104,14 @@ namespace OfficeOpenXml.CellPictures
         private ExcelRichValue CreateWebImageRichValue(Uri blipUri, Uri addressUri, Uri moreImagesUri, CalcOrigins calcOrigin, string altText, WebImageSizing sizing = WebImageSizing.FitToCellMaintainRatio, double? height = null, double? width = null)
         {
             var wb = _sheet.Workbook;
-            var img = new WebImageRichValue(_sheet.Workbook);
-            if (wb.RichData.WebImages.TryGet(blipUri, null, addressUri, out uint imageId))
+            var img = new WebImageRichValue(_sheet.Workbook.RichData.Db);
+            if (wb.RichData.Db.WebImages.TryGet(blipUri, null, addressUri, out uint imageId))
             {
                 img.WebImageIdentifier = imageId;
             }
             else
             {
-                var newImg = wb.RichData.WebImages.AddItem(blipUri, addressUri, moreImagesUri, img, out IndexRelation rel);
+                var newImg = wb.RichData.Db.WebImages.AddItem(blipUri, addressUri, moreImagesUri, img, out IndexRelation rel);
                 img.WebImageIdentifier = newImg.Id;
             }
 
@@ -247,7 +235,7 @@ namespace OfficeOpenXml.CellPictures
         {
             var cacheKey = new LocalImageCacheKey(imageUri, calcOrigin, altText);
             var imageRichValue = CreateLocalImageRichValue(imageUri, calcOrigin, altText);
-            imageRichValue.SetStructure(_sheet.Workbook.RichData);
+            imageRichValue.SetStructure(_sheet.Workbook.RichData.Db);
             _richDataStore.AddRichData(row, col, imageRichValue, out uint vmId);
             var newPic = GetExcelCellPictureByRichValue(imageRichValue, row, col, vmId);
             SetCellValue(row, col, newPic);
@@ -266,7 +254,7 @@ namespace OfficeOpenXml.CellPictures
         {
             var cacheKey = new WebPictureCacheKey(addressUri, altText, calcOrigin, sizing, height, width);
             var imageRichValue = CreateWebImageRichValue(imageUri, addressUri, calcOrigin, altText, sizing, width, height);
-            imageRichValue.SetStructure(_sheet.Workbook.RichData);
+            imageRichValue.SetStructure(_sheet.Workbook.RichData.Db);
             _richDataStore.AddRichData(row, col, imageRichValue, out uint vmId);
             var newPic = GetExcelCellPictureByRichValue(imageRichValue, row, col, vmId);
             SetCellValue(row, col, newPic);

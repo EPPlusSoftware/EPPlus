@@ -11,8 +11,6 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Packaging;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.RichValues.WebImages;
 using System;
@@ -115,7 +113,7 @@ namespace OfficeOpenXml.CellPictures
         /// <summary>
         /// Address of the cell picture
         /// </summary>
-        public ExcelAddress CellAddress { get; set; }
+        public ExcelAddress CellAddress { get; internal set; }
 
         internal bool IsReferenceTo(string wsName, int row, int col)
         {

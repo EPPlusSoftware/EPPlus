@@ -22,8 +22,8 @@ namespace OfficeOpenXml.RichData.RichValues.Errors
 {
     internal class ErrorRichValueBase : ExcelRichValue
     {
-        public ErrorRichValueBase(RichDataIndexStore store, ExcelRichData richData, RichDataStructureTypes structureType) 
-            : base(store, richData, structureType)
+        public ErrorRichValueBase(RichDataDatabase richDataDb, RichDataStructureTypes structureType) 
+            : base(richDataDb, structureType)
         {
         }
 

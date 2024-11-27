@@ -39,12 +39,12 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
 
         private int? _indexFromRead;
 
-        public override void InitRelations(ExcelRichData richData)
+        public override void InitRelations(RichDataDatabase richDataDb)
         {
             if(_indexFromRead.HasValue)
             {
                 base.InitRelations();
-                var richValue = richData.Values[_indexFromRead.Value];
+                var richValue = richDataDb.Values[_indexFromRead.Value];
                 var rel = AddRelationTo(richValue, IndexType.ZeroBasedPointer);
                 RichDataId = rel.To.Id;
             }

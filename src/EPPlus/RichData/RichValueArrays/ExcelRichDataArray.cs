@@ -14,27 +14,24 @@ using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.RichData.RichValueArrays
 {
     internal class ExcelRichDataArray : IndexEndpoint
     {
-        public ExcelRichDataArray(ExcelRichData richData, RichDataIndexStore store, XmlReader xr) : base(store, RichDataEntities.RichDataArray)
+        public ExcelRichDataArray(RichDataDatabase richDataDb, XmlReader xr) : base(richDataDb.IndexStore, RichDataEntities.RichDataArray)
         {
-            _richData = richData;
-            _indexStore = store;
-            _values = new IndexedSubsetCollection<ExcelRichDataArrayValue>(richData.RichDataArrayValues);
+            _richDataDb = richDataDb;
+            _indexStore = richDataDb.IndexStore;
+            _values = new IndexedSubsetCollection<ExcelRichDataArrayValue>(_richDataDb.RichDataArrayValues);
             ReadXml(xr);
         }
 
         private readonly RichDataIndexStore _indexStore;
-        private readonly ExcelRichData _richData;
+        private readonly RichDataDatabase _richDataDb;
         private readonly IndexedSubsetCollection<ExcelRichDataArrayValue> _values;
 
         public uint RichValueId { get; set; }
@@ -58,16 +55,16 @@ namespace OfficeOpenXml.RichData.RichValueArrays
             {
                 if(xr.IsElementWithName("v"))
                 {
-                    var val = new ExcelRichDataArrayValue(_richData, _indexStore, xr);
-                    _richData.RichDataArrayValues.Add(val);
+                    var val = new ExcelRichDataArrayValue(_richDataDb, xr);
+                    _richDataDb.RichDataArrayValues.Add(val);
                     _values.Add(val);
                 }
                 else if(xr.IsElementWithName("r"))
                 {
                     var rvIxStr = xr.Value;
                     var rvIx = int.Parse(rvIxStr);
-                    var rvId = _richData.Values.GetIdByIndex(rvIx);
-                    var rv = _richData.Values.Get(rvId);
+                    var rvId = _richDataDb.Values.GetIdByIndex(rvIx);
+                    var rv = _richDataDb.Values.Get(rvId);
                     rv.AddRelationTo(this);
                 }
                 else if(xr.IsEndElementWithName("a"))
@@ -79,7 +76,7 @@ namespace OfficeOpenXml.RichData.RichValueArrays
 
         internal void WriteXml(StreamWriter sw)
         {
-            var rvIx = _richData.Values.GetIndexById(RichValueId);
+            var rvIx = _richDataDb.Values.GetIndexById(RichValueId);
             if(Columns.HasValue)
             {
                 sw.Write($"<a r=\"{Rows}\" c=\"{Columns.Value}\">");

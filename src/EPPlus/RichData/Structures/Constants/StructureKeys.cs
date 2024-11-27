@@ -64,13 +64,6 @@ namespace OfficeOpenXml.RichData.Structures.Constants
                     new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.Image.CalcOrigin, RichValueDataType.Integer),
                     new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.Image.Text, RichValueDataType.String)
                 ];
-
-            //internal static readonly List<ExcelRichValueStructureKey> ImageAltText =
-            //    [
-            //        new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.RelLocalImageIdentifier, RichValueDataType.Integer),
-            //        new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.CalcOrigin, RichValueDataType.Integer),
-            //        new ExcelRichValueStructureKey(StructureKeyNames.LocalImages.ImageAltText.Text, RichValueDataType.String)
-            //    ];
         }
 
         internal static class WebImage

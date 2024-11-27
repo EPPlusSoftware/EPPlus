@@ -10,27 +10,23 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.RichData.RichValueArrays
 {
     internal class ExcelRichDataArrayValue : IndexEndpoint
     {
-        public ExcelRichDataArrayValue(ExcelRichData richData, RichDataIndexStore store, XmlReader xr) : base(store, RichDataEntities.RichDataArrayValue)
+        public ExcelRichDataArrayValue(RichDataDatabase richDataDb, XmlReader xr) : base(richDataDb.IndexStore, RichDataEntities.RichDataArrayValue)
         {
-            _richData = richData;
+            _richDataDb = richDataDb;
             ReadXml(xr);
         }
 
-        private readonly ExcelRichData _richData;
+        private readonly RichDataDatabase _richDataDb;
 
         public ExcelRichDataArrayValueType ValueType
         {
@@ -51,7 +47,7 @@ namespace OfficeOpenXml.RichData.RichValueArrays
                     if(ValueType == ExcelRichDataArrayValueType.RichValue)
                     {
                         var rvIx = int.Parse(xr.Value);
-                        var rvId = _richData.Values.GetIdByIndex(rvIx);
+                        var rvId = _richDataDb.Values.GetIdByIndex(rvIx);
                         Value = rvId.ToString();
                     }
                     else
@@ -121,7 +117,7 @@ namespace OfficeOpenXml.RichData.RichValueArrays
             if(ValueType == ExcelRichDataArrayValueType.RichValue)
             {
                 var rvId = uint.Parse(Value);
-                var rvIx = _richData.Values.GetIndexById(rvId);
+                var rvIx = _richDataDb.Values.GetIndexById(rvId);
                 val = rvIx.ToString();
             }
             sw.Write($"<v t=\"{vt}\">{val}</v>");

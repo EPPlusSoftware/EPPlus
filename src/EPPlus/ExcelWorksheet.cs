@@ -1405,11 +1405,11 @@ namespace OfficeOpenXml
                         uint vmId = 0u;
                         if(currentCm > 0)
                         {
-                            cmId = Workbook.Metadata.CellMetadata.GetIdByIndex((int)currentCm - 1);
+                            cmId = Workbook.Metadata.Db.CellMetadata.GetIdByIndex((int)currentCm - 1);
                         }
                         if(currentVm > 0)
                         {
-                            vmId = Workbook.Metadata.ValueMetadata.GetIdByIndex((int)currentVm - 1);
+                            vmId = Workbook.Metadata.Db.ValueMetadata.GetIdByIndex((int)currentVm - 1);
                         }
                         _package.OnWorksheetValueMetadataRead(Index, address._fromRow, address._fromCol, currentVm);
                         _metadataStore.SetValue(
@@ -1434,7 +1434,7 @@ namespace OfficeOpenXml
                     if(currentVm > 0)
                     {
                         var rd = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
-                        rd.SetStructure(_package.Workbook.RichData);
+                        rd.SetStructure(_package.Workbook.RichData.Db);
                         if(rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImage)
                         {
                             var rdLi = rd.As.LocalImage;

@@ -577,6 +577,8 @@
 
 	<ItemGroup>
 		<Compile Remove="LoadFunctions\HeaderReader.cs" />
+		<Compile Remove="RichData\IndexRelations\IndexEndpointWithSubRelations.cs" />
+		<Compile Remove="RichData\IndexRelations\IndexRelationWithSubRelations.cs" />
 	</ItemGroup>
 
 

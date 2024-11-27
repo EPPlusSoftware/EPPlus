@@ -46,7 +46,6 @@ namespace OfficeOpenXml.RichData.WebImages
         }
 
         private readonly ExcelWorkbook _wb;
-        private readonly ExcelRichData _richData;
         private readonly ZipPackagePart _part;
         private ZipPackageRelationship _addressRel;
         private ZipPackageRelationship _moreImagesAddressRel;
@@ -140,7 +139,7 @@ namespace OfficeOpenXml.RichData.WebImages
         /// <summary>
         /// BLIP (Binary Large Image or Picture). Uri to the local picture in the worksheet
         /// </summary>
-        public Uri Blip => _blipRel.TargetUri != null ? UriHelper.ResolvePartUri(_baseUri, _blipRel.TargetUri) : null;
+        public Uri Blip => _blipRel != null && _blipRel.TargetUri != null ? UriHelper.ResolvePartUri(_baseUri, _blipRel.TargetUri) : null;
 
         internal void WriteXml(StreamWriter sw)
         {

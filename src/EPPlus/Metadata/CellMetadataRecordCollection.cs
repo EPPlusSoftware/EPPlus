@@ -11,10 +11,6 @@
   07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
 using OfficeOpenXml.RichData.IndexRelations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Metadata
 {

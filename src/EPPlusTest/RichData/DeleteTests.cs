@@ -33,11 +33,11 @@ namespace EPPlusTest.RichData
             using var package = new ExcelPackage();
             var metadata = package.Workbook.Metadata;
             var richData = package.Workbook.RichData;
-            var rv = new LocalImageRichValue(package.Workbook);
+            var rv = new LocalImageRichValue(package.Workbook.RichData.Db);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var store = new RichDataStore(sheet);
             store.AddRichData(1, 1, rv);
-            var fmbk = metadata.FutureMetadata[FutureMetadataBase.RICHDATA_NAME].Blocks.First();
+            var fmbk = metadata.Db.FutureMetadata[FutureMetadataBase.RICHDATA_NAME].Blocks.First();
             var relRv = fmbk.GetFirstOutgoingRelByType<ExcelRichValue>();
             Assert.AreEqual(rv.Id, relRv.Id);
 
@@ -55,11 +55,11 @@ namespace EPPlusTest.RichData
         {
             using var package = new ExcelPackage();
             var richData = package.Workbook.RichData;
-            var rv = new LocalImageRichValue(package.Workbook);
+            var rv = new LocalImageRichValue(package.Workbook.RichData.Db);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var store = new RichDataStore(sheet);
             store.AddRichData(1, 1, rv);
-            var structure = richData.Structures.First();
+            var structure = richData.Db.Structures.First();
             var relStructure = rv.GetFirstOutgoingRelByType<ExcelRichValueStructure>();
             Assert.AreEqual(structure.Id, relStructure.Id);
 
@@ -77,16 +77,16 @@ namespace EPPlusTest.RichData
         {
             using var package = new ExcelPackage();
             var richData = package.Workbook.RichData;
-            var rv1 = new LocalImageRichValue(package.Workbook);
-            var rv2 = new LocalImageRichValue(package.Workbook);
+            var rv1 = new LocalImageRichValue(package.Workbook.RichData.Db);
+            var rv2 = new LocalImageRichValue(package.Workbook.RichData.Db);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var store = new RichDataStore(sheet);
             store.AddRichData(1, 1, rv1);
             store.AddRichData(1, 2, rv2);
-            var structure = richData.Structures.First();
+            var structure = richData.Db.Structures.First();
             var relStructure = rv1.GetFirstOutgoingRelByType<ExcelRichValueStructure>();
             Assert.AreEqual(structure.Id, relStructure.Id);
-            Assert.AreEqual(1, richData.Structures.Count);
+            Assert.AreEqual(1, richData.Db.Structures.Count);
 
             Assert.IsFalse(rv1.Deleted);
             Assert.IsFalse(structure.Deleted);
@@ -104,14 +104,14 @@ namespace EPPlusTest.RichData
             using var package = new ExcelPackage();
             var metadata = package.Workbook.Metadata;
             var richData = package.Workbook.RichData;
-            var rv = new LocalImageRichValue(package.Workbook);
+            var rv = new LocalImageRichValue(package.Workbook.RichData.Db);
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var store = new RichDataStore(sheet);
-            Assert.AreEqual(0, metadata.MetadataTypes.Count);
+            Assert.AreEqual(0, metadata.Db.MetadataTypes.Count);
             store.AddRichData(1, 1, rv);
-            Assert.AreEqual(1, metadata.MetadataTypes.Count);
-            var type = metadata.MetadataTypes[0];
-            var bk = metadata.FutureMetadataBlocks.First();
+            Assert.AreEqual(1, metadata.Db.MetadataTypes.Count);
+            var type = metadata.Db.MetadataTypes[0];
+            var bk = metadata.Db.FutureMetadataBlocks.First();
             var relBk = rv.GetFirstIncomingRelByType<FutureMetadataBlock>();
             Assert.AreEqual(bk.Id, relBk.Id);
 
@@ -134,27 +134,27 @@ namespace EPPlusTest.RichData
             var imageBytes = Resources.Png2ByteArray;
             sheet.Cells["A1"].Picture.Set(imageBytes);
 
-            Assert.AreEqual(1, package.Workbook.Metadata.ValueMetadata.Count);
-            Assert.AreEqual(1, package.Workbook.Metadata.MetadataTypes.Count);
-            Assert.AreEqual(1, package.Workbook.Metadata.FutureMetadataBlocks.Count);
-            Assert.AreEqual(1, package.Workbook.RichData.Values.Count);
-            Assert.AreEqual(1, package.Workbook.RichData.Structures.Count);
-            Assert.AreEqual(1, package.Workbook.RichData.RichValueRels.Count);
-            Assert.IsTrue(package.Workbook.RichData.RichValueRels.Part.RelationshipExists("rId1"));
+            Assert.AreEqual(1, package.Workbook.Metadata.Db.ValueMetadata.Count);
+            Assert.AreEqual(1, package.Workbook.Metadata.Db.MetadataTypes.Count);
+            Assert.AreEqual(1, package.Workbook.Metadata.Db.FutureMetadataBlocks.Count);
+            Assert.AreEqual(1, package.Workbook.RichData.Db.Values.Count);
+            Assert.AreEqual(1, package.Workbook.RichData.Db.Structures.Count);
+            Assert.AreEqual(1, package.Workbook.RichData.Db.RichValueRels.Count);
+            Assert.IsTrue(package.Workbook.RichData.Db.RichValueRels.Part.RelationshipExists("rId1"));
             var pic = package.PictureStore.GetImageInfo(imageBytes);
             Assert.IsNotNull(pic);
 
-            var bk = package.Workbook.Metadata.ValueMetadata.First();
+            var bk = package.Workbook.Metadata.Db.ValueMetadata.First();
             bk.Records.First().DeleteMe();
             package.Workbook.IndexStore.ReIndex();
 
-            Assert.AreEqual(0, package.Workbook.Metadata.ValueMetadata.Count);
-            Assert.AreEqual(0, package.Workbook.Metadata.MetadataTypes.Count);
-            Assert.AreEqual(0, package.Workbook.Metadata.FutureMetadataBlocks.Count);
-            Assert.AreEqual(0, package.Workbook.RichData.Values.Count);
-            Assert.AreEqual(0, package.Workbook.RichData.Structures.Count);
-            Assert.AreEqual(0, package.Workbook.RichData.RichValueRels.Count);
-            Assert.IsFalse(package.Workbook.RichData.RichValueRels.Part.RelationshipExists("rId1"));
+            Assert.AreEqual(0, package.Workbook.Metadata.Db.ValueMetadata.Count);
+            Assert.AreEqual(0, package.Workbook.Metadata.Db.MetadataTypes.Count);
+            Assert.AreEqual(0, package.Workbook.Metadata.Db.FutureMetadataBlocks.Count);
+            Assert.AreEqual(0, package.Workbook.RichData.Db.Values.Count);
+            Assert.AreEqual(0, package.Workbook.RichData.Db.Structures.Count);
+            Assert.AreEqual(0, package.Workbook.RichData.Db.RichValueRels.Count);
+            Assert.IsFalse(package.Workbook.RichData.Db.RichValueRels.Part.RelationshipExists("rId1"));
             pic = package.PictureStore.GetImageInfo(imageBytes);
             Assert.IsNull(pic);
 

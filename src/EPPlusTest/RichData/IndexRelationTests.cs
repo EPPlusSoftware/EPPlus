@@ -25,21 +25,21 @@ namespace EPPlusTest.RichData
             sheet.Cells["A1"].Picture.Set(pic1Bytes);
 
             // From ValueMetadataBlock
-            var vmb = package.Workbook.Metadata.ValueMetadata.First();
+            var vmb = package.Workbook.Metadata.Db.ValueMetadata.First();
             Assert.IsTrue(vmb.HasOutgoingRelationTo(RichDataEntities.MetadataType), "No relation from value metadata block to metadata type");
             Assert.IsTrue(vmb.HasOutgoingRelationTo(RichDataEntities.FutureMetadataRichDataBlock), "No relation from value metadatablock to future metadata block");
 
             // From metadata type
-            var hasRichDataType = package.Workbook.Metadata.MetadataTypes.TryGetValue(FutureMetadataBase.RICHDATA_NAME, out ExcelMetadataType metadataType);
+            var hasRichDataType = package.Workbook.Metadata.Db.MetadataTypes.TryGetValue(FutureMetadataBase.RICHDATA_NAME, out ExcelMetadataType metadataType);
             Assert.IsTrue(hasRichDataType, "No existing metadata type for Rich Values");
             Assert.IsTrue(metadataType.HasOutgoingRelationTo(RichDataEntities.FutureMetadata), "No relation from metadata type to futuremetadata for richvalues");
 
             // From FutureMetadata block
-            var fmb = package.Workbook.Metadata.FutureMetadataBlocks.First();
+            var fmb = package.Workbook.Metadata.Db.FutureMetadataBlocks.First();
             Assert.IsTrue(fmb.HasOutgoingRelationTo(RichDataEntities.RichValue), "No relation from future metadata block to rich value");
 
             // From Rich Value
-            var rv = package.Workbook.RichData.Values.First();
+            var rv = package.Workbook.RichData.Db.Values.First();
             Assert.IsTrue(rv.HasOutgoingRelationTo(RichDataEntities.RichStructure), "No relation from rich value to rich structure");
             Assert.IsTrue(rv.HasOutgoingRelationTo(RichDataEntities.RichValueRel), "No relation from rich value to rich value rel");
 

@@ -36,16 +36,12 @@ namespace OfficeOpenXml.RichData.WebImages
         private Dictionary<string, string> _blipRelations = new Dictionary<string, string>();
         private Dictionary<string, string> _addressRelations = new Dictionary<string, string>();
         private Dictionary<string, string> _moreImagesRelations = new Dictionary<string, string>();
-        private readonly ExcelRichData _richData;
-        private readonly RichDataIndexStore _indexStore;
         ZipPackagePart _part;
         internal ZipPackagePart Part { get { return _part; } }
 
-        public WebImagesSupportingRichDataCollection(ExcelWorkbook wb, ExcelRichData richData) : base(wb.IndexStore, RichDataEntities.WebImage)
+        public WebImagesSupportingRichDataCollection(ExcelWorkbook wb) : base(wb.IndexStore, RichDataEntities.WebImage)
         {
             _wb = wb;
-            _richData = richData;
-            _indexStore = wb.IndexStore;
             var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataWebImage).FirstOrDefault();
             if (r == null)
             {

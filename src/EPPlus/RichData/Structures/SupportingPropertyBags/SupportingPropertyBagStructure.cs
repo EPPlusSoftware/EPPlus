@@ -11,12 +11,9 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.Utils;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.RichData.Structures.SupportingPropertyBags
 {

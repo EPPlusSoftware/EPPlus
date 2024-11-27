@@ -12,7 +12,6 @@
  *************************************************************************************************/
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.IO;

@@ -1,5 +1,4 @@
 ﻿using OfficeOpenXml.RichData.Structures.Constants;
-using System;
 using System.Diagnostics;
 
 namespace OfficeOpenXml.RichData.Structures

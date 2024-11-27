@@ -10,7 +10,6 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.Encryption;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.Structures.Constants;
 using OfficeOpenXml.RichData.Structures.Errors;
@@ -18,9 +17,6 @@ using OfficeOpenXml.RichData.Structures.LocalImages;
 using OfficeOpenXml.RichData.Structures.WebImages;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace OfficeOpenXml.RichData.Structures
 {

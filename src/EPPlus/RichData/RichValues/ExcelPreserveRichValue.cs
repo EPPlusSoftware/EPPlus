@@ -21,8 +21,8 @@ namespace OfficeOpenXml.RichData.RichValues
 {
     internal class ExcelPreserveRichValue : ExcelRichValue
     {
-        public ExcelPreserveRichValue(RichDataIndexStore store, ExcelRichData richData, uint structureId, ExcelRichValueStructure structure)
-            : base(store, richData, structure.StructureType)
+        public ExcelPreserveRichValue( RichDataDatabase richDataDb, uint structureId, ExcelRichValueStructure structure)
+            : base(richDataDb, structure.StructureType)
         {
             StructureId = structureId;
             Structure = structure;

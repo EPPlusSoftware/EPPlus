@@ -11,11 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.RichData;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.CellPictures
 {

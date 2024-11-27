@@ -23,7 +23,7 @@ namespace OfficeOpenXml.RichData.RichValues.Errors
 {
     internal class ErrorFieldRichValue : ExcelRichValue
     {
-        public ErrorFieldRichValue(RichDataIndexStore store, ExcelRichData richData) : base(store, richData, RichDataStructureTypes.ErrorField)
+        public ErrorFieldRichValue(RichDataDatabase richDataDb) : base(richDataDb, RichDataStructureTypes.ErrorField)
         {
         }
 

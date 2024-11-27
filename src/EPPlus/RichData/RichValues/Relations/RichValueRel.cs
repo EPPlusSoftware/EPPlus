@@ -10,15 +10,12 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.RichData.RichValues.Relations
 {

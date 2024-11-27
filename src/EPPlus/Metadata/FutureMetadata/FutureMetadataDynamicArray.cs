@@ -10,35 +10,30 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata.FutureMetadata
 {
     internal class FutureMetadataDynamicArray : FutureMetadataBase
     {
-        public FutureMetadataDynamicArray(RichDataIndexStore store, ExcelMetadata metadata)
-            : base(store)
+        public FutureMetadataDynamicArray(MetadataDatabase metadataDb)
+            : base(metadataDb.IndexStore)
         {
-            _metadata = metadata;
-            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
+            _metadataDb = metadataDb;
+            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadataDb.FutureMetadataBlocks);
             Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
         }
 
-        public FutureMetadataDynamicArray(XmlReader xr, RichDataIndexStore store, ExcelMetadata metadata)
-            : base(store)
+        public FutureMetadataDynamicArray(XmlReader xr, MetadataDatabase metadataDb)
+            : base(metadataDb.IndexStore)
         {
-            _metadata = metadata;
-            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadata.FutureMetadataBlocks);
+            _metadataDb = metadataDb;
+            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadataDb.FutureMetadataBlocks);
             Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
             while (!xr.EOF)
             {
@@ -49,7 +44,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
                 }
                 else if(xr.IsElementWithName("bk"))
                 {
-                    var bk = new FutureMetadataDynamicArrayBlock(xr, store);
+                    var bk = new FutureMetadataDynamicArrayBlock(xr, metadataDb.IndexStore);
                     Blocks.Add(bk);
                 }
                 else if(xr.IsEndElementWithName("futureMetadata"))
@@ -61,14 +56,13 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
                     xr.Read();
                 }
             }
-            if(!string.IsNullOrEmpty(Name) && _metadata.MetadataTypes.TryGetValue(Name, out ExcelMetadataType type))
+            if(!string.IsNullOrEmpty(Name) && _metadataDb.MetadataTypes.TryGetValue(Name, out ExcelMetadataType type))
             {
                 type.AddRelationTo(this, IndexType.String);
             }
-            //if (xr.NodeType == XmlNodeType.EndElement) xr.Read();
         }
 
-        private readonly ExcelMetadata _metadata;
+        private readonly MetadataDatabase _metadataDb;
 
         private void OnBlocksIsEmpty(object source, CollectionIsEmptyEventArgs e)
         {
@@ -79,11 +73,11 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         public override string Uri { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public override IndexedSubsetCollection<FutureMetadataBlock> Blocks { get; set; }
 
-        public static FutureMetadataDynamicArray GetDefault(RichDataIndexStore store, ExcelMetadata metadata, out uint bkId)
+        public static FutureMetadataDynamicArray GetDefault(MetadataDatabase metadataDb, out uint bkId)
         {
-            var fm = new FutureMetadataDynamicArray(store, metadata);
+            var fm = new FutureMetadataDynamicArray(metadataDb);
             fm.Name = "XLDAPR";
-            var bk = new FutureMetadataDynamicArrayBlock(store, RichDataEntities.FutureMetadataDynamicArrayBlock);
+            var bk = new FutureMetadataDynamicArrayBlock(metadataDb.IndexStore, RichDataEntities.FutureMetadataDynamicArrayBlock);
             bk.IsDynamicArray = true;
             bk.IsCollapsed = false;
             bkId = bk.Id;

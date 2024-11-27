@@ -24,26 +24,24 @@ namespace OfficeOpenXml.RichData.RichValues
 {
     internal static class ExcelRichValueFactory
     {
-        public static ExcelRichValue Create(ExcelRichValueStructure structure, uint structureId, RichDataIndexStore store, ExcelRichData richData)
+        public static ExcelRichValue Create(ExcelRichValueStructure structure, uint structureId, RichDataIndexStore store, RichDataDatabase richDataDb)
         {
             switch(structure.StructureType)
             {
                 case RichDataStructureTypes.ErrorSpill:
-                    return new ErrorSpillRichValue(store, richData);
+                    return new ErrorSpillRichValue(richDataDb);
                 case RichDataStructureTypes.ErrorField:
-                    return new ErrorFieldRichValue(store, richData);
+                    return new ErrorFieldRichValue(richDataDb);
                 case RichDataStructureTypes.ErrorPropagated:
-                    return new ErrorPropagatedRichValue(store, richData);
+                    return new ErrorPropagatedRichValue(richDataDb);
                 case RichDataStructureTypes.ErrorWithSubType:
-                    return new ErrorWithSubTypeRichValue(store, richData);
+                    return new ErrorWithSubTypeRichValue(richDataDb);
                 case RichDataStructureTypes.LocalImage:
-                    return new LocalImageRichValue(store, richData);
+                    return new LocalImageRichValue(richDataDb);
                 case RichDataStructureTypes.WebImage:
-                    return new WebImageRichValue(store, richData);
-                //case RichDataStructureTypes.LocalImageWithAltText:
-                //    return new LocalImageAltTextRichValue(store, richData);
+                    return new WebImageRichValue(richDataDb);
                 default:
-                    return new ExcelPreserveRichValue(store, richData, structureId, structure);
+                    return new ExcelPreserveRichValue(richDataDb, structureId, structure);
             }
         }
     }

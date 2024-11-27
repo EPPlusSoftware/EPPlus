@@ -16,10 +16,8 @@ using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.RichData.RichValueArrays
@@ -29,15 +27,15 @@ namespace OfficeOpenXml.RichData.RichValueArrays
         const string PART_URI_PATH = "/xl/richData/rdarray.xml";
         private readonly Uri _uri;
         private ExcelWorkbook _wb;
-        private readonly ExcelRichData _richData;
+        private readonly RichDataDatabase _richDataDb;
         private readonly RichDataIndexStore _indexStore;
         ZipPackagePart _part;
         internal ZipPackagePart Part { get { return _part; } }
 
-        public ExcelRichDataArrayCollection(ExcelWorkbook wb, ExcelRichData richData) : base(wb.IndexStore, RichDataEntities.RichDataArray)
+        public ExcelRichDataArrayCollection(ExcelWorkbook wb, RichDataDatabase richDataDb) : base(wb.IndexStore, RichDataEntities.RichDataArray)
         {
             _wb = wb;
-            _richData = richData;
+            _richDataDb = richDataDb;
             _indexStore = wb.IndexStore;
             var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataRichDataValueArray).FirstOrDefault();
             if (r == null)
@@ -77,7 +75,7 @@ namespace OfficeOpenXml.RichData.RichValueArrays
             {
                 if (xr.IsElementWithName("a"))
                 {
-                    var array = new ExcelRichDataArray(_richData, _indexStore, xr);
+                    var array = new ExcelRichDataArray(_richDataDb, xr);
                     Add(array);
                 }
             }

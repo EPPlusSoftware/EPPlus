@@ -2019,7 +2019,7 @@ namespace OfficeOpenXml
 				if (_metadata == null)
 				{
 					_metadata = new ExcelMetadata(this);
-					_metadata.InitRelations(RichData);
+					_metadata.InitRelations(RichData.Db);
 				}
 				return _metadata;
 			}

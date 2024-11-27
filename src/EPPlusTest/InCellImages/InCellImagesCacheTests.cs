@@ -47,12 +47,12 @@ namespace EPPlusTest.InCellImages
             var vm1 = sheet._metadataStore.GetValue(1, 1);
             var vm2 = sheet._metadataStore.GetValue(2, 1);
             Assert.AreEqual(vm1, vm2);
-            Assert.AreEqual(1, package.Workbook.RichData.Values.Count());
+            Assert.AreEqual(1, package.Workbook.RichData.Db.Values.Count());
             sheet.Cells["A1"].Picture.Remove();
             Assert.IsNull(sheet.Cells["A1"].Value);
             var vm3 = sheet._metadataStore.GetValue(1, 1);
             Assert.AreEqual(0u, vm3.vm);
-            Assert.AreEqual(1, package.Workbook.RichData.Values.Count());
+            Assert.AreEqual(1, package.Workbook.RichData.Db.Values.Count());
             SaveWorkbook("InCellPicturesReuseCache3.xlsx", package);
         }
 
@@ -66,7 +66,7 @@ namespace EPPlusTest.InCellImages
             var vm1 = sheet._metadataStore.GetValue(1, 1);
             var vm2 = sheet._metadataStore.GetValue(2, 1);
             Assert.AreEqual(vm1, vm2);
-            Assert.AreEqual(1, package.Workbook.RichData.Values.Count());
+            Assert.AreEqual(1, package.Workbook.RichData.Db.Values.Count());
             sheet.Cells["A1"].Picture.Remove();
             sheet.Cells["A2"].Picture.Remove();
             Assert.IsNull(sheet.Cells["A1"].Value);
@@ -75,7 +75,7 @@ namespace EPPlusTest.InCellImages
             Assert.AreEqual(0u, vm3.vm);
             var vm4 = sheet._metadataStore.GetValue(2, 1);
             Assert.AreEqual(0u, vm4.vm);
-            Assert.AreEqual(0, package.Workbook.RichData.Values.Count, "RichDataValue still exists");
+            Assert.AreEqual(0, package.Workbook.RichData.Db.Values.Count, "RichDataValue still exists");
             SaveWorkbook("InCellPicturesReuseCache4.xlsx", package);
         }
     }

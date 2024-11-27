@@ -23,12 +23,8 @@ namespace OfficeOpenXml.RichData.RichValues.Errors
 {
     internal class ErrorSpillRichValue : ErrorRichValueBase
     {
-        public ErrorSpillRichValue(ExcelWorkbook workbook) : this(workbook.IndexStore, workbook.RichData)
-        {
-            
-        }
 
-        public ErrorSpillRichValue(RichDataIndexStore store, ExcelRichData richData) : base(store, richData, RichDataStructureTypes.ErrorSpill)
+        public ErrorSpillRichValue(RichDataDatabase richDataDb) : base(richDataDb, RichDataStructureTypes.ErrorSpill)
         {
         }
 

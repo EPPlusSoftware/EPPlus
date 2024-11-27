@@ -567,12 +567,12 @@ namespace OfficeOpenXml.FormulaParsing
             if (ws == null) return;
             var md = f._ws._metadataStore.GetValue(f._row, f._column);
             if(md.vm <= 0u) return;
-            var mdb = ws.Workbook.Metadata.ValueMetadata.Get(md.vm);
+            var mdb = ws.Workbook.Metadata.Db.ValueMetadata.Get(md.vm);
             if(mdb != null)
             {
                 mdb.DeleteMe();
             }
-            var cdb = ws.Workbook.Metadata.CellMetadata.Get(md.cm);
+            var cdb = ws.Workbook.Metadata.Db.CellMetadata.Get(md.cm);
             if(cdb != null)
             {
                 cdb.DeleteMe();
@@ -634,20 +634,14 @@ namespace OfficeOpenXml.FormulaParsing
                         else if(cr.ResultType == CompileResultType.LocalImage)
                         {
                             var pic = cr.Result as ExcelCellPicture;
-                            if(pic.CalcOrigin != CalcOrigins.StandAlone && pic.CalcOrigin != CalcOrigins.StandaloneDecorative)
-                            {
-                                var picManager = new CellPicturesManager(f._ws);
-                                picManager.SetCellPicture(f._row, f._column, pic.GetImageBytes(), pic.AltText, CalcOrigins.Reference);
-                            }
+                            var picManager = new CellPicturesManager(f._ws);
+                            picManager.SetCellPicture(f._row, f._column, pic.GetImageBytes(), pic.AltText, CalcOrigins.Reference);
                         }
                         else if(cr.ResultType == CompileResultType.WebImage)
                         {
                             var pic = cr.Result as ExcelCellPicture;
-                            if(pic.IsReferenceTo(f._ws.Name, f._row, f._column))
-                            {
-                                var picManager = new CellPicturesManager(f._ws);
-                                picManager.SetWebPicture(f._row, f._column, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, CalcOrigins.Reference);
-                            }
+                            var picManager = new CellPicturesManager(f._ws);
+                            picManager.SetWebPicture(f._row, f._column, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, CalcOrigins.Reference);
                         }
                         else
                         {

@@ -49,19 +49,7 @@ namespace OfficeOpenXml.RichData.IndexRelations
             foreach(var key in keys)
             {
                 var rel = _relations[key];
-                var subRel = rel.AsRelationWithSubRelations();
-                if(subRel != null)
-                {
-                    sw.WriteLine($"SubRelation Id:{rel.Id} From: {rel.From.EntityType} (Id: {rel.From.Id})");
-                    foreach(var sub in subRel.SubRelations)
-                    {
-                        sw.WriteLine($"     From: {sub.From.EntityType} (Id: {sub.From.Id}) To: {sub.To.EntityType} (Id: {sub.To.Id})");
-                    }
-                }
-                else
-                {
-                    sw.WriteLine($"From: {rel.From.EntityType} (Id: {rel.From.Id}) To: {rel.To.EntityType} (Id: {rel.To.Id})");
-                }
+                sw.WriteLine($"From: {rel.From.EntityType} (Id: {rel.From.Id}) To: {rel.To.EntityType} (Id: {rel.To.Id})");
             }
             sw.Dispose();
         }
@@ -172,12 +160,12 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return rel;
         }
 
-        public IndexRelationWithSubRelations CreateAndAddRelationWithSubRelations(IndexEndpoint endPoint, RichDataEntities entity)
-        {
-            var rel = new IndexRelationWithSubRelations(this, endPoint, RichDataEntities.MetadataType, IndexType.SubRelations);
-            AddRelationWithSubRelations(rel);
-            return rel;
-        }
+        //public IndexRelationWithSubRelations CreateAndAddRelationWithSubRelations(IndexEndpoint endPoint, RichDataEntities entity)
+        //{
+        //    var rel = new IndexRelationWithSubRelations(this, endPoint, RichDataEntities.MetadataType, IndexType.SubRelations);
+        //    AddRelationWithSubRelations(rel);
+        //    return rel;
+        //}
 
         public void AddRelation(IndexRelation relation)
         {
@@ -194,24 +182,24 @@ namespace OfficeOpenXml.RichData.IndexRelations
             _relations.Add(relation.Id, relation);
         }
 
-        public void AddRelationWithSubRelations(IndexRelationWithSubRelations relation)
-        {
-            _relations.Add(relation.Id, relation);
-            if(relation.To.Id != IndexEndpoint.NoneId)
-            {
-                if (!_incomingRelations.ContainsKey(relation.To.Id))
-                {
-                    _incomingRelations.Add(relation.To.Id, new List<IndexRelation>());
-                }
-                _incomingRelations[relation.To.Id].Add(relation);
-            }
+        //public void AddRelationWithSubRelations(IndexRelationWithSubRelations relation)
+        //{
+        //    _relations.Add(relation.Id, relation);
+        //    if(relation.To.Id != IndexEndpoint.NoneId)
+        //    {
+        //        if (!_incomingRelations.ContainsKey(relation.To.Id))
+        //        {
+        //            _incomingRelations.Add(relation.To.Id, new List<IndexRelation>());
+        //        }
+        //        _incomingRelations[relation.To.Id].Add(relation);
+        //    }
             
-            if(!_outgoingRelations.ContainsKey(relation.From.Id))
-            {
-                _outgoingRelations.Add(relation.From.Id, new List<IndexRelation>());
-            }
-            _outgoingRelations[relation.From.Id].Add(relation);
-        }
+        //    if(!_outgoingRelations.ContainsKey(relation.From.Id))
+        //    {
+        //        _outgoingRelations.Add(relation.From.Id, new List<IndexRelation>());
+        //    }
+        //    _outgoingRelations[relation.From.Id].Add(relation);
+        //}
 
         public IEnumerable<IndexRelation> GetOutgoingRelations(uint id)
         {
@@ -271,18 +259,18 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return Enumerable.Empty<IndexRelation>();
         }
 
-        public void AddSubRelation(uint parentRelId, IndexRelation subRel)
-        {
-            if(_relations.ContainsKey(parentRelId))
-            {
-                var parentRel = _relations[parentRelId].AsRelationWithSubRelations();
-                if(parentRel != null)
-                {
-                    subRel.Parent = parentRel;
-                    parentRel.SubRelations.Add(subRel);
-                }
-            }
-        }
+        //public void AddSubRelation(uint parentRelId, IndexRelation subRel)
+        //{
+        //    if(_relations.ContainsKey(parentRelId))
+        //    {
+        //        var parentRel = _relations[parentRelId].AsRelationWithSubRelations();
+        //        if(parentRel != null)
+        //        {
+        //            subRel.Parent = parentRel;
+        //            parentRel.SubRelations.Add(subRel);
+        //        }
+        //    }
+        //}
 
         public void EntityDeleted(IndexEndpoint deletedEntity, RelationDeletions relDeletions = null)
         {

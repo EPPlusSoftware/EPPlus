@@ -24,18 +24,17 @@ namespace OfficeOpenXml.RichData.RichValues.LocalImage
 {
     internal class LocalImageRichValue : ExcelRichValue
     {
-        public LocalImageRichValue(ExcelWorkbook workbook) : this(workbook.IndexStore, workbook.RichData)
+
+        public LocalImageRichValue(RichDataDatabase richDataDb) : base(richDataDb, RichDataStructureTypes.LocalImage)
         {
-            
+            _richDataDb = richDataDb;
         }
 
-        public LocalImageRichValue(RichDataIndexStore store, ExcelRichData richData) : base(store, richData, RichDataStructureTypes.LocalImage)
-        {
-        }
+        private readonly RichDataDatabase _richDataDb;
 
-        internal override void SetStructure(ExcelRichData richData)
+        internal override void SetStructure(RichDataDatabase richDataDb)
         {
-            base.SetStructure(richData);
+            base.SetStructure(richDataDb);
             // the first key is a relation and not included in the _keysAndvalues dictionary.
         }
 
@@ -88,8 +87,8 @@ namespace OfficeOpenXml.RichData.RichValues.LocalImage
             var value = Values.FirstOrDefault(k => k.Key.Name == StructureKeyNames.LocalImages.Image.RelLocalImageIdentifier);
             if(value.ValueInt.HasValue)
             {
-                var rvRelId = RichData.RichValueRels.GetIdByIndex(value.ValueInt.Value);
-                var rvRel = RichData.RichValueRels.Get(rvRelId);
+                var rvRelId = _richDataDb.RichValueRels.GetIdByIndex(value.ValueInt.Value);
+                var rvRel = _richDataDb.RichValueRels.Get(rvRelId);
                 SetRelation(value.Key.Name, value.Key.RelationName, rvRel.TargetUri, out uint rid);
                 SetValue(StructureKeyNames.LocalImages.Image.RelLocalImageIdentifier, rvRelId);
             }

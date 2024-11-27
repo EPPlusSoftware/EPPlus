@@ -30,51 +30,13 @@ namespace OfficeOpenXml.RichData
     {
         internal ExcelRichData(ExcelWorkbook wb)
         {
-            var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataValueTypeRelationship).FirstOrDefault();
-            if (r != null)
-            {
-                ValueTypes = new ExcelRichDataValueTypeInfo(wb, r);
-            }
-            else
-            {
-                ValueTypes = new ExcelRichDataValueTypeInfo(wb);
-                if (ValueTypes.Part == null)
-                {
-                    ValueTypes.CreateDefault();
-                }
-            }
-            // this will initialize the metadata, it is needed for the Rich data...
-
-            Structures = new ExcelRichValueStructureCollection(wb, this);
-            WebImages = new WebImagesSupportingRichDataCollection(wb, this);
-            RichValueRels = new RichValueRelCollection(wb);
-            RichValueValues = new ExcelRichValueValueCollection(wb.IndexStore);
-            Values = new ExcelRichValueCollection(wb, this);
-            SupportingPropertyBagStructures = new SupportingPropertyBagStructureCollection(wb);
-            SupportingPropertyBags = new SupportingPropertyBags(wb);
-            RichDataArrayValues = new ExcelRichDataArrayValueCollection(wb.IndexStore);
-            RichDataArrays = new ExcelRichDataArrayCollection(wb, this);
+            Db = new RichDataDatabase(wb, this);
             _richDataDeletions = new ExcelRichDataDeletions();
         }
 
 
 
-        internal ExcelRichDataValueTypeInfo ValueTypes { get; }
-        internal ExcelRichValueStructureCollection Structures { get; }
-
-        internal ExcelRichValueValueCollection RichValueValues { get; set; }
-        internal ExcelRichValueCollection Values { get; }
-        internal RichValueRelCollection RichValueRels { get; }
-
-        internal SupportingPropertyBagStructureCollection SupportingPropertyBagStructures { get; }
-
-        internal WebImagesSupportingRichDataCollection WebImages { get; set; }
-
-        internal SupportingPropertyBags SupportingPropertyBags { get; }
-
-        internal ExcelRichDataArrayCollection RichDataArrays { get; }
-
-        internal ExcelRichDataArrayValueCollection RichDataArrayValues { get; }
+        internal RichDataDatabase Db { get; private set; }
 
         private ExcelRichDataDeletions _richDataDeletions;
 
@@ -89,21 +51,21 @@ namespace OfficeOpenXml.RichData
         {
             //Creates the rich data parts and add the parts to the package. 
             //As richtext depends on the worksheet to be saved to get value and cell meta data depending on rich data, it is save using a save handler.
-            ValueTypes.CreatePart();
-            Structures.CreatePart();
-            Values.CreatePart();
-            RichDataArrays.CreatePart();
+            Db.ValueTypes.CreatePart();
+            Db.Structures.CreatePart();
+            Db.Values.CreatePart();
+            Db.RichDataArrays.CreatePart();
         }
 
         internal void SetHasValuesOnParts()
         {
-            if(ValueTypes.Part.ShouldBeSaved==false)
+            if(Db.ValueTypes.Part.ShouldBeSaved==false)
             {
-                ValueTypes.Part.ShouldBeSaved = true;
-                Structures.Part.ShouldBeSaved = true;
-                Values.Part.ShouldBeSaved = true;
-                RichValueRels.Part.ShouldBeSaved = true;
-                RichDataArrays.Part.ShouldBeSaved = true;
+                Db.ValueTypes.Part.ShouldBeSaved = true;
+                Db.Structures.Part.ShouldBeSaved = true;
+                Db.Values.Part.ShouldBeSaved = true;
+                Db.RichValueRels.Part.ShouldBeSaved = true;
+                Db.RichDataArrays.Part.ShouldBeSaved = true;
             }
         }
 
@@ -114,7 +76,7 @@ namespace OfficeOpenXml.RichData
 
         internal RichValueRel GetRelation(string target, string type)
         {
-            return RichValueRels.FirstOrDefault(x => x.TargetUri.OriginalString == target && x.Type == type);
+            return Db.RichValueRels.FirstOrDefault(x => x.TargetUri.OriginalString == target && x.Type == type);
         }
     }
 }

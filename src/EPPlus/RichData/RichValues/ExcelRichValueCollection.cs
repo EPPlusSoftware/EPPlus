@@ -32,15 +32,15 @@ namespace OfficeOpenXml.RichData.RichValues
         private ExcelWorkbook _wb;
         ZipPackagePart _part;
         ExcelRichValueStructureCollection _structures;
-        ExcelRichData _richData;
+        RichDataDatabase _richDataDb;
         Uri _uri;
         internal const string PART_URI_PATH = "/xl/richData/rdrichvalue.xml";
-        public ExcelRichValueCollection(ExcelWorkbook wb, ExcelRichData richData)
+        public ExcelRichValueCollection(ExcelWorkbook wb, RichDataDatabase richDataDb)
             : base(wb.IndexStore, RichDataEntities.RichValue)
         {
             _wb = wb;
-            _richData = richData;
-            _structures = richData.Structures;
+            _richDataDb = richDataDb;
+            _structures = richDataDb.Structures;
             var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataValueRelationship).FirstOrDefault();
             if (r == null)
             {
@@ -83,20 +83,15 @@ namespace OfficeOpenXml.RichData.RichValues
             var structureIx = int.Parse(xr.GetAttribute("s"));
             var structureId = _structures.GetIdByIndex(structureIx);
             var structure = _structures.Get(structureId);
-            //var item = new ExcelRichValue(int.Parse(xr.GetAttribute("s")));
-            var item = ExcelRichValueFactory.Create(structure, structure.Id, _wb.IndexStore, _richData);
-            //item.Structure = _structures.StructureItems[item.StructureId];
-
-            //var keys = structure.Keys.ToNameArray()
+            var item = ExcelRichValueFactory.Create(structure, structure.Id, _wb.IndexStore, _richDataDb);
             int keyIx = 0;
             while (xr.IsEndElementWithName("rv") == false)
             {
                 if (xr.IsElementWithName("v"))
                 {
                     if (keyIx >= structure.Keys.Count) continue;
-                    //item.SetValue(keys[keyIx++], xr.ReadElementContentAsString());
                     var val = new ExcelRichValueValue(structure.Keys[keyIx++], xr.ReadElementContentAsString(), _wb.IndexStore);
-                    _richData.RichValueValues.Add(val);
+                    _richDataDb.RichValueValues.Add(val);
                     item.Values.Add(val);
                 }
                 else if (xr.IsElementWithName("fb"))
@@ -110,8 +105,6 @@ namespace OfficeOpenXml.RichData.RichValues
                 }
 
             }
-            //item.SetStructure(_richData);
-            //item.InitRelations(this);
             item.PostProcessInitialRead();
             return item;
         }
@@ -139,7 +132,7 @@ namespace OfficeOpenXml.RichData.RichValues
             sw.Write($"<rvData xmlns=\"{Schemas.schemaRichData}\" count=\"{this.Count}\">");
             foreach (var item in this)
             {
-                item.SetStructure(_richData);
+                item.SetStructure(_richDataDb);
                 item.WriteXml(sw);
             }
             sw.Write("</rvData>");
@@ -156,43 +149,21 @@ namespace OfficeOpenXml.RichData.RichValues
             _part.SaveHandler = Save;
         }
 
-        //internal void UpdateStructure(ExcelRichValue rv, int structureId)
-        //{
-        //    rv.StructureId = structureId;
-        //    rv.Structure = _structures.StructureItems[structureId];
-        //}
-
         internal void AddErrorSpill(ExcelRichDataErrorValue spillError)
         {
-            //var structureId = _structures.GetStructureId(RichDataStructureTypes.ErrorSpill);
-            //var item = new ExcelRichValue(structureId);
-            var item = new ErrorSpillRichValue(_wb)
+            var item = new ErrorSpillRichValue(_wb.RichData.Db)
             {
                 ColOffset = spillError.SpillColOffset,
                 RwOffset = spillError.SpillRowOffset,
                 SubType = 1,
                 ErrorType = RichDataErrorType.Spill
             };
-            //item.Structure = _structures.StructureItems[item.StructureId];
-            //item.AddSpillError(spillError.SpillRowOffset, spillError.SpillColOffset, "1");
             Add(item);
         }
 
         internal void AddPropagated(eErrorType errorType)
         {
-            //var structureId = _structures.GetStructureId(RichDataStructureTypes.ErrorPropagated);
-            //var item = new ExcelRichValue(structureId);
-            //item.Structure = _structures.StructureItems[item.StructureId];
-            //switch (errorType)
-            //{
-            //    case eErrorType.Calc:
-            //        item.AddPropagatedError(RichDataErrorType.Calc, true);
-            //        break;
-            //    case eErrorType.Spill:
-            //        item.AddPropagatedError(RichDataErrorType.Spill, true);
-            //        break;
-            //}
-            var item = new ErrorPropagatedRichValue(_wb)
+            var item = new ErrorPropagatedRichValue(_wb.RichData.Db)
             {
                 Propagated = "1"
             };
@@ -210,22 +181,7 @@ namespace OfficeOpenXml.RichData.RichValues
         }
         internal void AddError(eErrorType errorType, int subType)
         {
-            //var structureId = _structures.GetStructureId(RichDataStructureTypes.ErrorWithSubType);
-            //var item = new ExcelRichValue(structureId);
-            //item.Structure = _structures.StructureItems[item.StructureId];
-            //switch (errorType)
-            //{
-            //    case eErrorType.Calc:
-            //        item.AddError(RichDataErrorType.Calc, subType);
-            //        break;
-            //    case eErrorType.Spill:
-            //        item.AddError(RichDataErrorType.Spill, subType);
-            //        break;
-            //    case eErrorType.Name:
-            //        item.AddError(RichDataErrorType.Name, subType);
-            //        break;
-            //}
-            var item = new ErrorWithSubTypeRichValue(_wb)
+            var item = new ErrorWithSubTypeRichValue(_wb.RichData.Db)
             {
                 SubType = subType
             };

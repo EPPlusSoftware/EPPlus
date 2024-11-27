@@ -12,19 +12,15 @@
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.Structures.Constants;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
-using OfficeOpenXml.RichData.Types;
-using OfficeOpenXml.Packaging.Ionic.Zip;
-using OfficeOpenXml.RichData.Structures.Errors;
-using OfficeOpenXml.RichData.Structures.LocalImages;
-using OfficeOpenXml.RichData.IndexRelations;
-using OfficeOpenXml.RichData.Structures.Constants;
 
 namespace OfficeOpenXml.RichData.Structures
 {
@@ -32,16 +28,16 @@ namespace OfficeOpenXml.RichData.Structures
     {
         private ExcelWorkbook _wb;
         private ZipPackagePart _part;
-        private ExcelRichData _richData;
+        private RichDataDatabase _richDataDb;
         private readonly StructureKeyNamesCache _keyNamesCache = new StructureKeyNamesCache();
         private Uri _uri;
         private const string PART_URI_PATH = "/xl/richData/rdrichvaluestructure.xml";
         private Dictionary<RichDataStructureTypes, List<RichValueStructureReference>> _structures = new Dictionary<RichDataStructureTypes, List<RichValueStructureReference>>();
-        internal ExcelRichValueStructureCollection(ExcelWorkbook wb, ExcelRichData richData)
+        internal ExcelRichValueStructureCollection(ExcelWorkbook wb, RichDataDatabase richDataDb)
             : base(wb.IndexStore, RichDataEntities.RichStructure)
         {
             _wb = wb;
-            _richData = richData;
+            _richDataDb = richDataDb;
             var r = wb.Part.GetRelationshipsByType(Relationsships.schemaRichDataValueStructureRelationship).FirstOrDefault();
             if (r == null)
             {
