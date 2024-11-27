@@ -283,7 +283,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             string origInvalid;
 
             //using (var pck = OpenTemplatePackage("PngSline.xlsx"))
-            using (var pck = OpenTemplatePackage("BmpImage.xlsx"))
+            using (var pck = OpenTemplatePackage("TestEpplusTemplateImage.xlsx"))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets[0];

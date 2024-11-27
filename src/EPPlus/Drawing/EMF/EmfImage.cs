@@ -200,6 +200,8 @@ namespace OfficeOpenXml.Drawing.EMF
 
             header.Bytes = 0;
 
+            header.Records = (uint)records.Count;
+
             foreach (var record in records)
             {
                 header.Bytes += record.Size;

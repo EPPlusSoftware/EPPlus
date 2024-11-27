@@ -167,18 +167,49 @@ namespace EPPlusTest
         [TestMethod]
         public void ReadEMFPlusRecord()
         {
-            var emfTemplate = GetTemplateFile("SignatureImageExtremeWideBmp.emf");
+            var emfTemplate = GetTemplateFile("TestTmp.emf");
             var emf = new EmfImage();
             emf.Read(emfTemplate.FullName);
 
             //Remove plus Records
-            emf.records.RemoveAt(13);
-            emf.records.RemoveAt(12);
-            emf.records.RemoveAt(3);
-            emf.records.RemoveAt(2);
-            emf.records.RemoveAt(1);
+            emf.records.RemoveAt(10); //Remove End Emf+ comment
+            emf.records.RemoveAt(9); //Remove RestoreDC
+            emf.records.RemoveAt(6); //Remove duplicate StretchBlt record
+            emf.records.RemoveAt(3); //Remove SaveDC
+            emf.records.RemoveAt(2); // Remove Emf+ Comment
+            emf.records.RemoveAt(1); // Remove Emf+ header Comment
 
-            emf.Save(GetOutputFile("", "AdjustedExtremeWide.emf").FullName);
+            emf.Save(GetOutputFile("", "AdjustedTmpFile.emf").FullName);
+        }
+
+        [TestMethod]
+        public void ReadEMFPlusRecordLong()
+        {
+            var emfTemplate = GetTemplateFile("SignatureImageExtremeLong.emf");
+            var emf = new EmfImage();
+            emf.Read(emfTemplate.FullName);
+
+            //Remove plus Records
+            emf.records.RemoveAt(13); //Remove End Emf+ comment
+            emf.records.RemoveAt(12); //Remove RestoreDC
+            emf.records.RemoveAt(10); //Remove unknown private comment
+            //emf.records.RemoveAt(8); //Removed duplicate smaller record
+            emf.records.RemoveAt(7); //Remove unknown private comment
+            emf.records.RemoveAt(3); //Remove SaveDC
+            emf.records.RemoveAt(2); // Remove Emf+ Comment
+            emf.records.RemoveAt(1); // Remove Emf+ header Comment
+
+            var header = (EMR_HEADER)emf.records[0];
+
+            emf.Save(GetOutputFile("", "AdjustedExtremeLong.emf").FullName);
+        }
+
+        [TestMethod]
+        public void ReadAdjustedEmfPlusRecord()
+        {
+            var emfTemplate = GetTemplateFile("AdjustedTmpFile.emf");
+            var emf = new EmfImage();
+            emf.Read(emfTemplate.FullName);
         }
     }
 }
