@@ -163,5 +163,22 @@ namespace EPPlusTest
 
             File.WriteAllBytes(outputBmpFile.FullName, bmpBytes);
         }
+
+        [TestMethod]
+        public void ReadEMFPlusRecord()
+        {
+            var emfTemplate = GetTemplateFile("SignatureImageExtremeWideBmp.emf");
+            var emf = new EmfImage();
+            emf.Read(emfTemplate.FullName);
+
+            //Remove plus Records
+            emf.records.RemoveAt(13);
+            emf.records.RemoveAt(12);
+            emf.records.RemoveAt(3);
+            emf.records.RemoveAt(2);
+            emf.records.RemoveAt(1);
+
+            emf.Save(GetOutputFile("", "AdjustedExtremeWide.emf").FullName);
+        }
     }
 }

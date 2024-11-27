@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.Drawing.EMF.Records;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils;
 
@@ -28,7 +30,9 @@ namespace OfficeOpenXml.Drawing.EMF
         byte[] EMFSpoolRecords;
 
         //EMFPLUS
-        byte[] EMFPLUSRECORDS;
+       // byte[] EMFPLUSRECORDS;
+
+        List<EmfPlusRecord> EmfPlusRecords = new();
 
         //PUBLIC
         uint PublicCommentIdentifier;
@@ -66,16 +70,40 @@ namespace OfficeOpenXml.Drawing.EMF
                     break;
             }
 
-            if (commentType != null && commentType == CommentIdentifier.EMR_COMMENT_PUBLIC)
+            if (commentType != null)
             {
-                PublicCommentIdentifier = br.ReadUInt32();
-                emrComment = (EmrComment)PublicCommentIdentifier;
-
-                if (emrComment == EmrComment.EMR_COMMENT_BEGINGROUP)
+                if(commentType == CommentIdentifier.EMR_COMMENT_PUBLIC)
                 {
-                    rect = new RectLObject(br);
-                    nDescription = br.ReadUInt32();
-                    Description = BinaryHelper.GetString(br, (nDescription * 2), Encoding.Unicode);
+                    PublicCommentIdentifier = br.ReadUInt32();
+                    emrComment = (EmrComment)PublicCommentIdentifier;
+
+                    if (emrComment == EmrComment.EMR_COMMENT_BEGINGROUP)
+                    {
+                        rect = new RectLObject(br);
+                        nDescription = br.ReadUInt32();
+                        Description = BinaryHelper.GetString(br, (nDescription * 2), Encoding.Unicode);
+                    }
+                }
+                else if(commentType == CommentIdentifier.EMR_COMMENT_EMFPLUS)
+                {
+                    while (br.BaseStream.Position < (position + Size))
+                    {
+                        RECORD_TYPES_PLUS plusType = (RECORD_TYPES_PLUS)br.ReadUInt16();
+
+                        EmfPlusRecord record;
+
+                        switch (plusType)
+                        {
+                            case RECORD_TYPES_PLUS.EmfPlusHeader:
+                                record = new EmfPlusHeader(br);
+                                break;
+                            default:
+                                record = new EmfPlusRecord(br, plusType, true);
+                                break;
+                        }
+
+                        EmfPlusRecords.Add(record);
+                    }
                 }
             }
             else
