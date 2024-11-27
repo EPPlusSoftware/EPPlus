@@ -170,7 +170,7 @@ namespace OfficeOpenXml.Drawing.EMF
             record.ChangeImage(Image);
         }
 
-        //Assumes only one stretchdibits/one of each worldtransform and worldtransform modified
+        //Assumes only one stretchdibits/one of each EMR_SETWORLDTRANSFORM and EMR_MODIFYWORLDTRANSFORM
         internal void ResetWorldOrigin(float xPos = 9, float yPos = 43)
         {
             var dibits = (EMR_STRETCHDIBITS)records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);

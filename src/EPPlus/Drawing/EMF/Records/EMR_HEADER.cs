@@ -10,7 +10,13 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class EMR_HEADER : EMR_RECORD
     {
+        /// <summary>
+        ///  Bounds in logical units (LU) (LU is equivalent to pixels if MapMode defined by EMR_SETMAPMODE is MM_Text.)
+        /// </summary>
         internal RectLObject Bounds;             //16
+        /// <summary>
+        /// Frame in 0.1 mm units
+        /// </summary>
         internal RectLObject Frame;              //16
         internal byte[] RecordSignature;    //4
         internal byte[] Version;            //4
@@ -44,7 +50,6 @@ namespace OfficeOpenXml.Drawing.EMF
             if (Size >= 84)
             {
                 headerSize = Size;
-
 
                 Bounds = new RectLObject(br);
                 Frame = new RectLObject(br);

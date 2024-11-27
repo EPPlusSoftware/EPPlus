@@ -136,6 +136,7 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException($"SignatureLine {this} is invalid. Cannot sign without a Signature. Please add a SignatureImage first.");
             }
+            SignatureImage.SetRestrictedTypes(restrictedTypes);
         }
 
         internal virtual void ReadEmfExtractImage(byte[] emfBytes)

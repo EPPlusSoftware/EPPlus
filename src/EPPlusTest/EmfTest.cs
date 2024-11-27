@@ -210,6 +210,63 @@ namespace EPPlusTest
             var emfTemplate = GetTemplateFile("AdjustedTmpFile.emf");
             var emf = new EmfImage();
             emf.Read(emfTemplate.FullName);
+
+            var imgRecord = (EMR_STRETCHDIBITS)emf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            var bytes = File.ReadAllBytes(GetTemplateFile("TempBitmapLarge.bmp").FullName);
+
+            BitmapHandler handler = new BitmapHandler();
+            handler.ReadBitmap(bytes);
+            imgRecord.ReadBmpAndUpdateImage(bytes);
+
+            var header = (EMR_HEADER)emf.records[0];
+
+            var width = imgRecord.cxDest;
+            var height = imgRecord.cyDest;
+
+            header.Bounds.Right = width; //Max line width
+            header.Bounds.Bottom = height; //Max stamp height
+
+            header.Frame.Right = Convert.ToInt32(23.26848249027237 * width);
+            header.Frame.Bottom = Convert.ToInt32(23.19254658385093 * height);
+
+            //header.Frame.Right = Convert.ToInt32(23.26848249027237 * header.Bounds.Right);
+            //header.Frame.Bottom = Convert.ToInt32(23.19254658385093 * header.Bounds.Bottom);
+
+            //imgRecord.ReadBmpAndUpdateImage(bytes);
+
+            //var pxHeight = handler.informationHeader.pixelHeight;
+            //var pxWidth = handler.informationHeader.pixelWidth;
+
+            //var MaxWidth = 205;
+            //var MaxHeight = 47;
+
+            //double xRatio = (double)MaxWidth / (double)pxWidth;
+            //double yRatio = (double)MaxHeight / (double)pxHeight;
+
+            //double ratio = xRatio < yRatio ? xRatio : yRatio;
+
+            //var cxDest = Convert.ToInt32(pxWidth * ratio);
+            //var cyDest = Convert.ToInt32(pxHeight * ratio);
+
+            //imgRecord.ReadBmpAndUpdateImage(bytes);
+
+            //var header = (EMR_HEADER)emf.records[0];
+            //header.Bounds.Right = cxDest; //Max line width
+            //header.Bounds.Bottom = cyDest; //Max stamp height
+
+            //var yDest = Convert.ToInt32(MaxHeight - (pxHeight * ratio));
+
+            ////header.Frame.Right = 5980; 205px
+            ////23.26848249027237 * 0.1 mm for each pixel
+
+            ////header.Frame.Bottom = 3734; 161px
+            ////23.19254658385093 * 0.1 mm for each pixel
+
+            //header.Frame.Right = Convert.ToInt32(23.26848249027237 * cxDest);
+            //header.Frame.Bottom = Convert.ToInt32(23.19254658385093 * yDest);
+
+            emf.Save(GetOutputFile("", "AdjustedTmpChangedImage.emf").FullName);
         }
     }
 }
