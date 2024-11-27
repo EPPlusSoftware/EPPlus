@@ -38,8 +38,6 @@ namespace EPPlusTest
         [TestMethod]
         public void CommercialTrialSubsciptionTest()
         {
-            //var lk = "XSEYckEhnPyBUH6YxHLBTy1j78xa6iVvI07lmU7dUr0olp0Tjmrwr0KTg46J5XIEvihxCnIyHAfg6mvO2D8/bgEGQjVGNzRC6Ac2AVYBIQ0A";
-            //var lk = "E6RmZuSL2nvbizQc+sPbyJ/WFYGOhStoy321XgfjCy3K/iEp9TY0+UROWERWUYyk2f2wsx7YlaQXJSABjQyuGgEGQjA4RDc35QdWAOEGEQoA";
             var lk = "fX47BAtakq4T6v/K/zosjWipM9npn2yVWLhFn8MAsdDGJc2fN5+Lsd6rcRc4c1PzlF1IVX1UoDQbEkM+IahCAAEGQjA4RDc35QdWAMMBEQoA";
             ExcelPackage.License.SetLicenseCommercial(lk);
             using (var p = new ExcelPackage())
@@ -65,7 +63,7 @@ namespace EPPlusTest
         [TestMethod]
         public void CommercialTemporaryKey()
         {
-            var lk = "L1lok5jOXPahvNNakCHgcOjUTXKzLpThKUT4DCS7IamteJas3d2K4CH6KBoym5I1X1phiI5ibcnSoS1XBEOPmwEGQjJDNzFG5wc8AcYCQQEA";
+            var lk = "tKChnon7eEepmLgXpVt0EhRO5dd/sDfvxLiZ+M5exmU3SjZh7Jj/Q8SHl59GUJoz0TL0xxS8IR7kfy1rD2N3FQEGQjFGQTE36AdKAbcCAQIA";
             ExcelPackage.License.SetLicenseCommercial(lk);
             using (var p = new ExcelPackage())
             {

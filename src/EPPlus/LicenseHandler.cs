@@ -88,7 +88,7 @@ namespace OfficeOpenXml
             }
             catch
             {
-                throw new InvalidLicenseKeyException("The license key is not in a valid format. Please check that you have the entire key without any white-spaces.");
+                throw new InvalidLicenseKeyException("The license key is not in a valid format. Please check that the key matches.");
             }        
         }
 

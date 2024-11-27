@@ -95,7 +95,7 @@ namespace OfficeOpenXml
         /// <param name="licenseKey">The licens _key you recieved with your license</param>
         public void SetLicenseCommercial(string licenseKey)
         {
-            if (LicenseHandler.ValidateLicenseKey(licenseKey, out EPPlusLicenseInfo licenseInfo))
+            if (LicenseHandler.ValidateLicenseKey(licenseKey.Trim(), out EPPlusLicenseInfo licenseInfo))
             {
                 LicenseInfo = licenseInfo;
                 LicenseKey = licenseKey;
@@ -180,8 +180,10 @@ namespace OfficeOpenXml
             }
             return v;
         }
-
-        internal void RemoveActiveLicense()
+        /// <summary>
+        /// Removes the active license.
+        /// </summary>
+        public void RemoveActiveLicense()
         {
             LicenseType = null;
             LicenseKey = null;
