@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.Style;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.Export.ToDataTable
 {
@@ -55,12 +56,7 @@ namespace OfficeOpenXml.Export.ToDataTable
             var index = 0;
             for(var col = _range.Start.Column; col <= _range.End.Column; col++)
             {
-                var cellVal = _range.Worksheet.GetValueInner(row, col);
-
-                if(cellVal is ExcelRichTextCollection)
-                {
-                    cellVal = ((ExcelRichTextCollection)cellVal).Text;
-                }
+                var cellVal = _range.Worksheet.GetValue(row, col);
 
                 if (cellVal == null) continue;
                 if (string.Compare(columnName, cellVal.ToString(), StringComparison.OrdinalIgnoreCase) == 0)

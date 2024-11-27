@@ -595,9 +595,9 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 var innerValue = sourceWorksheet?.GetValueInner(sourceRange._fromRow, col);
                 string name = "";
-                if(innerValue is ExcelRichTextCollection)
+                if (sourceWorksheet._flags.GetFlagValue(sourceRange._fromRow, col, CellFlags.RichText))
                 {
-                    name = ((ExcelRichTextCollection)innerValue).Text;
+                    name = sourceWorksheet.GetRichText(sourceRange._fromRow, col, sourceWorksheet.Cells[sourceRange._fromRow, col]).Text;
                 }
                 else
                 {
