@@ -45,6 +45,9 @@ namespace OfficeOpenXml.Drawing.EMF
         internal float inchesY;
         internal float Ppi;
 
+        internal double MilimetersPerPixelX;
+        internal double MilimetersPerPixelY;
+
         internal EMR_HEADER(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
             if (Size >= 84)
@@ -132,6 +135,8 @@ namespace OfficeOpenXml.Drawing.EMF
                 var cy = BitConverter.ToUInt32(Device, 4);
 
                 Ppi = cx / inchesX;
+                MilimetersPerPixelX = cxMili / (double)cx;
+                MilimetersPerPixelY = cyMili / (double)cy;
             }
             else
             {

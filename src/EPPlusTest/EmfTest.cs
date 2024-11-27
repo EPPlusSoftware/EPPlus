@@ -217,18 +217,25 @@ namespace EPPlusTest
 
             BitmapHandler handler = new BitmapHandler();
             handler.ReadBitmap(bytes);
+
+            int MaxHeight = 75;
+            int MaxWidth = 111;
+
+            ImageUtil.ResizeImageWithMaxSize(
+                MaxWidth, MaxHeight, 
+                handler.informationHeader.pixelWidth, 
+                handler.informationHeader.pixelHeight, 
+                out int width, out int height);
+
             imgRecord.ReadBmpAndUpdateImage(bytes);
 
             var header = (EMR_HEADER)emf.records[0];
 
-            var width = imgRecord.cxDest;
-            var height = imgRecord.cyDest;
-
             header.Bounds.Right = width; //Max line width
             header.Bounds.Bottom = height; //Max stamp height
 
-            header.Frame.Right = Convert.ToInt32(23.26848249027237 * width);
-            header.Frame.Bottom = Convert.ToInt32(23.19254658385093 * height);
+            header.Frame.Right = Convert.ToInt32(header.MilimetersPerPixelX * width * 100);
+            header.Frame.Bottom = Convert.ToInt32(header.MilimetersPerPixelY * height * 100);
 
             //header.Frame.Right = Convert.ToInt32(23.26848249027237 * header.Bounds.Right);
             //header.Frame.Bottom = Convert.ToInt32(23.19254658385093 * header.Bounds.Bottom);
