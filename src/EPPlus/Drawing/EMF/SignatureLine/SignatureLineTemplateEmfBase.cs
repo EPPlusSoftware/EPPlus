@@ -1,4 +1,6 @@
 ﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,8 +13,12 @@ namespace OfficeOpenXml.Drawing.EMF
         internal EMR_EXTTEXTOUTW suggestedSignerObject;
         internal EMR_EXTTEXTOUTW suggestedTitleObject;
         internal EMR_STRETCHDIBITS imageRecord;
+        internal EmfImage EmfSignatureImage = null;
 
         protected const string localZipPath = "OfficeOpenXml.resources.SignatureLineTemplates.zip";
+
+        protected double MaxHeight = 47.2f;
+        protected double MaxWidth = 205;
 
         internal virtual string SuggestedSigner
         {
@@ -46,7 +52,7 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             if (inputString.Length > length)
             {
-                return inputString.Substring(0, length-1) + "...";
+                return inputString.Substring(0, length - 1) + "...";
             }
             return inputString;
         }
@@ -54,20 +60,14 @@ namespace OfficeOpenXml.Drawing.EMF
         //Load image record from original Emf into template
         internal SignatureLineTemplateEmfBase(string templateName, byte[] originalBytes) : this(templateName)
         {
-            var tmp = new EmfImage();
-            tmp.Read(originalBytes);
-            var tmpImageRecord = (EMR_STRETCHDIBITS)tmp.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+            EmfSignatureImage = new EmfImage();
+            EmfSignatureImage.Read(originalBytes);
+            var tmpImageRecord = (EMR_STRETCHDIBITS)EmfSignatureImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
             imageRecord.ExtractedBmp = tmpImageRecord.ExtractedBmp;
         }
         internal byte[] GetBitmapBytes()
         {
             return imageRecord.ExtractedBmp.GetBitMapBytes();
-        }
-
-        internal SignatureLineTemplateEmfBase(EmfImage emf)
-        {
-            Read(emf.GetBytes());
-            Initalize();
         }
 
         internal SignatureLineTemplateEmfBase(string templateName)
@@ -81,7 +81,7 @@ namespace OfficeOpenXml.Drawing.EMF
         internal void InsertInvalidRecords()
         {
             EmfImage invalidRecords = new EmfImage();
-            invalidRecords.LoadTemplateFromResource("InvalidSignatureRecords.bin", "OfficeOpenXml.resources.SignatureLineTemplates.zip");
+            invalidRecords.LoadTemplateFromResource("InvalidSignatureRecords.bin", localZipPath);
             records.InsertRange(63, invalidRecords.records);
         }
 
@@ -93,7 +93,7 @@ namespace OfficeOpenXml.Drawing.EMF
             return textRecords;
         }
 
-        internal void SetImageRecordMax(float MaxHeight, float MaxWidth)
+        internal void SetImageRecordMax(double MaxHeight, double MaxWidth)
         {
             imageRecord.MaxHeight = MaxHeight;
             imageRecord.MaxWidth = MaxWidth;
@@ -105,6 +105,31 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal virtual void SaveImage(byte[] imageBytes)
         {
+            EmfSignatureImage = new EmfImage();
+            EmfSignatureImage.LoadTemplateFromResource("SignatureImageTemplate.emf", localZipPath);
+
+            var imgRecord = (EMR_STRETCHDIBITS)EmfSignatureImage.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            BitmapHandler handler = new BitmapHandler(imageBytes);
+            var infoHeader = handler.informationHeader;
+
+            var imgWidth = infoHeader.pixelWidth;
+            var imgHeight = infoHeader.pixelHeight;
+
+            imgRecord.MaxWidth = imgWidth;
+            imgRecord.MaxHeight = imgHeight;
+
+            imgRecord.ReadBmpAndUpdateImage(imageBytes);
+
+            var header = (EMR_HEADER)EmfSignatureImage.records[0];
+
+            //Update Bounds
+            header.Bounds.Right = imgWidth;
+            header.Bounds.Bottom = imgHeight;
+
+            //Update frame (*100 because unit is in 0.01 mm)
+            header.Frame.Right = Convert.ToInt32(header.MilimetersPerPixelX * imgWidth * 100);
+            header.Frame.Bottom = Convert.ToInt32(header.MilimetersPerPixelY * imgHeight * 100);
         }
     }
 }

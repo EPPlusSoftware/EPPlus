@@ -11,6 +11,7 @@ using OfficeOpenXml.VBA;
 using System.Linq;
 using OfficeOpenXml.Drawing;
 using System.IO;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
@@ -61,6 +62,10 @@ namespace OfficeOpenXml.DigitalSignatures
             get
             {
                 SignedXml signedXml = new SignedXml(_doc);
+
+                var node = _doc.GetElementsByTagName("Signature")[0];
+                signedXml.LoadXml((XmlElement)node);
+
                 return signedXml.CheckSignatureReturningKey(out AsymmetricAlgorithm pubKey);
             }
         }
@@ -97,6 +102,7 @@ namespace OfficeOpenXml.DigitalSignatures
             };
             //Full read only REALLY relevant for verification of signature
             _doc.Load(part.GetStream());
+            var isVerified = Verified;
 
             var officeObj = _doc.SelectSingleNode("//*[@Id='idOfficeV1Details']");
 
@@ -351,8 +357,7 @@ namespace OfficeOpenXml.DigitalSignatures
 
                 if (SignatureLine.SignatureImage != null && SignatureLine.SignatureImage.ImageBytes.Length > 0)
                 {
-                    var base64SLineString = Convert.ToBase64String(SignatureLine.SignatureImage.ImageBytes);
-                    props.sigInfo1.SignatureImage = base64SLineString;
+                    props.sigInfo1.SignatureImage = SignatureLine.SigLnImage;
                 }
             }
 

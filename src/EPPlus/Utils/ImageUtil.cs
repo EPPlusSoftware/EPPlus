@@ -8,10 +8,10 @@ namespace OfficeOpenXml.Utils
 {
     internal static class ImageUtil
     {
-       internal static void ResizeImageWithMaxSize(int maxWidth, int maxHeight, int width, int height, out int newHeight, out int newWidth)
+       internal static void ResizeImageWithMaxSize(double maxWidth, double maxHeight, int width, int height, out int newHeight, out int newWidth)
         {
-            double xRatio = (double)maxWidth / (double)width;
-            double yRatio = (double)maxHeight / (double)height;
+            double xRatio = maxWidth / (double)width;
+            double yRatio = maxHeight / (double)height;
 
             double ratio = xRatio < yRatio ? xRatio : yRatio;
 

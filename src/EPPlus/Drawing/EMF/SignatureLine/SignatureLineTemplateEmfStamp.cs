@@ -12,9 +12,6 @@ namespace OfficeOpenXml.Drawing.EMF
         const int minWidth = 10;
         const int maxWidthFile = 127;
 
-        internal float MaxHeight = 75;
-        internal float MaxWidthSigImage = 111;
-
         internal override string SuggestedSigner
         {
             set
@@ -49,10 +46,14 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal SignatureLineTemplateEmfStamp(byte[] emfBytes) : base(templateName, emfBytes)
         {
+            MaxHeight = 75;
+            MaxWidth = 111;
         }
 
         internal SignatureLineTemplateEmfStamp() : base(templateName)
         {
+            MaxHeight = 75;
+            MaxWidth = 111;
         }
 
         internal override List<EMR_EXTTEXTOUTW> Initalize()
@@ -62,7 +63,7 @@ namespace OfficeOpenXml.Drawing.EMF
             suggestedTitleObject = textRecords[1];
             suggestedSignerObject = textRecords[2];
 
-            SetImageRecordMax(MaxHeight, MaxWidthSigImage);
+            SetImageRecordMax(MaxHeight, MaxWidth);
 
             return textRecords;
         }
@@ -74,6 +75,7 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal override void SaveImage(byte[] imageBytes)
         {
+            base.SaveImage(imageBytes);
             imageRecord.ReadBmpAndUpdateImage(imageBytes, true, false);
         }
     }

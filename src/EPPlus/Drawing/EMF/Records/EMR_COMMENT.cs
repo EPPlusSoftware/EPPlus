@@ -161,14 +161,24 @@ namespace OfficeOpenXml.Drawing.EMF
                 bw.Write(commentIdentifier);
             }
  
-            if(commentType!= null && (commentType == CommentIdentifier.EMR_COMMENT_PUBLIC))
+            if(commentType!= null)
             {
-                bw.Write(PublicCommentIdentifier);
-                if (emrComment == EmrComment.EMR_COMMENT_BEGINGROUP)
+                if(commentType == CommentIdentifier.EMR_COMMENT_PUBLIC)
                 {
-                    rect.WriteBytes(bw);
-                    bw.Write(nDescription);
-                    bw.Write(BinaryHelper.GetByteArray(Description, Encoding.Unicode));
+                    bw.Write(PublicCommentIdentifier);
+                    if (emrComment == EmrComment.EMR_COMMENT_BEGINGROUP)
+                    {
+                        rect.WriteBytes(bw);
+                        bw.Write(nDescription);
+                        bw.Write(BinaryHelper.GetByteArray(Description, Encoding.Unicode));
+                    }
+                }
+                else if(commentType == CommentIdentifier.EMR_COMMENT_EMFPLUS)
+                {
+                    foreach(var record in EmfPlusRecords)
+                    {
+                        record.WriteBytes(bw);
+                    }
                 }
             }
             else

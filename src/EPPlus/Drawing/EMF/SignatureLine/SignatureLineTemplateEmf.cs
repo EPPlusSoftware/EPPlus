@@ -11,9 +11,6 @@ namespace OfficeOpenXml.Drawing.EMF
         internal EMR_EXTTEXTOUTW signTextObject;
         internal EMR_EXTTEXTOUTW signedBy;
 
-        float MaxHeight = 47.2f;
-        float MaxWidth = 205;
-
         internal string SignText
         {
             set
@@ -34,12 +31,16 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             signedBy.Text = "";
             signTextObject.Text = "";
+            MaxHeight = 47.2f;
+            MaxWidth = 205;
         }
 
         internal SignatureLineTemplateEmf() : base(templateName)
         {
             signedBy.Text = "";
             signTextObject.Text = "";
+            MaxHeight = 47.2f;
+            MaxWidth = 205;
         }
 
         internal override List<EMR_EXTTEXTOUTW> Initalize()
@@ -65,6 +66,7 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal override void SaveImage(byte[] imageBytes)
         {
+            base.SaveImage(imageBytes);
             imageRecord.ReadBmpAndUpdateImage(imageBytes, false, true);
         }
     }

@@ -26,8 +26,8 @@ namespace OfficeOpenXml.Drawing.EMF
 
         //Variables for replacing/resizing the image.
         //If behaves strangely reset SETWORLDTRANSFORM and MODIFYWORLDTRANSFORM records in EmfImage file.
-        internal float MaxHeight = 75;
-        internal float MaxWidth = 111;
+        internal double MaxHeight = 75;
+        internal double MaxWidth = 111;
 
         internal BitmapHandler ExtractedBmp;
         
@@ -181,8 +181,8 @@ namespace OfficeOpenXml.Drawing.EMF
             var xSource = cxSrc;
             var ySource = cySrc;
 
-            double xRatio = (double)MaxWidth / (double)xSource;
-            double yRatio = (double)MaxHeight / (double)ySource;
+            double xRatio = MaxWidth / (double)xSource;
+            double yRatio = MaxHeight / (double)ySource;
 
             double ratio = xRatio < yRatio ? xRatio : yRatio;
 
@@ -215,8 +215,8 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal void ReadBmpAndUpdateImage(byte[] bmp, bool centerImage = false, bool adjustYOriginToHeight = true)
         {
-            var handler = new BitmapHandler(bmp);
-            UpdateImage(handler, centerImage, adjustYOriginToHeight);
+            ExtractedBmp = new BitmapHandler(bmp);
+            UpdateImage(ExtractedBmp, centerImage, adjustYOriginToHeight);
         }
 
         internal override void WriteBytes(BinaryWriter bw)

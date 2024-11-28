@@ -74,6 +74,7 @@ namespace OfficeOpenXml.Drawing
 
         internal string InvalidSigLnImg;
         internal string ValidSigLnImage;
+        internal string SigLnImage;
 
         internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId)
         {
@@ -108,6 +109,8 @@ namespace OfficeOpenXml.Drawing
                 if(SignatureImage.Type == ePictureType.Bmp)
                 {
                     Emf.SaveImage(SignatureImage.ImageBytes);
+                    Emf.EmfSignatureImage.Save("C:\\epplusTest\\Testoutput\\JustImageTemplateNew.emf");
+                    SigLnImage = Convert.ToBase64String(Emf.EmfSignatureImage.GetBytes());
                 }
                 else
                 {
@@ -143,6 +146,7 @@ namespace OfficeOpenXml.Drawing
         {
             Emf = _signatureLineType == eSignatureLineType.Stamp ? new SignatureLineTemplateEmfStamp(emfBytes) : new SignatureLineTemplateEmf(emfBytes);
             SignatureImage = new ExcelImage(Emf.GetBitmapBytes(), ePictureType.Bmp);
+            SigLnImage = Convert.ToBase64String(Emf.EmfSignatureImage.GetBytes());
         }
 
         /// <summary>

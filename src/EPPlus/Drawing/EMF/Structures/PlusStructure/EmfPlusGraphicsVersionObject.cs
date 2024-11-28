@@ -13,7 +13,7 @@ namespace OfficeOpenXml.Drawing.EMF.PlusStructure
         {
             //Remember: last becomes first because endian
 
-            byte[] bytes = br.ReadBytes(4);
+            bytes = br.ReadBytes(4);
             //TODO:
             //Somehow breakout the two variables
             //The first 20 *Bits* is MetafileSignature so 2 and 1/2 bytes

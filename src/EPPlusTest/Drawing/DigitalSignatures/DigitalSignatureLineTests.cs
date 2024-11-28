@@ -9,6 +9,10 @@ using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.DigitalSignatures;
 using System.Runtime.ConstrainedExecution;
+using System.Xml;
+using System.Text;
+using System.Security.Cryptography.Xml;
+using System.Xml.Linq;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
@@ -283,7 +287,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             string origInvalid;
 
             //using (var pck = OpenTemplatePackage("PngSline.xlsx"))
-            using (var pck = OpenTemplatePackage("TestEpplusTemplateImage.xlsx"))
+            using (var pck = OpenTemplatePackage("BmpImage.xlsx"))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets[0];

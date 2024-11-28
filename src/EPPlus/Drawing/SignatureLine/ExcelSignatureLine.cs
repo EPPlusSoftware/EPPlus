@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Xml;
 using OfficeOpenXml.DigitalSignatures;
-using OfficeOpenXml.Drawing.EMF;
-using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Drawing.Vml;
-using System.IO;
 
 namespace OfficeOpenXml.Drawing
 {
