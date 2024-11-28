@@ -16,6 +16,7 @@ using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using System;
 using System.Linq;
+using System.Xml;
 
 namespace OfficeOpenXml.Metadata
 {
@@ -30,8 +31,26 @@ namespace OfficeOpenXml.Metadata
             TypeId = typeId;
             ValueId = valueId;
             _metadataDb = metadataDb;
-            _readValueIndex = Convert.ToInt32(valueId);
+            //_readValueIndex = Convert.ToInt32(valueId);
             _parent = parent;
+        }
+
+        public ExcelValueMetadataRecord(XmlReader xr, MetadataDatabase metadataDb, IndexEndpoint parent, RichDataIndexStore store)
+            : base(store, RichDataEntities.ValueMetadataRecord)
+        {
+            _metadataDb = metadataDb;
+            var t = int.Parse(xr.GetAttribute("t"));
+            var v = int.Parse(xr.GetAttribute("v"));
+            var type = metadataDb.MetadataTypes[t - 1];
+            TypeId = type.Id;
+            AddRelationTo(type);
+            var fmt = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
+            if (fmt != null)
+            {
+                var bk = fmt.Blocks[v];
+                ValueId = bk.Id;
+                AddRelationTo(bk);
+            }
         }
 
         private readonly IndexEndpoint _parent;
@@ -93,6 +112,10 @@ namespace OfficeOpenXml.Metadata
         public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
             base.OnConnectedEntityDeleted(e);
+            if(e.DeletedEntity.EntityType == RichDataEntities.FutureMetadataRichDataBlock)
+            {
+                DeleteMe(e.RelationDeletions);
+            }
             _parent.OnConnectedEntityDeleted(e);
         }
     }

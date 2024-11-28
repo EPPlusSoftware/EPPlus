@@ -12,10 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.RichData.IndexRelations;
-using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.Utils;
-using System.Collections.Generic;
-using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
@@ -31,10 +28,6 @@ namespace OfficeOpenXml.Metadata
             _metadataDb = metadataDb;
             _store = metadataDb.IndexStore;
             _records = new IndexedSubsetCollection<ExcelCellMetadataRecord>(metadataDb.CellMetadataRecords);
-            // A value metadata block can have more than one relation to metadata types via its records
-            //CreateSubRelation(RichDataEntities.MetadataType);
-            // A value metadata block can have more than one relation to future metadata blocks via its records
-            //CreateSubRelation(RichDataEntities.FutureMetadataBlock);
         }
         public ExcelCellMetadataBlock(XmlReader xr, MetadataDatabase metadataDb)
             : base(metadataDb.IndexStore, RichDataEntities.CellMetadataBlock)
@@ -42,10 +35,6 @@ namespace OfficeOpenXml.Metadata
             _metadataDb = metadataDb;
             _store = metadataDb.IndexStore;
             _records = new IndexedSubsetCollection<ExcelCellMetadataRecord>(metadataDb.CellMetadataRecords);
-            // A value metadata block can have more than one relation to metadata types via its records
-            //CreateSubRelation(RichDataEntities.MetadataType);
-            // A value metadata block can have more than one relation to future metadata blocks via its records
-            //CreateSubRelation(RichDataEntities.FutureMetadataBlock);
             uint currentIndex = 0;
             while (xr.IsEndElementWithName("bk") == false && xr.EOF == false)
             {
@@ -75,35 +64,15 @@ namespace OfficeOpenXml.Metadata
             var record = new ExcelCellMetadataRecord(_metadataDb, this, typeId, valueId, _store);
             _metadataDb.CellMetadataRecords.Add(record);
             var type = _metadataDb.MetadataTypes.Get(typeId);
-            var typeRel = record.AddRelationTo(type, IndexType.OneBasedPointer);
-            //AddSubRelation(typeRel, RichDataEntities.MetadataType);
+            record.AddRelationTo(type, IndexType.OneBasedPointer);
             var fm = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
             if (fm != null)
             {
                 var bk = fm.Blocks.Get(valueId);
-                var valueRel = record.AddRelationTo(bk);
-                //AddSubRelation(valueRel, RichDataEntities.FutureMetadataBlock);
+                record.AddRelationTo(bk);
             }
             _records.Add(record);
         }
-
-        //public IEnumerable<ExcelCellMetadataRecord> Records
-        //{
-        //    get
-        //    {
-        //        var result = new List<ExcelCellMetadataRecord>();
-        //        var valuesRelation = GetSubRelations(RichDataEntities.FutureMetadataBlock);
-        //        foreach (var relation in valuesRelation.SubRelations)
-        //        {
-        //            var item = relation.From as ExcelCellMetadataRecord;
-        //            if (item != null && !item.Deleted)
-        //            {
-        //                result.Add(item);
-        //            }
-        //        }
-        //        return result;
-        //    }
-        //}
 
         public IndexedSubsetCollection<ExcelCellMetadataRecord> Records => _records;
 
@@ -111,31 +80,12 @@ namespace OfficeOpenXml.Metadata
         {
             // When the last record is deleted it will trigger a call to OnRecordDeleted in this class
             // which will call DeleteMe().
+            base.DeleteMe(relDeletions);
             for(var i = 0; i < _records.Count; i++)
             {
                 var record = _records[i];
                 record.DeleteMe(relDeletions);
             }
-        }
-
-        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
-        {
-            //base.OnConnectedEntityDeleted(e);
-            //var valuesRelation = GetSubRelations(RichDataEntities.FutureMetadataBlock);
-            //if (e.DeletedEntity.EntityType == RichDataEntities.FutureMetadataBlock)
-            //{
-            //    var relToDelete = valuesRelation.SubRelations.FirstOrDefault(x => x.To.Id == e.DeletedEntity.Id);
-            //    if (relToDelete != null)
-            //    {
-            //        var record = relToDelete.From as FutureMetadataBlock;
-            //        // Delete the record that is connected to the deleted entity
-            //        relToDelete.From.DeleteMe(e.RelationDeletions);
-            //    }
-            //}
-            //if (valuesRelation.SubRelations.Count == 0)
-            //{
-            //    DeleteMe(e.RelationDeletions);
-            //}
         }
 
         public void OnRecordDeleted(ExcelCellMetadataRecord record, RelationDeletions relDeletions)

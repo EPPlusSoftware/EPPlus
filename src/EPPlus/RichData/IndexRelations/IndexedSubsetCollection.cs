@@ -71,7 +71,11 @@ namespace OfficeOpenXml.RichData.IndexRelations
         {
             foreach(var id in _items)
             {
-                yield return _collection.Get(id);
+                var item = _collection.Get(id);
+                if(!item.Deleted)
+                {
+                    yield return item;
+                }
             }
         }
 

@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.EventArguments;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using System;
 using System.Collections.Generic;
@@ -291,13 +292,14 @@ namespace OfficeOpenXml.RichData.IndexRelations
                 if (incomingRels != null && incomingRels.Any())
                 {
                     //incomingRels = incomingRels.Where(x => !x.Deleted);
-                    foreach (var incomingRel in incomingRels)
+                    for(var i = 0; i < incomingRels.Count(); i++)
                     {
+                        var incomingRel = incomingRels.ElementAt(i);
                         var item = GetItem(incomingRel.From.Id);
                         if (item != null)
                         {
                             relDeletions.EnqueueDelete(incomingRel);
-                            if(!item.Deleted)
+                            if (!item.Deleted)
                             {
                                 var e = new ConnectedEntityDeletedEventArgs(deletedEntity, incomingRel, this, relDeletions);
                                 item.OnConnectedEntityDeleted(e);
@@ -316,13 +318,14 @@ namespace OfficeOpenXml.RichData.IndexRelations
                 if (outgoingRels != null && outgoingRels.Any())
                 {
                     //outgoingRels = outgoingRels.Where(x => !x.Deleted).ToList();
-                    foreach (var outgoingRel in outgoingRels)
+                    for(var i = 0; i < outgoingRels.Count(); i++)
                     {
+                        var outgoingRel = outgoingRels.ElementAt(i);
                         var item = GetItem(outgoingRel.To.Id);
                         if (item != null)
                         {
                             relDeletions.EnqueueDelete(outgoingRel);
-                            if(!item.Deleted)
+                            if (!item.Deleted)
                             {
                                 var e = new ConnectedEntityDeletedEventArgs(deletedEntity, outgoingRel, this, relDeletions);
                                 item.OnConnectedEntityDeleted(e);

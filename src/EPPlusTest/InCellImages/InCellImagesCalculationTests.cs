@@ -78,8 +78,8 @@ namespace EPPlusTest.InCellImages
             Assert.AreEqual(2, package.Workbook.RichData.Db.Values.Count);
             sheet.Cells["A3"].Formula = "IF(FALSE(),A1,A2)";
             sheet.Calculate();
-            Assert.AreEqual(1, sheet.Cells["A3"].Value, "Value of A3 was not 1 as expected");
-            Assert.AreEqual(1, package.Workbook.RichData.Db.Values.Count, "RichData.Values.Count was not 1 as expected");
+            Assert.AreEqual(1, sheet.Cells["A3"].Value, $"Value of A3 was {sheet.Cells["A3"].Value}, not 1 as expected");
+            Assert.AreEqual(1, package.Workbook.RichData.Db.Values.Count, $"RichData.Values.Count was {package.Workbook.RichData.Db.Values.Count}, not 1 as expected");
             Assert.IsFalse(sheet.Cells["A3"].Picture.Exists);
             SaveWorkbook("InCellImageCalculate3.xlsx", package);
         }

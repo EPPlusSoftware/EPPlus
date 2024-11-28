@@ -311,12 +311,12 @@ namespace OfficeOpenXml.Metadata
         private void WriteValueMetadataItems(StreamWriter sw, string element, ValueMetadataBlockCollection collection)
         {
             if (collection.Count == 0) return;
-            sw.Write($"<{element} count=\"{collection.Count}\">");
+            sw.Write($"<{element} count=\"{collection.Count(x => !x.Deleted && x.Records.Any())}\">");
             foreach (var item in collection)
             {
                 if (item.Deleted) continue;
-                var records = item.Records;
-                if(records.Count() > 0)
+                var records = item.Records.Where(x => !x.Deleted);
+                if (records.Any())
                 {
                     sw.Write("<bk>");
                     foreach (var r in records)
@@ -332,15 +332,19 @@ namespace OfficeOpenXml.Metadata
         private void WriteCellMetadataItems(StreamWriter sw, string element, CellMetadataBlockCollection collection)
         {
             if (collection.Count == 0) return;
-            sw.Write($"<{element} count=\"{collection.Count}\">");
+            sw.Write($"<{element} count=\"{collection.Count(x => !x.Deleted && x.Records.Any())}\">");
             foreach(var item in collection)
             {
-                sw.Write("<bk>");
-                foreach(var r in item.Records)
+                var records = item.Records.Where(x => !x.Deleted);
+                if (records.Any())
                 {
-                    sw.Write($"<rc t=\"{r.MetadataTypeIndex}\" v=\"{r.FutureMetadataBlockIndex}\"/>");
+                    sw.Write("<bk>");
+                    foreach (var r in records)
+                    {
+                        sw.Write($"<rc t=\"{r.MetadataTypeIndex}\" v=\"{r.FutureMetadataBlockIndex}\"/>");
+                    }
+                    sw.Write("</bk>");
                 }
-                sw.Write("</bk>");
             }
             sw.Write($"</{element}>");
         }
