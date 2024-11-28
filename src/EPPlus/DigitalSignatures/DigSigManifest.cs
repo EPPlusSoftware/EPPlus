@@ -4,27 +4,36 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 
-
 namespace OfficeOpenXml.DigitalSignatures
 {
     internal class DigSigManifest
     {
-        List<ManifestReference> manifestReferences;
-
+        List<ManifestReference> manifestReferences = new();
         XmlDocument doc = new XmlDocument();
 
         internal void SortReferencesAndAddToDoc()
         {
-            manifestReferences = manifestReferences.OrderBy(x => x._ref.Uri).ToList();
+            manifestReferences = manifestReferences.OrderBy(x => x.RefUri).ToList();
             foreach (var reference in manifestReferences)
             {
                 ImportAndAddNode(reference.xmlDigSig);
             }
         }
 
+        //Read manifest from signature
+        internal DigSigManifest(XmlNode ManifestNode)
+        {
+            doc.LoadXml(ManifestNode.OuterXml);
+            var referenceElements = doc.GetElementsByTagName("Reference");
+            foreach(XmlNode node in referenceElements)
+            {
+                var mReference = new ManifestReference(node);
+                manifestReferences.Add(mReference);
+            }
+        }
+
         internal DigSigManifest()
         {
-            manifestReferences = new List<ManifestReference>();
             var root = doc.CreateElement("Manifest", "http://www.w3.org/2000/09/xmldsig#");
             doc.AppendChild(root);
         }

@@ -10,8 +10,6 @@ using System.Collections.Generic;
 using OfficeOpenXml.VBA;
 using System.Linq;
 using OfficeOpenXml.Drawing;
-using System.IO;
-using System.Xml.Linq;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
@@ -54,23 +52,33 @@ namespace OfficeOpenXml.DigitalSignatures
         internal Guid SetupId;
         //private bool _verified = false;
 
+        DigSigManifest readManifest = null;
+
         /// <summary>
-        /// Wheter the Signature is verified to be valid
+        /// Whether the Signature was valid when the file was read/saved
+        /// Is dirty and outdated until after package is saved.
         /// </summary>
-        public bool Verified 
+        public bool IsValid
         {
             get
             {
-                SignedXml signedXml = new SignedXml(_doc);
+                if(_doc != null)
+                {
+                    SignedXml signedXml = new SignedXml(_doc);
 
-                var node = _doc.GetElementsByTagName("Signature")[0];
-                signedXml.LoadXml((XmlElement)node);
+                    var node = _doc.GetElementsByTagName("Signature")[0];
+                    if(node != null)
+                    {
+                        signedXml.LoadXml((XmlElement)node);
 
-                return signedXml.CheckSignatureReturningKey(out AsymmetricAlgorithm pubKey);
+                        return signedXml.CheckSignatureReturningKey(out AsymmetricAlgorithm pubKey);
+                    }
+                }
+                return false;
             }
         }
 
-        QualifyingProperties qualifyingProperties;
+        QualifyingProperties _qualifyingProperties;
         ExcelSignatureLineStamp _signatureLine;
 
         internal ExcelSignatureLineStamp SignatureLine
@@ -88,7 +96,7 @@ namespace OfficeOpenXml.DigitalSignatures
         internal string ValidSigLnImage;
         internal string InvalidSigLnImg;
         internal string SignatureText;
-        internal string SignatureImage;
+        internal string SigLnImage;
 
         internal ExcelDigitalSignature(ExcelWorkbook wb, XmlNamespaceManager ns, ZipPackagePart part) : base(ns)
         {
@@ -102,7 +110,10 @@ namespace OfficeOpenXml.DigitalSignatures
             };
             //Full read only REALLY relevant for verification of signature
             _doc.Load(part.GetStream());
-            var isVerified = Verified;
+            var isVerified = IsValid;
+
+            var packageObj = _doc.GetElementsByTagName("Manifest");
+            readManifest = new DigSigManifest(packageObj[0]);
 
             var officeObj = _doc.SelectSingleNode("//*[@Id='idOfficeV1Details']");
 
@@ -116,7 +127,7 @@ namespace OfficeOpenXml.DigitalSignatures
                     ValidSigLnImage = _doc.SelectSingleNode("//*[@Id='idValidSigLnImg']").InnerText;
                     InvalidSigLnImg = _doc.SelectSingleNode("//*[@Id='idInvalidSigLnImg']").InnerText;
 
-                    SignatureImage = signatureProperty.sigInfo1.SignatureImage;
+                    SigLnImage = signatureProperty.sigInfo1.SignatureImage;
                     SignatureText = signatureProperty.sigInfo1.SignatureText;
 
                     //Could be made more effective if we only find the  id string via part instead.
@@ -136,9 +147,9 @@ namespace OfficeOpenXml.DigitalSignatures
                         _signatureLine.AsSignatureLine.SignatureText = SignatureText;
                     }
 
-                    if(string.IsNullOrEmpty(SignatureImage) == false)
+                    if(string.IsNullOrEmpty(SigLnImage) == false)
                     {
-                        var emfBytes = Convert.FromBase64String(SignatureImage);
+                        var emfBytes = Convert.FromBase64String(SigLnImage);
                         SignatureLine.ReadEmfExtractImage(emfBytes);
                     }
                 }
@@ -146,10 +157,10 @@ namespace OfficeOpenXml.DigitalSignatures
 
             var typeQualifiers = new List<string>();
             var signedPropertiesNode = _doc.SelectSingleNode("//*[@Id='idSignedProperties']");
-            qualifyingProperties = new QualifyingProperties((XmlElement)signedPropertiesNode, SigningInformation, typeQualifiers, ref CommitmentTyping);
+            _qualifyingProperties = new QualifyingProperties((XmlElement)signedPropertiesNode, SigningInformation, typeQualifiers, ref CommitmentTyping);
 
             string keyInfo = _doc.GetElementsByTagName("KeyInfo")[0].InnerText;
-            string serialInFile = qualifyingProperties.SignedProps.SignatureProps.Serial;
+            string serialInFile = _qualifyingProperties.SignedProps.SignatureProps.Serial;
 
             X509Store store = new X509Store(StoreLocation.CurrentUser);
             store.Open(OpenFlags.ReadOnly);
@@ -185,84 +196,97 @@ namespace OfficeOpenXml.DigitalSignatures
 
         internal void Save()
         {
-            if (Verified == false && Certificate != null)
+            if (Certificate != null)
             {
-                if (SignatureLine != null)
+                //if there is no read manifest then the manifest has changed
+                bool manifestChanged = true;
+
+                if(readManifest != null)
                 {
-                    SignatureLine.SaveSignatureLineWithDigitalSignature(Certificate.IssuerName.Name.Substring(3));
-                    ValidSigLnImage = SignatureLine.ValidSigLnImage;
-                    InvalidSigLnImg = SignatureLine.InvalidSigLnImg;
+                    var newManifest = _wb._package.ZipPackage.Manifest.GetDoc().OuterXml;
+                    var oldManifest = readManifest.GetDoc().OuterXml;
+                    manifestChanged = newManifest != oldManifest;
                 }
 
-                var signatureComments = new List<string>
+                if (IsValid == false | manifestChanged)
                 {
+                    if (SignatureLine != null)
+                    {
+                        SignatureLine.SaveSignatureLineWithDigitalSignature(Certificate.IssuerName.Name.Substring(3));
+                        ValidSigLnImage = SignatureLine.ValidSigLnImage;
+                        InvalidSigLnImg = SignatureLine.InvalidSigLnImg;
+                    }
+
+                    var signatureComments = new List<string>
+                    {
                     PurposeForSigning
-                };
+                    };
 
-                qualifyingProperties = new QualifyingProperties
-                    ("xd", Certificate, CommitmentTyping, signatureComments, SigningInformation);
+                    _qualifyingProperties = new QualifyingProperties
+                        ("xd", Certificate, CommitmentTyping, signatureComments, SigningInformation);
 
-                var docTest = qualifyingProperties.GetDocument();
-                _doc = docTest;
+                    var docTest = _qualifyingProperties.GetDocument();
+                    _doc = docTest;
 
-                RSA key;
+                    RSA key;
 #if NET35
                 key = (RSA)Certificate.PrivateKey;
 #else
-                key = Certificate.GetRSAPrivateKey();
+                    key = Certificate.GetRSAPrivateKey();
 #endif
-                ExcelSignedXml signedXml = new(_doc)
-                {
-                    SigningKey = key,
-                };
+                    ExcelSignedXml signedXml = new(_doc)
+                    {
+                        SigningKey = key,
+                    };
 
-                signedXml.Signature.Id = "idPackageSignature";
-                signedXml.SignedInfo.CanonicalizationMethod = SignedXml.XmlDsigCanonicalizationUrl;
-                signedXml.SignedInfo.SignatureMethod = SignedXml.XmlDsigRSASHA1Url;
+                    signedXml.Signature.Id = "idPackageSignature";
+                    signedXml.SignedInfo.CanonicalizationMethod = SignedXml.XmlDsigCanonicalizationUrl;
+                    signedXml.SignedInfo.SignatureMethod = SignedXml.XmlDsigRSASHA1Url;
 
-                signedXml.KeyInfo = new KeyInfo();
-                signedXml.KeyInfo.AddClause(new KeyInfoX509Data(Certificate));
+                    signedXml.KeyInfo = new KeyInfo();
+                    signedXml.KeyInfo.AddClause(new KeyInfoX509Data(Certificate));
 
-                CreatePackageReference(ref signedXml);
-                CreateOfficeReference(ref signedXml);
-                CreatePropertiesReference(ref signedXml);
-                CreateSignatureLineReferences(ref signedXml);
+                    CreatePackageReference(ref signedXml);
+                    CreateOfficeReference(ref signedXml);
+                    CreatePropertiesReference(ref signedXml);
+                    CreateSignatureLineReferences(ref signedXml);
 
-                var value = signedXml.SignatureValue;
+                    var value = signedXml.SignatureValue;
 
-                signedXml.ComputeSignature();
+                    signedXml.ComputeSignature();
 
-                var value2 = signedXml.SignatureValue;
+                    var value2 = signedXml.SignatureValue;
 
-                XmlElement xmlDigitalSignature = signedXml.GetXml();
+                    XmlElement xmlDigitalSignature = signedXml.GetXml();
 
-                var outPutDoc = new XmlDocument()
-                {
-                    PreserveWhitespace = true,
-                };
+                    var outPutDoc = new XmlDocument()
+                    {
+                        PreserveWhitespace = true,
+                    };
 
-                var node = outPutDoc.ImportNode(xmlDigitalSignature, true);
-                outPutDoc.AppendChild(node);
+                    var node = outPutDoc.ImportNode(xmlDigitalSignature, true);
+                    outPutDoc.AppendChild(node);
 
-                var sigValue = outPutDoc.GetElementsByTagName("SignatureValue")[0];
-                sigValue.InnerText = Convert.ToBase64String(signedXml.SignatureValue, Base64FormattingOptions.InsertLineBreaks);
+                    var sigValue = outPutDoc.GetElementsByTagName("SignatureValue")[0];
+                    sigValue.InnerText = Convert.ToBase64String(signedXml.SignatureValue, Base64FormattingOptions.InsertLineBreaks);
 
-                var doc = new XmlDocument();
-                doc.LoadXml(outPutDoc.OuterXml);
+                    var doc = new XmlDocument();
+                    doc.LoadXml(outPutDoc.OuterXml);
 
-                var declaration = outPutDoc.CreateXmlDeclaration("1.0", "UTF-8", "");
-                outPutDoc.InsertBefore(declaration, node);
+                    var declaration = outPutDoc.CreateXmlDeclaration("1.0", "UTF-8", "");
+                    outPutDoc.InsertBefore(declaration, node);
 
-                var stream = _part.GetStream();
-                stream.Position = 0;
+                    var stream = _part.GetStream();
+                    stream.Position = 0;
 
-                _doc = outPutDoc;
+                    _doc = outPutDoc;
 
-                outPutDoc.Save(stream);
+                    outPutDoc.Save(stream);
 
-                if (stream.Length > stream.Position)
-                {
-                    stream.SetLength(stream.Position);
+                    if (stream.Length > stream.Position)
+                    {
+                        stream.SetLength(stream.Position);
+                    }
                 }
             }
         }
@@ -454,7 +478,19 @@ namespace OfficeOpenXml.DigitalSignatures
             }
         }
 
-        public string HashAndEncodeBytes(byte[] temp)
+        internal string GetOuterXml()
+        {
+            if(_doc != null)
+            {
+                return _doc.OuterXml;
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        internal string HashAndEncodeBytes(byte[] temp)
         {
             using (var sha1Hash = SHA1.Create())
             {

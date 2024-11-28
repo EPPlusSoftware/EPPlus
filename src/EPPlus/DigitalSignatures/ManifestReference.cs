@@ -10,11 +10,22 @@ namespace OfficeOpenXml.DigitalSignatures
 {
     internal class ManifestReference
     {
-        internal Reference _ref;
+        private Reference _ref;
         internal XmlElement xmlDigSig;
-        internal string xmlString;
-        internal XmlDocument resultDoc = new XmlDocument();
-        internal XmlNodeList children;
+        private XmlDocument resultDoc = new XmlDocument();
+        private string _uri;
+
+        internal string RefUri
+        {
+            get{ return _uri; }
+        }
+
+        public ManifestReference(XmlNode referenceNode)
+        {
+            resultDoc.LoadXml(referenceNode.OuterXml);
+            xmlDigSig = (XmlElement)resultDoc.GetElementsByTagName("Reference")[0];
+            _uri = xmlDigSig.GetAttribute("URI");
+        }
 
         public ManifestReference(string uri, string xmlString)
         {
@@ -68,13 +79,11 @@ namespace OfficeOpenXml.DigitalSignatures
             if (transformXml != null)
             {
                 var transforms = resultDoc.SelectSingleNode(".//digSig:Transforms", nsm);
-
                 transforms.InnerXml = transformXml + transforms.InnerXml;
-                var text = transforms.InnerText;
             }
 
             var element = (XmlElement)resultDoc.SelectSingleNode("//digSig:Reference", nsm);
-            children = element.ParentNode.ChildNodes;
+            _uri = _ref.Uri;
             xmlDigSig = (XmlElement)resultDoc.GetElementsByTagName("Reference")[0];
         }
 

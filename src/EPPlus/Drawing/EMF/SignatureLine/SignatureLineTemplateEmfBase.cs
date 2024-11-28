@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Drawing.EMF
         {
             set
             {
-                suggestedTitleObject.Text = value;
+                suggestedTitleObject.Text = AdjustText(39, value);
             }
             get
             {

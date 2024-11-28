@@ -286,7 +286,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             string origValid;
             string origInvalid;
 
-            //using (var pck = OpenTemplatePackage("PngSline.xlsx"))
+            byte[] originalImgBytes;
+
             using (var pck = OpenTemplatePackage("BmpImage.xlsx"))
             {
                 var wb = pck.Workbook;
@@ -295,7 +296,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var aSline = ws.SignatureLines[0];
                 var digSig = wb.DigitialSignatures[0];
 
-                origImage = digSig.SignatureImage;
+                originalImgBytes = aSline.SignatureImage.ImageBytes;
+
+                origImage = digSig.SigLnImage;
                 origValid = digSig.ValidSigLnImage;
                 origInvalid = digSig.InvalidSigLnImg;
 
@@ -310,6 +313,11 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(pck);
             }
 
+            string openedOnceImage;
+            string openedOnceValid;
+            string openedOnceInvalid;
+            string digitalSignatureOuterXmlOnceOpened;
+
             using (var pck = OpenPackage("BmpImage.xlsx"))
             {
                 var wb = pck.Workbook;
@@ -318,11 +326,64 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var aSline = ws.SignatureLines[0];
                 var digSig = wb.DigitialSignatures[0];
 
-                Assert.AreEqual(origImage, digSig.SignatureImage);
-                Assert.AreEqual(origValid, digSig.ValidSigLnImage);
-                Assert.AreEqual(origInvalid, digSig.InvalidSigLnImg);
+                openedOnceImage = digSig.SigLnImage;
+                openedOnceValid = digSig.ValidSigLnImage;
+                openedOnceInvalid = digSig.InvalidSigLnImg;
+
+                //Epplus should have generated a new signature using our templates
+                //Since opening the file in epplus changes some files. (Notably shared strings)
+                //The images should be very similar but different.
+                Assert.AreNotEqual(origImage, openedOnceImage);
+                Assert.AreNotEqual(origValid, openedOnceValid);
+                Assert.AreNotEqual(origInvalid, openedOnceInvalid);
+
+                digitalSignatureOuterXmlOnceOpened = digSig.GetOuterXml();
+
+                //The actual .bmp file should be the same.
+                Assert.IsTrue(originalImgBytes.SequenceEqual(aSline.SignatureImage.ImageBytes));
 
                 SaveAndCleanup(pck);
+            }
+
+            using (var pck = OpenPackage("BmpImage.xlsx"))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets[0];
+                var digSig = wb.DigitialSignatures[0];
+                var aSline = ws.SignatureLines[0];
+
+                //Opening again with Epplus without changing anything should be the same
+                Assert.AreEqual(openedOnceImage, digSig.SigLnImage);
+                Assert.AreEqual(openedOnceValid, digSig.ValidSigLnImage);
+                Assert.AreEqual(openedOnceInvalid, digSig.InvalidSigLnImg);
+                Assert.IsTrue(originalImgBytes.SequenceEqual(aSline.SignatureImage.ImageBytes));
+                Assert.AreEqual(digitalSignatureOuterXmlOnceOpened, digSig.GetOuterXml());
+
+                //Changing a value should cause a re-signing on save
+                ws.Cells["A1"].Value = "changedValue";
+
+                SaveAndCleanup(pck);
+            }
+
+            using (var pck = OpenPackage("BmpImage.xlsx"))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets[0];
+                var digSig = wb.DigitialSignatures[0];
+                var aSline = ws.SignatureLines[0];
+
+                //Opening again with Epplus should be the same
+                Assert.AreEqual(openedOnceImage, digSig.SigLnImage);
+                Assert.AreEqual(openedOnceValid, digSig.ValidSigLnImage);
+                Assert.AreEqual(openedOnceInvalid, digSig.InvalidSigLnImg);
+                Assert.IsTrue(originalImgBytes.SequenceEqual(aSline.SignatureImage.ImageBytes));
+
+                //But the signature itself different as the Sheet1 hash has changed
+                Assert.AreNotEqual(digitalSignatureOuterXmlOnceOpened, digSig.GetOuterXml());
+
+                SaveAndCleanup(pck);
+
+                Assert.IsTrue(digSig.IsValid);
             }
         }
 
