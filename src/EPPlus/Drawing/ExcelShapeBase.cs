@@ -49,8 +49,8 @@ namespace OfficeOpenXml.Drawing
         private string _fontPath = "{0}xdr:txBody/a:p/a:pPr/a:defRPr";
         private string _textBodyPath = "{0}xdr:txBody/a:bodyPr";
 
-		internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null) :
-            base(drawings, node, topPath, nvPrPath, parent)
+		internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null, int excelDrawingType = 0) :
+            base(drawings, node, topPath, nvPrPath, parent, excelDrawingType)
         {
             Init(string.IsNullOrEmpty(_topPath) ? "" : _topPath + "/");
         }

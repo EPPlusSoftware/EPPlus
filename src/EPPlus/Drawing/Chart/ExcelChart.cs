@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using System.Xml;
 using System.IO;
 using OfficeOpenXml.Table.PivotTable;
@@ -25,6 +24,8 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using System.Runtime.InteropServices;
+using System.Collections;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -1118,5 +1119,34 @@ namespace OfficeOpenXml.Drawing.Chart
         ZipPackagePart IPictureRelationDocument.RelatedPart => Part;
 
         Uri IPictureRelationDocument.RelatedUri => UriChart;
+
+
+
+        ExcelDrawings _chartDrawings;
+
+        /// <summary>
+        /// Collection of drawing-objects like shapes, images and charts
+        /// </summary>
+        public ExcelDrawings ChartDrawings
+        {
+            get
+            {
+                LoadDrawings();
+                return _chartDrawings;
+            }
+        }
+
+        internal void LoadDrawings()
+        {
+            if (_chartDrawings == null)
+            {
+                _chartDrawings = new ExcelDrawings(this._drawings._package , this);
+            }
+        }
+
+        public ExcelShape AddShape(string Name, eShapeStyle Style)
+        {
+            return _chartDrawings.AddShape(Name, Style);
+        }
     }
 }

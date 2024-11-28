@@ -26,8 +26,8 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public sealed class ExcelConnectionShape : ExcelShapeBase
     {
-        internal ExcelConnectionShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent=null) :
-            base(drawings, node, "xdr:cxnSp", "xdr:nvCxnSpPr/xdr:cNvPr", parent)
+        internal ExcelConnectionShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent=null, int excelDrawingType = 0) :
+            base(drawings, node, "xdr:cxnSp", "xdr:nvCxnSpPr/xdr:cNvPr", parent, excelDrawingType)
         {
             Init(drawings, node);
         }

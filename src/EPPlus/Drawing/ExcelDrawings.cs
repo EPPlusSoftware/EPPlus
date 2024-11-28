@@ -26,8 +26,8 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
-using OfficeOpenXml.ConditionalFormatting;
-using System.Xml.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
+using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 
 
 
@@ -98,6 +98,36 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
+        int exceldrawingsType = 0;
+
+        internal ExcelDrawings(ExcelPackage xlPackage, ExcelChart excelChart)
+        {
+            _package = xlPackage;
+            Worksheet = excelChart.WorkSheet;
+            exceldrawingsType = 1;
+            _drawingsXml = new XmlDocument();
+            _drawingsXml.PreserveWhitespace = true;
+            _drawingsList = new List<ExcelDrawing>();
+            _drawingNames = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+            CreateNSM();
+            CreateChartNSM();
+            XmlNode node = excelChart.ChartXml.SelectSingleNode("//c:userShapes", excelChart.NameSpaceManager);
+            if(node == null)
+            {
+                //create node?
+            }
+            if (node != null && excelChart != null)
+            {
+                _drawingRelation = excelChart.Part.GetRelationship(node.Attributes["r:id"].Value);
+                _uriDrawing = UriHelper.ResolvePartUri(excelChart.UriChart, _drawingRelation.TargetUri);
+
+                _part = xlPackage.ZipPackage.GetPart(_uriDrawing);
+                XmlHelper.LoadXmlSafe(_drawingsXml, _part.GetStream());
+
+                AddDrawings();
+            }
+        }
+
         internal ExcelWorksheet Worksheet { get; set; }
 
         /// <summary>
@@ -112,7 +142,8 @@ namespace OfficeOpenXml.Drawing
         }
         private void AddDrawings()
         {
-            XmlNodeList list = _drawingsXml.SelectNodes("//*[self::xdr:oneCellAnchor or self::xdr:twoCellAnchor or self::xdr:absoluteAnchor]", NameSpaceManager);
+            XmlNodeList list = exceldrawingsType == 0 ? _drawingsXml.SelectNodes("//*[self::xdr:oneCellAnchor or self::xdr:twoCellAnchor or self::xdr:absoluteAnchor]", NameSpaceManager) : 
+                                                        _drawingsXml.SelectNodes("//*[self::cdr:relSizeAnchor]", NameSpaceManager);
 
             foreach (XmlNode node in list)
             {
@@ -122,7 +153,8 @@ namespace OfficeOpenXml.Drawing
                     case "oneCellAnchor":
                     case "twoCellAnchor":
                     case "absoluteAnchor":
-                        dr = ExcelDrawing.GetDrawing(this, node);
+                    case "relSizeAnchor":
+                        dr = ExcelDrawing.GetDrawing(this, node, exceldrawingsType);
                         break;
                     default:
                         dr = null;
@@ -190,6 +222,10 @@ namespace OfficeOpenXml.Drawing
             NameSpaceManager.AddNamespace("sle15", ExcelPackage.schemaSlicer);
             NameSpaceManager.AddNamespace("a14", ExcelPackage.schemaDrawings2010);
             NameSpaceManager.AddNamespace("asvg", "http://schemas.microsoft.com/office/drawing/2016/SVG/main");
+        }
+        private void CreateChartNSM()
+        {
+            NameSpaceManager.AddNamespace("cdr", ExcelPackage.schemaChartDrawing);
         }
         internal XmlNamespaceManager NameSpaceManager { get; private set; } = null;
         #endregion

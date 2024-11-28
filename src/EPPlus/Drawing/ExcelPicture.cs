@@ -52,8 +52,8 @@ namespace OfficeOpenXml.Drawing
             Image.Type = type;
         }
 
-        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null) :
-            base(drawings, node, shape==null ? "xdr:pic/" : "", "xdr:nvPicPr/xdr:cNvPr", shape)
+        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null, int excelDrawingType = 0) :
+            base(drawings, node, shape==null ? nmsPrefix[excelDrawingType]+":pic/" : "", nmsPrefix[excelDrawingType]+ ":nvPicPr/"+ nmsPrefix[excelDrawingType]+":cNvPr", shape, excelDrawingType)
         {
             Init();
             XmlNode picNode = node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", drawings.NameSpaceManager);

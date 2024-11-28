@@ -20,8 +20,8 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public sealed class ExcelShape : ExcelShapeBase
     {
-        internal ExcelShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape=null) :
-            base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", shape)
+        internal ExcelShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape=null, int excelDrawingsType = 0) :
+            base(drawings, node, nmsPrefix[excelDrawingsType] + ":sp", nmsPrefix[excelDrawingsType] + ":nvSpPr/"+ nmsPrefix[excelDrawingsType] + ":cNvPr", shape, excelDrawingsType)
         {
         }
         internal ExcelShape(ExcelDrawings drawings, XmlNode node, eShapeStyle style) :

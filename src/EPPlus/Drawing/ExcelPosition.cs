@@ -23,16 +23,17 @@ namespace OfficeOpenXml.Drawing
         XmlNode _node;
         XmlNamespaceManager _ns;
         SetWidthCallback _setWidthCallback;
-        internal ExcelPosition(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback) :
+        internal ExcelPosition(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback, int excelDrawingsType=0) :
             base(ns, node)
         {
             _node = node;
             _ns = ns;
             _setWidthCallback = setWidthCallback;
+            this.excelDrawingsType = excelDrawingsType;
             Load();
         }
         const string colPath = "xdr:col";
-        int _column, _row, _columnOff, _rowOff;        
+        int _column, _row, _columnOff, _rowOff;
         /// <summary>
         /// The column
         /// </summary>
@@ -104,25 +105,70 @@ namespace OfficeOpenXml.Drawing
                 _setWidthCallback?.Invoke();
             }
         }
+
+        int excelDrawingsType = 0;
+        double _x, _y;
+        const string xPath = "cdr:x";
+        const string yPath = "cdr:y";
+        public double X
+        {
+            get
+            {
+                return _x;
+            }
+            set
+            {
+                _x = value;
+                _setWidthCallback?.Invoke();
+            }
+        }
+        public double Y
+        {
+            get
+            {
+                return _y;
+            }
+            set
+            {
+                _y = value;
+                _setWidthCallback?.Invoke();
+            }
+        }
         /// <summary>
         /// Load xml data
         /// </summary>
         public void Load()
-        {            
-            _column = GetXmlNodeInt(colPath);
-            _columnOff = GetXmlNodeInt(colOffPath);
-            _row = GetXmlNodeInt(rowPath);
-            _rowOff = GetXmlNodeInt(rowOffPath);
+        {
+            if (excelDrawingsType == 0)
+            {
+                _column = GetXmlNodeInt(colPath);
+                _columnOff = GetXmlNodeInt(colOffPath);
+                _row = GetXmlNodeInt(rowPath);
+                _rowOff = GetXmlNodeInt(rowOffPath);
+            }
+            else if (excelDrawingsType == 1)
+            {
+                _x = GetXmlNodeDouble(xPath);
+                _y = GetXmlNodeDouble(yPath);
+            }
         }
         /// <summary>
         /// Update xml data
         /// </summary>
         public void UpdateXml()
         {
-            SetXmlNodeString(colPath, _column.ToString());
-            SetXmlNodeString(colOffPath, _columnOff.ToString());
-            SetXmlNodeString(rowPath, _row.ToString());
-            SetXmlNodeString(rowOffPath, _rowOff.ToString());
+            if (excelDrawingsType == 0)
+            {
+                SetXmlNodeString(colPath, _column.ToString());
+                SetXmlNodeString(colOffPath, _columnOff.ToString());
+                SetXmlNodeString(rowPath, _row.ToString());
+                SetXmlNodeString(rowOffPath, _rowOff.ToString());
+            }
+            else if (excelDrawingsType == 1)
+            {
+                SetXmlNodeString(yPath, _y.ToString());
+                SetXmlNodeString(xPath, _x.ToString());
+            }
         }
     }
 }

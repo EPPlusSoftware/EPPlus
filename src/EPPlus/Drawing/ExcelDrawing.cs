@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -70,11 +71,16 @@ namespace OfficeOpenXml.Drawing
         internal static readonly string[] _schemaNodeOrderSpPr = new string[] { "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "gradFill", "pattFill", "grpFill", "blipFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d" };
 
         internal bool _doNotAdjust = false;
-        internal ExcelDrawing(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent = null) :
+
+        protected static string[] nmsPrefix = {"xdr", "cdr"};
+        protected int nmsIx = 0;
+
+        internal ExcelDrawing(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent = null, int excelDrawingType = 0) :
             base(drawings.NameSpaceManager, node)
         {
             _drawings = drawings;
             _parent = parent;
+            nmsIx = excelDrawingType;
             if (node != null)   //No drawing, chart xml only. This currently happends when created from a chart template
             {
                 TopNode = node;
@@ -194,10 +200,10 @@ namespace OfficeOpenXml.Drawing
 
         private void SetPositionPropertiesTopDrawing(ExcelDrawings drawings, XmlNode node)
         {
-            XmlNode posNode = node.SelectSingleNode("xdr:from", drawings.NameSpaceManager);
+            XmlNode posNode = node.SelectSingleNode(nmsPrefix[nmsIx]+":from", drawings.NameSpaceManager);
             if (posNode != null)
             {
-                From = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
+                From = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize, nmsIx);
             }
             else
             {
@@ -207,10 +213,10 @@ namespace OfficeOpenXml.Drawing
                     Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, posNode, GetPositionSize);
                 }
             }
-            posNode = node.SelectSingleNode("xdr:to", drawings.NameSpaceManager);
+            posNode = node.SelectSingleNode(nmsPrefix[nmsIx] + ":to", drawings.NameSpaceManager);
             if (posNode != null)
             {
-                To = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize);
+                To = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize, nmsIx);
             }
             else
             {
@@ -553,28 +559,28 @@ namespace OfficeOpenXml.Drawing
         /// <param name="drawings">The drawing collection</param>
         /// <param name="node">Xml top node</param>
         /// <returns>The Drawing object</returns>
-        internal static ExcelDrawing GetDrawing(ExcelDrawings drawings, XmlNode node)
+        internal static ExcelDrawing GetDrawing(ExcelDrawings drawings, XmlNode node, int excelDrawingType = 0)
         {
             if (node.ChildNodes.Count < 3) return null; //Invalid formatted anchor node, ignore
             XmlElement drawNode = (XmlElement)node.GetChildAtPosition(2);
-            return GetDrawingFromNode(drawings, node, drawNode);
+            return GetDrawingFromNode(drawings, node, drawNode, null, excelDrawingType);
         }
 
-        internal static ExcelDrawing GetDrawingFromNode(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent=null)
+        internal static ExcelDrawing GetDrawingFromNode(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent=null, int excelDrawingType = 0)
         {
             switch (drawNode.LocalName)
             {
                 case "sp":
-                    return GetShapeOrControl(drawings, node, drawNode, parent);
+                    return GetShapeOrControl(drawings, node, drawNode, parent, excelDrawingType);
                 case "pic":
-                    var aPic = new ExcelPicture(drawings, node, parent);
+                    var aPic = new ExcelPicture(drawings, node, parent, excelDrawingType);
                     return aPic;
                 case "graphicFrame":
                     return ExcelChart.GetChart(drawings, node, parent);
                 case "grpSp":
                     return new ExcelGroupShape(drawings, node, parent);
                 case "cxnSp":
-                    return new ExcelConnectionShape(drawings, node, parent);
+                    return new ExcelConnectionShape(drawings, node, parent, excelDrawingType);
                 case "contentPart":
                     //Not handled yet, return as standard drawing below
                     break;
@@ -621,9 +627,9 @@ namespace OfficeOpenXml.Drawing
             return new ExcelDrawing(drawings, node, "", "");
        }
 
-        private static ExcelDrawing GetShapeOrControl(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent)
+        private static ExcelDrawing GetShapeOrControl(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent, int excelDrawingsType = 0)
         {
-            var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager);
+            var shapeId = GetControlShapeId(drawNode, drawings.NameSpaceManager, excelDrawingsType);
             var control = drawings.Worksheet.Controls.GetControlByShapeId(shapeId);
             var oleObject = control == null ? drawings.Worksheet.OleObjects.GetOleObjectByShapeId(shapeId) : null;
             if (control != null)
@@ -636,13 +642,13 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                return new ExcelShape(drawings, node, parent);
+                return new ExcelShape(drawings, node, parent, excelDrawingsType);
             }
         }
             
-        private static int GetControlShapeId(XmlElement drawNode, XmlNamespaceManager nameSpaceManager)
+        private static int GetControlShapeId(XmlElement drawNode, XmlNamespaceManager nameSpaceManager, int excelDrawingsType)
         {
-            var idNode = drawNode.SelectSingleNode("xdr:nvSpPr/xdr:cNvPr/@id", nameSpaceManager);
+            var idNode = drawNode.SelectSingleNode(nmsPrefix[excelDrawingsType] + ":nvSpPr/"+ nmsPrefix[excelDrawingsType] + ":cNvPr/@id", nameSpaceManager);
             if(idNode!=null)
             {
                 return int.Parse(idNode.Value);
