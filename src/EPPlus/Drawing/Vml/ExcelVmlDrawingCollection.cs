@@ -77,11 +77,11 @@ namespace OfficeOpenXml.Drawing.Vml
                         _drawings.Add(vmlDrawing);
                         break;
                     case "Pict":
-                        if (node.SelectSingleNode("@type").InnerText == "#_x0000_t75")
+                        if (node.SelectSingleNode("@type").InnerText == "#_x0000_t75" && node.SelectSingleNode("o:signatureline", NameSpaceManager) != null)
                         {
                             var pId = node.SelectSingleNode("o:signatureline/@provid", NameSpaceManager);
                             ExcelSignatureLineStamp sigLine;
-                            if (pId.Value == "{00000000-0000-0000-0000-000000000000}")
+                            if (pId != null && pId.Value == "{00000000-0000-0000-0000-000000000000}")
                             {
                                 sigLine = new ExcelSignatureLine(ws, node, NameSpaceManager);
                             }

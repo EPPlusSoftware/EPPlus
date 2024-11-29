@@ -823,11 +823,7 @@ namespace OfficeOpenXml.Core.Worksheet
                     var newRel = added.VmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
                     if (newRel.Id != r.Id) //Make sure the id's are the same.
                     {
-                        var newRel = added._vmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
-                        if (newRel.Id != r.Id) //Make sure the id's are the same.
-                        {
-                            newRel.Id = r.Id;
-                        }
+                        newRel.Id = r.Id;
                     }
                 }
                 if (Copy.Workbook != added.Workbook)
