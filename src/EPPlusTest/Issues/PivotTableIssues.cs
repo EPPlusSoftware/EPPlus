@@ -4,6 +4,8 @@ using System.Xml;
 using System.Linq;
 using System;
 using System.IO;
+using OfficeOpenXml.Table.PivotTable;
+
 namespace EPPlusTest.Issues
 {
     [TestClass]
@@ -48,12 +50,12 @@ namespace EPPlusTest.Issues
                 foreach (ExcelWorksheet worksheet in p.Workbook.Worksheets)
                 {
                     foreach (var table in worksheet.PivotTables)
-                    {                        
+                    {
                         table.Calculate(refreshCache: true);
                     }
                 }
 
-                SaveWorkbook("s692-2.xlsx",p);
+                SaveWorkbook("s692-2.xlsx", p);
             }
         }
         [TestMethod]
@@ -61,19 +63,19 @@ namespace EPPlusTest.Issues
         {
             using (ExcelPackage p = OpenTemplatePackage("s713.xlsx"))
             {
-               ExcelWorkbook workbook = p.Workbook;
-               workbook.Worksheets.Delete("pivot");
+                ExcelWorkbook workbook = p.Workbook;
+                workbook.Worksheets.Delete("pivot");
 
                 var ns = new XmlNamespaceManager(new NameTable());
                 ns.AddNamespace("d", @"http://schemas.openxmlformats.org/spreadsheetml/2006/main");
 
-                var node = workbook.WorkbookXml.SelectSingleNode("//d:pivotCaches", ns); 
+                var node = workbook.WorkbookXml.SelectSingleNode("//d:pivotCaches", ns);
                 if (node != null && node.ChildNodes.Count == 0)
                 {
                     node.ParentNode.RemoveChild(node);
                 }
 
-               SaveAndCleanup(p);
+                SaveAndCleanup(p);
             }
         }
         [TestMethod]
@@ -93,7 +95,7 @@ namespace EPPlusTest.Issues
                 cf.Refresh();
                 Assert.IsTrue(cf.SharedItems[0] is DateTime);
                 Assert.IsTrue(cf.SharedItems[1] is DateTime);
-                SaveWorkbook("i1554-SecondDate.xlsx",package);
+                SaveWorkbook("i1554-SecondDate.xlsx", package);
             }
         }
         private static void AddTableRow(ExcelPackage package, int days)
@@ -152,6 +154,56 @@ namespace EPPlusTest.Issues
                 var f2 = pivotTable.RowFields.Add(field2);
                 f2.Items.ShowDetails(false);
                 Assert.AreEqual(6, f2.Items.Count);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s747()
+        {
+            using (var package = OpenTemplatePackage("s747.xlsx"))
+            {
+                var workbook = package.Workbook;
+                var worksheet = workbook.Worksheets["Sheet2"];
+                worksheet.Cells["A20"].Value = "C";
+                worksheet.Cells["A21"].Value = "C";
+                worksheet.Cells["A22"].Value = "C";
+                worksheet.Cells["A23"].Value = "H";
+                worksheet.Cells["A24"].Value = "H";
+                worksheet.Cells["A25"].Value = "H";
+                worksheet.Cells["B20"].Value = "Test";
+                worksheet.Cells["B21"].Value = "Test";
+                worksheet.Cells["B22"].Value = "Test";
+                worksheet.Cells["B23"].Value = "Test";
+                worksheet.Cells["B24"].Value = "Test";
+                worksheet.Cells["B25"].Value = "Test";
+                worksheet.Cells["C20"].Value = 1;
+                worksheet.Cells["C21"].Value = 1;
+                worksheet.Cells["C22"].Value = 1;
+                worksheet.Cells["C23"].Value = 1;
+                worksheet.Cells["C24"].Value = 1;
+                worksheet.Cells["C25"].Value = 1;
+
+                var ws2 = workbook.Worksheets["High Level Summary"];
+                var pt = ws2.PivotTables[0];
+                var slicer1 = ws2.Drawings[0].As.Slicer.PivotTableSlicer;
+
+                Assert.AreEqual(pt.Fields[0].Items.Count, 5);
+                Assert.AreEqual(4, slicer1.Cache.Data.Items.Count);
+                Assert.AreEqual(false, slicer1.Cache.Data.Items[0].Hidden);
+                Assert.AreEqual(false, slicer1.Cache.Data.Items[1].Hidden);
+                Assert.AreEqual(true, slicer1.Cache.Data.Items[2].Hidden);
+                Assert.AreEqual(true, slicer1.Cache.Data.Items[3].Hidden);
+
+                workbook.CalculateAllPivotTables(true);                              //This causes different but still unexpected changes in the selected values. Happends for true or false
+
+                Assert.AreEqual(6, slicer1.Cache.Data.Items.Count);
+                Assert.AreEqual(false, slicer1.Cache.Data.Items[0].Hidden);
+                Assert.AreEqual(false, slicer1.Cache.Data.Items[1].Hidden);
+                Assert.AreEqual(true, slicer1.Cache.Data.Items[2].Hidden);
+                Assert.AreEqual(true, slicer1.Cache.Data.Items[3].Hidden);
+                Assert.AreEqual(true, slicer1.Cache.Data.Items[4].Hidden);
+                Assert.AreEqual(true, slicer1.Cache.Data.Items[5].Hidden);
 
                 SaveAndCleanup(package);
             }

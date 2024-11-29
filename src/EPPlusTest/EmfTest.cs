@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Drawing.EMF;
 using System;
 using System.Linq;

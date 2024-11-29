@@ -19,10 +19,9 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
 using System.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System.Globalization;
-
-
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System.ComponentModel;
 
 #if NETFULL
 using System.Drawing.Imaging;
@@ -252,7 +251,11 @@ namespace OfficeOpenXml.Drawing
                 var rel = _drawings.Part.GetRelationship(relId);
                 container.UriPic = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
             }
+
+            pc.Hashes[ii.Hash].RefCount++;
+
             container.ImageHash = ii.Hash;
+
             using (var ms = RecyclableMemory.GetStream(img))
             {
                 Image.ImageBytes = img;
@@ -268,12 +271,18 @@ namespace OfficeOpenXml.Drawing
 
         internal void RecalcWidthHeight()
         {
+            //Ensure image has a size.width and size.height based on 100% orignal image
             if(Image != null && Image.ImageBytes != null)
             {
+                //Recalculates width/height and bounds to 100% width/height relative to original image size
                 Image.Bounds = PictureStore.GetImageBounds(Image.ImageBytes, Image.Type.Value, _drawings._package);
+
                 var width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
                 var height = Image.Bounds.Height / (Image.Bounds.VerticalResolution / STANDARD_DPI);
                 SetPosDefaults((float)width, (float)height);
+
+                //Image.Bounds.Height = origHeight;
+                //Image.Bounds.Width = origWidth;
             }
         }
 
@@ -295,14 +304,20 @@ namespace OfficeOpenXml.Drawing
 #endregion
         private void SetPosDefaults(float width, float height)
         {
-            if(EditAs != eEditAs.Absolute)
+            var prevEdit = EditAs;
+
+            if (EditAs != eEditAs.Absolute)
             {
                 EditAs = eEditAs.OneCell;
             }
+
             SetPixelWidth(width);
             SetPixelHeight(height);
+
             _width = GetPixelWidth();
             _height = GetPixelHeight();
+
+            EditAs = prevEdit;
         }
 
         internal void SetNewId(int newId)
@@ -481,7 +496,10 @@ namespace OfficeOpenXml.Drawing
                 if (hi.RefCount <= 1)
                 {
                     relDoc.Package.PictureStore.RemoveImage(container.ImageHash, this);
-                    relDoc.RelatedPart.DeleteRelationship(container.RelPic.Id);
+                    if(container.RelPic != null)
+                    {
+                        relDoc.RelatedPart.DeleteRelationship(container.RelPic.Id);
+                    }
                     relDoc.Hashes.Remove(container.ImageHash);
                 }
                 else
@@ -494,10 +512,31 @@ namespace OfficeOpenXml.Drawing
         void IPictureContainer.SetNewImage()
         {
             var relId = ((IPictureContainer)this).RelPic.Id;
-            TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/@r:embed", NameSpaceManager).Value = relId;
+            var picNode = (XmlElement)TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", NameSpaceManager);
+            picNode.SetAttribute("r:embed", relId);
             if (Image.Type == ePictureType.Svg)
             {
-                TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager).Value = relId;
+                var node = TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager);
+                if(node == null)
+                {
+                    var newNode = TopNode.OwnerDocument.CreateElement("extLst", "28A0092B-C50C-407E-A947-70E740481C1C");
+                    picNode.AppendChild(newNode);
+                    newNode.InnerXml = $"<a:ext uri=\"{{28A0092B-C50C-407E-A947-70E740481C1C}}\"><a14:useLocalDpi xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" val=\"0\"/></a:ext><a:ext uri=\"{{96DAC541-7B7A-43D3-8B79-37D633B846F1}}\"><asvg:svgBlip xmlns:asvg=\"http://schemas.microsoft.com/office/drawing/2016/SVG/main\" r:embed=\"{relId}\"/></a:ext>";
+                }
+                else
+                {
+                    node.Value = relId;
+                }
+            }
+
+            if (_drawings.Part.RelationshipExists(relId))
+            {
+                IPictureContainer thisPicture = this;
+                var thePart = _drawings.Part.Package.GetPart(thisPicture.UriPic);
+                if (Part != thePart)
+                {
+                    Part = thePart;
+                }
             }
         }
 
@@ -514,7 +553,7 @@ namespace OfficeOpenXml.Drawing
 		{
 			get
 			{
-				return GetXmlNodeAngel(_rotationPath);
+				return GetXmlNodeAngle(_rotationPath);
 			}
 			set
 			{

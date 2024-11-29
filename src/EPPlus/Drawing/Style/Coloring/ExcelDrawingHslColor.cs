@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Drawing.Style.Coloring
         {
             get
             {
-                return GetXmlNodeAngel("@hue");
+                return GetXmlNodeAngle("@hue");
             }
             set
             {

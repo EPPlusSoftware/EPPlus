@@ -95,6 +95,26 @@ namespace EPPlusTest.Table
             Assert.AreEqual(7.0, ws.Cells["C5"].Value);
         }
         [TestMethod]
+        public void TableWithCalculatedArrayFormula()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("TableCalculateArrayFormula");
+            ws.Cells["B2"].Value = "Header 1";
+            ws.Cells["C2"].Value = "Header 2";
+            ws.Cells["B3"].Value = 1;
+            ws.Cells["B4"].Value = 2;
+            ws.Cells["C3"].Value = 3;
+            ws.Cells["C4"].Value = 4;
+            var table = ws.Tables.Add(ws.Cells["B2:E4"], "TableArrayFormula");
+            table.Columns[2].CalculatedColumnFormula = "Sum(TableArrayFormula[[#this row],[header 1]]:TableArrayFormula[[#this row],[header 2]]+1)";
+            table.Columns[3].CalculatedColumnFormula = "Sum(TableArrayFormula[[#this row],[header 1]]:TableArrayFormula[[#this row],[header 2]])";
+            ws.Calculate();
+            Assert.IsTrue(table.Columns[2].IsCalculatedFormulaArray);
+            Assert.IsFalse(table.Columns[3].IsCalculatedFormulaArray);
+            Assert.AreEqual(6.0, ws.Cells["D3"].Value);
+            Assert.AreEqual(8.0, ws.Cells["D4"].Value);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
         public void TestTableNameCanNotStartsWithNumber()
         {
@@ -320,7 +340,7 @@ namespace EPPlusTest.Table
                     sheet.Cells[row, 3].Formula = $"B{row} * 0.25";
                     sheet.Cells[row, 4].Formula = $"B{row} + C{row}";
                 }
-                sheet.Cells["B2:D13"].Style.Numberformat.Format = "€#,##0.00";
+                sheet.Cells["B2:D13"].Style.Numberformat.Format = "ï¿½#,##0.00";
 
                 var range = sheet.Cells["A1:D11"];
 
@@ -384,7 +404,7 @@ namespace EPPlusTest.Table
                     sheet.Cells[row, 3].Formula = $"B{row} * 0.25";
                     sheet.Cells[row, 4].Formula = $"B{row} + C{row}";
                 }
-                sheet.Cells["B2:D13"].Style.Numberformat.Format = "€#,##0.00";
+                sheet.Cells["B2:D13"].Style.Numberformat.Format = "ï¿½#,##0.00";
 
                 var range = sheet.Cells["A1:D11"];
 
@@ -438,7 +458,7 @@ namespace EPPlusTest.Table
                     sheet.Cells[row, 5].Formula = $"D{row} * 0.25";
                     sheet.Cells[row, 6].Formula = $"D{row} + E{row}";
                 }
-                sheet.Cells["D2:G13"].Style.Numberformat.Format = "€#,##0.00";
+                sheet.Cells["D2:G13"].Style.Numberformat.Format = "ï¿½#,##0.00";
 
                 var range = sheet.Cells["C1:G11"];
 
@@ -816,7 +836,7 @@ namespace EPPlusTest.Table
 
                 var totalRow = tableRange.End.Row;
                 Assert.AreEqual(table.Columns.GetIndexOfColName("Density"), 3);
-                Assert.AreEqual(154.40629115594086d, sheet.Cells[totalRow, 4].Value);
+                Assert.AreEqual(154.406291155941d, sheet.Cells[totalRow, 4].Value);
             }
 
         }
@@ -1043,6 +1063,29 @@ namespace EPPlusTest.Table
                 table.Columns[1].Name = "AColumn";
             }
         }
+
+        [TestMethod]
+        public void DeleteAndAddTableTest()
+        {
+            using (var package = OpenPackage("tableTestpck.xlsx", true))
+            {
+                var ws = package.Workbook.Worksheets.Add("WsCheck");
+
+                var table = ws.Tables.Add(ws.Cells["A1:C10"], "ATable");
+
+                var ws2 = package.Workbook.Worksheets.Add("WsCheck2");
+                var ws3 = package.Workbook.Worksheets.Add("WsCheck3");
+
+                ws.Tables.Delete(table);
+
+                var table2 = ws.Tables.Add(ws.Cells["A1:C10"], "ATable");
+
+                Assert.IsTrue(table2.Id > 0);
+
+                SaveAndCleanup(package);
+            }
+        }
+        
         [TestMethod]
         public void TableCopyTest()
         {
@@ -1110,6 +1153,7 @@ namespace EPPlusTest.Table
             Assert.AreEqual("SourceTableCopy5", wsDest.Tables[0].Name);
             Assert.AreEqual("B1:F11", wsDest.Tables[0].Address.Address);
         }
+        [TestMethod]
         public void Extend_Table()
         {
             using (var package = new ExcelPackage())

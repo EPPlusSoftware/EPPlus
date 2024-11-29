@@ -72,7 +72,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             {
                 if (_ws._flags.GetFlagValue(_values.Row, _values.Column, CellFlags.RichText))
                 {
-                    return _ws.GetRichText(_values.Row, _values.Column).Text;
+                    return _ws.GetRichText(_values.Row, _values.Column, _ws.Cells[_values.Row, _values.Column]).Text;
                 }
                 else
                 {

@@ -11,17 +11,13 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using static OfficeOpenXml.ExcelAddressBase;
 using System.Diagnostics;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {
@@ -125,6 +121,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     else if (CanDoNumericOperation(l, r))
                     {
+                        if(ctx.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel)
+                            return new CompileResult(RoundingHelper.GetSignificantFigures(l.ResultNumeric + r.ResultNumeric, 15), DataType.Decimal);
                         return new CompileResult(l.ResultNumeric + r.ResultNumeric, DataType.Decimal);
                     }
                     return new CompileResult(eErrorType.Value);
@@ -154,6 +152,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     else if (CanDoNumericOperation(l, r))
                     {
+                        if (ctx.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel)
+                            return new CompileResult(RoundingHelper.GetSignificantFigures( l.ResultNumeric - r.ResultNumeric, 15), DataType.Decimal);
                         return new CompileResult(l.ResultNumeric - r.ResultNumeric, DataType.Decimal);
                     }
 
@@ -184,7 +184,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     else if (CanDoNumericOperation(l, r))
                     {
-                        return new CompileResult(l.ResultNumeric*r.ResultNumeric, DataType.Decimal);
+                        if (ctx.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel)
+                            return new CompileResult(RoundingHelper.GetSignificantFigures(l.ResultNumeric * r.ResultNumeric, 15), DataType.Decimal);
+                        return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Decimal);
                     }
                     return new CompileResult(eErrorType.Value);
                 }));
@@ -218,7 +220,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     else if (CanDoNumericOperation(l, r))
                     {
-                        return new CompileResult(left/right, DataType.Decimal);
+                        if (ctx.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel)
+                            return new CompileResult(RoundingHelper.GetSignificantFigures(left / right, 15), DataType.Decimal);
+                        return new CompileResult(left / right, DataType.Decimal);
                     }
                     return new CompileResult(eErrorType.Value);
                 }));
@@ -524,32 +528,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                         }));
             }
         }
-
-        //private static IOperator _percent;
-        //public static IOperator Percent
-        //{
-        //    get
-        //    {
-        //        if (_percent == null)
-        //        {
-        //            _percent = new Operator(Operators.Percent, PrecedencePercent, (l, r, ctx) =>
-        //                {
-        //                    l = l ?? CompileResult.ZeroInt;
-        //                    r = r ?? CompileResult.ZeroInt;
-        //                    if (l.DataType == DataType.Integer && r.DataType == DataType.Integer)
-        //                    {
-        //                        return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Integer);
-        //                    }
-        //                    else if (CanDoNumericOperation(l, r))
-        //                    {
-        //                        return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Decimal);
-        //                    }
-        //                    return new CompileResult(eErrorType.Value);
-        //                });
-        //        }
-        //        return _percent;
-        //    }
-        //}
 
         private static object GetObjFromOther(CompileResult obj, CompileResult other)
         {

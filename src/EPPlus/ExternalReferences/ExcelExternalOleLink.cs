@@ -25,6 +25,8 @@ namespace OfficeOpenXml.ExternalReferences
     {
         internal ExcelExternalOleLink(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement) : base(wb, reader, part, workbookElement)
         {
+            ExternalOleXml = new XmlDocument();
+            ExternalOleXml.Load(part.GetStream());
             var rId = reader.GetAttribute("id", ExcelPackage.schemaRelationships);
             if(!string.IsNullOrEmpty(rId))
             {
@@ -71,6 +73,7 @@ namespace OfficeOpenXml.ExternalReferences
                 }
             }
         }
+        internal XmlDocument ExternalOleXml;
 
         /// <summary>
         /// The type of external link.

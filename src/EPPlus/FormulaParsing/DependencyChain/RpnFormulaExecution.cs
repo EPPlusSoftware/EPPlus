@@ -128,6 +128,47 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                 }
             }
+
+            if (depChain.HasAnyArrayFormula) //Array formulas has been update. Check if we need to set the array flag on any calculated tables on intersecting tables.
+            {
+                UpdateTableArrayFlag(range);
+            }
+        }
+
+        private static void UpdateTableArrayFlag(ExcelRangeBase range)
+        {
+            //Check table formulas that needs the array flag updated for the columns formulas.
+            foreach (var table in range.Worksheet.Tables)
+            {
+                if (table.Address.Collide(range) != eAddressCollition.No)
+                {
+                    foreach (var c in table.Columns)
+                    {
+                        if (string.IsNullOrEmpty(c.CalculatedColumnFormula) == false)
+                        {
+                            var ca = c.DataAddress;
+                            if (ca.Collide(range) != eAddressCollition.No)
+                            {
+                                var ma = ca.Intersect(range);
+                                c.IsCalculatedFormulaArray = IsCFArray(range.Worksheet, ma);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private static bool IsCFArray(ExcelWorksheet ws, ExcelAddressBase ma)
+        {
+            for(int row=ma._fromRow;row<=ma._toRow; row++)
+            {
+                var f=(CellFlags)ws._flags.GetValue(row, ma._fromCol);
+                if((f & CellFlags.ArrayFormula)!=0)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static object SetAndReturnValueError(RpnOptimizedDependencyChain depChain, Exception ex, RpnFormula f)
@@ -423,6 +464,12 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 return cr.ResultValue;
             FollowChain:
+                if (addresses.Length==0)
+                {
+                    f._tokenIndex++;
+                    goto ExecuteFormula;
+                }
+
                 var firstAddress = addresses.FirstOrDefault();
                 ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(firstAddress.WorksheetIx);
                 if (ws == null)
@@ -513,6 +560,7 @@ namespace OfficeOpenXml.FormulaParsing
         private static bool GetAddressesToFollow(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, ref FormulaRangeAddress[] addresses, ref RangeHashset rd, ref ExcelWorksheet ws)
         {
             var hasAddress = false;
+            var needsClean = false;
             for (int i = 0; i < addresses.Length;i++)
             {
                 var address = addresses[i].Clone();
@@ -537,7 +585,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(address.WorksheetIx);
                 }
-
+                if (ws == null) return false;
                 rd = AddOrGetRDFromWsIx(depChain, ws.IndexInList);
 
                 if (rd.Exists(address) || address.CollidesWith(ws.IndexInList, f._row, f._column))
@@ -552,8 +600,14 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 else
                 {
+                    
                     addresses[i] = null;
+                    needsClean = true;
                 }
+            }
+            if(needsClean)
+            {
+                addresses = addresses.Where(x => x != null).ToArray();
             }
             return hasAddress;
         }
@@ -581,6 +635,7 @@ namespace OfficeOpenXml.FormulaParsing
                             if (f._arrayIndex >= 0 && (f._flags & FormulaFlags.IsDynamic) == 0) //A legacy array formula, Fill the referenced range.
                             {
                                 ArrayFormulaOutput.FillArrayFromRangeInfo(f, ri, rd, depChain);
+                                depChain.HasAnyArrayFormula = true;
                             }
                             else
                             {
@@ -611,6 +666,7 @@ namespace OfficeOpenXml.FormulaParsing
                             {
                                 RecalculateDirtyCells(dirtyRange, depChain, rd);
                             }
+                            depChain.HasAnyArrayFormula = true;
                         }
                         else
                         {
@@ -1111,6 +1167,10 @@ namespace OfficeOpenXml.FormulaParsing
             if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator op))
             {
                 var result = op.Apply(c2, c1, context);
+                if (result.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
+                {
+                    f._flags |= FormulaFlags.IsAllwaysDynamic;
+                }
                 PushResult(context, f, result);
             }
         }

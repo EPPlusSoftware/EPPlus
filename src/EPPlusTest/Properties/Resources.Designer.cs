@@ -386,5 +386,25 @@ namespace EPPlusTest.Properties {
             fileName = path + $"\\Resources\\TextFiles\\{fileName}";
             return new FileInfo(fileName);
         }
+
+        internal static string GetOLEObjectFullFileName(string fileName)
+        {
+            string path = AppContext.BaseDirectory;
+            while (!Directory.Exists(path + "\\Resources"))
+            {
+                path = new DirectoryInfo(path + "\\..").FullName;
+            }
+            return path + $"\\Resources\\OLEObjectFiles\\{fileName}";
+        }
+        internal static FileInfo GetOLEFileInfo(string fileName)
+        {
+            string path = AppContext.BaseDirectory;
+            while (!Directory.Exists(path + "\\Resources"))
+            {
+                path = new DirectoryInfo(path + "\\..").FullName;
+            }
+            fileName = path + $"\\Resources\\OLEObjectFiles\\{fileName}";
+            return new FileInfo(fileName);
+        }
     }
 }

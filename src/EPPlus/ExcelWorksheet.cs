@@ -1458,11 +1458,12 @@ namespace OfficeOpenXml
             var isRt = _flags.GetFlagValue(row, col, CellFlags.RichText);
             if (isRt && v._value is ExcelRichTextCollection rtc)
             {
+                if (rtc._cells == null) rtc._cells = r;
                 return rtc;
             }
             else
             {
-                var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);                
+                var text = ValueToTextHandler.GetFormattedText(v._value, Workbook, v._styleId, false);
                 if (string.IsNullOrEmpty(text))
                 {
                     var item = new ExcelRichTextCollection(Workbook, r);
@@ -1569,6 +1570,7 @@ namespace OfficeOpenXml
                     else
                     {
                         style = 0;
+                        SetStyleInner(address._fromRow, address._fromCol, style < 0 ? 0 : style);
                     }
                     //Meta data. Meta data is only preserved by EPPlus at this point
                     var cm = xr.GetAttribute("cm");
@@ -2514,8 +2516,8 @@ namespace OfficeOpenXml
             }
             else if(d is ExcelOleObject o)
             {
-                if(o.oleObjectPart != null && o.LinkedOleObjectXml != null)
-                    o.LinkedOleObjectXml.Save(o.oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+                if(o._oleObjectPart != null && o._linkedOleObjectXml != null)
+                    o._linkedOleObjectXml.Save(o._oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
             }
             if (d is ExcelGroupShape grp)
             {
@@ -3594,15 +3596,15 @@ namespace OfficeOpenXml
         /// <param name="value">value</param>
         internal void SetValueInner(int row, int col, object value)
         {
+            var styleId = GetStyleId(row, col);
             if (FullPrecision)
             {
-                _values.SetValue_Value(row, col, value);
+                _values.SetValue(row, col, value, styleId);
             }
             else
             {
-                var v = _values.GetValue(row, col);
-                v._value = Workbook.Styles.RoundValueFromNumberFormat(value, v._styleId);
-                _values.SetValue(row, col, v);
+                var val = Workbook.Styles.RoundValueFromNumberFormat(value, styleId);
+                _values.SetValue(row, col, val, styleId);
             }
         }
         internal void SetValueInner(int fromRow, int fromCol, int toRow, int toCol, object value)
@@ -3615,6 +3617,20 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        internal int GetStyleId(int row, int col)
+        {
+            int s = 0;
+            if (!ExistsStyleInner(row, col, ref s))
+            {
+                if (!ExistsStyleInner(row, 0, ref s))
+                {
+                    s = GetStyleInner(0, col);
+                }
+            }
+            return s;
+        }
+
         /// <summary>
         /// Set accessor of sheet styleId
         /// </summary>

@@ -26,11 +26,9 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using EPPlusTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using System.Drawing;
 using OfficeOpenXml.DataValidation;
 
@@ -323,7 +321,7 @@ namespace EPPlusTest.Core.Range
                 dv.ErrorStyle = OfficeOpenXml.DataValidation.ExcelDataValidationWarningStyle.stop;
                 ws.Cells["A1:C4"].Copy(ws.Cells["E5"]);
 
-                Assert.AreEqual("B2:D5,F6:G8", dv.Address.Address);                
+                Assert.AreEqual("B2:D5,F6:G8", dv.Address.Address);
             }
         }
         [TestMethod]
@@ -389,7 +387,7 @@ namespace EPPlusTest.Core.Range
 
                 ws.Cells["A1:C4"].Copy(ws.Cells["E5"]);
 
-                Assert.AreEqual("B2:D5,F6:G8",cf1.Address.Address);
+                Assert.AreEqual("B2:D5,F6:G8", cf1.Address.Address);
             }
         }
 
@@ -406,7 +404,7 @@ namespace EPPlusTest.Core.Range
                 cf1.Style.Fill.BackgroundColor.SetColor(Color.Red);
                 var ws2 = p.Workbook.Worksheets.Add("Sheet2");
                 ws1.Cells["A1:C4"].Copy(ws2.Cells["E5"]);
-                
+
                 Assert.AreEqual(1, ws2.ConditionalFormatting.Count);
                 var cf2 = ws2.ConditionalFormatting[0].As.Between;
                 Assert.AreEqual("F6:G8", cf2.Address.Address);
@@ -556,7 +554,7 @@ namespace EPPlusTest.Core.Range
                 ExcelWorksheet ws = SetupCopyRange(p);
 
                 string nf = "#,##0";
-                ws.Cells["B1"].Style.Font.UnderLineType=ExcelUnderLineType.Double;
+                ws.Cells["B1"].Style.Font.UnderLineType = ExcelUnderLineType.Double;
                 ws.Cells["B2"].Style.Numberformat.Format = nf;
                 ws.Cells["A1:B2"].CopyStyles(ws.Cells["C5:F8"]);
 
@@ -729,7 +727,7 @@ namespace EPPlusTest.Core.Range
         [TestMethod]
         public void TransposeCopyDataOntoExistingData()
         {
-            using (var p = OpenPackage("CopyTransposeExisting.xlsx", true)) 
+            using (var p = OpenPackage("CopyTransposeExisting.xlsx", true))
             {
                 var ws = p.Workbook.Worksheets.Add("newWorksheet");
                 ws.Cells["A1:D10"].Formula = "ROW() + COLUMN()";
@@ -772,7 +770,7 @@ namespace EPPlusTest.Core.Range
         [TestMethod]
         public void CopyExcludingHiddenCells_Values()
         {
-            using(var p=new ExcelPackage())
+            using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
 
@@ -781,7 +779,7 @@ namespace EPPlusTest.Core.Range
                 ws.Cells["C1:C5"].FillNumber(15, 15);
 
                 ws.Row(3).Hidden = true;
-                ws.Column(2).Hidden=true;
+                ws.Column(2).Hidden = true;
 
                 ws.Cells["A1:C5"].Copy(ws.Cells["G1"], ExcelRangeCopyOptionFlags.ExcludeHiddenCells);
 
@@ -805,11 +803,11 @@ namespace EPPlusTest.Core.Range
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
 
-                for(var r = 1; r <= 5; r++)
+                for (var r = 1; r <= 5; r++)
                 {
                     for (var c = 1; c <= 5; c++)
                     {
-                        ws.SetFormula(r,c, ExcelCellBase.GetAddress(r,c));
+                        ws.SetFormula(r, c, ExcelCellBase.GetAddress(r, c));
                     }
                 }
 
@@ -842,7 +840,7 @@ namespace EPPlusTest.Core.Range
                 {
                     for (var c = 1; c <= 5; c++)
                     {
-                        ws.Cells[r,c].AddComment($"R{r}C{c}");
+                        ws.Cells[r, c].AddComment($"R{r}C{c}");
                     }
                 }
 
@@ -866,7 +864,7 @@ namespace EPPlusTest.Core.Range
         }
         [TestMethod]
         public void CopyExcludingHiddenCells_TheadedComments()
-        {            
+        {
             using (var p = new ExcelPackage())
             {
                 p.Workbook.ThreadedCommentPersons.Add("JK");
@@ -957,7 +955,7 @@ namespace EPPlusTest.Core.Range
                         if (r % 2 == c % 2)
                         {
                             var dv = ws.Cells[r, c].ConditionalFormatting.AddBeginsWith();
-                            dv.Formula="A";
+                            dv.Formula = "A";
                         }
                         else
                         {
@@ -1028,6 +1026,50 @@ namespace EPPlusTest.Core.Range
             ws.Cells["A2"].Style.Font.Italic = true;
             ws.Calculate();
             return ws;
+        }
+
+        [TestMethod]
+        public void CopyFillTest()
+        {
+            using (var pck = new ExcelPackage())
+            {
+                var sheet = pck.Workbook.Worksheets.Add("Sheet");
+
+                sheet.Cells["A1"].Value = 1;
+                var cellToCopy = sheet.Cells["A1"];
+
+                sheet.Cells["B1:B5"].Value = 2;
+                var destinationRange = sheet.Cells["B1:B5"];
+
+                cellToCopy.Copy(destinationRange, ExcelRangeCopyOptionFlags.Fill);
+
+                for (var i = 1; i < 6; i++)
+                {
+                    var actual = sheet.Cells[$"B{i}"]?.GetValue<int>();
+
+                    Assert.AreEqual(1, actual, $"Expected 1 at B{i} but found the value {actual}.");
+                }
+            }
+        }
+
+        [TestMethod]
+        public void CopyFillTest2()
+        {
+            using var p = OpenTemplatePackage("CopyFillTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var a1 = ws.Cells["A1"];
+            var a1b2 = ws.Cells["A1:B2"];
+
+            var a1Dest = ws.Cells["I1:O5"];
+            var a1b2Dest1 = ws.Cells["I10:P11"];
+            var a1b2Dest2 = ws.Cells["I13:J20"];
+            var a1b2Dest3 = ws.Cells["I25:N30"];
+
+            a1.Copy(a1Dest, ExcelRangeCopyOptionFlags.Fill);
+            a1b2.Copy(a1b2Dest1, ExcelRangeCopyOptionFlags.Fill);
+            a1b2.Copy(a1b2Dest2, ExcelRangeCopyOptionFlags.Fill);
+            a1b2.Copy(a1b2Dest3, ExcelRangeCopyOptionFlags.Fill);
+            SaveAndCleanup(p);
         }
     }
 }

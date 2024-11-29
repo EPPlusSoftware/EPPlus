@@ -12,39 +12,22 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using System.Data;
-using System.Threading;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Style;
-using System.Xml;
-using System.Drawing;
 using System.Globalization;
 using System.Collections;
 using OfficeOpenXml.Table;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Linq;
 using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.DataValidation.Contracts;
-using System.Reflection;
-using OfficeOpenXml.Style.XmlAccess;
-using System.Security;
 using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.ThreadedComments;
 using OfficeOpenXml.Sorting;
-using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml
 {
@@ -861,9 +844,8 @@ namespace OfficeOpenXml
         /// <param name="MinimumWidth">Minimum column width</param>
         public void AutoFitColumns(double MinimumWidth)
         {
-            AutoFitColumns(MinimumWidth, double.MaxValue);
+            AutoFitColumns(MinimumWidth, 256d);
         }
-
         /// <summary>
         /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
         /// </summary>
@@ -1294,6 +1276,26 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
+        /// Returns true if the range is empty.
+        /// </summary>
+        public bool IsEmpty(bool formula = true, bool comment = true, bool threadedComment = true)
+        {
+            var cells = new CellStoreEnumerator<ExcelValue>(this.Worksheet._values, this.Start.Row, this.Start.Column, this.End.Row, this.End.Column);
+            while (cells.Next())
+            {
+                if (cells.Value._value == null)
+                {
+                    if (formula && this.Worksheet.Cells[cells.CellAddress].Formula != null) return false;
+                    if (comment && this.Worksheet.Cells[cells.CellAddress].Comment != null) return false;
+                    if (threadedComment && this.Worksheet.Cells[cells.CellAddress].ThreadedComment != null) return false;
+                    continue;
+                }
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// If the value is in richtext format.
         /// </summary>
         public bool IsRichText
@@ -1350,20 +1352,29 @@ namespace OfficeOpenXml
         /// Insert cells into the worksheet and shift the cells to the selected direction.
         /// </summary>
         /// <param name="shift">The direction that the cells will shift.</param>
-        public void Insert(eShiftTypeInsert shift)
+        public ExcelRangeBase Insert(eShiftTypeInsert shift)
         {
             if (shift == eShiftTypeInsert.EntireColumn)
             {
                 WorksheetRangeInsertHelper.InsertColumn(_worksheet, _fromCol, Columns, _fromCol - 1);
+                var offset = this.Offset(0, (_toCol - _fromCol) + 1);
+                return offset.EntireColumn.Range;
             }
             else if (shift == eShiftTypeInsert.EntireRow)
             {
                 WorksheetRangeInsertHelper.InsertRow(_worksheet, _fromRow, Rows, _fromRow - 1);
+                var offset = this.Offset((_toRow - _fromRow) + 1, 0);
+                return offset.EntireRow.Range;
             }
             else
             {
                 WorksheetRangeInsertHelper.Insert(this, shift, true, false);
+                if (shift == eShiftTypeInsert.Down)
+                    return this.Offset((_toRow - _fromRow) + 1, 0);
+                else if (shift == eShiftTypeInsert.Right)
+                    return this.Offset(0, (_toCol - _fromCol) + 1); 
             }
+            return null;
         }
         /// <summary>
         /// Delete the range from the worksheet and shift affected cells in the selected direction.
@@ -2023,6 +2034,46 @@ namespace OfficeOpenXml
             }
             var helper = new RangeCopyHelper(this, Destination, flags);
             helper.Copy();
+        }
+        /// <summary>
+        /// Copies the range of cells to another range of cells. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
+        /// </summary>
+        /// <param name="Destination">The range of cells to copy into.</param>
+        public void CopyFill(ExcelRangeBase Destination)
+        {
+            var helper = new RangeCopyHelper(this, Destination, ExcelRangeCopyOptionFlags.Fill);
+            helper.Copy();
+        }
+        /// <summary>
+        /// Copies the range of cells to another range of cells. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
+        /// </summary>
+        /// <param name="Destination">The range of cells to copy into.</param>
+        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied. Fill property will be set.</param>
+        public void CopyFill(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
+        {
+            ExcelRangeCopyOptionFlags flags = 0;
+            flags |= ExcelRangeCopyOptionFlags.Fill;
+            Copy(Destination, flags);
+        }
+        /// <summary>
+        /// Copies the range of cells to another range of cells transposed.
+        /// </summary>
+        /// <param name="Destination">The range of cells to copy into.</param>
+        public void CopyTranspose(ExcelRangeBase Destination)
+        {
+            var helper = new RangeCopyHelper(this, Destination, ExcelRangeCopyOptionFlags.Transpose);
+            helper.Copy();
+        }
+        /// <summary>
+        /// Copies the range of cells to another range of cells transposed.
+        /// </summary>
+        /// <param name="Destination">The range of cells to copy into.</param>
+        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied. Transpose property will be set.</param>
+        public void CopyTranspose(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
+        {
+            ExcelRangeCopyOptionFlags flags = 0;
+            flags |= ExcelRangeCopyOptionFlags.Transpose;
+            Copy(Destination, flags);
         }
         /// <summary>
         /// Copy the styles from the source range to the destination range.

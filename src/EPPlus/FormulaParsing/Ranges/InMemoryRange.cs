@@ -11,12 +11,9 @@
   05/31/2022         EPPlus Software AB           EPPlus 6.1
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.LoadFunctions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Ranges
 {
