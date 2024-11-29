@@ -11,6 +11,9 @@ namespace OfficeOpenXml.DigitalSignatures
         List<ManifestReference> manifestReferences = new();
         XmlDocument doc = new XmlDocument();
 
+        private string _signatureMethod;
+        private string _digestMethod;
+
         internal void SortReferencesAndAddToDoc()
         {
             manifestReferences = manifestReferences.OrderBy(x => x.RefUri).ToList();
@@ -32,7 +35,7 @@ namespace OfficeOpenXml.DigitalSignatures
             }
         }
 
-        internal DigSigManifest()
+        internal DigSigManifest(string signatureMethod, string digestMethod)
         {
             var root = doc.CreateElement("Manifest", "http://www.w3.org/2000/09/xmldsig#");
             doc.AppendChild(root);

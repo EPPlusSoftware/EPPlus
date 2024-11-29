@@ -28,6 +28,7 @@ namespace OfficeOpenXml.DigitalSignatures
         internal string PartUri = "";
 
         string _digestMethod = DigestMethods.SHA1;
+        string _signingMethod = SignedXml.XmlDsigRSASHA1Url;
         string _referenceType = "http://www.w3.org/2000/09/xmldsig#Object";
 
         XmlDocument _doc;
@@ -98,6 +99,7 @@ namespace OfficeOpenXml.DigitalSignatures
         internal string SignatureText;
         internal string SigLnImage;
 
+        //Read
         internal ExcelDigitalSignature(ExcelWorkbook wb, XmlNamespaceManager ns, ZipPackagePart part) : base(ns)
         {
             PartUri = part.Uri.OriginalString;
@@ -111,6 +113,15 @@ namespace OfficeOpenXml.DigitalSignatures
             //Full read only REALLY relevant for verification of signature
             _doc.Load(part.GetStream());
             var isVerified = IsValid;
+
+            //Read signing method
+            SignedXml signedXml = new();
+            signedXml.LoadXml(_doc.DocumentElement);
+            _signingMethod = signedXml.SignedInfo.SignatureMethod;
+
+            //Read digest method (Assume inital digest is same for all other)
+            Reference firstRef = (Reference)signedXml.SignedInfo.References.ToArray()[0];
+            _digestMethod = firstRef.DigestMethod;
 
             var packageObj = _doc.GetElementsByTagName("Manifest");
             readManifest = new DigSigManifest(packageObj[0]);
@@ -230,7 +241,7 @@ namespace OfficeOpenXml.DigitalSignatures
 
                     RSA key;
 #if NET35
-                key = (RSA)Certificate.PrivateKey;
+                    key = (RSA)Certificate.PrivateKey;
 #else
                     key = Certificate.GetRSAPrivateKey();
 #endif
@@ -241,7 +252,7 @@ namespace OfficeOpenXml.DigitalSignatures
 
                     signedXml.Signature.Id = "idPackageSignature";
                     signedXml.SignedInfo.CanonicalizationMethod = SignedXml.XmlDsigCanonicalizationUrl;
-                    signedXml.SignedInfo.SignatureMethod = SignedXml.XmlDsigRSASHA1Url;
+                    signedXml.SignedInfo.SignatureMethod = _signingMethod;
 
                     signedXml.KeyInfo = new KeyInfo();
                     signedXml.KeyInfo.AddClause(new KeyInfoX509Data(Certificate));
@@ -457,6 +468,12 @@ namespace OfficeOpenXml.DigitalSignatures
             }
         }
 
+        /// <summary>
+        /// Set the digest method/Hash Algorithm for the signature
+        /// MD5 is not supported
+        /// </summary>
+        /// <param name="algorithm"></param>
+        /// <exception cref="InvalidOperationException"></exception>
         public void SetDigestMethod(VbaSignatureHashAlgorithm algorithm)
         {
             switch (algorithm)
@@ -464,15 +481,22 @@ namespace OfficeOpenXml.DigitalSignatures
                 case VbaSignatureHashAlgorithm.MD5:
                     throw new InvalidOperationException("MD5 is not supported by excel or epplus for digital signatures. Please choose a different algorithm.");
                 case VbaSignatureHashAlgorithm.SHA1:
+                    _signingMethod = SignedXml.XmlDsigRSASHA1Url;
                     _digestMethod = DigestMethods.SHA1;
                     break;
                 case VbaSignatureHashAlgorithm.SHA256:
+                    //Not available via SignedXml in .net35
+                    _signingMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
                     _digestMethod = DigestMethods.SHA256;
                     break;
                 case VbaSignatureHashAlgorithm.SHA384:
+                    //Not available via SignedXml in .net35
+                    _signingMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha384";
                     _digestMethod = DigestMethods.SHA384;
                     break;
                 case VbaSignatureHashAlgorithm.SHA512:
+                    //Not available via SignedXml in net35
+                    _signingMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha512";
                     _digestMethod = DigestMethods.SHA512;
                     break;
             }
@@ -487,15 +511,6 @@ namespace OfficeOpenXml.DigitalSignatures
             else
             {
                 return "";
-            }
-        }
-
-        internal string HashAndEncodeBytes(byte[] temp)
-        {
-            using (var sha1Hash = SHA1.Create())
-            {
-                var hash = sha1Hash.ComputeHash(temp);
-                return Convert.ToBase64String(hash);
             }
         }
     }

@@ -2,10 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Drawing.EMF;
 using System;
 using System.Linq;
-using OfficeOpenXml.Utils;
-using System.Collections.Generic;
 using System.IO;
-using System.Security.Cryptography.Xml;
 
 namespace EPPlusTest
 {

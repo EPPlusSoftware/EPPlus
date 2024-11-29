@@ -15,6 +15,9 @@ namespace OfficeOpenXml.DigitalSignatures
         private XmlDocument resultDoc = new XmlDocument();
         private string _uri;
 
+        internal string SignatureMethod;
+        internal string DigestMethod;
+
         internal string RefUri
         {
             get{ return _uri; }
@@ -55,11 +58,11 @@ namespace OfficeOpenXml.DigitalSignatures
             };
 
             signedXml.SignedInfo.CanonicalizationMethod = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
-            signedXml.SignedInfo.SignatureMethod = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
+            signedXml.SignedInfo.SignatureMethod = signatureMethod;
 
             _ref = new(doc);
             _ref.Uri = uri;
-            _ref.DigestMethod = "http://www.w3.org/2000/09/xmldsig#sha1";
+            _ref.DigestMethod = digestMethod;
 
             if (transformXml != null)
             {
