@@ -222,109 +222,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             }
         }
 
-            [TestMethod]
-        public void CreateFunctionalStampTemplateFromValidEmf()
-        {
-            var path = GetOutputFile("", "bmpValidStamp.emf").FullName;
-
-            var validImage = new EmfImage();
-            validImage.Read(path);
-            var vRecords = validImage.records;
-
-            ((EMR_INTERSECTCLIPRECT)vRecords[58]).Clip = new RectLObject(10, 4, 128, 30);
-
-            validImage.ResetWorldOrigin();
-
-            var dibits = (EMR_STRETCHDIBITS)vRecords.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-
-            dibits.UpdateToImage(@"C:\Users\OssianEdström\Pictures\TempBitmap.bmp");
-
-            var textRecords = vRecords.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Cast<EMR_EXTTEXTOUTW>().ToList();
-            textRecords[0].Text = "TemplateDate";
-            textRecords[0].AdjustReferenceToCenterText(127, 10);
-
-            textRecords[1].Text = "TemplateTitle";
-            textRecords[1].AdjustReferenceToCenterText(127, 10);
-
-            textRecords[2].Text = "TemplateName";
-            textRecords[2].AdjustReferenceToCenterText(127, 10);
-
-            validImage.InsertSaveAndRestoreRecords(51, 62);
-
-            var newTemplatePath = GetOutputFile("", "NewValidBmpStampTemplate.emf").FullName;
-            validImage.Save(newTemplatePath);
-        }
-
-        [TestMethod]
-        public void CreateDigSigTemplateFromValid()
-        {
-            var imageValid = new EmfImage();
-            var path = GetOutputFile("", "validTemplateBase.emf").FullName;
-            imageValid.Read(path);
-
-            EmfImage templateWithSignatureText = new EmfImage();
-            var pathText = GetOutputFile("", "SignatureLineTemplateText.emf").FullName;
-            templateWithSignatureText.Read(pathText);
-
-            var cliprgn = imageValid.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTSELECTCLIPRGN).ToList();
-
-            var indicies = new List<int>();
-            foreach(var clip in cliprgn)
-            {
-                var index = imageValid.records.FindIndex(x => x == clip);
-                indicies.Add(index);
-            }
-
-            var textRecords = imageValid.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Cast<EMR_EXTTEXTOUTW>().ToList();
-
-            var oldTextRecords = new List<EMR_RECORD>();
-
-            for (int i = 119; i <= 125; i++)
-            {
-                oldTextRecords.Add(templateWithSignatureText.records[i]);
-            }
-
-            oldTextRecords.Remove(oldTextRecords[4]);
-
-            var startInsertIndex = 164;
-            var endIndex = startInsertIndex + oldTextRecords.Count();
-
-            var textRecord = (EMR_EXTTEXTOUTW)oldTextRecords.Find(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW);
-
-            imageValid.records.InsertRange(startInsertIndex, oldTextRecords);
-            imageValid.InsertSaveAndRestoreRecords(startInsertIndex, endIndex + 1);
-
-            var dibits = (EMR_STRETCHDIBITS)imageValid.records.First(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-
-            imageValid.ResetWorldOrigin(41, 25);
-            dibits.Bounds.Right = 246;
-
-            dibits.MaxHeight = 47.2f;
-            dibits.MaxWidth = 205;
-
-            dibits.UpdateToImage("C:\\Users\\OssianEdström\\Pictures\\SingleWhitePixel.bmp");
-
-            imageValid.Save("C:\\epplusTest\\Testoutput\\addedTextToTemplate.emf");
-        }
-
-        [TestMethod]
-        public void DigSigTemplate()
-        {
-            var image = new EmfImage();
-            image.Read("C:\\epplusTest\\Testoutput\\addedTextToTemplate.emf");
-            var dibits = (EMR_STRETCHDIBITS)image.records.First(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
-
-            image.ResetWorldOrigin(41, 25);
-            dibits.Bounds.Right = 246;
-
-            dibits.MaxHeight = 47.2f;
-            dibits.MaxWidth = 205;
-
-            dibits.UpdateToImage(@"C:\Users\OssianEdström\Pictures\picBig.bmp");
-            //dibits.UpdateToImage("C:\\Users\\OssianEdström\\Pictures\\LessExtremeWide.bmp");
-            image.Save("C:\\epplusTest\\Testoutput\\ChangedToBig.emf");
-        }
-
         [TestMethod]
         public void CreateDigitalSignatureLineAndSignIt()
         {
@@ -333,20 +230,11 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
 
-                //wb.Calculate();
-
-                var test = package.Workbook.FullCalcOnLoad;
-                test = false;
-
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadOnly);
 
                 var sLine = ws.AddSignatureLine();
                 sLine.Signer = "ASigner";
-                //sLine.IsStamp = true;
-                //sLine.SignatureImage = new ExcelImage("C:\\Users\\OssianEdström\\Pictures\\LessExtremeWide.bmp");
-                //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
-                //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\128Square.bmp");
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
                 var info = digSig.SigningInformation;
@@ -364,81 +252,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
         }
+      
         [TestMethod]
-        public void CreateDigitalSignatureLineStampAndSignIt()
-        {
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLineStamp.xlsx", true))
-            {
-                var wb = package.Workbook;
-                var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
-
-                //wb.Calculate();
-
-                var test = package.Workbook.FullCalcOnLoad;
-                test = false;
-
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-
-                //var aComment = ws.Comments.Add(ws.Cells["A1"], "AText");
-                //var picture = ws.Drawings.AddPicture("APicture", "C:\\Users\\OssianEdström\\Pictures\\TempBitmap.bmp");
-
-                var sLine = ws.AddSignatureLineStamp();
-
-                var sLine2 = ws.AddSignatureLineStamp();
-                var sLine3 = ws.AddSignatureLineStamp();
-                var sLine4 = ws.AddSignatureLineStamp();
-                var sLine5 = ws.AddSignatureLineStamp();
-
-
-                sLine2.From.Column = 3;
-                sLine2.To.Column = 5;
-
-                sLine3.From.Column = 5;
-                sLine3.To.Column = 7;
-
-                sLine3.Signer = "SomeOne";
-
-                sLine4.From.Column = 7;
-                sLine4.To.Column = 9;
-
-                sLine5.From.Column = 9;
-                sLine5.To.Column = 11;
-
-                //sLine2.From.Row = 1;
-                //sLine2.To.Row = 8;
-
-                //sLine3.From.ColumnOffset = 200;
-                //sLine4.From.ColumnOffset = 300;
-
-                sLine.Signer = "ASigner";
-                sLine.Title = "Developer";
-                //sLine.IsStamp = true;
-                //sLine.SignatureImage = new ExcelImage("C:\\Users\\OssianEdström\\Pictures\\TempBitmap.bmp");
-                //sLine.SignatureImage = File.ReadAllBytes("C:\\Users\\OssianEdström\\Pictures\\ghostlady.png");
-
-                var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
-                var info = digSig.SigningInformation;
-
-                info.SignerRoleTitle = "A Title";
-                info.Address1 = "Some";
-                info.Address2 = "Where";
-                info.ZIPorPostalCode = "Over";
-                info.City = "The";
-                info.CountryOrRegion = "Rainbow";
-                info.StateOrProvince = "WayUpHigh";
-
-                digSig.SignatureLine = sLine;
-
-                var digSig2 = wb.DigitialSignatures.AddSignature(store.Certificates[0], CommitmentType.Created, "TestingSignatureLine2");
-                digSig2.SignatureLine = sLine2;
-
-                SaveAndCleanup(package);
-            }
-        }
-
-        [TestMethod]
-        public void EncodeEmf()
+        public void VerifyEncodingOfEmf()
         {
             var fullName = GetTemplateFile("InvalidImageOriginal.emf").FullName;
             var bytes = File.ReadAllBytes(fullName);
@@ -489,83 +305,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         }
 
         [TestMethod]
-        public void CheckInValidTemplate()
-        {
-            var inValidTemplate = new SignatureLineTemplateEmf();
-            inValidTemplate.InsertInvalidRecords();
-            var records = inValidTemplate.records;
-
-            inValidTemplate.SignText = "IHaveAVeryVeryVeryVerylon";
-            inValidTemplate.suggestedSignerObject.Text = "TemplateSigner";
-            inValidTemplate.suggestedTitleObject.Text = "TemplateTitle";
-            inValidTemplate.SignedBy = "TemplateName";
-
-            inValidTemplate.Save("C:\\epplusTest\\Testoutput\\TempTest.emf");
-        }
-
-        [TestMethod]
-        public void ReadEmf()
-        {
-            var emfImage = new EmfImage();
-            emfImage.Read("C:\\epplusTest\\Testoutput\\LongName.emf");
-
-            var textRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Skip(2);
-            var arr = textRecordArr.ToArray();
-
-            var longName = (EMR_EXTTEXTOUTW)arr[0];
-            var suggestedSigner = (EMR_EXTTEXTOUTW)arr[1];
-
-            var fontRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTCREATEFONTINDIRECTW);
-
-            var longIndex = emfImage.records.IndexOf(longName);
-            var signerIndex = emfImage.records.IndexOf(suggestedSigner);
-
-            emfImage.records[140].data = new byte[] { 3, 0, 0, 0 };
-
-            emfImage.Save("C:\\epplusTest\\Testoutput\\ChangeFontOutput.emf");
-
-
-            //for (int i = 0; i < textRecordArr.Count(); i++)
-            //{
-            //    var textRecord = (EMR_EXTTEXTOUTW)arr[i];
-            //    textRecord.Text = TemplateNamesArr[i];
-            //}
-
-            //var textRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW);
-
-            //var textRecordArrTest = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW);
-            //var arrTest = textRecordArrTest.ToArray();
-
-            //((EMR_EXTTEXTOUTW)arrTest[1]).Text = "Y";
-
-            //var textRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Skip(2);
-            //var arr  = textRecordArr.ToArray();
-
-            //var imageRecord = emfImage.records.IndexOf(arr[0]);
-
-            //var TemplateNamesArr = new string[] { "TemplateSignature", "TemplateSigner", "TemplateTitle", "Signed by: TemplateName" };
-
-            ////((EMR_EXTTEXTOUTW)arr[0]).Text= "Tea";
-            ////((EMR_EXTTEXTOUTW)arr[1]).Text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            ////((EMR_EXTTEXTOUTW)arr[2]).Text = "Test2";
-            ////((EMR_EXTTEXTOUTW)arr[3]).Text = "Test3";
-
-            //for (int i = 0; i < textRecordArr.Count(); i++)
-            //{
-            //    var textRecord = (EMR_EXTTEXTOUTW)arr[i];
-            //    textRecord.Text = TemplateNamesArr[i];
-            //}
-
-            ////foreach (var record in textRecordArr)
-            ////{
-            ////    var txtRecord = ((EMR_EXTTEXTOUTW)record);
-            ////    txtRecord.Text = "templateText";
-            ////}
-
-            //emfImage.Save("C:\\epplusTest\\Testoutput\\InvalidSignatureLineTemplate2.emf");
-        }
-
-        [TestMethod]
         public void SavingEmptyPartShouldCreateFileAndNotThrow()
         {
             string partURI = @"/_xmlsignatures/origin.sigs";
@@ -592,423 +331,18 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         }
 
         [TestMethod]
-        public void SignAsExcelDoes()
-        {
-
-            //CspParameters cspParams = new()
-            //{
-            //    KeyContainerName = "XML_DSIG_RSA_KEY",
-            //};
-
-            // RSACryptoServiceProvider rsaKey = new(cspParams);
-
-            RSACryptoServiceProvider rsaKey = new();
-
-            XmlDocument xmlDoc = new()
-            {
-                PreserveWhitespace = true,
-            };
-
-            xmlDoc.Load("C:\\epplusTest\\Workbooks\\sig1TestFile.xml");
-
-            SignedXml signedXml = new(xmlDoc)
-            {
-                SigningKey = rsaKey
-            };
-
-            Reference reference = new()
-            {
-                Type = "http://www.w3.org/2000/09/xmldsig#Object",
-                Uri = "#idOfficeObject"
-            };
-
-            reference.DigestMethod = "http://www.w3.org/2000/09/xmldsig#sha1";
-
-            var idElement = signedXml.GetIdElement(xmlDoc, "idOfficeObject");
-
-            XmlDocument xmlDoc3 = new()
-            {
-                PreserveWhitespace = true,
-            };
-            xmlDoc3.Load("C:\\epplusTest\\Workbooks\\newXml.xml");
-
-
-            signedXml.Signature.Id = "idPackageSignature";
-
-            XmlDocument doc = new XmlDocument()
-            {
-                PreserveWhitespace = true,
-            };
-
-            XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
-            XmlElement root = doc.DocumentElement;
-            doc.InsertBefore(xmlDeclaration, root);
-
-            //Breaking out idOffice part of file to new file for later verification.
-            var aString = idElement.OuterXml;
-            File.WriteAllText("C:\\epplusTest\\Workbooks\\idOfficeSeparateNew.xml", aString, Encoding.UTF8);
-
-            signedXml.AddReference(reference);
-
-            signedXml.ComputeSignature();
-
-            signedXml.SignedInfo.SignatureMethod = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
-
-            XmlElement xmlDigitalSignature = signedXml.GetXml();
-
-            XmlDocument xmlDoc2 = new()
-            {
-                PreserveWhitespace = true,
-            };
-            xmlDoc2.Load("C:\\epplusTest\\Workbooks\\newXml.xml");
-
-            xmlDoc2.DocumentElement?.AppendChild(xmlDoc2.ImportNode(xmlDigitalSignature, true));
-
-            var listNodes = xmlDigitalSignature.GetElementsByTagName("DigestValue");
-            var node1 = listNodes[0];
-
-            Assert.AreEqual("Dwx/mtIT+lffP980qEOPVRJX41k=", node1.InnerText);
-            //var stringTest = System.Text.Encoding.UTF8.GetString(reference.DigestValue);
-            //Assert.AreEqual("Dwx/mtIT+lffP980qEOPVRJX41k=", stringTest);
-
-            xmlDoc2.Save("C:\\epplusTest\\Workbooks\\newVersionExcelBased.xml");
-        }
-
-        [TestMethod]
         public void SignSave()
         {
             using (var pck = OpenPackage("generatedSignedEmpty.xlsx", true))
             {
-                RSACryptoServiceProvider rsaKey = new();
-
                 var wb = pck.Workbook;
-
                 var ws = wb.Worksheets.Add("emptyWorksheet");
 
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
+                var cert = GetSelfCert();
+                var digSig = wb.DigitialSignatures.AddSignature(cert);
 
                 SaveAndCleanup(pck);
             }
-        }
-
-        [TestMethod]
-        public void SignRelationshipFile()
-        {
-            //XmlDocument document = new XmlDocument();
-
-            var bytes = File.ReadAllBytes("C:\\Users\\OssianEdström\\Documents\\.rels");
-
-            MemoryStream stream = new MemoryStream(bytes);
-
-            RSACryptoServiceProvider rsaKey = new();
-
-            SignedXml signedXml = new()
-            {
-                SigningKey = rsaKey,
-            };
-
-            signedXml.SignedInfo.CanonicalizationMethod = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
-            signedXml.SignedInfo.SignatureMethod = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
-
-            Reference _ref = new(stream);
-
-            var commentsTransform = new XmlDsigC14NTransform();
-
-            _ref.AddTransform(commentsTransform);
-            _ref.DigestMethod = "http://www.w3.org/2000/09/xmldsig#sha1";
-
-            signedXml.AddReference(_ref);
-            signedXml.ComputeSignature();
-
-            var test = signedXml.GetXml().OuterXml;
-        }
-
-        [TestMethod]
-        public void SignExact()
-        {
-            XmlDocument doc = new XmlDocument();
-            doc.Load("C:\\epplusTest\\Personal Compare\\Test\\objectsOnly.xml");
-
-            //RSA key = RSA.Create();
-
-            X509Store store = new X509Store(StoreLocation.CurrentUser);
-            store.Open(OpenFlags.ReadOnly);
-            var Certificate = store.Certificates[0];
-
-            var x509KeyInfo = new KeyInfoX509Data(Certificate);
-
-            var rsaKey = Certificate.GetRSAPrivateKey();
-
-            ExcelSignedXml signedXml = new(doc)
-            {
-                SigningKey = rsaKey,
-            };
-
-            signedXml.Signature.Id = "idPackageSignature";
-            signedXml.SignedInfo.CanonicalizationMethod = SignedXml.XmlDsigCanonicalizationUrl;
-            signedXml.SignedInfo.SignatureMethod = SignedXml.XmlDsigRSASHA1Url;
-
-            KeyInfo keyInfo = new KeyInfo();
-
-            KeyInfoX509Data clause = new KeyInfoX509Data();
-            //clause.AddSubjectName(Certificate.Subject);
-            clause.AddCertificate(Certificate);
-            keyInfo.AddClause(clause);
-            signedXml.KeyInfo = keyInfo;
-
-
-            Reference packageReference = new()
-            {
-                Type = "http://www.w3.org/2000/09/xmldsig#Object",
-                Uri = "#idPackageObject"
-            };
-
-            packageReference.DigestMethod = DigestMethods.SHA1;
-
-            var packageObj = new DataObject();
-            var pElement = (XmlElement)doc.GetElementsByTagName("Object")[0];
-            packageObj.LoadXml(pElement);
-
-            signedXml.AddObject(packageObj);
-            signedXml.AddReference(packageReference);
-
-            Reference OfficeReference = new()
-            {
-                Type = "http://www.w3.org/2000/09/xmldsig#Object",
-                Uri = "#idOfficeObject"
-            };
-
-            OfficeReference.DigestMethod = DigestMethods.SHA1;
-
-            var officeObj = new DataObject();
-            var oElement = (XmlElement)doc.GetElementsByTagName("Object")[1];
-            officeObj.LoadXml(oElement);
-
-            signedXml.AddObject(officeObj);
-            signedXml.AddReference(OfficeReference);
-
-            Reference signedPropertiesReference = new()
-            {
-                Type = "http://uri.etsi.org/01903#SignedProperties",
-                Uri = "#idSignedProperties"
-            };
-            XmlDsigC14NTransform c14Transform = new();
-
-            signedPropertiesReference.AddTransform(c14Transform);
-            signedPropertiesReference.DigestMethod = DigestMethods.SHA1;
-
-            DataObject signedProps = new DataObject();
-            var sElement = (XmlElement)doc.GetElementsByTagName("Object")[2];
-            signedProps.LoadXml(sElement);
-
-            signedXml.AddObject(signedProps);
-            signedXml.AddReference(signedPropertiesReference);
-
-            signedXml.ComputeSignature();
-
-            XmlElement xmlDigitalSignature = signedXml.GetXml();
-
-            var output = new XmlDocument() { PreserveWhitespace = true };
-
-            var node = output.ImportNode(xmlDigitalSignature, true);
-            output.AppendChild(node);
-
-            var declaration = output.CreateXmlDeclaration("1.0", "UTF-8", "");
-            output.InsertBefore(declaration, node);
-
-            var check = signedXml.CheckSignature(rsaKey);
-
-            var defaultValue = Convert.ToBase64String(signedXml.Signature.SignatureValue);
-            var original = Convert.ToBase64String(signedXml.Signature.SignatureValue, Base64FormattingOptions.InsertLineBreaks);
-
-            var sigValueElement = output.GetElementsByTagName("SignatureValue")[0];
-
-            sigValueElement.InnerText = Convert.ToBase64String(signedXml.SignatureValue, Base64FormattingOptions.InsertLineBreaks);
-
-            var arr = signedXml.Signature.SignatureValue;
-            Array.Reverse(arr);
-
-            var reversed = Convert.ToBase64String(arr);
-            var reversedWithLineBreaks = Convert.ToBase64String(signedXml.Signature.SignatureValue, Base64FormattingOptions.InsertLineBreaks);
-
-            output.Save("C:\\epplusTest\\Personal Compare\\Test\\epplusOutput.xml");
-        }
-
-        [TestMethod]
-        public void RelTest()
-        {
-            var bytes = File.ReadAllBytes("C:\\epplusTest\\Workbooks\\.rels");
-            XmlDocument document = new XmlDocument();
-            document.LoadXml(Encoding.UTF8.GetString(bytes));
-            var relationTransform = new RelTransform(document, new List<string> { "rId1" });
-
-            var someXml = relationTransform.GetOutputXML();
-
-            var newBytes = Encoding.Default.GetBytes(someXml);
-
-            MemoryStream stream = new MemoryStream(newBytes);
-
-            RSACryptoServiceProvider rsaKey = new();
-
-            SignedXml signedXml = new()
-            {
-                SigningKey = rsaKey,
-            };
-
-            signedXml.SignedInfo.CanonicalizationMethod = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
-            signedXml.SignedInfo.SignatureMethod = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
-
-            Reference _ref = new(stream);
-
-            var commentsTransform = new XmlDsigC14NTransform();
-
-            _ref.AddTransform(commentsTransform);
-            _ref.DigestMethod = "http://www.w3.org/2000/09/xmldsig#sha1";
-
-            signedXml.AddReference(_ref);
-            signedXml.ComputeSignature();
-
-            var test = signedXml.GetXml();
-
-            XmlDocument xmlDocument = new XmlDocument();
-
-            xmlDocument.LoadXml(test.OuterXml);
-
-            var transforms = xmlDocument.GetElementsByTagName("Transforms");
-
-            var relElement = new XmlDocument();
-            relElement.LoadXml(relationTransform.TransformXml);
-
-            var importedNode = xmlDocument.ImportNode(relElement.FirstChild, true);
-
-            transforms[0].InsertBefore(importedNode, transforms[0].FirstChild);
-
-            var strTest = xmlDocument.GetElementsByTagName("Reference")[0].OuterXml;
-        }
-
-
-        [TestMethod]
-        public void TestEncode()
-        {
-            var issueText = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?><sst xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" count=\"0\" uniqueCount=\"0\"></sst>";
-
-            var textBytes = Encoding.UTF8.GetBytes(issueText);
-
-            var hashed = HashAndEncodeBytes(textBytes);
-        }
-
-        [TestMethod]
-        public void TestEncodeFile()
-        {
-            var textBytes = File.ReadAllBytes("C:\\epplusTest\\Personal Compare\\ResignedExcel.xlsx\\xl\\sharedStrings.xml");
-            //var issueText = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?><sst xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" count=\"0\" uniqueCount=\"0\"></sst>";
-
-            //var textBytes = Encoding.UTF8.GetBytes(issueText)
-            //;
-            Assert.AreEqual(
-            new byte[] { textBytes[0], textBytes[1], textBytes[2] },
-            Encoding.UTF8.GetPreamble());
-
-            var hashed = HashAndEncodeBytes(textBytes);
-        }
-
-        [TestMethod]
-        public void HashWithJustTransform()
-        {
-            XmlDocument readDoc = new XmlDocument() { PreserveWhitespace = true };
-            readDoc.Load("C:\\epplusTest\\Personal Compare\\signedProperties2.xml");
-
-            XmlElement element = (XmlElement)readDoc.GetElementsByTagName("xd:SignedProperties")[0];
-            element.SetAttribute("xmlns", "http://www.w3.org/2000/09/xmldsig#");
-
-            XmlDocument signatureDocument = new XmlDocument() { PreserveWhitespace = true };
-
-            var sourceNode = signatureDocument.ImportNode(element, true);
-            signatureDocument.AppendChild(sourceNode);
-
-            var testNodes = signatureDocument.SelectNodes("//*[name()=local-name()]");
-
-            foreach (XmlElement node in testNodes)
-            {
-                node.SetAttribute("xmlns", "http://www.w3.org/2000/09/xmldsig#");
-            }
-
-            var bytes = Encoding.UTF8.GetBytes(signatureDocument.OuterXml);
-
-            var streamTest = new MemoryStream(bytes);
-
-            XmlDsigC14NTransform testTransform = new();
-
-            testTransform.LoadInput(streamTest);
-
-            var digested = testTransform.GetDigestedOutput(SHA1.Create());
-            var stringedDigest = Convert.ToBase64String(digested);
-
-            Assert.AreEqual("n8llW6rkqfPAu2g024cwGvHKS3Y=", stringedDigest);
-        }
-
-        [TestMethod]
-        public void HashQualifyingPropertiesCorrectly()
-        {
-            XmlDocument xmlDocument = new XmlDocument() { PreserveWhitespace = true };
-
-            var root = xmlDocument.CreateElement("Signature", "http://www.w3.org/2000/09/xmldsig#");
-            xmlDocument.AppendChild(root);
-
-            XmlDocument readDoc = new XmlDocument() { PreserveWhitespace = true };
-            //readDoc.Load("C:\\epplusTest\\Workbooks\\signedProperties.xml");
-            readDoc.Load("C:\\epplusTest\\Personal Compare\\signedProperties2.xml");
-
-            readDoc.DocumentElement.SetAttribute("xmlns", "http://www.w3.org/2000/09/xmldsig#");
-            var test = readDoc.DocumentElement.InnerXml;
-
-            root.InnerXml = readDoc.InnerXml;
-
-            xmlDocument.DocumentElement.ChildNodes[0].Attributes.RemoveNamedItem("xmlns");
-
-            RSACryptoServiceProvider rsaKey = new();
-
-            ExcelSignedXml signedXml = new(xmlDocument)
-            {
-                SigningKey = rsaKey,
-            };
-
-            signedXml.Signature.Id = "idPackageSignature";
-            signedXml.SignedInfo.CanonicalizationMethod = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
-            signedXml.SignedInfo.SignatureMethod = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
-
-            var dO = new DataObject();
-            dO.Data = xmlDocument.DocumentElement.ChildNodes;
-
-            signedXml.AddObject(dO);
-
-            Reference signedPropertiesReference = new()
-            {
-                Type = "http://uri.etsi.org/01903#SignedProperties",
-                Uri = "#idSignedProperties"
-            };
-            XmlDsigC14NTransform c14Transform = new();
-
-            var elementDoc = new XmlDocument() { PreserveWhitespace = true };
-            var idElement = signedXml.GetIdElement(xmlDocument, "idSignedProperties");
-            var idElementImported = elementDoc.ImportNode(idElement, true);
-            elementDoc.AppendChild(idElementImported);
-
-            signedPropertiesReference.AddTransform(c14Transform);
-            signedPropertiesReference.DigestMethod = DigestMethods.SHA1;
-
-            signedXml.AddReference(signedPropertiesReference);
-
-            signedXml.ComputeSignature();
-
-            var xml = signedXml.GetXml();
-
-            XmlDsigC14NTransform testTransform = new();
-
-            var digested = testTransform.GetDigestedOutput(SHA1.Create());
-            var stringedDigest = Convert.ToBase64String(digested);
         }
 
         //Normalize
@@ -1016,82 +350,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         //Transform
         //Hash
         //Read as string
-        [TestMethod]
-        public void PurelyTransform()
-        {
-            var propertiesRaw = "<Object><xd:QualifyingProperties xmlns:xd=\"http://uri.etsi.org/01903/v1.3.2#\" Target=\"#idPackageSignature\"><xd:SignedProperties Id=\"idSignedProperties\"><xd:SignedSignatureProperties><xd:SigningTime>2024-08-14T07:37:36Z</xd:SigningTime><xd:SigningCertificate><xd:Cert><xd:CertDigest><DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\"/><DigestValue>w9iTMIvTXcdRc9G38Pp1Njb/HPE=</DigestValue></xd:CertDigest><xd:IssuerSerial><X509IssuerName>CN=OssianEdström</X509IssuerName><X509SerialNumber>38225183535545048482234589307877617536</X509SerialNumber></xd:IssuerSerial></xd:Cert></xd:SigningCertificate><xd:SignaturePolicyIdentifier><xd:SignaturePolicyImplied/></xd:SignaturePolicyIdentifier></xd:SignedSignatureProperties><xd:SignedDataObjectProperties><xd:CommitmentTypeIndication><xd:CommitmentTypeId><xd:Identifier>http://uri.etsi.org/01903/v1.2.2#ProofOfOrigin</xd:Identifier><xd:Description>Created and approved this document</xd:Description></xd:CommitmentTypeId><xd:AllSignedDataObjects/><xd:CommitmentTypeQualifiers><xd:CommitmentTypeQualifier>Forty-Two</xd:CommitmentTypeQualifier></xd:CommitmentTypeQualifiers></xd:CommitmentTypeIndication></xd:SignedDataObjectProperties></xd:SignedProperties></xd:QualifyingProperties></Object>";
-            var propertiesFromId = "<xd:SignedProperties Id=\"idSignedProperties\"><xd:SignedSignatureProperties><xd:SigningTime>2024-08-14T07:37:36Z</xd:SigningTime><xd:SigningCertificate><xd:Cert><xd:CertDigest><DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\"/><DigestValue>w9iTMIvTXcdRc9G38Pp1Njb/HPE=</DigestValue></xd:CertDigest><xd:IssuerSerial><X509IssuerName>CN=OssianEdström</X509IssuerName><X509SerialNumber>38225183535545048482234589307877617536</X509SerialNumber></xd:IssuerSerial></xd:Cert></xd:SigningCertificate><xd:SignaturePolicyIdentifier><xd:SignaturePolicyImplied/></xd:SignaturePolicyIdentifier></xd:SignedSignatureProperties><xd:SignedDataObjectProperties><xd:CommitmentTypeIndication><xd:CommitmentTypeId><xd:Identifier>http://uri.etsi.org/01903/v1.2.2#ProofOfOrigin</xd:Identifier><xd:Description>Created and approved this document</xd:Description></xd:CommitmentTypeId><xd:AllSignedDataObjects/><xd:CommitmentTypeQualifiers><xd:CommitmentTypeQualifier>Forty-Two</xd:CommitmentTypeQualifier></xd:CommitmentTypeQualifiers></xd:CommitmentTypeIndication></xd:SignedDataObjectProperties></xd:SignedProperties>";
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(propertiesRaw);
-
-            XmlDsigC14NTransform aTransform = new();
-
-            var signedPropElement = doc.GetElementsByTagName("xd:SignedProperties");
-            aTransform.LoadInput(doc);
-
-            MemoryStream stream = aTransform.GetOutput() as MemoryStream;
-
-            var digested = aTransform.GetDigestedOutput(SHA1.Create());
-            var stringedDigest = Convert.ToBase64String(digested);
-
-        }
-
-        [TestMethod]
-        public void HashingQualifyingPropertiesTest()
-        {
-            var propertiesRaw = "<Object><xd:QualifyingProperties xmlns:xd=\"http://uri.etsi.org/01903/v1.3.2#\" Target=\"#idPackageSignature\"><xd:SignedProperties Id=\"idSignedProperties\"><xd:SignedSignatureProperties><xd:SigningTime>2024-08-14T07:37:36Z</xd:SigningTime><xd:SigningCertificate><xd:Cert><xd:CertDigest><DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\"/><DigestValue>w9iTMIvTXcdRc9G38Pp1Njb/HPE=</DigestValue></xd:CertDigest><xd:IssuerSerial><X509IssuerName>CN=OssianEdström</X509IssuerName><X509SerialNumber>38225183535545048482234589307877617536</X509SerialNumber></xd:IssuerSerial></xd:Cert></xd:SigningCertificate><xd:SignaturePolicyIdentifier><xd:SignaturePolicyImplied/></xd:SignaturePolicyIdentifier></xd:SignedSignatureProperties><xd:SignedDataObjectProperties><xd:CommitmentTypeIndication><xd:CommitmentTypeId><xd:Identifier>http://uri.etsi.org/01903/v1.2.2#ProofOfOrigin</xd:Identifier><xd:Description>Created and approved this document</xd:Description></xd:CommitmentTypeId><xd:AllSignedDataObjects/><xd:CommitmentTypeQualifiers><xd:CommitmentTypeQualifier>Forty-Two</xd:CommitmentTypeQualifier></xd:CommitmentTypeQualifiers></xd:CommitmentTypeIndication></xd:SignedDataObjectProperties></xd:SignedProperties></xd:QualifyingProperties></Object>";
-            var propertiesFromId = "<xd:SignedProperties Id=\"idSignedProperties\"><xd:SignedSignatureProperties><xd:SigningTime>2024-08-14T07:37:36Z</xd:SigningTime><xd:SigningCertificate><xd:Cert><xd:CertDigest><DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\"/><DigestValue>w9iTMIvTXcdRc9G38Pp1Njb/HPE=</DigestValue></xd:CertDigest><xd:IssuerSerial><X509IssuerName>CN=OssianEdström</X509IssuerName><X509SerialNumber>38225183535545048482234589307877617536</X509SerialNumber></xd:IssuerSerial></xd:Cert></xd:SigningCertificate><xd:SignaturePolicyIdentifier><xd:SignaturePolicyImplied/></xd:SignaturePolicyIdentifier></xd:SignedSignatureProperties><xd:SignedDataObjectProperties><xd:CommitmentTypeIndication><xd:CommitmentTypeId><xd:Identifier>http://uri.etsi.org/01903/v1.2.2#ProofOfOrigin</xd:Identifier><xd:Description>Created and approved this document</xd:Description></xd:CommitmentTypeId><xd:AllSignedDataObjects/><xd:CommitmentTypeQualifiers><xd:CommitmentTypeQualifier>Forty-Two</xd:CommitmentTypeQualifier></xd:CommitmentTypeQualifiers></xd:CommitmentTypeIndication></xd:SignedDataObjectProperties></xd:SignedProperties>";
-
-            var hashRaw = HashAndEncodeBytes(Encoding.UTF8.GetBytes(propertiesRaw));
-            var hashId = HashAndEncodeBytes(Encoding.UTF8.GetBytes(propertiesFromId));
-
-            Reference signedPropertiesReference = new()
-            {
-                Type = "http://uri.etsi.org/01903#SignedProperties",
-                Uri = "#idSignedProperties"
-            };
-            XmlDsigC14NTransform c14Transform = new();
-
-            XmlDsigC14NTransform testTransform = new(true);
-
-            var originDoc = new XmlDocument() { PreserveWhitespace = true };
-            originDoc.LoadXml(propertiesRaw);
-
-            testTransform.LoadInput(originDoc.GetElementsByTagName("xd:SignedProperties")[0].ChildNodes);
-
-            var output2 = Convert.ToBase64String(testTransform.GetDigestedOutput(SHA1.Create()));
-
-            signedPropertiesReference.AddTransform(c14Transform);
-            signedPropertiesReference.DigestMethod = DigestMethods.SHA1;
-
-            var doc = new XmlDocument();
-
-            RSACryptoServiceProvider rsaKey = new();
-            RSA key = RSA.Create();
-
-            ExcelSignedXml signedXml = new(doc)
-            {
-                SigningKey = rsaKey,
-            };
-
-            signedXml.Signature.Id = "idPackageSignature";
-            signedXml.SignedInfo.CanonicalizationMethod = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
-            signedXml.SignedInfo.SignatureMethod = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
-
-            DataObject anObject = new DataObject();
-
-            var element = (XmlElement)originDoc.GetElementsByTagName("xd:SignedProperties")[0];
-
-            anObject.LoadXml(element);
-            var test1 = anObject.GetXml();
-
-            signedXml.AddReference(signedPropertiesReference);
-            signedXml.AddObject(anObject);
-
-            signedXml.ComputeSignature();
-
-            var testXml = signedXml.GetXml();
-        }
 
         [TestMethod]
         public void SignSaveTemplateSimple()
@@ -1127,7 +385,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(pck);
             }
         }
-
 
         [TestMethod]
         public void SignFileExternal()
@@ -1168,75 +425,55 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets.Add("imageWs");
 
-                //var pic = ws.Drawings.ad("Landscape", new FileInfo(@"C:\Users\OssianEdström\Pictures\webp.jpg"));
-                //pic.SetPosition(2, 0, 1, 0);
+                var pic = ws.Drawings.AddPicture("Landscape", new FileInfo(@"C:\Users\OssianEdström\Pictures\webp.jpg"));
+                pic.SetPosition(2, 0, 1, 0);
 
                 SaveAndCleanup(pck);
             }
         }
 
-        //[TestMethod]
-        //public void SignFileWithSignatureLine()
-        //{
-        //    using (var pck = OpenPackage("DigSig_SignatureLine.xlsx", true))
-        //    {
-        //        var ws = pck.Workbook.Worksheets.Add("ws_SignatureLine");
-        //        var wb = pck.Workbook;
-        //        ws.Drawings.
-        //        ExcelVmlDrawingBase
-        //    }
-        //}
-
-
         [TestMethod]
-        public void SignFile()
+        public void SignAndVerifySigningInformation()
         {
+            var title = "A Title";
+            var address = "Some";
+            var address2 = "Where";
+            var ZIPorPostalCode = "Over";
+            var city = "The";
+            var CountryOrRegion = "Rainbow";
+            var StateOrProvince = "WayUpHigh";
+
             using (var pck = OpenTemplatePackage("combineddatareport.xlsx"))
             {
                 var wb = pck.Workbook;
 
                 wb.FullCalcOnLoad = false;
 
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
+                var cert = GetSelfCert();
+                var digSig = wb.DigitialSignatures.AddSignature(cert);
                 var info = digSig.SigningInformation;
 
-                info.SignerRoleTitle = "A Title";
-                info.Address1 = "Some";
-                info.Address2 = "Where";
-                info.ZIPorPostalCode = "Over";
-                info.City = "The";
-                info.CountryOrRegion = "Rainbow";
-                info.StateOrProvince = "WayUpHigh";
-
-                //digSig.additionalSignInfo.SignerRoleTitle = "Developer";
-
-                //digSig.additionalSignInfo.productionPlace.Address1 = "ssa";
-
-                ////var prodPlace = digSig.additionalSignInfo.productionPlace;
-
-                ////var prodPlace = new ProductionPlace();
-
-                ////prodPlace.Address1 = "Some";
-                ////prodPlace.Address2 = "Where";
-                ////prodPlace.ZIPorPostalCode = "Over";
-                ////prodPlace.City = "The";
-                ////prodPlace.CountryOrRegion = "Rainbow";
-                ////prodPlace.StateOrProvince = "WayUpHigh";
-
-                ////digSig.additionalSignInfo.productionPlace = prodPlace;
+                info.SignerRoleTitle = title;
+                info.Address1 = address;
+                info.Address2 = address2;
+                info.ZIPorPostalCode = ZIPorPostalCode;
+                info.City = city;
+                info.CountryOrRegion = CountryOrRegion;
+                info.StateOrProvince = StateOrProvince;
 
                 SaveAndCleanup(pck);
             }
-        }
-        [TestMethod]
-        public void ReadSignedFileWithAdditionalInfo()
-        {
             using (var pck = OpenPackage("combineddatareport.xlsx"))
             {
                 var wb = pck.Workbook;
                 var signerInformation = wb.DigitialSignatures[0].SigningInformation;
+                Assert.AreEqual(title, signerInformation.SignerRoleTitle);
+                Assert.AreEqual(address, signerInformation.Address1);
+                Assert.AreEqual(address2, signerInformation.Address2);
+                Assert.AreEqual(ZIPorPostalCode, signerInformation.ZIPorPostalCode);
+                Assert.AreEqual(city, signerInformation.City);
+                Assert.AreEqual(CountryOrRegion, signerInformation.CountryOrRegion);
+                Assert.AreEqual(StateOrProvince, signerInformation.StateOrProvince);
             }
         }
 
@@ -1290,49 +527,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(pck);
             }
         }
-        [TestMethod]
-        public void HashEncMeta()
-        {
-            var data = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><metadata xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:xlrd=\"http://schemas.microsoft.com/office/spreadsheetml/2017/richdata\" xmlns:xda=\"http://schemas.microsoft.com/office/spreadsheetml/2017/dynamicarray\"><metadataTypes count=\"1\"><metadataType name=\"XLDAPR\" minSupportedVersion=\"120000\"  copy=\"1\" pasteAll=\"1\" pasteValues=\"1\" merge=\"1\" splitFirst=\"1\" rowColShift=\"1\" clearFormats=\"1\" clearComments=\"1\" assign=\"1\" coerce=\"1\" cellMeta=\"1\" /></metadataTypes><futureMetadata name=\"XLDAPR\" count=\"1\"><bk><extLst><ext uri=\"{bdbb8cdc-fa1e-496e-a857-3c3f30c029c3}\"><xda:dynamicArrayProperties fDynamic=\"1\" fCollapsed=\"1\"/></ext></extLst></bk></futureMetadata><cellMetadata count=\"1\"><bk><rc t=\"1\" v=\"0\"/></bk></cellMetadata></metadata>";
-            var byteData = Encoding.UTF8.GetBytes(data);
-            var res = HashAndEncodeBytes(byteData);
-        }
-
-        public string HashAndEncodeBytes(byte[] temp)
-        {
-            using (var sha1Hash = SHA1.Create())
-            {
-                var hash = sha1Hash.ComputeHash(temp);
-                return Convert.ToBase64String(hash);
-            }
-        }
-
-        [TestMethod]
-        public void DigitallySignDoc()
-        {
-            using (var p = OpenTemplatePackage("UnsignedWBEmpty.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                foreach (var cert in store.Certificates)
-                {
-                    var typa = cert.GetType();
-                    if (cert.HasPrivateKey && cert.NotBefore <= DateTime.Today && cert.NotAfter >= DateTime.Today)
-                    {
-                        var sig = p.Workbook.DigitialSignatures.AddSignature(cert);
-                        //sig.commitmentType = CommitmentType.CreatedAndApproved;
-                        //sig.PurposeForSigning = "I want to";
-                        //sig.SignerInformation.
-                        //sig.Certificate = cert;
-                        break;
-                    }
-                }
-
-                SaveAndCleanup(p);
-            }
-        }
 
         [TestMethod]
         public void ReadSignedFile()
@@ -1373,8 +567,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                     }
                 }
 
+                var fileName = GetOutputFile("", "VbaTest.xlsm").FullName;
+
                 //And Save as xlsm
-                pck.SaveAs(new FileInfo(@"C:\epplusTest\Testoutput" + @"\VbaTest.xlsm"));
+                pck.SaveAs(fileName);
             }
         }
     }

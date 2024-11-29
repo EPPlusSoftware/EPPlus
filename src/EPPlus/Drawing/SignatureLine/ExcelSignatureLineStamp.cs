@@ -93,8 +93,6 @@ namespace OfficeOpenXml.Drawing
             Emf.SuggestedSigner = Signer;
             Emf.SuggestedTitle = Title;
 
-            Emf.Save("C:\\epplusTest\\Testoutput\\image1Generated.emf");
-
             //Note: Intentionally not disposed.
             MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
             Emf.SaveToStream(ms);
@@ -109,7 +107,6 @@ namespace OfficeOpenXml.Drawing
                 if(SignatureImage.Type == ePictureType.Bmp)
                 {
                     Emf.SaveImage(SignatureImage.ImageBytes);
-                    Emf.EmfSignatureImage.Save("C:\\epplusTest\\Testoutput\\JustImageTemplateNew.emf");
                     SigLnImage = Convert.ToBase64String(Emf.EmfSignatureImage.GetBytes());
                 }
                 else
@@ -124,13 +121,11 @@ namespace OfficeOpenXml.Drawing
             }
 
             ValidSigLnImage = Convert.ToBase64String(Emf.GetBytes());
-            Emf.Save("C:\\epplusTest\\Testoutput\\ValidTemplateNew.emf");
 
             Emf.timeStamp.Text = "";
             Emf.InsertInvalidRecords();
 
             InvalidSigLnImg = Convert.ToBase64String(Emf.GetBytes());
-            Emf.Save("C:\\epplusTest\\Testoutput\\InvalidTemplateNew.emf");
         }
 
         internal virtual void CheckSignature()

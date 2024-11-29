@@ -81,7 +81,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         {
             var wsName = "SignatureLineStamps";
 
-            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx", true))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
@@ -120,7 +120,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             string AlternativeText = "Alt text";
             var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
 
-            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx", true))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
@@ -215,7 +215,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         public void CopyShouldIgnoreSignatureLines()
         {
             var wsName = "originalSheet";
-            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx"))
+            using (ExcelPackage package = OpenPackage($"{SubFolder}UnsignedSignatureLine.xlsx", true))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
@@ -285,6 +285,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             string origImage;
             string origValid;
             string origInvalid;
+            string sharedName = "Excel";
 
             byte[] originalImgBytes;
 
@@ -293,18 +294,28 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets[0];
 
-                var aSline = ws.SignatureLines[0];
+                var sLine = ws.SignatureLines[0];
                 var digSig = wb.DigitialSignatures[0];
 
-                originalImgBytes = aSline.SignatureImage.ImageBytes;
+                originalImgBytes = sLine.SignatureImage.ImageBytes;
 
                 origImage = digSig.SigLnImage;
                 origValid = digSig.ValidSigLnImage;
                 origInvalid = digSig.InvalidSigLnImg;
 
-                var strEmf = Convert.FromBase64String(origImage);
-                var emf = new EmfImage();
-                emf.Read(strEmf);
+                var imageOnly = GetOutputFile(SubFolder, $"{sharedName}Image.emf");
+                var noSigOnlyTemplate = GetOutputFile(SubFolder, $"{sharedName}image1NoSig.emf");
+                var validImg = GetOutputFile(SubFolder, $"{sharedName}Valid.emf");
+                var invalidImg = GetOutputFile(SubFolder, $"{sharedName}Invalid.emf");
+
+                DecodeAndSaveEmf(sLine.SigLnImage, imageOnly.FullName);
+                var emptyTemplatePart = pck.Workbook._package.ZipPackage.GetPart(new Uri("xl\\media\\image1.emf", UriKind.Relative));
+                var imageStream = (MemoryStream)emptyTemplatePart.GetStream(FileMode.Open, FileAccess.Read);
+                var bytes = imageStream.ToArray();
+                File.WriteAllBytes(noSigOnlyTemplate.FullName, bytes);
+
+                DecodeAndSaveEmf(sLine.ValidSigLnImage, validImg.FullName);
+                DecodeAndSaveEmf(sLine.InvalidSigLnImg, invalidImg.FullName);
 
                 DecodeAndSaveEmf(origImage, GetOutputFile(SubFolder, "SignatureImagePng.emf").FullName);
                 DecodeAndSaveEmf(origValid, GetOutputFile(SubFolder, "SignatureImagePngValid.emf").FullName);
@@ -390,7 +401,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void VerifySignatureLineEmfs()
         {
-            var fileName = $"{SubFolder}SignatureLineEmfs.xlsx";
+            var sharedName = "EpplusSigEmf";
+            var fileName = $"{SubFolder}{sharedName}.xlsx";
             var signatureImage = new ExcelImage(GetResourceFile("Code.bmp"));
 
             using (var pck = OpenPackage(fileName, true))
@@ -416,8 +428,34 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets[0];
-
                 var signature = wb.DigitialSignatures[0];
+                var sLine = ws.SignatureLines[0];
+
+                var imageOnly = GetOutputFile(SubFolder, $"{sharedName}Image.emf");
+                var noSigOnlyTemplate = GetOutputFile(SubFolder, $"{sharedName}image1NoSig.emf");
+                var validImg = GetOutputFile(SubFolder, $"{sharedName}Valid.emf");
+                var invalidImg = GetOutputFile(SubFolder, $"{sharedName}Invalid.emf");
+
+                DecodeAndSaveEmf(sLine.SigLnImage, imageOnly.FullName);
+                var emptyTemplatePart = pck.Workbook._package.ZipPackage.GetPart(new Uri("xl\\media\\image1.emf",UriKind.Relative));
+                var imageStream = (MemoryStream)emptyTemplatePart.GetStream(FileMode.Open, FileAccess.Read);
+                var bytes = imageStream.ToArray();
+                File.WriteAllBytes(noSigOnlyTemplate.FullName, bytes);
+
+                DecodeAndSaveEmf(sLine.ValidSigLnImage, validImg.FullName);
+                DecodeAndSaveEmf(sLine.InvalidSigLnImg, invalidImg.FullName);
+
+                var imageOnlyEmf = new EmfImage();
+                imageOnlyEmf.Read(File.ReadAllBytes(imageOnly.FullName));
+                var headerImageOnly = (EMR_HEADER)imageOnlyEmf.records[0];
+
+                //Width And Height of image is over maximum size for template. Should have been adjusted
+                Assert.AreNotEqual(signatureImage.Bounds.Width, headerImageOnly.Bounds.Right);
+                Assert.AreNotEqual(signatureImage.Bounds.Height, headerImageOnly.Bounds.Bottom);
+                Assert.AreEqual(35, headerImageOnly.Bounds.Bottom);
+                Assert.AreEqual(205, headerImageOnly.Bounds.Right);
+
+
             }
         }
 

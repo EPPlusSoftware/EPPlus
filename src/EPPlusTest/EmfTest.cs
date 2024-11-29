@@ -86,8 +86,11 @@ namespace EPPlusTest
 
             emfImage.Read(path);
 
-            var textRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW);
-            var fontRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTCREATEFONTINDIRECTW);
+            var textRecord = (EMR_EXTTEXTOUTW)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW);
+            var fontRecord = (EMR_EXTCREATEFONTINDIRECTW)emfImage.records.Find(x => x.Type == RECORD_TYPES.EMR_EXTCREATEFONTINDIRECTW);
+
+            Assert.AreEqual("sample.mp3", textRecord.Text);
+            Assert.AreEqual("Tahoma", fontRecord.elw.FaceName);
         }
 
         [TestMethod]
@@ -111,10 +114,7 @@ namespace EPPlusTest
         public void ChangeImageTemplateForStamp()
         {
             var templateEmf = new EmfImage();
-            var resourceFile = GetResourceFile("TemplateForStamp.emf");
-
-            var path = resourceFile.FullName;
-            templateEmf.Read(path);
+            templateEmf.LoadTemplateFromResource("SignatureLineStampTemplate.emf", "OfficeOpenXml.resources.SignatureLineTemplates.zip");
 
             var templateImage = (EMR_STRETCHDIBITS)templateEmf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
 
@@ -132,10 +132,11 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void testImage()
+        public void MaxedOutText()
         {
             var generated = new EmfImage();
-            generated.Read(@"C:\epplusTest\templates\maxedBars.emf");
+            generated.Read(GetTemplateFile("maxedBars.emf").FullName);
+
             var records = generated.records;
 
             var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Cast<EMR_EXTTEXTOUTW>().ToList();
@@ -143,7 +144,9 @@ namespace EPPlusTest
             textRecords[0].Text = "MMMMMMMMMM||";
             textRecords[0].AdjustReferenceToCenterText(127, 10);
 
-            generated.Save("C:\\epplusTest\\Testoutput\\MaxTitleGenned.emf");
+            var outputPath = GetOutputFile("", "MaxTitleGenned.emf").FullName;
+
+            generated.Save(outputPath);
         }
 
         [TestMethod]
@@ -165,77 +168,41 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void ReadEMFPlusRecord()
+        public void CheckInValidTemplate()
         {
-            var emfTemplate = GetTemplateFile("TestTmp.emf");
-            var emf = new EmfImage();
-            emf.Read(emfTemplate.FullName);
+            var inValidTemplate = new SignatureLineTemplateEmf();
+            inValidTemplate.InsertInvalidRecords();
+            var records = inValidTemplate.records;
 
-            //Remove plus Records
-            emf.records.RemoveAt(10); //Remove End Emf+ comment
-            emf.records.RemoveAt(9); //Remove RestoreDC
-            emf.records.RemoveAt(6); //Remove duplicate StretchBlt record
-            emf.records.RemoveAt(3); //Remove SaveDC
-            emf.records.RemoveAt(2); // Remove Emf+ Comment
-            emf.records.RemoveAt(1); // Remove Emf+ header Comment
+            inValidTemplate.SignText = "IHaveAVeryVeryVeryVerylon";
+            inValidTemplate.suggestedSignerObject.Text = "TemplateSigner";
+            inValidTemplate.suggestedTitleObject.Text = "TemplateTitle";
+            inValidTemplate.SignedBy = "TemplateName";
 
-            emf.Save(GetOutputFile("", "AdjustedTmpFile.emf").FullName);
+            var path = GetOutputFile("EmfTests", "InvalidTemplate.emf").FullName;
+            inValidTemplate.Save(path);
         }
 
         [TestMethod]
-        public void ReadEMFPlusRecordLong()
+        public void ReadEmf()
         {
-            var emfTemplate = GetTemplateFile("SignatureImageExtremeLong.emf");
-            var emf = new EmfImage();
-            emf.Read(emfTemplate.FullName);
+            var emfImage = new EmfImage();
+            emfImage.Read(GetTemplateFile("LongName.emf").FullName);
 
-            //Remove plus Records
-            emf.records.RemoveAt(13); //Remove End Emf+ comment
-            emf.records.RemoveAt(12); //Remove RestoreDC
-            emf.records.RemoveAt(10); //Remove unknown private comment
-            //emf.records.RemoveAt(8); //Removed duplicate smaller record
-            emf.records.RemoveAt(7); //Remove unknown private comment
-            emf.records.RemoveAt(3); //Remove SaveDC
-            emf.records.RemoveAt(2); // Remove Emf+ Comment
-            emf.records.RemoveAt(1); // Remove Emf+ header Comment
+            var textRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Skip(2);
+            var arr = textRecordArr.ToArray();
 
-            var header = (EMR_HEADER)emf.records[0];
+            var longName = (EMR_EXTTEXTOUTW)arr[0];
+            var suggestedSigner = (EMR_EXTTEXTOUTW)arr[1];
 
-            emf.Save(GetOutputFile("", "AdjustedExtremeLong.emf").FullName);
-        }
+            var fontRecordArr = emfImage.records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTCREATEFONTINDIRECTW);
 
-        [TestMethod]
-        public void ReadAdjustedEmfPlusRecord()
-        {
-            var emfTemplate = GetTemplateFile("AdjustedTmpFile.emf");
-            var emf = new EmfImage();
-            emf.Read(emfTemplate.FullName);
+            var longIndex = emfImage.records.IndexOf(longName);
+            var signerIndex = emfImage.records.IndexOf(suggestedSigner);
 
-            var imgRecord = (EMR_STRETCHDIBITS)emf.records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+            emfImage.records[140].data = new byte[] { 3, 0, 0, 0 };
 
-            var bytes = File.ReadAllBytes(GetTemplateFile("TempBitmapLarge.bmp").FullName);
-
-            BitmapHandler handler = new BitmapHandler();
-            handler.ReadBitmap(bytes);
-
-            int MaxHeight = 75;
-            int MaxWidth = 111;
-
-            ImageUtil.ResizeImageWithMaxSize(
-                MaxWidth, MaxHeight, 
-                handler.informationHeader.pixelWidth, 
-                handler.informationHeader.pixelHeight, 
-                out int width, out int height);
-
-            imgRecord.ReadBmpAndUpdateImage(bytes);
-
-            var header = (EMR_HEADER)emf.records[0];
-
-            header.Bounds.Right = width; //Max line width
-            header.Bounds.Bottom = height; //Max stamp height
-
-            header.Frame.Right = Convert.ToInt32(header.MilimetersPerPixelX * width * 100);
-            header.Frame.Bottom = Convert.ToInt32(header.MilimetersPerPixelY * height * 100);
+            emfImage.Save(GetOutputFile("EmfTests","ChangedFontTest.emf").FullName);
         }
     }
 }

@@ -113,23 +113,26 @@ namespace OfficeOpenXml.Drawing.EMF
             BitmapHandler handler = new BitmapHandler(imageBytes);
             var infoHeader = handler.informationHeader;
 
-            var imgWidth = infoHeader.pixelWidth;
-            var imgHeight = infoHeader.pixelHeight;
+            ImageUtil.ResizeImageWithMaxSize(
+                MaxWidth, MaxHeight,
+                infoHeader.pixelWidth, infoHeader.pixelHeight,
+                out int newWidth, out int newHeight
+                );
 
-            imgRecord.MaxWidth = imgWidth;
-            imgRecord.MaxHeight = imgHeight;
+            imgRecord.MaxWidth = newWidth;
+            imgRecord.MaxHeight = newHeight;
 
             imgRecord.ReadBmpAndUpdateImage(imageBytes);
 
             var header = (EMR_HEADER)EmfSignatureImage.records[0];
 
             //Update Bounds
-            header.Bounds.Right = imgWidth;
-            header.Bounds.Bottom = imgHeight;
+            header.Bounds.Right = newWidth;
+            header.Bounds.Bottom = newHeight;
 
             //Update frame (*100 because unit is in 0.01 mm)
-            header.Frame.Right = Convert.ToInt32(header.MilimetersPerPixelX * imgWidth * 100);
-            header.Frame.Bottom = Convert.ToInt32(header.MilimetersPerPixelY * imgHeight * 100);
+            header.Frame.Right = Convert.ToInt32(header.MilimetersPerPixelX * newWidth * 100);
+            header.Frame.Bottom = Convert.ToInt32(header.MilimetersPerPixelY * newHeight * 100);
         }
     }
 }
