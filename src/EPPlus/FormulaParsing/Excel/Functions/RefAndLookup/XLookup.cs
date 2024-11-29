@@ -56,7 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             // return range
             if (!arguments[2].IsExcelRange) return CompileResult.GetDynamicArrayResultError(eErrorType.Value);
             var returnArray = arguments[2].ValueAsRangeInfo;
-            var notFoundText = string.Empty;
+            string notFoundText = null;
 
             // not found text
             if (arguments.Count() > 3 && arguments[3] != null)
@@ -104,7 +104,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         {
             if (ix < 0 || ix > (lookupDirection == LookupRangeDirection.Vertical ? returnArray.Size.NumberOfRows - 1 : returnArray.Size.NumberOfCols - 1))
             {
-                return string.IsNullOrEmpty(notFoundText) ? CreateResult(eErrorType.NA) : CreateResult(notFoundText, DataType.String);
+                return notFoundText == null ? CreateResult(eErrorType.NA) : CreateResult(notFoundText, DataType.String);
             }
             var result = default(IRangeInfo);
             if (lookupDirection == LookupRangeDirection.Vertical)

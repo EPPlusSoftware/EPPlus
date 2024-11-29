@@ -10,10 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
@@ -29,7 +27,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         public override int ArgumentMinLength => 1;
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var text = ArgToString(arguments, 0).ToLower(CultureInfo.InvariantCulture);
+            var text = ArgToString(arguments, 0);
+            if (text == null)
+                text = string.Empty;
+            text = text.ToLower(CultureInfo.InvariantCulture);
             var sb = new StringBuilder();
             var previousChar = '.';
             foreach (var ch in text)

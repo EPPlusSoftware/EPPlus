@@ -1,11 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 {
@@ -456,5 +452,20 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 			Assert.AreEqual("34", _sheet.Cells["B7"].Value);
 		}
 
-	}
+        [TestMethod]
+        public void XlookupReturnEmptyString()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            ws.Cells["A1"].Value = "test";
+            ws.Cells["B1"].Value = "test";
+            ws.Cells["B2"].Value = "test2";
+            ws.Cells["B3"].Value = "test3";
+            ws.Cells["C2"].Value = "good";
+            ws.Cells["C3"].Value = "bad";
+            ws.Cells["A2"].Formula = "XLOOKUP(\"test5\",B1:B3,C1:C3);\"\"";
+            ws.Cells["A2"].Calculate();
+            Assert.AreEqual("", ws.Cells["A2"].Value);
+        }
+    }
 }

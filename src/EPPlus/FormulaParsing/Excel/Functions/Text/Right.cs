@@ -10,10 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 
@@ -31,6 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var str = ArgToString(arguments, 0);
+            if (str == null)
+                str = string.Empty;
             var length = ArgToInt(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             if (length < 0) return CompileResult.GetErrorResult(eErrorType.Value);
