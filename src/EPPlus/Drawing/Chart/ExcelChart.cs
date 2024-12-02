@@ -24,8 +24,6 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
-using System.Runtime.InteropServices;
-using System.Collections;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -1146,7 +1144,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
         public ExcelShape AddShape(string Name, eShapeStyle Style)
         {
-            return _chartDrawings.AddShape(Name, Style);
+            return _chartDrawings.AddShape(Name, Style, DrawingsCollectionType.chart);
         }
     }
 }

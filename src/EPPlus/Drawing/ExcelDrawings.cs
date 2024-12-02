@@ -38,6 +38,13 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing
 {
+
+    internal enum DrawingsCollectionType
+    {
+        excel = 0,
+        chart = 1,
+    }
+
     /// <summary>
     /// Collection for Drawing objects.
     /// </summary>
@@ -98,13 +105,15 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        int exceldrawingsType = 0;
+
+
+        DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel;
 
         internal ExcelDrawings(ExcelPackage xlPackage, ExcelChart excelChart)
         {
             _package = xlPackage;
             Worksheet = excelChart.WorkSheet;
-            exceldrawingsType = 1;
+            DrawingsType = DrawingsCollectionType.chart;
             _drawingsXml = new XmlDocument();
             _drawingsXml.PreserveWhitespace = true;
             _drawingsList = new List<ExcelDrawing>();
@@ -142,8 +151,18 @@ namespace OfficeOpenXml.Drawing
         }
         private void AddDrawings()
         {
-            XmlNodeList list = exceldrawingsType == 0 ? _drawingsXml.SelectNodes("//*[self::xdr:oneCellAnchor or self::xdr:twoCellAnchor or self::xdr:absoluteAnchor]", NameSpaceManager) : 
-                                                        _drawingsXml.SelectNodes("//*[self::cdr:relSizeAnchor]", NameSpaceManager);
+            XmlNodeList list;
+            switch(DrawingsType)
+            {
+
+                case DrawingsCollectionType.chart:
+                    list = _drawingsXml.SelectNodes("//*[self::cdr:relSizeAnchor]", NameSpaceManager);
+                    break;
+                case DrawingsCollectionType.excel:
+                default:
+                    list = _drawingsXml.SelectNodes("//*[self::xdr:oneCellAnchor or self::xdr:twoCellAnchor or self::xdr:absoluteAnchor]", NameSpaceManager);
+                    break;
+            }
 
             foreach (XmlNode node in list)
             {
@@ -154,7 +173,7 @@ namespace OfficeOpenXml.Drawing
                     case "twoCellAnchor":
                     case "absoluteAnchor":
                     case "relSizeAnchor":
-                        dr = ExcelDrawing.GetDrawing(this, node, exceldrawingsType);
+                        dr = ExcelDrawing.GetDrawing(this, node, DrawingsType);
                         break;
                     default:
                         dr = null;
@@ -1347,6 +1366,10 @@ namespace OfficeOpenXml.Drawing
 
         public ExcelShape AddShape(string Name, eShapeStyle Style)
         {
+            return AddShape(Name, Style, DrawingsCollectionType.excel);
+        }
+        internal ExcelShape AddShape(string Name, eShapeStyle Style, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel)
+        {
             if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
             {
                 throw new InvalidOperationException("Chart worksheets can't have more than one drawing");
@@ -1357,7 +1380,7 @@ namespace OfficeOpenXml.Drawing
             }
             XmlElement drawNode = CreateDrawingXml();
 
-            ExcelShape shape = new ExcelShape(this, drawNode, Style);
+            ExcelShape shape = new ExcelShape(this, drawNode, Style, DrawingsType);
             shape.Name = Name;
             _drawingsList.Add(shape);
             _drawingNames.Add(Name, _drawingsList.Count - 1);

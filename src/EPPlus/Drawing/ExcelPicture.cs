@@ -20,8 +20,6 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
 using System.Linq;
 using System.Globalization;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using System.ComponentModel;
 
 #if NETFULL
 using System.Drawing.Imaging;
@@ -52,11 +50,11 @@ namespace OfficeOpenXml.Drawing
             Image.Type = type;
         }
 
-        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null, int excelDrawingType = 0) :
-            base(drawings, node, shape==null ? nmsPrefix[excelDrawingType]+":pic/" : "", nmsPrefix[excelDrawingType]+ ":nvPicPr/"+ nmsPrefix[excelDrawingType]+":cNvPr", shape, excelDrawingType)
+        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
+            base(drawings, node, shape==null ? NamespacePrefixes[(int)DrawingsType] +":pic/" : "", NamespacePrefixes[(int)DrawingsType] + ":nvPicPr/"+ NamespacePrefixes[(int)DrawingsType] +":cNvPr", shape, DrawingsType)
         {
             Init();
-            XmlNode picNode = node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", drawings.NameSpaceManager);
+            XmlNode picNode = node.SelectSingleNode($"{_topPath}{NamespacePrefixes[prefixIndex]}:blipFill/a:blip", drawings.NameSpaceManager);
 
             if(picNode != null)
             {
@@ -119,20 +117,20 @@ namespace OfficeOpenXml.Drawing
         }
         private void Init()
         {
-            _lockAspectRatioPath = $"{_topPath}xdr:nvPicPr/xdr:cNvPicPr/a:picLocks/@noChangeAspect";
-            _preferRelativeResizePath = $"{_topPath}xdr:nvPicPr/xdr:cNvPicPr/@preferRelativeResize";
-            _rotationPath = string.Format(_rotationPath, _topPath);
-			_horizontalFlipPath = string.Format(_horizontalFlipPath, _topPath);
-			_verticalFlipPath = string.Format(_verticalFlipPath, _topPath);
+            _lockAspectRatioPath = $"{_topPath}{NamespacePrefixes[prefixIndex]}:nvPicPr/{NamespacePrefixes[prefixIndex]}:cNvPicPr/a:picLocks/@noChangeAspect";
+            _preferRelativeResizePath = $"{_topPath}{NamespacePrefixes[prefixIndex]}:nvPicPr/{NamespacePrefixes[prefixIndex]}:cNvPicPr/@preferRelativeResize";
+            _rotationPath = string.Format(_rotationPath, _topPath, NamespacePrefixes[prefixIndex]);
+			_horizontalFlipPath = string.Format(_horizontalFlipPath, _topPath, NamespacePrefixes[prefixIndex]);
+			_verticalFlipPath = string.Format(_verticalFlipPath, _topPath, NamespacePrefixes[prefixIndex]);
 		}
 
 		internal void SetRelId(XmlNode node, ePictureType type, string relID, string attribute = "embed")
         {
-            XmlElement blip = (XmlElement)node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", NameSpaceManager);
+            XmlElement blip = (XmlElement)node.SelectSingleNode($"{_topPath}{NamespacePrefixes[prefixIndex]}:blipFill/a:blip", NameSpaceManager);
             XmlElement blipSvg = null;
             if (type == ePictureType.Svg)
             {
-                blipSvg = (XmlElement)node.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip", NameSpaceManager);
+                blipSvg = (XmlElement)node.SelectSingleNode($"{_topPath}{NamespacePrefixes[prefixIndex]}:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip", NameSpaceManager);
                 blipSvg.SetAttribute(attribute, ExcelPackage.schemaRelationships, relID);
             }
 
@@ -398,7 +396,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_fill == null)
                 {
-                    _fill = new ExcelDrawingFill(_drawings, NameSpaceManager, TopNode, $"{_topPath}xdr:spPr", SchemaNodeOrder);
+                    _fill = new ExcelDrawingFill(_drawings, NameSpaceManager, TopNode, $"{_topPath}{NamespacePrefixes[prefixIndex]}:spPr", SchemaNodeOrder);
                 }
                 return _fill;
             }
@@ -413,7 +411,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_border == null)
                 {
-                    _border = new ExcelDrawingBorder(_drawings, NameSpaceManager, TopNode, $"{_topPath}xdr:spPr/a:ln", SchemaNodeOrder);
+                    _border = new ExcelDrawingBorder(_drawings, NameSpaceManager, TopNode, $"{_topPath}{NamespacePrefixes[prefixIndex]}:spPr/a:ln", SchemaNodeOrder);
                 }
                 return _border;
             }
@@ -428,7 +426,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_effect == null)
                 {
-                    _effect = new ExcelDrawingEffectStyle(_drawings, NameSpaceManager, TopNode, $"{_topPath}xdr:spPr/a:effectLst", SchemaNodeOrder);
+                    _effect = new ExcelDrawingEffectStyle(_drawings, NameSpaceManager, TopNode, $"{_topPath}{NamespacePrefixes[prefixIndex]}:spPr/a:effectLst", SchemaNodeOrder);
                 }
                 return _effect;
             }
@@ -544,7 +542,7 @@ namespace OfficeOpenXml.Drawing
         Uri IPictureContainer.UriPic { get; set; }
         Packaging.ZipPackageRelationship IPictureContainer.RelPic { get; set; }
         IPictureRelationDocument IPictureContainer.RelationDocument => _drawings;
-        string _rotationPath= "{0}xdr:spPr/a:xfrm/@rot";
+        string _rotationPath= "{0}{1}:spPr/a:xfrm/@rot";
 		/// <summary>
 		/// Rotation angle in degrees. Positive angles are clockwise. Negative angles are counter-clockwise.
 		/// Note that EPPlus will not size the image depending on the rotation, so some angles will reqire the <see cref="ExcelDrawing.From"/> and <see cref="ExcelDrawing.To"/> coordinates to be set accordingly.
@@ -560,7 +558,7 @@ namespace OfficeOpenXml.Drawing
 				SetXmlNodeAngle(_rotationPath, value, "Rotation", -100000, 100000);
 			}
 		}
-		string _horizontalFlipPath = "{0}xdr:spPr/a:xfrm/@flipH";
+		string _horizontalFlipPath = "{0}{1}:spPr/a:xfrm/@flipH";
 		/// <summary>
 		/// If true, flips the picture horizontal about the center of its bounding box.
 		/// </summary>
@@ -575,7 +573,7 @@ namespace OfficeOpenXml.Drawing
 				SetXmlNodeBool(_horizontalFlipPath, value, false);
 			}
 		}
-		string _verticalFlipPath = "{0}xdr:spPr/a:xfrm/@flipV";
+		string _verticalFlipPath = "{0}{1}:spPr/a:xfrm/@flipV";
 		/// <summary>
 		/// If true, flips the picture vertical about the center of its bounding box.
 		/// </summary>

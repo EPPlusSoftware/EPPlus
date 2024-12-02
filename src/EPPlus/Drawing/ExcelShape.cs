@@ -20,17 +20,25 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public sealed class ExcelShape : ExcelShapeBase
     {
-        internal ExcelShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape=null, int excelDrawingsType = 0) :
-            base(drawings, node, nmsPrefix[excelDrawingsType] + ":sp", nmsPrefix[excelDrawingsType] + ":nvSpPr/"+ nmsPrefix[excelDrawingsType] + ":cNvPr", shape, excelDrawingsType)
+        internal ExcelShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape=null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
+            base(drawings, node, NamespacePrefixes[(int)DrawingsType] + ":sp", NamespacePrefixes[(int)DrawingsType] + ":nvSpPr/"+ NamespacePrefixes[(int)DrawingsType] + ":cNvPr", shape, DrawingsType)
         {
         }
-        internal ExcelShape(ExcelDrawings drawings, XmlNode node, eShapeStyle style) :
-            base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr")
+        internal ExcelShape(ExcelDrawings drawings, XmlNode node, eShapeStyle style, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
+            base(drawings, node, NamespacePrefixes[(int)DrawingsType]+":sp", NamespacePrefixes[(int)DrawingsType]+":nvSpPr/" + NamespacePrefixes[(int)DrawingsType]+":cNvPr")
         {
             XmlElement shapeNode = CreateShapeNode();
-
             shapeNode.InnerXml = ShapeStartXml();
-            node.AppendChild(shapeNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings));
+            switch(DrawingsType)
+            {
+                case DrawingsCollectionType.chart:
+                    node.AppendChild(shapeNode.OwnerDocument.CreateElement("cdr", "clientData", ExcelPackage.schemaChartDrawing));
+                    break;
+                case DrawingsCollectionType.excel:
+                default:
+                    node.AppendChild(shapeNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings));
+                    break;
+            }
             Style = style;
         }
 
