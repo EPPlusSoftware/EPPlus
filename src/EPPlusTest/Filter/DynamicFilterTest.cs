@@ -309,7 +309,7 @@ namespace EPPlusTest.Filter
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 1, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 1, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -334,7 +334,7 @@ namespace EPPlusTest.Filter
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 2, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 2, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -360,7 +360,7 @@ namespace EPPlusTest.Filter
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 3, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 3, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -386,7 +386,7 @@ namespace EPPlusTest.Filter
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 4, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 4, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -412,7 +412,7 @@ namespace EPPlusTest.Filter
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 5, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 5, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -438,7 +438,7 @@ namespace EPPlusTest.Filter
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 6, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 6, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -463,7 +463,7 @@ namespace EPPlusTest.Filter
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 7, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 7, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -488,7 +488,7 @@ namespace EPPlusTest.Filter
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 8, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 8, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -513,7 +513,7 @@ namespace EPPlusTest.Filter
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 9, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 9, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -538,7 +538,7 @@ namespace EPPlusTest.Filter
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 10, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 10, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -563,7 +563,7 @@ namespace EPPlusTest.Filter
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 11, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 11, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -588,7 +588,7 @@ namespace EPPlusTest.Filter
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 12, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 12, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
