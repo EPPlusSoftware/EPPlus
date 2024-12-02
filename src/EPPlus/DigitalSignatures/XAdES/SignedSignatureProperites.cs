@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Security.Cryptography;
 using System.Xml;
 using System.Globalization;
 using System.Linq;
+using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.DigitalSignatures.XAdES
 {
@@ -19,6 +19,11 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
         string Hash = null;
         string TimeStr = null;
         AdditionalSignatureInfo _info;
+
+        internal void HashCert(DigitalSignatureHashAlgorithm Algorithm)
+        {
+            Hash = EncodeUtil.HashAndEncodeBytes(Cert.RawData, Algorithm);
+        }
 
         internal static string BytesToNumericString(byte[] bytes)
         {
@@ -70,15 +75,6 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
                 numString.Append((char)('0' + digitsArray[len]));
             }
             return numString.ToString();
-        }
-
-        public string HashAndEncodeBytes(byte[] temp)
-        {
-            using (var sha1Hash = SHA1.Create())
-            {
-                var hash = sha1Hash.ComputeHash(temp);
-                return Convert.ToBase64String(hash);
-            }
         }
 
         internal SignedSignatureProperites(string prefix, XmlElement SignedSignaturePropertiesNode, AdditionalSignatureInfo info)
@@ -133,7 +129,6 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
             TimeStr = SigningTime.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
             Cert = cert;
             Name = cert.Issuer;
-            Hash = HashAndEncodeBytes(Cert.RawData);
             _info = info;
 
             var bytes = Cert.GetSerialNumber();

@@ -1,21 +1,17 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Security.Cryptography;
 using System.Xml;
-using System.Security.Cryptography.Xml;
 using System.IO;
 using System;
 using OfficeOpenXml;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using OfficeOpenXml.Drawing;
 using OfficeOpenXml.DigitalSignatures;
-using System.Collections.Generic;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Drawing.EMF;
-using System.Linq;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
+
 //REMEMBER:
 //1. Cannonize
 //2. Transform
@@ -42,7 +38,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void CreateDigitalSignatureAndReadIt()
         {
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine.xlsx", true))
+            using (ExcelPackage package = OpenPackage("InvisibleSignature.xlsx", true))
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
@@ -63,8 +59,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.StateOrProvince = "WayUpHigh";
 
                 SaveAndCleanup(package);
+                Assert.IsTrue(digSig.IsValid);
             }
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine.xlsx"))
+            using (ExcelPackage package = OpenPackage("InvisibleSignature.xlsx"))
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets[0];
@@ -468,38 +465,38 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             }
         }
 
-        //[TestMethod]
-        //public void SignFileBig3()
-        //{
-        //    using (var pck = OpenTemplatePackage("s350.xlsm"))
-        //    {
-        //        var wb = pck.Workbook;
+        [TestMethod]
+        public void SignFileBig3()
+        {
+            using (var pck = OpenTemplatePackage("s350.xlsm"))
+            {
+                var wb = pck.Workbook;
 
-        //        wb.FullCalcOnLoad = false;
+                wb.FullCalcOnLoad = false;
 
-        //        X509Store store = new X509Store(StoreLocation.CurrentUser);
-        //        store.Open(OpenFlags.ReadOnly);
-        //        var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
+                X509Store store = new X509Store(StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadOnly);
+                var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
 
-        //        SaveAndCleanup(pck);
-        //    }
-        //}
-        //[TestMethod]
-        //public void SignSaveFileWithLOTSOfData()
-        //{
-        //    using (var pck = OpenTemplatePackage("S610.xlsx"))
-        //    {
-        //        var wb = pck.Workbook;
+                SaveAndCleanup(pck);
+            }
+        }
+        [TestMethod]
+        public void SignSaveFileWithLOTSOfData()
+        {
+            using (var pck = OpenTemplatePackage("S610.xlsx"))
+            {
+                var wb = pck.Workbook;
 
-        //        wb.FullCalcOnLoad = false;
+                wb.FullCalcOnLoad = false;
 
-        //        X509Store store = new X509Store(StoreLocation.CurrentUser);
-        //        store.Open(OpenFlags.ReadOnly);
-        //        var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
+                X509Store store = new X509Store(StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadOnly);
+                var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
 
-        //        SaveAndCleanup(pck);
-        //    }
-        //}
+                SaveAndCleanup(pck);
+            }
+        }
 
 
         [TestMethod]
@@ -543,14 +540,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "TestingSignatureLine");
                 var info = digSig.SigningInformation;
 
-                digSig.SetDigestMethod(OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA512);
+                digSig.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA512);
 
                 Assert.AreEqual("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", digSig._signingMethod);
                 Assert.AreEqual("http://www.w3.org/2001/04/xmlenc#sha512", digSig._digestMethod);
-
-                //Ensure setting it on the individual signature sets it correctly on the package
-                Assert.AreEqual("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", package.ZipPackage.manifestSignatureMethod);
-                Assert.AreEqual("http://www.w3.org/2001/04/xmlenc#sha512", package.ZipPackage.manifestDigestMethod);
 
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
@@ -560,7 +553,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.CountryOrRegion = "Rainbow";
                 info.StateOrProvince = "WayUpHigh";
 
-                digSig.SignatureLine = sLine;
+                sLine.SignWithExistingText(digSig, "ASigner");
 
                 SaveAndCleanup(package);
             }
@@ -574,8 +567,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 //Ensure it is read correctly:
                 Assert.AreEqual("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", digSig._signingMethod);
                 Assert.AreEqual("http://www.w3.org/2001/04/xmlenc#sha512", digSig._digestMethod);
-                Assert.AreEqual("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", package.ZipPackage.manifestSignatureMethod);
-                Assert.AreEqual("http://www.w3.org/2001/04/xmlenc#sha512", package.ZipPackage.manifestDigestMethod);
 
                 SaveAndCleanup(package);
             }

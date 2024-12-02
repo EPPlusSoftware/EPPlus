@@ -23,6 +23,20 @@ namespace OfficeOpenXml.DigitalSignatures
             }
         }
 
+        internal DigSigManifest(ZipPackageXmlManifest preManifest, string signatureMethod, string digestMethod)
+        {
+            var root = doc.CreateElement("Manifest", "http://www.w3.org/2000/09/xmldsig#");
+            doc.AppendChild(root);
+            _signatureMethod = signatureMethod;
+            _digestMethod = digestMethod;
+
+            foreach(var part in preManifest.partXmlList)
+            {
+                var reference = new ManifestReference(part, signatureMethod, digestMethod);
+                manifestReferences.Add(reference);
+            }
+        }
+
         //Read manifest from signature
         internal DigSigManifest(XmlNode ManifestNode)
         {

@@ -13,6 +13,8 @@ namespace OfficeOpenXml.DigitalSignatures
         public const string SHA512 = "http://www.w3.org/2001/04/xmlenc#sha512";
     }
 
+
+
     internal class EpplusDigitalSignatureContext
     {
 

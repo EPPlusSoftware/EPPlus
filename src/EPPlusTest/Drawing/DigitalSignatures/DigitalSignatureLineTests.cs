@@ -8,11 +8,6 @@ using OfficeOpenXml.Drawing;
 using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.DigitalSignatures;
-using System.Runtime.ConstrainedExecution;
-using System.Xml;
-using System.Text;
-using System.Security.Cryptography.Xml;
-using System.Xml.Linq;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {

@@ -66,5 +66,18 @@ namespace OfficeOpenXml.Drawing
             CheckSignature();
             return Sign(certificate, cType, purposeForSigning);
         }
+        /// <summary>
+        /// Sign the signatureline with existing digital signature.
+        /// </summary>
+        /// <param name="signatureText">Cannot be null or empty</param>
+        /// <param name="digitalSignature"></param>
+        /// <returns></returns>
+        public void SignWithExistingText(ExcelDigitalSignature digitalSignature, string signatureText)
+        {
+            SignatureText = signatureText;
+            CheckSignature();
+            SignWithExisting(digitalSignature);
+        }
+
     }
 }

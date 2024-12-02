@@ -25,19 +25,19 @@ namespace OfficeOpenXml.DigitalSignatures
         int RIdCount = 0;
         List<string> _idList = new List<string>();
 
-        public RelTransform(string xml)
+        internal RelTransform(string xml)
         {
             _originalDoc.LoadXml(xml);
             InitializeRelAlt(_originalDoc);
         }
 
-        public RelTransform(XmlDocument doc, List<string> rIds)
+        internal RelTransform(XmlDocument doc, List<string> rIds)
         {
             _idList = rIds;
             InitializeRel(doc);
         }
 
-        public RelTransform(string xml, List<string> rIds)
+        internal RelTransform(string xml, List<string> rIds)
         {
             _originalDoc.LoadXml(xml);
             _idList = rIds;
@@ -50,16 +50,6 @@ namespace OfficeOpenXml.DigitalSignatures
             _outputDoc = new XmlDocument();
             var rootNode = _outputDoc.ImportNode(doc.DocumentElement, false);
             _outputDoc.AppendChild(rootNode);
-
-            //var sortedIds = new List<string>(_idList);
-
-            //sortedIds.Sort(StringComparer.Ordinal);
-            //List<XmlElement> nodesToAdd = new List<XmlElement>();
-
-            //for (int i = 0; i < _idList.Count; i++)
-            //{
-            //    TransformXml += string.Format(relReference, _idList[i]);
-            //}
 
             List<XmlElement> nodesToAdd = new List<XmlElement>();
 

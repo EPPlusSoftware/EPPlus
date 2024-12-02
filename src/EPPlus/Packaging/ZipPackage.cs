@@ -305,23 +305,25 @@ namespace OfficeOpenXml.Packaging
             {
                 rels.Remove(rels.First().Id);
             }
-            rels=null;
+            rels = null;
             _contentTypes.Remove(GetUriKey(Uri.OriginalString));
             //remove all relations
             Parts.Remove(GetUriKey(Uri.OriginalString));
             
         }
 
-        internal DigSigManifest Manifest = null;
-        internal string manifestSignatureMethod;
-        internal string manifestDigestMethod;
+        //internal DigSigManifest Manifest = null;
+        //internal string manifestSignatureMethod;
+        //internal string manifestDigestMethod;
 
-        private void CreateDigitalSignatureManifest(Stream stream)
+        internal ZipPackageXmlManifest XmlManifest = null;
+
+        private void CreateXmlManifest(Stream stream)
         {
+            XmlManifest = new ZipPackageXmlManifest();
+
             stream.Seek(0, SeekOrigin.Begin);
             var inputStream = new ZipInputStream(stream, true);
-
-            Manifest = new DigSigManifest(manifestSignatureMethod, manifestDigestMethod);
 
             var e = inputStream.GetNextEntry();
             if (e == null)
@@ -343,16 +345,21 @@ namespace OfficeOpenXml.Packaging
 
                         if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
                         {
-                            Manifest.AddRelsPartToManifest(GetUriKey(e.FileName), Encoding.UTF8.GetString(bArr));
+                            var relUri = GetUriKey(e.FileName) + "?ContentType=" + ExcelPackage.schemaRelsExtension;
+                            XmlManifest.AddPart(relUri, Encoding.UTF8.GetString(bArr), PartType.RelPart);
                         }
                         else
                         {
                             var partStream = new MemoryStream();
                             partStream.Write(bArr, 0, bArr.Length);
                             partStream.Seek(0, SeekOrigin.Begin);
-                            
+
                             var part = GetPart(uri);
-                            Manifest.AddPartToManifest(part, partStream);
+                            var origUri = part.Uri.OriginalString;
+                            var contentType = part.ContentType;
+                            var uriQuery = origUri + "?ContentType=" + contentType;
+
+                            XmlManifest.AddPart(uriQuery, Encoding.UTF8.GetString(bArr), PartType.Part);
                         }
                     }
                 }
@@ -369,9 +376,65 @@ namespace OfficeOpenXml.Packaging
 
             inputStream.Close();
             stream.Position = stream.Length;
-
-            Manifest.SortReferencesAndAddToDoc();
         }
+
+
+        //private void CreateDigitalSignatureManifest(Stream stream)
+        //{
+        //    stream.Seek(0, SeekOrigin.Begin);
+        //    var inputStream = new ZipInputStream(stream, true);
+
+        //    Manifest = new DigSigManifest(manifestSignatureMethod, manifestDigestMethod);
+
+        //    var e = inputStream.GetNextEntry();
+        //    if (e == null)
+        //    {
+        //        throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
+        //    }
+        //    var startPos = inputStream.Position;
+
+        //    while (e != null)
+        //    {
+        //        startPos = inputStream.Position;
+        //        if (e.UncompressedSize > 0)
+        //        {
+        //            if (e.FileName.StartsWith("_rels", StringComparison.OrdinalIgnoreCase) || e.FileName.StartsWith("xl", StringComparison.OrdinalIgnoreCase))
+        //            {
+        //                GetDirSeparator(e);
+        //                var uri = new Uri(GetUriKey(e.FileName), UriKind.Relative);
+        //                var bArr = GetZipEntryAsByteArray(inputStream, e);
+
+        //                if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
+        //                {
+        //                    Manifest.AddRelsPartToManifest(GetUriKey(e.FileName), Encoding.UTF8.GetString(bArr));
+        //                }
+        //                else
+        //                {
+        //                    var partStream = new MemoryStream();
+        //                    partStream.Write(bArr, 0, bArr.Length);
+        //                    partStream.Seek(0, SeekOrigin.Begin);
+                            
+        //                    var part = GetPart(uri);
+        //                    Manifest.AddPartToManifest(part, partStream);
+        //                }
+        //            }
+        //        }
+
+        //        //Assume last entry name since inputStream cannot read last entry of an open outputstream
+        //        if (e.FileName.StartsWith("_xmlsignatures/origin"))
+        //        {
+        //            e = null;
+        //            continue;
+        //        }
+
+        //        e = inputStream.GetNextEntry();
+        //    }
+
+        //    inputStream.Close();
+        //    stream.Position = stream.Length;
+
+        //    Manifest.SortReferencesAndAddToDoc();
+        //}
 
         internal void Save(Stream stream)
         {
@@ -438,7 +501,8 @@ namespace OfficeOpenXml.Packaging
             if (digSigParts.Count > 0)
             {
                 digSigOriginPart.WriteZip(os);
-                CreateDigitalSignatureManifest(stream);
+                CreateXmlManifest(stream);
+                //CreateDigitalSignatureManifest(stream);
 
                 foreach (var part in digSigParts)
                 {

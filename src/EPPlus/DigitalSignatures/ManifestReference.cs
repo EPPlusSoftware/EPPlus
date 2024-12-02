@@ -17,10 +17,35 @@ namespace OfficeOpenXml.DigitalSignatures
 
         internal string SignatureMethod;
         internal string DigestMethod;
+        internal PartType mRefType;
 
         internal string RefUri
         {
             get{ return _uri; }
+        }
+
+        public ManifestReference(PartWithXml aPart, string signatureMethod, string digestMethod)
+        {
+            SignatureMethod = signatureMethod;
+            DigestMethod = digestMethod;
+
+            mRefType = aPart.PartType;
+
+            if (aPart.PartType == PartType.RelPart)
+            {
+                var relTransform = new RelTransform(aPart.Xml);
+                CreateReference(aPart.UriKey, relTransform.GetOutputStream(), relTransform.TransformXml);
+            }
+            else
+            {
+                var xmlBytes = Encoding.UTF8.GetBytes(aPart.Xml);
+                Stream xmlStream = RecyclableMemory.GetStream();
+                xmlStream.Position = 0;
+                xmlStream.Write(xmlBytes, 0, xmlBytes.Count());
+                xmlStream.Position = 0;
+
+                CreateReference(aPart.UriKey, xmlStream);
+            }
         }
 
         public ManifestReference(XmlNode referenceNode)
@@ -96,6 +121,5 @@ namespace OfficeOpenXml.DigitalSignatures
             _uri = _ref.Uri;
             xmlDigSig = (XmlElement)resultDoc.GetElementsByTagName("Reference")[0];
         }
-
     }
 }

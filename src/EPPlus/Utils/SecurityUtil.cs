@@ -18,7 +18,6 @@ namespace OfficeOpenXml.Utils
             var rng = RandomNumberGenerator.Create();
             rng.GetBytes(bytes);
             var aGuid = new Guid(bytes);
-            //var str = aGuid.ToString();
 
             return aGuid;
         }

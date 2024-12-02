@@ -7,17 +7,24 @@ using System.Security.Cryptography.Xml;
 using System.Xml;
 using OfficeOpenXml.DigitalSignatures.XAdES;
 using System.Collections.Generic;
-using OfficeOpenXml.VBA;
 using System.Linq;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Utils;
+using System.Runtime.ConstrainedExecution;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
+    /// <summary>
+    /// Digital Signature class to sign a workbook
+    /// </summary>
     public class ExcelDigitalSignature : XmlHelper
     {
         internal ZipPackagePart _part;
         ZipPackagePart _originPart;
         ExcelWorkbook _wb;
+        DigSigManifest _manifest;
+        DigitalSignatureHashAlgorithm hashAlgorithm;
 
         public X509Certificate2 Certificate { get; set; } = null;
 
@@ -123,8 +130,8 @@ namespace OfficeOpenXml.DigitalSignatures
             Reference firstRef = (Reference)signedXml.SignedInfo.References.ToArray()[0];
             _digestMethod = firstRef.DigestMethod;
 
-            _wb._package.ZipPackage.manifestSignatureMethod = _signingMethod;
-            _wb._package.ZipPackage.manifestDigestMethod = _digestMethod;
+            //_wb._package.ZipPackage.manifestSignatureMethod = _signingMethod;
+            //_wb._package.ZipPackage.manifestDigestMethod = _digestMethod;
 
             var packageObj = _doc.GetElementsByTagName("Manifest");
             readManifest = new DigSigManifest(packageObj[0]);
@@ -206,7 +213,7 @@ namespace OfficeOpenXml.DigitalSignatures
             _part = wb._package.ZipPackage.CreatePart(new Uri(PartUri, UriKind.Relative), ContentTypes.xmlSignatures);
             _originPart = wb._package.ZipPackage.GetPart(wb.SignatureOriginUri);
             _originPart.CreateRelationship(string.Format("sig{0}.xml", num), TargetMode.Internal, relType);
-            SetDigestMethod(VbaSignatureHashAlgorithm.SHA1);
+            SetDigestMethod(DigitalSignatureHashAlgorithm.SHA1);
         }
 
         internal void Save()
@@ -215,13 +222,17 @@ namespace OfficeOpenXml.DigitalSignatures
             {
                 //if there is no read manifest then the manifest has changed
                 bool manifestChanged = true;
+                ////Create 
+                _manifest = new DigSigManifest(_wb._package.ZipPackage.XmlManifest, _signingMethod, _digestMethod);
+                _manifest.SortReferencesAndAddToDoc();
+                //  _manifest = _wb._package.ZipPackage.Manifest;
 
-                if(readManifest != null)
-                {
-                    var newManifest = _wb._package.ZipPackage.Manifest.GetDoc().OuterXml;
-                    var oldManifest = readManifest.GetDoc().OuterXml;
-                    manifestChanged = newManifest != oldManifest;
-                }
+                //if (readManifest != null)
+                //{
+                //    var newManifest = _manifest.GetDoc().OuterXml;
+                //    var oldManifest = readManifest.GetDoc().OuterXml;
+                //    manifestChanged = newManifest != oldManifest;
+                //}
 
                 if (IsValid == false | manifestChanged)
                 {
@@ -240,8 +251,10 @@ namespace OfficeOpenXml.DigitalSignatures
                     _qualifyingProperties = new QualifyingProperties
                         ("xd", Certificate, CommitmentTyping, signatureComments, SigningInformation);
 
-                    //Set digestmethod for certDigest
+                    //Set digestmethod and hash for certDigest
                     _qualifyingProperties.SignedProps.SignatureProps.Algorithm = _digestMethod;
+                    _qualifyingProperties.SignedProps.SignatureProps.HashCert(hashAlgorithm);
+
 
                     var docTest = _qualifyingProperties.GetDocument();
                     _doc = docTest;
@@ -320,12 +333,13 @@ namespace OfficeOpenXml.DigitalSignatures
 
             var packageObj = new DataObject();
 
-            DigSigManifest manifest = _wb._package.ZipPackage.Manifest;
             var packageObjProps = new SignatureProperty("#idPackageSignature", "idSignatureTime", DateTime.Now);
 
             var packageObjectDoc = new XmlDocument();
 
-            var docManifest = manifest.GetDoc();
+            XmlDocument docManifest = _manifest.GetDoc();
+
+            //XmlDocument docManifest = _wb._package.ZipPackage.Manifest.GetDoc();
             var docProps = packageObjProps.GetXMLDocument();
 
             var rootpackageReference = packageObjectDoc.CreateElement("Object", "http://www.w3.org/2000/09/xmldsig#");
@@ -458,34 +472,33 @@ namespace OfficeOpenXml.DigitalSignatures
         /// </summary>
         /// <param name="algorithm"></param>
         /// <exception cref="InvalidOperationException"></exception>
-        public void SetDigestMethod(VbaSignatureHashAlgorithm algorithm)
+        public void SetDigestMethod(DigitalSignatureHashAlgorithm algorithm)
         {
+            hashAlgorithm = algorithm;
             switch (algorithm)
             {
-                case VbaSignatureHashAlgorithm.MD5:
-                    throw new InvalidOperationException("MD5 is not supported by excel or epplus for digital signatures. Please choose a different algorithm.");
-                case VbaSignatureHashAlgorithm.SHA1:
+                case DigitalSignatureHashAlgorithm.SHA1:
                     _signingMethod = SignedXml.XmlDsigRSASHA1Url;
                     _digestMethod = DigestMethods.SHA1;
                     break;
-                case VbaSignatureHashAlgorithm.SHA256:
+                case DigitalSignatureHashAlgorithm.SHA256:
                     //Not available via SignedXml in .net35
                     _signingMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
                     _digestMethod = DigestMethods.SHA256;
                     break;
-                case VbaSignatureHashAlgorithm.SHA384:
+                case DigitalSignatureHashAlgorithm.SHA384:
                     //Not available via SignedXml in .net35
                     _signingMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha384";
                     _digestMethod = DigestMethods.SHA384;
                     break;
-                case VbaSignatureHashAlgorithm.SHA512:
+                case DigitalSignatureHashAlgorithm.SHA512:
                     //Not available via SignedXml in net35
                     _signingMethod = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha512";
                     _digestMethod = DigestMethods.SHA512;
                     break;
             }
-            _wb._package.ZipPackage.manifestSignatureMethod = _signingMethod;
-            _wb._package.ZipPackage.manifestDigestMethod = _digestMethod;
+            //_wb._package.ZipPackage.manifestSignatureMethod = _signingMethod;
+            //_wb._package.ZipPackage.manifestDigestMethod = _digestMethod;
         }
 
         internal string GetOuterXml()
