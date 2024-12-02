@@ -1,23 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Security.Cryptography;
 using System.Xml;
-using System.Security.Cryptography.Xml;
-using System.IO;
-using System;
 using OfficeOpenXml;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.DigitalSignatures;
-using System.Collections.Generic;
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Drawing.EMF;
-using System.Linq;
-using System.Net;
 using OfficeOpenXml.Drawing.Vml;
-using System.Collections;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
@@ -30,7 +15,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             using (ExcelPackage package = OpenPackage("UnsignedSignatureLine.xlsx", true))
             {
                 var ws = package.Workbook.Worksheets.Add("SigLine");
-                var node = ws.VmlDrawings.AddDigitalSignatureLineDrawing(Guid.NewGuid());
+                var node = ws.VmlDrawings.AddDigitalSignatureLineDrawing(SecurityUtil.CreateSecureGuid());
 
                 Assert.AreEqual("_x0000_s1025", node.Attributes.GetNamedItem("id").Value);
                 Assert.AreEqual("#_x0000_t75", node.Attributes.GetNamedItem("type").Value);

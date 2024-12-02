@@ -21,7 +21,6 @@ using System.Text;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Drawing.OleObject;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -220,7 +219,7 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         internal ExcelSignatureLineStamp AddSignatureLineStamp()
         {
-            Guid lineId = Guid.NewGuid();
+            Guid lineId = SecurityUtil.CreateSecureGuid();
             var node = AddSignatureLineDrawing(lineId);
 
             var sLine = new ExcelSignatureLineStamp(_ws, node, NameSpaceManager, lineId);
@@ -230,7 +229,7 @@ namespace OfficeOpenXml.Drawing.Vml
         }
         internal ExcelSignatureLine AddSignatureLine()
         {
-            Guid lineId = Guid.NewGuid();
+            Guid lineId = SecurityUtil.CreateSecureGuid();
             var node = AddSignatureLineDrawing(lineId);
 
             var sLine = new ExcelSignatureLine(_ws, node, NameSpaceManager, lineId);

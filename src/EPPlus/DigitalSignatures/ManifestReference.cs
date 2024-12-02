@@ -28,9 +28,11 @@ namespace OfficeOpenXml.DigitalSignatures
             resultDoc.LoadXml(referenceNode.OuterXml);
             xmlDigSig = (XmlElement)resultDoc.GetElementsByTagName("Reference")[0];
             _uri = xmlDigSig.GetAttribute("URI");
+            var methodNode = xmlDigSig.GetElementsByTagName("DigestMethod")[0];
+            DigestMethod = methodNode.Attributes.GetNamedItem("Algorithm").Value;
         }
 
-        public ManifestReference(string uri, string xmlString)
+        public ManifestReference(string uri, string xmlString, string signatureMethod, string digestMethod)
         {
             var xmlBytes = Encoding.UTF8.GetBytes(xmlString);
 
@@ -39,12 +41,17 @@ namespace OfficeOpenXml.DigitalSignatures
             xmlStream.Write(xmlBytes, 0, xmlBytes.Count());
             xmlStream.Position = 0;
 
+            SignatureMethod = signatureMethod;
+            DigestMethod = digestMethod;
+
             CreateReference(uri, xmlStream);
         }
 
-        public ManifestReference(string uri, Stream xmlStream, string transformXml = null) 
+        public ManifestReference(string uri, Stream xmlStream, string signatureMethod, string digestMethod, string transformXml = null) 
         {
             xmlStream.Position = 0;
+            SignatureMethod = signatureMethod;
+            DigestMethod = digestMethod;
             CreateReference(uri, xmlStream, transformXml);
         }
 
@@ -58,11 +65,11 @@ namespace OfficeOpenXml.DigitalSignatures
             };
 
             signedXml.SignedInfo.CanonicalizationMethod = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
-            signedXml.SignedInfo.SignatureMethod = signatureMethod;
+            signedXml.SignedInfo.SignatureMethod = SignatureMethod;
 
             _ref = new(doc);
             _ref.Uri = uri;
-            _ref.DigestMethod = digestMethod;
+            _ref.DigestMethod = DigestMethod;
 
             if (transformXml != null)
             {

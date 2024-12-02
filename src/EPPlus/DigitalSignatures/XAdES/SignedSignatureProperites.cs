@@ -12,7 +12,7 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
     {
         DateTime SigningTime;
         string Prefix = "xd";
-        string Algorithm = "http://www.w3.org/2000/09/xmldsig#sha1";
+        internal string Algorithm = "http://www.w3.org/2000/09/xmldsig#sha1";
         string Name;
         internal string Serial;
         X509Certificate2 Cert;

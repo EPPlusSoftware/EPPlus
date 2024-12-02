@@ -313,13 +313,15 @@ namespace OfficeOpenXml.Packaging
         }
 
         internal DigSigManifest Manifest = null;
+        internal string manifestSignatureMethod;
+        internal string manifestDigestMethod;
 
         private void CreateDigitalSignatureManifest(Stream stream)
         {
             stream.Seek(0, SeekOrigin.Begin);
             var inputStream = new ZipInputStream(stream, true);
 
-            Manifest = new DigSigManifest();
+            Manifest = new DigSigManifest(manifestSignatureMethod, manifestDigestMethod);
 
             var e = inputStream.GetNextEntry();
             if (e == null)
@@ -376,7 +378,7 @@ namespace OfficeOpenXml.Packaging
             var enc = Encoding.UTF8;
             ZipOutputStream os = new ZipOutputStream(stream, true);
             os.EnableZip64 = Zip64Option.AsNecessary;
-            os.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)_compression;            
+            os.CompressionLevel = (Ionic.Zlib.CompressionLevel)_compression;            
 
             /**** ContentType****/
             var entry = os.PutNextEntry("[Content_Types].xml");
@@ -446,7 +448,6 @@ namespace OfficeOpenXml.Packaging
             }
 
             os.Flush();
-            
             os.Close();
             //os.Dispose();  
             

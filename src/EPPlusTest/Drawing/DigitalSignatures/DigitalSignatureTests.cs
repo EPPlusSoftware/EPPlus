@@ -162,7 +162,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             //.rels file
             string DotRels = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"rId3\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties\" Target=\"docProps/app.xml\"/><Relationship Id=\"rId2\" Type=\"http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties\" Target=\"docProps/core.xml\"/><Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"xl/workbook.xml\"/><Relationship Id=\"rId4\" Type=\"http://schemas.openxmlformats.org/package/2006/relationships/digital-signature/origin\" Target=\"_xmlsignatures/origin.sigs\"/></Relationships>";
 
-            var manifest = new DigSigManifest();
+            var manifest = new DigSigManifest("http://www.w3.org/2000/09/xmldsig#rsa-sha1", "http://www.w3.org/2000/09/xmldsig#sha1");
             manifest.AddRelsPartToManifest("/_rels/.rels?ContentType=application/vnd.openxmlformats-package.relationships+xml", DotRels);
             manifest.SortReferencesAndAddToDoc();
 
@@ -181,7 +181,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             //Drawing1 file
             string DrawingXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n<xdr:wsDr xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"><xdr:twoCellAnchor><xdr:from><xdr:col>4</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>1</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:from><xdr:to><xdr:col>16</xdr:col><xdr:colOff>304800</xdr:colOff><xdr:row>31</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:to><xdr:graphicFrame macro=\"\"><xdr:nvGraphicFramePr><xdr:cNvPr id=\"2\" name=\"PivotChart\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\" id=\"{00000000-0008-0000-0100-000002000000}\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/></xdr:xfrm><a:graphic><a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/chart\"><c:chart xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"rId1\"/></a:graphicData></a:graphic></xdr:graphicFrame><xdr:clientData/></xdr:twoCellAnchor></xdr:wsDr>";
             var uriQuery = "/xl/drawings/_rels/drawing1.xml.rels?ContentType=application/vnd.openxmlformats-package.relationships+xml";
-            var manifestReference = new ManifestReference(uriQuery, DrawingXml);
+            var manifestReference = new ManifestReference(uriQuery, DrawingXml, "http://www.w3.org/2000/09/xmldsig#rsa-sha1", "http://www.w3.org/2000/09/xmldsig#sha1");
 
             var EpplusRelReference = manifestReference.xmlDigSig;
 
@@ -545,6 +545,13 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 digSig.SetDigestMethod(OfficeOpenXml.VBA.VbaSignatureHashAlgorithm.SHA512);
 
+                Assert.AreEqual("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", digSig._signingMethod);
+                Assert.AreEqual("http://www.w3.org/2001/04/xmlenc#sha512", digSig._digestMethod);
+
+                //Ensure setting it on the individual signature sets it correctly on the package
+                Assert.AreEqual("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", package.ZipPackage.manifestSignatureMethod);
+                Assert.AreEqual("http://www.w3.org/2001/04/xmlenc#sha512", package.ZipPackage.manifestDigestMethod);
+
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
                 info.Address2 = "Where";
@@ -554,6 +561,21 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.StateOrProvince = "WayUpHigh";
 
                 digSig.SignatureLine = sLine;
+
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage("DigSig_SignatureLineSHA512.xlsx"))
+            {
+                var wb = package.Workbook;
+
+                var digSig = wb.DigitialSignatures[0];
+
+                //Ensure it is read correctly:
+                Assert.AreEqual("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", digSig._signingMethod);
+                Assert.AreEqual("http://www.w3.org/2001/04/xmlenc#sha512", digSig._digestMethod);
+                Assert.AreEqual("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", package.ZipPackage.manifestSignatureMethod);
+                Assert.AreEqual("http://www.w3.org/2001/04/xmlenc#sha512", package.ZipPackage.manifestDigestMethod);
 
                 SaveAndCleanup(package);
             }

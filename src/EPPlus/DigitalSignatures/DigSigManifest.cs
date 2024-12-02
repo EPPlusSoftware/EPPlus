@@ -26,19 +26,25 @@ namespace OfficeOpenXml.DigitalSignatures
         //Read manifest from signature
         internal DigSigManifest(XmlNode ManifestNode)
         {
+            var signatureMethodNode = ManifestNode.OwnerDocument.DocumentElement.GetElementsByTagName("SignatureMethod")[0];
+            _signatureMethod =  signatureMethodNode.Attributes.GetNamedItem("Algorithm").Value;
             doc.LoadXml(ManifestNode.OuterXml);
             var referenceElements = doc.GetElementsByTagName("Reference");
             foreach(XmlNode node in referenceElements)
             {
                 var mReference = new ManifestReference(node);
+                mReference.SignatureMethod = _signatureMethod;
                 manifestReferences.Add(mReference);
             }
+            _digestMethod = manifestReferences[0].DigestMethod;
         }
 
         internal DigSigManifest(string signatureMethod, string digestMethod)
         {
             var root = doc.CreateElement("Manifest", "http://www.w3.org/2000/09/xmldsig#");
             doc.AppendChild(root);
+            _signatureMethod = signatureMethod;
+            _digestMethod = digestMethod;
         }
 
         internal void AddRelsPartToManifest(string uri, string xmlString)
@@ -49,7 +55,7 @@ namespace OfficeOpenXml.DigitalSignatures
 
             relTransform = new RelTransform(xmlString);
 
-            var manifestReference = new ManifestReference(relUri, relTransform.GetOutputStream(), relTransform.TransformXml);
+            var manifestReference = new ManifestReference(relUri, relTransform.GetOutputStream(), _signatureMethod, _digestMethod, relTransform.TransformXml);
             manifestReferences.Add(manifestReference);
         }
 
@@ -59,7 +65,7 @@ namespace OfficeOpenXml.DigitalSignatures
             var contentType = part.ContentType;
             var uriQuery = uri + "?ContentType=" + contentType;
 
-            var manifestReference = new ManifestReference(uriQuery, xml);
+            var manifestReference = new ManifestReference(uriQuery, xml, _signatureMethod, _digestMethod);
             manifestReferences.Add(manifestReference);
         }
 
