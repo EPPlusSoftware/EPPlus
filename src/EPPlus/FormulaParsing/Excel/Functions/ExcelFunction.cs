@@ -13,22 +13,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.Globalization;
-using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
-using System.Collections;
-using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
-using static OfficeOpenXml.FormulaParsing.ExcelDataProvider;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Runtime.CompilerServices;
-using Utils = OfficeOpenXml.Utils;
-using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {

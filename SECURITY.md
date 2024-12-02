@@ -20,6 +20,9 @@ Security patches will be provided via new revisions released in our public Nuget
 
 Create an issue in our [issue tracker](https://github.com/EPPlusSoftware/EPPlus/issues), describe the vulnerability (including relevant links) and what version of EPPlus that is affected.
 
+## Code signing 
+Since version 7.5 the EPPlus Nuget package and the EPPlus libraries/dll:s are digitally signed by EPPlus Software AB.
+
 ## See also
 - [EPPlus versioning](https://github.com/EPPlusSoftware/EPPlus/wiki/Releases-versioning)
 

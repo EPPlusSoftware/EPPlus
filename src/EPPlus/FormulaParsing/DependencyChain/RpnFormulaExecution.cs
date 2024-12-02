@@ -585,7 +585,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(address.WorksheetIx);
                 }
-
+                if (ws == null) return false;
                 rd = AddOrGetRDFromWsIx(depChain, ws.IndexInList);
 
                 if (rd.Exists(address) || address.CollidesWith(ws.IndexInList, f._row, f._column))

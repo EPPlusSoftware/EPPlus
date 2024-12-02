@@ -885,16 +885,18 @@ namespace OfficeOpenXml.Table.PivotTable
         private void UpdateGroupItems()
         {
 			foreach (var pt in _cache._pivotTables)
-            {                
-                if ((pt.Fields[Index].IsRowField ||
-                     pt.Fields[Index].IsColumnField ||
-                     pt.Fields[Index].IsPageField || pt.Fields[Index].Cache.HasSlicer) )
+            {
+                var fld = pt.Fields[Index];
+                if ((fld.IsRowField ||
+                     fld.IsColumnField ||
+                     fld.IsPageField || fld.Cache.HasSlicer) )
                 {
-                    pt.Fields[Index].UpdateGroupItems(this, true);					
+                    fld.UpdateGroupItems(this, true);
+                    fld.Items.MatchValueToIndex();
 				}
                 else
                 {
-                    pt.Fields[Index].DeleteNode("d:items");
+                    fld.DeleteNode("d:items");
                 }
             }
         }
@@ -941,7 +943,12 @@ namespace OfficeOpenXml.Table.PivotTable
 			{
 				UpdateSlicers();
 			}
-		}
+            //Match items in pivot tables.
+            foreach (var pt in _cache._pivotTables)
+            {
+                pt.Fields[Index].Items.MatchValueToIndex();
+            }
+        }
 
         private void UpdatePivotItemsFromSharedItems(HashSet<object> siHs)
         {

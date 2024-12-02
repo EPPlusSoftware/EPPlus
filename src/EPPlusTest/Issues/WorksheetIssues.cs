@@ -500,5 +500,14 @@ namespace EPPlusTest.Issues
 
             }
         }
+        [TestMethod]
+        public void I1691()
+        {
+            using (var p = OpenTemplatePackage("i1691.xlsx"))
+            {
+				var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

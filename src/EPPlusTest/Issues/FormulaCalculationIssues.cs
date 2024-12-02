@@ -477,9 +477,29 @@ namespace EPPlusTest.Issues
 			sheet1.Calculate();
 
 			Assert.AreEqual("b1", sheet1.Cells["B2"].Value);
-			Assert.AreEqual("c1", sheet1.Cells["C2"].Value);
+			Assert.AreEqual("c1", sheet1.Cells["C2"].Value);		
+        }
+        [TestMethod]
+        public void Issue1696()
+        {
+            using (var wb = OpenTemplatePackage("i1696-1.xlsx"))
+            {
+                wb.Workbook.Worksheets.Copy("template", "Test-Copy");
+                wb.Workbook.Calculate();
+                wb.Workbook.Worksheets.Delete("template");
 
-		
+                wb.Workbook.Calculate();
+            }
+
+            using (var wb = OpenTemplatePackage("i1696-2.xlsx"))
+            {
+				wb.Compatibility.IsWorksheets1Based = true;
+				wb.Workbook.Worksheets.Copy("template", "Test-Copy");
+                wb.Workbook.Calculate();
+                wb.Workbook.Worksheets.Delete("template");
+
+                wb.Workbook.Calculate();
+            }
         }
     }
 }
