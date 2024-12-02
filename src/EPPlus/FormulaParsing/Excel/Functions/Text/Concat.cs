@@ -28,6 +28,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
     {
         public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 1;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             if (arguments == null)
@@ -45,6 +46,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 {
                     foreach(var cell in arg.ValueAsRangeInfo)
                     {
+                        if(cell.Value != null && cell.Value is ExcelErrorValue eev)
+                        {
+                            return CompileResult.GetErrorResult(eev.Type);
+                        }
                         sb.Append(cell.Value);
                     }
                 }
@@ -53,6 +58,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                     var v = arg.ValueFirst;
                     if (v != null)
                     {
+                        if(v is ExcelErrorValue eev)
+                        {
+                            return CompileResult.GetErrorResult(eev.Type);
+                        }
                         sb.Append(v);
                     }
                 }

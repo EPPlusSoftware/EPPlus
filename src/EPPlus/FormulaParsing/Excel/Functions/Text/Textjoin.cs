@@ -43,6 +43,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 {
                     foreach(var cell in arg.ValueAsRangeInfo)
                     {
+                        if(cell.Value != null && cell.Value is ExcelErrorValue eev)
+                        {
+                            return CompileResult.GetErrorResult(eev.Type);
+                        }
                         var val = cell.Value != null ? cell.Value.ToString() : string.Empty;
                         if (ignoreEmpty && string.IsNullOrEmpty(val)) continue;
                         str.Append(val);
@@ -57,6 +61,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                     {
                         foreach(var item in items)
                         {
+                            if (item.Value != null && item.Value is ExcelErrorValue eev)
+                            {
+                                return CompileResult.GetErrorResult(eev.Type);
+                            }
                             var val = item.Value != null ? item.Value.ToString() : string.Empty;
                             if (ignoreEmpty && string.IsNullOrEmpty(val)) continue;
                             str.Append(val);
@@ -67,6 +75,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 }
                 else
                 {
+                    if (arg.Value != null && arg.Value is ExcelErrorValue eev)
+                    {
+                        return CompileResult.GetErrorResult(eev.Type);
+                    }
                     var val = arg.Value != null ? arg.Value.ToString() : string.Empty;
                     if (ignoreEmpty && string.IsNullOrEmpty(val)) continue;
                     str.Append(val);

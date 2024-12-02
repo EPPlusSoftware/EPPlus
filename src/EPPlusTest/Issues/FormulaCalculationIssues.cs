@@ -526,5 +526,31 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual("two", sheet1.Cells["C3"].Value);
             }
         }
+
+		[TestMethod]
+		public void i1729()
+		{
+			using var package = new ExcelPackage();
+			var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+			worksheet.Cells["A1"].Value = "A";
+			worksheet.Cells["A2"].Formula = "VLOOKUP(1,B1:C2,2,FALSE)"; //Return #N/A
+            worksheet.Cells["A3"].Value = "B";
+            worksheet.Cells["A4"].Formula = "TEXTJOIN(\"\",TRUE,A1:A3)";
+            worksheet.Cells["A5"].Formula = "TEXTJOIN(\"\",TRUE,A1,A2,A3)";
+            worksheet.Cells["A6"].Formula = "CONCAT(A1:A3)";
+            worksheet.Cells["A7"].Formula = "CONCAT(A1,A2,A3)";
+			worksheet.Calculate();
+			var a4 = worksheet.Cells["A4"].Value;
+            var a5 = worksheet.Cells["A5"].Value;
+            var a6 = worksheet.Cells["A6"].Value;
+            var a7 = worksheet.Cells["A7"].Value;
+
+			var naError = ExcelErrorValue.Create(eErrorType.NA);
+
+			Assert.AreEqual(naError, a4);
+			Assert.AreEqual(naError, a5);
+			Assert.AreEqual(naError, a6);
+			Assert.AreEqual(naError, a7);
+        }
     }
 }
