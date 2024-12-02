@@ -45,7 +45,7 @@ namespace OfficeOpenXml.Drawing.Chart
         #region "Constructors"
         internal ExcelChart(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent, string drawingPath= "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(drawings, node, drawingPath, nvPrPath, parent)
-        {            
+        {
         }
         internal ExcelChart(ExcelDrawings drawings, XmlNode drawingsNode, XmlDocument chartXml = null, ExcelGroupShape parent=null, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(drawings, drawingsNode, drawingPath, nvPrPath, parent)

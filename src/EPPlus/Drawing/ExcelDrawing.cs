@@ -22,6 +22,7 @@ using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Controls;
+using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Packaging;
@@ -1324,7 +1325,17 @@ namespace OfficeOpenXml.Drawing
 
         internal XmlElement CreateShapeNode()
         {
-            XmlElement shapeNode = TopNode.OwnerDocument.CreateElement("xdr", "sp", ExcelPackage.schemaSheetDrawings);
+            XmlElement shapeNode;
+            switch (_drawings.DrawingsType)
+            {
+                case DrawingsCollectionType.chart:
+                    shapeNode = TopNode.OwnerDocument.CreateElement("cdr", "sp", ExcelPackage.schemaChartDrawing);
+                    break;
+                case DrawingsCollectionType.excel:
+                default:
+                    shapeNode = TopNode.OwnerDocument.CreateElement("xdr", "sp", ExcelPackage.schemaSheetDrawings);
+                    break;
+            }
             shapeNode.SetAttribute("macro", "");
             shapeNode.SetAttribute("textlink", "");
             TopNode.AppendChild(shapeNode);

@@ -107,7 +107,7 @@ namespace OfficeOpenXml.Drawing
 
 
 
-        DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel;
+        internal DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel;
 
         internal ExcelDrawings(ExcelPackage xlPackage, ExcelChart excelChart)
         {
@@ -1818,6 +1818,21 @@ namespace OfficeOpenXml.Drawing
                 drawNode.AppendChild(posNode);
             }
 
+            return drawNode;
+        }
+
+        internal XmlElement CreateDocumentAndTopNodeChartDrawings()
+        {
+            if (DrawingXml.DocumentElement == null)
+            {
+                DrawingXml.LoadXml(string.Format("<c:userShapes xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\">");
+                Packaging.ZipPackage package = Worksheet._package.ZipPackage;
+                //create file
+                //Create relationship to chart
+                //create node in chart?
+            }
+            //create TopNode
+                XmlElement drawNode;
             return drawNode;
         }
 
