@@ -184,12 +184,12 @@ namespace EPPlusTest.Drawing.Chart.Styling
         private static ExcelScatterChart AddScatter(ExcelWorksheet ws, eScatterChartType type, string name, int row, int col, ePresetChartStyle style, Action<ExcelScatterChart> SetProperties)    
         {
             var chart = ws.Drawings.AddScatterChart(name, type);
-            //chart.SetPosition(row, 0, col, 0);
-            //chart.To.Column = col+12;
-            //chart.To.ColumnOff = 0;
-            //chart.To.Row = row + 18;
-            //chart.To.RowOff = 0;
-            //var serie = chart.Series.Add("D2:D8", "A2:A8");
+            chart.SetPosition(row, 0, col, 0);
+            chart.To.Column = col + 12;
+            chart.To.ColumnOff = 0;
+            chart.To.Row = row + 18;
+            chart.To.RowOff = 0;
+            var serie = chart.Series.Add("D2:D8", "A2:A8");
 
             SetProperties(chart);
 

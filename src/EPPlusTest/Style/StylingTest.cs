@@ -274,8 +274,7 @@ namespace EPPlusTest.Style
                 ws.Cells["B1:B5"].Style.Font.Name = "Arial";
                 wb.Styles.UpdateXml();
                 var count = wb.StylesXml.SelectSingleNode("//d:styleSheet/d:cellXfs/@count", wb.NameSpaceManager).Value;
-                //Assert.AreEqual("6", count);
-                SaveWorkbook("verifyStyle.xlsx", p);
+                Assert.AreEqual("7", count);
             }
         }
         [TestMethod]
