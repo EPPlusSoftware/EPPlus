@@ -66,7 +66,7 @@ namespace OfficeOpenXml
         /// See https://polyformproject.org/licenses/noncommercial/1.0.0/        
         /// </summary>
         /// <param name="fullName">Your name. This name will go into the Office Properties</param>
-        public void SetLicenseNonCommercialPersonal(string fullName)
+        public void SetNonCommercialPersonal(string fullName)
         {
             LegalName = fullName;
             LicenseType = EPPlusLicenseType.NonCommercialPersonal;
@@ -80,7 +80,7 @@ namespace OfficeOpenXml
         /// See https://polyformproject.org/licenses/noncommercial/1.0.0/        
         /// </summary>
         /// <param name="organizationName">The non-commercial organziations name</param>
-        public void SetLicenseNonCommercialOrganization(string organizationName)
+        public void SetNonCommercialOrganization(string organizationName)
         {
             LegalName = organizationName;
             LicenseType = EPPlusLicenseType.NonCommercialOrganization;
@@ -93,9 +93,9 @@ namespace OfficeOpenXml
         /// This requires a license for EPPlus that can be purchased at https://epplussoftware.com
         /// </summary>
         /// <param name="licenseKey">The licens _key you recieved with your license</param>
-        public void SetLicenseCommercial(string licenseKey)
+        public void SetCommercial(string licenseKey)
         {
-            if (LicenseHandler.ValidateLicenseKey(licenseKey.Trim(), out EPPlusLicenseInfo licenseInfo))
+            if (LicenseHandler.ValidateLicenseKey(licenseKey, out EPPlusLicenseInfo licenseInfo))
             {
                 LicenseInfo = licenseInfo;
                 LicenseKey = licenseKey;
@@ -125,7 +125,7 @@ namespace OfficeOpenXml
                         throw new LicenseException("Please specify a name for the non-commercial organization in the app config file. Format noncommercialorganization:[name of your organization]");
                     }
                     v = v.Substring(v.IndexOfAny([':', ',']) + 1);
-                    SetLicenseNonCommercialOrganization(v.Trim());
+                    SetNonCommercialOrganization(v.Trim());
                     ExcelPackage.License.Source = inEnvironment ? EPPlusLicenseSource.EnvironmentVariable : EPPlusLicenseSource.ConfigFile;
                     return true;
                 }
@@ -137,7 +137,7 @@ namespace OfficeOpenXml
                         throw new LicenseException("Please specify your name to be used with the license in the app config file. Format noncommercialpersonal:[your name]");
                     }
                     v = v.Substring(v.IndexOfAny([':', ',']) + 1);
-                    SetLicenseNonCommercialPersonal(v.Trim());
+                    SetNonCommercialPersonal(v.Trim());
                     ExcelPackage.License.Source = inEnvironment ? EPPlusLicenseSource.EnvironmentVariable : EPPlusLicenseSource.ConfigFile;
                     return true;
                 }
@@ -147,7 +147,7 @@ namespace OfficeOpenXml
                     {
                         v = v.Substring(v.IndexOfAny([':',',']) + 1);
                     }
-                    SetLicenseCommercial(v.Trim());
+                    SetCommercial(v.Trim());
                     ExcelPackage.License.Source = inEnvironment ? EPPlusLicenseSource.EnvironmentVariable : EPPlusLicenseSource.ConfigFile;
                     return true;
                 }
@@ -159,6 +159,10 @@ namespace OfficeOpenXml
             if (string.IsNullOrEmpty(v))
             {
                 v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlus" + key, EnvironmentVariableTarget.Process, _configuration, initErrors);
+                if (string.IsNullOrEmpty(v))
+                {
+                    v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlus" + key, EnvironmentVariableTarget.Machine, _configuration, initErrors);
+                }
             }
             if (string.IsNullOrEmpty(v))
             {

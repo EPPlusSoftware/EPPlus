@@ -708,7 +708,7 @@ namespace OfficeOpenXml
                 {
                     if (License.IsLicenseSet(_initErrors) == false)
                     {
-                        throw (new LicenseException("Please set the ExcelPackage.LicenseContext property. See https://epplussoftware.com/developers/licenseexception"));
+                        throw (new LicenseException("Please set the license using ExcelPackage.License.SetLicense* properties. See https://epplussoftware.com/developers/licenseexception"));
                     }
                     var nsm = CreateDefaultNSM();
 
@@ -786,7 +786,6 @@ namespace OfficeOpenXml
             ns.AddNamespace("xda", schemaDynamicArrays);
             return ns;
         }
-
         #region SavePart
         /// <summary>
         /// Saves the XmlDocument into the package at the specified Uri.

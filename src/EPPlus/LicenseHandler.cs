@@ -64,6 +64,7 @@ namespace OfficeOpenXml
         {
             try
             {
+                licenseKey = licenseKey.Trim('"').Trim();
                 GetLicenseDataFromKey(licenseKey, out byte version, out string licenseNo, out DateTime fromDate, out DateTime toDate, out EPPlusCommercialLicenseType licenseType, out short numberOfLicenses, out byte[] signature, 512 / 8);
                 
                 licenseInfo = new EPPlusLicenseInfo()
@@ -83,7 +84,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    throw new InvalidLicenseKeyException("The license key is not valid. Please use the license key as stated on your license document or on your account at https://epplussoftware.com");
+                    throw new InvalidLicenseKeyException("The license key is not valid. Please use the license key as stated on your license document or as displayed on your account at https://epplussoftware.com");
                 }
             }
             catch
@@ -137,40 +138,45 @@ namespace OfficeOpenXml
 
         static byte[] GetLicenseData(byte version, string licenseNo, DateTime fromDate, DateTime toDate, byte licenseType, short numberOfLicenses)
         {
-            var ms = new MemoryStream();
-            var br = new BinaryWriter(ms);
-            br.Write(version);
-            var licenseNoBytes = ASCIIEncoding.ASCII.GetBytes(licenseNo);
-            br.Write((byte)licenseNoBytes.Length);
-            br.Write(licenseNoBytes);
-            var baseDate = new DateTime(fromDate.Year, 1, 1);
-            br.Write((short)fromDate.Year);
-            br.Write((short)(fromDate - baseDate).Days);
-            br.Write((short)(toDate - baseDate).Days);
-            br.Write(licenseType);
-            br.Write(numberOfLicenses);
-            br.Flush();
-            var tb = new byte[ms.Length];
-            ms.Position = 0;
-            ms.Read(tb, 0, (int)ms.Length);
-            return tb;
+            using (var ms = RecyclableMemory.GetStream())
+            {
+                var br = new BinaryWriter(ms);
+                br.Write(version);
+                var licenseNoBytes = ASCIIEncoding.ASCII.GetBytes(licenseNo);
+                br.Write((byte)licenseNoBytes.Length);
+                br.Write(licenseNoBytes);
+                var baseDate = new DateTime(fromDate.Year, 1, 1);
+                br.Write((short)fromDate.Year);
+                br.Write((short)(fromDate - baseDate).Days);
+                br.Write((short)(toDate - baseDate).Days);
+                br.Write(licenseType);
+                br.Write(numberOfLicenses);
+                br.Flush();
+                var tb = new byte[ms.Length];
+                ms.Position = 0;
+                ms.Read(tb, 0, (int)ms.Length);
+                return tb;
+            }
         }
         internal static void GetLicenseDataFromKey(string lk, out byte version, out string licenseNo, out DateTime fromDate, out DateTime toDate, out EPPlusCommercialLicenseType licenseType, out short noOfLicenses, out byte[] signature, int size)
-        {
+        {        
             var by = Convert.FromBase64String(lk);
-            var br = new BinaryReader(new MemoryStream(by));
-            signature = br.ReadBytes(size);
-            version = br.ReadByte();
-            var len = (int)br.ReadByte();
-            licenseNo = ASCIIEncoding.ASCII.GetString(br.ReadBytes(len));
-            var yearBase = br.ReadInt16();
-            var baseYear = new DateTime(yearBase, 1, 1);
-            var fdDays = br.ReadInt16();
-            fromDate = baseYear.AddDays(fdDays);
-            var tdDays = br.ReadInt16();
-            toDate = baseYear.AddDays(tdDays);
-            licenseType = (EPPlusCommercialLicenseType)br.ReadByte();
-            noOfLicenses = br.ReadInt16();
+            using (var ms = RecyclableMemory.GetStream(by))
+            {
+                var br = new BinaryReader(ms);
+                signature = br.ReadBytes(size);
+                version = br.ReadByte();
+                var len = (int)br.ReadByte();
+                licenseNo = ASCIIEncoding.ASCII.GetString(br.ReadBytes(len));
+                var yearBase = br.ReadInt16();
+                var baseYear = new DateTime(yearBase, 1, 1);
+                var fdDays = br.ReadInt16();
+                fromDate = baseYear.AddDays(fdDays);
+                var tdDays = br.ReadInt16();
+                toDate = baseYear.AddDays(tdDays);
+                licenseType = (EPPlusCommercialLicenseType)br.ReadByte();
+                noOfLicenses = br.ReadInt16();
+            }
         }
     }
 }

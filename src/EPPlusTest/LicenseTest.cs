@@ -15,7 +15,7 @@ namespace EPPlusTest
         public void CommercialFunctionTest()
         {
             var lk = "FRy3bIoLtKBhSmohLRw04TUBOkjldZpZ2njfJx3c9b/85NcTs1TT7Up6RCDEUSf9+lgv9KMLgABTOBBL/YY0FAAGQjAxMTZG6AcAAG4BAQUA";
-            ExcelPackage.License.SetLicenseCommercial(lk);
+            ExcelPackage.License.SetCommercial(lk);
             using(var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -27,7 +27,7 @@ namespace EPPlusTest
         public void CommercialFunction2Test()
         {
             var lk = "hnh8pj+e4dKUVwUwL2lW3b+4sP00YAF2lrE6W8BdD48HUTVGN3htPE8kdcIm+TEmwYm9YtBBcIbAQuJLIyl1+AEGQjM1OTc45QcfAYwCCgEA";
-            ExcelPackage.License.SetLicenseCommercial(lk);
+            ExcelPackage.License.SetCommercial(lk);
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -39,7 +39,7 @@ namespace EPPlusTest
         public void CommercialTrialSubsciptionTest()
         {
             var lk = "fX47BAtakq4T6v/K/zosjWipM9npn2yVWLhFn8MAsdDGJc2fN5+Lsd6rcRc4c1PzlF1IVX1UoDQbEkM+IahCAAEGQjA4RDc35QdWAMMBEQoA";
-            ExcelPackage.License.SetLicenseCommercial(lk);
+            ExcelPackage.License.SetCommercial(lk);
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -52,7 +52,7 @@ namespace EPPlusTest
         public void CommercialSubscriptionExpired()
         {
             var lk = "ayWztKDgygaybN77mot4cA0NlE/QBf3riVa/OxuNFm6SbkkbJ1j3KJZyVRq3euJxg2LVbpZKlrc8rTgAgeM4wwEGQjhEQjAx6AdQAIIAAQIA";
-            ExcelPackage.License.SetLicenseCommercial(lk);
+            ExcelPackage.License.SetCommercial(lk);
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -64,7 +64,7 @@ namespace EPPlusTest
         public void CommercialTemporaryKey()
         {
             var lk = "tKChnon7eEepmLgXpVt0EhRO5dd/sDfvxLiZ+M5exmU3SjZh7Jj/Q8SHl59GUJoz0TL0xxS8IR7kfy1rD2N3FQEGQjFGQTE36AdKAbcCAQIA";
-            ExcelPackage.License.SetLicenseCommercial(lk);
+            ExcelPackage.License.SetCommercial(lk);
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -77,7 +77,7 @@ namespace EPPlusTest
         public void CommercialTrialExpired()
         {
             var lk = "EIAhDzH0DqT+b827sKZKjnvz8dC3/4tu5tCr8/BeYoC6aMgR/0yIhTYBqZXg1sZbH60L1qZtvI39r3z9dkQAzQEGQjJDNzFG5wc8AaoCAQEA";
-            ExcelPackage.License.SetLicenseCommercial(lk);
+            ExcelPackage.License.SetCommercial(lk);
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
@@ -88,7 +88,7 @@ namespace EPPlusTest
         [TestMethod]
         public void NonCommercialOrganizationFunctionTest()
         {
-            ExcelPackage.License.SetLicenseNonCommercialOrganization("EPPlus.Org");
+            ExcelPackage.License.SetNonCommercialOrganization("EPPlus.Org");
             using (var p = new ExcelPackage())
             {
 
@@ -99,7 +99,7 @@ namespace EPPlusTest
         [TestMethod]
         public void NonCommercialPersonalFunctionTest()
         {
-            ExcelPackage.License.SetLicenseNonCommercialPersonal("Jan Källman");
+            ExcelPackage.License.SetNonCommercialPersonal("Jan Källman");
             using (var p = new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
