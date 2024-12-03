@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
-    enum PartType
+    enum ePartType
     {
         Part,
         RelPart
@@ -15,7 +15,8 @@ namespace OfficeOpenXml.DigitalSignatures
     {
         internal string UriKey;
         internal string Xml;
-        internal PartType PartType;
+        internal ePartType PartType;
+        internal byte[] Bytes;
     }
 
     internal class ZipPackageXmlManifest
@@ -27,9 +28,9 @@ namespace OfficeOpenXml.DigitalSignatures
             partXmlList = new List<PartWithXml>();
         }
 
-        internal void AddPart(string uriKey, string xml, PartType partType)
+        internal void AddPart(string uriKey, string xml, ePartType partType, byte[] bytes)
         {
-            var newPart = new PartWithXml { UriKey = uriKey, Xml = xml, PartType = partType};
+            var newPart = new PartWithXml { UriKey = uriKey, Xml = xml, PartType = partType, Bytes = bytes};
             partXmlList.Add(newPart);
         }
     }

@@ -16,7 +16,7 @@ namespace OfficeOpenXml.Utils
             }
         }
 
-        private static HashAlgorithm GetHashProvider(DigitalSignatureHashAlgorithm signatureHashAlgorithm)
+        public static HashAlgorithm GetHashProvider(DigitalSignatureHashAlgorithm signatureHashAlgorithm)
         {
             switch (signatureHashAlgorithm)
             {                
