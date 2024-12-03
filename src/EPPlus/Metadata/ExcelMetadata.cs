@@ -8,18 +8,19 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.RichData;
+using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.RichValues;
 using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
-using System.Data.Common;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
@@ -27,6 +28,7 @@ namespace OfficeOpenXml.Metadata
     internal class ExcelMetadata
     {
         private ExcelWorkbook _wb;
+        private readonly ExcelRichData _richData;
         private ZipPackagePart _part;
         private Uri _uri;
         
@@ -37,18 +39,30 @@ namespace OfficeOpenXml.Metadata
         private string _mdxMetadataCount;
         public string _extLstXml;
 
-        internal const string FUTURE_METADATA_DYNAMIC_ARRAY_NAME = "XLDAPR";
-        internal const string FUTURE_METADATA_RICHDATA_NAME = "XLRICHVALUE";
+       
+
+        internal FutureMetadataDynamicArray FutureMetadataDynamicArray { get; private set; }
+        internal int DynamicArrayTypeIndex { get; private set; }
+        internal ZipPackagePart Part { get { return _part; } }
+
+        internal EventHandler<ValueMetadataReadEventArgs> ValueMetadataRead;
+
+        internal MetadataDatabase Db { get; private set; }
+
+        internal void OnValueMetadataRead(uint id, uint oneBasedIndex)
+        {
+            ValueMetadataRead?.Invoke(this, new ValueMetadataReadEventArgs(id, oneBasedIndex));
+        }
 
         public ExcelMetadata(ExcelWorkbook workbook)
         {
             _wb = workbook;
-            var p = _wb._package;
+            Db = new MetadataDatabase(workbook.IndexStore);
             var rel = _wb.Part.GetRelationshipsByType(ExcelPackage.schemaMetadata).FirstOrDefault();
             if(rel!=null)
             {
                 _uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
-                _part = p.ZipPackage.GetPart(_uri);
+                _part = _wb._package.ZipPackage.GetPart(_uri);
                 ReadMetadata(_part.GetStream());
             }
             else
@@ -83,10 +97,10 @@ namespace OfficeOpenXml.Metadata
                             ReadFutureMetadata(xr);
                             break;
                         case "cellMetadata":
-                            ReadMetadataItems(xr, xr.Name, CellMetadata);
+                            ReadCellMetadataItems(xr);
                             break;
                         case "valueMetadata":
-                            ReadMetadataItems(xr, xr.Name, ValueMetadata);
+                            ReadValueMetadataItems(xr);
                             break;
                         case "extLst":
                             _extLstXml = xr.ReadInnerXml();
@@ -97,17 +111,34 @@ namespace OfficeOpenXml.Metadata
             }
         }
 
-        private void ReadMetadataItems(XmlReader xr, string elementName, List<ExcelMetadataItem> collection)
+        private void ReadCellMetadataItems(XmlReader xr)
         {
             xr.Read();
-            while(xr.IsEndElementWithName(elementName) ==false && xr.EOF==false)
+            while(xr.IsEndElementWithName("cellMetadata") ==false && xr.EOF==false)
             {
                 if(xr.IsElementWithName("bk"))
                 {
                     xr.Read();
                     while(xr.IsEndElementWithName("bk")==false)
                     {
-                        collection.Add(new ExcelMetadataItem(xr));
+                        Db.CellMetadata.Add(new ExcelCellMetadataBlock(xr, Db));
+                    }
+                }
+                xr.Read();
+            }
+        }
+
+        private void ReadValueMetadataItems(XmlReader xr)
+        {
+            xr.Read();
+            while (xr.IsEndElementWithName("valueMetadata") == false && xr.EOF == false)
+            {
+                if (xr.IsElementWithName("bk"))
+                {
+                    xr.Read();
+                    while (xr.IsEndElementWithName("bk") == false)
+                    {
+                        Db.ValueMetadata.Add(new ExcelValueMetadataBlock(xr, Db));
                     }
                 }
                 xr.Read();
@@ -116,28 +147,24 @@ namespace OfficeOpenXml.Metadata
 
         private void ReadFutureMetadata(XmlReader xr)
         {
-            var item = new ExcelFutureMetadata();
-            item.Name = xr.GetAttribute("name");
-            item.Index = FutureMetadata.Count;
-            FutureMetadata.Add(item.Name, item);
-            xr.Read();
-            while (xr.IsEndElementWithName("futureMetadata") == false && xr.EOF == false)
+            FutureMetadataBase fd;
+            var name = xr.GetAttribute("name");
+            if(name == FutureMetadataBase.DYNAMIC_ARRAY_NAME)
             {
-                if (xr.IsElementWithName("ext"))
-                {
-                    switch (xr.GetAttribute("uri"))
-                    {
-                        case ExtLstUris.DynamicArrayPropertiesUri:
-                            item.Types.Add(new ExcelFutureMetadataDynamicArray(xr));
-                            break;
-                        case ExtLstUris.RichValueDataUri:
-                            item.Types.Add(new ExcelFutureMetadataRichData(xr));
-                            break;
-                    }                    
-                }
-                xr.Read();
+                fd = new FutureMetadataDynamicArray(xr, Db);
             }
+            else if(name == FutureMetadataBase.RICHDATA_NAME)
+            {
+                fd = new FutureMetadataRichValue(xr, Db);
+            }
+            else
+            {
+                fd = new FutureMetadataPreserve(xr, _wb.IndexStore);
+            }
+            fd.Index = Db.FutureMetadata.Count;
+            Db.FutureMetadata.Add(fd);
         }
+
         private void ReadMetadataTypes(XmlReader xr)
         {            
             xr.Read();
@@ -145,115 +172,111 @@ namespace OfficeOpenXml.Metadata
             {
                 if(xr.IsElementWithName("metadataType"))
                 {
-                    var item = new ExcelMetadataType(xr);
-                    switch(item.Name)
-                    {
-                        case FUTURE_METADATA_DYNAMIC_ARRAY_NAME:
-                            DynamicArrayTypeIndex = MetadataTypes.Count + 1;
-                            break;
-                        case FUTURE_METADATA_RICHDATA_NAME:
-                            RichDataTypeIndex = MetadataTypes.Count + 1;
-                            break;
-
-
-                    }
-                    MetadataTypes.Add(item);
+                    var item = new ExcelMetadataType(xr, _wb.IndexStore);
+                    Db.MetadataTypes.Add(item);
                 }
                 xr.Read();
             }
         }
 
-        internal int CreateDefaultXml()
+        internal void InitRelations(RichDataDatabase richDataDb)
         {
-            MetadataTypes.Add(new ExcelMetadataType() { Name = FUTURE_METADATA_DYNAMIC_ARRAY_NAME, MinSupportedVersion=120000, Flags=MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce | MetadataFlags.CellMeta });
-            var fmd = new ExcelFutureMetadata() { Name = FUTURE_METADATA_DYNAMIC_ARRAY_NAME };
-            fmd.Types.Add(new ExcelFutureMetadataDynamicArray(true));
-            FutureMetadata.Add(fmd.Name, fmd);
-            DynamicArrayTypeIndex = 1;
-
-            var item = new ExcelMetadataItem();
-            item.Records.Add(new ExcelMetadataRecord(1, 0));
-            CellMetadata.Add(item);
-            return CellMetadata.Count;
-        }
-        internal bool HasMetadata()
-        {
-            return MetadataTypes.Count==0;
-        }
-        internal List<ExcelMetadataType> MetadataTypes { get; } = new List<ExcelMetadataType>();
-        internal Dictionary<string, ExcelFutureMetadata> FutureMetadata{ get; } = new Dictionary<string, ExcelFutureMetadata>();
-        internal List<ExcelMetadataItem> CellMetadata { get; } = new List<ExcelMetadataItem>();
-        internal List<ExcelMetadataItem> ValueMetadata { get; } = new List<ExcelMetadataItem>();
-        internal int RichDataTypeIndex { get; private set; }
-        internal int DynamicArrayTypeIndex { get; private set; }
-        internal ZipPackagePart Part { get { return _part; } }
-        internal bool IsFormulaDynamic(int cm)
-        {
-            if(cm <= CellMetadata.Count)
+            var fm = Db.FutureMetadata.FirstOrDefault(x => x.Name == FutureMetadataBase.RICHDATA_NAME);
+            var fmrv = fm as FutureMetadataRichValue;
+            if(fmrv != null)
             {
-                var cellMetadata = CellMetadata[cm - 1];
-                var record = cellMetadata.Records.First();
-                var metadataType = MetadataTypes[record.RecordTypeIndex - 1];
-                if (metadataType.Name == FUTURE_METADATA_DYNAMIC_ARRAY_NAME)
+                for(var ix = 0; ix < fmrv.Blocks.Count; ix++)
                 {
-                    return FutureMetadata[FUTURE_METADATA_DYNAMIC_ARRAY_NAME].Types[record.ValueTypeIndex].AsDynamicArray.IsDynamicArray;
+                    var bk = fmrv.Blocks[ix];
+                    bk.InitRelations(richDataDb);
+                    fm.AddRelationTo(bk, IndexType.ZeroBasedPointer);
+                }
+            }
+            fm = Db.FutureMetadata.FirstOrDefault(x => x.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME);
+            var fmda = fm as FutureMetadataDynamicArray;
+            if(fmda != null)
+            {
+                for (var ix = 0; ix < fmda.Blocks.Count; ix++)
+                {
+                    var bk = fmda.Blocks[ix];
+                    bk.InitRelations(richDataDb);
+                    fm.AddRelationTo(bk, IndexType.ZeroBasedPointer);
+                }
+            }
+        }
+
+        internal int CreateDefaultXmlDynamicArray()
+        {
+            var mt = new ExcelMetadataType(_wb.IndexStore) { Name = FutureMetadataBase.DYNAMIC_ARRAY_NAME, MinSupportedVersion = 120000, Flags = MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce | MetadataFlags.CellMeta };
+            Db.MetadataTypes.Add(mt);
+            var fmd = FutureMetadataDynamicArray.GetDefault(Db, out uint bkId);
+            DynamicArrayTypeIndex = Db.FutureMetadata.Count;
+            Db.FutureMetadata.Add(fmd);
+
+            var item = new ExcelCellMetadataBlock(Db);
+            item.AddRecord(mt.Id, bkId);
+            Db.CellMetadata.Add(item);
+            return Db.CellMetadata.Count;
+        }
+
+        internal void CreateRichValueMetadata(ExcelRichData richData, ExcelRichValue richValue, out uint valueMetadataBlockId)
+        {
+            var rvMetadataType = default(ExcelMetadataType);
+            if(Db.MetadataTypes.TryGetValue(FutureMetadataBase.RICHDATA_NAME, out ExcelMetadataType mt))
+            {
+                rvMetadataType = mt;
+            }
+            else
+            {
+                rvMetadataType = new ExcelMetadataType(_wb.IndexStore) { Name = FutureMetadataBase.RICHDATA_NAME, MinSupportedVersion = 120000, Flags = MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce };
+                Db.MetadataTypes.Add(rvMetadataType);
+            }
+            var rdTypeId = rvMetadataType.Id;
+            var rvFutureMetadata = default(FutureMetadataBase);
+            if(Db.FutureMetadata.TryGetValue(FutureMetadataBase.RICHDATA_NAME, out FutureMetadataBase fmb))
+            {
+                rvFutureMetadata = fmb;
+            }
+            else
+            {
+                rvFutureMetadata = new FutureMetadataRichValue(FutureMetadataBase.RICHDATA_NAME, Db);
+                Db.MetadataTypes.CreateRelation(rvMetadataType, rvFutureMetadata, IndexType.String);
+                Db.FutureMetadata.Add(rvFutureMetadata);
+            }
+            var block = new FutureMetadataRichValueBlock(_wb.IndexStore);
+            rvFutureMetadata.Blocks.Add(block);
+            rvFutureMetadata.AddRelationTo(block, IndexType.ZeroBasedPointer);
+            var mdItem = new ExcelValueMetadataBlock(Db);
+            valueMetadataBlockId = mdItem.Id;
+            Db.ValueMetadata.Add(mdItem);
+            var rel = block.AddRelationTo(richValue, IndexType.ZeroBasedPointer);
+            block.RichDataId = rel.To.Id;
+            mdItem.AddRecord(rdTypeId, rel.From.Id);
+        }
+
+        internal bool IsFormulaDynamic(uint cmId)
+        {
+            var bk = Db.CellMetadata.Get(cmId);
+            if (bk != null)
+            {
+                if (bk.HasOutgoingRelationTo(RichDataEntities.MetadataType))
+                {
+                    var type = bk.GetFirstOutgoingRelByType<ExcelMetadataType>();
+                    if (type != null && type.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
         }
-        internal bool IsSpillError(int vm)
+        internal void GetDynamicArrayId(out uint cmId)
         {
-            return GetErrorType(vm) == 8;
-        }
-        internal bool IsCalcError(int vm)
-        {
-            return GetErrorType(vm) == 13;
-        }
-
-        internal int GetErrorType(int vm)
-        {
-            if (ValueMetadata.Count >= vm) return -1;
-            var valueMetadata = ValueMetadata[vm - 1];
-            var record = valueMetadata.Records.First();
-            var metadataType = MetadataTypes[record.RecordTypeIndex - 1];
-            if (metadataType.Name == FUTURE_METADATA_RICHDATA_NAME)
+            if(!Db.MetadataTypes.TryGetValue(FutureMetadataBase.DYNAMIC_ARRAY_NAME, out ExcelMetadataType type))
             {
-                var ix = FutureMetadata[metadataType.Name].Types[record.ValueTypeIndex].AsRichData.Index;
-                var rd = _wb.RichData.Values.Items[ix];
-                var fieldIx = rd.Structure.Keys.FindIndex(x => x.Name == "errorType");
-                if (fieldIx >= 0)
-                {
-                    return int.Parse(rd.Values[fieldIx]);
-                }
-            }
-            return -1;
-        }
-        internal void GetDynamicArrayIndex(out int cm)
-        {
-            if(HasMetadata())
-            {
-                cm=CreateDefaultXml();                
-            }
-            else
-            {
-                var tIx = FutureMetadata[FUTURE_METADATA_DYNAMIC_ARRAY_NAME].Index + 1;
-                if (tIx >= 0)
-                {
-                    cm = CellMetadata.FindIndex(x => x.Records.Exists(y => y.RecordTypeIndex == tIx)) + 1;
-                    if(cm<=0)
-                    {
-                        var mtIx = MetadataTypes.FindIndex(x => x.Name == FUTURE_METADATA_DYNAMIC_ARRAY_NAME) + 1;
-                        var item = new ExcelMetadataItem();
-                        item.Records.Add(new ExcelMetadataRecord(mtIx, tIx));
-                        CellMetadata.Add(item);
-                        cm = CellMetadata.Count;
-                    }
-                }
-                else
-                {
-                    cm=CreateDefaultXml();
-                }
-            }
+                CreateDefaultXmlDynamicArray();   
+            }  
+            cmId = Db.FutureMetadata[FutureMetadataBase.DYNAMIC_ARRAY_NAME].Blocks[0].Id;
         }
 
         internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
@@ -268,8 +291,8 @@ namespace OfficeOpenXml.Metadata
             WriteMetadataStrings(sw);
             WriteMdxMetadata(sw);
             WriteFutureMetadata(sw);
-            WriteMetadataItems(sw, "cellMetadata", CellMetadata);
-            WriteMetadataItems(sw, "valueMetadata", ValueMetadata);
+            WriteCellMetadataItems(sw, "cellMetadata", Db.CellMetadata);
+            WriteValueMetadataItems(sw, "valueMetadata", Db.ValueMetadata);
             sw.Write("</metadata>");
             sw.Flush();
 
@@ -285,47 +308,70 @@ namespace OfficeOpenXml.Metadata
             _part.SaveHandler = Save;
         }
 
-        private void WriteMetadataItems(StreamWriter sw, string element, List<ExcelMetadataItem> collection)
+        private void WriteValueMetadataItems(StreamWriter sw, string element, ValueMetadataBlockCollection collection)
         {
             if (collection.Count == 0) return;
-            sw.Write($"<{element} count=\"{collection.Count}\">");
+            sw.Write($"<{element} count=\"{collection.Count(x => !x.Deleted && x.Records.Any())}\">");
+            foreach (var item in collection)
+            {
+                if (item.Deleted) continue;
+                var records = item.Records.Where(x => !x.Deleted);
+                if (records.Any())
+                {
+                    sw.Write("<bk>");
+                    foreach (var r in records)
+                    {
+                        sw.Write($"<rc t=\"{r.MetadataTypeIndex}\" v=\"{r.FutureMetadataBlockIndex}\"/>");
+                    }
+                    sw.Write("</bk>");
+                }
+            }
+            sw.Write($"</{element}>");
+        }
+
+        private void WriteCellMetadataItems(StreamWriter sw, string element, CellMetadataBlockCollection collection)
+        {
+            if (collection.Count == 0) return;
+            sw.Write($"<{element} count=\"{collection.Count(x => !x.Deleted && x.Records.Any())}\">");
             foreach(var item in collection)
             {
-                sw.Write("<bk>");
-                foreach(var r in item.Records)
+                var records = item.Records.Where(x => !x.Deleted);
+                if (records.Any())
                 {
-                    sw.Write($"<rc t=\"{r.RecordTypeIndex}\" v=\"{r.ValueTypeIndex}\"/>");
+                    sw.Write("<bk>");
+                    foreach (var r in records)
+                    {
+                        sw.Write($"<rc t=\"{r.MetadataTypeIndex}\" v=\"{r.FutureMetadataBlockIndex}\"/>");
+                    }
+                    sw.Write("</bk>");
                 }
-                sw.Write("</bk>");
             }
             sw.Write($"</{element}>");
         }
         private void WriteFutureMetadata(StreamWriter sw)
         {
-            if (FutureMetadata.Count > 0)
+            if (Db.FutureMetadata.Count > 0)
             {
-                foreach (var fmd in FutureMetadata.Values.OrderBy(x=>x.Index))
+                foreach(var fmd in Db.FutureMetadata)
                 {
-                    sw.Write($"<futureMetadata name=\"{fmd.Name}\" count=\"1\">");
-                    foreach(var t in fmd.Types)
-                    {
-                        sw.Write($"<bk><extLst><ext uri=\"{t.Uri}\">");
-                        t.WriteXml(sw);
-                        sw.Write($"</ext></extLst></bk>");
-                    }
-                    sw.Write($"</futureMetadata>");
+                    if(fmd.Deleted) continue;
+                    fmd.Save(sw);
                 }
             }
         }
 
         private void WriteMetadataTypes(StreamWriter sw)
         {
-            sw.Write($"<metadataTypes count=\"{MetadataTypes.Count}\">");
-            foreach(var metadataType in MetadataTypes )
+            if(Db.MetadataTypes.Count > 0)
             {
-                metadataType.WriteXml(sw);
+                sw.Write($"<metadataTypes count=\"{Db.MetadataTypes.Count}\">");
+                foreach (var metadataType in Db.MetadataTypes)
+                {
+                    if (metadataType.Deleted) continue;
+                    metadataType.WriteXml(sw);
+                }
+                sw.Write($"</metadataTypes>");
             }
-            sw.Write($"</metadataTypes>");
         }
         private void WriteMetadataStrings(StreamWriter sw)
         {
@@ -342,33 +388,45 @@ namespace OfficeOpenXml.Metadata
             }
         }
 
-        internal ExcelFutureMetadata GetFutureMetadataRichDataCollection()
+        internal bool IsDynamicIdByIndex(int index)
         {
-            if(FutureMetadata.TryGetValue(FUTURE_METADATA_RICHDATA_NAME, out ExcelFutureMetadata fm))
-            {
-                return fm;
-            }
-            var mdt = new ExcelMetadataType() { Name = FUTURE_METADATA_RICHDATA_NAME, MinSupportedVersion = 120000, Flags = MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce };
-            MetadataTypes.Add(mdt);
-            RichDataTypeIndex = MetadataTypes.Count;
-            fm = new ExcelFutureMetadata() { Index = FutureMetadata.Count, Name = FUTURE_METADATA_RICHDATA_NAME };
-            FutureMetadata.Add(FUTURE_METADATA_RICHDATA_NAME, fm);
-            return fm;
+            if (index >= Db.CellMetadata.Count) return false;
+            var cm = Db.CellMetadata[index];
+            var type = cm.GetFirstOutgoingRelByType<ExcelMetadataType>();
+            if (type == null) return false;
+            return type.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME;
         }
 
-        internal bool IsDynamicArray(int cmIx)
+        internal bool IsDynamicArrayById(uint cmId)
         {
-            var cm = CellMetadata[cmIx];            
-            var t = MetadataTypes[cm.Records[0].RecordTypeIndex-1];
-            if(t.Name == "XLDAPR")
+            var cm = Db.CellMetadata.Get(cmId);
+            if (cm == null) return false;
+            var type = cm.GetFirstOutgoingRelByType<ExcelMetadataType>();
+            if(type == null) return false;
+            return type.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME;
+        }
+
+        internal bool IsRichData(uint valueMetadataBlockId, out uint? richValueId)
+        {
+            richValueId = null;
+            if (valueMetadataBlockId == 0) return false;
+            var valueMetadata = Db.ValueMetadata.Get(valueMetadataBlockId);
+            if (valueMetadata == null || !valueMetadata.Records.Any())
             {
-                if (FutureMetadata.TryGetValue("XLDAPR", out ExcelFutureMetadata fmd))
+                return false;
+            }
+            var metadataType = valueMetadata.Records[0].GetFirstOutgoingRelByType<ExcelMetadataType>();
+            if (metadataType == null || metadataType.Name != FutureMetadataBase.RICHDATA_NAME) return false;
+            var futureMetadata = metadataType.GetFirstOutgoingRelByType<FutureMetadataBase>();
+            if (futureMetadata == null) return false;
+            var fmBlock = valueMetadata.Records[0].GetFirstOutgoingRelByType<FutureMetadataBlock>();
+            if (fmBlock != null)
+            {
+                var rv = fmBlock.GetFirstOutgoingRelByType<ExcelRichValue>();
+                if (rv != null)
                 {
-                    var fmdt = fmd.Types[cm.Records[0].ValueTypeIndex];
-                    if (fmdt.Type==FutureMetadataType.DynamicArray)
-                    {
-                        return fmdt.AsDynamicArray.IsDynamicArray;
-                    }
+                    richValueId = rv.Id;
+                    return true;
                 }
             }
             return false;

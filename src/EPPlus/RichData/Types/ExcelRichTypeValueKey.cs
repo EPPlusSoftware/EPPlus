@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  11/11/2024         EPPlus Software AB       EPPlus 7.4
+  11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -42,12 +42,12 @@ namespace OfficeOpenXml.RichData.Types
 
         private IEnumerable<T> GetEnumFlags<T>(T flags) where T : Enum
         {
-            var l = new List<T>();
-            var fAll = Convert.ToInt32(flags);
+            var l=new List<T>();
+            var fAll = Convert.ToInt32(flags); 
             foreach (T f in Enum.GetValues(typeof(T)))
             {
                 var i = Convert.ToInt32(f);
-                if ((i & fAll) == i)
+                if((i & fAll)==i)
                 {
                     l.Add(f);
                 }

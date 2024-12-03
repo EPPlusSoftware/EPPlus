@@ -34,9 +34,14 @@ namespace OfficeOpenXml.RichData.Types
             }
         }
 
+        public Dictionary<string, ExcelRichTypeValueKey> Global { get; set; } = new Dictionary<string, ExcelRichTypeValueKey>();
+        public List<ExcelRichTypeValueType> Types { get; set; } = new List<ExcelRichTypeValueType>();
+        public string ExtLstXml { get; set; }
+        private string _globalExtLstXml = null, _typesExtLstXml = null;
+
         private void ReadPart(ExcelWorkbook wb)
         {
-            if (wb._package.ZipPackage.PartExists(_uri))
+            if(wb._package.ZipPackage.PartExists(_uri))
             {
                 _part = wb._package.ZipPackage.GetPart(_uri);
                 ReadXml(_part.GetStream());
@@ -55,7 +60,7 @@ namespace OfficeOpenXml.RichData.Types
                 }
                 else if(xr.IsElementWithName("types"))
                 {
-                    ReadKeyFlags(xr, Types, out _typesExtLstXml);
+                    ReadTypes(xr);
                 }
                 else if(xr.IsElementWithName("extLst"))
                 {
@@ -88,17 +93,55 @@ namespace OfficeOpenXml.RichData.Types
             }
         }
 
+        private void ReadTypes(XmlReader xr)
+        {
+            do
+            {
+                if (xr.IsElementWithName("type"))
+                {
+                    var type = new ExcelRichTypeValueType(xr.GetAttribute("name"));
+                    Types.Add(type);
+                    xr.Read();
+                }
+                else if (xr.IsElementWithName("keyFlags"))
+                {
+                    xr.Read();
+                    var dict = new Dictionary<string, ExcelRichTypeValueKey>();
+                    ReadValues(xr, dict);
+                    var t = Types[Types.Count - 1];
+                    foreach (var k in dict.Keys)
+                    {
+                        t.KeyFlags.Add(dict[k]);
+                    }
+                }
+                else if(xr.IsElementWithName("extLst"))
+                {
+                    var t = Types[Types.Count - 1];
+                    t.ExtLstXml = xr.ReadInnerXml();
+                }
+                else if(xr.IsEndElementWithName("types"))
+                {
+                    break;
+                }
+                else
+                {
+                    xr.Read();
+                }
+            }
+            while (!xr.EOF);
+        }
+
         private void ReadValues(XmlReader xr, Dictionary<string, ExcelRichTypeValueKey> values)
         {
-            while (xr.IsElementWithName("key") && xr.EOF == false)
+            while(xr.IsElementWithName("key") && xr.EOF == false)
             {
-                while (!xr.IsEndElementWithName("key") && xr.EOF == false)
+                while(!xr.IsEndElementWithName("key") && xr.EOF==false)
                 {
                     var item = new ExcelRichTypeValueKey(xr.GetAttribute("name"));
                     values.Add(item.Name, item);
                     while (xr.Read())
                     {
-                        if (xr.IsElementWithName("flag"))
+                        if(xr.IsElementWithName("flag"))
                         {
                             var rvkFlag = xr.GetAttribute("name").ToEnum<RichValueKeyFlags>();
                             var flagValue = xr.GetAttribute("value");
@@ -114,7 +157,7 @@ namespace OfficeOpenXml.RichData.Types
                             if (xr.Name != "flag") break;
                         }
                     }
-                    if (xr.IsEndElementWithName("keyFlags"))
+                    if(xr.IsEndElementWithName("keyFlags"))
                     {
                         xr.Read(); //Move to global/types end element
                         return;
@@ -122,7 +165,6 @@ namespace OfficeOpenXml.RichData.Types
                 }
             }
         }
-
         internal void CreatePart()
         {
             if (Global.Count == 0 && Types.Count == 0 && ExtLstXml == null) return;
@@ -142,7 +184,7 @@ namespace OfficeOpenXml.RichData.Types
             sw.Write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
             sw.Write($"<rvTypesInfo xmlns=\"{Schemas.schemaRichData2}\" xmlns:mc=\"{Schemas.schemaMarkupCompatibility}\" xmlns:x=\"{ExcelPackage.schemaMain}\" mc:Ignorable=\"x\">");
             WriteSection(sw, Global, "global", _globalExtLstXml);
-            WriteSection(sw, Types, "types", _typesExtLstXml);
+            WriteTypes(sw);
             WriteExtLst(sw, ExtLstXml);
             sw.Write("</rvTypesInfo>");
             sw.Flush();
@@ -172,10 +214,20 @@ namespace OfficeOpenXml.RichData.Types
             }
         }
 
+        private void WriteTypes(StreamWriter sw)
+        {
+            sw.Write("<types>");
+            foreach(var t in Types)
+            {
+                t.WriteXml(sw);
+            }
+            sw.Write("</types>");
+        }
+
         private ExcelRichTypeValueKey CreateKey(string name, params RichValueKeyFlags[] setFlags)
         {
             var key = new ExcelRichTypeValueKey(name);
-            foreach (var setFlag in setFlags)
+            foreach(var setFlag in setFlags)
             {
                 var flag = new ExcelRichTypeValueKeyFlag(setFlag, true);
                 key.Flags.Add(flag);
@@ -186,19 +238,25 @@ namespace OfficeOpenXml.RichData.Types
         internal void CreateDefault()
         {
             Global.Add("_Self", CreateKey("_Self", RichValueKeyFlags.ExcludeFromFile, RichValueKeyFlags.ExcludeFromCalcComparison));
+            //Global.Add("_self", new ExcelRichTypeValueKey("_Self") { Flags = RichValueKeyFlags.ExcludeFromFile | RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_DisplayString", CreateKey("_DisplayString", RichValueKeyFlags.ExcludeFromCalcComparison));
+            //Global.Add("_DisplayString", new ExcelRichTypeValueKey("_DisplayString") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_Flags", CreateKey("_Flags", RichValueKeyFlags.ExcludeFromCalcComparison));
+            //Global.Add("_Flags", new ExcelRichTypeValueKey("_Flags") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_Format", CreateKey("_Format", RichValueKeyFlags.ExcludeFromCalcComparison));
+            //Global.Add("_Format", new ExcelRichTypeValueKey("_Format") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_SubLabel", CreateKey("_SubLabel", RichValueKeyFlags.ExcludeFromCalcComparison));
+            //Global.Add("_SubLabel", new ExcelRichTypeValueKey("_SubLabel") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_Attribution", CreateKey("_Attribution", RichValueKeyFlags.ExcludeFromCalcComparison));
+            //Global.Add("_Attribution", new ExcelRichTypeValueKey("_Attribution") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_Icon", CreateKey("_Icon", RichValueKeyFlags.ExcludeFromCalcComparison));
+            //Global.Add("_Icon", new ExcelRichTypeValueKey("_Icon") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_Display", CreateKey("_Display", RichValueKeyFlags.ExcludeFromCalcComparison));
+            //Global.Add("_Display", new ExcelRichTypeValueKey("_Display") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_CanonicalPropertyNames", CreateKey("_CanonicalPropertyNames", RichValueKeyFlags.ExcludeFromCalcComparison));
+            //Global.Add("_CanonicalPropertyNames", new ExcelRichTypeValueKey("_CanonicalPropertyNames") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
             Global.Add("_ClassificationId", CreateKey("_ClassificationId", RichValueKeyFlags.ExcludeFromCalcComparison));
-        }
-        public Dictionary<string, ExcelRichTypeValueKey>  Global { get; set; } = new Dictionary<string, ExcelRichTypeValueKey>();
-        public Dictionary<string, ExcelRichTypeValueKey> Types { get; set; } = new Dictionary<string, ExcelRichTypeValueKey>();
-        public string ExtLstXml { get; set; }
-        private string _globalExtLstXml=null, _typesExtLstXml=null;        
+            //Global.Add("_ClassificationId", new ExcelRichTypeValueKey("_ClassificationId") { Flags = RichValueKeyFlags.ExcludeFromCalcComparison });
+        }   
     }
 }
