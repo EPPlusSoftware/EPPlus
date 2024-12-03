@@ -22,7 +22,6 @@ using OfficeOpenXml.Utils.CompundDocument;
 using OfficeOpenXml.Style;
 using System.Drawing;
 using System.Linq;
-using OfficeOpenXml.Drawing.OleObject;
 
 namespace EPPlusTest
 {

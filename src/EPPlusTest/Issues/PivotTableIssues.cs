@@ -81,7 +81,6 @@ namespace EPPlusTest.Issues
         [TestMethod]
         public void i1554()
         {
-            ExcelPackage.LicenseContext = LicenseContext.Commercial;
             using (var package = OpenTemplatePackage("i1554.xlsx"))
             {
                 AddTableRow(package, 0);

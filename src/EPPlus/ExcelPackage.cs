@@ -605,27 +605,30 @@ namespace OfficeOpenXml
                 return _encryption;
             }
         }
-        private static LicenseContext? _licenseType = null;
         /// <summary>
-        /// To use the EPPlus library in debug mode a Licensetype must be specified.
-        /// Use LicenseContext.NonCommercial if you use EPPlus in an non commercial context.
-        /// Use LicenseContext.Commercial if you have purchased an license to use EPPlus
-        /// See https://epplussoftware.com/developers/licenseexception
+        /// to use the epplus library in debug mode a licensetype must be specified.
+        /// use licensecontext.noncommercial if you use epplus in an non commercial context.
+        /// use licensecontext.commercial if you have purchased an license to use epplus
+        /// see https://epplussoftware.com/developers/licenseexception
         /// </summary>
+        [Obsolete("Please set the license using the License property from EPPlus 8 and later. For more info see http://epplussoftware.com/developers/licenseexception")]
         public static LicenseContext? LicenseContext
         {
             get
             {
-                return _licenseType;
+                return null;
             }
             set
             {
-                _licenseType = value;
-                //_licenseSet = _licenseType != null;
+                throw new NotImplementedException("Please use the License Property to set the license from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licenseexception");
             }
         }
+
         /// <summary>
-        /// Used to set the licenens.
+        /// Used to set the license EPPlus uses.
+        /// <see cref="EPPlusLicense.SetCommercial(string)"/>
+        /// <see cref="EPPlusLicense.SetNonCommercialOrganization(string)"/>
+        /// <see cref="EPPlusLicense.SetNonCommercialPersonal(string)"/>
         /// </summary>
         public static EPPlusLicense License { get; } = new EPPlusLicense();
             
@@ -708,7 +711,7 @@ namespace OfficeOpenXml
                 {
                     if (License.IsLicenseSet(_initErrors) == false)
                     {
-                        throw (new LicenseException("Please set the license using ExcelPackage.License.SetLicense* properties. See https://epplussoftware.com/developers/licenseexception"));
+                        throw (new LicenseException("Please set the license using one of the methods on the static property ExcelPackage.License. See https://epplussoftware.com/developers/licenseexception for more information"));
                     }
                     var nsm = CreateDefaultNSM();
 
@@ -888,7 +891,7 @@ namespace OfficeOpenXml
             {
                 if (_stream is MemoryStream && _stream.Length > 0)
                 {
-                    //Close any open memorystream and "renew" then. This can occure if the package is saved twice. 
+                    //Close any open memory stream and "renew" them. This can occure if the package is saved twice. 
                     //The stream is left open on save to enable the user to read the stream-property.
                     //Non-memorystream streams will leave the closing to the user before saving a second time.
                     CloseStream();

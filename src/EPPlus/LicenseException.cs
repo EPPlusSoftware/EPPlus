@@ -39,11 +39,12 @@ namespace OfficeOpenXml
     /// <summary>
     /// An exception thrown when the license has expired for the version used.
     /// </summary>
-    public class LicenseHasExpiredException : Exception
+    public class LicenseNotValidException : Exception
     {
-        internal LicenseHasExpiredException(string message) : base(message)
+        internal LicenseNotValidException(string message) : base(message)
         {
 
         }
-    }    
+    }
 }
+

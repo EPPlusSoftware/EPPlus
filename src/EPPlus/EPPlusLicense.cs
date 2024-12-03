@@ -33,7 +33,10 @@ namespace OfficeOpenXml
             get;
             private set;
         }
-        public EPPlusLicenseSource Source { get; private set; }
+        /// <summary>
+        /// The source where the license was set.
+        /// </summary>
+        public EPPlusLicenseSource? Source { get; private set; }
         /// <summary>
         /// The type of license used.
         /// </summary>
@@ -61,8 +64,8 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Use this license if you use EPPlus for personal non-commercial usage.
-        /// Using this option will tag all created document with the Polyform Non-Commercial license.
+        /// Use this license if you use EPPlus for personal noncommercial usage.
+        /// Using this option will tag all created document with the Polyform Noncommercial license.
         /// See https://polyformproject.org/licenses/noncommercial/1.0.0/        
         /// </summary>
         /// <param name="fullName">Your name. This name will go into the Office Properties</param>
@@ -75,11 +78,11 @@ namespace OfficeOpenXml
             _licenseSet = true;
         }
         /// <summary>
-        /// User this option if you use EPPlus within a non-commercial organization.
-        /// Using this option will tag all created document with the Polyform Non-Commercial license. 
-        /// See https://polyformproject.org/licenses/noncommercial/1.0.0/        
+        /// User this option if you use EPPlus within a noncommercial organization.
+        /// Using this option will tag all created document with the Polyform Noncommercial license. 
+        /// See https://polyformproject.org/licenses/noncommercial/1.0.0/
         /// </summary>
-        /// <param name="organizationName">The non-commercial organziations name</param>
+        /// <param name="organizationName">The noncommercial organziations name</param>
         public void SetNonCommercialOrganization(string organizationName)
         {
             LegalName = organizationName;
@@ -111,7 +114,7 @@ namespace OfficeOpenXml
 
             if (string.IsNullOrEmpty(v))
             {
-                ExcelPackage.License.Source = EPPlusLicenseSource.NotSet;
+                ExcelPackage.License.Source = null;
                 return false;
             }
             else
@@ -122,7 +125,7 @@ namespace OfficeOpenXml
                 {
                     if (s.Length == 1)
                     {
-                        throw new LicenseException("Please specify a name for the non-commercial organization in the app config file. Format noncommercialorganization:[name of your organization]");
+                        throw new LicenseException("Please specify a name for the noncommercial organization in the app config file. Format noncommercialorganization:[name of your organization]");
                     }
                     v = v.Substring(v.IndexOfAny([':', ',']) + 1);
                     SetNonCommercialOrganization(v.Trim());
@@ -155,10 +158,10 @@ namespace OfficeOpenXml
         }
         private static string GetConfigValue(string key, List<ExcelInitializationError> initErrors, out bool inEnvironment)
         {
-            var v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlus" + key, EnvironmentVariableTarget.User, _configuration, initErrors);
+            var v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlus" + key, EnvironmentVariableTarget.Process, _configuration, initErrors);
             if (string.IsNullOrEmpty(v))
             {
-                v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlus" + key, EnvironmentVariableTarget.Process, _configuration, initErrors);
+                v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlus" + key, EnvironmentVariableTarget.User, _configuration, initErrors);
                 if (string.IsNullOrEmpty(v))
                 {
                     v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlus" + key, EnvironmentVariableTarget.Machine, _configuration, initErrors);
@@ -191,7 +194,7 @@ namespace OfficeOpenXml
         {
             LicenseType = null;
             LicenseKey = null;
-            Source = EPPlusLicenseSource.NotSet;
+            Source = null;
             LegalName = null;
             LicenseInfo = null;
             _licenseSet = false;
@@ -207,11 +210,11 @@ namespace OfficeOpenXml
         /// </summary>
         Commercial = 0,
         /// <summary>
-        /// Use this license if you use EPPlus for personal non-commercial usage.
+        /// Use this license if you use EPPlus for personal noncommercial usage.
         /// </summary>
         NonCommercialPersonal = 1,
         /// <summary>
-        /// Use this license if you use EPPlus representing a non-commercial organization.
+        /// Use this license if you use EPPlus representing a noncommercial organization.
         /// </summary>
         NonCommercialOrganization = 2
     }

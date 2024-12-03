@@ -17,14 +17,14 @@ namespace OfficeOpenXml
         internal static void TagDocument(ExcelWorkbook wb)
         {
             var version = Assembly.GetExecutingAssembly().GetName().Version;
-            wb.Properties.Keywords = "EPPlus Non-Commercial Use";
+            wb.Properties.Keywords = "EPPlus noncommercial use";
             if (string.IsNullOrEmpty(ExcelPackage.License.LegalName))
             {
-                wb.Properties.Comments = $"This workbook has been created with EPPlus under The Polyform Non-Commercial License: See https://polyformproject.org/licenses/noncommercial/1.0.0";
+                wb.Properties.Comments = $"This workbook has been created with EPPlus under The Polyform Noncommercial license: See https://polyformproject.org/licenses/noncommercial/1.0.0";
             }
             else
             {
-                wb.Properties.Comments = $"This workbook has been created with EPPlus licensed to {ExcelPackage.License.LegalName} under The Polyform Non-Commercial License: See https://polyformproject.org/licenses/noncommercial/1.0.0";
+                wb.Properties.Comments = $"This workbook has been created with EPPlus licensed to {ExcelPackage.License.LegalName} under The Polyform Noncommercial License: See https://polyformproject.org/licenses/noncommercial/1.0.0";
             }
             wb.Properties.Application = "EPPlus";
             wb.Properties.AppVersion = $"{version.Major}.{version.Minor}";
@@ -41,7 +41,7 @@ namespace OfficeOpenXml
             var part = wb._package.ZipPackage.CreatePart(new Uri("/EPPlusLicense.txt", UriKind.Relative), "text/plain");
             var stream = part.GetStream();
             var sw = new StreamWriter(stream);
-            sw.WriteLine($"This workbook was created with the EPPlus library{(string.IsNullOrEmpty(ExcelPackage.License?.LegalName) ? "" : ", licensed to "+ ExcelPackage.License?.LegalName)} under the Polyform Non-Commercial license, see https://polyformproject.org/licenses/noncommercial/1.0.0");
+            sw.WriteLine($"This workbook was created with the EPPlus library{(string.IsNullOrEmpty(ExcelPackage.License?.LegalName) ? "" : ", licensed to "+ ExcelPackage.License?.LegalName)} under the Polyform Noncommercial license, see https://polyformproject.org/licenses/noncommercial/1.0.0");
             sw.WriteLine("For more information about EPPlus, see https://epplussoftware.com/");
             sw.Flush();            
         }
@@ -89,7 +89,7 @@ namespace OfficeOpenXml
             }
             catch
             {
-                throw new InvalidLicenseKeyException("The license key is not in a valid format. Please check that the key matches.");
+                throw new InvalidLicenseKeyException("The license key is not in a valid format. Please use the license key as stated on your license document or as displayed on your account at https://epplussoftware.com");
             }        
         }
 
@@ -97,7 +97,7 @@ namespace OfficeOpenXml
         {
             if (licenseInfo.LicenseValidFrom > DateTime.Today)
             {
-                throw new LicenseException($"This EPPlus license is not valid until {licenseInfo.LicenseValidFrom:d}.");
+                throw new LicenseNotValidException($"This EPPlus license is not valid until {licenseInfo.LicenseValidFrom:d}.");
             }
             if(EnumUtil.HasFlag(licenseInfo.LicenseType, EPPlusCommercialLicenseType.Subscription))
             {
@@ -121,7 +121,7 @@ namespace OfficeOpenXml
                     {
                         msg += " To get 15 additional days validity off this key, you can set the License.ExtendUnderRenewal to true.";
                     }
-                    throw new LicenseException(msg);
+                    throw new LicenseNotValidException(msg);
                 }
             }
             else
@@ -129,7 +129,7 @@ namespace OfficeOpenXml
                 var vd = DateTime.Parse(EPPlusLicense._versionDate, CultureInfo.InvariantCulture);
                 if (licenseInfo.LicenseValidTo < vd)
                 {
-                    throw new LicenseException($"This license key is not valid for EPPlus versions release after {licenseInfo.LicenseValidTo:d}. EPPlus version release date: ({EPPlusLicense._versionDate:d}).If the license has been renewed, please use the new license key available on your license document or in your account on https://epplussoftware.com");
+                    throw new LicenseNotValidException($"This license key is not valid for EPPlus versions release after {licenseInfo.LicenseValidTo:d}. EPPlus version release date: ({EPPlusLicense._versionDate:d}).If the license has been renewed, please use the new license key available on your license document or in your account on https://epplussoftware.com");
                 }
             }
 

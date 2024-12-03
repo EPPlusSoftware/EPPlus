@@ -6057,7 +6057,6 @@ namespace EPPlusTest
         {
             var sheetName = "披露表(国资)";
 
-            ExcelPackage.LicenseContext = LicenseContext.Commercial;
             using (var p = OpenTemplatePackage("s569source.xlsx"))
             {
                 var SourceWB = p.Workbook;
