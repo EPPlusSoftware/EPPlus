@@ -355,6 +355,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["vstack"] = new Vstack();
             Functions["hstack"] = new Hstack();
             Functions["getpivotdata"] = new GetPivotData();
+            Functions["image"] = new ImageFunction();
             // Date
             Functions["date"] = new Date();
             Functions["datedif"] = new DateDif();
