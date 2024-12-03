@@ -35,7 +35,7 @@ namespace OfficeOpenXml.DigitalSignatures
 
             if (xmlPart.PartType == ePartType.RelPart)
             {
-                var relTransform = new RelTransform(xmlPart.Xml);
+                var relTransform = new RelTransform(Encoding.UTF8.GetString(xmlPart.Bytes));
                 var transform = new XmlDsigC14NTransform();
                 var doc = new XmlDocument();
                 doc.LoadXml(relTransform.GetOutputXML());
@@ -48,9 +48,6 @@ namespace OfficeOpenXml.DigitalSignatures
                 var resString = string.Format(TemplateXml, xmlPart.UriKey, transformStr, DigestMethods.GetDigestMethod(algorithm), digestValue);
                 resultDoc.LoadXml(resString);
                 xmlDigSig = (XmlElement)resultDoc.GetElementsByTagName("Reference")[0];
-                //var str = Encoding.UTF8.GetString(ms.ToArray());
-                //var digest = Convert.ToBase64String(transform.GetDigestedOutput(EncodeUtil.GetHashProvider(algorithm)));
-                //CreateReference(xmlPart.UriKey, relTransform.GetOutputStream(), relTransform.TransformXml);
             }
             else
             {
@@ -77,69 +74,69 @@ namespace OfficeOpenXml.DigitalSignatures
             DigestMethod = methodNode.Attributes.GetNamedItem("Algorithm").Value;
         }
 
-        public ManifestReference(string uri, string xmlString, string signatureMethod, string digestMethod)
-        {
-            var xmlBytes = Encoding.UTF8.GetBytes(xmlString);
+        //public ManifestReference(string uri, string xmlString, string signatureMethod, string digestMethod)
+        //{
+        //    var xmlBytes = Encoding.UTF8.GetBytes(xmlString);
 
-            Stream xmlStream = RecyclableMemory.GetStream();
-            xmlStream.Position = 0;
-            xmlStream.Write(xmlBytes, 0, xmlBytes.Count());
-            xmlStream.Position = 0;
+        //    Stream xmlStream = RecyclableMemory.GetStream();
+        //    xmlStream.Position = 0;
+        //    xmlStream.Write(xmlBytes, 0, xmlBytes.Count());
+        //    xmlStream.Position = 0;
 
-            SignatureMethod = signatureMethod;
-            DigestMethod = digestMethod;
+        //    SignatureMethod = signatureMethod;
+        //    DigestMethod = digestMethod;
 
-            CreateReference(uri, xmlStream);
-        }
+        //    CreateReference(uri, xmlStream);
+        //}
 
-        public ManifestReference(string uri, Stream xmlStream, string signatureMethod, string digestMethod, string transformXml = null) 
-        {
-            xmlStream.Position = 0;
-            SignatureMethod = signatureMethod;
-            DigestMethod = digestMethod;
-            CreateReference(uri, xmlStream, transformXml);
-        }
+        //public ManifestReference(string uri, Stream xmlStream, string signatureMethod, string digestMethod, string transformXml = null) 
+        //{
+        //    xmlStream.Position = 0;
+        //    SignatureMethod = signatureMethod;
+        //    DigestMethod = digestMethod;
+        //    CreateReference(uri, xmlStream, transformXml);
+        //}
 
-        void CreateReference(string uri, Stream doc, string transformXml = null)
-        {
-            RSACryptoServiceProvider rsaKey = new();
+        //void CreateReference(string uri, Stream doc, string transformXml = null)
+        //{
+        //    RSACryptoServiceProvider rsaKey = new();
 
-            SignedXml signedXml = new()
-            {
-                SigningKey = rsaKey,
-            };
+        //    SignedXml signedXml = new()
+        //    {
+        //        SigningKey = rsaKey,
+        //    };
 
-            signedXml.SignedInfo.CanonicalizationMethod = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
-            signedXml.SignedInfo.SignatureMethod = SignatureMethod;
+        //    signedXml.SignedInfo.CanonicalizationMethod = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
+        //    signedXml.SignedInfo.SignatureMethod = SignatureMethod;
 
-            _ref = new(doc);
-            _ref.Uri = uri;
-            _ref.DigestMethod = DigestMethod;
+        //    _ref = new(doc);
+        //    _ref.Uri = uri;
+        //    _ref.DigestMethod = DigestMethod;
 
-            if (transformXml != null)
-            {
-                _ref.AddTransform(new XmlDsigC14NTransform());
-            }
+        //    if (transformXml != null)
+        //    {
+        //        _ref.AddTransform(new XmlDsigC14NTransform());
+        //    }
 
-            signedXml.AddReference(_ref);
-            signedXml.ComputeSignature();
+        //    signedXml.AddReference(_ref);
+        //    signedXml.ComputeSignature();
 
-            var retXml = signedXml.GetXml();
+        //    var retXml = signedXml.GetXml();
 
-            resultDoc.LoadXml(retXml.OuterXml);
+        //    resultDoc.LoadXml(retXml.OuterXml);
 
-            var nsm = new XmlNamespaceManager(resultDoc.NameTable);
-            nsm.AddNamespace("digSig", retXml.NamespaceURI);
+        //    var nsm = new XmlNamespaceManager(resultDoc.NameTable);
+        //    nsm.AddNamespace("digSig", retXml.NamespaceURI);
 
-            if (transformXml != null)
-            {
-                var transforms = resultDoc.SelectSingleNode(".//digSig:Transforms", nsm);
-                transforms.InnerXml = transformXml + transforms.InnerXml;
-            }
+        //    if (transformXml != null)
+        //    {
+        //        var transforms = resultDoc.SelectSingleNode(".//digSig:Transforms", nsm);
+        //        transforms.InnerXml = transformXml + transforms.InnerXml;
+        //    }
 
-            var element = (XmlElement)resultDoc.SelectSingleNode("//digSig:Reference", nsm);
-            _uri = _ref.Uri;
-            xmlDigSig = (XmlElement)resultDoc.GetElementsByTagName("Reference")[0];
-        }
+        //    var element = (XmlElement)resultDoc.SelectSingleNode("//digSig:Reference", nsm);
+        //    _uri = _ref.Uri;
+        //    xmlDigSig = (XmlElement)resultDoc.GetElementsByTagName("Reference")[0];
+        //}
     }
 }

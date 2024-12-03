@@ -338,12 +338,11 @@ namespace OfficeOpenXml.Packaging
                         GetDirSeparator(e);
                         var uri = new Uri(GetUriKey(e.FileName), UriKind.Relative);
                         var bArr = GetZipEntryAsByteArray(inputStream, e);
-                        var str = Encoding.UTF8.GetString(bArr);
 
                         if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
                         {
                             var relUri = GetUriKey(e.FileName) + "?ContentType=" + ExcelPackage.schemaRelsExtension;
-                            XmlManifest.AddPart(relUri, str, ePartType.RelPart, bArr);
+                            XmlManifest.AddPart(relUri, ePartType.RelPart, bArr);
                         }
                         else
                         {
@@ -356,7 +355,7 @@ namespace OfficeOpenXml.Packaging
                             var contentType = part.ContentType;
                             var uriQuery = origUri + "?ContentType=" + contentType;
 
-                            XmlManifest.AddPart(uriQuery, str, ePartType.Part, bArr);
+                            XmlManifest.AddPart(uriQuery, ePartType.Part, bArr);
                         }
                     }
                 }

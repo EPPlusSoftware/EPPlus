@@ -11,10 +11,9 @@ namespace OfficeOpenXml.DigitalSignatures
         RelPart
     }
 
-    internal struct PartWithXml()
+    internal class PartWithXml()
     {
         internal string UriKey;
-        internal string Xml;
         internal ePartType PartType;
         internal byte[] Bytes;
     }
@@ -28,9 +27,9 @@ namespace OfficeOpenXml.DigitalSignatures
             partXmlList = new List<PartWithXml>();
         }
 
-        internal void AddPart(string uriKey, string xml, ePartType partType, byte[] bytes)
+        internal void AddPart(string uriKey, ePartType partType, byte[] bytes)
         {
-            var newPart = new PartWithXml { UriKey = uriKey, Xml = xml, PartType = partType, Bytes = bytes};
+            var newPart = new PartWithXml { UriKey = uriKey, PartType = partType, Bytes = bytes};
             partXmlList.Add(newPart);
         }
     }
