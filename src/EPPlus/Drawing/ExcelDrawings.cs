@@ -28,6 +28,10 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
+using System.ComponentModel;
+using OfficeOpenXml.LoadFunctions.Params;
+
+
 
 
 
@@ -1368,7 +1372,7 @@ namespace OfficeOpenXml.Drawing
         {
             return AddShape(Name, Style, DrawingsCollectionType.excel);
         }
-        internal ExcelShape AddShape(string Name, eShapeStyle Style, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel)
+        internal ExcelShape AddShape(string Name, eShapeStyle Style, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel, object container = null)
         {
             if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
             {
@@ -1378,7 +1382,17 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new Exception("Name already exists in the drawings collection");
             }
-            XmlElement drawNode = CreateDrawingXml();
+            XmlElement drawNode;
+            switch (DrawingsType)
+            {
+                case DrawingsCollectionType.chart:
+                    drawNode = CreateDrawingXmlChartDrawings(container as ExcelChart);
+                        break;
+                case DrawingsCollectionType.excel:
+                default:
+                    drawNode = CreateDrawingXml();
+                    break;
+            }
 
             ExcelShape shape = new ExcelShape(this, drawNode, Style, DrawingsType);
             shape.Name = Name;
@@ -1781,6 +1795,29 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(oleObj.Name, _drawingsList.Count - 1);
             return oleObj;
         }
+        private XmlElement CreateDrawingXmlChartDrawings(ExcelChart container)
+        {
+            XmlElement drawNode = CreateDocumentAndTopNodeChartDrawings(container);
+            //Add from position Element;
+            XmlElement fromNode = _drawingsXml.CreateElement("cdr", "from", ExcelPackage.schemaChartDrawing);
+            drawNode.AppendChild(fromNode);
+            XmlElement fromX = _drawingsXml.CreateElement("cdr", "x", ExcelPackage.schemaChartDrawing);
+            XmlElement fromY = _drawingsXml.CreateElement("cdr", "y", ExcelPackage.schemaChartDrawing);
+            fromX.InnerText = "0";
+            fromY.InnerText = "0";
+            fromNode.AppendChild(fromX);
+            fromNode.AppendChild(fromY);
+            //Add to position Element;
+            XmlElement toNode = _drawingsXml.CreateElement("cdr", "to", ExcelPackage.schemaChartDrawing);
+            XmlElement toX = _drawingsXml.CreateElement("cdr", "x", ExcelPackage.schemaChartDrawing);
+            XmlElement toY = _drawingsXml.CreateElement("cdr", "y", ExcelPackage.schemaChartDrawing);
+            toX.InnerText = "0.5";
+            toY.InnerText = "0.5";
+            toNode.AppendChild(toX);
+            toNode.AppendChild(toY);
+            drawNode.AppendChild(toNode);
+            return drawNode;
+        }
 
         private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent = false)
         {
@@ -1821,18 +1858,34 @@ namespace OfficeOpenXml.Drawing
             return drawNode;
         }
 
-        internal XmlElement CreateDocumentAndTopNodeChartDrawings()
+        internal XmlElement CreateDocumentAndTopNodeChartDrawings(ExcelChart ContainerChart)
         {
             if (DrawingXml.DocumentElement == null)
             {
-                DrawingXml.LoadXml(string.Format("<c:userShapes xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\">");
+                DrawingXml.LoadXml(string.Format("<c:userShapes xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\">"));
                 Packaging.ZipPackage package = Worksheet._package.ZipPackage;
-                //create file
-                //Create relationship to chart
-                //create node in chart?
+                //Check for existing part, issue #100
+                var id = Worksheet.SheetId;
+                do
+                {
+                    _uriDrawing = new Uri(string.Format("/xl/drawings/drawing{0}.xml", id++), UriKind.Relative);
+                }
+                while (package.PartExists(_uriDrawing));
+                _part = package.CreatePart(_uriDrawing, "application/vnd.openxmlformats-officedocument.drawing+xml", _package.Compression);
+                StreamWriter streamChart = new StreamWriter(_part.GetStream(FileMode.Create, FileAccess.Write));
+                DrawingXml.Save(streamChart);
+                streamChart.Close();
+                package.Flush();
+                
+                _drawingRelation = ContainerChart.Part.CreateRelationship(UriHelper.GetRelativeUri(ContainerChart.UriChart, _uriDrawing), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chartUserShapes");
+                XmlElement e = (XmlElement)ContainerChart.ChartXml.CreateElement("c:userShapes");
+                e.SetAttribute("id", ExcelPackage.schemaRelationships, _drawingRelation.Id);
+                ContainerChart.ChartXml.ChildNodes[1].AppendChild(e);
+                package.Flush();
             }
-            //create TopNode
-                XmlElement drawNode;
+            var root = _drawingsXml.SelectSingleNode("c:userShapes", NameSpaceManager);
+            var drawNode = _drawingsXml.CreateElement("cdr", "relSizeAnchor", ExcelPackage.schemaChartDrawing);
+            root.AppendChild(drawNode);
             return drawNode;
         }
 

@@ -2499,6 +2499,10 @@ namespace OfficeOpenXml
                 var xr = new XmlTextWriter(c.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
                 xr.Formatting = Formatting.None;
                 c.ChartXml.Save(xr);
+
+                var xrd = new XmlTextWriter(c.ChartDrawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
+                xrd.Formatting = Formatting.None;
+                c.ChartDrawings.DrawingXml.Save(xrd);
             }
             else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
             {

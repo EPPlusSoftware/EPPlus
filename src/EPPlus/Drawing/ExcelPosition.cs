@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using System.Globalization;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -23,13 +24,13 @@ namespace OfficeOpenXml.Drawing
         XmlNode _node;
         XmlNamespaceManager _ns;
         SetWidthCallback _setWidthCallback;
-        internal ExcelPosition(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback, int excelDrawingsType=0) :
+        internal ExcelPosition(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback, int DrawingsType = 0) :
             base(ns, node)
         {
             _node = node;
             _ns = ns;
             _setWidthCallback = setWidthCallback;
-            this.excelDrawingsType = excelDrawingsType;
+            this.excelDrawingsType = DrawingsType;
             Load();
         }
         const string colPath = "xdr:col";
@@ -119,7 +120,6 @@ namespace OfficeOpenXml.Drawing
             set
             {
                 _x = value;
-                _setWidthCallback?.Invoke();
             }
         }
         public double Y
@@ -131,7 +131,6 @@ namespace OfficeOpenXml.Drawing
             set
             {
                 _y = value;
-                _setWidthCallback?.Invoke();
             }
         }
         /// <summary>
@@ -166,8 +165,8 @@ namespace OfficeOpenXml.Drawing
             }
             else if (excelDrawingsType == 1)
             {
-                SetXmlNodeString(yPath, _y.ToString());
-                SetXmlNodeString(xPath, _x.ToString());
+                SetXmlNodeString(yPath, _y.ToString(CultureInfo.InvariantCulture));
+                SetXmlNodeString(xPath, _x.ToString(CultureInfo.InvariantCulture));
             }
         }
     }

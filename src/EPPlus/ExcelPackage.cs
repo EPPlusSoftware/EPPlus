@@ -177,7 +177,7 @@ namespace OfficeOpenXml
         internal const string schemaThemeRelationships = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme";
         internal const string schemaMetadata = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/sheetMetadata";
         internal const string schemaChartStyle = "http://schemas.microsoft.com/office/drawing/2012/chartStyle";
-        internal const string schemaChartDrawing = "http://schemas.openxmlformats.org/drawingml/2006/chartDrawing";
+        internal const string schemaChartDrawing = @"http://schemas.openxmlformats.org/drawingml/2006/chartDrawing";
 
 
         //Chart styling

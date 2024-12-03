@@ -21,18 +21,20 @@ namespace OfficeOpenXml.Drawing
     public sealed class ExcelShape : ExcelShapeBase
     {
         internal ExcelShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape=null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
-            base(drawings, node, NamespacePrefixes[(int)DrawingsType] + ":sp", NamespacePrefixes[(int)DrawingsType] + ":nvSpPr/"+ NamespacePrefixes[(int)DrawingsType] + ":cNvPr", shape, DrawingsType)
+            base(drawings, node, NamespacePrefixes[(int)DrawingsType] + ":sp", NamespacePrefixes[(int)DrawingsType] + ":nvSpPr/" + NamespacePrefixes[(int)DrawingsType] + ":cNvPr", shape, DrawingsType)
         {
         }
         internal ExcelShape(ExcelDrawings drawings, XmlNode node, eShapeStyle style, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
-            base(drawings, node, NamespacePrefixes[(int)DrawingsType]+":sp", NamespacePrefixes[(int)DrawingsType]+":nvSpPr/" + NamespacePrefixes[(int)DrawingsType]+":cNvPr")
+            base(drawings, node, NamespacePrefixes[(int)DrawingsType] + ":sp", NamespacePrefixes[(int)DrawingsType] + ":nvSpPr/" + NamespacePrefixes[(int)DrawingsType] + ":cNvPr", null, DrawingsType)
         {
+            node.OwnerDocument.DocumentElement.SetAttribute("xmlns:cdr", ExcelPackage.schemaChartDrawing);
+            node.OwnerDocument.DocumentElement.SetAttribute("xmlns:a", ExcelPackage.schemaDrawings);
             XmlElement shapeNode = CreateShapeNode();
+            var has = NameSpaceManager.HasNamespace("cdr");
             shapeNode.InnerXml = ShapeStartXml();
             switch(DrawingsType)
             {
                 case DrawingsCollectionType.chart:
-                    node.AppendChild(shapeNode.OwnerDocument.CreateElement("cdr", "clientData", ExcelPackage.schemaChartDrawing));
                     break;
                 case DrawingsCollectionType.excel:
                 default:

@@ -997,6 +997,42 @@ namespace OfficeOpenXml.Drawing
             SetPixelHeight(_height);
             _doNotAdjust = false;
         }
+        public void SetPosition(double PercentTop, double PercentLeft)
+        {
+            //if (adjustChildren && DrawingType == eDrawingType.GroupShape)
+            //{
+            //    //DO FIX WHEN GROUPSHAPE
+            //}
+            _width = Math.Abs( From.X - To.X);
+            _height = Math.Abs( From.Y - To.Y);
+
+            if (PercentTop < 0)
+            {
+                PercentTop = 0;
+            }
+            if (PercentLeft < 0)
+            {
+                PercentLeft = 0;
+            }
+            From.X = PercentLeft;
+            From.Y = PercentTop;
+            To.X = PercentLeft + _width;
+            To.Y = PercentTop + _height;
+            if (To.X > 1)
+            {
+                var diff = To.X - 1;
+                To.X = 1;
+                From.X -= diff;
+            }
+            if (To.Y > 1)
+            {
+                var diff = To.Y - 1;
+                To.Y = 1;
+                From.Y -= diff;
+            }
+
+            UpdatePositionAndSizeXml();
+        }
         /// <summary>
         /// How the drawing is anchored to the cells.
         /// This effect how the drawing will be resize

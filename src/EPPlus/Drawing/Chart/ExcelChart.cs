@@ -1144,7 +1144,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
         public ExcelShape AddShape(string Name, eShapeStyle Style)
         {
-            return _chartDrawings.AddShape(Name, Style, DrawingsCollectionType.chart);
+            return _chartDrawings.AddShape(Name, Style, DrawingsCollectionType.chart, this);
         }
     }
 }
