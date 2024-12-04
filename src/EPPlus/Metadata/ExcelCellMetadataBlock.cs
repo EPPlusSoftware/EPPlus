@@ -22,6 +22,39 @@ namespace OfficeOpenXml.Metadata
     /// </summary>
     internal class ExcelCellMetadataBlock : IndexEndpoint
     {
+        //public ExcelCellMetadataBlock(MetadataDatabase metadataDb)
+        //    : base(metadataDb.IndexStore, RichDataEntities.CellMetadataBlock)
+        //{
+        //    _metadataDb = metadataDb;
+        //    _store = metadataDb.IndexStore;
+        //    _records = new IndexedSubsetCollection<ExcelCellMetadataRecord>(metadataDb.CellMetadataRecords);
+        //}
+        //public ExcelCellMetadataBlock(XmlReader xr, MetadataDatabase metadataDb)
+        //    : base(metadataDb.IndexStore, RichDataEntities.CellMetadataBlock)
+        //{
+        //    _metadataDb = metadataDb;
+        //    _store = metadataDb.IndexStore;
+        //    _records = new IndexedSubsetCollection<ExcelCellMetadataRecord>(metadataDb.CellMetadataRecords);
+        //    uint currentIndex = 0;
+        //    while (xr.IsEndElementWithName("bk") == false && xr.EOF == false)
+        //    {
+        //        if (xr.IsElementWithName("rc"))
+        //        {
+        //            var t = int.Parse(xr.GetAttribute("t"));
+        //            var v = int.Parse(xr.GetAttribute("v"));
+        //            var type = _metadataDb.MetadataTypes[t - 1];
+        //            var fmt = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
+        //            if (fmt != null)
+        //            {
+        //                var bk = fmt.Blocks[v];
+        //                AddRecord(type.Id, bk.Id);
+        //            }
+        //        }
+        //        xr.Read();
+        //        currentIndex++;
+        //    }
+        //}
+
         public ExcelCellMetadataBlock(MetadataDatabase metadataDb)
             : base(metadataDb.IndexStore, RichDataEntities.CellMetadataBlock)
         {
@@ -29,6 +62,7 @@ namespace OfficeOpenXml.Metadata
             _store = metadataDb.IndexStore;
             _records = new IndexedSubsetCollection<ExcelCellMetadataRecord>(metadataDb.CellMetadataRecords);
         }
+
         public ExcelCellMetadataBlock(XmlReader xr, MetadataDatabase metadataDb)
             : base(metadataDb.IndexStore, RichDataEntities.CellMetadataBlock)
         {
@@ -40,15 +74,8 @@ namespace OfficeOpenXml.Metadata
             {
                 if (xr.IsElementWithName("rc"))
                 {
-                    var t = int.Parse(xr.GetAttribute("t"));
-                    var v = int.Parse(xr.GetAttribute("v"));
-                    var type = _metadataDb.MetadataTypes[t - 1];
-                    var fmt = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
-                    if (fmt != null)
-                    {
-                        var bk = fmt.Blocks[v];
-                        AddRecord(type.Id, bk.Id);
-                    }
+                    var record = new ExcelCellMetadataRecord(xr, _metadataDb, this, _store);
+                    _records.Add(record);
                 }
                 xr.Read();
                 currentIndex++;

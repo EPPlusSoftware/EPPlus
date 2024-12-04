@@ -30,7 +30,8 @@ namespace OfficeOpenXml.Metadata
             CellMetadataRecords = new CellMetadataRecordCollection(store);
             MetadataTypes = new MetadataTypesCollection(store);
             FutureMetadata = new FutureMetadataCollection(store);
-            FutureMetadataBlocks = new FutureMetadataRichValueBlockCollection(store);
+            FutureMetadataRichValueBlocks = new FutureMetadataRichValueBlockCollection(store);
+            FutureMetadataDynamicArrayBlocks = new FutureMetadataDynamicArrayBlockCollection(store);
         }
 
         internal RichDataIndexStore IndexStore { get; private set; }
@@ -45,6 +46,8 @@ namespace OfficeOpenXml.Metadata
 
         internal CellMetadataRecordCollection CellMetadataRecords { get; set; }
 
-        internal FutureMetadataRichValueBlockCollection FutureMetadataBlocks { get; }
+        internal FutureMetadataRichValueBlockCollection FutureMetadataRichValueBlocks { get; }
+
+        internal FutureMetadataDynamicArrayBlockCollection FutureMetadataDynamicArrayBlocks { get; }
     }
 }

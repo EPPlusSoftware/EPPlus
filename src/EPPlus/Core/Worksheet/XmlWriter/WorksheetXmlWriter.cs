@@ -420,10 +420,12 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             MetaDataReference md = _ws._metadataStore.GetValue(cse.Row, cse.Column);
                             if (md.cm > 0)
                             {
-                                mdAttr = $" cm=\"{md.cm}\"";
+                                var ix = _ws.Workbook.Metadata.Db.CellMetadata.GetIndexById(md.cm) + 1;
+                                mdAttr = $" cm=\"{ix}\"";
                             }
                             if (md.vm > 0)
                             {
+                                var ix = _ws.Workbook.Metadata.Db.ValueMetadata.GetIndexById(md.vm) + 1;
                                 mdAttr += $" vm=\"{md.vm}\"";
                             }
                         }

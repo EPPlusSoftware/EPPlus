@@ -25,6 +25,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
     {
         public FutureMetadataDynamicArrayBlock(RichDataIndexStore store, RichDataEntities entity) : base(store, RichDataEntities.FutureMetadataDynamicArrayBlock)
         {
+            Uri = "{bdbb8cdc-fa1e-496e-a857-3c3f30c029c3}";
         }
 
         public FutureMetadataDynamicArrayBlock(XmlReader xr, RichDataIndexStore store)

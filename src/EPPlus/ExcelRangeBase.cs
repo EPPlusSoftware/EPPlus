@@ -77,7 +77,10 @@ namespace OfficeOpenXml
             Init(xlWorksheet);
             SetRCFromTable(wb._package, null);
             _workbook = wb;
-            _rangePicture = new ExcelRangePicture(this);
+            if(_worksheet != null)
+            {
+                _rangePicture = new ExcelRangePicture(this);
+            }
             if (string.IsNullOrEmpty(_ws)) _ws = (xlWorksheet == null ? null : xlWorksheet.Name);
             SetDelegate();
             _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;

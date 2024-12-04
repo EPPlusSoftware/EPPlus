@@ -15,6 +15,7 @@ using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.Utils;
 using System;
 using System.IO;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata.FutureMetadata
@@ -25,15 +26,20 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
             : base(metadataDb.IndexStore)
         {
             _metadataDb = metadataDb;
-            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadataDb.FutureMetadataBlocks);
+            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadataDb.FutureMetadataRichValueBlocks);
             Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
+            var type = metadataDb.MetadataTypes.FirstOrDefault(t => t.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME);
+            if (type != null)
+            {
+                type.AddRelationTo(this, IndexType.String);
+            }
         }
 
         public FutureMetadataDynamicArray(XmlReader xr, MetadataDatabase metadataDb)
             : base(metadataDb.IndexStore)
         {
             _metadataDb = metadataDb;
-            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadataDb.FutureMetadataBlocks);
+            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadataDb.FutureMetadataRichValueBlocks);
             Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
             while (!xr.EOF)
             {
@@ -81,7 +87,9 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
             bk.IsDynamicArray = true;
             bk.IsCollapsed = false;
             bkId = bk.Id;
+            fm.AddRelationTo(bk);
             fm.Blocks.Add(bk);
+            metadataDb.FutureMetadataDynamicArrayBlocks.Add(bk);
             return fm;
         }
 

@@ -14,8 +14,10 @@ using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
+using OfficeOpenXml.Utils;
 using System;
 using System.Linq;
+using System.Xml;
 
 namespace OfficeOpenXml.Metadata
 {
@@ -24,30 +26,67 @@ namespace OfficeOpenXml.Metadata
     /// </summary>
     internal class ExcelCellMetadataRecord : IndexEndpoint
     {
+        //public ExcelCellMetadataRecord(MetadataDatabase metadataDb, IndexEndpoint parent, uint typeId, uint valueId, RichDataIndexStore store)
+        //    : base(store, RichDataEntities.CellMetadataRecord)
+        //{
+        //    TypeId = typeId;
+        //    ValueId = valueId;
+        //    _metadataDb = metadataDb;
+        //    _readValueIndex = Convert.ToInt32(valueId);
+        //    _parent = parent;
+        //}
+
+        //public ExcelCellMetadataRecord(XmlReader xr, MetadataDatabase metadataDb, IndexEndpoint parent, RichDataIndexStore store)
+        //   : base(store, RichDataEntities.ValueMetadataRecord)
+        //{
+        //    _metadataDb = metadataDb;
+        //    var t = int.Parse(xr.GetAttribute("t"));
+        //    var v = int.Parse(xr.GetAttribute("v"));
+        //    var type = metadataDb.MetadataTypes[t - 1];
+        //    TypeId = type.Id;
+        //    AddRelationTo(type);
+        //    var fmt = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
+        //    if (fmt != null)
+        //    {
+        //        var bk = fmt.Blocks[v];
+        //        ValueId = bk.Id;
+        //        AddRelationTo(bk);
+        //    }
+        //}
+
         public ExcelCellMetadataRecord(MetadataDatabase metadataDb, IndexEndpoint parent, uint typeId, uint valueId, RichDataIndexStore store)
             : base(store, RichDataEntities.CellMetadataRecord)
         {
             TypeId = typeId;
             ValueId = valueId;
             _metadataDb = metadataDb;
-            _readValueIndex = Convert.ToInt32(valueId);
+            //_readValueIndex = Convert.ToInt32(valueId);
             _parent = parent;
+        }
+
+        public ExcelCellMetadataRecord(XmlReader xr, MetadataDatabase metadataDb, IndexEndpoint parent, RichDataIndexStore store)
+            : base(store, RichDataEntities.CellMetadataRecord)
+        {
+            _metadataDb = metadataDb;
+            var t = int.Parse(xr.GetAttribute("t"));
+            var v = int.Parse(xr.GetAttribute("v"));
+            var type = metadataDb.MetadataTypes[t - 1];
+            TypeId = type.Id;
+            AddRelationTo(type);
+            var fmt = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
+            if (fmt != null)
+            {
+                var bk = fmt.Blocks[v];
+                ValueId = bk.Id;
+                AddRelationTo(bk);
+            }
         }
 
         private readonly IndexEndpoint _parent;
         private readonly MetadataDatabase _metadataDb;
         private readonly int _readValueIndex;
 
-        public void InitRelations(RichDataDatabase richDataDb)
-        {
-            //base.InitRelations();
-            //var parentRel = _parent.GetOutgoingRelations(x => x.IndexType == IndexType.SubRelations && x.AsRelationWithSubRelations().SubRelationEntity == RichDataEntities.RichValue).FirstOrDefault();
-            //if (parentRel != null)
-            //{
-            //    var rel = richDataDb.Values.CreateRelation(this, _readValueIndex, IndexType.ZeroBasedPointer);
-            //    ValueId = rel.To.Id;
-            //}
-        }
+
 
         /// <summary>
         /// Corresponds to the t-attribute of the bk element
@@ -72,10 +111,21 @@ namespace OfficeOpenXml.Metadata
         {
             get
             {
-                var bk = _metadataDb.FutureMetadataBlocks.Get(ValueId);
-                var fmType = bk.GetFirstIncomingRelByType<FutureMetadataBase>();
-                if (fmType == null) return null;
-                return fmType.Blocks.GetZeroBasedIndex(ValueId);
+                //var bk = _metadataDb.FutureMetadata.Get(ValueId);
+                var fmType = _metadataDb.MetadataTypes.Get(TypeId);
+                var fm = fmType.GetFirstOutgoingRelByType<FutureMetadataBase>();
+                if (fm == null) return null;
+                if(fm is FutureMetadataDynamicArray futureMetadataDynamicArray)
+                {
+                    return futureMetadataDynamicArray.Blocks.Any(x => x.Id == ValueId) ? 0 : null;
+                }
+                else if(fm is FutureMetadataRichValue fmrv)
+                {
+                    var bk = _metadataDb.FutureMetadataRichValueBlocks.Get(ValueId);
+                    var rvMetadata = bk.GetFirstIncomingRelByType<FutureMetadataBase>();
+                    return rvMetadata.Blocks.GetZeroBasedIndex(ValueId);
+                }
+                return null;
             }
         }
 

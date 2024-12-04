@@ -14,6 +14,7 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Core.RichValues;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core.Worksheet.XmlWriter;
@@ -354,8 +355,10 @@ namespace OfficeOpenXml
             _formulaTokens = new CellStore<IList<Token>>();
             _flags = new FlagCellStore();
             _metadataStore = new CellStore<MetaDataReference>();
+            _richDataStore = new RichDataStore(this);
             _commentsStore = new CellStore<int>();
             _threadedCommentsStore = new CellStore<int>();
+            _richValueErrorManager = new RichValueErrorManager(_package, this);
             _dataValidationsStore = new CellStore<int?>();
             _hyperLinks = new CellStore<Uri>();
             _nextControlId = (PositionId + 1) * 1024 + 1;
@@ -1607,8 +1610,42 @@ namespace OfficeOpenXml
                 }
                 else if (xr.LocalName == "v")
                 {
-                    SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
-
+                    if (currentVm > 0)
+                    {
+                        var rd = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
+                        rd.SetStructure(_package.Workbook.RichData.Db);
+                        if (rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImage)
+                        {
+                            var rdLi = rd.As.LocalImage;
+                            var pic = new ExcelCellPicture(currentVm, rdLi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.LocalImage)
+                            {
+                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
+                                AltText = rdLi.Text,
+                                CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
+                            };
+                            SetValueInner(row, col, pic);
+                        }
+                        else if (rd != null && rd.Structure.StructureType == RichDataStructureTypes.WebImage)
+                        {
+                            var rdWi = rd.As.WebImage;
+                            var pic = new ExcelCellPicture(currentVm, rdWi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.WebImage)
+                            {
+                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
+                                AltText = rdWi.Text,
+                                CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None
+                            };
+                            SetValueInner(row, col, pic);
+                        }
+                        else
+                        {
+                            SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
+                        }
+                        xr.Read();
+                    }
+                    else
+                    {
+                        SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
+                    }
                     xr.Read();
                 }
                 else if (xr.LocalName == "f")

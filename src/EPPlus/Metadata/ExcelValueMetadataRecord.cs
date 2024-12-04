@@ -59,13 +59,6 @@ namespace OfficeOpenXml.Metadata
 
         public void InitRelations(RichDataDatabase richDataDb)
         {
-            //base.InitRelations();
-            //var parentRel = _parent.GetOutgoingRelations(x => x.IndexType == IndexType.SubRelations && x.AsRelationWithSubRelations().SubRelationEntity == RichDataEntities.RichValue).FirstOrDefault();
-            //if(parentRel != null)
-            //{
-            //    var rel = richDataDb.Values.CreateRelation(this, _readValueIndex, IndexType.ZeroBasedPointer);
-            //    ValueId = rel.To.Id;
-            //}
             var rel = richDataDb.Values.CreateRelation(this, _readValueIndex, IndexType.ZeroBasedPointer);
             ValueId = rel.To.Id;
         }
@@ -93,7 +86,7 @@ namespace OfficeOpenXml.Metadata
         {
             get
             {
-                var bk = _metadataDb.FutureMetadataBlocks.Get(ValueId);
+                var bk = _metadataDb.FutureMetadataRichValueBlocks.Get(ValueId);
                 var fmType = bk.GetFirstIncomingRelByType<FutureMetadataBase>();
                 return fmType.Blocks.GetZeroBasedIndex(ValueId);
             }

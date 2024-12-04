@@ -1,103 +1,28 @@
-/*************************************************************************************************
-  Required Notice: Copyright (C) EPPlus Software AB. 
-  This software is licensed under PolyForm Noncommercial License 1.0.0 
-  and may only be used for noncommercial purposes 
-  https://polyformproject.org/licenses/noncommercial/1.0.0/
+﻿/*************************************************************************************************
+ Required Notice: Copyright (C) EPPlus Software AB. 
+ This software is licensed under PolyForm Noncommercial License 1.0.0 
+ and may only be used for noncommercial purposes 
+ https://polyformproject.org/licenses/noncommercial/1.0.0/
 
-  A commercial license to use this software can be purchased at https://epplussoftware.com
- *************************************************************************************************
-  Date               Author                       Change
- *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
- *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+ A commercial license to use this software can be purchased at https://epplussoftware.com
+*************************************************************************************************
+ Date               Author                       Change
+*************************************************************************************************
+ 01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+*************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// Represents the errortypes in excel
-    /// </summary>
-    public enum eErrorType
-    {
-        /// <summary>
-        /// Division by zero
-        /// </summary>
-        Div0,
-        /// <summary>
-        /// Not applicable
-        /// </summary>
-        NA,
-        /// <summary>
-        /// Name error
-        /// </summary>
-        Name,
-        /// <summary>
-        /// Null error
-        /// </summary>
-        Null,
-        /// <summary>
-        /// Num error
-        /// </summary>
-        Num,
-        /// <summary>
-        /// Reference error
-        /// </summary>
-        Ref,
-        /// <summary>
-        /// Value error
-        /// </summary>
-        Value,
-        /// <summary>
-        /// Calc error
-        /// </summary>
-        Calc,
-        /// <summary>
-        /// Spill error from a dynamic array formula.
-        /// </summary>
-        Spill,
-    }
-
-    internal static class ErrorValues
-    {
-        public static ExcelErrorValue ValueError = ExcelErrorValue.Create(eErrorType.Value);
-        public static ExcelErrorValue NameError = ExcelErrorValue.Create(eErrorType.Name);
-        public static ExcelErrorValue NAError = ExcelErrorValue.Create(eErrorType.NA);
-        public static ExcelErrorValue NumError = ExcelErrorValue.Create(eErrorType.Num);
-        public static ExcelErrorValue NullError = ExcelErrorValue.Create(eErrorType.Null);
-        public static ExcelErrorValue Div0Error = ExcelErrorValue.Create(eErrorType.Div0);
-        public static ExcelErrorValue RefError = ExcelErrorValue.Create(eErrorType.Ref);
-        public static ExcelErrorValue CalcError = ExcelErrorValue.Create(eErrorType.Calc);
-    }
-    /// <summary>
-    /// Represents Excel Errors 
-    /// 
-    /// </summary>
-    public class ExcelRichDataErrorValue : ExcelErrorValue
-    {
-        internal ExcelRichDataErrorValue(int rowOffset, int colOffset) : base(eErrorType.Spill)
-        {
-            SpillRowOffset = rowOffset;
-            SpillColOffset = colOffset;
-        }
-        internal int SpillRowOffset { get; set; }
-        internal int SpillColOffset { get; set; }
-        internal bool IsPropagated
-        {
-            get;
-            set;
-        }
-    }
-    /// <summary>
     /// Represents an Excel error.
     /// </summary>
     /// <seealso cref="eErrorType"/>
-    public class ExcelErrorValue 
+    public class ExcelErrorValue
     {
         /// <summary>
         /// Handles the convertion between <see cref="eErrorType"/> and the string values
@@ -162,7 +87,7 @@ namespace OfficeOpenXml
             /// <returns></returns>
             public static bool IsErrorValue(object candidate)
             {
-                if(candidate == null || !(candidate is ExcelErrorValue)) return false;
+                if (candidate == null || !(candidate is ExcelErrorValue)) return false;
                 var candidateString = candidate.ToString();
                 return (!string.IsNullOrEmpty(candidateString) && _values.ContainsKey(candidateString));
             }
@@ -191,7 +116,6 @@ namespace OfficeOpenXml
                 }
                 return _values[val];
             }
-            
         }
 
         /// <summary>
@@ -227,7 +151,7 @@ namespace OfficeOpenXml
             {
                 return new ExcelErrorValue(Values.ToErrorType(val));
             }
-            if(string.IsNullOrEmpty(val)) throw new ArgumentNullException("val");
+            if (string.IsNullOrEmpty(val)) throw new ArgumentNullException("val");
             throw new ArgumentException("Not a valid error value: " + val);
         }
 
@@ -238,7 +162,7 @@ namespace OfficeOpenXml
 
         internal ExcelErrorValue(eErrorType type)
         {
-            Type=type; 
+            Type = type;
         }
 
         /// <summary>
@@ -252,7 +176,7 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public override string ToString()
         {
-            switch(Type)
+            switch (Type)
             {
                 case eErrorType.Div0:
                     return Values.Div0;
@@ -271,9 +195,9 @@ namespace OfficeOpenXml
                 case eErrorType.Calc:
                     return Values.Calc;
                 case eErrorType.Spill:
-                    return Values.Value;
+                    return Values.Spill;
                 default:
-                    throw(new ArgumentException("Invalid errortype"));
+                    throw (new ArgumentException("Invalid errortype"));
             }
         }
         /// <summary>
@@ -303,7 +227,7 @@ namespace OfficeOpenXml
         /// <returns></returns>
         public override int GetHashCode()
         {
-            return (int)Type;
+            return base.GetHashCode();
         }
         /// <summary>
         /// Checks if the object is equals to another
@@ -312,11 +236,8 @@ namespace OfficeOpenXml
         /// <returns>True if equals</returns>
         public override bool Equals(object obj)
         {
-            if (obj is ExcelErrorValue t)
-            {
-                return t.Type == Type;
-            }
-            return false;            
+            if (!(obj is ExcelErrorValue)) return false;
+            return ((ExcelErrorValue)obj).ToString() == this.ToString();
         }
     }
 }

@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
         {
             Name = name;
             _indexStore = metadataDb.IndexStore;
-            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadataDb.FutureMetadataBlocks);
+            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadataDb.FutureMetadataRichValueBlocks);
             Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
             var type = metadataDb.MetadataTypes.FirstOrDefault(t => t.Name == name);
             if(type != null)
@@ -44,7 +44,7 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
             : base(metadataDb.IndexStore)
         {
             _indexStore = metadataDb.IndexStore;
-            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadataDb.FutureMetadataBlocks);
+            Blocks = new IndexedSubsetCollection<FutureMetadataBlock>(metadataDb.FutureMetadataRichValueBlocks);
             Blocks.CollectionIsEmpty += OnBlocksIsEmpty;
             ReadXml(xr, metadataDb);
         }
