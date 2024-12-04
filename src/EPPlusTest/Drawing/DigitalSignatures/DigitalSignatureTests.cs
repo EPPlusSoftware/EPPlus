@@ -8,9 +8,6 @@ using System.Security.Cryptography.X509Certificates;
 using OfficeOpenXml.DigitalSignatures;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Drawing.EMF;
-using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Chart.Style;
 using System.Text;
 using OfficeOpenXml.Utils;
 
@@ -27,6 +24,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
     [TestClass]
     public class DigitalSignatureTests : TestBase
     {
+        const string SubFolder = "DigSig\\";
+
         X509Certificate2 GetSelfCert()
         {
             X509Store store = GetStore();
@@ -55,11 +54,12 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         public static void Init(TestContext context)
         {
             X509Store store = GetStore();
-
             foreach (var cert in store.Certificates)
             {
                 store.Remove(cert);
             }
+
+            CreatePathIfNotExists(_worksheetPath + SubFolder);
         }
 
         [ClassCleanup]
@@ -76,7 +76,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void CreateDigitalSignatureAndReadIt()
         {
-            using (ExcelPackage package = OpenPackage("InvisibleSignature.xlsx", true))
+            string fileName = $"{SubFolder}InvisibleSignature.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
@@ -101,7 +103,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
                 Assert.IsTrue(digSig.IsValid);
             }
-            using (ExcelPackage package = OpenPackage("InvisibleSignature.xlsx"))
+            using (ExcelPackage package = OpenPackage(fileName))
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets[0];
@@ -127,7 +129,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void ReadCommitmentTypeAndTypeQualifier()
         {
-            using (ExcelPackage package = OpenTemplatePackage("DigSig_FullSignatureAndLine.xlsx"))
+            string fileName = "DigSig_FullSignatureAndLine.xlsx";
+
+            using (ExcelPackage package = OpenTemplatePackage(fileName))
             {
                 var wb = package.Workbook;
 
@@ -135,13 +139,15 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual(CommitmentType.Approved, digSig.CommitmentTyping);
                 Assert.AreEqual("MyPurposeIsMyOwn", digSig.PurposeForSigning);
 
-                SaveAndCleanup(package);
+                package.SaveAs(GetOutputFile(SubFolder, fileName));
             }
         }
         [TestMethod]
         public void ReadCommitmentTypeAndTypeQualifierWhenNone()
         {
-            using (ExcelPackage package = OpenTemplatePackage("DigSig_FullSignatureAndLineNone.xlsx"))
+            string fileName = "DigSig_FullSignatureAndLineNone.xlsx";
+
+            using (ExcelPackage package = OpenTemplatePackage(fileName))
             {
                 var wb = package.Workbook;
 
@@ -149,53 +155,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual(CommitmentType.None, digSig.CommitmentTyping);
                 Assert.AreEqual("MyPurposeIsMyOwn", digSig.PurposeForSigning);
 
-                SaveAndCleanup(package);
-            }
-        }
-        [TestMethod]
-        public void EnsureSignatureReferencesAreEncodedCorrectly()
-        {
-            using (ExcelPackage package = OpenPackage("NewOfficeReference.xlsx", true))
-            {
-                var wb = package.Workbook;
-                var ws = wb.Worksheets.Add("ANewWorksheet");
-
-                //Add data, pivot table and chart so that Package Reference in digital signature can have more files to hash.
-                //--------------------------------------------------BEGIN--------------------------------------------------------
-                ws.Cells["A1"].Value = "PointsA";
-                ws.Cells["B1"].Value = "PointsB";
-                ws.Cells["C1"].Value = "PointsC";
-
-                for (int i = 2; i <= 100; i++)
-                {
-                    for (int j = 1; j <= 100; j++)
-                    {
-                        ws.Cells[i, j].Value = i + j;
-                    }
-                }
-
-                var pvWs = wb.Worksheets.Add("PivotTableWorksheet");
-
-                var pt = pvWs.PivotTables.Add(pvWs.Cells["A1"], ws.Cells["A1:C10"], "APivotTable");
-
-                pt.RowFields.Add(pt.Fields["PointsA"]);
-                pt.DataFields.Add(pt.Fields["PointsB"]);
-                pt.DataOnRows = true;
-
-                var chart = pvWs.Drawings.AddPieChart("PivotChart", ePieChartType.PieExploded3D, pt);
-                chart.SetPosition(1, 0, 4, 0);
-                chart.SetSize(800, 600);
-                chart.Legend.Remove();
-                chart.Series[0].DataLabel.ShowCategory = true;
-                chart.Series[0].DataLabel.Position = eLabelPosition.OutEnd;
-                chart.StyleManager.SetChartStyle(ePresetChartStyle.Pie3dChartStyle6);
-                //--------------------------------------------------End--------------------------------------------------------
-
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                wb.DigitialSignatures.AddSignature(store.Certificates[0], CommitmentType.CreatedAndApproved, "ToCompareDigitalSignatures");
-
-                SaveAndCleanup(package);
+                package.SaveAs(GetOutputFile(SubFolder, fileName));
             }
         }
 
@@ -239,30 +199,11 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         }
 
         [TestMethod]
-        public void EnsureSignatureReferencesAreEncodedCorrectly2()
-        {
-            using (ExcelPackage package = OpenTemplatePackage("ExcelFileToSign.xlsx"))
-            {
-                var wb = package.Workbook;
-
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                wb.DigitialSignatures.AddSignature(store.Certificates[0], CommitmentType.CreatedAndApproved, "Compare");
-
-                SaveAndCleanup(package);
-            }
-
-            //Open signed package
-            using (ExcelPackage package = OpenPackage("ExcelFileToSign.xlsx"))
-            {
-
-            }
-        }
-
-        [TestMethod]
         public void CreateDigitalSignatureLineAndSignIt()
         {
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLine.xlsx", true))
+            string fileName = $"{SubFolder}DigSig_SignatureLine.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
@@ -291,63 +232,14 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         }
 
         [TestMethod]
-        public void VerifyEncodingOfEmf()
-        {
-            var fullName = GetTemplateFile("InvalidImageOriginal.emf").FullName;
-            var bytes = File.ReadAllBytes(fullName);
-            var invalidImage = Convert.ToBase64String(bytes, Base64FormattingOptions.None);
-            var originalInvalidImage = "AQAAAGwAAAAAAAAAAAAAAP8AAAB/AAAAAAAAAAAAAABcFwAAqwsAACBFTUYAAAEAsB8AALEAAAAGAAAAAAAAAAAAAAAAAAAAAAoAAKAFAABWAgAAUAEAAAAAAAAAAAAAAAAAAPAfCQCAIAUACgAAABAAAAAAAAAAAAAAAEsAAAAQAAAAAAAAAAUAAAAeAAAAGAAAAAAAAAAAAAAAAAEAAIAAAAAnAAAAGAAAAAEAAAAAAAAAAAAAAAAAAAAlAAAADAAAAAEAAABMAAAAZAAAAAAAAAAAAAAA/wAAAH8AAAAAAAAAAAAAAAABAACAAAAAIQDwAAAAAAAAAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJQAAAAwAAAAAAACAKAAAAAwAAAABAAAAJwAAABgAAAABAAAAAAAAAP///wAAAAAAJQAAAAwAAAABAAAATAAAAGQAAAAAAAAAAAAAAP8AAAB/AAAAAAAAAAAAAAAAAQAAgAAAACEA8AAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUAAAAMAAAAAAAAgCgAAAAMAAAAAQAAACcAAAAYAAAAAQAAAAAAAADw8PAAAAAAACUAAAAMAAAAAQAAAEwAAABkAAAAAAAAAAAAAAD/AAAAfwAAAAAAAAAAAAAAAAEAAIAAAAAhAPAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlAAAADAAAAAAAAIAoAAAADAAAAAEAAAAnAAAAGAAAAAEAAAAAAAAA8PDwAAAAAAAlAAAADAAAAAEAAABMAAAAZAAAAAAAAAAAAAAA/wAAAH8AAAAAAAAAAAAAAAABAACAAAAAIQDwAAAAAAAAAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJQAAAAwAAAAAAACAKAAAAAwAAAABAAAAJwAAABgAAAABAAAAAAAAAPDw8AAAAAAAJQAAAAwAAAABAAAATAAAAGQAAAAAAAAAAAAAAP8AAAB/AAAAAAAAAAAAAAAAAQAAgAAAACEA8AAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUAAAAMAAAAAAAAgCgAAAAMAAAAAQAAACcAAAAYAAAAAQAAAAAAAADw8PAAAAAAACUAAAAMAAAAAQAAAEwAAABkAAAAAAAAAAAAAAD/AAAAfwAAAAAAAAAAAAAAAAEAAIAAAAAhAPAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlAAAADAAAAAAAAIAoAAAADAAAAAEAAAAnAAAAGAAAAAEAAAAAAAAA////AAAAAAAlAAAADAAAAAEAAABMAAAAZAAAAAAAAAAAAAAA/wAAAH8AAAAAAAAAAAAAAAABAACAAAAAIQDwAAAAAAAAAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJQAAAAwAAAAAAACAKAAAAAwAAAABAAAAJwAAABgAAAABAAAAAAAAAP///wAAAAAAJQAAAAwAAAABAAAATAAAAGQAAAAAAAAAAAAAAP8AAAB/AAAAAAAAAAAAAAAAAQAAgAAAACEA8AAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUAAAAMAAAAAAAAgCgAAAAMAAAAAQAAACcAAAAYAAAAAQAAAAAAAAD///8AAAAAACUAAAAMAAAAAQAAAEwAAABkAAAAAAAAAAMAAAD/AAAAEgAAAAAAAAADAAAAAAEAABAAAAAhAPAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlAAAADAAAAAAAAIAoAAAADAAAAAEAAAAnAAAAGAAAAAEAAAAAAAAA////AAAAAAAlAAAADAAAAAEAAABMAAAAZAAAAAkAAAADAAAAGAAAABIAAAAJAAAAAwAAABAAAAAQAAAAIQDwAAAAAAAAAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJQAAAAwAAAAAAACAKAAAAAwAAAABAAAAFQAAAAwAAAADAAAAcgAAALADAAAKAAAAAwAAABcAAAAQAAAA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AQICIlMAeQBzAHQAZQBtAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZHYACAAAAAAlAAAADAAAAAIAAAAnAAAAGAAAAAMAAAAAAAAAAAAAAAAAAAAlAAAADAAAAAMAAABMAAAAZAAAAAAAAAAAAAAA//////////8AAAAAFgAAAAAAAAA1AAAAIQDwAAAAAAAAAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJQAAAAwAAAAAAACAKAAAAAwAAAADAAAAJwAAABgAAAADAAAAAAAAAAAAAAAAAAAAJQAAAAwAAAADAAAATAAAAGQAAAAAAAAAAAAAAP//////////AAAAABYAAAAAAQAAAAAAACEA8AAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUAAAAMAAAAAAAAgCgAAAAMAAAAAwAAACcAAAAYAAAAAwAAAAAAAAAAAAAAAAAAACUAAAAMAAAAAwAAAEwAAABkAAAAAAAAAAAAAAD//////////wABAAAWAAAAAAAAADUAAAAhAPAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlAAAADAAAAAAAAIAoAAAADAAAAAMAAAAnAAAAGAAAAAMAAAAAAAAAAAAAAAAAAAAlAAAADAAAAAMAAABMAAAAZAAAAAAAAABLAAAA/wAAAEwAAAAAAAAASwAAAAABAAACAAAAIQDwAAAAAAAAAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJQAAAAwAAAAAAACAKAAAAAwAAAADAAAAJwAAABgAAAADAAAAAAAAAP///wAAAAAAJQAAAAwAAAADAAAATAAAAGQAAAAAAAAAFgAAAP8AAABKAAAAAAAAABYAAAAAAQAANQAAACEA8AAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUAAAAMAAAAAAAAgCgAAAAMAAAAAwAAACcAAAAYAAAAAwAAAAAAAAD///8AAAAAACUAAAAMAAAAAwAAAEwAAABkAAAACQAAACcAAAAfAAAASgAAAAkAAAAnAAAAFwAAACQAAAAhAPAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlAAAADAAAAAAAAIAoAAAADAAAAAMAAABSAAAAcAEAAAMAAADg////AAAAAAAAAAAAAAAAkAEAAAAAAAEAAAAAYQByAGkAYQBsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABkdgAIAAAAACUAAAAMAAAAAwAAABgAAAAMAAAAAAAAABIAAAAMAAAAAQAAABYAAAAMAAAACAAAAFQAAABUAAAACgAAACcAAAAeAAAASgAAAAEAAAAA4LpBq6q6QQoAAABLAAAAAQAAAEwAAAAEAAAACQAAACcAAAAgAAAASwAAAFAAAABYAAAAFQAAABYAAAAMAAAAAAAAACUAAAAMAAAAAgAAACcAAAAYAAAABAAAAAAAAAD///8AAAAAACUAAAAMAAAABAAAAEwAAABkAAAAKQAAABkAAAD2AAAASgAAACkAAAAZAAAAzgAAADIAAAAhAPAAAAAAAAAAAAAAAIA/AAAAAAAAAAAAAIA/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlAAAADAAAAAAAAIAoAAAADAAAAAQAAAAnAAAAGAAAAAQAAAAAAAAA////AAAAAAAlAAAADAAAAAQAAABMAAAAZAAAACkAAAAZAAAA9gAAAEcAAAApAAAAGQAAAM4AAAAvAAAAIQDwAAAAAAAAAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJQAAAAwAAAAAAACAKAAAAAwAAAAEAAAAJwAAABgAAAAEAAAAAAAAAP///wAAAAAAJQAAAAwAAAAEAAAATAAAAGQAAAApAAAAMwAAAFkAAABHAAAAKQAAADMAAAAxAAAAFQAAACEA8AAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUAAAAMAAAAAAAAgCgAAAAMAAAABAAAAFIAAABwAQAABAAAAPD///8AAAAAAAAAAAAAAACQAQAAAAAAAQAAAABzAGUAZwBvAGUAIAB1AGkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGR2AAgAAAAAJQAAAAwAAAAEAAAAGAAAAAwAAAAAAAAAEgAAAAwAAAABAAAAHgAAABgAAAApAAAAMwAAAFoAAABIAAAAJQAAAAwAAAAEAAAAVAAAAHAAAAAqAAAAMwAAAFgAAABHAAAAAQAAAADgukGrqrpBKgAAADMAAAAGAAAATAAAAAAAAAAAAAAAAAAAAP//////////WAAAAE8AcwBzAGkAYQBuAAwAAAAHAAAABwAAAAQAAAAIAAAACQAAAEsAAABAAAAAMAAAAAUAAAAgAAAAAQAAAAEAAAAQAAAAAAAAAAAAAAAAAQAAgAAAAAAAAAAAAAAAAAEAAIAAAAAlAAAADAAAAAIAAAAnAAAAGAAAAAUAAAAAAAAA////AAAAAAAlAAAADAAAAAUAAABMAAAAZAAAAAAAAABQAAAA/wAAAHwAAAAAAAAAUAAAAAABAAAtAAAAIQDwAAAAAAAAAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJQAAAAwAAAAAAACAKAAAAAwAAAAFAAAAJwAAABgAAAAFAAAAAAAAAP///wAAAAAAJQAAAAwAAAAFAAAATAAAAGQAAAAJAAAAUAAAAPYAAABcAAAACQAAAFAAAADuAAAADQAAACEA8AAAAAAAAAAAAAAAgD8AAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUAAAAMAAAAAAAAgCgAAAAMAAAABQAAACUAAAAMAAAAAQAAABgAAAAMAAAAAAAAABIAAAAMAAAAAQAAAB4AAAAYAAAACQAAAFAAAAD3AAAAXQAAACUAAAAMAAAAAQAAAFQAAACoAAAACgAAAFAAAABhAAAAXAAAAAEAAAAA4LpBq6q6QQoAAABQAAAADwAAAEwAAAAAAAAAAAAAAAAAAAD//////////2wAAABTAHUAZwBnAGUAcwB0AGUAZABTAGkAZwBuAGUAcgAtQgYAAAAHAAAABwAAAAcAAAAGAAAABQAAAAQAAAAGAAAABwAAAAYAAAADAAAABwAAAAcAAAAGAAAABAAAAEsAAABAAAAAMAAAAAUAAAAgAAAAAQAAAAEAAAAQAAAAAAAAAAAAAAAAAQAAgAAAAAAAAAAAAAAAAAEAAIAAAAAlAAAADAAAAAIAAAAnAAAAGAAAAAUAAAAAAAAA////AAAAAAAlAAAADAAAAAUAAABMAAAAZAAAAAkAAABgAAAA9gAAAGwAAAAJAAAAYAAAAO4AAAANAAAAIQDwAAAAAAAAAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJQAAAAwAAAAAAACAKAAAAAwAAAAFAAAAJQAAAAwAAAABAAAAGAAAAAwAAAAAAAAAEgAAAAwAAAABAAAAHgAAABgAAAAJAAAAYAAAAPcAAABtAAAAJQAAAAwAAAABAAAAVAAAAKAAAAAKAAAAYAAAAFYAAABsAAAAAQAAAADgukGrqrpBCgAAAGAAAAAOAAAATAAAAAAAAAAAAAAAAAAAAP//////////aAAAAFMAdQBnAGcAZQBzAHQAZQBkAFQAaQB0AGwAZQAGAAAABwAAAAcAAAAHAAAABgAAAAUAAAAEAAAABgAAAAcAAAAGAAAAAwAAAAQAAAADAAAABgAAAEsAAABAAAAAMAAAAAUAAAAgAAAAAQAAAAEAAAAQAAAAAAAAAAAAAAAAAQAAgAAAAAAAAAAAAAAAAAEAAIAAAAAlAAAADAAAAAIAAAAnAAAAGAAAAAUAAAAAAAAA////AAAAAAAlAAAADAAAAAUAAABMAAAAZAAAAAkAAABwAAAAkAAAAHwAAAAJAAAAcAAAAIgAAAANAAAAIQDwAAAAAAAAAAAAAACAPwAAAAAAAAAAAACAPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJQAAAAwAAAAAAACAKAAAAAwAAAAFAAAAJQAAAAwAAAABAAAAGAAAAAwAAAAAAAAAEgAAAAwAAAABAAAAFgAAAAwAAAAAAAAAVAAAANwAAAAKAAAAcAAAAI8AAAB8AAAAAQAAAADgukGrqrpBCgAAAHAAAAAYAAAATAAAAAQAAAAJAAAAcAAAAJEAAAB9AAAAfAAAAFMAaQBnAG4AZQBkACAAYgB5ADoAIABPAHMAcwBpAGEAbgBFAGQAcwB0AHIA9gBtAAYAAAADAAAABwAAAAcAAAAGAAAABwAAAAMAAAAHAAAABQAAAAMAAAADAAAACQAAAAUAAAAFAAAAAwAAAAYAAAAHAAAABgAAAAcAAAAFAAAABAAAAAQAAAAHAAAACQAAABYAAAAMAAAAAAAAACUAAAAMAAAAAgAAAA4AAAAUAAAAAAAAABAAAAAUAAAA";
-
-            Assert.AreEqual(invalidImage, originalInvalidImage);
-        }
-
-        [TestMethod]
-        public void TestTextLength()
-        {
-            var inValidTemplate = new SignatureLineTemplateEmf();
-            inValidTemplate.InsertInvalidRecords();
-
-            string testText = "IHaveAVeryVeryVeryVerylon";
-            inValidTemplate.SignText = testText;
-            Assert.AreEqual(inValidTemplate.signTextObject.Text, testText);
-
-            testText = "IHaveAVeryVeryVeryVerylong";
-            inValidTemplate.SignText = testText;
-            Assert.AreEqual(inValidTemplate.signTextObject.Text, "IHaveAVeryVeryVeryVerylo...");
-
-            testText = "IHaveAVeryVeryVeryVerylonggggggggggggggggggggggggggggggggggggggggg";
-            inValidTemplate.SignText = testText;
-            Assert.AreEqual(inValidTemplate.signTextObject.Text, "IHaveAVeryVeryVeryVerylo...");
-
-            testText = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLM";
-            inValidTemplate.SuggestedSigner = testText;
-            Assert.AreEqual(inValidTemplate.suggestedSignerObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLM");
-
-            inValidTemplate.SuggestedTitle = testText;
-            Assert.AreEqual(inValidTemplate.suggestedTitleObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLM");
-
-            testText += "N";
-            inValidTemplate.SuggestedSigner = testText;
-            Assert.AreEqual(inValidTemplate.suggestedSignerObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL...");
-
-            inValidTemplate.SuggestedTitle = testText;
-            Assert.AreEqual(inValidTemplate.suggestedTitleObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL...");
-
-            testText += "OPQR";
-            inValidTemplate.SuggestedSigner = testText;
-            Assert.AreEqual(inValidTemplate.suggestedSignerObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL...");
-
-            inValidTemplate.SuggestedTitle = testText;
-            Assert.AreEqual(inValidTemplate.suggestedTitleObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL...");
-        }
-
-        [TestMethod]
         public void SavingEmptyPartShouldCreateFileAndNotThrow()
         {
             string partURI = @"/_xmlsignatures/origin.sigs";
             var partUri = new Uri(partURI, UriKind.Relative);
 
-            using (ExcelPackage package = OpenPackage("DigSig_EmptyPart.xlsx", true))
+            string fileName = $"{SubFolder}DigSig_EmptyPart.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
             {
                 package.Workbook.Worksheets.Add("newWorksheet");
                 var part = package.ZipPackage.CreatePart(partUri, ContentTypes.signatureOrigin);
@@ -358,7 +250,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage("DigSig_EmptyPart.xlsx"))
+            using (ExcelPackage package = OpenPackage(fileName))
             {
                 var wb = package.Workbook;
 
@@ -370,7 +262,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void SignSave()
         {
-            using (var pck = OpenPackage("generatedSignedEmpty.xlsx", true))
+            string fileName = $"{SubFolder}generatedSignedEmpty.xlsx";
+
+            using (var pck = OpenPackage(fileName, true))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets.Add("emptyWorksheet");
@@ -378,7 +272,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var cert = GetSelfCert();
                 var digSig = wb.DigitialSignatures.AddSignature(cert);
 
-                SaveAndCleanup(pck);
+                pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
         }
 
@@ -391,22 +285,25 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void SignSaveTemplateSimple()
         {
-            using (var pck = OpenTemplatePackage("simpleDoc.xlsx"))
+            string fileName = $"simpleDoc.xlsx";
+
+            using (var pck = OpenTemplatePackage(fileName))
             {
                 var wb = pck.Workbook;
                 wb.FullCalcOnLoad = false;
 
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
+                var cert = GetSelfCert();
+                var digSig = wb.DigitialSignatures.AddSignature(cert);
 
-                SaveAndCleanup(pck);
+                pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
         }
 
         [TestMethod]
         public void SignSaveTemplateEmpty()
         {
+            string fileName = $"UnsignedWBEmpty.xlsx";
+
             using (var pck = OpenTemplatePackage("UnsignedWBEmpty.xlsx"))
             {
                 RSACryptoServiceProvider rsaKey = new();
@@ -415,35 +312,37 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 wb.FullCalcOnLoad = false;
 
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
+                var cert = GetSelfCert();
+                var digSig = wb.DigitialSignatures.AddSignature(cert);
 
-                SaveAndCleanup(pck);
+                pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
         }
 
         [TestMethod]
         public void SignFileExternal()
         {
-            using (var pck = OpenTemplatePackage("LinkExternalSign.xlsx"))
+            string fileName = $"LinkExternalSign.xlsx";
+
+            using (var pck = OpenTemplatePackage(fileName))
             {
                 var wb = pck.Workbook;
 
                 wb.FullCalcOnLoad = false;
 
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
+                var cert = GetSelfCert();
+                var digSig = wb.DigitialSignatures.AddSignature(cert);
 
-                SaveAndCleanup(pck);
+                pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
         }
 
         [TestMethod]
         public void AddComment()
         {
-            using (var pck = OpenPackage("CommentTest.xlsx", true))
+            string fileName = $"{SubFolder}CommentTest.xlsx";
+
+            using (var pck = OpenPackage(fileName, true))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets.Add("CommentWs");
@@ -457,7 +356,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void AddImage()
         {
-            using (var pck = OpenPackage("ImageTest.xlsx", true))
+            string fileName = $"{SubFolder}ImageTest.xlsx";
+
+            using (var pck = OpenPackage(fileName, true))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets.Add("imageWs");
@@ -480,7 +381,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             var CountryOrRegion = "Rainbow";
             var StateOrProvince = "WayUpHigh";
 
-            using (var pck = OpenTemplatePackage("combineddatareport.xlsx"))
+            string fileName = $"combineddatareport.xlsx";
+
+            using (var pck = OpenTemplatePackage(fileName))
             {
                 var wb = pck.Workbook;
 
@@ -498,9 +401,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.CountryOrRegion = CountryOrRegion;
                 info.StateOrProvince = StateOrProvince;
 
-                SaveAndCleanup(pck);
+                pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
-            using (var pck = OpenPackage("combineddatareport.xlsx"))
+            using (var pck = OpenPackage($"{SubFolder}{fileName}"))
             {
                 var wb = pck.Workbook;
                 var signerInformation = wb.DigitialSignatures[0].Details;
@@ -517,17 +420,18 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void SignSaveFileWithLOTSOfData()
         {
-            using (var pck = OpenTemplatePackage("s350.xlsm"))
+            string fileName = $"s350.xlsm";
+
+            using (var pck = OpenTemplatePackage(fileName))
             {
                 var wb = pck.Workbook;
 
                 wb.FullCalcOnLoad = false;
 
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
+                var cert = GetSelfCert();
+                var digSig = wb.DigitialSignatures.AddSignature(cert);
 
-                SaveAndCleanup(pck);
+                pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
         }
 
@@ -554,34 +458,38 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void SignSaveFileWithData()
         {
-            using (var pck = OpenTemplatePackage("StackedLabelsMoveNineThree.xlsx"))
+            string fileName = "StackedLabelsMoveNineThree.xlsx";
+
+            using (var pck = OpenTemplatePackage(fileName))
             {
                 var wb = pck.Workbook;
 
                 wb.FullCalcOnLoad = false;
 
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
+                var cert = GetSelfCert();
+                var digSig = wb.DigitialSignatures.AddSignature(cert);
 
-                SaveAndCleanup(pck);
+                pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
         }
 
         [TestMethod]
         public void ReadSignedFile()
         {
-            using (ExcelPackage pck = OpenTemplatePackage("simpleDocExcelSigned.xlsx"))
+            string fileName = "simpleDocExcelSigned.xlsx";
+            using (ExcelPackage pck = OpenTemplatePackage(fileName))
             {
                 var wb = pck.Workbook;
-                SaveAndCleanup(pck);
+                pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
         }
 
         [TestMethod]
         public void CreateDigSigSHA512()
         {
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLineSHA512.xlsx", true))
+            string fileName = $"{SubFolder}DigSig_SignatureLineSHA512.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
@@ -610,7 +518,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(package);
             }
 
-            using (ExcelPackage package = OpenPackage("DigSig_SignatureLineSHA512.xlsx"))
+            using (ExcelPackage package = OpenPackage(fileName))
             {
                 var wb = package.Workbook;
 

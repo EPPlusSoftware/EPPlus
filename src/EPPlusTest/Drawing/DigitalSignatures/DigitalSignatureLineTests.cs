@@ -14,7 +14,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
     [TestClass]
     public class DigitalSignatureLineTests : TestBase
     {
-        const string SubFolder = "DigitalSignatureLines\\";
+        const string SubFolder = "DigSig\\SignatureLines\\";
 
         X509Certificate2 GetSelfCert()
         {
@@ -658,6 +658,46 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 SaveAndCleanup(pck);
             }
+        }
+
+        [TestMethod]
+        public void TestTextLength()
+        {
+            var inValidTemplate = new SignatureLineTemplateEmf();
+            inValidTemplate.InsertInvalidRecords();
+
+            string testText = "IHaveAVeryVeryVeryVerylon";
+            inValidTemplate.SignText = testText;
+            Assert.AreEqual(inValidTemplate.signTextObject.Text, testText);
+
+            testText = "IHaveAVeryVeryVeryVerylong";
+            inValidTemplate.SignText = testText;
+            Assert.AreEqual(inValidTemplate.signTextObject.Text, "IHaveAVeryVeryVeryVerylo...");
+
+            testText = "IHaveAVeryVeryVeryVerylonggggggggggggggggggggggggggggggggggggggggg";
+            inValidTemplate.SignText = testText;
+            Assert.AreEqual(inValidTemplate.signTextObject.Text, "IHaveAVeryVeryVeryVerylo...");
+
+            testText = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLM";
+            inValidTemplate.SuggestedSigner = testText;
+            Assert.AreEqual(inValidTemplate.suggestedSignerObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLM");
+
+            inValidTemplate.SuggestedTitle = testText;
+            Assert.AreEqual(inValidTemplate.suggestedTitleObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLM");
+
+            testText += "N";
+            inValidTemplate.SuggestedSigner = testText;
+            Assert.AreEqual(inValidTemplate.suggestedSignerObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL...");
+
+            inValidTemplate.SuggestedTitle = testText;
+            Assert.AreEqual(inValidTemplate.suggestedTitleObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL...");
+
+            testText += "OPQR";
+            inValidTemplate.SuggestedSigner = testText;
+            Assert.AreEqual(inValidTemplate.suggestedSignerObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL...");
+
+            inValidTemplate.SuggestedTitle = testText;
+            Assert.AreEqual(inValidTemplate.suggestedTitleObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL...");
         }
     }
 }
