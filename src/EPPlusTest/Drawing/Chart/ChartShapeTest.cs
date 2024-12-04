@@ -16,6 +16,7 @@ namespace EPPlusTest.Drawing.Chart
             //ws.Drawings.AddShape("myshape", OfficeOpenXml.Drawing.eShapeStyle.Diamond);
             var chart = ws.Drawings[0] as ExcelChart;
             var cdr = chart.ChartDrawings[1];
+            cdr.SetSize(200);
             var chartShape = chart.AddShape("MyShape", eShapeStyle.Diamond);
             chartShape.Fill.Color = Color.Orange;
             chartShape.Effect.SetPresetShadow(ePresetExcelShadowType.OuterRight);

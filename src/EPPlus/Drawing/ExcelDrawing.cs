@@ -1023,8 +1023,8 @@ namespace OfficeOpenXml.Drawing
             if (PercentLeft < 0)
             { 
                 PercentLeft = 0;
-                PercentLeft /= ChartDrawingsPercentageScale;
-            }
+                                PercentLeft /= ChartDrawingsPercentageScale;
+        }
             else if (PercentLeft > ChartDrawingsPercentageScale)
             {
                 PercentLeft = ChartDrawingsPercentageScale;
@@ -1236,19 +1236,18 @@ namespace OfficeOpenXml.Drawing
             {
                 double scaleW = PixelWidth / 100.0f;
                 double scaleH = PixelHeight / 100.0f;
-
                 double cX = (From.X + To.X) / 2;
                 double cY = (From.Y + To.Y) / 2;
-
-                double width = (To.X - From.X) * scaleW;
-                double height = (To.Y - From.Y) * scaleH;
-
-                From.X = cX - width / 2;
-                From.Y = cY - height / 2;
-                To.X = cX + width / 2;
-                To.Y = cY + height / 2;
-                SetPosition(From.X, From.Y);
-                return;
+                _width = (To.X - From.X) * scaleW;
+                _height = (To.Y - From.Y) * scaleH;
+                var x1 = cX - _width / 2;
+                var y1 = cY - _height / 2;
+                var x2 = cX + _width / 2;
+                var y2 = cY + _height / 2;
+                From.X = Math.Max(0, Math.Min(1, x1));
+                From.Y = Math.Max(0, Math.Min(1, y1));
+                To.X = Math.Max(0, Math.Min(1, x2));
+                To.Y = Math.Max(0, Math.Min(1, y2));
             }
             else
             {
