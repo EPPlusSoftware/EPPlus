@@ -160,7 +160,7 @@ namespace OfficeOpenXml.Drawing
         }
 
         /// <summary>
-        /// Sign the signatureline with a new digital signature.
+        /// Sign with an image.
         /// </summary>
         /// <param name="certificate"></param>
         /// <param name="cType"></param>
@@ -174,7 +174,7 @@ namespace OfficeOpenXml.Drawing
         }
 
         /// <summary>
-        /// Sign the signatureline with an existing digital signature.
+        /// Sign the signatureline with an image and an existing digital signature.
         /// Note: Overwrites the digitalSignature.SignatureLine with the new one.
         /// </summary>
         /// <param name="digitalSignature"></param>

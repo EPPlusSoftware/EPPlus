@@ -1738,8 +1738,6 @@ namespace EPPlusTest.ConditionalFormatting
 
                 var cf = readPackage.Workbook.Worksheets[0].ConditionalFormatting[0];
                 Assert.AreEqual("\"&%/Stuff���}=``#�\"<>\"An Example\"", cf.As.Expression.Formula);
-
-                //readPackage.SaveAs("C:\\Users\\OssianEdström\\Documents\\hardFormula.xlsx");
             }
         }
 

@@ -18,24 +18,49 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
         X509Certificate2 GetSelfCert()
         {
-            var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-            var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
+            X509Store store = GetStore();
+            if (store.Certificates.Count == 0)
+            {
+                var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+                var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
 
-            var certPrivate = finalCert.Export(X509ContentType.Pfx);
-            var certPublic = finalCert.Export(X509ContentType.Cert);
-            return new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
+                var certPrivate = finalCert.Export(X509ContentType.Pfx);
+                var certPublic = finalCert.Export(X509ContentType.Cert);
+                var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
+
+                store.Add(finalCert);
+            }
+            return store.Certificates[0];
+        }
+
+        static X509Store GetStore()
+        {
+            X509Store store = new X509Store("tmpStoreDigSigEpplus", StoreLocation.CurrentUser);
+            store.Open(OpenFlags.ReadWrite);
+            return store;
         }
 
         [ClassInitialize]
         public static void Init(TestContext context)
         {
+            X509Store store = GetStore();
+            foreach (var cert in store.Certificates)
+            {
+                store.Remove(cert);
+            }
+            store.Close();
             CreatePathIfNotExists(_worksheetPath + SubFolder);
         }
 
         [ClassCleanup]
         public static void Cleanup()
         {
-
+            X509Store store = GetStore();
+            foreach (var cert in store.Certificates)
+            {
+                store.Remove(cert);
+            }
+            store.Close();
         }
 
         [TestMethod]
@@ -284,7 +309,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
             byte[] originalImgBytes;
 
-            using (var pck = OpenTemplatePackage("BmpImage.xlsx"))
+            string fileName = "BmpImage.xlsx";
+            string fileNameSub = $"{SubFolder}{fileName}";
+
+            using (var pck = OpenTemplatePackage(fileName))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets[0];
@@ -297,6 +325,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 origImage = digSig.SigLnImage;
                 origValid = digSig.ValidSigLnImage;
                 origInvalid = digSig.InvalidSigLnImg;
+                digSig.Certificate = GetSelfCert();
 
                 var imageOnly = GetOutputFile(SubFolder, $"{sharedName}Image.emf");
                 var noSigOnlyTemplate = GetOutputFile(SubFolder, $"{sharedName}image1NoSig.emf");
@@ -316,7 +345,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 DecodeAndSaveEmf(origValid, GetOutputFile(SubFolder, "SignatureImagePngValid.emf").FullName);
                 DecodeAndSaveEmf(origInvalid, GetOutputFile(SubFolder, "SignatureImagePngInvalid.emf").FullName);
 
-                SaveAndCleanup(pck);
+                pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
 
             string openedOnceImage;
@@ -324,13 +353,14 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             string openedOnceInvalid;
             string digitalSignatureOuterXmlOnceOpened;
 
-            using (var pck = OpenPackage("BmpImage.xlsx"))
+            using (var pck = OpenPackage(fileNameSub))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets[0];
 
                 var aSline = ws.SignatureLines[0];
                 var digSig = wb.DigitialSignatures[0];
+                digSig.Certificate = GetSelfCert();
 
                 openedOnceImage = digSig.SigLnImage;
                 openedOnceValid = digSig.ValidSigLnImage;
@@ -351,12 +381,14 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(pck);
             }
 
-            using (var pck = OpenPackage("BmpImage.xlsx"))
+            using (var pck = OpenPackage(fileNameSub))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets[0];
                 var digSig = wb.DigitialSignatures[0];
                 var aSline = ws.SignatureLines[0];
+                digSig.Certificate = GetSelfCert();
+
 
                 //Opening again with Epplus without changing anything should be the same
                 Assert.AreEqual(openedOnceImage, digSig.SigLnImage);
@@ -371,12 +403,13 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 SaveAndCleanup(pck);
             }
 
-            using (var pck = OpenPackage("BmpImage.xlsx"))
+            using (var pck = OpenPackage(fileNameSub))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets[0];
                 var digSig = wb.DigitialSignatures[0];
                 var aSline = ws.SignatureLines[0];
+                digSig.Certificate = GetSelfCert();
 
                 //Opening again with Epplus should be the same
                 Assert.AreEqual(openedOnceImage, digSig.SigLnImage);

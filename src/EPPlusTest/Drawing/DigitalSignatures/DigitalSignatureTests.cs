@@ -29,18 +29,19 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         X509Certificate2 GetSelfCert()
         {
             X509Store store = GetStore();
-
             if(store.Certificates.Count == 0)
             {
                 var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
                 var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
 
                 var certPrivate = finalCert.Export(X509ContentType.Pfx);
+                var certPublic = finalCert.Export(X509ContentType.Cert);
                 var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
 
                 store.Add(newCert);
             }
-            return store.Certificates[0];
+            var cert = store.Certificates[0];
+            return cert;
         }
 
         static X509Store GetStore()
@@ -58,7 +59,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 store.Remove(cert);
             }
-
+            store.Close();
             CreatePathIfNotExists(_worksheetPath + SubFolder);
         }
 
@@ -77,6 +78,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         public void CreateDigitalSignatureAndReadIt()
         {
             string fileName = $"{SubFolder}InvisibleSignature.xlsx";
+            var cert = GetSelfCert();
 
             using (ExcelPackage package = OpenPackage(fileName, true))
             {
@@ -86,8 +88,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 wb.Calculate();
 
                 var test = package.Workbook.FullCalcOnLoad;
-
-                var cert = GetSelfCert();
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(cert, CommitmentType.CreatedAndApproved, "TestingSignatureLine");
                 var info = digSig.Details;
@@ -107,10 +107,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets[0];
-
-                var cert = GetSelfCert();
-
                 var digSig = wb.DigitialSignatures[0];
+                digSig.Certificate = cert;
+
                 var info = digSig.Details;
                 Assert.AreEqual("A Title", info.SignerRoleTitle);
                 Assert.AreEqual("Some", info.Address1);
@@ -119,7 +118,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual("The", info.City);
                 Assert.AreEqual("Rainbow", info.CountryOrRegion);
                 Assert.AreEqual("WayUpHigh", info.StateOrProvince);
-                Assert.AreEqual(cert, digSig.Certificate);
 
                 SaveAndCleanup(package);
                 Assert.IsTrue(digSig.IsValid);
@@ -136,6 +134,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
 
                 var digSig = wb.DigitialSignatures[0];
+                digSig.Certificate = GetSelfCert();
                 Assert.AreEqual(CommitmentType.Approved, digSig.CommitmentTyping);
                 Assert.AreEqual("MyPurposeIsMyOwn", digSig.PurposeForSigning);
 
@@ -152,6 +151,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
 
                 var digSig = wb.DigitialSignatures[0];
+                digSig.Certificate = GetSelfCert();
+
                 Assert.AreEqual(CommitmentType.None, digSig.CommitmentTyping);
                 Assert.AreEqual("MyPurposeIsMyOwn", digSig.PurposeForSigning);
 
@@ -263,16 +264,18 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         public void SignSave()
         {
             string fileName = $"{SubFolder}generatedSignedEmpty.xlsx";
+            var cert = GetSelfCert();
 
             using (var pck = OpenPackage(fileName, true))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets.Add("emptyWorksheet");
 
-                var cert = GetSelfCert();
+                wb.Calculate();
+
                 var digSig = wb.DigitialSignatures.AddSignature(cert);
 
-                pck.SaveAs(GetOutputFile(SubFolder, fileName));
+                SaveAndCleanup(pck);
             }
         }
 
@@ -341,30 +344,23 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         public void AddComment()
         {
             string fileName = $"{SubFolder}CommentTest.xlsx";
+            var cert = GetSelfCert();
+
+            //var key = cert.GetRSAPrivateKey();
 
             using (var pck = OpenPackage(fileName, true))
             {
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets.Add("CommentWs");
 
-                ws.Cells["A1"].AddComment("Do Something about this", "ossian");
+                //wb.Calculate();
 
-                SaveAndCleanup(pck);
-            }
-        }
+                //ws.Cells["A1"].AddComment("Do Something about this", "ossian");
+                var sigLine = ws.AddSignatureLine();
+                sigLine.Sign(cert, "ASigner");
 
-        [TestMethod]
-        public void AddImage()
-        {
-            string fileName = $"{SubFolder}ImageTest.xlsx";
-
-            using (var pck = OpenPackage(fileName, true))
-            {
-                var wb = pck.Workbook;
-                var ws = wb.Worksheets.Add("imageWs");
-
-                var pic = ws.Drawings.AddPicture("Landscape", new FileInfo(@"C:\Users\OssianEdström\Pictures\webp.jpg"));
-                pic.SetPosition(2, 0, 1, 0);
+                var test = wb.DigitialSignatures[0].Certificate.GetRSAPrivateKey();
+                var test2 = wb.DigitialSignatures[0].Certificate.GetRSAPrivateKey();
 
                 SaveAndCleanup(pck);
             }

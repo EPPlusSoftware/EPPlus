@@ -25,10 +25,22 @@ namespace OfficeOpenXml.DigitalSignatures
         ExcelWorkbook _wb;
         DigSigManifest _manifest;
 
+        private X509Certificate2 _cert = null;
+
         /// <summary>
         /// The Certificate used to sign this digital signature
         /// </summary>
-        public X509Certificate2 Certificate { get; internal set; } = null;
+        public X509Certificate2 Certificate
+        {
+            get
+            {
+                return _cert;
+            }
+            set
+            {
+                _cert = value;
+            }
+        }
 
         const string _originPartUri = @"/_xmlsignatures/origin.sigs";
         const string relType = "http://schemas.openxmlformats.org/package/2006/relationships/digital-signature/signature";
@@ -192,20 +204,7 @@ namespace OfficeOpenXml.DigitalSignatures
             string keyInfo = _doc.GetElementsByTagName("KeyInfo")[0].InnerText;
             string serialInFile = _qualifyingProperties.SignedProps.SignatureProps.Serial;
 
-            X509Store store = new X509Store("tmpStoreDigSigEpplus", StoreLocation.CurrentUser);
-            store.Open(OpenFlags.ReadOnly);
-            foreach (var cert in store.Certificates)
-            {
-                var bytes = cert.GetSerialNumber();
-                bytes = bytes.Reverse().ToArray();
-                var serialAsDecimals = SignedSignatureProperites.BytesToNumericString(bytes);
-                if (serialAsDecimals == serialInFile)
-                {
-                    Certificate = cert;
-                    break;
-                }
-            }
-            store.Close();
+
             wasRead = true;
         }
 
@@ -229,6 +228,11 @@ namespace OfficeOpenXml.DigitalSignatures
         {
             if (Certificate != null)
             {
+#if NET35
+#else
+                var someKey = Certificate.GetRSAPrivateKey();
+#endif
+
                 //if there is no read manifest then the manifest has changed
                 bool manifestChanged = true;
   
