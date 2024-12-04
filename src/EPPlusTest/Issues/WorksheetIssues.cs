@@ -510,13 +510,5 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
-
-		[TestMethod]
-		public void I1728()
-		{
-			using var p = OpenTemplatePackage("Issue1728.xlsm");
-			var nWs = p.Workbook.Worksheets.Count;
-
-        }
     }
 }
