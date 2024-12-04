@@ -30,6 +30,12 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 using System.ComponentModel;
 using OfficeOpenXml.LoadFunctions.Params;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.ConditionalFormatting;
+using System.Globalization;
+
+
+
 
 
 
@@ -112,9 +118,13 @@ namespace OfficeOpenXml.Drawing
 
 
         internal DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel;
-
+        internal readonly double screenWidth;
+        internal readonly double screenHeight;
         internal ExcelDrawings(ExcelPackage xlPackage, ExcelChart excelChart)
         {
+            screenWidth = excelChart._width;
+            screenHeight = excelChart._height;
+
             _package = xlPackage;
             Worksheet = excelChart.WorkSheet;
             DrawingsType = DrawingsCollectionType.chart;
@@ -1803,16 +1813,20 @@ namespace OfficeOpenXml.Drawing
             drawNode.AppendChild(fromNode);
             XmlElement fromX = _drawingsXml.CreateElement("cdr", "x", ExcelPackage.schemaChartDrawing);
             XmlElement fromY = _drawingsXml.CreateElement("cdr", "y", ExcelPackage.schemaChartDrawing);
-            fromX.InnerText = "0";
-            fromY.InnerText = "0";
+
+            double x1 = 0, y1 = 0, x2 = 0.15, y2 = 0.15;
+            MathHelper.AdjustAspectRatio(screenWidth, screenHeight, ref x1, ref y1, ref x2, ref y2);
+
+            fromX.InnerText = x1.ToString(CultureInfo.InvariantCulture);
+            fromY.InnerText = y1.ToString(CultureInfo.InvariantCulture);
             fromNode.AppendChild(fromX);
             fromNode.AppendChild(fromY);
             //Add to position Element;
             XmlElement toNode = _drawingsXml.CreateElement("cdr", "to", ExcelPackage.schemaChartDrawing);
             XmlElement toX = _drawingsXml.CreateElement("cdr", "x", ExcelPackage.schemaChartDrawing);
             XmlElement toY = _drawingsXml.CreateElement("cdr", "y", ExcelPackage.schemaChartDrawing);
-            toX.InnerText = "0.5";
-            toY.InnerText = "0.5";
+            toX.InnerText = x2.ToString(CultureInfo.InvariantCulture);
+            toY.InnerText = y2.ToString(CultureInfo.InvariantCulture);
             toNode.AppendChild(toX);
             toNode.AppendChild(toY);
             drawNode.AppendChild(toNode);

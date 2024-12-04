@@ -967,6 +967,10 @@ namespace OfficeOpenXml.Drawing
         /// <param name="PixelLeft">Left pixel</param>
         public void SetPosition(int PixelTop, int PixelLeft)
         {
+            if(_drawings.DrawingsType == DrawingsCollectionType.chart)
+            {
+                SetPosition((double)PixelTop, (double)PixelLeft);
+            }
             SetPosition(PixelTop, PixelLeft, true);
         }
         internal void SetPosition(int PixelTop, int PixelLeft, bool adjustChildren)
@@ -997,23 +1001,39 @@ namespace OfficeOpenXml.Drawing
             SetPixelHeight(_height);
             _doNotAdjust = false;
         }
-        public void SetPosition(double PercentTop, double PercentLeft)
+        private int ChartDrawingsPercentageScale = 10000;
+        private void SetPosition(double PercentTop, double PercentLeft)
         {
             //if (adjustChildren && DrawingType == eDrawingType.GroupShape)
             //{
             //    //DO FIX WHEN GROUPSHAPE
             //}
-            _width = Math.Abs( From.X - To.X);
-            _height = Math.Abs( From.Y - To.Y);
 
             if (PercentTop < 0)
             {
                 PercentTop = 0;
+                PercentTop /= ChartDrawingsPercentageScale;
             }
-            if (PercentLeft < 0)
+            else if (PercentTop > ChartDrawingsPercentageScale)
             {
-                PercentLeft = 0;
+                PercentTop = ChartDrawingsPercentageScale;
+                PercentTop /= ChartDrawingsPercentageScale;
             }
+
+            if (PercentLeft < 0)
+            { 
+                PercentLeft = 0;
+                PercentLeft /= ChartDrawingsPercentageScale;
+            }
+            else if (PercentLeft > ChartDrawingsPercentageScale)
+            {
+                PercentLeft = ChartDrawingsPercentageScale;
+                PercentLeft /= ChartDrawingsPercentageScale;
+            }
+
+            _width = Math.Abs( From.X - To.X);
+            _height = Math.Abs( From.Y - To.Y);
+
             From.X = PercentLeft;
             From.Y = PercentTop;
             To.X = PercentLeft + _width;
@@ -1030,7 +1050,6 @@ namespace OfficeOpenXml.Drawing
                 To.Y = 1;
                 From.Y -= diff;
             }
-
             UpdatePositionAndSizeXml();
         }
         /// <summary>
@@ -1183,18 +1202,26 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Percent"></param>
         public virtual void SetSize(int Percent)
         {
-            _doNotAdjust = true;
-            if (_width == int.MinValue)
+            if (_drawings.DrawingsType == DrawingsCollectionType.chart)
             {
-                _width = GetPixelWidth();
-                _height = GetPixelHeight();
+                SetSize(Percent, Percent);
+                return;
             }
-            _width = _width * ((double)Percent / 100);
-            _height = _height * ((double)Percent / 100);
+            else
+            {
+                _doNotAdjust = true;
+                if (_width == int.MinValue)
+                {
+                    _width = GetPixelWidth();
+                    _height = GetPixelHeight();
+                }
+                _width = _width * ((double)Percent / 100);
+                _height = _height * ((double)Percent / 100);
 
-            SetPixelWidth(_width);
-            SetPixelHeight(_height);
-            _doNotAdjust = false;
+                SetPixelWidth(_width);
+                SetPixelHeight(_height);
+                _doNotAdjust = false;
+            }
             UpdatePositionAndSizeXml();
         }
         /// <summary>
@@ -1205,12 +1232,33 @@ namespace OfficeOpenXml.Drawing
         /// <param name="PixelHeight">Height in pixels</param>
         public void SetSize(int PixelWidth, int PixelHeight)
         {
-            _doNotAdjust = true;
-            _width = PixelWidth;
-            _height = PixelHeight;
-            SetPixelWidth(PixelWidth);
-            SetPixelHeight(PixelHeight);
-            _doNotAdjust = false;
+            if (_drawings.DrawingsType == DrawingsCollectionType.chart)
+            {
+                double scaleW = PixelWidth / 100.0f;
+                double scaleH = PixelHeight / 100.0f;
+
+                double cX = (From.X + To.X) / 2;
+                double cY = (From.Y + To.Y) / 2;
+
+                double width = (To.X - From.X) * scaleW;
+                double height = (To.Y - From.Y) * scaleH;
+
+                From.X = cX - width / 2;
+                From.Y = cY - height / 2;
+                To.X = cX + width / 2;
+                To.Y = cY + height / 2;
+                SetPosition(From.X, From.Y);
+                return;
+            }
+            else
+            {
+                _doNotAdjust = true;
+                _width = PixelWidth;
+                _height = PixelHeight;
+                SetPixelWidth(PixelWidth);
+                SetPixelHeight(PixelHeight);
+                _doNotAdjust = false;
+            }
             UpdatePositionAndSizeXml();
         }
         #endregion

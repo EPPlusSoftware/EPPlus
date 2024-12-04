@@ -15,11 +15,17 @@ namespace EPPlusTest.Drawing.Chart
             var ws = p.Workbook.Worksheets[0];
             //ws.Drawings.AddShape("myshape", OfficeOpenXml.Drawing.eShapeStyle.Diamond);
             var chart = ws.Drawings[0] as ExcelChart;
-            var cdr = chart.ChartDrawings[0];
-            var chartShape = chart.AddShape("MyShape", eShapeStyle.Plus);
+            var cdr = chart.ChartDrawings[1];
+            var chartShape = chart.AddShape("MyShape", eShapeStyle.Diamond);
             chartShape.Fill.Color = Color.Orange;
             chartShape.Effect.SetPresetShadow(ePresetExcelShadowType.OuterRight);
-            chartShape.SetPosition(0.99, 0.99);
+            chartShape.SetPosition(0, 0);
+            chartShape.SetSize(100, 200);
+            var chartShape2 = chart.AddShape("MyShape2", eShapeStyle.Diamond);
+            chartShape2.Fill.Color = Color.Orange;
+            chartShape2.Effect.SetPresetShadow(ePresetExcelShadowType.OuterRight);
+            chartShape2.SetPosition(10000, 10000);
+            chartShape2.SetSize(30);
             p.SaveAs(@"c:\epplustest\testoutput\shapeInChartTest.xlsx");
         }
     }
@@ -29,6 +35,5 @@ namespace EPPlusTest.Drawing.Chart
      * Pictures
      * Group Shapes
      * Properties
-     * - SetPosition, Make percentage and to can't be greater than 1.
      */
 }
