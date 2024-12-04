@@ -3023,9 +3023,9 @@ namespace OfficeOpenXml
                 var toCol = Dimension._toCol;
                 if (_values.GetValue(toRow, toCol)._value == null)
                 {
-                    while (_values.PrevCell(ref toRow, ref toCol))
+                    while (_values.PrevCell(ref toRow, ref toCol) && toRow > 0)
                     {
-                        if (_values.GetValue(toRow, toCol)._value != null)
+                        if (toCol > 0 && _values.GetValue(toRow, toCol)._value != null)
                         {
                             return Cells[toRow, toCol];
                         }
