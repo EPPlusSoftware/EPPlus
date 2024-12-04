@@ -480,7 +480,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var digSig = sLine.DigitalSignature;
 
-                var info = digSig.SigningInformation;
+                var info = digSig.Details;
 
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
@@ -505,7 +505,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 //Getting signature from signatureline
                 var sig = sigLine.DigitalSignature;
-                var info = sig.SigningInformation;
+                var info = sig.Details;
 
                 //Check signatureline is equal
                 Assert.AreEqual("A Title", info.SignerRoleTitle);

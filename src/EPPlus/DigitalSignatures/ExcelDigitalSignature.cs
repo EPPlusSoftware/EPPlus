@@ -25,12 +25,15 @@ namespace OfficeOpenXml.DigitalSignatures
         ExcelWorkbook _wb;
         DigSigManifest _manifest;
 
-        public X509Certificate2 Certificate { get; set; } = null;
+        /// <summary>
+        /// The Certificate used to sign this digital signature
+        /// </summary>
+        public X509Certificate2 Certificate { get; internal set; } = null;
 
         const string _originPartUri = @"/_xmlsignatures/origin.sigs";
         const string relType = "http://schemas.openxmlformats.org/package/2006/relationships/digital-signature/signature";
         const string relTypeOrigin = "http://schemas.openxmlformats.org/package/2006/relationships/digital-signature/origin";
-        internal const string PartUriBase = @"/_xmlsignatures/sig{0}.xml";
+        private const string PartUriBase = @"/_xmlsignatures/sig{0}.xml";
         internal string PartUri = "";
 
         internal string _digestMethod { get; private set; } = DigestMethods.SHA1;
@@ -45,7 +48,7 @@ namespace OfficeOpenXml.DigitalSignatures
         /// <summary>
         /// Details about the signer of a DigitalSignature, such as role, title, address etc.
         /// </summary>
-        public AdditionalSignatureInfo SigningInformation = new AdditionalSignatureInfo();
+        public AdditionalSignatureInfo Details = new AdditionalSignatureInfo();
 
         /// <summary>
         /// Reason for signing the document-
@@ -56,14 +59,14 @@ namespace OfficeOpenXml.DigitalSignatures
         /// </summary>
         public CommitmentType CommitmentTyping = CommitmentType.None;
 
-        internal Guid SetupId;
+        private Guid SetupId;
         //private bool _verified = false;
 
         DigSigManifest readManifest = null;
 
         /// <summary>
         /// Whether the Signature was valid when the file was read/saved
-        /// Is dirty and outdated until after package is saved.
+        /// Is dirty and outdated until after package is saved if any changes have been made to package files.
         /// </summary>
         public bool IsValid
         {
@@ -136,7 +139,7 @@ namespace OfficeOpenXml.DigitalSignatures
             }
             else
             {
-                //Unknown algorithm. Throw? Apply default?
+                //Unknown algorithm. Throw? Apply default? Will throw on save
             }
 
             var packageObj = _doc.GetElementsByTagName("Manifest");
@@ -146,7 +149,7 @@ namespace OfficeOpenXml.DigitalSignatures
 
             if(officeObj != null)
             {
-                signatureProperty = new SignatureProperty((XmlElement)officeObj, SigningInformation);
+                signatureProperty = new SignatureProperty((XmlElement)officeObj, Details);
                 PurposeForSigning = signatureProperty.sigInfo1.SignatureComments;
 
                 if (string.IsNullOrEmpty(signatureProperty.sigInfo1.SetUpId) == false)
@@ -184,12 +187,12 @@ namespace OfficeOpenXml.DigitalSignatures
 
             var typeQualifiers = new List<string>();
             var signedPropertiesNode = _doc.SelectSingleNode("//*[@Id='idSignedProperties']");
-            _qualifyingProperties = new QualifyingProperties((XmlElement)signedPropertiesNode, SigningInformation, typeQualifiers, ref CommitmentTyping);
+            _qualifyingProperties = new QualifyingProperties((XmlElement)signedPropertiesNode, Details, typeQualifiers, ref CommitmentTyping);
 
             string keyInfo = _doc.GetElementsByTagName("KeyInfo")[0].InnerText;
             string serialInFile = _qualifyingProperties.SignedProps.SignatureProps.Serial;
 
-            X509Store store = new X509Store(StoreLocation.CurrentUser);
+            X509Store store = new X509Store("tmpStoreDigSigEpplus", StoreLocation.CurrentUser);
             store.Open(OpenFlags.ReadOnly);
             foreach (var cert in store.Certificates)
             {
@@ -202,7 +205,7 @@ namespace OfficeOpenXml.DigitalSignatures
                     break;
                 }
             }
-
+            store.Close();
             wasRead = true;
         }
 
@@ -235,7 +238,8 @@ namespace OfficeOpenXml.DigitalSignatures
                 {
                     var newManifest = _manifest.GetDoc().OuterXml;
                     var oldManifest = readManifest.GetDoc().OuterXml;
-                    manifestChanged = newManifest != oldManifest;
+
+                    manifestChanged = !newManifest.Equals(oldManifest);
                 }
 
                 if (IsValid == false | manifestChanged)
@@ -253,7 +257,7 @@ namespace OfficeOpenXml.DigitalSignatures
                     };
 
                     _qualifyingProperties = new QualifyingProperties
-                        ("xd", Certificate, CommitmentTyping, signatureComments, SigningInformation);
+                        ("xd", Certificate, CommitmentTyping, signatureComments, Details);
 
                     //Set digestmethod and hash for certDigest
                     _qualifyingProperties.SignedProps.SignatureProps.Algorithm = _digestMethod;
@@ -376,7 +380,7 @@ namespace OfficeOpenXml.DigitalSignatures
             obj.Id = "idOfficeObject";
 
             var props = new SignatureProperty("#idPackageSignature", "idOfficeV1Details");
-            props.CreateSignatureInfo(SigningInformation, PurposeForSigning);
+            props.CreateSignatureInfo(Details, PurposeForSigning);
 
             if(SignatureLine != null)
             {

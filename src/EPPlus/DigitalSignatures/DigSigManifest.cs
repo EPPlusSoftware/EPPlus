@@ -22,6 +22,7 @@ namespace OfficeOpenXml.DigitalSignatures
 
         internal DigSigManifest(DigSigManifestContext preManifest, DigitalSignatureHashAlgorithm algorithm)
         {
+            doc.PreserveWhitespace = true;
             var root = doc.CreateElement("Manifest", "http://www.w3.org/2000/09/xmldsig#");
             doc.AppendChild(root);
 
@@ -36,6 +37,7 @@ namespace OfficeOpenXml.DigitalSignatures
         //Read manifest from signature
         internal DigSigManifest(XmlNode ManifestNode)
         {
+            doc.PreserveWhitespace = true;
             doc.LoadXml(ManifestNode.OuterXml);
             var referenceElements = doc.GetElementsByTagName("Reference");
             foreach(XmlNode node in referenceElements)
@@ -43,7 +45,6 @@ namespace OfficeOpenXml.DigitalSignatures
                 var mReference = new ManifestReference(node);
                 manifestReferences.Add(mReference);
             }
-            SortReferencesAndAddToDoc();
         }
 
         internal void ImportAndAddNode(XmlNode node)

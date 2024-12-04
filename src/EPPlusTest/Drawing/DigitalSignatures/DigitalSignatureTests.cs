@@ -29,12 +29,48 @@ namespace EPPlusTest.Drawing.DigitalSignatures
     {
         X509Certificate2 GetSelfCert()
         {
-            var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-            var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
+            X509Store store = GetStore();
 
-            var certPrivate = finalCert.Export(X509ContentType.Pfx);
-            var certPublic = finalCert.Export(X509ContentType.Cert);
-            return new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
+            if(store.Certificates.Count == 0)
+            {
+                var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+                var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
+
+                var certPrivate = finalCert.Export(X509ContentType.Pfx);
+                var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
+
+                store.Add(newCert);
+            }
+            return store.Certificates[0];
+        }
+
+        static X509Store GetStore()
+        {
+            X509Store store = new X509Store("tmpStoreDigSigEpplus", StoreLocation.CurrentUser);
+            store.Open(OpenFlags.ReadWrite);
+            return store;
+        }
+
+        [ClassInitialize]
+        public static void Init(TestContext context)
+        {
+            X509Store store = GetStore();
+
+            foreach (var cert in store.Certificates)
+            {
+                store.Remove(cert);
+            }
+        }
+
+        [ClassCleanup]
+        public static void Cleanup()
+        {
+            X509Store store = GetStore();
+            foreach (var cert in store.Certificates)
+            {
+                store.Remove(cert);
+            }
+            store.Close();
         }
 
         [TestMethod]
@@ -49,8 +85,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var test = package.Workbook.FullCalcOnLoad;
 
-                var digSig = ws.Workbook.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "TestingSignatureLine");
-                var info = digSig.SigningInformation;
+                var cert = GetSelfCert();
+
+                var digSig = ws.Workbook.DigitialSignatures.AddSignature(cert, CommitmentType.CreatedAndApproved, "TestingSignatureLine");
+                var info = digSig.Details;
 
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
@@ -68,8 +106,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets[0];
 
+                var cert = GetSelfCert();
+
                 var digSig = wb.DigitialSignatures[0];
-                var info = digSig.SigningInformation;
+                var info = digSig.Details;
                 Assert.AreEqual("A Title", info.SignerRoleTitle);
                 Assert.AreEqual("Some", info.Address1);
                 Assert.AreEqual("Where", info.Address2);
@@ -77,6 +117,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual("The", info.City);
                 Assert.AreEqual("Rainbow", info.CountryOrRegion);
                 Assert.AreEqual("WayUpHigh", info.StateOrProvince);
+                Assert.AreEqual(cert, digSig.Certificate);
+
+                SaveAndCleanup(package);
+                Assert.IsTrue(digSig.IsValid);
             }
         }
 
@@ -230,7 +274,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 sLine.Signer = "ASigner";
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
-                var info = digSig.SigningInformation;
+                var info = digSig.Details;
 
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
@@ -444,7 +488,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var cert = GetSelfCert();
                 var digSig = wb.DigitialSignatures.AddSignature(cert);
-                var info = digSig.SigningInformation;
+                var info = digSig.Details;
 
                 info.SignerRoleTitle = title;
                 info.Address1 = address;
@@ -459,7 +503,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             using (var pck = OpenPackage("combineddatareport.xlsx"))
             {
                 var wb = pck.Workbook;
-                var signerInformation = wb.DigitialSignatures[0].SigningInformation;
+                var signerInformation = wb.DigitialSignatures[0].Details;
                 Assert.AreEqual(title, signerInformation.SignerRoleTitle);
                 Assert.AreEqual(address, signerInformation.Address1);
                 Assert.AreEqual(address2, signerInformation.Address2);
@@ -546,7 +590,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 sLine.Signer = "ASigner";
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "TestingSignatureLine");
-                var info = digSig.SigningInformation;
+                var info = digSig.Details;
 
                 digSig.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA512);
 

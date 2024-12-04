@@ -31,6 +31,7 @@ namespace OfficeOpenXml.DigitalSignatures
         public ManifestReference(PartWithXml xmlPart, DigitalSignatureHashAlgorithm algorithm)
         {
             mRefType = xmlPart.PartType;
+            _uri = xmlPart.UriKey;
 
             if (xmlPart.PartType == ePartType.RelPart)
             {
