@@ -12,6 +12,7 @@ using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.Style;
 using System.Text;
+using OfficeOpenXml.Utils;
 
 //REMEMBER:
 //1. Cannonize
@@ -160,7 +161,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             //.rels file
             string DotRels = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"><Relationship Id=\"rId3\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties\" Target=\"docProps/app.xml\"/><Relationship Id=\"rId2\" Type=\"http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties\" Target=\"docProps/core.xml\"/><Relationship Id=\"rId1\" Type=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument\" Target=\"xl/workbook.xml\"/><Relationship Id=\"rId4\" Type=\"http://schemas.openxmlformats.org/package/2006/relationships/digital-signature/origin\" Target=\"_xmlsignatures/origin.sigs\"/></Relationships>";
 
-            PartWithXml xml = new PartWithXml() { UriKey = "/_rels/.rels?ContentType=application/vnd.openxmlformats-package.relationships+xml", Bytes = Encoding.UTF8.GetBytes(DotRels), PartType = ePartType.RelPart };
+            PartWithXml xml = new PartWithXml() { UriKey = "/_rels/.rels?ContentType=application/vnd.openxmlformats-package.relationships+xml", StringData = DotRels, PartType = ePartType.RelPart };
 
             var manifestReference = new ManifestReference(xml, DigitalSignatureHashAlgorithm.SHA1);
 
@@ -180,7 +181,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             string DrawingXml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\r\n<xdr:wsDr xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:a=\"http://schemas.openxmlformats.org/drawingml/2006/main\"><xdr:twoCellAnchor><xdr:from><xdr:col>4</xdr:col><xdr:colOff>0</xdr:colOff><xdr:row>1</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:from><xdr:to><xdr:col>16</xdr:col><xdr:colOff>304800</xdr:colOff><xdr:row>31</xdr:row><xdr:rowOff>0</xdr:rowOff></xdr:to><xdr:graphicFrame macro=\"\"><xdr:nvGraphicFramePr><xdr:cNvPr id=\"2\" name=\"PivotChart\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\" id=\"{00000000-0008-0000-0100-000002000000}\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/></xdr:xfrm><a:graphic><a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/chart\"><c:chart xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"rId1\"/></a:graphicData></a:graphic></xdr:graphicFrame><xdr:clientData/></xdr:twoCellAnchor></xdr:wsDr>";
             var uriQuery = "/xl/drawings/_rels/drawing1.xml.rels?ContentType=application/vnd.openxmlformats-package.relationships+xml";
 
-            PartWithXml xml = new PartWithXml() { UriKey = uriQuery, Bytes = Encoding.UTF8.GetBytes(DrawingXml), PartType = ePartType.Part };
+            PartWithXml xml = new PartWithXml() { UriKey = uriQuery, StringData = EncodeUtil.HashAndEncodeBytes(Encoding.UTF8.GetBytes(DrawingXml)), PartType = ePartType.Part };
 
             var manifestReference = new ManifestReference(xml, DigitalSignatureHashAlgorithm.SHA1);
 

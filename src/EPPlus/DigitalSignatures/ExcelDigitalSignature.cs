@@ -24,7 +24,6 @@ namespace OfficeOpenXml.DigitalSignatures
         ZipPackagePart _originPart;
         ExcelWorkbook _wb;
         DigSigManifest _manifest;
-        DigitalSignatureHashAlgorithm _hashAlgorithm;
 
         public X509Certificate2 Certificate { get; set; } = null;
 
@@ -133,7 +132,7 @@ namespace OfficeOpenXml.DigitalSignatures
             var readAlgorithm = DigestMethods.GetHashAlgorithmByDigest(_digestMethod);
             if(readAlgorithm != null)
             {
-                _hashAlgorithm = readAlgorithm.Value;
+                _wb._package.ZipPackage.hashAlgorithm = readAlgorithm.Value;
             }
             else
             {
@@ -229,17 +228,15 @@ namespace OfficeOpenXml.DigitalSignatures
             {
                 //if there is no read manifest then the manifest has changed
                 bool manifestChanged = true;
-                ////Create 
-                //_manifest = _wb._package.ZipPackage.Manifest;
-                _manifest = new DigSigManifest(_wb._package.ZipPackage.XmlManifest, _hashAlgorithm);
-                //  _manifest = _wb._package.ZipPackage.Manifest;
+  
+                _manifest = new DigSigManifest(_wb._package.ZipPackage.XmlManifest, _wb._package.ZipPackage.hashAlgorithm);
 
-                //if (readManifest != null)
-                //{
-                //    var newManifest = _manifest.GetDoc().OuterXml;
-                //    var oldManifest = readManifest.GetDoc().OuterXml;
-                //    manifestChanged = newManifest != oldManifest;
-                //}
+                if (readManifest != null)
+                {
+                    var newManifest = _manifest.GetDoc().OuterXml;
+                    var oldManifest = readManifest.GetDoc().OuterXml;
+                    manifestChanged = newManifest != oldManifest;
+                }
 
                 if (IsValid == false | manifestChanged)
                 {
@@ -260,7 +257,7 @@ namespace OfficeOpenXml.DigitalSignatures
 
                     //Set digestmethod and hash for certDigest
                     _qualifyingProperties.SignedProps.SignatureProps.Algorithm = _digestMethod;
-                    _qualifyingProperties.SignedProps.SignatureProps.HashCert(_hashAlgorithm);
+                    _qualifyingProperties.SignedProps.SignatureProps.HashCert(_wb._package.ZipPackage.hashAlgorithm);
 
 
                     var docTest = _qualifyingProperties.GetDocument();
@@ -474,14 +471,14 @@ namespace OfficeOpenXml.DigitalSignatures
         }
 
         /// <summary>
-        /// Set the digest method/Hash Algorithm for the signature
-        /// MD5 is not supported
+        /// Set the digest method/Hash Algorithm for the package
+        /// Note: All Digital Signatures in the package will use the latest algorithm.
         /// </summary>
         /// <param name="algorithm"></param>
         /// <exception cref="InvalidOperationException"></exception>
         public void SetDigestMethod(DigitalSignatureHashAlgorithm algorithm)
         {
-            _hashAlgorithm = algorithm;
+            _wb._package.ZipPackage.hashAlgorithm = algorithm;
             _digestMethod = DigestMethods.GetDigestMethod(algorithm);
             _signatureMethod = DigestMethods.GetSignatureMethod(algorithm);
         }

@@ -11,10 +11,7 @@ namespace OfficeOpenXml.DigitalSignatures
         List<ManifestReference> manifestReferences = new();
         XmlDocument doc = new XmlDocument();
 
-        private string _signatureMethod;
-        private string _digestMethod;
-
-        internal void SortReferencesAndAddToDoc()
+        private void SortReferencesAndAddToDoc()
         {
             manifestReferences = manifestReferences.OrderBy(x => x.RefUri).ToList();
             foreach (var reference in manifestReferences)
@@ -23,7 +20,7 @@ namespace OfficeOpenXml.DigitalSignatures
             }
         }
 
-        internal DigSigManifest(ZipPackageXmlManifest preManifest, DigitalSignatureHashAlgorithm algorithm)
+        internal DigSigManifest(DigSigManifestContext preManifest, DigitalSignatureHashAlgorithm algorithm)
         {
             var root = doc.CreateElement("Manifest", "http://www.w3.org/2000/09/xmldsig#");
             doc.AppendChild(root);
@@ -39,17 +36,13 @@ namespace OfficeOpenXml.DigitalSignatures
         //Read manifest from signature
         internal DigSigManifest(XmlNode ManifestNode)
         {
-            var signatureMethodNode = ManifestNode.OwnerDocument.DocumentElement.GetElementsByTagName("SignatureMethod")[0];
-            _signatureMethod =  signatureMethodNode.Attributes.GetNamedItem("Algorithm").Value;
             doc.LoadXml(ManifestNode.OuterXml);
             var referenceElements = doc.GetElementsByTagName("Reference");
             foreach(XmlNode node in referenceElements)
             {
                 var mReference = new ManifestReference(node);
-                mReference.SignatureMethod = _signatureMethod;
                 manifestReferences.Add(mReference);
             }
-            _digestMethod = manifestReferences[0].DigestMethod;
             SortReferencesAndAddToDoc();
         }
 

@@ -20,6 +20,8 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.DigitalSignatures;
+using System.Security.Cryptography;
+using System.Drawing;
 
 namespace OfficeOpenXml.Packaging
 {
@@ -312,14 +314,18 @@ namespace OfficeOpenXml.Packaging
             
         }
 
-        internal ZipPackageXmlManifest XmlManifest = null;
+        internal DigSigManifestContext XmlManifest = null;
+        internal DigitalSignatureHashAlgorithm hashAlgorithm;
 
-        private void CreateXmlManifest(Stream stream)
+        private void CreateXmlManifest(Stream stream, long bufferSize)
         {
-            XmlManifest = new ZipPackageXmlManifest();
+            XmlManifest = new DigSigManifestContext(hashAlgorithm);
 
             stream.Seek(0, SeekOrigin.Begin);
             var inputStream = new ZipInputStream(stream, true);
+
+            //Buffer is not cleared between entries as only the relevant size of it will be written to the parts.
+            var buffer = new byte[bufferSize];
 
             var e = inputStream.GetNextEntry();
             if (e == null)
@@ -337,25 +343,21 @@ namespace OfficeOpenXml.Packaging
                     {
                         GetDirSeparator(e);
                         var uri = new Uri(GetUriKey(e.FileName), UriKind.Relative);
-                        var bArr = GetZipEntryAsByteArray(inputStream, e);
+                        inputStream.Read(buffer, 0, (int)e.UncompressedSize);
 
                         if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
                         {
                             var relUri = GetUriKey(e.FileName) + "?ContentType=" + ExcelPackage.schemaRelsExtension;
-                            XmlManifest.AddPart(relUri, ePartType.RelPart, bArr);
+                            XmlManifest.AddPart(relUri, ePartType.RelPart, buffer, (int)e.UncompressedSize);
                         }
                         else
                         {
-                            var partStream = new MemoryStream();
-                            partStream.Write(bArr, 0, bArr.Length);
-                            partStream.Seek(0, SeekOrigin.Begin);
-
                             var part = GetPart(uri);
                             var origUri = part.Uri.OriginalString;
                             var contentType = part.ContentType;
                             var uriQuery = origUri + "?ContentType=" + contentType;
 
-                            XmlManifest.AddPart(uriQuery, ePartType.Part, bArr);
+                            XmlManifest.AddPartHashOnly(uriQuery, ePartType.Part, buffer, (int)e.UncompressedSize);
                         }
                     }
                 }
@@ -391,6 +393,7 @@ namespace OfficeOpenXml.Packaging
             var partsToSave = Parts.Values.ToList();
             List<ZipPackagePart> digSigParts = new List<ZipPackagePart>();
             ZipPackagePart digSigOriginPart = null;
+
             for (int i=0;i < partsToSave.Count;i++)            
             {
                 var part = partsToSave[i];
@@ -439,7 +442,7 @@ namespace OfficeOpenXml.Packaging
             if (digSigParts.Count > 0)
             {
                 digSigOriginPart.WriteZip(os);
-                CreateXmlManifest(stream);
+                CreateXmlManifest(stream, os._largestEntrySize);
                 //CreateDigitalSignatureManifest(stream);
 
                 foreach (var part in digSigParts)

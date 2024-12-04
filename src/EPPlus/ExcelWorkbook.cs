@@ -228,11 +228,6 @@ namespace OfficeOpenXml
             _package = package;
             SetUris();
 
-			//if (SignatureOriginUri != null)
-			//{
-			//	_digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
-			//}
-
 			_names = new ExcelNamedRangeCollection(this);
             _namespaceManager = namespaceManager;
             TopNode = WorkbookXml.DocumentElement;
@@ -1463,8 +1458,14 @@ namespace OfficeOpenXml
 				VbaProject.Save();
 			}
 
-            if (_digSig != null)
-            {
+			//If signatures have not been loaded yet but should exist load them
+			if (SignatureOriginUri != null && _digSig == null)
+			{
+				_digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
+            }
+
+			if(_digSig != null)
+			{
                 foreach (var signature in _digSig)
                 {
                     signature._part.SaveHandler = SaveDigitalSignatureHandler;
