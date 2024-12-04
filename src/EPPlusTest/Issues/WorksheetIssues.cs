@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Threading;
 using System.IO;
 using System.Drawing;
+
 namespace EPPlusTest.Issues
 {
 	[TestClass]
@@ -508,6 +509,14 @@ namespace EPPlusTest.Issues
 				var ws = p.Workbook.Worksheets[0];
                 SaveAndCleanup(p);
             }
+        }
+
+		[TestMethod]
+		public void I1728()
+		{
+			using var p = OpenTemplatePackage("Issue1728.xlsm");
+			var nWs = p.Workbook.Worksheets.Count;
+
         }
     }
 }

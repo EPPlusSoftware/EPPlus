@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OfficeOpenXml;
 using System.IO;
 using System.Globalization;
+using OfficeOpenXml.Style;
 namespace EPPlusTest
 {
 	[TestClass]
@@ -254,6 +255,38 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void sc771()
+        {
+            ExcelColor color1;
+            ExcelColor color2;
+            ExcelColor color3;
+            ExcelColor color4;
+            ExcelColor color5;
+
+            using (var package = OpenTemplatePackage("ColorException.xlsx"))
+            {
+                var workbook = package.Workbook;
+                var workSheet = workbook.Worksheets["FormatName"];
+                color1 = workSheet.Cells["B2"].Style.Fill.BackgroundColor;
+                color2 = workSheet.Cells["B2"].Style.Border.Bottom.Color;
+                color3 = workSheet.Cells["A1"].Style.Fill.BackgroundColor;
+                color4 = workSheet.Cells["A1"].Style.Font.Color;
+                color5 = workSheet.Cells["J11"].Style.Fill.BackgroundColor;
+                var colorCode1 = color1.LookupColor();
+                Assert.AreEqual(string.Empty, colorCode1);
+                var colorCode2 = color2.LookupColor();
+                Assert.AreEqual("#FF64BEE6", colorCode2);
+                var colorCode3 = color3.LookupColor();
+                Assert.AreEqual(string.Empty, colorCode3);
+                var colorCode4 = color4.LookupColor();
+                Assert.AreEqual("#FF000000", colorCode4);
+                var colorCode5 = color5.LookupColor();
+                Assert.AreEqual("#FFF2F2F2", colorCode5);
+            }
+        }
+
         public string TextHandler(NumberFormatToTextArgs options)
         {
             switch(options.NumberFormat.NumFmtId)
