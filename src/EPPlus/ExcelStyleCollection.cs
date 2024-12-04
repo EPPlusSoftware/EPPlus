@@ -49,6 +49,7 @@ namespace OfficeOpenXml
     /// <typeparam name="T">The style type</typeparam>
     public class ExcelStyleCollection<T> : IEnumerable<T>
     {
+        private readonly static object _syncRoot = new object();
         internal ExcelStyleCollection()
         {
             _setNextIdManual = false;
@@ -112,10 +113,13 @@ namespace OfficeOpenXml
         }
         internal int Add(string key, T item)
         {
-            _list.Add(item);
-            if (!_dic.ContainsKey(key.ToLower(CultureInfo.InvariantCulture))) _dic.Add(key.ToLower(CultureInfo.InvariantCulture), _list.Count - 1);
-            if (_setNextIdManual) NextId++;
-            return _list.Count-1;
+            lock (_syncRoot)
+            {
+                _list.Add(item);
+                if (!_dic.ContainsKey(key.ToLower(CultureInfo.InvariantCulture))) _dic.Add(key.ToLower(CultureInfo.InvariantCulture), _list.Count - 1);
+                if (_setNextIdManual) NextId++;
+                return _list.Count - 1;
+            }
         }
         /// <summary>
         /// Finds the key 

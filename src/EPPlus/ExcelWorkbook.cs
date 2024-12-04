@@ -1083,27 +1083,30 @@ namespace OfficeOpenXml
 					else
 					{
 						// create a new styles part and add to the package
-						Packaging.ZipPackagePart part = _package.ZipPackage.CreatePart(StylesUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", _package.Compression);
-						// create the style sheet
+						lock (this)
+						{
+							Packaging.ZipPackagePart part = _package.ZipPackage.CreatePart(StylesUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", _package.Compression);
+							// create the style sheet
 
-						StringBuilder xml = new StringBuilder("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">");
-						xml.Append("<numFmts />");
-						xml.Append("<fonts count=\"1\"><font><sz val=\"11\" /><name val=\"Calibri\" /></font></fonts>");
-						xml.Append("<fills><fill><patternFill patternType=\"none\" /></fill><fill><patternFill patternType=\"gray125\" /></fill></fills>");
-						xml.Append("<borders><border><left /><right /><top /><bottom /><diagonal /></border></borders>");
-						xml.Append("<cellStyleXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" /></cellStyleXfs>");
-						xml.Append("<cellXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" xfId=\"0\" /></cellXfs>");
-						xml.Append("<cellStyles><cellStyle name=\"Normal\" xfId=\"0\" builtinId=\"0\" /></cellStyles>");
-						xml.Append("<dxfs count=\"0\" />");
-						xml.Append("</styleSheet>");
+							StringBuilder xml = new StringBuilder("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">");
+							xml.Append("<numFmts />");
+							xml.Append("<fonts count=\"1\"><font><sz val=\"11\" /><name val=\"Calibri\" /></font></fonts>");
+							xml.Append("<fills><fill><patternFill patternType=\"none\" /></fill><fill><patternFill patternType=\"gray125\" /></fill></fills>");
+							xml.Append("<borders><border><left /><right /><top /><bottom /><diagonal /></border></borders>");
+							xml.Append("<cellStyleXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" /></cellStyleXfs>");
+							xml.Append("<cellXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" xfId=\"0\" /></cellXfs>");
+							xml.Append("<cellStyles><cellStyle name=\"Normal\" xfId=\"0\" builtinId=\"0\" /></cellStyles>");
+							xml.Append("<dxfs count=\"0\" />");
+							xml.Append("</styleSheet>");
 
-						_stylesXml = new XmlDocument();
-						_stylesXml.LoadXml(xml.ToString());
+							_stylesXml = new XmlDocument();
+							_stylesXml.LoadXml(xml.ToString());
 
-						//Save it to the package
-						StreamWriter stream = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
+							//Save it to the package
+							StreamWriter stream = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
 
-						_stylesXml.Save(stream);
+							_stylesXml.Save(stream);
+						}
 						//stream.Close();
 						_package.ZipPackage.Flush();
 

@@ -27,6 +27,7 @@ namespace OfficeOpenXml.Style.XmlAccess
     /// </summary>
     public sealed class ExcelXfs : StyleXmlHelper
     {
+        private readonly static object _syncRoot = new object();
         private readonly ExcelStyles _styles;
         internal ExcelXfs(XmlNamespaceManager nameSpaceManager, ExcelStyles styles) : base(nameSpaceManager)
         {
@@ -448,12 +449,15 @@ namespace OfficeOpenXml.Style.XmlAccess
                 default:
                     break;
             }
-            int id = xfsCol.FindIndexById(newXfs.Id);
-            if (id < 0)
+            lock (_syncRoot)
             {
-                return xfsCol.Add(newXfs.Id, newXfs);
+                int id = xfsCol.FindIndexById(newXfs.Id);
+                if (id < 0)
+                {
+                    return xfsCol.Add(newXfs.Id, newXfs);
+                }
+                return id;
             }
-            return id;
         }
 
         private int GetIdBorder(eStyleClass styleClass, eStyleProperty styleProperty, object value)
