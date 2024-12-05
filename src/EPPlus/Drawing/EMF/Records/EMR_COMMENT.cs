@@ -12,9 +12,9 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class EMR_COMMENT : EMR_RECORD
     {
-        uint dataSize;
-        uint commentIdentifier;
-        byte[] PrivateData;
+        internal uint dataSize;
+        internal uint commentIdentifier;
+        internal byte[] PrivateData;
 
         enum CommentIdentifier
         {
@@ -52,6 +52,11 @@ namespace OfficeOpenXml.Drawing.EMF
         RectLObject rect;
         uint nDescription;
         string Description;
+
+        internal EMR_COMMENT() : base()
+        {
+            Type = RECORD_TYPES.EMR_COMMENT;
+        }
 
         internal EMR_COMMENT(BinaryReader br) : base(br, (uint)RECORD_TYPES.EMR_COMMENT)
         {

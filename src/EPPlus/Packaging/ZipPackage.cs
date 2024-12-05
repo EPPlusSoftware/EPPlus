@@ -319,6 +319,12 @@ namespace OfficeOpenXml.Packaging
 
         private void CreateXmlManifest(Stream stream, long bufferSize)
         {
+            if(Enum.IsDefined(typeof(DigitalSignatureHashAlgorithm),hashAlgorithm) == false)
+            {
+                throw new InvalidOperationException($"Cannot save. value '{hashAlgorithm}' is undefined for enum {typeof(DigitalSignatureHashAlgorithm)}\n " +
+                    $"if the file was Read it may contain unknown algorithm. Please use SetDigestMethod on signatures");
+            }
+
             XmlManifest = new DigSigManifestContext(hashAlgorithm);
 
             stream.Seek(0, SeekOrigin.Begin);

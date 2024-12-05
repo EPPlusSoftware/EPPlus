@@ -48,6 +48,15 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] MicroMetersY;       //4
 
         internal string DescriptionString;
+        internal void SetDescriptionString(string text)
+        {
+            text = text + "\0";
+            DescriptionString = text;
+            offDescription = headerSize;
+            nDescription = (uint)DescriptionString.Length;
+            Size += nDescription * 2;
+        }
+
         internal byte[] PixelFormatDescriptor;
 
         internal string headerType = "Emf_MetafileHeader";
@@ -226,6 +235,10 @@ namespace OfficeOpenXml.Drawing.EMF
             bw.Write(bOpenGL);
             bw.Write(MicroMetersX);
             bw.Write(MicroMetersY);
+            if(string.IsNullOrEmpty(DescriptionString) == false)
+            {
+                bw.Write(BinaryHelper.GetByteArray(DescriptionString, Encoding.Unicode));
+            }
         }
 
     }

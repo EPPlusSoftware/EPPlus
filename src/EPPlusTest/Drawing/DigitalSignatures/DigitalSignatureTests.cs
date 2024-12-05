@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Security.Cryptography;
 using System.Xml;
-using System.IO;
 using System;
 using OfficeOpenXml;
 using System.Security.Cryptography.X509Certificates;
@@ -198,6 +197,75 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
             Assert.AreEqual(excelDoc.InnerText, EpplusRelReference.InnerText);
         }
+
+
+        [TestMethod]
+        public void SignSignedWorkbook()
+        {
+            string fileName = $"{SubFolder}DoubleSigned.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("newWs");
+
+                wb.DigitialSignatures.AddSignature(GetSelfCert());
+
+                SaveAndCleanup(package);
+            }
+            //Sign an already signed workbook should add and result in two valid signatures.
+            using (ExcelPackage package = OpenPackage(fileName))
+            {
+                var wb = package.Workbook;
+                wb.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "DoubleSigning");
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage(fileName))
+            {
+                var wb = package.Workbook;
+
+                //Ensure both are valid and tests enumerator.
+                int i = 0;
+                foreach(var sig in wb.DigitialSignatures)
+                {
+                    Assert.IsTrue(sig.IsValid);
+                    i += 1;
+                }
+                Assert.AreEqual(2, i);
+            }
+        }
+
+
+        [TestMethod]
+        public void CounterSignAfterChanges()
+        {
+            string fileName = $"{SubFolder}CounterSigned.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("newWs");
+
+                wb.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "Counter-signing");
+
+                SaveAndCleanup(package);
+            }
+            
+            using (ExcelPackage package = OpenPackage(fileName))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets[0];
+
+                ws.Cells["A1"].Value = 5;
+
+                var sig = wb.DigitialSignatures[0];
+                sig.Certificate = GetSelfCert();
+
+                SaveAndCleanup(package);
+            }
+        }
+
 
         [TestMethod]
         public void CreateDigitalSignatureLineAndSignIt()

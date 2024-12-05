@@ -28,9 +28,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var certPublic = finalCert.Export(X509ContentType.Cert);
                 var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
 
-                store.Add(finalCert);
+                store.Add(newCert);
             }
-            return store.Certificates[0];
+            var cert = store.Certificates[0];
+            return cert;
         }
 
         static X509Store GetStore()

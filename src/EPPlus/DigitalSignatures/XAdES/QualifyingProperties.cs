@@ -45,7 +45,6 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
         internal XmlDocument GetDocument() 
         {
             XmlDocument doc = new XmlDocument();
-            //doc.CreateElement("xd", "QualifyingProperties", $"{XadesNS}");
 
             doc.LoadXml(GetXML());
 
@@ -57,27 +56,7 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
             doc.ImportNode(node, true);
 
             var element = doc.GetElementById("idSignedProperties");
-
-            //XmlDocument objectDocument = new XmlDocument();
-
-            ////var nsm2 = new XmlNamespaceManager(objectDocument.NameTable);
-            ////nsm2.AddNamespace("xd", "XadesNS");
-
-            //var rootObject = objectDocument.CreateElement("Object", "http://www.w3.org/2000/09/xmldsig#");
-            ////objectDocument.AppendChild(rootObject);
-
-            //foreach(XmlNode node in doc.DocumentElement.ChildNodes)
-            //{
-            //    rootObject.AppendChild(objectDocument.ImportNode(node, true));
-            //}
-
-            //var importedNode = objectDocument.ImportNode(doc.DocumentElement, true);
-            //objectDocument.AppendChild(importedNode);
             return doc;
         }
-
-        //SignedDataObjectProperties signedDataObjectProperties;
-        //UnsignedProperties unsignedProperties;
-        //UnsignedSignatureProperties unsignedSignatures;
     }
 }

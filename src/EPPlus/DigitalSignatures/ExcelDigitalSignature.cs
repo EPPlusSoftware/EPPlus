@@ -7,11 +7,7 @@ using System.Security.Cryptography.Xml;
 using System.Xml;
 using OfficeOpenXml.DigitalSignatures.XAdES;
 using System.Collections.Generic;
-using System.Linq;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Utils;
-using System.Runtime.ConstrainedExecution;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
@@ -151,7 +147,7 @@ namespace OfficeOpenXml.DigitalSignatures
             }
             else
             {
-                //Unknown algorithm. Throw? Apply default? Will throw on save
+                //Unknown algorithm. Throw? Apply default? Will throw on save.
             }
 
             var packageObj = _doc.GetElementsByTagName("Manifest");
@@ -228,11 +224,6 @@ namespace OfficeOpenXml.DigitalSignatures
         {
             if (Certificate != null)
             {
-#if NET35
-#else
-                var someKey = Certificate.GetRSAPrivateKey();
-#endif
-
                 //if there is no read manifest then the manifest has changed
                 bool manifestChanged = true;
   

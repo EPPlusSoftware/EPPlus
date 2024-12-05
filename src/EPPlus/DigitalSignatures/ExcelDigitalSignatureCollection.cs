@@ -4,10 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using System.Security.Cryptography.X509Certificates;
-using OfficeOpenXml.Drawing.Vml;
-using System.Linq;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.EMF;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
