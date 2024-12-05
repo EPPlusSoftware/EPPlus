@@ -282,7 +282,7 @@ namespace EPPlusTest.Drawing.Control
             ctrl.MaxValue = 100;
             ctrl.MinValue = 2;
             ctrl.Page = 20;
-            _codeModule.Code += "Sub SpinButton_Click()\r\n  MsgBox \"Selected SpinButton!!\"\r\nEnd Sub\r\n";
+            _codeModule.Code += "Sub ScrolbarButton_Click()\r\n  MsgBox \"Selected SpinButton!!\"\r\nEnd Sub\r\n";
         }
 
         [TestMethod]

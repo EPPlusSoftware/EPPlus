@@ -426,7 +426,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             if (md.vm > 0)
                             {
                                 var ix = _ws.Workbook.Metadata.Db.ValueMetadata.GetIndexById(md.vm) + 1;
-                                mdAttr += $" vm=\"{md.vm}\"";
+                                mdAttr += $" vm=\"{ix}\"";
                             }
                         }
                     }

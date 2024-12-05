@@ -64,6 +64,7 @@ namespace EPPlusTest.FormulaParsing
             {
                 File.Delete(logFile);   
             }
+            var extension = Path.GetExtension(xlFile);
 
             var logWriter = new StreamWriter(File.OpenWrite(logFile));
             var formulaLogFile = new FileInfo("c:\\temp\\formulaLog.log");
@@ -163,7 +164,7 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.Close();
                 logWriter.Dispose();
 
-                SaveWorkbook("calcIssue.xlsx", p);
+                SaveWorkbook($"calcIssue{extension}", p);
             }
         }
         private void UpdateData(ExcelPackage p)
