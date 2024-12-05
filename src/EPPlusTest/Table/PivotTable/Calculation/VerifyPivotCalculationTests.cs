@@ -43,11 +43,8 @@ namespace EPPlusTest.Table.PivotTable.Calculation
                 ws.Cells["B3"].Value = 2;
                 ws.Cells["A3"].Value = 201;
                 ws.Cells["B3"].Value = 3;
-
 				var pt = ws.PivotTables.Add(ws.Cells["E5"], ws.Cells["A1:B3"], "PivotTable1");
-
 				pt.Calculate(true);
-
 				SaveAndCleanup(p);
             }
         }

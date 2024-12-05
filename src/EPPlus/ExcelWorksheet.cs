@@ -3615,16 +3615,7 @@ namespace OfficeOpenXml
         /// <param name="styleId">styleId</param>
         internal void SetStyleInner(int row, int col, int styleId)
         {
-            if (FullPrecision)
-            {
-                _values.SetValue_Style(row, col, styleId);
-            }
-            else
-            {
-                var v = GetCoreValueInner(row, col);
-                v._value = Workbook.Styles.RoundValueFromNumberFormat(v._value, styleId);
-                _values.SetValue(row, col, v);
-            }
+            _values.SetValue_Style(row, col, styleId);
         }
         internal void SetValueRow_Value(int row, int col, object[] array)
         {

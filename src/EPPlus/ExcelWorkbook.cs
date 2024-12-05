@@ -1293,7 +1293,6 @@ namespace OfficeOpenXml
 				throw new InvalidOperationException("The workbook must contain at least one worksheet");
 
 			DeleteCalcChain();
-
             SetXmlNodeBool("d:calcPr/@fullPrecision", FullPrecision, false);
             
 			if (_vba == null && !_package.ZipPackage.PartExists(new Uri(ExcelVbaProject.PartUri, UriKind.Relative)))

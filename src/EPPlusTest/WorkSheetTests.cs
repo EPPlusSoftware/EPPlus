@@ -88,7 +88,6 @@ namespace EPPlusTest
             ws.Cells["A1:D5"].AutoFilter = false;
             ws.Cells["A1:D2"].AutoFilter = true;
         }
-
         [TestMethod]
         public void AddChartSheet()
         {
@@ -321,7 +320,7 @@ namespace EPPlusTest
         public void ReadStreamWithTemplateWorkSheet()
         {
             AssertIfNotExists("WorksheetRead.xlsx");
-            using (FileStream instream = new FileStream(_worksheetPath + @"WorksheetRead.xlsx", FileMode.Open, FileAccess.Read))
+            using(FileStream instream = new FileStream(_worksheetPath + @"WorksheetRead.xlsx", FileMode.Open, FileAccess.Read))
             {
                 MemoryStream stream = new MemoryStream();
                 using (ExcelPackage pck = new ExcelPackage(stream, instream))

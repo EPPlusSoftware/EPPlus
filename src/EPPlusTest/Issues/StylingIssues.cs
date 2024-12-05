@@ -284,5 +284,27 @@ namespace EPPlusTest
             }
             return options.Text;
         }
+        [TestMethod]
+        public void NumberFormatIssue()
+        {
+            using (var p = OpenPackage("NumberformatError.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 1500.33;
+                ws.Cells["A1"].Style.Numberformat.Format = "[$€-2]\\ #,##0.00_);[Red]\\([$€-2]\\ #,##0.00\\)";
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s772()
+        {
+            using (var p = OpenTemplatePackage("s772.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                var ns = ws.Cells["C3"].Style.Numberformat.Format;
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
