@@ -355,7 +355,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         protected string ArgToString(IList<FunctionArgument> arguments, int index)
         {
             var obj = arguments[index].ValueFirst;
-            return obj != null ? obj.ToString() : string.Empty;
+            return obj != null ? obj.ToString() : null;
         }
 
         /// <summary>

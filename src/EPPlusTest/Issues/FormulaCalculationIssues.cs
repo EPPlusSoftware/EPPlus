@@ -501,5 +501,30 @@ namespace EPPlusTest.Issues
                 wb.Workbook.Calculate();
             }
         }
+		[TestMethod]
+        public void i1708()
+        {
+            using (var package = OpenPackage("i1708.xlsx"))
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("Sheet1");
+                package.Compatibility.IsWorksheets1Based = true;
+
+                sheet1.Cells["C3"].Formula = @"IFERROR(IF(OR(H3="""",I3="""",E3=0),""N/A"",IF(J3<>"""",INDEX($G$1:$J$1,MATCH(TRUE,INDEX(ABS(G3:J3-E3)=MIN(INDEX(ABS(G3:J3-E3),,)),,),0)),INDEX($G$1:$I$1,MATCH(TRUE,INDEX(ABS(G3:I3-E3)=MIN(INDEX(ABS(G3:I3-E3),,)),,),0)))),"""")";
+                sheet1.Cells["E3"].Value = 25;
+
+                sheet1.Cells["G1"].Value = "one";
+                sheet1.Cells["H1"].Value = "two";
+                sheet1.Cells["I1"].Value = "three";
+                sheet1.Cells["J1"].Value = "four";
+
+                sheet1.Cells["G3"].Value = 10;
+                sheet1.Cells["H3"].Value = 20;
+                sheet1.Cells["I3"].Value = 30;
+                sheet1.Cells["J3"].Value = 40;
+
+                package.Workbook.Calculate();
+                Assert.AreEqual("two", sheet1.Cells["C3"].Value);
+            }
+        }
     }
 }

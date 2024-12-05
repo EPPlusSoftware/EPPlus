@@ -140,7 +140,7 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 if(Package != null && CurrentCell.WorksheetIx>=0 && CurrentCell.WorksheetIx < Package.Workbook.Worksheets.Count)
                 {
-                    return Package.Workbook.Worksheets[CurrentCell.WorksheetIx];
+                    return Package.Workbook.GetWorksheetByIndexInList(CurrentCell.WorksheetIx);
                 }
                 return null;
             }

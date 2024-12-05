@@ -509,5 +509,19 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void I1728()
+        {
+            using var p = OpenTemplatePackage("Issue1728.xlsm");
+            var nWs = p.Workbook.Worksheets.Count;
+            var i = 0;
+            foreach (var ws in p.Workbook.Worksheets)
+            {
+                i++;
+                var dimensionRows = ws.Dimension.Rows;
+                var dimensionByValueRows = ws.DimensionByValue.Rows;
+            }
+
+        }
     }
 }

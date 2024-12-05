@@ -1551,7 +1551,6 @@ namespace OfficeOpenXml
                     if (xr.GetAttribute("t") != null)
                     {
                         type = xr.GetAttribute("t");
-                        //_types.SetValue(address._fromRow, address._fromCol, type); 
                     }
                     else
                     {
@@ -1562,7 +1561,6 @@ namespace OfficeOpenXml
                     {
                         style = int.Parse(xr.GetAttribute("s"));
                         SetStyleInner(address._fromRow, address._fromCol, style < 0 ? 0 : style);
-                        //SetValueInner(address._fromRow, address._fromCol, null); //TODO:Better Performance ??
                     }
                     else
                     {
@@ -1799,7 +1797,7 @@ namespace OfficeOpenXml
             var v = ConvertUtil.GetValueFromType(xr, type, styleID, Workbook);
             if (type == "s" && v is int ix)
             {
-                SetValueInner(row, col, _package.Workbook.GetSharedString(ix, out bool isRichText));
+                _values.SetValue(row, col, _package.Workbook.GetSharedString(ix, out bool isRichText), styleID); // Style is set later on from the s attribute                
                 if (isRichText)
                 {
                     _flags.SetFlagValue(row, col, true, CellFlags.RichText);
@@ -1815,7 +1813,7 @@ namespace OfficeOpenXml
                         v = GetErrorFromMetaData(md, v);
                     }
                 }
-                SetValueInner(row, col, v);
+                _values.SetValue(row, col, v, styleID); // Style is set later on from the s attribute
             }
         }
 
@@ -3030,9 +3028,9 @@ namespace OfficeOpenXml
                 var toCol = Dimension._toCol;
                 if (_values.GetValue(toRow, toCol)._value == null)
                 {
-                    while (_values.PrevCell(ref toRow, ref toCol))
+                    while (_values.PrevCell(ref toRow, ref toCol) && toRow > 0)
                     {
-                        if (_values.GetValue(toRow, toCol)._value != null)
+                        if (toCol > 0 && _values.GetValue(toRow, toCol)._value != null)
                         {
                             return Cells[toRow, toCol];
                         }
@@ -3626,7 +3624,14 @@ namespace OfficeOpenXml
             {
                 if (!ExistsStyleInner(row, 0, ref s))
                 {
-                    s = GetStyleInner(0, col);
+                    if (!ExistsStyleInner(0, col, ref s) && col > 1)
+                    {
+                        var c=GetColumn(col);
+                        if(c!= null)
+                        {
+                            return c.StyleID;
+                        }
+                    }                        
                 }
             }
             return s;
