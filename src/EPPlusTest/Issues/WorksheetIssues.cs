@@ -521,7 +521,16 @@ namespace EPPlusTest.Issues
                 var dimensionRows = ws.Dimension.Rows;
                 var dimensionByValueRows = ws.DimensionByValue.Rows;
             }
-
         }
+
+		[TestMethod]
+		public void i1742()
+		{
+			// before this fix we couldn't delete the very last coloumn on the sheet...
+			using var package = new ExcelPackage();
+			var sheet = package.Workbook.Worksheets.Add("Sheet1");
+			var maxCol = ExcelPackage.MaxColumns;
+			sheet.DeleteColumn(maxCol);
+		}
     }
 }
