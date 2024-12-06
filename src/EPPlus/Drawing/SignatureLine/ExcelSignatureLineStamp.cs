@@ -80,6 +80,12 @@ namespace OfficeOpenXml.Drawing
         {
             wb = ws.Workbook;
             IsStamp = true;
+
+            //Setting default size
+            From.Column = 0;
+            To.Column = 2;
+            From.Row = 0;
+            To.Row = 9;
         }
 
         internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)

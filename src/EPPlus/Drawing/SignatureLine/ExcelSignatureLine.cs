@@ -44,6 +44,12 @@ namespace OfficeOpenXml.Drawing
         {
             _signatureLineType = eSignatureLineType.SignatureLine;
             IsStamp = false;
+
+            //Setting default size
+            From.Column = 0;
+            To.Column = 4;
+            From.Row = 0;
+            To.Row = 6;
         }
 
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(ws, topNode, ns)

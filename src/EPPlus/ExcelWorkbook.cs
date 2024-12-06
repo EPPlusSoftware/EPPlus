@@ -904,7 +904,10 @@ namespace OfficeOpenXml
 
         internal ExcelDigitalSignatureCollection _digSig = null;
 
-        internal ExcelDigitalSignatureCollection DigitialSignatures
+		/// <summary>
+		/// A collection of digital signatures for the workbook
+		/// </summary>
+        public ExcelDigitalSignatureCollection DigitialSignatures
         {
             get
             {

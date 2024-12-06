@@ -8,7 +8,10 @@ using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
-    internal class ExcelDigitalSignatureCollection : IEnumerable<ExcelDigitalSignature>
+    /// <summary>
+    /// Collection of digital signatures
+    /// </summary>
+    public class ExcelDigitalSignatureCollection : IEnumerable<ExcelDigitalSignature>
     {
         ExcelPackage _package;
         ExcelWorkbook _wb;
