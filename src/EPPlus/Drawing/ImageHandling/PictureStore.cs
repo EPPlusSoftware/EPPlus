@@ -84,15 +84,25 @@ namespace OfficeOpenXml.Drawing
         {
             return AddImage(image, null, null);
         }
-        internal ImageInfo AddImage(byte[] image, Uri uri, ePictureType? pictureType)
+
+        internal string GetImageHash(byte[] image)
         {
-            if (pictureType.HasValue == false) pictureType = ePictureType.Jpg;
 #if (Core)
             var hashProvider = SHA1.Create();
 #else
             var hashProvider = new SHA1CryptoServiceProvider();
 #endif
             var hash = BitConverter.ToString(hashProvider.ComputeHash(image)).Replace("-", "");
+            return hash;
+        }
+
+        internal ImageInfo AddImage(byte[] image, Uri uri, ePictureType? pictureType)
+        {
+            if (pictureType.HasValue == false)
+            {
+                pictureType = ImageReader.GetPictureType(new MemoryStream(image), true);
+            }
+            var hash = GetImageHash(image);
             lock (_images)
             {
                 if (_images.ContainsKey(hash))
@@ -257,6 +267,23 @@ namespace OfficeOpenXml.Drawing
         {
             var hash = GetHash(image);
             return _images.ContainsKey(hash);
+        }
+
+        internal bool ImageExists(string hash)
+        {
+            return _images.ContainsKey(hash);
+        }
+
+        internal ImageInfo GetImageInfoByHash(string hash)
+        {
+            if (_images.ContainsKey(hash))
+            {
+                return _images[hash];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         internal static string GetHash(byte[] image)

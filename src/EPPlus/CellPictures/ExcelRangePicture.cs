@@ -10,6 +10,8 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.EMF;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.RichData;
 using System.IO;
 
@@ -119,12 +121,13 @@ namespace OfficeOpenXml.CellPictures
         /// </summary>
         public void Remove()
         {
-            for(var row = _range._fromRow; row <= _range._toRow; row++)
+            var ws = _range.Worksheet;
+            var maxRow = _range._toRow > ws.Dimension._toRow ? ws.Dimension._toRow : _range._toRow;
+            var maxCol = _range._toCol > ws.Dimension._toCol ? ws.Dimension._toCol : _range._toCol;
+            var range = ws.Cells[_range._fromRow, _range._fromCol, maxRow, maxCol];
+            foreach(var cell in range)
             {
-                for(var col = _range._fromCol; col <= _range._toCol; col++)
-                {
-                    _cellPicturesManager.RemoveCellPicture(row, col);
-                }
+                _cellPicturesManager.RemoveCellPicture(cell._fromRow, cell._toCol);
             }
         }
     }

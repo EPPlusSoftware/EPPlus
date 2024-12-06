@@ -81,5 +81,13 @@ namespace OfficeOpenXml
         /// Fill range with repeated data. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
         /// </summary>
         Fill = 0x4000,
+        /// <summary>
+        /// Exclude and local cell pictures within the range.
+        /// </summary>
+        ExcludeLocalCellPictures = 0x4000,
+        /// <summary>
+        /// Exclude any web pictures (i.e. added via the IMAGE function) within the range.
+        /// </summary>
+        ExcludeWebPictures = 0x8000,
     }
 }

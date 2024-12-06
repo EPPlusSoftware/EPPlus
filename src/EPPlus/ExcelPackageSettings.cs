@@ -13,6 +13,7 @@
 using System.Collections.Generic;
 using System;
 using OfficeOpenXml.Interfaces.Net;
+using OfficeOpenXml.FormulaParsing.Services;
 
 namespace OfficeOpenXml
 {
@@ -78,6 +79,6 @@ namespace OfficeOpenXml
         /// <summary>
         /// This service is used by the IMAGE function to download images over https
         /// </summary>
-        public IHttpsService ImageFunctionService { get; set; }
+        public IHttpsService ImageFunctionService { get; set; } = new ImageFunctionDefaultService();
     }
 }

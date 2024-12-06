@@ -50,6 +50,7 @@ namespace EPPlusTest.InCellImages
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             var imageBytes = Resources.Png2ByteArray;
             sheet.Cells["A1"].Picture.Set(imageBytes);
+            var val = sheet.Cells["A1"].Value;
             SaveWorkbook("InCellPictureSetPng.xlsx", package);
         }
 

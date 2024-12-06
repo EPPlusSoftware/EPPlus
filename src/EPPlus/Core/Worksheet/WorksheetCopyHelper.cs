@@ -87,6 +87,11 @@ namespace OfficeOpenXml.Core.Worksheet
                 CopyVmlDrawing(sourceWorksheet, targetWorksheet);
             }
 
+            // Copy cell- and web pictures (rich data)
+            var richDataCopyHelper = new RichDataCopyHelper(sourceWorksheet.Cells, targetWorksheet.Cells);
+            richDataCopyHelper.Copy();
+
+
             //Copy HeaderFooter
             CopyHeaderFooterPictures(sourceWorksheet, targetWorksheet);
 

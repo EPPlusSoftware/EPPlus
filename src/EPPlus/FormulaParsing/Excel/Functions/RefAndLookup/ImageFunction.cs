@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.ImageUtils;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults;
 using OfficeOpenXml.RichData.RichValues.WebImages;
@@ -27,6 +28,29 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
        Description = "Inserts an image into cell via a https call")]
     internal class ImageFunction : ExcelFunctionAsync
     {
+        public ImageFunction()
+        {
+            
+        }
+
+        private ImageUrlCache _urlCache = default;
+        private readonly object _syncRoot = new object();
+        private ImageUrlCache GetUrlCache(ExcelPackage p)
+        {
+            if (_urlCache == null)
+            {
+                lock (_syncRoot)
+                {
+                    if (_urlCache == null)
+                    {
+                        _urlCache = new ImageUrlCache(p.PictureStore);
+                    }
+                }
+            }
+            return _urlCache;
+        }
+
+
         public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 1;
 
@@ -82,20 +106,31 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 return CreateResult(eErrorType.Value);
             }
 
-            // TODO: cache image url:s and internal image Uri (in the picture store) and make http-call only if the image
+            // Cache image url:s and internal image Uri (in the picture store) and make http-call only if the image
             // is already present in the workbook.
+            var cache = GetUrlCache(context.Package);
+            byte[] imageBytes = null;
+            var ii = cache.Get(url);
+            if(ii == null)
+            {
+                var httpsService = context.CurrentWorksheet._package.Settings.ImageFunctionService;
+                if (httpsService == null)
+                {
+                    return CreateResult(eErrorType.Value);
+                }
+                imageBytes = httpsService.Download(url);
+                cache.Add(url, imageBytes);
+            }
+            else
+            {
+                imageBytes = cache.GetImageBytes(url);
+            }
 
-            var httpTask = new HttpRemoteTask(url, this, context);
+            //var httpTask = new HttpRemoteTask(url, this, context);
             //RemoteCallManager.QueueTask(httpTask);
             // return #BUSY error
 
             var cellPictureManager = new CellPicturesManager(context.CurrentWorksheet);
-            var httpsService = context.CurrentWorksheet._package.Settings.ImageFunctionService;
-            if(httpsService == null)
-            {
-                return CreateResult(eErrorType.Value);
-            }
-            var imageBytes = httpsService.Download(url);
             cellPictureManager.SetWebPicture(context.CurrentCell.Row, context.CurrentCell.Column, new Uri(url), imageBytes, altText, CalcOrigins.Formula, sizing, height, width);
             var cellPic = context.CurrentWorksheet.GetValue(context.CurrentCell.Row, context.CurrentCell.Column);
             //return CreateResult(cellPic, DataType.WebImage);

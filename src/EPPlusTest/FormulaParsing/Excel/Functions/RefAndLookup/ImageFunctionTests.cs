@@ -15,8 +15,11 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
     {
         private class TestHttpsService : IHttpsService
         {
+            public int NumberOfCalls { get; set; }
+
             public byte[] Download(string url)
             {
+                NumberOfCalls++;
                 return Resources.Png2ByteArray;
             }
         }
@@ -115,6 +118,21 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
             var pic2 = sheet.Cells["B1"].Picture.Get();
             Assert.IsNotNull(pic2);
             SaveWorkbook("ImageFunction_DifferentVariants.xlsx", package);
+        }
+
+        [TestMethod]
+        public void ImageTest_ShouldCacheUrls1()
+        {
+            using var package = new ExcelPackage();
+            var httpsService = new TestHttpsService();
+            package.Settings.ImageFunctionService = httpsService;
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "IMAGE(\"https://epplussoftware.com/img/EPPlus-logo-full.png\", \"Alt text\", 1)";
+            sheet.Cells["B1"].Formula = "IMAGE(\"https://epplussoftware.com/img/EPPlus-logo-full.png\")";
+
+            sheet.Calculate();
+
+            Assert.AreEqual(1, httpsService.NumberOfCalls);
         }
     }
 }
