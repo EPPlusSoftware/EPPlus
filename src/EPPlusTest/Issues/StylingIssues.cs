@@ -256,6 +256,7 @@ namespace EPPlusTest
             }
         }
 
+
         [TestMethod]
         public void sc771()
         {
@@ -285,6 +286,29 @@ namespace EPPlusTest
                 var colorCode5 = color5.LookupColor();
                 Assert.AreEqual("#FFF2F2F2", colorCode5);
             }
+        }
+
+
+        [TestMethod]
+        public void s769()
+        {
+            using (ExcelPackage p = OpenTemplatePackage("s769.xlsx"))
+            {
+                var wb = p.Workbook;
+                var decimalList = new List<decimal>();
+                decimalList = Enumerable.Range(1, 10).Select(i => (decimal)new Random().NextDouble() * 100000).ToList();
+                var sht = wb.Worksheets["Test"];
+                var row = 6;
+                foreach (var n in decimalList)
+                {
+                    sht.Cells[row, 8].Value = n;
+                    sht.Cells[row, 9].Value = n;
+                    sht.Cells[row, 10].Value = n;
+                    row++;
+                }
+                p.Save();
+            }
+            Console.WriteLine("Saved");
         }
 
         public string TextHandler(NumberFormatToTextArgs options)

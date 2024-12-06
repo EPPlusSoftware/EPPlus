@@ -249,6 +249,14 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
-
+        [TestMethod]
+        public void s744()
+        {
+            using (var p = OpenTemplatePackage("s744.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

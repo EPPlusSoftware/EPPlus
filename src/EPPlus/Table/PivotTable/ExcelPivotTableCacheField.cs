@@ -1130,7 +1130,7 @@ namespace OfficeOpenXml.Table.PivotTable
             }
             if(ConvertUtil.IsExcelNumeric(x))
             {
-                return ConvertUtil.GetValueDouble(x).ToString(CultureInfo.InvariantCulture);
+                return ConvertUtil.GetValueDouble(x);
             }
             return x.ToString().ToLower();
         }
