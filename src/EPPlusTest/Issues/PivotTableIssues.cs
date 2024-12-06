@@ -258,5 +258,24 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s744_2()
+        {
+            using (var p = OpenTemplatePackage("s744-2.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                SaveAndCleanup(p); 
+            }
+        }
+        [TestMethod]
+        public void s744_3()
+        {
+            using (var p = OpenTemplatePackage("FilterClearingExample.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                p.Workbook.Worksheets[0].PivotTables[0].Calculate();
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

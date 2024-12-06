@@ -355,6 +355,8 @@ namespace EPPlusTest.Table.PivotTable
             var rf = pt.RowFields.Add(pt.Fields[0]);
             rf.SubTotalFunctions = eSubTotalFunctions.None;
             pt.DataOnRows = true;
+            pt.Fields[0].Items.Refresh();
+            pt.Fields[1].Items.Refresh();
         }
         [TestMethod]
         public void Pivot_SaveDataFalse()

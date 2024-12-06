@@ -937,6 +937,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 UpdatePivotItemsFromSharedItems(siHs);
             }
+
             SharedItems._list = siHs.ToList();
 			UpdateCacheLookupFromItems(SharedItems._list, ref _cacheLookup);
 			if (HasSlicer)
@@ -962,15 +963,18 @@ namespace OfficeOpenXml.Table.PivotTable
                 var hasFilter = list.Any(x => x.Hidden);
                 for (var ix = 0; ix < list.Count; ix++)
                 {
-                    var v = list[ix].Value ?? ExcelPivotTable.PivotNullValue;
-                    if (!siHs.Contains(v) || existingItems.Contains(v))
+                    if (list[ix].Type == eItemType.Data)
                     {
-                        list.RemoveAt(ix);
-                        ix--;
-                    }
-                    else
-                    {
-                        existingItems.Add(v);
+                        var v = list[ix].Value ?? ExcelPivotTable.PivotNullValue;
+                        if (!siHs.Contains(v) || existingItems.Contains(v))
+                        {
+                            list.RemoveAt(ix);
+                            ix--;
+                        }
+                        else
+                        {
+                            existingItems.Add(v);
+                        }
                     }
                 }
                 var hasSubTotalSubt = list.Count > 0 && list[list.Count - 1].Type == eItemType.Default ? 1 : 0;
@@ -1106,38 +1110,4 @@ namespace OfficeOpenXml.Table.PivotTable
 		}
 
 	}
-
-    internal class CacheComparer : IEqualityComparer<object>
-    {
-        public new bool Equals(object x, object y)
-        {
-			x = GetCaseInsensitiveValue(x);
-            y = GetCaseInsensitiveValue(y);
-			return x.Equals(y);           
-		}
-
-        private static object GetCaseInsensitiveValue(object x)
-        {
-            if (x == null || x.Equals(ExcelPivotTable.PivotNullValue)) return ExcelPivotTable.PivotNullValue;
-
-			if (x is string sx)
-            {
-				return sx.ToLower();
-			}
-            else if (x is char cx)
-            {
-                return char.ToLower(cx).ToString();
-            }
-            if(ConvertUtil.IsExcelNumeric(x))
-            {
-                return ConvertUtil.GetValueDouble(x);
-            }
-            return x.ToString().ToLower();
-        }
-
-        public int GetHashCode(object obj)
-        {
-            return GetCaseInsensitiveValue(obj).GetHashCode();
-        }
-    }
 }
