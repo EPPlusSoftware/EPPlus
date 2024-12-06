@@ -579,7 +579,7 @@ namespace OfficeOpenXml.Drawing
                 case "graphicFrame":
                     return ExcelChart.GetChart(drawings, node, parent);
                 case "grpSp":
-                    return new ExcelGroupShape(drawings, node, parent);
+                    return new ExcelGroupShape(drawings, node, parent, DrawingsType);
                 case "cxnSp":
                     return new ExcelConnectionShape(drawings, node, parent, DrawingsType);
                 case "contentPart":
@@ -1012,24 +1012,21 @@ namespace OfficeOpenXml.Drawing
             if (PercentTop < 0)
             {
                 PercentTop = 0;
-                PercentTop /= ChartDrawingsPercentageScale;
             }
             else if (PercentTop > ChartDrawingsPercentageScale)
             {
                 PercentTop = ChartDrawingsPercentageScale;
-                PercentTop /= ChartDrawingsPercentageScale;
             }
-
+            PercentTop /= ChartDrawingsPercentageScale;
             if (PercentLeft < 0)
-            { 
+            {
                 PercentLeft = 0;
-                                PercentLeft /= ChartDrawingsPercentageScale;
-        }
+            }
             else if (PercentLeft > ChartDrawingsPercentageScale)
             {
                 PercentLeft = ChartDrawingsPercentageScale;
-                PercentLeft /= ChartDrawingsPercentageScale;
             }
+            PercentLeft /= ChartDrawingsPercentageScale;
 
             _width = Math.Abs( From.X - To.X);
             _height = Math.Abs( From.Y - To.Y);
@@ -1244,10 +1241,35 @@ namespace OfficeOpenXml.Drawing
                 var y1 = cY - _height / 2;
                 var x2 = cX + _width / 2;
                 var y2 = cY + _height / 2;
-                From.X = Math.Max(0, Math.Min(1, x1));
-                From.Y = Math.Max(0, Math.Min(1, y1));
-                To.X = Math.Max(0, Math.Min(1, x2));
-                To.Y = Math.Max(0, Math.Min(1, y2));
+
+                From.X = x1;
+                From.Y = y1;
+                To.X = x2;
+                To.Y = y2;
+                if(From.X < 0)
+                {
+                    var diff = 0 - From.X;
+                    From.X = 0;
+                    To.X += diff;
+                }
+                if (From.Y < 0)
+                {
+                    var diff = 0 - From.Y;
+                    From.Y = 0;
+                    To.Y += diff;
+                }
+                if (To.X > 1)
+                {
+                    var diff = To.X - 1;
+                    To.X = 1;
+                    From.X -= diff;
+                }
+                if (To.Y > 1)
+                {
+                    var diff = To.Y - 1;
+                    To.Y = 1;
+                    From.Y -= diff;
+                }
             }
             else
             {
@@ -1292,7 +1314,7 @@ namespace OfficeOpenXml.Drawing
             }
             if (grp == null)
             {
-                grp = _drawings.AddGroupDrawing();
+                grp = _drawings.AddGroupDrawing(_drawings.DrawingsType);
             }
             
             grp.Drawings.AddDrawing(this);

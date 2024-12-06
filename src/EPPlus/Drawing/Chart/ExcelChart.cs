@@ -24,6 +24,7 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -1145,6 +1146,39 @@ namespace OfficeOpenXml.Drawing.Chart
         public ExcelShape AddShape(string Name, eShapeStyle Style)
         {
             return _chartDrawings.AddShape(Name, Style, DrawingsCollectionType.chart, this);
+        }
+
+        //String
+
+        public ExcelPicture AddPicture(string Name, string ImagePath)
+        {
+            return AddPicture(Name, new FileInfo(ImagePath), null);
+        }
+        public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink HyperLink)
+        {
+            return AddPicture(Name, new FileInfo(ImagePath), HyperLink);
+        }
+
+        //FileInfo
+
+        public ExcelPicture AddPicture(string Name, FileInfo ImagePath)
+        {
+            return AddPicture(Name, ImagePath, null);
+        }
+        public ExcelPicture AddPicture(string Name, FileInfo ImagePath, Uri HyperLink)
+        {
+            return _chartDrawings.AddPicture(Name, ImagePath, DrawingsCollectionType.chart, HyperLink, PictureLocation.Embed, this);
+        }
+
+        //Stream
+
+        public ExcelPicture AddPicture(string Name, Stream ImagePath)
+        {
+            return AddPicture(Name, ImagePath, null);
+        }
+        public ExcelPicture AddPicture(string Name, Stream ImagePath, Uri HyperLink)
+        {
+            return _chartDrawings.AddPicture(Name, ImagePath, HyperLink, DrawingsCollectionType.chart, this);
         }
     }
 }

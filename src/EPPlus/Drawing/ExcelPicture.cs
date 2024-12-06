@@ -34,9 +34,9 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public sealed class ExcelPicture : ExcelDrawing, IPictureContainer
     {
-#region "Constructors"
-        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type, PictureLocation location = PictureLocation.Embed) :
-            base(drawings, node, "xdr:pic/", "xdr:nvPicPr/xdr:cNvPr")
+        #region "Constructors"
+        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type, PictureLocation location = PictureLocation.Embed, DrawingsCollectionType drawingsType = DrawingsCollectionType.excel) :
+            base(drawings, node, NamespacePrefixes[(int)drawingsType] + ":pic/", NamespacePrefixes[(int)drawingsType] + ":nvPicPr/" + NamespacePrefixes[(int)drawingsType] + ":cNvPr", null, drawingsType)
         {
             Init();
             LocationType = location;
@@ -286,10 +286,11 @@ namespace OfficeOpenXml.Drawing
 
         private void CreatePicNode(XmlNode node, ePictureType type, string attribute = "embed")
         {
-            var picNode = CreateNode("xdr:pic");
+            var picNode = CreateNode( NamespacePrefixes[prefixIndex] + ":pic");
             picNode.InnerXml = PicStartXml(type, attribute);
 
-            node.InsertAfter(node.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings), picNode);
+            if(NamespacePrefixes[prefixIndex] == "xdr")
+                node.InsertAfter(node.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings), picNode);
         }
 
         private void AddNewPicture(byte[] img, string relID)
@@ -320,16 +321,16 @@ namespace OfficeOpenXml.Drawing
 
         internal void SetNewId(int newId)
         {
-            SetXmlNodeInt("xdr:pic/xdr:nvPicPr/xdr:cNvPr/@id", newId, null, false);
+            SetXmlNodeInt(NamespacePrefixes[prefixIndex] + ":pic/" + NamespacePrefixes[prefixIndex] + ":nvPicPr/" + NamespacePrefixes[prefixIndex] + ":cNvPr /@id", newId, null, false);
         }
 
         private string PicStartXml(ePictureType type, string attribute)
         {
             StringBuilder xml = new StringBuilder();
 
-            xml.Append("<xdr:nvPicPr>");
-            xml.AppendFormat("<xdr:cNvPr id=\"{0}\" descr=\"\" />", _id);
-            xml.Append("<xdr:cNvPicPr><a:picLocks noChangeAspect=\"1\" /></xdr:cNvPicPr></xdr:nvPicPr><xdr:blipFill>");
+            xml.AppendFormat("<{0}:nvPicPr>", NamespacePrefixes[prefixIndex]);
+            xml.AppendFormat("<{1}:cNvPr id=\"{0}\" descr=\"\" />", _id, NamespacePrefixes[prefixIndex]);
+            xml.AppendFormat("<{0}:cNvPicPr><a:picLocks noChangeAspect=\"1\" /></{0}:cNvPicPr></{0}:nvPicPr><{0}:blipFill>", NamespacePrefixes[prefixIndex]);
             if(type==ePictureType.Svg)
             {
                 xml.Append($"<a:blip xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:{attribute}=\"\" cstate=\"print\"><a:extLst><a:ext uri=\"{{28A0092B-C50C-407E-A947-70E740481C1C}}\"><a14:useLocalDpi xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" val=\"0\"/></a:ext><a:ext uri=\"{{96DAC541-7B7A-43D3-8B79-37D633B846F1}}\"><asvg:svgBlip xmlns:asvg=\"http://schemas.microsoft.com/office/drawing/2016/SVG/main\" r:{attribute}=\"\"/></a:ext></a:extLst></a:blip>");
@@ -338,7 +339,7 @@ namespace OfficeOpenXml.Drawing
             {
                 xml.Append($"<a:blip xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:{attribute}=\"\" cstate=\"print\" />");
             }
-            xml.Append("<a:stretch><a:fillRect /> </a:stretch> </xdr:blipFill> <xdr:spPr> <a:xfrm> <a:off x=\"0\" y=\"0\" />  <a:ext cx=\"0\" cy=\"0\" /> </a:xfrm> <a:prstGeom prst=\"rect\"> <a:avLst /> </a:prstGeom> </xdr:spPr>");
+            xml.AppendFormat("<a:stretch><a:fillRect /> </a:stretch> </{0}:blipFill> <{0}:spPr> <a:xfrm> <a:off x=\"0\" y=\"0\" />  <a:ext cx=\"0\" cy=\"0\" /> </a:xfrm> <a:prstGeom prst=\"rect\"> <a:avLst /> </a:prstGeom> </{0}:spPr>", NamespacePrefixes[prefixIndex]);
 
             return xml.ToString();
         }
@@ -362,7 +363,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Percent">Percent</param>
         public override void SetSize(int Percent)
         {
-            if (Image.ImageBytes == null)
+            if (Image.ImageBytes == null || _drawings.DrawingsType == DrawingsCollectionType.chart)
             {
                 base.SetSize(Percent);
             }
@@ -510,11 +511,11 @@ namespace OfficeOpenXml.Drawing
         void IPictureContainer.SetNewImage()
         {
             var relId = ((IPictureContainer)this).RelPic.Id;
-            var picNode = (XmlElement)TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", NameSpaceManager);
+            var picNode = (XmlElement)TopNode.SelectSingleNode($"{_topPath}{NamespacePrefixes[prefixIndex]}:blipFill/a:blip", NameSpaceManager);
             picNode.SetAttribute("r:embed", relId);
             if (Image.Type == ePictureType.Svg)
             {
-                var node = TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager);
+                var node = TopNode.SelectSingleNode($"{_topPath}{NamespacePrefixes[prefixIndex]}:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager);
                 if(node == null)
                 {
                     var newNode = TopNode.OwnerDocument.CreateElement("extLst", "28A0092B-C50C-407E-A947-70E740481C1C");

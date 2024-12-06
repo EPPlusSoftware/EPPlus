@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Utils.Extensions;
 using System;
@@ -296,15 +297,15 @@ namespace OfficeOpenXml.Drawing
     /// </summary>
     public class ExcelGroupShape : ExcelDrawing
     {
-        internal ExcelGroupShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null) : 
-            base(drawings, node, "xdr:grpSp", "xdr:nvGrpSpPr/xdr:cNvPr", parent)
+        internal ExcelGroupShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
+            base(drawings, node, NamespacePrefixes[(int)DrawingsType] + ":grpSp", NamespacePrefixes[(int)DrawingsType] + ":nvGrpSpPr/" + NamespacePrefixes[(int)DrawingsType] + ":cNvPr", parent, DrawingsType)
         {
             var grpNode = CreateNode(_topPath);
             if (grpNode.InnerXml == "")
             {
-                grpNode.InnerXml = "<xdr:nvGrpSpPr><xdr:cNvPr name=\"\" id=\"3\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGrpSpPr/></xdr:nvGrpSpPr><xdr:grpSpPr><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/><a:chOff y=\"0\" x=\"0\"/><a:chExt cy=\"0\" cx=\"0\"/></a:xfrm></xdr:grpSpPr>";
+                grpNode.InnerXml = "<" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":cNvPr name=\"\" id=\"3\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></" + NamespacePrefixes[prefixIndex] + ":cNvPr><" + NamespacePrefixes[prefixIndex] + ":cNvGrpSpPr/></" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":grpSpPr><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/><a:chOff y=\"0\" x=\"0\"/><a:chExt cy=\"0\" cx=\"0\"/></a:xfrm></" + NamespacePrefixes[prefixIndex] + ":grpSpPr>";
             }
-            if(parent==null) CreateNode("xdr:clientData");
+            if (parent == null && !(DrawingsType == DrawingsCollectionType.chart) ) CreateNode("xdr:clientData");
         }
         ExcelDrawingsGroup _groupDrawings = null;
         /// <summary>
@@ -338,6 +339,10 @@ namespace OfficeOpenXml.Drawing
             if (d._parent != null && d._parent!=grp)
             {
                 throw new InvalidOperationException($"The drawing {d.Name} is already in a group different from the other drawings.");
+            }
+            if(d._drawings.DrawingsType != drawings.DrawingsType)
+            {
+                throw new InvalidOperationException("Drawings need to be inside the same drawings type collection.");
             }
         }
         internal void SetPositionAndSizeFromChildren()

@@ -33,6 +33,10 @@ using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.ConditionalFormatting;
 using System.Globalization;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System.Xml.Linq;
+
+
 
 
 
@@ -177,7 +181,6 @@ namespace OfficeOpenXml.Drawing
                     list = _drawingsXml.SelectNodes("//*[self::xdr:oneCellAnchor or self::xdr:twoCellAnchor or self::xdr:absoluteAnchor]", NameSpaceManager);
                     break;
             }
-
             foreach (XmlNode node in list)
             {
                 ExcelDrawing dr;
@@ -990,14 +993,24 @@ namespace OfficeOpenXml.Drawing
             return AddPicture(Name, ImageFile, null, Location);
         }
 
-        private ExcelPicture BaseAddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
+        private ExcelPicture BaseAddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, DrawingsCollectionType drawingsCollectionType = DrawingsCollectionType.excel, object container = null)
         {
-            XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
+            XmlElement drawNode;
+            switch (drawingsCollectionType)
+            {
+                case DrawingsCollectionType.chart:
+                    drawNode = CreateDrawingXmlChartDrawings(container as ExcelChart);
+                    break;
+                case DrawingsCollectionType.excel:
+                default:
+                    drawNode = CreateDrawingXml(eEditAs.OneCell);
+                    break;
+            }
             var type = PictureStore.GetPictureType(ImageFile.Extension);
 
             bool hasLink = (Location & PictureLocation.Link) == PictureLocation.Link;
 
-            var pic = new ExcelPicture(this, drawNode, Hyperlink, type, Location);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, type, Location, drawingsCollectionType);
 
             if(hasLink)
             {
@@ -1016,16 +1029,21 @@ namespace OfficeOpenXml.Drawing
         /// <returns>A picture object</returns>
         public ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
         {
-            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location);
-            if(Location != PictureLocation.Link)
+            return AddPicture(Name, ImageFile, DrawingsCollectionType.excel, Hyperlink, Location,  null);
+        }
+
+        internal ExcelPicture AddPicture(string Name, FileInfo ImageFile, DrawingsCollectionType drawingsCollectionType, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, object container = null)
+        {
+            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, drawingsCollectionType, container);
+            if (Location != PictureLocation.Link)
             {
                 ValidatePictureFile(Name, ImageFile);
                 pic.LoadImage(new FileStream(ImageFile.FullName, FileMode.Open, FileAccess.Read), pic.Image.Type.Value);
             }
             AddPicture(Name, pic);
-
             return pic;
         }
+
         /// <summary>
         /// Adds a picture to the worksheet using a stream. EPPlus will identify the type of image automatically.
         /// </summary>
@@ -1073,7 +1091,12 @@ namespace OfficeOpenXml.Drawing
             return AddImageInternal(Name, pictureStream, pictureType, Hyperlink);
         }
 
-        private ExcelPicture AddImageInternal(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
+        internal ExcelPicture AddPicture(string Name, Stream pictureStream, Uri Hyperlink, DrawingsCollectionType drawingsCollectionType = DrawingsCollectionType.excel, object container = null)
+        {
+            return AddImageInternal(Name, pictureStream, null, Hyperlink, drawingsCollectionType, container);
+        }
+
+        private ExcelPicture AddImageInternal(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink, DrawingsCollectionType drawingsCollectionType = DrawingsCollectionType.excel, object container = null)
         {
             if (pictureStream == null)
             {
@@ -1085,17 +1108,37 @@ namespace OfficeOpenXml.Drawing
             }
 
             if (pictureType == null) pictureType = ImageReader.GetPictureType(pictureStream, true);
-            XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
+            XmlElement drawNode;
+            switch(drawingsCollectionType)
+            {
+                case DrawingsCollectionType.chart:
+                    drawNode = CreateDrawingXmlChartDrawings(container as ExcelChart);
+                    break;
+                case DrawingsCollectionType.excel:
+                default:
+                    drawNode = CreateDrawingXml(eEditAs.OneCell);
+                    break;
+            }
             var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType.Value);
             pic.LoadImage(pictureStream, pictureType.Value);
             AddPicture(Name, pic);
             return pic;
         }
 
-        internal ExcelGroupShape AddGroupDrawing()
+        internal ExcelGroupShape AddGroupDrawing(DrawingsCollectionType drawingsType = DrawingsCollectionType.excel)
         {
-            XmlElement drawNode = CreateDrawingXml(eEditAs.OneCell);
-            var grp = new ExcelGroupShape(this, drawNode);
+            XmlElement drawNode;
+            switch (drawingsType)
+            {
+                case DrawingsCollectionType.chart:
+                    drawNode = CreateDrawingXmlChartDrawings(null);
+                    break;
+                case DrawingsCollectionType.excel:
+                default:
+                    drawNode = CreateDrawingXml(eEditAs.OneCell);
+                    break;
+            }
+            var grp = new ExcelGroupShape(this, drawNode, null, drawingsType);
             grp.Name = $"Group {grp.Id}";
             _drawingsList.Add(grp);
             _drawingNames.Add(grp.Name, _drawingsList.Count - 1);
@@ -1124,7 +1167,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>A picture object</returns>
         public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
         {
-            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location);
+            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, DrawingsCollectionType.excel);
             if (Location != PictureLocation.Link)
             {
                 ValidatePictureFile(Name, ImageFile);
