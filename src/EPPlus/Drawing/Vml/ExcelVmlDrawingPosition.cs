@@ -91,7 +91,14 @@ namespace OfficeOpenXml.Drawing.Vml
             string[] numbers = anchor.Split(',');
             if (numbers.Length == 8)
             {
-                numbers[_startPos + pos] = value.ToString();
+                if(pos == _startPos)
+                {
+                    numbers[_startPos + pos] = value.ToString();
+                }
+                else
+                {
+                    numbers[_startPos + pos] = " " + value.ToString();
+                }
             }
             else
             {
@@ -101,7 +108,14 @@ namespace OfficeOpenXml.Drawing.Vml
                 {
                     if(string.IsNullOrEmpty(numbers[i]))
                     {
-                        numbers[i] = "0";
+                        if (i == 0)
+                        {
+                            numbers[i] = "0";
+                        }
+                        else
+                        {
+                            numbers[i] = " 0";
+                        }
                     }
                 }
             }

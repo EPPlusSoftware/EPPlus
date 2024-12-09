@@ -1,4 +1,9 @@
-﻿namespace OfficeOpenXml.Drawing.EMF
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace OfficeOpenXml.Drawing.EMF
 {
     /// <summary>
     /// Defines maping of Page Space or Logical Units (LU) into device space. 

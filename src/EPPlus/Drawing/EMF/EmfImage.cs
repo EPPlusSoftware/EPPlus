@@ -14,14 +14,16 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+using OfficeOpenXml.Packaging.Ionic.Zip;
+using System.Reflection;
+using System;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
     internal class EmfImage
     {
         internal List<EMR_RECORD> records = new List<EMR_RECORD>();
-        ExcelTextSettings textSettings;
+        protected ExcelTextSettings textSettings;
         uint size = 0;
         MapMode currentMapMode = MapMode.MM_TEXT;
         internal EmfImage() { }
@@ -33,6 +35,32 @@ namespace OfficeOpenXml.Drawing.EMF
         internal uint currentlySelectedId;
         float ppi;
         float unitsPerEm;
+
+        internal void LoadTemplateFromResource(string fileName, string localZipPath)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var stream = assembly.GetManifestResourceStream(localZipPath);
+
+            if (string.IsNullOrEmpty(fileName) == false)
+            {
+                using (stream)
+                {
+                    using (var zipStream = new ZipInputStream(stream))
+                    {
+                        ZipEntry entry;
+                        while ((entry = zipStream.GetNextEntry()) != null)
+                        {
+                            if (entry.FileName.Equals(fileName))
+                            {
+                                var br = new BinaryReader(zipStream);
+                                var bytes = br.ReadBytes((int)entry.UncompressedSize);
+                                Read(bytes);
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         internal void Read(string emf)
         {
@@ -83,10 +111,17 @@ namespace OfficeOpenXml.Drawing.EMF
                     case 0x00000016:
                         record = new EMR_SETTEXTALIGN(br, TypeValue);
                         break;
+                    case 0x00000023:
+                    case 0x00000024:
+                        record = new TransformRecordBase(br, TypeValue);
+                        break;
                     case 0x00000025:
                         var obj = new EMR_SELECTOBJECT(br, TypeValue);
                         currentlySelectedId = obj.ihObject;
                         record = obj;
+                        break;
+                    case 0x00000046:
+                        record = new EMR_COMMENT(br);
                         break;
                     case 0x0000004D:
                         record = new EMR_STRETCHBLT(br, TypeValue);
@@ -119,6 +154,7 @@ namespace OfficeOpenXml.Drawing.EMF
                         {
                             text.Font = Fonts[currentlySelectedId];
                         }
+                        //text.Ppi = ppi;
                         record = text;
                         break;
                     default:
@@ -146,6 +182,28 @@ namespace OfficeOpenXml.Drawing.EMF
             record.ChangeImage(Image);
         }
 
+        //Assumes only one stretchdibits/one of each EMR_SETWORLDTRANSFORM and EMR_MODIFYWORLDTRANSFORM
+        internal void ResetWorldOrigin(float xPos = 9, float yPos = 43)
+        {
+            var dibits = (EMR_STRETCHDIBITS)records.Find(x => x.Type == RECORD_TYPES.EMR_STRETCHDIBITS);
+
+            var worldTransform = (TransformRecordBase)records.Find(x => x.Type == RECORD_TYPES.EMR_SETWORLDTRANSFORM);
+            var worldTransformModified = (TransformRecordBase)records.Find(x => x.Type == RECORD_TYPES.EMR_MODIFYWORLDTRANSFORM);
+
+            //worldTransform.xForm.Dy;
+            worldTransform.xForm.Dx = xPos;
+            worldTransform.xForm.M11 = 1;
+            worldTransform.xForm.M22 = 1;
+            worldTransform.xForm.Dy = yPos;
+
+            worldTransformModified.xForm.Dx = xPos;
+            worldTransformModified.xForm.M11 = 1;
+            worldTransformModified.xForm.M22 = 1;
+            worldTransformModified.xForm.Dy = yPos;
+
+            dibits.Bounds = new RectLObject((int)xPos, (int)yPos, 120, 118);
+        }
+
         internal void Save(string FilePath)
         {
             var header = (EMR_HEADER)records[0];
@@ -153,6 +211,8 @@ namespace OfficeOpenXml.Drawing.EMF
             var preBytes = header.Bytes;
 
             header.Bytes = 0;
+
+            header.Records = (uint)records.Count;
 
             foreach (var record in records)
             {
@@ -195,6 +255,57 @@ namespace OfficeOpenXml.Drawing.EMF
                     return ms.ToArray();
                 }
             }
+        }
+
+        public virtual void SaveToStream(MemoryStream ms)
+        {
+            var header = (EMR_HEADER)records[0];
+            var last = (EMR_EOF)records[records.Count - 1];
+            var preBytes = header.Bytes;
+
+            header.Bytes = 0;
+
+            foreach (var record in records)
+            {
+                header.Bytes += record.Size;
+            }
+
+            BinaryWriter bw = new BinaryWriter(ms);
+
+            foreach (var record in records)
+            {
+                record.WriteBytes(bw);
+            }
+        }
+
+        /// <summary>
+        /// Save before and restore playback state after a record range
+        /// </summary>
+        /// <param name="startRecord">Record before which to place the EMR_SAVEDC record</param>
+        /// <param name="endRecord">Record after which to place the EMR_RESTOREDC record</param>
+        /// <param name="stackState">Current number of stacked saved records for EMR_RESTOREDC to restore to. -1 if only this.</param>
+        internal void InsertSaveAndRestoreRecords(int startRecord, int endRecord,int stackState = -1)
+        {
+            var saveRecord = new EMR_RECORD();
+            saveRecord.Type = RECORD_TYPES.EMR_SAVEDC;
+            saveRecord.Size = 8;
+            saveRecord.data = new byte[0];
+
+            var restoreRecord = new EMR_RECORD();
+            restoreRecord.Type = RECORD_TYPES.EMR_RESTOREDC;
+            restoreRecord.Size = 12;
+            restoreRecord.data = BitConverter.GetBytes(stackState);
+
+            records.Insert(startRecord, saveRecord);
+            records.Insert(endRecord, restoreRecord);
+        }
+
+        internal EmfImage Clone()
+        {
+            var copy = new EmfImage();
+            copy.textSettings = textSettings;
+            copy.Read(GetBytes());
+            return copy;
         }
     }
 }

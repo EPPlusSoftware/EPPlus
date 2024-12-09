@@ -38,6 +38,8 @@ using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.DigitalSignatures;
+using System.Security.Cryptography.Xml;
 
 namespace OfficeOpenXml
 {
@@ -131,7 +133,23 @@ namespace OfficeOpenXml
 			}
 		}
 
-		internal string GetSlicerName(string name)
+        internal void LoadAllVmlDrawings(string loadingWsName)
+		{
+            if (_worksheets._areVmlDrawingsLoaded)
+            {
+                return;
+            }
+            _worksheets._areVmlDrawingsLoaded = true;
+            foreach (var ws in Worksheets)
+            {
+                if (loadingWsName.Equals(ws.Name, StringComparison.OrdinalIgnoreCase) == false)
+                {
+                    var vmlDrawings = ws.VmlDrawings;
+                }
+            }
+        }
+
+        internal string GetSlicerName(string name)
 		{
 			if (_slicerNames == null) LoadSlicerNames();
 			return GetUniqueName(name, _slicerNames);
@@ -210,7 +228,7 @@ namespace OfficeOpenXml
             _package = package;
             SetUris();
 
-            _names = new ExcelNamedRangeCollection(this);
+			_names = new ExcelNamedRangeCollection(this);
             _namespaceManager = namespaceManager;
             TopNode = WorkbookXml.DocumentElement;
             SchemaNodeOrder = new string[] { "fileVersion", "fileSharing", "workbookPr", "workbookProtection", "bookViews", "sheets", "functionGroups", "functionPrototypes", "externalReferences", "definedNames", "calcPr", "oleSize", "customWorkbookViews", "pivotCaches", "smartTagPr", "smartTagTypes", "webPublishing", "fileRecoveryPr", "webPublishObjects", "extLst" };
@@ -240,16 +258,19 @@ namespace OfficeOpenXml
 
 		private void SetUris()
 		{
-			foreach (var rel in _package.ZipPackage.GetRelationships())
-			{
-				if (rel.RelationshipType == ExcelPackage.schemaRelationships + "/officeDocument")
-				{
-					WorkbookUri = rel.TargetUri;
-					break;
-				}
-			}
+            foreach (var rel in _package.ZipPackage.GetRelationships())
+            {
+                if (rel.RelationshipType == ExcelPackage.schemaRelationships + "/officeDocument")
+                {
+                    WorkbookUri = rel.TargetUri;
+                }
+                else if (rel.RelationshipType == ExcelPackage.packageSchemaRelationships + "/digital-signature/origin")
+                {
+                    SignatureOriginUri = rel.TargetUri;
+                }
+            }
 
-			if (WorkbookUri == null)
+            if (WorkbookUri == null)
 			{
 				WorkbookUri = new Uri("/xl/workbook.xml", UriKind.Relative);
 			}
@@ -866,10 +887,55 @@ namespace OfficeOpenXml
 				return _vba;
 			}
 		}
+
+        internal Dictionary<Guid, ExcelSignatureLineStamp> _signatureLinesWorkbook = new Dictionary<Guid, ExcelSignatureLineStamp>();
+        internal ExcelSignatureLineStamp GetSignatureLineStamp(Guid id)
+        {
+			return _signatureLinesWorkbook[id];
+            //foreach (var sig in _signatures)
+            //{
+            //    if (sig.SignatureLine != null && sig.SignatureLine.SetupID.Equals(id))
+            //    {
+            //        return sig;
+            //    }
+            //}
+            //return null;
+        }
+
+        internal ExcelDigitalSignatureCollection _digSig = null;
+
 		/// <summary>
-		/// Remove the from the file VBA project.
+		/// A collection of digital signatures for the workbook
 		/// </summary>
-		public void RemoveVBAProject()
+        public ExcelDigitalSignatureCollection DigitialSignatures
+        {
+            get
+            {
+                if (_digSig == null)
+                {
+                    if (SignatureOriginUri == null)
+                    {
+                        var originSigsUri = new Uri("_xmlsignatures/origin.sigs", UriKind.Relative);
+						var originPart = _package.ZipPackage.CreatePart(originSigsUri, ContentTypes.signatureOrigin, CompressionLevel.Default, "sigs");
+						var stream = originPart.GetStream();
+						stream.Write([], 0, 0);
+						var rel = _package.ZipPackage.CreateRelationship(originSigsUri, TargetMode.Internal, ExcelPackage.packageSchemaRelationships + "/digital-signature/origin");
+                        SignatureOriginUri = rel.TargetUri;
+                        _digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager);
+                    }
+					else
+					{
+                        _digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
+                    }
+                }
+                return _digSig;
+            }
+        }
+
+        /// <summary>
+        /// Remove the from the file VBA project.
+        /// </summary>
+        public void RemoveVBAProject()
 		{
 			if (_vba != null)
 			{
@@ -936,11 +1002,14 @@ namespace OfficeOpenXml
 		/// URI to the person elements inside the package
 		/// </summary>
 		internal Uri PersonsUri { get; private set; }
-
-		/// <summary>
-		/// Returns a reference to the workbook's part within the package
-		/// </summary>
-		internal Packaging.ZipPackagePart Part { get { return (_package.ZipPackage.GetPart(WorkbookUri)); } }
+        /// <summary>
+        /// Uri to the digital signatures in the package
+        /// </summary>
+        internal Uri SignatureOriginUri { get; private set; } = null;
+        /// <summary>
+        /// Returns a reference to the workbook's part within the package
+        /// </summary>
+        internal Packaging.ZipPackagePart Part { get { return (_package.ZipPackage.GetPart(WorkbookUri)); } }
 
 		#region WorkbookXml
 		private XmlDocument _workbookXml;
@@ -1391,9 +1460,23 @@ namespace OfficeOpenXml
 			{
 				VbaProject.Save();
 			}
-		}
 
-		private void SaveExternalLinks()
+			//If signatures have not been loaded yet but should exist load them
+			if (SignatureOriginUri != null && _digSig == null)
+			{
+				_digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
+            }
+
+			if(_digSig != null)
+			{
+                foreach (var signature in _digSig)
+                {
+                    signature._part.SaveHandler = SaveDigitalSignatureHandler;
+                }
+            }
+        }
+
+        private void SaveExternalLinks()
 		{
 			var packageFile = _package.File;
 			foreach (var er in _externalLinks)
@@ -1568,7 +1651,20 @@ namespace OfficeOpenXml
 			//Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, SharedStringsUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/sharedStrings");
 		}
 
-		private void UpdateDefinedNamesXml()
+        internal void SaveDigitalSignatureHandler(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
+        {
+            //Init Zip
+            stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
+            stream.PutNextEntry(fileName);
+
+            var signature = DigitialSignatures.GetSignatureByFileName(fileName);
+            signature.Save();
+
+            var b = ((MemoryStream)signature._part.GetStream()).ToArray();
+            stream.Write(b, 0, b.Length);
+        }
+
+        private void UpdateDefinedNamesXml()
 		{
 			List<ExcelNamedRange> nameList = new List<ExcelNamedRange>();
 			try

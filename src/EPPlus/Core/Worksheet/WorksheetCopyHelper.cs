@@ -738,7 +738,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyVmlDrawing(ExcelWorksheet origSheet, ExcelWorksheet newSheet)
         {
-            var xml = origSheet.VmlDrawings.VmlDrawingXml.OuterXml;
+            var xml = origSheet.VmlDrawings.GetOuterXmlWithoutSignatureLines();
             var vmlUri = new Uri(string.Format("/xl/drawings/vmlDrawing{0}.vml", newSheet.SheetId), UriKind.Relative);
             var part = newSheet._package.ZipPackage.CreatePart(vmlUri, "application/vnd.openxmlformats-officedocument.vmlDrawing", newSheet._package.Compression);
             var streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
@@ -809,13 +809,22 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyVmlRelations(ExcelWorksheet Copy, ExcelWorksheet added)
         {
+            //Excel does not copy signature lines we shouldn'te either.
+            if (added.SignatureLines.Count() > 0)
+            {
+                added.SignatureLines.Clear();
+            }
+
             if (Copy._vmlDrawings.Part == null) return;
             foreach (var r in Copy._vmlDrawings.Part.GetRelationships())
             {
-                var newRel = added.VmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
-                if (newRel.Id != r.Id) //Make sure the id's are the same.
+                if (added._vmlDrawings != null)
                 {
-                    newRel.Id = r.Id;
+                    var newRel = added.VmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
+                    if (newRel.Id != r.Id) //Make sure the id's are the same.
+                    {
+                        newRel.Id = r.Id;
+                    }
                 }
                 if (Copy.Workbook != added.Workbook)
                 {
