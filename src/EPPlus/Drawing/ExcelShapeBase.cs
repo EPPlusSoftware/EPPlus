@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Drawing
         private string _textBodyPath = "{0}xdr:txBody/a:bodyPr";
         private string _presetGeometryPath = "{0}xdr:spPr/a:prstGeom/a:avLst";
 
-        private Dictionary<string, ShapeGuidePoint> AdjustmentPoints = null;
+        private Dictionary<string, ShapeGuidePoint> _adjustmentPoints = null;
 
         internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null) :
             base(drawings, node, topPath, nvPrPath, parent)
@@ -467,16 +467,16 @@ namespace OfficeOpenXml.Drawing
         /// Get a list of available adjustment point names.
         /// </summary>
         /// <returns></returns>
-        public EPPlusReadOnlyList<string> GetShapeGuidesNames()
+        public EPPlusReadOnlyList<string> GetAdjustmentPointsNames()
         {
-            if (AdjustmentPoints == null || AdjustmentPoints.Count == 0)
+            if (_adjustmentPoints == null || _adjustmentPoints.Count == 0)
             {
-                AdjustmentPoints = ShapeGuidesFactory.GetAdjustmentPoints(Style);
-                if(AdjustmentPoints == null)
+                _adjustmentPoints = ShapeGuidesFactory.GetAdjustmentPoints(Style);
+                if(_adjustmentPoints == null)
                     return new EPPlusReadOnlyList<string>();
             }
             EPPlusReadOnlyList<string> strings = new EPPlusReadOnlyList<string>();
-            strings._list = AdjustmentPoints.Keys.ToList();
+            strings._list = _adjustmentPoints.Keys.ToList();
             return strings;
         }
 
@@ -486,18 +486,18 @@ namespace OfficeOpenXml.Drawing
         /// <param name="name">The name of the adjustment point. Use GetShapeGuideNames for a list of possible shape guides to adjust.</param>
         /// <param name="value">The value to set for the shape guide. Value is different from shape to shape. Some shapes clamp the value and some are free.</param>
         /// <exception cref="Exception"></exception>
-        public void SetShapeGuide(string name, int value)
+        public void SetAdjustmentPoint(string name, int value)
         {
-            if (AdjustmentPoints == null || AdjustmentPoints.Count == 0)
+            if (_adjustmentPoints == null || _adjustmentPoints.Count == 0)
             {
-                AdjustmentPoints = ShapeGuidesFactory.GetAdjustmentPoints(Style);
-                if(AdjustmentPoints == null)
+                _adjustmentPoints = ShapeGuidesFactory.GetAdjustmentPoints(Style);
+                if(_adjustmentPoints == null)
                 {
-                    throw new Exception("Shape does not contain any adjustment points");
+                    throw new InvalidOperationException("Shape does not contain any adjustment points");
                 }
             }
-            AdjustmentPoints[name].Value = value;
-            foreach (KeyValuePair<string, ShapeGuidePoint> guide in AdjustmentPoints)
+            _adjustmentPoints[name].Value = value;
+            foreach (KeyValuePair<string, ShapeGuidePoint> guide in _adjustmentPoints)
             {
                 //create xml node
                 var gd = TopNode.SelectSingleNode(_presetGeometryPath + "/a:gd[@name =\"{guide.Key}\"]", NameSpaceManager);
@@ -511,7 +511,7 @@ namespace OfficeOpenXml.Drawing
                 }
                 else
                 {
-                    gd.Attributes["fmla"].Value = AdjustmentPoints[name].fmlaValue;
+                    gd.Attributes["fmla"].Value = _adjustmentPoints[name].fmlaValue;
                 }
             }
         }
@@ -519,15 +519,15 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Remove all the shapes adjustments.
         /// </summary>
-        public void RemoveShapeGuides()
+        public void RemoveAdjustmentPoints()
         {
-            foreach (var point in AdjustmentPoints)
+            foreach (var point in _adjustmentPoints)
             {
                 var gd = TopNode.SelectSingleNode(_presetGeometryPath + "a:gd[@name =\"{point.Key}\"]", NameSpaceManager);
                 var parent = gd.ParentNode;
                 parent.RemoveChild(gd);
             }
-            AdjustmentPoints.Clear();
+            _adjustmentPoints.Clear();
         }
 
         internal override void CellAnchorChanged()
