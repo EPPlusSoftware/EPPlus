@@ -449,7 +449,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                 default:
                     break;
             }
-            lock (_syncRoot)
+            lock (ExcelStyles._syncRoot)
             {
                 int id = xfsCol.FindIndexById(newXfs.Id);
                 if (id < 0)

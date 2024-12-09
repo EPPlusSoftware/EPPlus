@@ -26,11 +26,9 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
-using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using OfficeOpenXml;
-using OfficeOpenXml.Sparkline;
 using System.Threading;
 using System.Collections.Generic;
 using System.Drawing;
@@ -63,7 +61,7 @@ namespace EPPlusTest
         [TestMethod]
         public void AddMultipleWorksheetsWithStyling()
         {
-            var noTheads = 10;
+            var noTheads = 5;
             using(var p=OpenPackage("MulitThreadWorksheet.xlsx", true))
             {
                 var pool = new List<Thread>();
@@ -92,7 +90,7 @@ namespace EPPlusTest
         {
             using (var p = OpenPackage("NoThreading.xlsx", true))
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 25; i++)
                 {
                     var ws = p.Workbook.Worksheets.Add($"Sheet{i + 1}");
                     LoadWorksheet(ws);

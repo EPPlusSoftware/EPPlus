@@ -141,6 +141,7 @@ namespace OfficeOpenXml
         Stream _stream = null;
         private bool _isExternalStream = false;
         internal ExcelPackage _loadedPackage = null;
+        internal readonly static object _syncRoot = new object();
         #region Properties
         /// <summary>
         /// Extension Schema types
@@ -700,19 +701,22 @@ namespace OfficeOpenXml
             get
             {
                 CheckNotDisposed();
-                if (_workbook == null)
+                lock (_syncRoot)
                 {
-                    if (IsLicenseSet(_initErrors) == false)
+                    if (_workbook == null)
                     {
-                        throw (new LicenseException("Please set the ExcelPackage.LicenseContext property. See https://epplussoftware.com/developers/licenseexception"));
+                        if (IsLicenseSet(_initErrors) == false)
+                        {
+                            throw (new LicenseException("Please set the ExcelPackage.LicenseContext property. See https://epplussoftware.com/developers/licenseexception"));
+                        }
+                        var nsm = CreateDefaultNSM();
+
+                        _workbook = new ExcelWorkbook(this, nsm);
+
+                        _workbook.GetDefinedNames();
+                        _workbook.LoadPivotTableCaches();
+
                     }
-                    var nsm = CreateDefaultNSM();
-
-                    _workbook = new ExcelWorkbook(this, nsm);
-
-                    _workbook.GetDefinedNames();
-                    _workbook.LoadPivotTableCaches();
-
                 }
                 return (_workbook);
             }

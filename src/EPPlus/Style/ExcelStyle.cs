@@ -23,6 +23,7 @@ namespace OfficeOpenXml.Style
     public sealed class ExcelStyle : StyleBase
     {
         ExcelXfs _xfs;
+
         internal ExcelStyle(ExcelStyles styles, OfficeOpenXml.XmlHelper.ChangedEventHandler ChangedEvent, int positionID, string Address, int xfsId) :
             base(styles, ChangedEvent, positionID, Address)
         {
@@ -31,10 +32,10 @@ namespace OfficeOpenXml.Style
             PositionID = positionID;
             if (positionID > -1)
             {
-                if(xfsId==0)
+                if (xfsId == 0)
                 {
                     var id = _styles.NamedStyles.FindIndexByBuildInId(0);
-                    if(id>-1 && id < _styles.CellStyleXfs.Count)
+                    if (id > -1 && id < _styles.CellStyleXfs.Count)
                     {
                         _xfs = _styles.CellStyleXfs[_styles.NamedStyles[id].StyleXfId];
                     }
@@ -52,7 +53,7 @@ namespace OfficeOpenXml.Style
             {
                 if (_styles.CellStyleXfs.Count == 0)   //CellStyleXfs.Count should never be 0, but for some custom build sheets this can happend.
                 {
-                    var item=_styles.CellXfs[0].Copy();                    
+                    var item = _styles.CellXfs[0].Copy();
                     _styles.CellStyleXfs.Add(item.Id, item);
                 }
                 _xfs = _styles.CellStyleXfs[xfsId];
@@ -60,7 +61,7 @@ namespace OfficeOpenXml.Style
             Numberformat = new ExcelNumberFormat(styles, ChangedEvent, PositionID, Address, _xfs.NumberFormatId);
             Font = new ExcelFont(styles, ChangedEvent, PositionID, Address, _xfs.FontId);
             Fill = new ExcelFill(styles, ChangedEvent, PositionID, Address, _xfs.FillId);
-            Border = new Border(styles, ChangedEvent, PositionID, Address, _xfs.BorderId); 
+            Border = new Border(styles, ChangedEvent, PositionID, Address, _xfs.BorderId);
         }
         /// <summary>
         /// Numberformat

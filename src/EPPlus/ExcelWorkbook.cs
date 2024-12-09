@@ -104,7 +104,9 @@ namespace OfficeOpenXml
 		//internal HashSet<string> _tableSlicerNames = new HashSet<string>();
 		internal HashSet<string> _slicerNames = null;
 		internal Dictionary<string, ImageInfo> _images = new Dictionary<string, ImageInfo>();
-		internal bool GetPivotCacheFromAddress(string fullAddress, out PivotTableCacheInternal cacheReference)
+        #endregion
+
+        internal bool GetPivotCacheFromAddress(string fullAddress, out PivotTableCacheInternal cacheReference)
 		{
 			if (_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
 			{
@@ -196,7 +198,6 @@ namespace OfficeOpenXml
 			}
 			return n;
 		}
-        #endregion
 
         #region ExcelWorkbook Constructor
         /// <summary>
@@ -218,6 +219,12 @@ namespace OfficeOpenXml
             _fullPrecision = GetXmlNodeBool("d:calcPr/@fullPrecision", true);
 
             GetSharedStrings();
+
+            lock (ExcelStyles._syncRoot)
+            {
+                Styles = new ExcelStyles(NameSpaceManager, StylesXml, this);
+            }
+
         }
 
         /// <summary>
@@ -1078,14 +1085,16 @@ namespace OfficeOpenXml
 			{
 				if (_stylesXml == null)
 				{
-					if (_package.ZipPackage.PartExists(StylesUri))
-						_stylesXml = _package.GetXmlFromUri(StylesUri);
-					else
+					lock (this)
 					{
-						// create a new styles part and add to the package
-						lock (this)
+						if (_package.ZipPackage.PartExists(StylesUri))
 						{
-							Packaging.ZipPackagePart part = _package.ZipPackage.CreatePart(StylesUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", _package.Compression);
+							_stylesXml = _package.GetXmlFromUri(StylesUri);
+						}
+						else
+						{
+							// create a new styles part and add to the package
+							ZipPackagePart part = _package.ZipPackage.CreatePart(StylesUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", _package.Compression);
 							// create the style sheet
 
 							StringBuilder xml = new StringBuilder("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">");
@@ -1111,7 +1120,7 @@ namespace OfficeOpenXml
 						_package.ZipPackage.Flush();
 
 						// create the relationship between the workbook and the new shared strings part
-						_package.Workbook.Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, StylesUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/styles");
+						Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, StylesUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/styles");
 						_package.ZipPackage.Flush();
 					}
 				}
@@ -1127,14 +1136,7 @@ namespace OfficeOpenXml
 		/// </summary>
 		public ExcelStyles Styles
 		{
-			get
-			{
-				if (_styles == null)
-				{
-					_styles = new ExcelStyles(NameSpaceManager, StylesXml, this);
-				}
-				return _styles;
-			}
+			get;
 		}
 		#endregion
 

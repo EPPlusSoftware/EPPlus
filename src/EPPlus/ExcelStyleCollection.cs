@@ -17,6 +17,9 @@ using System.Text;
 using System.Xml;
 using System.Linq;
 using OfficeOpenXml.Style.XmlAccess;
+using System.Diagnostics;
+using System.Threading;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml
 {
@@ -35,9 +38,12 @@ namespace OfficeOpenXml
         {
             get
             {
-                if(_dic.ContainsKey(name))
+                lock (_syncRoot)
                 {
-                    return _list[_dic[name]];
+                    if (_dic.ContainsKey(name))
+                    {
+                        return _list[_dic[name]];
+                    }
                 }
                 return default(T);
             }
@@ -49,7 +55,7 @@ namespace OfficeOpenXml
     /// <typeparam name="T">The style type</typeparam>
     public class ExcelStyleCollection<T> : IEnumerable<T>
     {
-        private readonly static object _syncRoot = new object();
+        internal readonly static object _syncRoot = new object();
         internal ExcelStyleCollection()
         {
             _setNextIdManual = false;
@@ -113,7 +119,7 @@ namespace OfficeOpenXml
         }
         internal int Add(string key, T item)
         {
-            lock (_syncRoot)
+            lock (ExcelStyles._syncRoot)
             {
                 _list.Add(item);
                 if (!_dic.ContainsKey(key.ToLower(CultureInfo.InvariantCulture))) _dic.Add(key.ToLower(CultureInfo.InvariantCulture), _list.Count - 1);
@@ -129,14 +135,17 @@ namespace OfficeOpenXml
         /// <returns>True if found</returns>
         internal bool FindById(string key, ref T obj)
         {
-            if (_dic.ContainsKey(key))
+            lock (_syncRoot)
             {
-                obj = _list[_dic[key.ToLower(CultureInfo.InvariantCulture)]];
-                return true;
-            }
-            else
-            {
-                return false;
+                if (_dic.ContainsKey(key))
+                {
+                    obj = _list[_dic[key.ToLower(CultureInfo.InvariantCulture)]];
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
         /// <summary>
@@ -146,13 +155,16 @@ namespace OfficeOpenXml
         /// <returns></returns>
         internal int FindIndexById(string key)
         {
-            if (_dic.ContainsKey(key))
+            lock (_syncRoot)
             {
-                return _dic[key];
-            }
-            else
-            {
-                return int.MinValue;
+                if (_dic.ContainsKey(key))
+                {
+                    return _dic[key];
+                }
+                else
+                {
+                    return int.MinValue;
+                }
             }
         }
         internal int FindIndexByBuildInId(int id)
