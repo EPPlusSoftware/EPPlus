@@ -56,6 +56,11 @@ namespace OfficeOpenXml.Constants
 
         //Ole Object
         internal const string contentTypeOleObject = "application/vnd.openxmlformats-officedocument.oleObject";
+
+        //Digital Signature
+        internal const string signatureOrigin = "application/vnd.openxmlformats-package.digital-signature-origin";
+        internal const string xmlSignatures = "application/vnd.openxmlformats-package.digital-signature-xmlsignature+xml";
+        
         internal const string contentTypeOleDocx = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
         internal const string contentTypeOlePptx = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
         internal const string contentTypeOleXlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";

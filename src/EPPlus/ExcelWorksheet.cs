@@ -1028,6 +1028,17 @@ namespace OfficeOpenXml
                 return _vmlDrawings;
             }
         }
+        /// <summary>
+        /// Collection of signatureLines
+        /// </summary>
+        public SignatureLineCollection SignatureLines
+        {
+            get
+            {
+                return VmlDrawings.SignatureLines;
+            }
+        }
+
         internal ExcelCommentCollection _comments = null;
         /// <summary>
         /// Collection of comments
@@ -2486,11 +2497,8 @@ namespace OfficeOpenXml
                         HandleSaveForIndividualDrawings(d);
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;
-                    var stream = partPack.GetStream(FileMode.Create, FileAccess.Write);
-                    var xr = new XmlTextWriter(stream, Encoding.UTF8);
-                    xr.Formatting = Formatting.None;
-
-                    Drawings.DrawingXml.Save(xr);
+                    var partStream = partPack.GetStream(FileMode.Create, FileAccess.Write);
+                    Drawings.DrawingXml.Save(partStream);
                 }
             }
         }
@@ -2499,9 +2507,8 @@ namespace OfficeOpenXml
         {
             if (d is ExcelChart c)
             {
-                var xr = new XmlTextWriter(c.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
-                xr.Formatting = Formatting.None;
-                c.ChartXml.Save(xr);
+                var chartStream = c.Part.GetStream(FileMode.Create, FileAccess.Write);
+                c.ChartXml.Save(chartStream);
             }
             else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
             {
@@ -3993,6 +4000,25 @@ namespace OfficeOpenXml
         {
             return Workbook.Styles.RoundValueFromNumberFormat(c);
         }
+
+        /// <summary>
+        /// Add an empty signatureLine to the worksheet
+        /// </summary>
+        /// <returns></returns>
+        public ExcelSignatureLine AddSignatureLine()
+        {
+            return VmlDrawings.AddSignatureLine();
+        }
+
+        /// <summary>
+        /// Add an empty signatureLine Stamp to the worksheet
+        /// </summary>
+        /// <returns></returns>
+        public ExcelSignatureLineStamp AddSignatureLineStamp()
+        {
+            return VmlDrawings.AddSignatureLineStamp();
+        }
+
         #endregion
     }  // END class Worksheet
 }

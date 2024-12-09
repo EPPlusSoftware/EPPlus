@@ -281,7 +281,7 @@ namespace OfficeOpenXml.Drawing
             using(var ms = RecyclableMemory.GetStream(image))
             {
                 var imageHandler = new GenericImageHandler();
-                if (imageHandler.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
+                if (imageHandler.GetImageBounds(ms, pictureType, out double width, out double height, out double horizontalResolution, out double verticalResolution))
                 {
                     Bounds.Width = width;
                     Bounds.Height = height;
@@ -357,6 +357,11 @@ namespace OfficeOpenXml.Drawing
             }
             _container.SetNewImage();
             return this;
+        }
+
+        internal void SetRestrictedTypes(ePictureType[] restrictedTypes)
+        {
+            _restrictedTypes = restrictedTypes;
         }
 
         private void ValidatePictureType(ePictureType pictureType)
