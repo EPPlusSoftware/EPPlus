@@ -85,7 +85,7 @@ namespace OfficeOpenXml.Drawing
             From.Column = 0;
             To.Column = 2;
             From.Row = 0;
-            To.Row = 9;
+            To.Row = 8;
         }
 
         internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)

@@ -18,50 +18,24 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
         X509Certificate2 GetSelfCert()
         {
-            X509Store store = GetStore();
-            if (store.Certificates.Count == 0)
-            {
-                var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-                var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
+            var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+            var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
 
-                var certPrivate = finalCert.Export(X509ContentType.Pfx);
-                var certPublic = finalCert.Export(X509ContentType.Cert);
-                var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
-
-                store.Add(newCert);
-            }
-            var cert = store.Certificates[0];
-            return cert;
-        }
-
-        static X509Store GetStore()
-        {
-            X509Store store = new X509Store("tmpStoreDigSigEpplus", StoreLocation.CurrentUser);
-            store.Open(OpenFlags.ReadWrite);
-            return store;
+            var certPrivate = finalCert.Export(X509ContentType.Pfx);
+            var certPublic = finalCert.Export(X509ContentType.Cert);
+            var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
+            return newCert;
         }
 
         [ClassInitialize]
         public static void Init(TestContext context)
         {
-            X509Store store = GetStore();
-            foreach (var cert in store.Certificates)
-            {
-                store.Remove(cert);
-            }
-            store.Close();
             CreatePathIfNotExists(_worksheetPath + SubFolder);
         }
 
         [ClassCleanup]
         public static void Cleanup()
         {
-            X509Store store = GetStore();
-            foreach (var cert in store.Certificates)
-            {
-                store.Remove(cert);
-            }
-            store.Close();
         }
 
         [TestMethod]

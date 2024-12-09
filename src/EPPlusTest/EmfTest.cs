@@ -3,8 +3,6 @@ using OfficeOpenXml.Drawing.EMF;
 using System;
 using System.Linq;
 using System.IO;
-using FakeItEasy;
-using System.Text;
 
 namespace EPPlusTest
 {

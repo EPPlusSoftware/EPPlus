@@ -95,7 +95,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var provId = stamp.TopNode.SelectSingleNode("//o:signatureline", ws.VmlDrawings.NameSpaceManager).Attributes.GetNamedItem("provid");
                 Assert.AreEqual("{000CD6A4-0000-0000-C000-000000000046}", provId.Value);
                 var anchor = stamp.TopNode.SelectSingleNode("//x:Anchor", ws.VmlDrawings.NameSpaceManager);
-                Assert.AreEqual("0, 0, 0, 0, 2, 0, 8, 0", anchor.InnerText);
+                Assert.AreEqual("0, 0, 0, 0, 2, 0, 8, 0", anchor.InnerXml);
             }
         }
     }
