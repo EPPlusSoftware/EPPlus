@@ -53,15 +53,11 @@ namespace EPPlusTest
             var fileName = _pck.File.FullName;
 
             SaveAndCleanup(_pck);
-            if (File.Exists(fileName))
-            {
-                File.Copy(fileName, dirName + "\\WorksheetRead.xlsx", true);
-            }
         }
         [TestMethod]
         public void AddMultipleWorksheetsWithStyling()
         {
-            var noTheads = 5;
+            var noTheads = 25;
             using(var p=OpenPackage("MulitThreadWorksheet.xlsx", true))
             {
                 var pool = new List<Thread>();
