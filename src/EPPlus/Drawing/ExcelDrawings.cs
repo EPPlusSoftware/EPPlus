@@ -1307,7 +1307,6 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Name">Name</param>
         /// <param name="Style">Shape style</param>
         /// <returns>The shape object</returns>
-
         public ExcelShape AddShape(string Name, eShapeStyle Style)
         {
             if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
