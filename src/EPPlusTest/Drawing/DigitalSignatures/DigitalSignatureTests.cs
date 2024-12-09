@@ -455,23 +455,23 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             }
         }
 
-        //[TestMethod]
-        //public void SignSaveFileWithLOTSOfData()
-        //{
-        //    string fileName = $"s350.xlsm";
+        [TestMethod]
+        public void SignSaveFileWithLOTSOfData()
+        {
+            string fileName = $"s350.xlsm";
 
-        //    using (var pck = OpenTemplatePackage(fileName))
-        //    {
-        //        var wb = pck.Workbook;
+            using (var pck = OpenTemplatePackage(fileName))
+            {
+                var wb = pck.Workbook;
 
-        //        wb.FullCalcOnLoad = false;
+                wb.FullCalcOnLoad = false;
 
-        //        var cert = GetSelfCert();
-        //        var digSig = wb.DigitialSignatures.AddSignature(cert);
+                var cert = GetSelfCert();
+                var digSig = wb.DigitialSignatures.AddSignature(cert);
 
-        //        pck.SaveAs(GetOutputFile(SubFolder, fileName));
-        //    }
-        //}
+                pck.SaveAs(GetOutputFile(SubFolder, fileName));
+            }
+        }
 
         //Interestingly enough. Excel gets invalid signature when EXCEL tries to save this.
         //We do too
