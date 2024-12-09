@@ -270,11 +270,28 @@ namespace EPPlusTest.Style
 
                 ws.Cells["A1:A3"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 ws.Cells["A1:A3"].Style.Fill.BackgroundColor.SetColor(Color.Red);
-                ws.Cells["A1:A5"].Style.Border.BorderAround(ExcelBorderStyle.Dotted);
+                ws.Cells["A1:A5"].Style.Border.BorderAround(ExcelBorderStyle.Dotted, false);
                 ws.Cells["B1:B5"].Style.Font.Name = "Arial";
                 wb.Styles.UpdateXml();
                 var count = wb.StylesXml.SelectSingleNode("//d:styleSheet/d:cellXfs/@count", wb.NameSpaceManager).Value;
                 Assert.AreEqual("6", count);
+            }
+        }
+        [TestMethod]
+        public void VerifyStyleXfsCount2()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("Sheet1");
+
+                ws.Cells["B2:B4"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws.Cells["B2:B4"].Style.Fill.BackgroundColor.SetColor(Color.Red);
+                ws.Cells["B2:B6"].Style.Border.BorderAround(ExcelBorderStyle.Dotted);
+                ws.Cells["C2:C6"].Style.Font.Name = "Arial";
+                wb.Styles.UpdateXml();
+                var count = wb.StylesXml.SelectSingleNode("//d:styleSheet/d:cellXfs/@count", wb.NameSpaceManager).Value;
+                Assert.AreEqual("7", count);
             }
         }
         [TestMethod]

@@ -1,16 +1,15 @@
-﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
 {
-    internal class SignatureLineTemplateEmf : EmfImage
+    internal class SignatureLineTemplateEmf : SignatureLineTemplateEmfBase
     {
+        const string templateName = "SignatureLineTemplate.emf";
         internal EMR_EXTTEXTOUTW signTextObject;
-        internal EMR_EXTTEXTOUTW suggestedSignerObject;
-        internal EMR_EXTTEXTOUTW suggestedTitleObject;
+        internal EMR_EXTTEXTOUTW signedBy;
 
         internal string SignText
         {
@@ -20,47 +19,55 @@ namespace OfficeOpenXml.Drawing.EMF
             }
         }
 
-        internal string SuggestedSigner
+        internal string SignedBy
         {
             set
             {
-                suggestedSignerObject.Text = AdjustText(39, value);
+                signedBy.Text = $"Signed by:{value}";
             }
         }
 
-        internal string SuggestedTitle
+        internal SignatureLineTemplateEmf(byte[] emfBytes) : base(templateName, emfBytes)
         {
-            set
-            {
-                suggestedTitleObject.Text = AdjustText(39, value);
-            }
-            get
-            {
-                return suggestedTitleObject.Text;
-            }
+            signedBy.Text = "";
+            signTextObject.Text = "";
+            MaxHeight = 47.2f;
+            MaxWidth = 205;
         }
 
-        string AdjustText(int length, string inputString)
+        internal SignatureLineTemplateEmf() : base(templateName)
         {
-            if (inputString.Length > length)
-            {
-                return inputString.Substring(0, length-1) + "...";
-            }
-            return inputString;
+            signedBy.Text = "";
+            signTextObject.Text = "";
+            MaxHeight = 47.2f;
+            MaxWidth = 205;
         }
 
-        internal SignatureLineTemplateEmf(string templatePath)
+        internal override List<EMR_EXTTEXTOUTW> Initalize()
         {
-            Read(templatePath);
-            SetProperties();
+            var textRecords = base.Initalize();
+
+            //Index 1 is 'X' and need not be changed.
+            signTextObject = textRecords[2];
+            suggestedSignerObject = textRecords[3];
+            suggestedTitleObject = textRecords[4];
+            signedBy = textRecords[5];
+
+            SetImageRecordMax(MaxHeight, MaxWidth);
+
+            return textRecords;
         }
 
-        internal virtual void SetProperties()
+        internal override void SaveTemplateProperties(string[] arr)
         {
-            var textRecords = records.FindAll(x => x.Type == RECORD_TYPES.EMR_EXTTEXTOUTW).Skip(1).ToArray();
-            signTextObject = (EMR_EXTTEXTOUTW)textRecords[0];
-            suggestedSignerObject = (EMR_EXTTEXTOUTW)textRecords[1];
-            suggestedTitleObject = (EMR_EXTTEXTOUTW)textRecords[2];
+            SignedBy = arr[0];
+            SignText = arr[1];
+        }
+
+        internal override void SaveImage(byte[] imageBytes)
+        {
+            base.SaveImage(imageBytes);
+            imageRecord.ReadBmpAndUpdateImage(imageBytes, false, true);
         }
     }
 }

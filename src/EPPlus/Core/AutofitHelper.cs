@@ -51,8 +51,8 @@ namespace OfficeOpenXml.Core
             {
                 _range.SetToSelectedRange();
             }
-            var fromCol = _range._fromCol;
-            var toCol = _range._toCol;
+            var fromCol = Math.Max(_range._fromCol, worksheet.Dimension._fromCol);
+            var toCol = Math.Min(_range._toCol, worksheet.Dimension._toCol);
             var fromRow = _range._fromRow;
             var toRow = _textSettings.AutofitRows > 0 && _textSettings.AutofitRows < _range._toRow ? _textSettings.AutofitRows : _range._toRow;
             if (fromCol > toCol) return; //Issue 15383

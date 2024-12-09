@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Drawing.Vml
         internal string RelId { get; set; }
         internal Packaging.ZipPackagePart Part { get; set; }
         internal XmlNamespaceManager NameSpaceManager { get; set; }
-        internal void CreateVmlPart(bool save)
+        internal virtual void CreateVmlPart(bool save)
         {
             if (Uri == null)
             {

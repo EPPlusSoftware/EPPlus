@@ -166,7 +166,10 @@ namespace OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics
 
                 float deviceUnits = fnt.ClassWidths[fntClass] * finalFactor - adjustmentFactor;
 
-                uint simplifiedWidth = (uint)Math.Round(deviceUnits, MidpointRounding.AwayFromZero);
+                var rounded = Math.Round(deviceUnits * 10, MidpointRounding.AwayFromZero);
+                var final = rounded / 10;
+
+                uint simplifiedWidth = (uint)(Math.Round(deviceUnits, MidpointRounding.AwayFromZero));
                 spacingBuffer.Add(simplifiedWidth);
             }
 
