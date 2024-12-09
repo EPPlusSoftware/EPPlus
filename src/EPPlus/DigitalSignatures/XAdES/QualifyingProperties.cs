@@ -36,7 +36,6 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
             sb.Append("<Object xmlns=\"http://www.w3.org/2000/09/xmldsig#\">");
             sb.Append($"<{Prefix}:QualifyingProperties xmlns:xd=\"{XadesNS}\" Target=\"{Target}\">");
             sb.Append(SignedProps.GetXML());
-            //sb.Append(unsignedProperties.GetXML());
             sb.Append($"</{Prefix}:QualifyingProperties>");
             sb.Append("</Object>");
             return sb.ToString();

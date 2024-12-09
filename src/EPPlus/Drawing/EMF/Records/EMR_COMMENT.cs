@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using OfficeOpenXml.Drawing.EMF.Records;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Drawing.EMF
@@ -117,44 +113,6 @@ namespace OfficeOpenXml.Drawing.EMF
                 PrivateData = new byte[dataSize];
                 br.Read(PrivateData, 0, (int)dataSize);
             }
-          
-
-            //if (commentType == null)
-            //{
-            //    br.BaseStream.Position = br.BaseStream.Position - 4;
-            //    PrivateData = new byte[dataSize];
-            //    br.Read(PrivateData, 0, (int)dataSize);
-            //}
-            //else if (commentType == CommentIdentifier.EMR_COMMENT_EMFSPOOL)
-            //{
-            //    EMFSpoolRecordIdentifier = br.ReadUInt32();
-
-            //    //If value equals TONE in ASCII
-            //    if (EMFSpoolRecordIdentifier == 0x544F4E4)
-            //    {
-            //        //Handle EMFSPOOL font definition
-            //    }
-
-            //    EMFSpoolRecords = new byte[dataSize];
-            //    br.Read(PrivateData, 0, (int)dataSize);
-            //}
-            //else if (commentType == CommentIdentifier.EMR_COMMENT_EMFPLUS)
-            //{
-            //    EMFPLUSRECORDS = new byte[dataSize];
-            //    br.Read(PrivateData, 0, (int)dataSize);
-            //}
-            //else if (commentType == CommentIdentifier.EMR_COMMENT_PUBLIC)
-            //{
-            //    PublicCommentIdentifier = br.ReadUInt32();
-            //    emrComment = (EmrComment)PublicCommentIdentifier;
-
-            //    if (emrComment == EmrComment.EMR_COMMENT_BEGINGROUP)
-            //    {
-            //        rect = new RectLObject(br);
-            //        nDescription = br.ReadUInt32();
-            //        Description = BinaryHelper.GetString(br, (nDescription * 2), Encoding.Unicode);
-            //    }
-            //}
         }
 
         internal override void WriteBytes(BinaryWriter bw)

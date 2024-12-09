@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.Xml;
-using System.Text;
+﻿using System.Security.Cryptography.Xml;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
-    public class ExcelSignedXml : SignedXml
+    internal class ExcelSignedXml : SignedXml
     {
         public ExcelSignedXml(XmlDocument document) : base(document)
         {
@@ -23,19 +18,6 @@ namespace OfficeOpenXml.DigitalSignatures
         public override XmlElement GetIdElement(XmlDocument document, string idValue)
         {
             XmlElement elem = base.GetIdElement(document, idValue);
-
-            //if(elem == null && document != null) 
-            //{
-            //    var nodes = document.SelectNodes("//*[@Id]");
-            //    foreach(XmlNode node in nodes) 
-            //    {
-            //        if(node.Attributes.GetNamedItem("Id").Value == idValue)
-            //        {
-            //            return elem;
-            //        }
-            //    }
-            //}
-
             return elem;
         }
     }
