@@ -13,7 +13,8 @@ namespace EPPlusTest.Drawing.Chart
         {
             using var p = OpenTemplatePackage("ShapeInChart.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            //ws.Drawings.AddShape("myshape", OfficeOpenXml.Drawing.eShapeStyle.Diamond);
+            var dr = ws.Drawings.AddShape("myshape", OfficeOpenXml.Drawing.eShapeStyle.Diamond);
+            dr.SetSize(500, 500);
             var chart = ws.Drawings[0] as ExcelChart;
             var cdr = chart.ChartDrawings[1];
             cdr.SetSize(200);

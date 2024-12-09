@@ -84,7 +84,7 @@ namespace OfficeOpenXml.Drawing
             AdjustXmlAndMoveToGroup(drawing);
             ExcelGroupShape.Validate(drawing, _parent._drawings, _parent);
             AppendDrawingNode(drawing.TopNode);
-            drawing._parent = _parent;            
+            drawing._parent = _parent;
             
             _groupDrawings.Add(drawing);
             _drawingNames.Add(drawing.Name, _groupDrawings.Count - 1);
@@ -110,7 +110,7 @@ namespace OfficeOpenXml.Drawing
             var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext",_nsm);
             extNode.SetAttribute("cy", Math.Round(height * ExcelDrawing.EMU_PER_PIXEL, 0).ToString());
             extNode.SetAttribute("cx", Math.Round(width * ExcelDrawing.EMU_PER_PIXEL, 0).ToString());
-            
+
             d.SetGroupChild(offNode, extNode);
             node.ParentNode.RemoveChild(node);
             if (d.TopNode.ParentNode?.ParentNode?.LocalName == "AlternateContent")
@@ -424,7 +424,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if(_xFrmPosition==null)
                 {
-                    _xFrmPosition= new ExcelDrawingCoordinate(NameSpaceManager, GetNode("xdr:grpSp/xdr:grpSpPr/a:xfrm/a:off")); 
+                    _xFrmPosition= new ExcelDrawingCoordinate(NameSpaceManager, GetNode(NamespacePrefixes[prefixIndex] +":grpSp/" + NamespacePrefixes[prefixIndex] + ":grpSpPr/a:xfrm/a:off")); 
                 }
                 return _xFrmPosition;
             }
@@ -436,7 +436,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_xFrmSize == null)
                 {
-                    _xFrmSize = new ExcelDrawingSize(NameSpaceManager, GetNode("xdr:grpSp/xdr:grpSpPr/a:xfrm/a:ext")); 
+                    _xFrmSize = new ExcelDrawingSize(NameSpaceManager, GetNode(NamespacePrefixes[prefixIndex] + ":grpSp/" + NamespacePrefixes[prefixIndex] + ":grpSpPr/a:xfrm/a:ext")); 
                 }
                 return _xFrmSize;
             }
@@ -448,7 +448,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_xFrmChildPosition == null)
                 {
-                    _xFrmChildPosition = new ExcelDrawingCoordinate(NameSpaceManager, GetNode("xdr:grpSp/xdr:grpSpPr/a:xfrm/a:chOff"));
+                    _xFrmChildPosition = new ExcelDrawingCoordinate(NameSpaceManager, GetNode(NamespacePrefixes[prefixIndex] + ":grpSp/" + NamespacePrefixes[prefixIndex] + ":grpSpPr/a:xfrm/a:chOff"));
                 }
                 return _xFrmChildPosition;
             }
@@ -460,7 +460,7 @@ namespace OfficeOpenXml.Drawing
             {
                 if (_xFrmChildSize == null)
                 {
-                    _xFrmChildSize = new ExcelDrawingSize(NameSpaceManager, GetNode("xdr:grpSp/xdr:grpSpPr/a:xfrm/a:chExt"));
+                    _xFrmChildSize = new ExcelDrawingSize(NameSpaceManager, GetNode(NamespacePrefixes[prefixIndex] + ":grpSp/" + NamespacePrefixes[prefixIndex] + ":grpSpPr/a:xfrm/a:chExt"));
                 }
                 return _xFrmChildSize;
             }

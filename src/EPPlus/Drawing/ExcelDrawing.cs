@@ -750,6 +750,8 @@ namespace OfficeOpenXml.Drawing
         }
         internal double GetPixelWidth()
         {
+            if (prefixIndex == 1)
+                return 50;
             double pix;
             if (CellAnchor == eEditAs.TwoCell)
             {
@@ -773,6 +775,8 @@ namespace OfficeOpenXml.Drawing
         }
         internal double GetPixelHeight()
         {
+            if (prefixIndex == 1)
+                return 50;
             double pix;
             if (CellAnchor == eEditAs.TwoCell)
             {
@@ -1336,11 +1340,11 @@ namespace OfficeOpenXml.Drawing
 
             if(node.LocalName == "sp" || node.LocalName == "pic" || node.LocalName == "cxnSp")
             {
-                return (XmlElement)CreateNode(node, "xdr:spPr/a:xfrm");
+                return (XmlElement)CreateNode(node, NamespacePrefixes[prefixIndex] + ":spPr/a:xfrm");
             }
             else if(node.LocalName == "graphicFrame")
             {
-                return (XmlElement)CreateNode(node, "xdr:xfrm"); 
+                return (XmlElement)CreateNode(node, NamespacePrefixes[prefixIndex] + ":xfrm");
             }
             return null;
         }

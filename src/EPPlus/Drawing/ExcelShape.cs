@@ -35,6 +35,15 @@ namespace OfficeOpenXml.Drawing
             switch(DrawingsType)
             {
                 case DrawingsCollectionType.chart:
+                    //var xfrm = shapeNode.SelectSingleNode("cdr:spPr/a:xfrm", NameSpaceManager);
+                    //var off = xfrm.OwnerDocument.CreateElement("a", "off", ExcelPackage.schemaDrawings);
+                    //off.SetAttribute("x", "0");
+                    //off.SetAttribute("y", "0");
+                    //xfrm.AppendChild(off);
+                    //var ext = xfrm.OwnerDocument.CreateElement("a", "ext", ExcelPackage.schemaDrawings);
+                    //ext.SetAttribute("cx", "500000");
+                    //ext.SetAttribute("cy", "500000");
+                    //xfrm.AppendChild(ext);
                     break;
                 case DrawingsCollectionType.excel:
                 default:
@@ -48,9 +57,10 @@ namespace OfficeOpenXml.Drawing
         private string ShapeStartXml()
         {
             StringBuilder xml = new StringBuilder();
-            xml.AppendFormat("<{2}:nvSpPr><{2}:cNvPr id=\"{0}\" name=\"{1}\" /><{2}:cNvSpPr /></{2}:nvSpPr><{2}:spPr><a:prstGeom prst=\"rect\"><a:avLst /></a:prstGeom></{2}:spPr><{2}:style><a:lnRef idx=\"2\"><a:schemeClr val=\"accent1\"><a:shade val=\"50000\" /></a:schemeClr></a:lnRef><a:fillRef idx=\"1\"><a:schemeClr val=\"accent1\" /></a:fillRef><a:effectRef idx=\"0\"><a:schemeClr val=\"accent1\" /></a:effectRef><a:fontRef idx=\"minor\"><a:schemeClr val=\"lt1\" /></a:fontRef></{2}:style><{2}:txBody><a:bodyPr vertOverflow=\"clip\" rtlCol=\"0\" anchor=\"ctr\" /><a:lstStyle /><a:p></a:p></{2}:txBody>", _id, Name, NamespacePrefixes[(int)_drawings.DrawingsType]);
+            xml.AppendFormat("<{2}:nvSpPr><{2}:cNvPr id=\"{0}\" name=\"{1}\" /><{2}:cNvSpPr /></{2}:nvSpPr><{2}:spPr><a:xfrm/><a:prstGeom prst=\"rect\"><a:avLst /></a:prstGeom></{2}:spPr><{2}:style><a:lnRef idx=\"2\"><a:schemeClr val=\"accent1\"><a:shade val=\"50000\" /></a:schemeClr></a:lnRef><a:fillRef idx=\"1\"><a:schemeClr val=\"accent1\" /></a:fillRef><a:effectRef idx=\"0\"><a:schemeClr val=\"accent1\" /></a:effectRef><a:fontRef idx=\"minor\"><a:schemeClr val=\"lt1\" /></a:fontRef></{2}:style><{2}:txBody><a:bodyPr vertOverflow=\"clip\" rtlCol=\"0\" anchor=\"ctr\" /><a:lstStyle /><a:p></a:p></{2}:txBody>", _id, Name, NamespacePrefixes[(int)_drawings.DrawingsType]);
             return xml.ToString();
         }
+
         #endregion
         internal override void DeleteMe()
         {

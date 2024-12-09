@@ -1873,6 +1873,20 @@ namespace OfficeOpenXml.Drawing
             toNode.AppendChild(toX);
             toNode.AppendChild(toY);
             drawNode.AppendChild(toNode);
+
+            //Create EMU POS AND SIZE:
+            //XmlElement posNode = drawNode.SelectSingleNode("cdr:sp" xfrm.... = _drawingsXml.CreateElement("cdr", "off", ExcelPackage.schemaSheetDrawings);
+            //posNode.SetAttribute("x", "0");
+            //posNode.SetAttribute("y", "0");
+            //drawNode.AppendChild(posNode);
+            ////Add from position Element;
+            //XmlElement posNode = _drawingsXml.CreateElement("cdr", "ext", ExcelPackage.schemaSheetDrawings);
+            //posNode.SetAttribute("cx", "6072876");
+            //posNode.SetAttribute("cy", "9299263");
+            //drawNode.AppendChild(posNode);
+
+
+
             return drawNode;
         }
 
