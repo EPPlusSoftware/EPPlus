@@ -552,5 +552,24 @@ namespace EPPlusTest.Issues
 			Assert.AreEqual(naError, a6);
 			Assert.AreEqual(naError, a7);
         }
+		[TestMethod]
+		public void i1748()
+		{
+            using var package = new ExcelPackage();
+			var formula = "SUMIF($I$3:$L$3,1,INDEX($I:$I,ROW()):INDEX($L:$L,ROW()))";
+			var formulaLong = "IF(COLUMN()-COLUMN($J23)>(COUNTA('#CompaniesAndConsolidations'!$A:$A)+1),0,IF(K$5=\"TopConsolidation\",SUMIFS(INDEX(23:23,1,COLUMN()+1):INDEX(23:23,1,COLUMN($L23)),INDEX($7:$7,1,COLUMN()+1):INDEX($7:$7,1,COLUMN($L23)),K$2,INDEX($6:$6,1,COLUMN()+1):INDEX($6:$6,1,COLUMN($L23)),FALSE),IF(K$5=\"SubConsolidation\",SUMIFS(INDEX(23:23,1,COLUMN()+1):INDEX(23:23,1,COLUMN($L23)),INDEX($8:$8,1,COLUMN()+1):INDEX($8:$8,1,COLUMN($L23)),K$2,INDEX($6:$6,1,COLUMN()+1):INDEX($6:$6,1,COLUMN($L23)),FALSE),IF(K$5=\"DivisionalConsolidation\",SUMIFS(INDEX(23:23,1,COLUMN()+1):INDEX(23:23,1,COLUMN($L23)),INDEX($9:$9,1,COLUMN()+1):INDEX($9:$9,1,COLUMN($L23)),K$2,INDEX($6:$6,1,COLUMN()+1):INDEX($6:$6,1,COLUMN($L23)),FALSE),-SUMIFS('#TrialBalance_CY'!$E:$E,'#TrialBalance_CY'!$A:$A,K$2,'#TrialBalance_CY'!$G:$G,\"IncomeStatement\")))))";
+            var ws = package.Workbook.Worksheets.Add("Sheet1");
+			ws.Cells["A1"].Formula = formula;
+			ws.Cells["A2"].Formula = formulaLong;
+			ws.InsertRow(1,1);
+
+            var formulaInserted = "SUMIF($I$4:$L$4,1,INDEX($I:$I,ROW()):INDEX($L:$L,ROW()))";
+
+            Assert.AreEqual(formulaInserted, ws.Cells["A2"].Formula);
+
+            var formulaLongInserted = "IF(COLUMN()-COLUMN($J24)>(COUNTA('#CompaniesAndConsolidations'!$A:$A)+1),0,IF(K$6=\"TopConsolidation\",SUMIFS(INDEX(24:24,1,COLUMN()+1):INDEX(24:24,1,COLUMN($L24)),INDEX($8:$8,1,COLUMN()+1):INDEX($8:$8,1,COLUMN($L24)),K$3,INDEX($7:$7,1,COLUMN()+1):INDEX($7:$7,1,COLUMN($L24)),FALSE),IF(K$6=\"SubConsolidation\",SUMIFS(INDEX(24:24,1,COLUMN()+1):INDEX(24:24,1,COLUMN($L24)),INDEX($9:$9,1,COLUMN()+1):INDEX($9:$9,1,COLUMN($L24)),K$3,INDEX($7:$7,1,COLUMN()+1):INDEX($7:$7,1,COLUMN($L24)),FALSE),IF(K$6=\"DivisionalConsolidation\",SUMIFS(INDEX(24:24,1,COLUMN()+1):INDEX(24:24,1,COLUMN($L24)),INDEX($10:$10,1,COLUMN()+1):INDEX($10:$10,1,COLUMN($L24)),K$3,INDEX($7:$7,1,COLUMN()+1):INDEX($7:$7,1,COLUMN($L24)),FALSE),-SUMIFS('#TrialBalance_CY'!$E:$E,'#TrialBalance_CY'!$A:$A,K$3,'#TrialBalance_CY'!$G:$G,\"IncomeStatement\")))))";
+
+            Assert.AreEqual(formulaLongInserted, ws.Cells["A3"].Formula);
+        }
     }
 }
