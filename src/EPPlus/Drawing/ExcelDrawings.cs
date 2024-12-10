@@ -26,6 +26,8 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Controls;
 using System.Linq;
+using System.Drawing;
+
 
 
 #if !NET35 && !NET40
@@ -1299,6 +1301,30 @@ namespace OfficeOpenXml.Drawing
             }
             return "";
         }
+
+        public ExcelShape AddTextbox(string Name, string text = "")
+        {
+            var shape = Worksheet.Drawings.AddShape("txtDesc", eShapeStyle.Rect);
+            var node = (XmlElement)shape.TopNode.SelectSingleNode("cNvSpPr", shape.);
+            node.SetAttribute("txBox", "1");
+            //shape.SetBoolNode("cNvSpPr@txBox", true);
+            shape.From.Column = 0;
+            shape.From.Row = 0;
+            shape.To.Column = 2;
+            shape.To.Column = 4;
+            shape.Text = text;
+
+            shape.EditAs = eEditAs.Absolute;
+            shape.Fill.Style = eFillStyle.SolidFill;
+            shape.Fill.Color = Color.White;
+
+            shape.TextAnchoring = eTextAnchoringType.Top;
+            shape.TextVertical = eTextVerticalType.Horizontal;
+            shape.TextAnchoringControl = false;
+
+            return shape;
+        }
+
         /// <summary>
         /// Adds a new shape to the worksheet
         /// </summary>
