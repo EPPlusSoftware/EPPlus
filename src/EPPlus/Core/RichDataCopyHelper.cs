@@ -43,8 +43,8 @@ namespace OfficeOpenXml.Core
             var destSheet = _destinationRange.Worksheet;
             var sourceRichData = _sourceRange._workbook.RichData;
 
-            var maxRow = _sourceRange._toRow > sourceSheet.Dimension._toRow ? sourceSheet.Dimension._toRow : _sourceRange._toRow;
-            var maxCol = _sourceRange._toCol > sourceSheet.Dimension._toCol ? sourceSheet.Dimension._toCol : _sourceRange._toCol;
+            var maxRow = _sourceRange._toRow > sourceSheet.Dimension?._toRow ? sourceSheet.Dimension._toRow : _sourceRange._toRow;
+            var maxCol = _sourceRange._toCol > sourceSheet.Dimension?._toCol ? sourceSheet.Dimension._toCol : _sourceRange._toCol;
 
             var range = sourceSheet.Cells[_sourceRange._fromRow, _sourceRange._fromCol, maxRow, maxCol];
             foreach(var cell in range)

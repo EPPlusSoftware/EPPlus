@@ -26,34 +26,6 @@ namespace OfficeOpenXml.Metadata
     /// </summary>
     internal class ExcelCellMetadataRecord : IndexEndpoint
     {
-        //public ExcelCellMetadataRecord(MetadataDatabase metadataDb, IndexEndpoint parent, uint typeId, uint valueId, RichDataIndexStore store)
-        //    : base(store, RichDataEntities.CellMetadataRecord)
-        //{
-        //    TypeId = typeId;
-        //    ValueId = valueId;
-        //    _metadataDb = metadataDb;
-        //    _readValueIndex = Convert.ToInt32(valueId);
-        //    _parent = parent;
-        //}
-
-        //public ExcelCellMetadataRecord(XmlReader xr, MetadataDatabase metadataDb, IndexEndpoint parent, RichDataIndexStore store)
-        //   : base(store, RichDataEntities.ValueMetadataRecord)
-        //{
-        //    _metadataDb = metadataDb;
-        //    var t = int.Parse(xr.GetAttribute("t"));
-        //    var v = int.Parse(xr.GetAttribute("v"));
-        //    var type = metadataDb.MetadataTypes[t - 1];
-        //    TypeId = type.Id;
-        //    AddRelationTo(type);
-        //    var fmt = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
-        //    if (fmt != null)
-        //    {
-        //        var bk = fmt.Blocks[v];
-        //        ValueId = bk.Id;
-        //        AddRelationTo(bk);
-        //    }
-        //}
-
         public ExcelCellMetadataRecord(MetadataDatabase metadataDb, IndexEndpoint parent, uint typeId, uint valueId, RichDataIndexStore store)
             : base(store, RichDataEntities.CellMetadataRecord)
         {
@@ -68,6 +40,7 @@ namespace OfficeOpenXml.Metadata
             : base(store, RichDataEntities.CellMetadataRecord)
         {
             _metadataDb = metadataDb;
+            _parent = parent;
             var t = int.Parse(xr.GetAttribute("t"));
             var v = int.Parse(xr.GetAttribute("v"));
             var type = metadataDb.MetadataTypes[t - 1];
@@ -132,17 +105,11 @@ namespace OfficeOpenXml.Metadata
         public override void DeleteMe(RelationDeletions relDeletions = null)
         {
             base.DeleteMe(relDeletions);
-            var parent = _parent as ExcelCellMetadataBlock;
-            if (parent != null)
-            {
-                parent.OnRecordDeleted(this, relDeletions);
-            }
         }
 
         public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
-            base.OnConnectedEntityDeleted(e);
-            _parent.OnConnectedEntityDeleted(e);
+            DeleteMe(e.RelationDeletions);
         }
     }
 }

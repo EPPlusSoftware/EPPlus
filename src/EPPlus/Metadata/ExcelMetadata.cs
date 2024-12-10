@@ -215,6 +215,7 @@ namespace OfficeOpenXml.Metadata
 
             var cmBlock = new ExcelCellMetadataBlock(Db);
             daType.AddRelationTo(cmBlock);
+            cmBlock.AddRelationTo(daType);
             cmBlock.AddRecord(mt.Id, bkId);
             Db.CellMetadata.Add(cmBlock);
             return Db.CellMetadata.Count;
@@ -260,25 +261,39 @@ namespace OfficeOpenXml.Metadata
             var bk = Db.CellMetadata.Get(cmId);
             if (bk != null)
             {
-                if (bk.HasOutgoingRelationTo(RichDataEntities.MetadataType))
+                if(bk.Records != null && bk.Records.Any())
                 {
-                    var type = bk.GetFirstOutgoingRelByType<ExcelMetadataType>();
-                    if (type != null && type.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME)
+                    var rc = bk.Records[0];
+                    if (rc.HasOutgoingRelationTo(RichDataEntities.MetadataType))
                     {
-                        return true;
+                        var type = rc.GetFirstOutgoingRelByType<ExcelMetadataType>();
+                        if (type != null && type.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME)
+                        {
+                            return true;
+                        }
                     }
                 }
+                
             }
             return false;
         }
         internal void GetDynamicArrayId(out uint cmId)
         {
-            if(!Db.MetadataTypes.TryGetValue(FutureMetadataBase.DYNAMIC_ARRAY_NAME, out ExcelMetadataType type))
+            var daType = default(ExcelMetadataType);
+            if(!Db.MetadataTypes.TryGetValue(FutureMetadataBase.DYNAMIC_ARRAY_NAME, out ExcelMetadataType type) || type.Deleted)
             {
-                CreateDefaultXmlDynamicArray();   
+                CreateDefaultXmlDynamicArray();
+                daType = Db.MetadataTypes.First(x => x.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME);
             }
-            var cellMetadataBlock = Db.FutureMetadata[FutureMetadataBase.DYNAMIC_ARRAY_NAME].GetFirstOutgoingRelByType<ExcelCellMetadataBlock>();
-            cmId = cellMetadataBlock.Id;
+            else
+            {
+                daType = type;
+            }
+
+            //var cellMetadataBlock = Db.FutureMetadata[FutureMetadataBase.DYNAMIC_ARRAY_NAME].GetFirstOutgoingRelByType<ExcelCellMetadataRecord>();
+            var rc = daType.GetFirstIncomingRelByType<ExcelCellMetadataRecord>();
+            var bk = rc.GetFirstOutgoingRelByType<ExcelCellMetadataBlock>();
+            cmId = bk.Id;
         }
 
         internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
@@ -393,8 +408,10 @@ namespace OfficeOpenXml.Metadata
         internal bool IsDynamicIdByIndex(int index)
         {
             if (index >= Db.CellMetadata.Count) return false;
-            var cm = Db.CellMetadata[index];
-            var type = cm.GetFirstOutgoingRelByType<ExcelMetadataType>();
+            var bk = Db.CellMetadata[index];
+            if (bk.Records == null || !bk.Records.Any()) return false;
+            var rc = bk.Records[0];
+            var type = rc.GetFirstOutgoingRelByType<ExcelMetadataType>();
             if (type == null) return false;
             return type.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME;
         }

@@ -79,22 +79,18 @@ namespace OfficeOpenXml.RichData.Structures
             {
                 if (AllKeysAreEqual(keys, StructureKeys.Errors.Spill))
                 {
-                    //return RichDataStructureTypes.ErrorSpill;
                     return RichDataStructureTypes.Error | RichDataStructureTypes.ErrorSpill;
                 }    
                 else if (AllKeysAreEqual(keys, StructureKeys.Errors.Propagated))
                 {
-                    //return RichDataStructureTypes.ErrorPropagated;
                     return RichDataStructureTypes.Error | RichDataStructureTypes.ErrorPropagated;
                 }
                 else if (AllKeysAreEqual(keys, StructureKeys.Errors.WithSubType))
                 {
-                    //return RichDataStructureTypes.ErrorWithSubType;
                     return RichDataStructureTypes.Error | RichDataStructureTypes.ErrorWithSubType;
                 }
                 else if(AllKeysAreEqual(keys, StructureKeys.Errors.Field))
                 {
-                    //return RichDataStructureTypes.ErrorField;
                     return RichDataStructureTypes.Error | RichDataStructureTypes.ErrorField;
                 }
                 else
@@ -105,15 +101,6 @@ namespace OfficeOpenXml.RichData.Structures
             else if(type == StructureTypes.LocalImage)
             {
                 return RichDataStructureTypes.LocalImage;
-                //if(AllKeysAreEqual(keys, StructureKeys.LocalImage.Image))
-                //{
-                //    return RichDataStructureTypes.LocalImage;
-                //}
-                //else if(AllKeysAreEqual(keys, StructureKeys.LocalImage.ImageAltText))
-                //{
-                //    return RichDataStructureTypes.LocalImageWithAltText;
-                //    return RichDataStructureTypes.LocalImage;
-                //}
             }
             else if(type == StructureTypes.WebImage)
             {
@@ -186,8 +173,6 @@ namespace OfficeOpenXml.RichData.Structures
                     return new LocalImageStructure(store);
                 case RichDataStructureTypes.WebImage:
                     return new WebImageStructure(store);
-                //case RichDataStructureTypes.LocalImageWithAltText:
-                //    return new LocalImageWithAltTextStructure(store);
                 default:
                     throw new ArgumentException($"Not supported structure type: {structureType}");
             }
@@ -226,8 +211,6 @@ namespace OfficeOpenXml.RichData.Structures
                     return new LocalImageStructure(keys, store);
                 case RichDataStructureTypes.WebImage:
                     return new WebImageStructure(keys, store);
-                //case RichDataStructureTypes.LocalImageWithAltText:
-                //    return new LocalImageWithAltTextStructure(keys, store);
                 default:
                     throw new ArgumentException($"Not supported structure type: {structureType}");
             }

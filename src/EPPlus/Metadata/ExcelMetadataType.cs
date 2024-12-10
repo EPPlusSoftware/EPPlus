@@ -117,7 +117,7 @@ namespace OfficeOpenXml.Metadata
             if(e.DeletedEntity.EntityType == RichDataEntities.ValueMetadataRecord)
             {
                 var rels = GetIncomingRelations(x => x.From.EntityType == RichDataEntities.ValueMetadataRecord);
-                if (rels.Count() <= 1)
+                if (rels.Count(x => !x.Deleted) == 0)
                 {
                     DeleteMe(e.RelationDeletions);
                 }
@@ -125,7 +125,7 @@ namespace OfficeOpenXml.Metadata
             else if(e.DeletedEntity.EntityType == RichDataEntities.CellMetadataRecord)
             {
                 var rels = GetIncomingRelations(x => x.From.EntityType == RichDataEntities.CellMetadataRecord);
-                if (rels.Count() <= 1)
+                if (rels.Count(x => !x.Deleted) == 0)
                 {
                     DeleteMe(e.RelationDeletions);
                 }

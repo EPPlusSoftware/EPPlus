@@ -13,10 +13,6 @@
 using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.RichData.RichValues.LocalImage;
 using OfficeOpenXml.RichData.RichValues.WebImages;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.RichData.RichValues
 {
@@ -64,11 +60,5 @@ namespace OfficeOpenXml.RichData.RichValues
         {
             get { return _richValue as WebImageRichValue; }
         }
-
-        //    public LocalImageAltTextRichValue LocalImageAltText
-        //    {
-        //        get { return _richValue as LocalImageAltTextRichValue; }
-        //    }
-        //}
     }
 }

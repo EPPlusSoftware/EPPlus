@@ -161,7 +161,6 @@ namespace OfficeOpenXml.RichData.IndexRelations
             if(endpoint != null)
             {
                 var ix = _list.IndexOf(endpoint);
-                //TODO: re-index?
             }
         }
 

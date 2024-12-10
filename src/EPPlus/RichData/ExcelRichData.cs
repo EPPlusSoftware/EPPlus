@@ -69,11 +69,6 @@ namespace OfficeOpenXml.RichData
             }
         }
 
-        //internal RichValueRel GetRelation(int index)
-        //{
-        //    return RichValueRels.Items[index];
-        //}
-
         internal RichValueRel GetRelation(string target, string type)
         {
             return Db.RichValueRels.FirstOrDefault(x => x.TargetUri.OriginalString == target && x.Type == type);

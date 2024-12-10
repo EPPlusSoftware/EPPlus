@@ -10,14 +10,11 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.EventArguments;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
@@ -260,19 +257,6 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return Enumerable.Empty<IndexRelation>();
         }
 
-        //public void AddSubRelation(uint parentRelId, IndexRelation subRel)
-        //{
-        //    if(_relations.ContainsKey(parentRelId))
-        //    {
-        //        var parentRel = _relations[parentRelId].AsRelationWithSubRelations();
-        //        if(parentRel != null)
-        //        {
-        //            subRel.Parent = parentRel;
-        //            parentRel.SubRelations.Add(subRel);
-        //        }
-        //    }
-        //}
-
         public void EntityDeleted(IndexEndpoint deletedEntity, RelationDeletions relDeletions = null)
         {
             if (deletedEntity == null) return;
@@ -317,7 +301,6 @@ namespace OfficeOpenXml.RichData.IndexRelations
                 IEnumerable<IndexRelation> outgoingRels = _outgoingRelations[deletedEntity.Id];
                 if (outgoingRels != null && outgoingRels.Any())
                 {
-                    //outgoingRels = outgoingRels.Where(x => !x.Deleted).ToList();
                     for(var i = 0; i < outgoingRels.Count(); i++)
                     {
                         var outgoingRel = outgoingRels.ElementAt(i);

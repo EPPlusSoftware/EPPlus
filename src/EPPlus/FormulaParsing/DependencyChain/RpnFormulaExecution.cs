@@ -618,11 +618,13 @@ namespace OfficeOpenXml.FormulaParsing
             var ws = f._ws;
             if (ws == null) return;
             var md = f._ws._metadataStore.GetValue(f._row, f._column);
-            if (md.vm <= 0u) return;
-            var mdb = ws.Workbook.Metadata.Db.ValueMetadata.Get(md.vm);
-            if (mdb != null)
+            if (md.vm > 0u)
             {
-                mdb.DeleteMe();
+                var mdb = ws.Workbook.Metadata.Db.ValueMetadata.Get(md.vm);
+                if (mdb != null)
+                {
+                    mdb.DeleteMe();
+                }
             }
             var cdb = ws.Workbook.Metadata.Db.CellMetadata.Get(md.cm);
             if (cdb != null)

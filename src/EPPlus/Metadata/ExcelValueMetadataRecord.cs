@@ -30,8 +30,15 @@ namespace OfficeOpenXml.Metadata
         {
             TypeId = typeId;
             ValueId = valueId;
+            var type = metadataDb.MetadataTypes.Get(typeId);
+            var fmt = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
+            if(fmt != null)
+            {
+                var bk = metadataDb.FutureMetadataRichValueBlocks.Get(valueId);
+                AddRelationTo(bk);
+            }
+            AddRelationTo(type);
             _metadataDb = metadataDb;
-            //_readValueIndex = Convert.ToInt32(valueId);
             _parent = parent;
         }
 
@@ -39,6 +46,7 @@ namespace OfficeOpenXml.Metadata
             : base(store, RichDataEntities.ValueMetadataRecord)
         {
             _metadataDb = metadataDb;
+            _parent = parent;
             var t = int.Parse(xr.GetAttribute("t"));
             var v = int.Parse(xr.GetAttribute("v"));
             var type = metadataDb.MetadataTypes[t - 1];
@@ -56,12 +64,6 @@ namespace OfficeOpenXml.Metadata
         private readonly IndexEndpoint _parent;
         private readonly MetadataDatabase _metadataDb;
         private readonly int _readValueIndex;
-
-        public void InitRelations(RichDataDatabase richDataDb)
-        {
-            var rel = richDataDb.Values.CreateRelation(this, _readValueIndex, IndexType.ZeroBasedPointer);
-            ValueId = rel.To.Id;
-        }
 
         /// <summary>
         /// Corresponds to the t-attribute of the bk element
@@ -95,21 +97,11 @@ namespace OfficeOpenXml.Metadata
         public override void DeleteMe(RelationDeletions relDeletions = null)
         {
             base.DeleteMe(relDeletions);
-            var parent = _parent as ExcelValueMetadataBlock;
-            if(parent != null)
-            {
-                parent.OnRecordDeleted(this, relDeletions);
-            }
         }
 
         public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
-            base.OnConnectedEntityDeleted(e);
-            if(e.DeletedEntity.EntityType == RichDataEntities.FutureMetadataRichDataBlock)
-            {
-                DeleteMe(e.RelationDeletions);
-            }
-            _parent.OnConnectedEntityDeleted(e);
+            DeleteMe(e.RelationDeletions);
         }
     }
 }

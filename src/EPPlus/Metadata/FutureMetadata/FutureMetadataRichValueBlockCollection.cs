@@ -25,28 +25,11 @@ namespace OfficeOpenXml.Metadata.FutureMetadata
     {
         public FutureMetadataRichValueBlockCollection(RichDataIndexStore store) : base(store, RichDataEntities.FutureMetadataRichDataBlock)
         {
-            //_store = store;
         }
 
         public FutureMetadataRichValueBlockCollection(XmlReader xr, RichDataIndexStore store)
             : base(store, RichDataEntities.FutureMetadataRichDataBlock)
         {
-            //_store = store;
         }
-
-        //private readonly RichDataIndexStore _store;
-
-        //private void ReadXml(XmlReader xr)
-        //{
-        //    while(!xr.EOF)
-        //    {
-        //        Add(new FutureMetadataRichValueBlock(xr, _store));
-        //        if(xr.IsEndElementWithName("futureMetadata"))
-        //        {
-        //            break;
-        //        }
-        //        xr.Read();
-        //    }
-        //}
     }
 }

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.Utils;
 using System.Xml;
 
@@ -56,9 +57,9 @@ namespace OfficeOpenXml.Metadata
         public void AddRecord(uint typeId, uint valueId)
         {
             var record = new ExcelValueMetadataRecord(_metadataDb, this, typeId, valueId, _store);
+            record.AddRelationTo(this);
             _metadataDb.ValueMetadataRecords.Add(record);
             var type = _metadataDb.MetadataTypes.Get(typeId);
-            var typeRel = record.AddRelationTo(type, IndexType.OneBasedPointer);
 
             var fm = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
             if(fm != null)
@@ -74,20 +75,18 @@ namespace OfficeOpenXml.Metadata
             // When the last record is deleted it will trigger a call to OnRecordDeleted in this class
             // which will call DeleteMe().
             base.DeleteMe(relDeletions);
-            for (var i = 0; i < _records.Count; i++)
-            {
-                var record = _records[i];
-                record.DeleteMe(relDeletions);
-            }
         }
 
         public IndexedSubsetCollection<ExcelValueMetadataRecord> Records => _records;
 
-        public void OnRecordDeleted(ExcelValueMetadataRecord record, RelationDeletions relDeletions)
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
-            if(_records.Count <=1)
+            if (e.DeletedEntity.EntityType == RichDataEntities.ValueMetadataRecord)
             {
-                DeleteMe(relDeletions);
+                if (_records.Count <= 1)
+                {
+                    DeleteMe(e.RelationDeletions);
+                }
             }
         }
     }

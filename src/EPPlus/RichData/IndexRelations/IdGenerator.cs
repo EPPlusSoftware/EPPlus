@@ -20,7 +20,6 @@ namespace OfficeOpenXml.RichData.IndexRelations
     internal class IdGenerator
     {
         private uint _nextId = 0;
-        private static readonly object _lock = new();
 
         public uint GetNewId()
         {

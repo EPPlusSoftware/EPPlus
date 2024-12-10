@@ -164,39 +164,6 @@ namespace OfficeOpenXml.RichData.IndexRelations
             }
         }
 
-        //public virtual IndexRelationWithSubRelations GetSubRelations(RichDataEntities entityType)
-        //{
-        //    return null;
-        //}
-
-        //public virtual T GetFirstOutgoingSubRelation<T>()
-        //    where T : IndexEndpoint
-        //{
-        //    return GetFirstOutgoingSubRelation<T>(out IndexRelation r);
-        //}
-
-        //public virtual T GetFirstOutgoingSubRelation<T>(out IndexRelation subRelation)
-        //    where T : IndexEndpoint
-        //{
-        //    subRelation = default;
-        //    var relations = GetOutgoingRelations(x => x.IndexType == IndexType.SubRelations);
-        //    var entityType = _store.GetEntityByType(typeof(T));
-        //    foreach(var relation in relations)
-        //    {
-        //        var parentRel = relation as IndexRelationWithSubRelations;
-        //        if(parentRel != null && parentRel.SubRelations.Any())
-        //        {
-        //            var subrel =  parentRel.SubRelations.FirstOrDefault(x => x.To.EntityType == entityType);
-        //            if(subrel != null && subrel.To is T result)
-        //            {
-        //                subRelation = subrel;
-        //                return result;
-        //            }
-        //        }
-        //    }
-        //    return default;
-        //}
-
         public IEnumerable<IndexRelation> GetOutgoingRelations()
         {
             return _store.GetOutgoingRelations(Id);

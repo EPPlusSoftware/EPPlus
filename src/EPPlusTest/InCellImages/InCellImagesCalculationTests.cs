@@ -72,6 +72,7 @@ namespace EPPlusTest.InCellImages
             sheet.Cells["A3"].Formula = "IF(TRUE(),A1,A2)";
             sheet.Calculate();
             Assert.IsTrue(sheet.Cells["A3"].Picture.Exists, "No picture present in cell A3 after calc");
+            Assert.AreEqual(2, package.Workbook.RichData.Db.Values.Count, $"RichData.Values.Count was {package.Workbook.RichData.Db.Values.Count}, not 2 as expected");
             var pic = sheet.Cells["A3"].Picture.Get();
             Assert.AreEqual(Resources.Png2ByteArray.Length, pic.GetImageBytes().Length, "Length of A3 image bytes was not the same as the original picture");
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["A3"].Value);
@@ -79,7 +80,7 @@ namespace EPPlusTest.InCellImages
             sheet.Cells["A3"].Formula = "IF(FALSE(),A1,A2)";
             sheet.Calculate();
             Assert.AreEqual(1, sheet.Cells["A3"].Value, $"Value of A3 was {sheet.Cells["A3"].Value}, not 1 as expected");
-            Assert.AreEqual(1, package.Workbook.RichData.Db.Values.Count, $"RichData.Values.Count was {package.Workbook.RichData.Db.Values.Count}, not 1 as expected");
+            Assert.AreEqual(1, package.Workbook.RichData.Db.Values.Count, $"RichData.Values.Count was {package.Workbook.RichData.Db.Values.Count} after re-calc, not 1 as expected");
             Assert.IsFalse(sheet.Cells["A3"].Picture.Exists);
             SaveWorkbook("InCellImageCalculate3.xlsx", package);
         }

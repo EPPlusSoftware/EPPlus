@@ -78,14 +78,11 @@ namespace OfficeOpenXml.RichData.Structures
             {
                 if (xr.IsElementWithName("s"))
                 {
-                    //StructureItems.Add(ReadItem(xr));
                     var structure = ReadItem(xr);
                     Add(structure);
-                    //var structureFlag = StructureItems[StructureItems.Count - 1].StructureType;
                     var structureFlag = this[Count - 1].StructureType;
                     if(structureFlag != RichDataStructureTypes.Preserve)
                     {
-                        //_structures.Add(structureFlag, StructureItems.Count - 1);
                         var ids = _keyNamesCache.GetIds(structure.Keys.Select(k => k.Name));
                         AddStructure(structureFlag, structure.Id, ids);
                     }
@@ -142,22 +139,10 @@ namespace OfficeOpenXml.RichData.Structures
             _part.SaveHandler = Save;
         }
 
-        //internal ExcelRichValueStructure GetByType(RichDataStructureTypes structure)
-        //{
-        //    if (_structures.TryGetValue(structure, out uint id))
-        //    {
-        //        return GetItemById(id);
-        //    }
-        //    var id2 = AddStructure(structure);
-        //    return GetItemById(id2);
-        //    //return default;
-        //}
         private uint AddStructure(RichDataStructureTypes structureType)
         {
             var si = RichValueStructureFactory.Create(structureType, _wb.IndexStore);
-            //StructureItems.Add(si);
             Add(si);
-            //_structures.Add(structureType, StructureItems.Count - 1);
             var ids = _keyNamesCache.GetIds(si.Keys.Select(k => k.Name));
             AddStructure(structureType, si.Id, ids);
             return si.Id;
@@ -200,7 +185,6 @@ namespace OfficeOpenXml.RichData.Structures
             return rvStructure;
         }
 
-        //public List<ExcelRichValueStructure> StructureItems { get; } = [];
         public string ExtLstXml { get; set; }
     }
 }

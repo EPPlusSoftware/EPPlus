@@ -12,11 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.Structures;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.RichData.RichValues
 {

@@ -10,15 +10,11 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.RichData.Mappings;
-using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.RichData.Structures;
 using OfficeOpenXml.RichData.Structures.Constants;
-using OfficeOpenXml.RichData.Structures.LocalImages;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -26,9 +22,6 @@ using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.RichData.RichValues
 {
@@ -37,15 +30,11 @@ namespace OfficeOpenXml.RichData.RichValues
         public ExcelRichValue(RichDataDatabase richDataDb, RichDataStructureTypes structureType)
             : base(richDataDb.IndexStore, RichDataEntities.RichValue)
         {
-            //var structure = richData.Structures.GetByType(structureType);
-            //StructureId = structure.Id;
-            //Structure = structure;
             _richDataDb = richDataDb;
             _indexStore = richDataDb.IndexStore;
             _structureType = structureType;
             Values = new IndexedSubsetCollection<ExcelRichValueValue>(richDataDb.RichValueValues);
             As = new ExcelRichValueAsType(this);
-            //richData.Structures.CreateRelation(this, structure, IndexType.ZeroBasedPointer);
         }
 
 
@@ -57,11 +46,9 @@ namespace OfficeOpenXml.RichData.RichValues
         public ExcelRichValueStructure Structure { get; set; }
 
         public RichDataStructureTypes StructureType => _structureType;
-        //public List<string> Values { get; } = new List<string>();
 
         public ExcelRichValueAsType As { get; private set; }
 
-        //private Dictionary<string, string> _keysAndValues = new Dictionary<string, string>();
         public IndexedSubsetCollection<ExcelRichValueValue> Values { get; private set; }
 
         private Dictionary<string, IndexRelation> _relations = new Dictionary<string, IndexRelation>();
@@ -87,10 +74,7 @@ namespace OfficeOpenXml.RichData.RichValues
 
         internal virtual void SetStructure(RichDataDatabase richDataDb)
         {
-            //_keysAndValues = _keysAndValues.Where(kvp => !string.IsNullOrEmpty(kvp.Value)).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            //var keyNames = _keysAndValues.Select(kvp => kvp.Key).ToList();
             var keyNames = Values.Where(v => !string.IsNullOrEmpty(v.Value)).Select(v => v.Key.Name).ToList();
-            //var hash = ExcelRichValueStructure.CreateKeyHash(keyNames);
             var existingStructure = Structure;
             var existingStructureRel = default(IndexRelation);
             if(existingStructure != null)
@@ -125,7 +109,6 @@ namespace OfficeOpenXml.RichData.RichValues
                 sw.Write(FallbackValue);
                 sw.Write("</fb>");
             }
-            //foreach (var key in Structure.Keys.ToNameArray())
             foreach(var val in Values)
             {
                 if(_relations.ContainsKey(val.Key.Name))

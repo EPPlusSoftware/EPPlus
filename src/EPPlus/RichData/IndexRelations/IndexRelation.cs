@@ -40,13 +40,6 @@ namespace OfficeOpenXml.RichData.IndexRelations
 
         public IndexRelationType RelationType { get; set; }
 
-        //public IndexRelationWithSubRelations Parent { get; set; }
-
-        //public IndexRelationWithSubRelations AsRelationWithSubRelations()
-        //{
-        //    return this as IndexRelationWithSubRelations;
-        //}
-
         public override bool Equals(object obj)
         {
             if (obj == null) return false;

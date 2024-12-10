@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.Metadata.FutureMetadata;
 using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.Utils;
 using System.Xml;
 
@@ -22,38 +23,6 @@ namespace OfficeOpenXml.Metadata
     /// </summary>
     internal class ExcelCellMetadataBlock : IndexEndpoint
     {
-        //public ExcelCellMetadataBlock(MetadataDatabase metadataDb)
-        //    : base(metadataDb.IndexStore, RichDataEntities.CellMetadataBlock)
-        //{
-        //    _metadataDb = metadataDb;
-        //    _store = metadataDb.IndexStore;
-        //    _records = new IndexedSubsetCollection<ExcelCellMetadataRecord>(metadataDb.CellMetadataRecords);
-        //}
-        //public ExcelCellMetadataBlock(XmlReader xr, MetadataDatabase metadataDb)
-        //    : base(metadataDb.IndexStore, RichDataEntities.CellMetadataBlock)
-        //{
-        //    _metadataDb = metadataDb;
-        //    _store = metadataDb.IndexStore;
-        //    _records = new IndexedSubsetCollection<ExcelCellMetadataRecord>(metadataDb.CellMetadataRecords);
-        //    uint currentIndex = 0;
-        //    while (xr.IsEndElementWithName("bk") == false && xr.EOF == false)
-        //    {
-        //        if (xr.IsElementWithName("rc"))
-        //        {
-        //            var t = int.Parse(xr.GetAttribute("t"));
-        //            var v = int.Parse(xr.GetAttribute("v"));
-        //            var type = _metadataDb.MetadataTypes[t - 1];
-        //            var fmt = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
-        //            if (fmt != null)
-        //            {
-        //                var bk = fmt.Blocks[v];
-        //                AddRecord(type.Id, bk.Id);
-        //            }
-        //        }
-        //        xr.Read();
-        //        currentIndex++;
-        //    }
-        //}
 
         public ExcelCellMetadataBlock(MetadataDatabase metadataDb)
             : base(metadataDb.IndexStore, RichDataEntities.CellMetadataBlock)
@@ -75,6 +44,7 @@ namespace OfficeOpenXml.Metadata
                 if (xr.IsElementWithName("rc"))
                 {
                     var record = new ExcelCellMetadataRecord(xr, _metadataDb, this, _store);
+                    record.AddRelationTo(this);
                     _records.Add(record);
                 }
                 xr.Read();
@@ -92,6 +62,7 @@ namespace OfficeOpenXml.Metadata
             _metadataDb.CellMetadataRecords.Add(record);
             var type = _metadataDb.MetadataTypes.Get(typeId);
             record.AddRelationTo(type, IndexType.OneBasedPointer);
+            record.AddRelationTo(this);
             var fm = type.GetFirstOutgoingRelByType<FutureMetadataBase>();
             if (fm != null)
             {
@@ -108,18 +79,16 @@ namespace OfficeOpenXml.Metadata
             // When the last record is deleted it will trigger a call to OnRecordDeleted in this class
             // which will call DeleteMe().
             base.DeleteMe(relDeletions);
-            for(var i = 0; i < _records.Count; i++)
-            {
-                var record = _records[i];
-                record.DeleteMe(relDeletions);
-            }
         }
 
-        public void OnRecordDeleted(ExcelCellMetadataRecord record, RelationDeletions relDeletions)
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
         {
-            if (_records.Count <= 1)
+           if(e.DeletedEntity.EntityType == RichDataEntities.CellMetadataRecord)
             {
-                base.DeleteMe(relDeletions);
+                if(_records.Count <= 1)
+                {
+                    DeleteMe(e.RelationDeletions);
+                }
             }
         }
     }

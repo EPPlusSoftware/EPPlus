@@ -91,11 +91,6 @@ namespace OfficeOpenXml.RichData
             return bk.GetFirstOutgoingRelByType<ExcelRichValue>();
         }
 
-        private ExcelRichValue GetRichValue(int row, int col, out uint vmId)
-        {
-            return GetRichValue(row, col, out vmId, null);
-        }
-
         internal ExcelRichValue GetRichValue(int row, int col, params string[] structureTypesFilter)
         {
             return GetRichValue(row, col, out uint vmId, structureTypesFilter);
