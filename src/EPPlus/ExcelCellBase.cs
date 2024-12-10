@@ -1089,7 +1089,7 @@ namespace OfficeOpenXml
 
                         if (address == null || (!address.IsValidRowCol() && address.IsName==false))
                         {
-                            if(i > 0 && GetPrevToken(tokens,i)==")") //Previous token is a function, add the colon.
+                            if(i > 0 && t.TokenType==TokenType.Operator && t.Value==":" && GetPrevToken(tokens,i).TokenType==TokenType.ClosingParenthesis) //Previous token is a function, add the colon.
                             {
                                 f += t.Value;
                             }
@@ -1125,10 +1125,10 @@ namespace OfficeOpenXml
             }
         }
 
-        private static string GetPrevToken(IList<Token> tokens, int i)
+        private static Token GetPrevToken(IList<Token> tokens, int i)
         {
             while (i > 0 && tokens[--i].TokenType == TokenType.WhiteSpace);
-            return tokens[i].Value;
+            return tokens[i];
         }
 
         private static ExcelAddressBase GetFullAddressFromToken(IList<Token> tokens, ref int i)
