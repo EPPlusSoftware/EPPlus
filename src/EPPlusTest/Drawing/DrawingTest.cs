@@ -1182,6 +1182,5 @@ namespace EPPlusTest
 			pic.SetPosition(30, 0, 10, 0);
 
 		}
-
-	}
+    }
 }
