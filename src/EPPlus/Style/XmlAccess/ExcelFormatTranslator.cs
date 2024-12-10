@@ -678,7 +678,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         internal object GetPivotTableValue(object value)
         {
             var tc = Type.GetTypeCode(value?.GetType());
-            if(tc == TypeCode.Double || tc == TypeCode.Single || tc ==TypeCode.Decimal && DataType==eFormatType.DateTime)
+            if((tc == TypeCode.Double || tc == TypeCode.Single || tc ==TypeCode.Decimal) && DataType==eFormatType.DateTime)
             {
                 var d = Convert.ToDouble(value);
                 return DateTime.FromOADate(d);

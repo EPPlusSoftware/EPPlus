@@ -229,7 +229,7 @@ namespace OfficeOpenXml.Core.Worksheet
         }
         private static void ValidateColumn(ExcelWorksheet ws, int columnFrom, int columns, int rowFrom = 1, int rows = ExcelPackage.MaxRows)
         {
-            if (columnFrom < 1 || columnFrom + columns > ExcelPackage.MaxColumns)
+            if (columnFrom < 1 || columnFrom + columns > ExcelPackage.MaxColumns + 1)
             {
                 throw (new ArgumentException("columnFrom", "Column out of range. Spans from 1 to " + ExcelPackage.MaxColumns.ToString(CultureInfo.InvariantCulture)));
             }

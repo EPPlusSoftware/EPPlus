@@ -78,7 +78,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <param name="ctx">Parsing context</param>
         public RangeInfo(ExcelWorksheet ws, ParsingContext ctx)
         {
-            _addresses = [new FormulaRangeAddress(ctx) { WorksheetIx = (short)ws.PositionId }];
+            _addresses = [new FormulaRangeAddress(ctx) { WorksheetIx = (short)ws.IndexInList }];
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 _addresses = [
                     new FormulaRangeAddress(ctx, address)
                 {
-                    WorksheetIx = (short)ws.PositionId,
+                    WorksheetIx = (short)ws.IndexInList,
                 }
                 ];
             }
@@ -112,7 +112,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 {
                     _addresses[i++] = new FormulaRangeAddress(ctx, a)
                     {
-                        WorksheetIx = (short)ws.PositionId,
+                        WorksheetIx = (short)ws.IndexInList,
                     };
                 }
             }
