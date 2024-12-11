@@ -299,7 +299,7 @@ namespace OfficeOpenXml
         internal CellStore<int> _commentsStore;
         internal CellStore<int> _threadedCommentsStore;
         internal CellStore<int?> _dataValidationsStore;
-        internal CellStore<MetaDataReference> _metadataStore;
+        internal MetadataCellStore _metadataStore;
         internal RichDataStore _richDataStore;
         internal RichValueErrorManager _richValueErrorManager;
 
@@ -354,7 +354,7 @@ namespace OfficeOpenXml
             _formulas = new CellStore<object>();
             _formulaTokens = new CellStore<IList<Token>>();
             _flags = new FlagCellStore();
-            _metadataStore = new CellStore<MetaDataReference>();
+            _metadataStore = new MetadataCellStore(this);
             _richDataStore = new RichDataStore(this);
             _commentsStore = new CellStore<int>();
             _threadedCommentsStore = new CellStore<int>();

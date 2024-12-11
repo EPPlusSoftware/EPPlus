@@ -42,7 +42,7 @@ namespace OfficeOpenXml.Metadata
        
 
         internal FutureMetadataDynamicArray FutureMetadataDynamicArray { get; private set; }
-        internal int DynamicArrayTypeIndex { get; private set; }
+        internal uint? DynamicArrayTypeId { get; private set; }
         internal ZipPackagePart Part { get { return _part; } }
 
         internal EventHandler<ValueMetadataReadEventArgs> ValueMetadataRead;
@@ -125,6 +125,23 @@ namespace OfficeOpenXml.Metadata
                     }
                 }
                 xr.Read();
+            }
+            SetDynamicArrayIdIfExists();
+        }
+
+        private void SetDynamicArrayIdIfExists()
+        {
+            if (Db.MetadataTypes.TryGetValue(FutureMetadataBase.DYNAMIC_ARRAY_NAME, out ExcelMetadataType type))
+            {
+                var rc = type.GetFirstIncomingRelByType<ExcelCellMetadataRecord>();
+                if(rc != null)
+                {
+                    var bk = rc.GetFirstOutgoingRelByType<ExcelCellMetadataBlock>();
+                    if(bk != null)
+                    {
+                        DynamicArrayTypeId = bk.Id;
+                    }
+                }
             }
         }
 
@@ -210,10 +227,10 @@ namespace OfficeOpenXml.Metadata
             var mt = new ExcelMetadataType(_wb.IndexStore) { Name = FutureMetadataBase.DYNAMIC_ARRAY_NAME, MinSupportedVersion = 120000, Flags = MetadataFlags.Copy | MetadataFlags.PasteAll | MetadataFlags.PasteValues | MetadataFlags.Merge | MetadataFlags.SplitFirst | MetadataFlags.RowColShift | MetadataFlags.ClearFormats | MetadataFlags.ClearComments | MetadataFlags.Assign | MetadataFlags.Coerce | MetadataFlags.CellMeta };
             Db.MetadataTypes.Add(mt);
             var daType = FutureMetadataDynamicArray.GetDefault(Db, out uint bkId);
-            DynamicArrayTypeIndex = Db.FutureMetadata.Count;
             Db.FutureMetadata.Add(daType);
 
             var cmBlock = new ExcelCellMetadataBlock(Db);
+            DynamicArrayTypeId = cmBlock.Id;
             daType.AddRelationTo(cmBlock);
             cmBlock.AddRelationTo(daType);
             cmBlock.AddRecord(mt.Id, bkId);
@@ -258,6 +275,7 @@ namespace OfficeOpenXml.Metadata
 
         internal bool IsFormulaDynamic(uint cmId)
         {
+            if (DynamicArrayTypeId.HasValue && cmId == DynamicArrayTypeId.Value) return true;
             var bk = Db.CellMetadata.Get(cmId);
             if (bk != null)
             {
@@ -279,21 +297,26 @@ namespace OfficeOpenXml.Metadata
         }
         internal void GetDynamicArrayId(out uint cmId)
         {
-            var daType = default(ExcelMetadataType);
-            if(!Db.MetadataTypes.TryGetValue(FutureMetadataBase.DYNAMIC_ARRAY_NAME, out ExcelMetadataType type) || type.Deleted)
+            if(!DynamicArrayTypeId.HasValue)
             {
                 CreateDefaultXmlDynamicArray();
-                daType = Db.MetadataTypes.First(x => x.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME);
             }
-            else
-            {
-                daType = type;
-            }
+            cmId  = DynamicArrayTypeId.Value;
+            //var daType = default(ExcelMetadataType);
+            //if(!Db.MetadataTypes.TryGetValue(FutureMetadataBase.DYNAMIC_ARRAY_NAME, out ExcelMetadataType type) || type.Deleted)
+            //{
+            //    CreateDefaultXmlDynamicArray();
+            //    daType = Db.MetadataTypes.First(x => x.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME && !x.Deleted);
+            //}
+            //else
+            //{
+            //    daType = type;
+            //}
 
-            //var cellMetadataBlock = Db.FutureMetadata[FutureMetadataBase.DYNAMIC_ARRAY_NAME].GetFirstOutgoingRelByType<ExcelCellMetadataRecord>();
-            var rc = daType.GetFirstIncomingRelByType<ExcelCellMetadataRecord>();
-            var bk = rc.GetFirstOutgoingRelByType<ExcelCellMetadataBlock>();
-            cmId = bk.Id;
+            ////var cellMetadataBlock = Db.FutureMetadata[FutureMetadataBase.DYNAMIC_ARRAY_NAME].GetFirstOutgoingRelByType<ExcelCellMetadataRecord>();
+            //var rc = daType.GetFirstIncomingRelByType<ExcelCellMetadataRecord>();
+            //var bk = rc.GetFirstOutgoingRelByType<ExcelCellMetadataBlock>();
+            //cmId = bk.Id;
         }
 
         internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)

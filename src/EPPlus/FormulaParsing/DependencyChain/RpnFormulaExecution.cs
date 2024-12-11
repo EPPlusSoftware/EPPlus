@@ -626,10 +626,17 @@ namespace OfficeOpenXml.FormulaParsing
                     mdb.DeleteMe();
                 }
             }
-            var cdb = ws.Workbook.Metadata.Db.CellMetadata.Get(md.cm);
-            if (cdb != null)
+            if(md.cm > 0u)
             {
-                cdb.DeleteMe();
+                var metadata = ws.Workbook.Metadata;
+                if(!metadata.DynamicArrayTypeId.HasValue || md.cm != metadata.DynamicArrayTypeId.Value)
+                {
+                    var cdb = metadata.Db.CellMetadata.Get(md.cm);
+                    if (cdb != null)
+                    {
+                        cdb.DeleteMe();
+                    }
+                }
             }
             f._ws._metadataStore.Clear(f._row, f._column, 1, 1);
         }

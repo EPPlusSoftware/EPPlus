@@ -17,26 +17,29 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
-    internal enum RichDataEntities : ushort
+    internal class IndexEndpointReferenceCounter : IndexEndpoint
     {
-        None,
-        ValueMetadataBlock,
-        ValueMetadataRecord,
-        CellMetadataBlock,
-        CellMetadataRecord,
-        FutureMetadata,
-        FutureMetadataBlock,
-        FutureMetadataRichDataBlock,
-        FutureMetadataDynamicArrayBlock,
-        MetadataType,
-        RichValue,
-        RichValueValue,
-        RichStructure,
-        RichValueRel,
-        RichDataArray,
-        RichDataArrayValue,
-        SubRelations,
-        WebImage,
-        MetaDataReference
+        public IndexEndpointReferenceCounter(RichDataIndexStore store, RichDataEntities entity) : base(store, entity)
+        {
+        }
+
+        private int _nRefs = 0;
+
+        public void IncreaseReferences()
+        {
+            _nRefs++;
+        }
+
+        public void DecreaseReferences()
+        {
+            if(_nRefs > 0)
+            {
+                _nRefs--;
+            }
+            if(_nRefs == 0 )
+            {
+                DeleteMe();
+            }
+        }
     }
 }

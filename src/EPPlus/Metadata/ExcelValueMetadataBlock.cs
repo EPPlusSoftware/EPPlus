@@ -21,7 +21,7 @@ namespace OfficeOpenXml.Metadata
     /// <summary>
     /// Corresponds to a bk-element in the valueMetadata section of the metadata.xml file.
     /// </summary>
-    internal class ExcelValueMetadataBlock : IndexEndpoint
+    internal class ExcelValueMetadataBlock : IndexEndpointReferenceCounter
     {
         public ExcelValueMetadataBlock(MetadataDatabase metadataDb)
             : base(metadataDb.IndexStore, RichDataEntities.ValueMetadataBlock)

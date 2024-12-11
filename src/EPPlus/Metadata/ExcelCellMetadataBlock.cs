@@ -19,9 +19,9 @@ using System.Xml;
 namespace OfficeOpenXml.Metadata
 {
     /// <summary>
-    /// Corresponds to a bk-element in the valueMetadata section of the metadata.xml file.
+    /// Corresponds to a bk-element in the cellMetadata section of the metadata.xml file.
     /// </summary>
-    internal class ExcelCellMetadataBlock : IndexEndpoint
+    internal class ExcelCellMetadataBlock : IndexEndpointReferenceCounter
     {
 
         public ExcelCellMetadataBlock(MetadataDatabase metadataDb)
