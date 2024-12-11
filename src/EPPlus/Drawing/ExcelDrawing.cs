@@ -724,14 +724,20 @@ namespace OfficeOpenXml.Drawing
         }
         internal int GetPixelTop()
         {
-            int pix;
+            int pix = 0;
+            if (prefixIndex==1)
+            {
+                var ext = GetXfrmNode(TopNode.GetChildAtPosition(2));
+                if(ext != null)
+                    pix = int.Parse(ext.Attributes["cy"].Value);
+                return pix;
+            }
             if (CellAnchor == eEditAs.Absolute)
             {
                 pix = Position.Y / EMU_PER_PIXEL;
             }
             else
             {
-                pix = 0;
                 var cache = _drawings.Worksheet.RowHeightCache;
                 for (int row = 0; row < From.Row; row++)
                 {
@@ -750,8 +756,8 @@ namespace OfficeOpenXml.Drawing
         }
         internal double GetPixelWidth()
         {
-            if (prefixIndex == 1)
-                return 50;
+            //if (prefixIndex == 1)
+            //    return 100;
             double pix;
             if (CellAnchor == eEditAs.TwoCell)
             {
@@ -775,8 +781,8 @@ namespace OfficeOpenXml.Drawing
         }
         internal double GetPixelHeight()
         {
-            if (prefixIndex == 1)
-                return 50;
+            //if (prefixIndex == 1)
+            //    return 100;
             double pix;
             if (CellAnchor == eEditAs.TwoCell)
             {
@@ -1331,7 +1337,7 @@ namespace OfficeOpenXml.Drawing
             grp.SetPositionAndSizeFromChildren();
             return grp;
         }
-        internal XmlElement GetFrmxNode(XmlNode node)
+        internal XmlElement GetXfrmNode(XmlNode node)
         {
             if(node.LocalName == "AlternateContent")
             {
@@ -1384,7 +1390,7 @@ namespace OfficeOpenXml.Drawing
         }
         internal virtual void DeleteMe()
         {
-            TopNode.ParentNode.RemoveChild(TopNode);            
+            TopNode.ParentNode.RemoveChild(TopNode);
         }
 
         /// <summary>

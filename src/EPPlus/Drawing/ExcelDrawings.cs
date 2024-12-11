@@ -1851,15 +1851,15 @@ namespace OfficeOpenXml.Drawing
         private XmlElement CreateDrawingXmlChartDrawings(ExcelChart container)
         {
             XmlElement drawNode = CreateDocumentAndTopNodeChartDrawings(container);
+
+            double x1 = 0, y1 = 0, x2 = 0.1, y2 = 0.1;
+            MathHelper.AdjustAspectRatio(screenWidth, screenHeight, ref x1, ref y1, ref x2, ref y2);
+
             //Add from position Element;
             XmlElement fromNode = _drawingsXml.CreateElement("cdr", "from", ExcelPackage.schemaChartDrawing);
             drawNode.AppendChild(fromNode);
             XmlElement fromX = _drawingsXml.CreateElement("cdr", "x", ExcelPackage.schemaChartDrawing);
             XmlElement fromY = _drawingsXml.CreateElement("cdr", "y", ExcelPackage.schemaChartDrawing);
-
-            double x1 = 0, y1 = 0, x2 = 0.1, y2 = 0.1;
-            MathHelper.AdjustAspectRatio(screenWidth, screenHeight, ref x1, ref y1, ref x2, ref y2);
-
             fromX.InnerText = x1.ToString(CultureInfo.InvariantCulture);
             fromY.InnerText = y1.ToString(CultureInfo.InvariantCulture);
             fromNode.AppendChild(fromX);

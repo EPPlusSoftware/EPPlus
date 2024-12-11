@@ -35,15 +35,6 @@ namespace OfficeOpenXml.Drawing
             switch(DrawingsType)
             {
                 case DrawingsCollectionType.chart:
-                    //var xfrm = shapeNode.SelectSingleNode("cdr:spPr/a:xfrm", NameSpaceManager);
-                    //var off = xfrm.OwnerDocument.CreateElement("a", "off", ExcelPackage.schemaDrawings);
-                    //off.SetAttribute("x", "0");
-                    //off.SetAttribute("y", "0");
-                    //xfrm.AppendChild(off);
-                    //var ext = xfrm.OwnerDocument.CreateElement("a", "ext", ExcelPackage.schemaDrawings);
-                    //ext.SetAttribute("cx", "500000");
-                    //ext.SetAttribute("cy", "500000");
-                    //xfrm.AppendChild(ext);
                     break;
                 case DrawingsCollectionType.excel:
                 default:

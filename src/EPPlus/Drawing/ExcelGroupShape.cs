@@ -92,13 +92,24 @@ namespace OfficeOpenXml.Drawing
 
         private void AdjustXmlAndMoveToGroup(ExcelDrawing d)
         {
+            double height, width, top, left;
+            if (d.prefixIndex == 1)
+            {
+                height = d._drawings.screenHeight;
+                width = d._drawings.screenWidth;
+                top = 0;
+                left = 0;
+            }
+            else
+            {
+                height = d.GetPixelHeight();
+                width = d.GetPixelWidth();
+                top = d.GetPixelTop();
+                left = d.GetPixelLeft();
+            }
             d._drawings.RemoveDrawing(d._drawings._drawingsList.IndexOf(d), false);
-            var height = d.GetPixelHeight();
-            var width = d.GetPixelWidth();
-            var top = d.GetPixelTop();
-            var left = d.GetPixelLeft();
             var node = d.TopNode.GetChildAtPosition(2);
-            XmlElement xFrmNode = d.GetFrmxNode(node);
+            XmlElement xFrmNode = d.GetXfrmNode(node);
             if (xFrmNode.ChildNodes.Count == 0)
             {
                 d.CreateNode(xFrmNode, "a:off");
