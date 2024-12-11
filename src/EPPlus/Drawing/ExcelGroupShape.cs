@@ -95,10 +95,10 @@ namespace OfficeOpenXml.Drawing
             double height, width, top, left;
             if (d.prefixIndex == 1)
             {
-                height = d._drawings.screenHeight;
-                width = d._drawings.screenWidth;
-                top = 0;
-                left = 0;
+                height = (d._drawings.screenHeight) * (d.To.Y - d.From.Y);
+                width = (d._drawings.screenWidth) * (d.To.X - d.From.X);
+                top = (d._drawings.screenHeight * ExcelDrawing.EMU_PER_PIXEL) * d.From.Y;
+                left = (d._drawings.screenWidth) * d.From.X;
             }
             else
             {
@@ -361,6 +361,17 @@ namespace OfficeOpenXml.Drawing
             var pd = Drawings[0];
             pd.GetPositionSize();
             double t = pd._top, l = pd._left, b = pd._top + pd._height, r = pd._left + pd._width;
+
+            if (prefixIndex == 1)
+            {
+                var chOff = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:chOff", NameSpaceManager);
+                chOff.Attributes["x"].Value = pd._left.ToString();
+                chOff.Attributes["y"].Value = pd._top.ToString();
+                var chExt = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:chExt", NameSpaceManager);
+                chExt.Attributes["cx"].Value = pd._width.ToString();
+                chExt.Attributes["cy"].Value = pd._height.ToString();
+            }
+
             for (int i = 1; i < Drawings.Count; i++)
             {
                 var d = Drawings[i];
@@ -382,7 +393,6 @@ namespace OfficeOpenXml.Drawing
                     b = d._top + d._height;
                 }
             }
-
             SetPosition((int)t, (int)l, false);
             SetSize((int)(r - l), (int)(b - t));
 

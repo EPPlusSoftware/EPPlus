@@ -702,7 +702,19 @@ namespace OfficeOpenXml.Drawing
         }
         internal int GetPixelLeft()
         {
-            int pix;
+            int pix = 0;
+            if (prefixIndex == 1)
+            {
+                var off = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:off", NameSpaceManager);
+                if (off == null)
+                    off = (XmlElement)TopNode.SelectSingleNode("cdr:spPr/a:xfrm/a:off", NameSpaceManager);
+                if (off != null)
+                {
+                    var x = ((XmlElement)off).GetAttribute("x");
+                    pix = (int)double.Parse(x);
+                }
+                return pix;
+            }
             if (CellAnchor == eEditAs.Absolute)
             {
                 pix = Position.X / EMU_PER_PIXEL;
@@ -725,13 +737,19 @@ namespace OfficeOpenXml.Drawing
         internal int GetPixelTop()
         {
             int pix = 0;
-            if (prefixIndex==1)
+            if(prefixIndex == 1)
             {
-                var ext = GetXfrmNode(TopNode.GetChildAtPosition(2));
-                if(ext != null)
-                    pix = int.Parse(ext.Attributes["cy"].Value);
+                var off = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:off", NameSpaceManager);
+                if (off == null)
+                    off = (XmlElement)TopNode.SelectSingleNode("cdr:spPr/a:xfrm/a:off", NameSpaceManager);
+                if (off != null)
+                {
+                    var y = ((XmlElement)off).GetAttribute("y");
+                    pix = (int)double.Parse(y);
+                }
                 return pix;
             }
+
             if (CellAnchor == eEditAs.Absolute)
             {
                 pix = Position.Y / EMU_PER_PIXEL;
@@ -756,9 +774,19 @@ namespace OfficeOpenXml.Drawing
         }
         internal double GetPixelWidth()
         {
-            //if (prefixIndex == 1)
-            //    return 100;
-            double pix;
+            double pix=0;
+            if (prefixIndex == 1)
+            {
+                var ext = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
+                if (ext == null)
+                    ext = (XmlElement)TopNode.SelectSingleNode("cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
+                if (ext != null)
+                {
+                    var cx = ((XmlElement)ext).GetAttribute("cy");
+                    pix = (int)double.Parse(cx);
+                }
+                return pix;
+            }
             if (CellAnchor == eEditAs.TwoCell)
             {
                 ExcelWorksheet ws = _drawings.Worksheet;
@@ -781,9 +809,19 @@ namespace OfficeOpenXml.Drawing
         }
         internal double GetPixelHeight()
         {
-            //if (prefixIndex == 1)
-            //    return 100;
-            double pix;
+            double pix=0;
+            if (prefixIndex == 1)
+            {
+                var ext = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
+                if (ext == null)
+                    ext = (XmlElement)TopNode.SelectSingleNode("cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
+                if (ext != null)
+                {
+                    var cy = ((XmlElement)ext).GetAttribute("cy");
+                    pix = (int)double.Parse(cy);
+                }
+                return pix;
+            }
             if (CellAnchor == eEditAs.TwoCell)
             {
                 ExcelWorksheet ws = _drawings.Worksheet;
@@ -979,7 +1017,7 @@ namespace OfficeOpenXml.Drawing
         {
             if(_drawings.DrawingsType == DrawingsCollectionType.chart)
             {
-                SetPosition((double)PixelTop, (double)PixelLeft);
+                SetPositionChartShapes(PixelTop, PixelLeft);
             }
             SetPosition(PixelTop, PixelLeft, true);
         }
@@ -1011,13 +1049,17 @@ namespace OfficeOpenXml.Drawing
             SetPixelHeight(_height);
             _doNotAdjust = false;
         }
-        private int ChartDrawingsPercentageScale = 10000;
-        private void SetPosition(double PercentTop, double PercentLeft)
+        private int ChartDrawingsPercentageScale = 1;
+        private void SetPositionChartShapes(double PercentTop, double PercentLeft)
         {
-            //if (adjustChildren && DrawingType == eDrawingType.GroupShape)
-            //{
-            //    //DO FIX WHEN GROUPSHAPE
-            //}
+            if (this is ExcelGroupShape)
+            {
+                var off = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:off", NameSpaceManager);
+                off.Attributes["x"].Value = ((int)PercentLeft).ToString();
+                off.Attributes["y"].Value = ((int)PercentTop).ToString();
+                PercentTop = PercentTop / this._drawings.screenHeight;
+                PercentLeft = PercentLeft / this._drawings.screenWidth;
+            }
 
             if (PercentTop < 0)
             {
@@ -1179,6 +1221,12 @@ namespace OfficeOpenXml.Drawing
         /// <param name="ColumnOffsetPixels">Offset in pixels</param>
         public void SetPosition(int Row, int RowOffsetPixels, int Column, int ColumnOffsetPixels)
         {
+            //Throw exception if shape in chart
+            if(prefixIndex == 1)
+            {
+                throw new InvalidOperationException("Shapes in chart does not contain row or column attributes. Use SetPosition(int PixelTop, int PixelLeft) instead.");
+            }
+
             _doNotAdjust = true;
 
             if (_width == int.MinValue)
@@ -1211,7 +1259,11 @@ namespace OfficeOpenXml.Drawing
         {
             if (_drawings.DrawingsType == DrawingsCollectionType.chart)
             {
-                SetSize(Percent, Percent);
+                //get current ext and mult with percent and divide by EMU and send to setSize
+                var ext = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:ext");
+                var width = (int.Parse(ext.Attributes["cx"].Value) * Percent) / EMU_PER_PIXEL;
+                var height = (int.Parse(ext.Attributes["cy"].Value) * Percent) / EMU_PER_PIXEL;
+                SetSize(width, height);
                 return;
             }
             else
@@ -1241,8 +1293,17 @@ namespace OfficeOpenXml.Drawing
         {
             if (_drawings.DrawingsType == DrawingsCollectionType.chart)
             {
-                double scaleW = PixelWidth / 100.0f;
-                double scaleH = PixelHeight / 100.0f;
+                if (this is ExcelGroupShape)
+                {
+                    var ext = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:ext", NameSpaceManager);
+                    ext.Attributes["cx"].Value = (PixelWidth * EMU_PER_PIXEL).ToString();
+                    ext.Attributes["cy"].Value = (PixelHeight * EMU_PER_PIXEL).ToString();
+                    PixelHeight = (int)(PixelHeight / this._drawings.screenHeight);
+                    PixelWidth = (int)(PixelWidth / this._drawings.screenWidth);
+                }
+
+                double scaleW = PixelWidth / 100.0d;
+                double scaleH = PixelHeight / 100.0d;
                 double cX = (From.X + To.X) / 2;
                 double cY = (From.Y + To.Y) / 2;
                 _width = (To.X - From.X) * scaleW;
@@ -1339,6 +1400,7 @@ namespace OfficeOpenXml.Drawing
         }
         internal XmlElement GetXfrmNode(XmlNode node)
         {
+            if(node == null) return null;
             if(node.LocalName == "AlternateContent")
             {
                 node = node.FirstChild.FirstChild;

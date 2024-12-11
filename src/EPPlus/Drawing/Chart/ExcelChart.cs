@@ -1167,7 +1167,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         public ExcelPicture AddPicture(string Name, FileInfo ImagePath, Uri HyperLink)
         {
-            return _chartDrawings.AddPicture(Name, ImagePath, DrawingsCollectionType.chart, HyperLink, PictureLocation.Embed, this);
+            return ChartDrawings.AddPicture(Name, ImagePath, DrawingsCollectionType.chart, HyperLink, PictureLocation.Embed, this);
         }
 
         //Stream
@@ -1178,7 +1178,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         public ExcelPicture AddPicture(string Name, Stream ImagePath, Uri HyperLink)
         {
-            return _chartDrawings.AddPicture(Name, ImagePath, HyperLink, DrawingsCollectionType.chart, this);
+            return ChartDrawings.AddPicture(Name, ImagePath, HyperLink, DrawingsCollectionType.chart, this);
         }
     }
 }
