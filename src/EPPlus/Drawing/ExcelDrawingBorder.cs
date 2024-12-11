@@ -162,12 +162,12 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeEmuToPt(_lineWidth);
+                return GetXmlNodeEmuToPixel(_lineWidth);
             }
             set
             {
                 InitSpPr();
-                SetXmlNodeEmuToPt(_lineWidth, value);
+                SetXmlNodeEmuToPixel(_lineWidth, value);
             }
         }
         string _bevelPath = "{0}/a:bevel";

@@ -1301,26 +1301,42 @@ namespace OfficeOpenXml.Drawing
             }
             return "";
         }
-
+        /// <summary>
+        /// Add a textbox to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
         public ExcelShape AddTextbox(string Name, string text = "")
         {
             var shape = Worksheet.Drawings.AddShape("txtDesc", eShapeStyle.Rect);
-            var node = (XmlElement)shape.TopNode.SelectSingleNode("cNvSpPr", shape.);
+            var node = (XmlElement)shape.TopNode.SelectSingleNode("xdr:sp/xdr:nvSpPr/xdr:cNvSpPr", shape.NameSpaceManager);
             node.SetAttribute("txBox", "1");
-            //shape.SetBoolNode("cNvSpPr@txBox", true);
+
             shape.From.Column = 0;
             shape.From.Row = 0;
-            shape.To.Column = 2;
-            shape.To.Column = 4;
+            shape.To.Column = 1;
+            shape.To.Row = 5;
             shape.Text = text;
+
+            //Find better way of getting half-column
+            //This was innacurate
+            //var colWidth = Worksheet.DefaultColWidth / 2;
+            int halfColumnInPixel = 32;
+
+            shape.To.ColumnOff = halfColumnInPixel * 9525;
 
             shape.EditAs = eEditAs.Absolute;
             shape.Fill.Style = eFillStyle.SolidFill;
             shape.Fill.Color = Color.White;
+            shape.Font.Fill.Color = Color.Black;
 
             shape.TextAnchoring = eTextAnchoringType.Top;
             shape.TextVertical = eTextVerticalType.Horizontal;
             shape.TextAnchoringControl = false;
+
+            shape.Border.Width = 1f;
+            shape.Border.Fill.Color = Color.LightGray;
 
             return shape;
         }
@@ -1331,7 +1347,6 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Name">Name</param>
         /// <param name="Style">Shape style</param>
         /// <returns>The shape object</returns>
-
         public ExcelShape AddShape(string Name, eShapeStyle Style)
         {
             if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)

@@ -919,6 +919,19 @@ namespace OfficeOpenXml
                 DeleteNode(path);
             }
         }
+        internal void SetXmlNodeEmuToPixel(string path, double? value)
+        {
+            if (value.HasValue)
+            {
+                int v;
+                v = (int)(value * Drawing.ExcelDrawing.EMU_PER_PIXEL);
+                SetXmlNodeString(path, v.ToString());
+            }
+            else
+            {
+                DeleteNode(path);
+            }
+        }
         internal void SetXmlNodeFontSize(string path, double? value, string propertyName, bool AllowNegative = true)
         {
             if (value.HasValue)
@@ -1052,6 +1065,12 @@ namespace OfficeOpenXml
             var v = GetXmlNodeLong(path);
             if (v < 0) return 0;
             return (double)(v / (double)Drawing.ExcelDrawing.EMU_PER_POINT);
+        }
+        internal double GetXmlNodeEmuToPixel(string path)
+        {
+            var v = GetXmlNodeLong(path);
+            if (v < 0) return 0;
+            return (double)(v / (double)Drawing.ExcelDrawing.EMU_PER_PIXEL);
         }
         internal double? GetXmlNodeEmuToPtNull(string path)
         {

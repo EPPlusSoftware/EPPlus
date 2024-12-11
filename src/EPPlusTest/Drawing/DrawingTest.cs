@@ -1192,27 +1192,6 @@ namespace EPPlusTest
 
                 ws.Drawings.AddTextbox("TextboxName", "TextBoxContent");
 
-                //ws.Drawings.AddShape("txtDesc", eShapeStyle.Rect);
-
-                //var shape = ws.Drawings.AddShape("txtDesc", eShapeStyle.Rect);
-                //shape.SetPosition(1, 5, 6, 5);  //Position Row, RowOffsetPixels, Column, ColumnOffsetPixels
-                //shape.SetSize(400, 200);        //Size in pixels
-                //shape.EditAs = eEditAs.Absolute;
-                //shape.Text = "This example demonstrates how to create various drawing objects like pictures, shapes and charts.\n\r\n\rThe first sheet contains all subdirectories and files with an icon, name, size and dates.\r\n\r\nThe second sheet contains statistics about extensions and the top-10 largest files.";
-                //shape.Fill.Style = eFillStyle.SolidFill;
-                //shape.Fill.Color = Color.DarkSlateGray;
-                //shape.Fill.Transparancy = 20;
-                //shape.TextAnchoring = eTextAnchoringType.Top;
-                //shape.TextVertical = eTextVerticalType.Horizontal;
-                //shape.TextAnchoringControl = false;
-
-                //shape.Effect.SetPresetShadow(ePresetExcelShadowType.OuterRight);
-                //shape.Effect.SetPresetGlow(ePresetExcelGlowType.Accent3_8Pt);
-
-                //shape.Copy(ws, 20, 20);
-
-                //var drawing2 = ws.Drawings[1];
-
                 SaveAndCleanup(package);
             }
         }
