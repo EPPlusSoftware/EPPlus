@@ -84,10 +84,10 @@ namespace OfficeOpenXml
         /// <summary>
         /// Exclude and local cell pictures within the range.
         /// </summary>
-        ExcludeLocalCellPictures = 0x4000,
+        ExcludeLocalCellPictures = 0x8000,
         /// <summary>
         /// Exclude any web pictures (i.e. added via the IMAGE function) within the range.
         /// </summary>
-        ExcludeWebPictures = 0x8000,
+        ExcludeWebPictures = 0x10000,
     }
 }
