@@ -1320,7 +1320,7 @@ namespace OfficeOpenXml.Drawing
             shape.Text = text;
 
             //Find better way of getting half-column
-            //This was innacurate
+            //This seems innaccurate. DefaultColWidth not in pixels?
             //var colWidth = Worksheet.DefaultColWidth / 2;
             int halfColumnInPixel = 32;
 
