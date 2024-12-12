@@ -27,6 +27,8 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Controls;
 using System.Linq;
 using System.Drawing;
+using System.Security.Cryptography;
+
 
 
 
@@ -1319,10 +1321,8 @@ namespace OfficeOpenXml.Drawing
             shape.To.Row = 5;
             shape.Text = text;
 
-            //Find better way of getting half-column
-            //This seems innaccurate. DefaultColWidth not in pixels?
-            //var colWidth = Worksheet.DefaultColWidth / 2;
-            int halfColumnInPixel = 32;
+            var pixelSize = ExcelColumn.ColumnWidthToPixels((decimal)Worksheet.DefaultColWidth, Worksheet.Workbook.MaxFontWidth);
+            int halfColumnInPixel = Convert.ToInt32((pixelSize * 0.5d));
 
             shape.To.ColumnOff = halfColumnInPixel * 9525;
 
@@ -1335,7 +1335,7 @@ namespace OfficeOpenXml.Drawing
             shape.TextVertical = eTextVerticalType.Horizontal;
             shape.TextAnchoringControl = false;
 
-            shape.Border.Width = 1f;
+            shape.Border.Width = 0.75f;
             shape.Border.Fill.Color = Color.LightGray;
 
             return shape;
