@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Style.Dxf
             set
             {
                 _checkbox = value;
-                _callback(eStyleClass.Style, eStyleProperty.Checkbox, value);
+                _callback?.Invoke(eStyleClass.Style, eStyleProperty.Checkbox, value);
             }
         }
         internal override string Id

@@ -322,7 +322,7 @@ namespace OfficeOpenXml.Packaging
         {
             if(Enum.IsDefined(typeof(DigitalSignatureHashAlgorithm),hashAlgorithm) == false)
             {
-                throw new InvalidOperationException($"Cannot save. value '{hashAlgorithm}' is undefined for enum {typeof(DigitalSignatureHashAlgorithm)}\n " +
+                throw new InvalidOperationException($"Cannot save. Value '{hashAlgorithm}' is undefined for enum {typeof(DigitalSignatureHashAlgorithm)}\n " +
                     $"if the file was Read it may contain unknown algorithm. Please use SetDigestMethod on signatures");
             }
 
