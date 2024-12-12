@@ -13,5 +13,6 @@ namespace OfficeOpenXml.Constants
         internal const string schemaRichDataValueTypeRelationship = "http://schemas.microsoft.com/office/2017/06/relationships/rdRichValueTypes";
         internal const string schemaRichDataValueRelationship = "http://schemas.microsoft.com/office/2017/06/relationships/rdRichValue";
 
+        internal const string schemaFeaturePropertyBag = "http://schemas.microsoft.com/office/2022/11/relationships/FeaturePropertyBag";
     }
 }

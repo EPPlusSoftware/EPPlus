@@ -253,7 +253,21 @@ namespace OfficeOpenXml.Style
                 _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Style, eStyleProperty.QuotePrefix, value, _positionID, _address));
             }
         }
-
+        /// <summary>
+        /// Adds an in-cell checkbox to the cell to represents a boolean value.
+        /// The cell value must be a boolean value or null for the check box to be shown.
+        /// </summary>
+        public bool Checkbox
+        {
+            get
+            {
+                return _xfs.Checkbox;
+            }
+            set
+            {
+                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.Style, eStyleProperty.Checkbox, value, _positionID, _address));
+            }
+        }
         const string xfIdPath = "@xfId";
         /// <summary>
         /// The index in the style collection
@@ -283,7 +297,7 @@ namespace OfficeOpenXml.Style
         {
             get 
             { 
-                return Numberformat.Id + "|" + Font.Id + "|" + Fill.Id + "|" + Border.Id + "|" + VerticalAlignment + "|" + HorizontalAlignment + "|" + WrapText.ToString() + "|" + ReadingOrder.ToString() + "|" + XfId.ToString() + "|" + QuotePrefix.ToString(); 
+                return Numberformat.Id + "|" + Font.Id + "|" + Fill.Id + "|" + Border.Id + "|" + VerticalAlignment + "|" + HorizontalAlignment + "|" + WrapText.ToString() + "|" + ReadingOrder.ToString() + "|" + XfId.ToString() + "|" + QuotePrefix.ToString() + "|" + Checkbox.ToString(); 
             }
         }
 

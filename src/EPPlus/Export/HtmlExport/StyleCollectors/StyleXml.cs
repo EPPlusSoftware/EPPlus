@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         internal string GetStyleKey()
         {
             var fbfKey = ((ulong)(uint)_style.FontId << 32 | (uint)_style.BorderId << 16 | (uint)_style.FillId);
-            return fbfKey.ToString() + "|" + ((int)_style.HorizontalAlignment).ToString() + "|" + ((int)_style.VerticalAlignment).ToString() + "|" + _style.Indent.ToString() + "|" + _style.TextRotation.ToString() + "|" + (_style.WrapText ? "1" : "0");
+            return fbfKey.ToString() + "|" + ((int)_style.HorizontalAlignment).ToString() + "|" + ((int)_style.VerticalAlignment).ToString() + "|" + _style.Indent.ToString() + "|" + _style.TextRotation.ToString() + "|" + (_style.WrapText ? "1" : "0") + "|" + (_style.Checkbox? "1" : "0"); 
         }
     }
 }

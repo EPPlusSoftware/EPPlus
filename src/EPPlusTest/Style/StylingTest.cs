@@ -33,6 +33,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.SystemDrawing.Text;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 
 namespace EPPlusTest.Style
@@ -50,7 +51,14 @@ namespace EPPlusTest.Style
         [ClassCleanup]
         public static void Cleanup()
         {
+            var dirName = _pck.File.DirectoryName;
+            var fileName = _pck.File.FullName;
             SaveAndCleanup(_pck);
+            if (File.Exists(fileName))
+            {
+                File.Copy(fileName, dirName + "\\StyleRead.xlsx", true);
+            }
+
         }
         [TestMethod]
         public void VerifyColumnStyle()
@@ -370,6 +378,51 @@ namespace EPPlusTest.Style
             ws.Cells["A11:B14"].Style.Border.BorderAround(ExcelBorderStyle.Dotted, true);
 
             //p.SaveAs(@"C:\epplusTest\Testoutput\BordersOverriderTest.xlsx");
+        }
+        [TestMethod]
+        public void CheckboxStyleTest()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Checkboxes");
+            ws.Cells["A1"].Value = true;
+            ws.Cells["A2"].Value = false;
+            ws.Cells["A3"].Value = "true";
+            ws.Cells["A4"].Value = "false";
+            ws.Cells["A5"].Value = 1D;
+            ws.Cells["A6"].Value = 0D;
+            ws.Cells["A7"].Value = 1;
+            ws.Cells["A8"].Value = 0;
+            ws.Cells["A9"].Value = -1;
+            ws.Cells["A1:A11"].Style.Checkbox = true;
+            ws.Cells["A11"].Style.Checkbox = false;
+        }
+        [TestMethod]
+        public void CheckboxStyleInDxfTest()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CheckboxesTable");
+            ws.Cells["A1"].Value = "A";
+            ws.Cells["A2"].Value = "B";
+            ws.Cells["A2:B2"].Value = true;
+            ws.Cells["A3:B3"].Value = false;
+            ws.Cells["A4:B4"].Value = "true";
+            ws.Cells["A5:B5"].Value = "false";
+
+            var tbl = ws.Tables.Add(ws.Cells["A1:B5"], "Table1");
+            tbl.Columns[1].DataStyle.Checkbox = true;
+        }
+
+        [TestMethod]
+        public void ReadCheckboxStyleTest()
+        {
+            using (var p = OpenPackage("StyleRead.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Checkboxes"];
+                Assert.IsTrue(ws.Cells["A1"].Style.Checkbox);
+                Assert.IsTrue((bool)ws.Cells["A1"].Value);
+                Assert.IsTrue(ws.Cells["A2"].Style.Checkbox);
+                Assert.IsFalse((bool)ws.Cells["A2"].Value);
+                Assert.IsTrue(ws.Cells["A10"].Style.Checkbox);
+                Assert.IsFalse(ws.Cells["A11"].Style.Checkbox);
+            }
         }
     }
 }

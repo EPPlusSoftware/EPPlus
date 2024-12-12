@@ -22,6 +22,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.DigitalSignatures;
 using System.Security.Cryptography;
 using System.Drawing;
+using System.Globalization;
 
 namespace OfficeOpenXml.Packaging
 {
@@ -502,6 +503,11 @@ namespace OfficeOpenXml.Packaging
                 part.Dispose();
             }
             _zip?.Dispose();
+        }
+
+        internal ZipPackagePart GetPartByContentType(string contentTypeFeaturePropertyBag)
+        {
+            return Parts.Values.FirstOrDefault(x=>x.ContentType.Equals(contentTypeFeaturePropertyBag,StringComparison.OrdinalIgnoreCase));
         }
 
         CompressionLevel _compression = CompressionLevel.Default;

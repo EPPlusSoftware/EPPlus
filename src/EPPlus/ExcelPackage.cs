@@ -781,6 +781,7 @@ namespace OfficeOpenXml
             ns.AddNamespace("a14", schemaDrawings2010);
             ns.AddNamespace("xdr", schemaSheetDrawings);
             ns.AddNamespace("xda", schemaDynamicArrays);
+            ns.AddNamespace("xfpb", Schemas.schemaFeaturePropertyBag);
             return ns;
         }
 

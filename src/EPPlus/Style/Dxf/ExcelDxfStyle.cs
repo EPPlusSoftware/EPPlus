@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
   02/26/2021         EPPlus Software AB       Modified to work with dxf styling for tables
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
 using System;
 using System.Xml;
 namespace OfficeOpenXml.Style.Dxf
@@ -60,12 +61,27 @@ namespace OfficeOpenXml.Style.Dxf
             get;
             internal set;
         }
-
+        bool _checkbox = false;
+        /// <summary>
+        /// If the cells applying this format should have a checkbox if the value of the cell is a boolean.
+        /// </summary>
+        public bool Checkbox
+        {
+            get
+            {
+                return _checkbox;
+            }
+            set
+            {
+                _checkbox = value;
+                _callback(eStyleClass.Style, eStyleProperty.Checkbox, value);
+            }
+        }
         internal override string Id
         {
             get
             {
-                return base.GetId() + Font.Id + NumberFormat.Id + Alignment.Id + Protection.Id;
+                return base.GetId() + Font.Id + NumberFormat.Id + Alignment.Id + Protection.Id + (Checkbox ? "1" : "0"); 
             }
         }
         /// <summary>
@@ -75,7 +91,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return base.HasValue || Font.HasValue || NumberFormat.HasValue || Alignment.HasValue || Protection.HasValue;
+                return base.HasValue || Font.HasValue || NumberFormat.HasValue || Alignment.HasValue || Protection.HasValue || Checkbox;
             }
         }
         internal override DxfStyleBase Clone()
@@ -87,7 +103,8 @@ namespace OfficeOpenXml.Style.Dxf
                 Border = (ExcelDxfBorderBase)Border.Clone(),
                 NumberFormat = (ExcelDxfNumberFormat)NumberFormat.Clone(),
                 Alignment = (ExcelDxfAlignment)Alignment.Clone(),
-                Protection = (ExcelDxfProtection)Protection.Clone()
+                Protection = (ExcelDxfProtection)Protection.Clone(),
+                Checkbox = Checkbox
             };
 
             return s;
@@ -100,6 +117,15 @@ namespace OfficeOpenXml.Style.Dxf
             if (Alignment.HasValue) Alignment.CreateNodes(helper, "d:alignment");
             if (Border.HasValue) Border.CreateNodes(helper, "d:border");
             if (Protection.HasValue) Protection.CreateNodes(helper, "d:protection");
+            if(Checkbox)
+            {
+                var cmplNode = (XmlElement)helper.CreateNode("d:extLst/d:ext/xfpb:DXFComplement");
+                var extNode = (XmlElement)cmplNode.ParentNode;
+                extNode.SetAttribute("xmlns:xfpb", Schemas.schemaFeaturePropertyBag);
+                extNode.SetAttribute("uri", ExtLstUris.FeaturePropertyBag);
+                cmplNode.SetAttribute("i", "0");
+                _styles._hasDxfCheckbox = true;
+            }
         }
         internal override void SetStyle()
         {
@@ -110,6 +136,7 @@ namespace OfficeOpenXml.Style.Dxf
                 Font.SetStyle();
                 Alignment.SetStyle();
                 Protection.SetStyle();
+                _callback.Invoke(eStyleClass.Style, eStyleProperty.Checkbox, Checkbox);
             }
         }
         /// <summary>
@@ -122,6 +149,7 @@ namespace OfficeOpenXml.Style.Dxf
             NumberFormat.Clear();
             Alignment.Clear();
             Protection.Clear();
+            Checkbox = false;
         }
     }
 }
