@@ -77,7 +77,7 @@ namespace OfficeOpenXml.Packaging
         }
         internal ZipPackageRelationshipCollection GetRelationshipsByType(string schema)
         {
-            return _rels.GetRelationshipsByType(Schemas.schemaFeaturePropertyBag);
+            return _rels.GetRelationshipsByType(schema);
         }
         internal ZipPackageRelationshipCollection GetRelationships()
         {
