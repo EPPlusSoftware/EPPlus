@@ -172,5 +172,38 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             Assert.AreEqual("Scott,Mats-Jimmy-Cameron", sheet.Cells["D10"].Value);
             SaveAndCleanup(package);
         }
+
+        [TestMethod]
+        public void TextBeforeIssue1763()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("sheet.xlsx");
+            sheet.Cells["a1"].Formula = "TEXTBEFORE(\"Red riding hood’s, red hood\", \"hood\")";
+            sheet.Cells["a1"].Calculate();
+            var a1 = sheet.Cells["a1"].Value;
+            Assert.AreEqual("Red riding ", a1);
+        }
+
+        [TestMethod]
+        public void TextBeforeIssue1763__2()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("sheet.xlsx");
+            sheet.Cells["a1"].Formula = "TEXTBEFORE(\"Red riding hood’s, red hood\", \"\")";
+            sheet.Cells["a1"].Calculate();
+            var a1 = sheet.Cells["a1"].Value;
+            Assert.AreEqual("", a1);
+        }
+
+        [TestMethod]
+        public void TextBeforeIssue1763__3()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("sheet.xlsx");
+            sheet.Cells["a1"].Formula = "TEXTBEFORE(\"Red riding hood’s, red hood\", { \"ö\", \"hood\" })";
+            sheet.Cells["a1"].Calculate();
+            var a1 = sheet.Cells["a1"].Value;
+            Assert.AreEqual("Red riding ", a1);
+        }
     }
 }

@@ -11,11 +11,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             var str = string.Empty;
             foreach (var b in obj)
             {
-                if(string.IsNullOrEmpty(b.ToString()))
-                {
-                    error = CompileResult.GetErrorResult(eErrorType.Value);
-                    return null;
-                }
+                //if(string.IsNullOrEmpty(b.ToString()))
+                //{
+                //    error = CompileResult.GetErrorResult(eErrorType.Value);
+                //    return null;
+                //}
                 str += b.ToString();
             }
             error = null;

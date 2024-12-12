@@ -10,14 +10,10 @@
  *************************************************************************************************
   04/15/2024         EPPlus Software AB       Initial release EPPlus 7.2
  *************************************************************************************************/
-using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -41,8 +37,23 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             {
                 text = ArgToString(arguments, 0);
             }
-            var delimiters = ArgDelimiterCollectionToString(arguments, 1, out CompileResult error);
-            if (error != null) return error;
+            //var delimiters = ArgDelimiterCollectionToString(arguments, 1, out CompileResult error);
+            var arg2 = arguments[1];
+            var delimiters = new List<string>();
+            if (arg2.IsExcelRange)
+            {
+                foreach (var delimiter in arg2.ValueAsRangeInfo)
+                {
+                    delimiters.Add(delimiter.Value.ToString());
+                }
+            }
+            else
+            {
+                var del = ArgToString(arguments, 1);
+                delimiters.Add(del);
+            }
+
+            //if (error != null) return error;
             var instanceNum = 1;
             var matchMode = "0";
             var matchEnd = 0;
@@ -59,10 +70,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             if (arguments.Count > 3)
             {
                 matchMode = ArgToString(arguments, 3);
-                if (matchMode == "1")
-                {
-                    delimiters += delimiters.ToLower() + delimiters.ToUpper();
-                }
+                //if (matchMode == "1")
+                //{
+                //    delimiters += delimiters.ToLower() + delimiters.ToUpper();
+                //}
             }
             if (arguments.Count > 4)
             {
@@ -116,91 +127,86 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             returnRange.SetValue(y, x, text.Substring(0, length));
         }
 
-        private void countForward(InMemoryRange returnRange, int x, int y, string text, string delimiters, int instanceNum, int matchEnd, string ifNotFound, out int instances, out int length)
+        private void countForward(InMemoryRange returnRange, int x, int y, string text, List<string> delimiters, int instanceNum, int matchEnd, string ifNotFound, out int instances, out int length)
         {
             instances = 0;
             length = 0;
-            for (int i = 0; i < text.Length; i++)
+            var minIndex = int.MaxValue;
+            string returnValue = ifNotFound;
+
+            foreach (var delimiter in delimiters)
             {
-                char t = text[i];
-                if (delimiters.Contains(t))
+                var txt = GetTextBefore(text, delimiter, instanceNum, false, false, out int matchIndex, ifNotFound);
+                if (matchIndex < minIndex)
                 {
-                    instances++;
-                    length = i;
-                    if (instances == instanceNum)
-                    {
-                        break;
-                    }
+                    returnValue = txt;
                 }
             }
-            if (instances < instanceNum && matchEnd == 0)
+
+            if (returnValue == "#N/A")
             {
-                if (ifNotFound != "#N/A")
-                {
-                    returnRange.SetValue(y, x, ifNotFound);
-                    return;
-                }
                 returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
                 return;
             }
-            if (matchEnd == 1 && instances - instanceNum == -1)
-            {
-                returnRange.SetValue(y, x, text);
-                return;
-            }
-            else if (matchEnd == 1 && instances - instanceNum < -1)
-            {
-                if (ifNotFound != "#N/A")
-                {
-                    returnRange.SetValue(y, x, ifNotFound);
-                    return;
-                }
-                returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
-                return;
-            }
-            SetValue(returnRange, text, x, y, ifNotFound, length);
+            returnRange.SetValue(y, x, returnValue);
+            return;
         }
 
-        private void CountBackwards(InMemoryRange returnRange, int x, int y, string text, string delimiters, int instanceNum, int matchEnd, string ifNotFound, out int instances, out int length)
+        private string GetTextBefore(string text, string delimiter, int instanceNum, bool caseSensitivity, bool textEnd, out int matchIndex, string ifNotFound="#N/A")
+        {
+            matchIndex = -1;
+
+            if (string.IsNullOrEmpty(delimiter))
+            {
+                return string.Empty;
+            }
+
+            var result = new StringBuilder();
+            delimiter = Regex.Escape(delimiter);  // left here
+            var arr = Regex.Split(text, delimiter, RegexOptions.IgnoreCase);
+            if (arr.Length == 1)
+            {
+                return ifNotFound;
+            }
+            if (arr.Length >= instanceNum - 1)
+            {
+                for (var i = 0; i < instanceNum; i++)
+                {
+                    result.Append(arr[i]);
+                    if (i < instanceNum - 1)
+                    {
+                        result.Append(delimiter);
+                    }
+                }
+                matchIndex = result.Length;
+                return result.ToString();
+            }
+            return ifNotFound;
+        }
+
+        private void CountBackwards(InMemoryRange returnRange, int x, int y, string text, List<string> delimiters, int instanceNum, int matchEnd, string ifNotFound, out int instances, out int length)
         {
             instances = 0;
             length = 0;
-            for (int i = text.Length - 1; i >= 0; i--)
+            var maxIndex = int.MinValue;
+            string returnValue = ifNotFound;
+
+            foreach (var delimiter in delimiters)
             {
-                char t = text[i];
-                if (delimiters.Contains(t))
+                var txt = GetTextBefore(text, delimiter, instanceNum, false, false, out int matchIndex, ifNotFound);
+                if (matchIndex > maxIndex)
                 {
-                    instances--;
-                    length = i;
-                    if (instances == instanceNum) break;
+                    returnValue = txt;
                 }
             }
-            if (instances > instanceNum && matchEnd == 0)
+
+            if (returnValue == "#N/A")
             {
-                if (ifNotFound != "#N/A")
-                {
-                    returnRange.SetValue(y, x, ifNotFound);
-                    return;
-                }
                 returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
                 return;
             }
-            if (matchEnd == 1 && instances - instanceNum == 1)
-            {
-                returnRange.SetValue(y, x, text);
-                return;
-            }
-            else if (matchEnd == 1 && instances - instanceNum > 1)
-            {
-                if (ifNotFound != "#N/A")
-                {
-                    returnRange.SetValue(y, x, ifNotFound);
-                    return;
-                }
-                returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
-                return;
-            }
-            SetValue(returnRange, text, x, y, ifNotFound, length);
+            returnRange.SetValue(y, x, returnValue);
+            return;
         }
     }
 }
