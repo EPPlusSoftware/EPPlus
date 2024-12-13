@@ -252,18 +252,18 @@ namespace OfficeOpenXml.Core.Worksheet
 
             deletedDrawings.ForEach(d => ws.Drawings.Remove(d));
         }
-        internal static void ConvertEffectedSharedFormulasToCellFormulas(ExcelWorksheet wsUpdate, ExcelAddressBase range)
+        internal static void ConvertEffectedSharedFormulasToCellFormulas(ExcelWorksheet wsUpdate, ExcelAddressBase range, bool isInsertOperation)
         {
             foreach (var ws in wsUpdate.Workbook.Worksheets)
             {
                 bool isCurrentWs = wsUpdate.Name.Equals(ws.Name, StringComparison.CurrentCultureIgnoreCase);
                 var deletedSf = new List<int>();
                 foreach (var sf in ws._sharedFormulas.Values)
-                {
+                {                    
                     //Do not convert array formulas.
                     if (sf.FormulaType == FormulaType.Shared && (isCurrentWs || sf.Formula.IndexOf(wsUpdate.Name, StringComparison.CurrentCultureIgnoreCase) >= 0))
                     {
-                        if (ConvertEffectedSharedFormulaIfReferenceWithinRange(ws, range, sf, wsUpdate.Name))
+                        if (ConvertEffectedSharedFormulaIfReferenceWithinRange(ws, range, sf, wsUpdate.Name, isInsertOperation))
                         {
                             deletedSf.Add(sf.Index);
                         }
@@ -272,25 +272,35 @@ namespace OfficeOpenXml.Core.Worksheet
                 deletedSf.ForEach(x => ws._sharedFormulas.Remove(x));
             }
         }
-        private static bool ConvertEffectedSharedFormulaIfReferenceWithinRange(ExcelWorksheet ws, ExcelAddressBase delRange, SharedFormula sf, string wsName)
+        private static bool ConvertEffectedSharedFormulaIfReferenceWithinRange(ExcelWorksheet ws, ExcelAddressBase range, SharedFormula sf, string wsName, bool isInsertOperation)
         {
             bool doConvertSF = false;
             var sfAddress = new ExcelAddressBase(sf.Address);
-            sf.SetTokens(ws.Name);
-            foreach (var token in sf.TokenAddresses)
+            if (isInsertOperation &&
+                ((sf.StartRow <= range._fromRow && sf.EndRow >= range._fromRow)
+                ||
+                (sf.StartCol <= range._fromCol && sf.EndCol >= range._fromCol)))
             {
-                //Check if the address for the entire shared formula collides with the deleted address.
-                var tokenAddress = new ExcelAddressBase(token);
-                if ((ws.Name.Equals(wsName, StringComparison.CurrentCultureIgnoreCase) && string.IsNullOrEmpty(tokenAddress.WorkSheetName)) ||
-                    (!string.IsNullOrEmpty(tokenAddress.WorkSheetName) && tokenAddress.WorkSheetName.Equals(wsName, StringComparison.CurrentCultureIgnoreCase)))
+                doConvertSF = true;
+            }
+            else
+            {
+                sf.SetTokens(ws.Name);
+                foreach (var token in sf.TokenAddresses)
                 {
-                    if (tokenAddress._toRowFixed == false) tokenAddress._toRow += (sfAddress.Rows - 1);     //Extend the token address for all rows in the formula and check for collitions with the deleted range.
-                    if (tokenAddress._toColFixed == false) tokenAddress._toCol += (sfAddress.Columns - 1);  //Extend the token address for all columns in the formula and check for collition with the deleted range.
-
-                    if (tokenAddress.Collide(delRange, true) != ExcelAddressBase.eAddressCollition.No)  //Shared Formula address is effected.
+                    //Check if the address for the entire shared formula collides with the deleted address.
+                    var tokenAddress = new ExcelAddressBase(token);
+                    if ((ws.Name.Equals(wsName, StringComparison.CurrentCultureIgnoreCase) && string.IsNullOrEmpty(tokenAddress.WorkSheetName)) ||
+                        (!string.IsNullOrEmpty(tokenAddress.WorkSheetName) && tokenAddress.WorkSheetName.Equals(wsName, StringComparison.CurrentCultureIgnoreCase)))
                     {
-                        doConvertSF = true;
-                        break;
+                        if (tokenAddress._toRowFixed == false) tokenAddress._toRow += (sfAddress.Rows - 1);     //Extend the token address for all rows in the formula and check for collitions with the deleted range.
+                        if (tokenAddress._toColFixed == false) tokenAddress._toCol += (sfAddress.Columns - 1);  //Extend the token address for all columns in the formula and check for collition with the deleted range.
+
+                        if (tokenAddress.Collide(range, true) != ExcelAddressBase.eAddressCollition.No)  //Shared Formula address is effected.
+                        {
+                            doConvertSF = true;
+                            break;
+                        }
                     }
                 }
             }

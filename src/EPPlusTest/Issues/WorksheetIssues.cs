@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Threading;
 using System.IO;
 using System.Drawing;
+using System.Security.Policy;
 
 namespace EPPlusTest.Issues
 {
@@ -533,5 +534,54 @@ namespace EPPlusTest.Issues
 			var maxCol = ExcelPackage.MaxColumns;
 			sheet.DeleteColumn(maxCol);
 		}
+        //s775 attempt to simplify similar case
+        [TestMethod]
+        public void insertRowInTableFormulaIssue()
+        {
+            using (var pck = OpenPackage("InsertTableFormula.xlsx", true))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets.Add("tblWs");
+
+                ws.Cells["B4:B6"].Formula = "B2+B3";
+
+                var formulaB5 = ws.Cells["B5"].Formula;
+                var formulaB6 = ws.Cells["B6"].Formula;
+
+				ws.InsertRow(5, 1, 4 - 1);
+				//ws.Cells["B5"].Insert(eShiftTypeInsert.Down);
+
+                Assert.AreEqual("B2+B3", ws.Cells["B4"].Formula);
+                Assert.AreEqual("", ws.Cells["B5"].Formula);
+                Assert.AreEqual("B3+B4", ws.Cells["B6"].Formula);
+                Assert.AreEqual("B4+B6", ws.Cells["B7"].Formula);
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void s775()
+        {
+            string sheetName = "披露附注";
+
+            List<int> add = new List<int>()
+            {
+            4,9,15
+            };
+            using (ExcelPackage package = OpenTemplatePackage("s775.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[sheetName];
+                ExcelNamedRange namedRange = worksheet.Names["_jds1165020120230"];
+                int startRow = namedRange.Start.Row;
+
+                var cell = worksheet.Cells["D2059"];
+                var cell2 = worksheet.Cells["D2060"];
+
+                worksheet.InsertRow(2059, 1, 2059 - 1);
+
+                package.Save();
+            }
+        }
     }
 }

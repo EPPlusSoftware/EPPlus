@@ -41,7 +41,11 @@ namespace OfficeOpenXml.Core.Worksheet
             {
 				ws.Drawings.ReadPositionsAndSize();
 
-				InsertCellStores(ws, rowFrom, 0, rows, 0);
+                var range = ws.Cells[rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns];
+                var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Down);
+                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, affectedAddress, true);
+
+                InsertCellStores(ws, rowFrom, 0, rows, 0);
 
                 FixFormulasInsertRow(ws, rowFrom, rows);
 
@@ -55,8 +59,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertRowTable(ws, rowFrom, rows);
                 InsertRowPivotTable(ws, rowFrom, rows);
 
-                var range = ws.Cells[rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns];
-                var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Down);
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Down);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
                 InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
@@ -180,7 +182,7 @@ namespace OfficeOpenXml.Core.Worksheet
             lock (ws)
             {
                 var styleList = GetStylesForRange(range, shift);
-                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress);
+                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress, true);
 
                 if (shift == eShiftTypeInsert.Down)
                 {

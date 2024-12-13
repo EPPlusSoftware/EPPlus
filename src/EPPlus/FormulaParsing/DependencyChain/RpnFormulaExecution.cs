@@ -922,7 +922,6 @@ namespace OfficeOpenXml.FormulaParsing
                             
                             if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
                             {
-                                //if(fexp._function.HasNormalArguments) fexp._arguments.Add(f._tokenIndex);
                                 f._expressionStack.Push(new EmptyExpression());                                
                             }
                             var pi = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos++);

@@ -35,7 +35,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
 				ws.Drawings.ReadPositionsAndSize();
 				var delRange = new ExcelAddressBase(rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns);
-                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, delRange);
+                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, delRange, false);
 
                 DeleteCellStores(ws, rowFrom, 0, rows, ExcelPackage.MaxColumns + 1);
 
@@ -97,7 +97,7 @@ namespace OfficeOpenXml.Core.Worksheet
 				ws.Drawings.ReadPositionsAndSize();
 				AdjustColumnMinMaxDelete(ws, columnFrom, columns);
                 var delRange = new ExcelAddressBase(1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1);
-                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, delRange);
+                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, delRange, false);
 
                 DeleteCellStores(ws, 0, columnFrom, 0, columns);
 
@@ -414,7 +414,7 @@ namespace OfficeOpenXml.Core.Worksheet
             var ws = range.Worksheet;
             lock (ws)
             {
-                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress);
+                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress, false);
                 if (shift == eShiftTypeDelete.Up)
                 {
                     DeleteCellStores(ws, range._fromRow, range._fromCol, range.Rows, range.Columns, range._toCol);

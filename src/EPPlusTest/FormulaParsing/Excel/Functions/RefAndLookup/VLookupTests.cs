@@ -43,5 +43,43 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
                 Assert.AreEqual("d", sheet.Cells["C10"].Value);
             }
         }
+        [TestMethod]
+        public void PriorAddressExpressionWorksheetShouldBeCleared()
+        {
+            using (var pck = OpenPackage("vlookuptest.xlsx", true))
+            {
+                #region firstWorksheet
+                using var firstWorksheet = pck.Workbook.Worksheets.Add("firstWorksheet");
+
+                firstWorksheet.SetValue("A1", 4000);
+                firstWorksheet.Names.Add("search", new ExcelRange(firstWorksheet, "A1"));
+
+                firstWorksheet.SetValue("B53", 0); firstWorksheet.SetValue("C53", -1); firstWorksheet.SetValue("D53", -1);
+                firstWorksheet.SetValue("B54", 3500); firstWorksheet.SetValue("C54", -1); firstWorksheet.SetValue("D54", 151);
+                firstWorksheet.SetValue("B55", 4500); firstWorksheet.SetValue("C55", -1); firstWorksheet.SetValue("D55", -1);
+
+                firstWorksheet.SetFormula(2, 1, "VLOOKUP(firstWorksheet!search,$B$53:$D$55,3,1)");
+
+                pck.Workbook.Calculate();
+
+                Assert.AreEqual(151, firstWorksheet.Cells["A2"].Value);
+                #endregion
+
+                #region secondWorksheet
+                using var secondWorksheet = pck.Workbook.Worksheets.Add("secondWorksheet");
+
+                secondWorksheet.SetValue("B53", 0); secondWorksheet.SetValue("C53", -1); secondWorksheet.SetValue("D53", -1);
+                secondWorksheet.SetValue("B54", 3500); secondWorksheet.SetValue("C54", -1); secondWorksheet.SetValue("D54", 251);
+                secondWorksheet.SetValue("B55", 4500); secondWorksheet.SetValue("C55", -1); secondWorksheet.SetValue("D55", -1);
+
+                secondWorksheet.SetFormula(2, 1, "VLOOKUP(firstWorksheet!search,$B$53:$D$55,3,1)");
+
+                secondWorksheet.Calculate();
+
+                Assert.AreEqual(251, secondWorksheet.Cells["A2"].Value);
+                SaveAndCleanup(pck);
+                #endregion
+            }
+        }
     }
 }

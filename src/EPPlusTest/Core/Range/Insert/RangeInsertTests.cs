@@ -43,8 +43,8 @@ namespace EPPlusTest.Core.Range.Insert
 			ws.InsertRow(3, 1);
 
             //Assert
-            Assert.AreEqual(1, ws._sharedFormulas.Count);
-            Assert.AreEqual(1, ws._sharedFormulas.First().Key);
+            Assert.AreEqual(0, ws._sharedFormulas.Count);
+            //Assert.AreEqual(1, ws._sharedFormulas.First().Key);
             Assert.AreEqual("Sum(C6:C11)", ws.Cells["A1"].Formula);
             Assert.AreEqual("Sum(C6:C11)", ws.Cells["B1"].Formula);
             Assert.AreEqual("Sum(C7:C12)", ws.Cells["B2"].Formula);
