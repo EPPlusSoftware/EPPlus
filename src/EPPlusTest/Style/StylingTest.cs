@@ -393,6 +393,7 @@ namespace EPPlusTest.Style
             ws.Cells["A8"].Value = 0;
             ws.Cells["A9"].Value = -1;
             ws.Cells["A1:A11"].Style.Checkbox = true;
+            ws.Cells["A1:A11"].Style.Font.Color.SetColor(Color.Red);
             ws.Cells["A11"].Style.Checkbox = false;
         }
         [TestMethod]

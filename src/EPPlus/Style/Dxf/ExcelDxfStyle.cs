@@ -151,5 +151,10 @@ namespace OfficeOpenXml.Style.Dxf
             Protection.Clear();
             Checkbox = false;
         }
+
+        internal static string GetEmptyId()
+        {
+            return "0"; // Return blank for the checkbox only.
+        }
     }
 }

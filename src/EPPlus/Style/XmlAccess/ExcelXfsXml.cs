@@ -367,7 +367,8 @@ namespace OfficeOpenXml.Style.XmlAccess
             newXF.ApplyFill = ApplyFill;
             newXF.ApplyFont = ApplyFont;
             newXF.ApplyNumberFormat= ApplyNumberFormat;
-            newXF.ApplyProtection = ApplyProtection;            
+            newXF.ApplyProtection = ApplyProtection;
+            newXF.Checkbox = Checkbox;
             return newXF;
         }
 
