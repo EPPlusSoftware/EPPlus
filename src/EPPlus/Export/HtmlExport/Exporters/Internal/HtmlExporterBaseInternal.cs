@@ -623,12 +623,17 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 var childHtml = new HTMLElement("input");
                 childHtml.AddAttribute("type", "checkbox");
                 element.AddChildElement(childHtml);
-                if (bool.TryParse(cell.Value.ToString(), out bool res))
+                var str = cell.Value.ToString();
+                if (bool.TryParse(str, out bool res))
                 {
                     if(res)
                     {
                         childHtml.AddAttributeValueLess("checked");
                     }
+                }
+                else if(str == "1")
+                {
+                    childHtml.AddAttributeValueLess("checked");
                 }
             }
 
