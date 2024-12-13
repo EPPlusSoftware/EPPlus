@@ -11,8 +11,11 @@
   04/15/2024         EPPlus Software AB       Initial release EPPlus 7.2
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities.TextUtils;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -24,189 +27,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         EPPlusVersion = "7.2",
         Description = "Get the text before delimiter",
         SupportsArrays = true)]
-    internal class TextBefore : ExcelFunctionTextBase
+    internal class TextBefore : TextDelimiterFunctionBase
     {
-        public override int ArgumentMinLength => 2;
-        public override string NamespacePrefix => "_xlfn.";
+
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var range = ArgToRangeInfo(arguments, 0);
-            var text = string.Empty;
-            if(range == null)
-            {
-                text = ArgToString(arguments, 0);
-            }
-            //var delimiters = ArgDelimiterCollectionToString(arguments, 1, out CompileResult error);
-            var arg2 = arguments[1];
-            var delimiters = new List<string>();
-            if (arg2.IsExcelRange)
-            {
-                foreach (var delimiter in arg2.ValueAsRangeInfo)
-                {
-                    delimiters.Add(delimiter.Value.ToString());
-                }
-            }
-            else
-            {
-                var del = ArgToString(arguments, 1);
-                delimiters.Add(del);
-            }
-
-            //if (error != null) return error;
-            var instanceNum = 1;
-            var matchMode = "0";
-            var matchEnd = 0;
-            var ifNotFound = "#N/A";
-            var resultString = string.Empty;
-            if (arguments.Count > 2)
-            {
-                instanceNum = ArgToInt(arguments, 2, RoundingMethod.Convert);
-                if (instanceNum == 0)
-                {
-                    instanceNum = 1;
-                }
-            }
-            if (arguments.Count > 3)
-            {
-                matchMode = ArgToString(arguments, 3);
-                //if (matchMode == "1")
-                //{
-                //    delimiters += delimiters.ToLower() + delimiters.ToUpper();
-                //}
-            }
-            if (arguments.Count > 4)
-            {
-                matchEnd = ArgToInt(arguments, 4, RoundingMethod.Convert);
-            }
-            if (arguments.Count > 5)
-            {
-                ifNotFound = ArgToString(arguments, 5);
-            }
-            int row = range == null ? 0 : range.Address.FromRow;
-            int col = range == null ? 0 : range.Address.FromCol;
-            var r = range == null ? 1 : (range.Address.ToRow - range.Address.FromRow)+1;
-            var c = range == null ? 1 : (range.Address.ToCol - range.Address.FromCol)+1;
-            var returnRange = new InMemoryRange(r, (short)c);
-            for (int y = 0; y < r; y++)
-            {
-                for (int x = 0; x < c; x++)
-                {
-                    text = range == null ? text : range.GetValue(row, col).ToString();
-                    col++;
-                    int length = 0;
-                    int instances = 0;
-                    if (instanceNum < 0)
-                    {
-                        CountBackwards(returnRange, x, y, text, delimiters, instanceNum, matchEnd, ifNotFound, out instances, out length);
-                    }
-                    else
-                    {
-                        countForward(returnRange, x, y, text, delimiters, instanceNum, matchEnd, ifNotFound, out instances, out length);
-                    }
-                }
-                row++;
-                col = range == null ? 0 : range.Address.FromCol;
-            }
-            return CreateDynamicArrayResult(returnRange, DataType.ExcelRange);
-        }
-
-        private void SetValue(InMemoryRange returnRange, string text, int x, int y, string ifNotFound, int length)
-        {
-            length = length--;
-            if (length <= 0)
-            {
-                if (ifNotFound != "#N/A")
-                {
-                    returnRange.SetValue(y, x, ifNotFound);
-                    return;
-                }
-                returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
-                return;
-            }
-            returnRange.SetValue(y, x, text.Substring(0, length));
-        }
-
-        private void countForward(InMemoryRange returnRange, int x, int y, string text, List<string> delimiters, int instanceNum, int matchEnd, string ifNotFound, out int instances, out int length)
-        {
-            instances = 0;
-            length = 0;
-            var minIndex = int.MaxValue;
-            string returnValue = ifNotFound;
-
-            foreach (var delimiter in delimiters)
-            {
-                var txt = GetTextBefore(text, delimiter, instanceNum, false, false, out int matchIndex, ifNotFound);
-                if (matchIndex < minIndex)
-                {
-                    returnValue = txt;
-                }
-            }
-
-            if (returnValue == "#N/A")
-            {
-                returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
-                return;
-            }
-            returnRange.SetValue(y, x, returnValue);
-            return;
-        }
-
-        private string GetTextBefore(string text, string delimiter, int instanceNum, bool caseSensitivity, bool textEnd, out int matchIndex, string ifNotFound="#N/A")
-        {
-            matchIndex = -1;
-
-            if (string.IsNullOrEmpty(delimiter))
-            {
-                return string.Empty;
-            }
-
-            var result = new StringBuilder();
-            delimiter = Regex.Escape(delimiter);  // left here
-            var arr = Regex.Split(text, delimiter, RegexOptions.IgnoreCase);
-            if (arr.Length == 1)
-            {
-                return ifNotFound;
-            }
-            if (arr.Length >= instanceNum - 1)
-            {
-                for (var i = 0; i < instanceNum; i++)
-                {
-                    result.Append(arr[i]);
-                    if (i < instanceNum - 1)
-                    {
-                        result.Append(delimiter);
-                    }
-                }
-                matchIndex = result.Length;
-                return result.ToString();
-            }
-            return ifNotFound;
-        }
-
-        private void CountBackwards(InMemoryRange returnRange, int x, int y, string text, List<string> delimiters, int instanceNum, int matchEnd, string ifNotFound, out int instances, out int length)
-        {
-            instances = 0;
-            length = 0;
-            var maxIndex = int.MinValue;
-            string returnValue = ifNotFound;
-
-            foreach (var delimiter in delimiters)
-            {
-                var txt = GetTextBefore(text, delimiter, instanceNum, false, false, out int matchIndex, ifNotFound);
-                if (matchIndex > maxIndex)
-                {
-                    returnValue = txt;
-                }
-            }
-
-            if (returnValue == "#N/A")
-            {
-                returnRange.SetValue(y, x, ExcelErrorValue.Create(eErrorType.NA));
-                return;
-            }
-            returnRange.SetValue(y, x, returnValue);
-            return;
+            var text = ArgToString(arguments, 0);
+            var delimiters = GetDelimiters(arguments);
+            var instanceNum = GetInstanceNum(arguments);
+            var matchMode = GetMatchMode(arguments, out ExcelErrorValue e1);
+            if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+            var matchEnd = GetMatchEnd(arguments, out ExcelErrorValue e2);
+            if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
+            string ifNotFound = GetIfNotFound(arguments);
+            
+            return ProcessTextBefore(text, delimiters, instanceNum, matchMode, matchEnd, ifNotFound);
         }
     }
 }

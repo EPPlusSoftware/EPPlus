@@ -85,14 +85,14 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Value = "Scott Mats Jimmy Cameron Luther Josh";
             sheet.Cells["D3"].Formula = "TEXTBEFORE(A1, \" \", 6,, 1)";
-            sheet.Cells["D4"].Formula = "TEXTBEFORE(A1, \" \", -6,, 1)";
+            sheet.Cells["D4"].Formula = "TEXTBEFORE(A1, \" \", -5,, 0)";
             sheet.Cells["D5"].Formula = "TEXTBEFORE(A1, \" \", -2,, 1)";
             sheet.Cells["D6"].Formula = "TEXTBEFORE(A1, \" \", 2,, 1)";
             sheet.Cells["D7"].Formula = "TEXTBEFORE(A1, \" \", 7,, 1)";
             sheet.Cells["D8"].Formula = "TEXTBEFORE(A1, \" \", 7,, 1)";
             sheet.Calculate();
             Assert.AreEqual("Scott Mats Jimmy Cameron Luther Josh", sheet.Cells["D3"].Value);
-            Assert.AreEqual("Scott Mats Jimmy Cameron Luther Josh", sheet.Cells["D4"].Value);
+            Assert.AreEqual("Scott", sheet.Cells["D4"].Value);
             Assert.AreEqual("Scott Mats Jimmy Cameron", sheet.Cells["D5"].Value);
             Assert.AreEqual("Scott Mats", sheet.Cells["D6"].Value);
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["D7"].Value);
@@ -185,7 +185,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         }
 
         [TestMethod]
-        public void TextBeforeIssue1763__2()
+        public void TextBeforeIssue1763_2()
         {
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("sheet.xlsx");
@@ -196,7 +196,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
         }
 
         [TestMethod]
-        public void TextBeforeIssue1763__3()
+        public void TextBeforeIssue1763_3()
         {
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("sheet.xlsx");
