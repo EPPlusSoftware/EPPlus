@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
         internal static string GetStyleKey(ExcelXfs xfs)
         {
             var fbfKey = ((ulong)(uint)xfs.FontId << 32 | (uint)xfs.BorderId << 16 | (uint)xfs.FillId);
-            return fbfKey.ToString() + "|" + ((int)xfs.HorizontalAlignment).ToString() + "|" + ((int)xfs.VerticalAlignment).ToString() + "|" + xfs.Indent.ToString() + "|" + xfs.TextRotation.ToString() + "|" + (xfs.WrapText ? "1" : "0") + "|" + xfs.Checkbox.ToString(); ;
+            return fbfKey.ToString() + "|" + ((int)xfs.HorizontalAlignment).ToString() + "|" + ((int)xfs.VerticalAlignment).ToString() + "|" + xfs.Indent.ToString() + "|" + xfs.TextRotation.ToString() + "|" + (xfs.WrapText ? "1" : "0") + "|" + (xfs.Checkbox ? "1" : "0");
         }
 
         internal static string GetClassAttributeFromStyle(ExcelRangeBase cell, bool isHeader, HtmlExportSettings settings, 
@@ -56,9 +56,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             string cls = string.IsNullOrEmpty(additionalClasses) ? "" : additionalClasses;
             int styleId = cell.StyleID;
             ExcelStyles styles = cell.Worksheet.Workbook.Styles;
-
-            var styleCache = context._styleCache;
-            var dxfStyleCache = context._dxfStyleCache;
 
             if (styleId < 0 || styleId >= styles.CellXfs.Count)
             {
@@ -93,16 +90,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                     key += bottomStyleId + "|" + rightStyleId;
                 }
 
-                int id;
-                if (styleCache.ContainsKey(key))
-                {
-                    id = styleCache[key];
-                }
-                else
-                {
-                    id = styleCache.Count + 1;
-                    styleCache.Add(key, id);
-                }
+                context._styleCache.GetOrCreateId(key, out int id);
 
                 if(string.IsNullOrEmpty(cls))
                 {
@@ -152,25 +140,25 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 inlineStyles += ((ExcelConditionalFormattingThreeColorScale)cfItems[i].Value).ApplyStyleOverride(cell);
                                 break;
                             case eExcelConditionalFormattingRuleType.ThreeIconSet:
-                                dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
+                                dxfStyleCache.GetOrCreateId(cfItems[i].Value.Uid, out dxfId);
                                 var iconNameThree = GetIconName((ExcelConditionalFormattingThreeIconSet)cfItems[i].Value.As.ThreeIconSet, cell);
                                 cls += $"{prefix}{dxfId}";
                                 cls += AddIconClasses(iconNameThree, iconPrefix);
                                 break;
                             case eExcelConditionalFormattingRuleType.FourIconSet:
-                                dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
+                                dxfStyleCache.GetOrCreateId(cfItems[i].Value.Uid, out dxfId);
                                 cls += $"{prefix}{dxfId}";
                                 var iconNameFour = GetIconName((ExcelConditionalFormattingFourIconSet)cfItems[i].Value.As.FourIconSet, cell);
                                 cls += AddIconClasses(iconNameFour, iconPrefix);
                                 break;
                             case eExcelConditionalFormattingRuleType.FiveIconSet:
-                                dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
+                                dxfStyleCache.GetOrCreateId(cfItems[i].Value.Uid, out dxfId);
                                 cls += $"{prefix}{dxfId}";
                                 var iconNameFive = GetIconName((ExcelConditionalFormattingFiveIconSet)cfItems[i].Value.As.FiveIconSet, cell);
                                 cls += AddIconClasses(iconNameFive, iconPrefix);
                                 break;
                             case eExcelConditionalFormattingRuleType.DataBar:
-                                dxfStyleCache.IsAdded(cfItems[i].Value.Uid, out dxfId);
+                                dxfStyleCache.GetOrCreateId(cfItems[i].Value.Uid, out dxfId);
                                 cls += $" {styleClassPrefix}{settings.DatabarPrefix}-shared";
                                 //var dbar = (ExcelConditionalFormattingDataBar)cfItems[i].Value;
 
@@ -192,7 +180,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                                 break;
                             default:
                                 dxfKey = cfItems[i].Value.Style.Id;
-                                dxfStyleCache.IsAdded(dxfKey, out dxfId);
+                                dxfStyleCache.GetOrCreateId(dxfKey, out dxfId);
 
                                 cls += $"{prefix}{dxfId}";
                                 break;
