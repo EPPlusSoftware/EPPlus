@@ -49,8 +49,9 @@ namespace EPPlusTest.Drawing.Chart
 
 
     /*TODO
+     * Vi skapar ej en connection shape i epplus?
      * Pictures - test Stream
-     * Group Shapes - Test creating groupshape
+     * resize och position grouped shape
      * Copy
      * -Copy whole drawings xml, set new name of drawings xml, create rel Id, done
      */
