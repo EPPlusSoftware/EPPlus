@@ -35,19 +35,55 @@ namespace OfficeOpenXml.Drawing
     public sealed class ExcelPicture : ExcelDrawing, IPictureContainer
     {
         #region "Constructors"
-        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type, PictureLocation location = PictureLocation.Embed, DrawingsCollectionType drawingsType = DrawingsCollectionType.excel) :
-            base(drawings, node, NamespacePrefixes[(int)drawingsType] + ":pic/", NamespacePrefixes[(int)drawingsType] + ":nvPicPr/" + NamespacePrefixes[(int)drawingsType] + ":cNvPr", null, drawingsType)
+        internal ExcelPicture(ExcelDrawings drawings, XmlNode node, Uri hyperlink, ePictureType type, PictureLocation location = PictureLocation.Embed, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
+            base(drawings, node, NamespacePrefixes[(int)DrawingsType] + ":pic/", NamespacePrefixes[(int)DrawingsType] + ":nvPicPr/" + NamespacePrefixes[(int)DrawingsType] + ":cNvPr", null, DrawingsType)
         {
             Init();
+            if (DrawingsType == DrawingsCollectionType.chart)
+            {
+                node.OwnerDocument.DocumentElement.SetAttribute("xmlns:cdr", ExcelPackage.schemaChartDrawing);
+                node.OwnerDocument.DocumentElement.SetAttribute("xmlns:a", ExcelPackage.schemaDrawings);
+            }
             LocationType = location;
 
             bool containsEmbed = (location & PictureLocation.Embed) == PictureLocation.Embed;
             string attribute = containsEmbed ? "embed" : "link";
-            CreatePicNode(node, type, attribute);
+
+            var picNode = CreateNode(NamespacePrefixes[prefixIndex] + ":pic");
+            picNode.InnerXml = PicStartXml(type, attribute);
 
             Hyperlink = hyperlink;
             Image = new ExcelImage(this);
             Image.Type = type;
+
+            switch (DrawingsType)
+            {
+                case DrawingsCollectionType.chart:
+                    int x = (int)(_drawings.screenWidth * EMU_PER_PIXEL * (From.X));
+                    int y = (int)(_drawings.screenHeight * EMU_PER_PIXEL * (From.Y));
+                    int cx = (int)(_drawings.screenWidth * EMU_PER_PIXEL * (To.X - From.X));
+                    int cy = (int)(_drawings.screenHeight * EMU_PER_PIXEL * (To.Y - From.Y));
+                    XmlElement xFrmNode = GetXfrmNode(picNode);
+                    if (xFrmNode.ChildNodes.Count == 0)
+                    {
+                        CreateNode(xFrmNode, "a:off");
+                        CreateNode(xFrmNode, "a:ext");
+                    }
+                    var offNode = (XmlElement)xFrmNode.SelectSingleNode("a:off", NameSpaceManager);
+                    offNode.SetAttribute("y", y.ToString());
+                    offNode.SetAttribute("x", x.ToString());
+                    var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext", NameSpaceManager);
+                    extNode.SetAttribute("cy", cy.ToString());
+                    extNode.SetAttribute("cx", cx.ToString());
+                    Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
+                    Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
+                    break;
+                case DrawingsCollectionType.excel:
+                default:
+                    node.AppendChild(picNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings));
+                    break;
+            }
+
         }
 
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
@@ -278,19 +314,14 @@ namespace OfficeOpenXml.Drawing
                 var width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
                 var height = Image.Bounds.Height / (Image.Bounds.VerticalResolution / STANDARD_DPI);
                 SetPosDefaults((float)width, (float)height);
+                if (prefixIndex == 1)
+                {
+                    SetSize((int)width, (int)height);
+                }
 
                 //Image.Bounds.Height = origHeight;
                 //Image.Bounds.Width = origWidth;
             }
-        }
-
-        private void CreatePicNode(XmlNode node, ePictureType type, string attribute = "embed")
-        {
-            var picNode = CreateNode( NamespacePrefixes[prefixIndex] + ":pic");
-            picNode.InnerXml = PicStartXml(type, attribute);
-
-            if(NamespacePrefixes[prefixIndex] == "xdr")
-                node.InsertAfter(node.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings), picNode);
         }
 
         private void AddNewPicture(byte[] img, string relID)

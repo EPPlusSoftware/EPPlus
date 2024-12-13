@@ -92,22 +92,11 @@ namespace OfficeOpenXml.Drawing
 
         private void AdjustXmlAndMoveToGroup(ExcelDrawing d)
         {
-            double height, width, top, left;
-            if (d.prefixIndex == 1)
-            {
-                height = (d._drawings.screenHeight) * (d.To.Y - d.From.Y);
-                width = (d._drawings.screenWidth) * (d.To.X - d.From.X);
-                top = (d._drawings.screenHeight * ExcelDrawing.EMU_PER_PIXEL) * d.From.Y;
-                left = (d._drawings.screenWidth) * d.From.X;
-            }
-            else
-            {
-                height = d.GetPixelHeight();
-                width = d.GetPixelWidth();
-                top = d.GetPixelTop();
-                left = d.GetPixelLeft();
-            }
             d._drawings.RemoveDrawing(d._drawings._drawingsList.IndexOf(d), false);
+            var height = d.GetPixelHeight();
+            var width = d.GetPixelWidth();
+            var top = d.GetPixelTop();
+            var left = d.GetPixelLeft();
             var node = d.TopNode.GetChildAtPosition(2);
             XmlElement xFrmNode = d.GetXfrmNode(node);
             if (xFrmNode.ChildNodes.Count == 0)
@@ -116,13 +105,20 @@ namespace OfficeOpenXml.Drawing
                 d.CreateNode(xFrmNode, "a:ext");
             }
             var offNode = (XmlElement)xFrmNode.SelectSingleNode("a:off", _nsm);
-            offNode.SetAttribute("y", (top * ExcelDrawing.EMU_PER_PIXEL).ToString());
-            offNode.SetAttribute("x", (left * ExcelDrawing.EMU_PER_PIXEL).ToString());
-            var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext",_nsm);
-            extNode.SetAttribute("cy", Math.Round(height * ExcelDrawing.EMU_PER_PIXEL, 0).ToString());
-            extNode.SetAttribute("cx", Math.Round(width * ExcelDrawing.EMU_PER_PIXEL, 0).ToString());
+            var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext", _nsm);
+            if (d._drawings.DrawingsType == DrawingsCollectionType.excel)
+            {
+                offNode.SetAttribute("y", (top * ExcelDrawing.EMU_PER_PIXEL).ToString());
+                offNode.SetAttribute("x", (left * ExcelDrawing.EMU_PER_PIXEL).ToString());
+                extNode.SetAttribute("cy", Math.Round(height * ExcelDrawing.EMU_PER_PIXEL, 0).ToString());
+                extNode.SetAttribute("cx", Math.Round(width * ExcelDrawing.EMU_PER_PIXEL, 0).ToString());
+                d.SetGroupChild(offNode, extNode);
+            }
+            else if(d._drawings.DrawingsType == DrawingsCollectionType.chart)
+            {
+                d.RemoveFromToNodes();
+            }
 
-            d.SetGroupChild(offNode, extNode);
             node.ParentNode.RemoveChild(node);
             if (d.TopNode.ParentNode?.ParentNode?.LocalName == "AlternateContent")
             {
@@ -311,12 +307,52 @@ namespace OfficeOpenXml.Drawing
         internal ExcelGroupShape(ExcelDrawings drawings, XmlNode node, ExcelGroupShape parent = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
             base(drawings, node, NamespacePrefixes[(int)DrawingsType] + ":grpSp", NamespacePrefixes[(int)DrawingsType] + ":nvGrpSpPr/" + NamespacePrefixes[(int)DrawingsType] + ":cNvPr", parent, DrawingsType)
         {
+            if (DrawingsType == DrawingsCollectionType.chart)
+            {
+                node.OwnerDocument.DocumentElement.SetAttribute("xmlns:cdr", ExcelPackage.schemaChartDrawing);
+                node.OwnerDocument.DocumentElement.SetAttribute("xmlns:a", ExcelPackage.schemaDrawings);
+            }
             var grpNode = CreateNode(_topPath);
             if (grpNode.InnerXml == "")
             {
                 grpNode.InnerXml = "<" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":cNvPr name=\"\" id=\"3\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></" + NamespacePrefixes[prefixIndex] + ":cNvPr><" + NamespacePrefixes[prefixIndex] + ":cNvGrpSpPr/></" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":grpSpPr><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/><a:chOff y=\"0\" x=\"0\"/><a:chExt cy=\"0\" cx=\"0\"/></a:xfrm></" + NamespacePrefixes[prefixIndex] + ":grpSpPr>";
             }
-            if (parent == null && !(DrawingsType == DrawingsCollectionType.chart) ) CreateNode("xdr:clientData");
+
+            switch (DrawingsType)
+            {
+                case DrawingsCollectionType.chart:
+                    int x = (int)(_drawings.screenWidth * EMU_PER_PIXEL * (From.X));
+                    int y = (int)(_drawings.screenHeight * EMU_PER_PIXEL * (From.Y));
+                    int cx = (int)(_drawings.screenWidth * EMU_PER_PIXEL * (To.X - From.X));
+                    int cy = (int)(_drawings.screenHeight * EMU_PER_PIXEL * (To.Y - From.Y));
+                    XmlElement xFrmNode = GetXfrmNode(grpNode);
+                    if (xFrmNode.ChildNodes.Count == 0)
+                    {
+                        CreateNode(xFrmNode, "a:off");
+                        CreateNode(xFrmNode, "a:ext");
+                        CreateNode(xFrmNode, "a:chOff");
+                        CreateNode(xFrmNode, "a:chExt");
+                    }
+                    var offNode = (XmlElement)xFrmNode.SelectSingleNode("a:off", NameSpaceManager);
+                    offNode.SetAttribute("y", y.ToString());
+                    offNode.SetAttribute("x", x.ToString());
+                    var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext", NameSpaceManager);
+                    extNode.SetAttribute("cy", cy.ToString());
+                    extNode.SetAttribute("cx", cx.ToString());
+                    Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
+                    Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
+                    var chOffNode = (XmlElement)xFrmNode.SelectSingleNode("a:chOff", NameSpaceManager);
+                    chOffNode.SetAttribute("y", y.ToString());
+                    chOffNode.SetAttribute("x", x.ToString());
+                    var chExtNode = (XmlElement)xFrmNode.SelectSingleNode("a:chExt", NameSpaceManager);
+                    chExtNode.SetAttribute("cy", cy.ToString());
+                    chExtNode.SetAttribute("cx", cx.ToString());
+                    break;
+                case DrawingsCollectionType.excel:
+                default:
+                    node.AppendChild(grpNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings));
+                    break;
+            }
         }
         ExcelDrawingsGroup _groupDrawings = null;
         /// <summary>
@@ -392,6 +428,13 @@ namespace OfficeOpenXml.Drawing
                 {
                     b = d._top + d._height;
                 }
+            }
+            if (prefixIndex == 1)
+            {
+                t = t / EMU_PER_PIXEL;
+                l = l / EMU_PER_PIXEL;
+                r = r / EMU_PER_PIXEL;
+                b = b / EMU_PER_PIXEL;
             }
             SetPosition((int)t, (int)l, false);
             SetSize((int)(r - l), (int)(b - t));

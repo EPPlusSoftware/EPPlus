@@ -10,9 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using System;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 namespace OfficeOpenXml.Drawing
 {
     /// <summary>
@@ -27,14 +29,34 @@ namespace OfficeOpenXml.Drawing
         internal ExcelShape(ExcelDrawings drawings, XmlNode node, eShapeStyle style, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
             base(drawings, node, NamespacePrefixes[(int)DrawingsType] + ":sp", NamespacePrefixes[(int)DrawingsType] + ":nvSpPr/" + NamespacePrefixes[(int)DrawingsType] + ":cNvPr", null, DrawingsType)
         {
-            node.OwnerDocument.DocumentElement.SetAttribute("xmlns:cdr", ExcelPackage.schemaChartDrawing);
-            node.OwnerDocument.DocumentElement.SetAttribute("xmlns:a", ExcelPackage.schemaDrawings);
+            if (DrawingsType == DrawingsCollectionType.chart)
+            {
+                node.OwnerDocument.DocumentElement.SetAttribute("xmlns:cdr", ExcelPackage.schemaChartDrawing);
+                node.OwnerDocument.DocumentElement.SetAttribute("xmlns:a", ExcelPackage.schemaDrawings);
+            }
             XmlElement shapeNode = CreateShapeNode();
-            var has = NameSpaceManager.HasNamespace("cdr");
             shapeNode.InnerXml = ShapeStartXml();
             switch(DrawingsType)
             {
                 case DrawingsCollectionType.chart:
+                    int x = (int)(_drawings.screenWidth * EMU_PER_PIXEL * (From.X));
+                    int y = (int)(_drawings.screenHeight * EMU_PER_PIXEL * (From.Y));
+                    int cx = (int)(_drawings.screenWidth * EMU_PER_PIXEL * (To.X - From.X));
+                    int cy = (int)(_drawings.screenHeight * EMU_PER_PIXEL * (To.Y - From.Y));
+                    XmlElement xFrmNode = GetXfrmNode(shapeNode);
+                    if (xFrmNode.ChildNodes.Count == 0)
+                    {
+                        CreateNode(xFrmNode, "a:off");
+                        CreateNode(xFrmNode, "a:ext");
+                    }
+                    var offNode = (XmlElement)xFrmNode.SelectSingleNode("a:off", NameSpaceManager);
+                    offNode.SetAttribute("y", y.ToString());
+                    offNode.SetAttribute("x", x.ToString());
+                    var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext", NameSpaceManager);
+                    extNode.SetAttribute("cy", cy.ToString());
+                    extNode.SetAttribute("cx", cx.ToString());
+                    Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
+                    Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
                     break;
                 case DrawingsCollectionType.excel:
                 default:

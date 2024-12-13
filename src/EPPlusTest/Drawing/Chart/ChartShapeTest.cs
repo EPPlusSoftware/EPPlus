@@ -13,28 +13,26 @@ namespace EPPlusTest.Drawing.Chart
         {
             using var p = OpenTemplatePackage("ShapeInChart.xlsx");
             var ws = p.Workbook.Worksheets[0];
-            var dr = ws.Drawings.AddShape("myshape", OfficeOpenXml.Drawing.eShapeStyle.Diamond);
-            dr.SetSize(500, 500);
             var chart = ws.Drawings[0] as ExcelChart;
             //var cdr = chart.ChartDrawings[1];
             //cdr.SetSize(200);
             //var cdr2 = chart.ChartDrawings[4];
             //cdr2.SetSize(200);
 
-            //var chartShape = chart.AddShape("MyShape", eShapeStyle.Diamond);
-            //chartShape.Fill.Color = Color.LightSeaGreen;
-            //chartShape.Effect.SetPresetShadow(ePresetExcelShadowType.OuterRight);
-            //chartShape.SetPosition(0, 0);
-            //chartShape.SetSize(100, 200);
-            //var chartShape2 = chart.AddShape("MyShape2", eShapeStyle.Diamond);
-            //chartShape2.Fill.Color = Color.Orange;
-            //chartShape2.Effect.SetPresetShadow(ePresetExcelShadowType.OuterRight);
-            //chartShape2.SetPosition(10000, 10000);
-            //chartShape2.SetSize(30);
+            var chartShape = chart.AddShape("MyShape", eShapeStyle.Diamond);
+            chartShape.Fill.Color = Color.LightSeaGreen;
+            chartShape.Effect.SetPresetShadow(ePresetExcelShadowType.OuterRight);
+            chartShape.SetPosition(144, 240);
+            chartShape.SetSize(240, 144);
+            var chartShape2 = chart.AddShape("MyShape2", eShapeStyle.Diamond);
+            chartShape2.Fill.Color = Color.Orange;
+            chartShape2.Effect.SetPresetShadow(ePresetExcelShadowType.OuterRight);
+            chartShape2.SetPosition(10000, 10000);
+            chartShape2.SetSize(30);
 
-            //var chartPic = chart.AddPicture("MyPic", @"C:\epplusTest\epplusobject.png");
-            //chartPic.SetPosition(0, 5000);
-            //chartPic.SetSize(200);
+            var chartPic = chart.AddPicture("MyPic", @"C:\epplusTest\epplusobject.png");
+            chartPic.SetPosition(0, 5000);
+            chartPic.SetSize(200);
 
             //var chartPic2 = chart.AddPicture("MyPic2", @"C:\epplusTest\epplusobject.png");
             //chartPic2.SetPosition(0, 5000);

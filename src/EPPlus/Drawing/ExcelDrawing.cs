@@ -94,7 +94,6 @@ namespace OfficeOpenXml.Drawing
                 {
                     _id = drawings.Worksheet.Workbook._nextDrawingId++;
                 }
-
                 AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ","grpSp", "nvSpPr", "nvCxnSpPr", "nvGraphicFramePr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
                 _topPathUngrouped = topPath;
                 _nvPrPathUngrouped = nvPrPath;
@@ -173,6 +172,13 @@ namespace OfficeOpenXml.Drawing
             To = null;
             Position = new ExcelDrawingCoordinate(NameSpaceManager, offNode, GetPositionSize);
             Size = new ExcelDrawingSize(NameSpaceManager, extNode, GetPositionSize);
+        }
+
+        internal void RemoveFromToNodes()
+        {
+            CellAnchor = eEditAs.Absolute;
+            From = null;
+            To = null;
         }
 
         private void SetPositionProperties(ExcelDrawings drawings, XmlNode node)
@@ -483,7 +489,7 @@ namespace OfficeOpenXml.Drawing
         public ExcelDrawingCoordinate Position
         {
             get;
-            private set;
+            internal set;
         }
         /// <summary>
         /// The extent of the shape, if the shape is of the one- or absolute- anchor type.
@@ -492,7 +498,7 @@ namespace OfficeOpenXml.Drawing
         public ExcelDrawingSize Size
         {
             get;
-            private set;
+            internal set;
         }
         /// <summary>
         /// Bottom right position
@@ -1015,11 +1021,14 @@ namespace OfficeOpenXml.Drawing
         /// <param name="PixelLeft">Left pixel</param>
         public void SetPosition(int PixelTop, int PixelLeft)
         {
-            if(_drawings.DrawingsType == DrawingsCollectionType.chart)
+            if (_drawings.DrawingsType == DrawingsCollectionType.chart)
             {
                 SetPositionChartShapes(PixelTop, PixelLeft);
             }
-            SetPosition(PixelTop, PixelLeft, true);
+            else
+            {
+                SetPosition(PixelTop, PixelLeft, true);
+            }
         }
         internal void SetPosition(int PixelTop, int PixelLeft, bool adjustChildren)
         {
@@ -1049,44 +1058,46 @@ namespace OfficeOpenXml.Drawing
             SetPixelHeight(_height);
             _doNotAdjust = false;
         }
-        private int ChartDrawingsPercentageScale = 1;
-        private void SetPositionChartShapes(double PercentTop, double PercentLeft)
+
+
+        private void SetPositionChartShapes(int PixelTop, int PixelLeft)
         {
-            if (this is ExcelGroupShape)
+            var y = PixelTop / (_drawings.screenHeight);
+            var x = PixelLeft / (_drawings.screenWidth);
+            AdjustFromXYToXY(x, y);
+            var left = (int)(From.X * _drawings.screenWidth) * EMU_PER_PIXEL;
+            var top = (int)(From.Y * _drawings.screenHeight) * EMU_PER_PIXEL;
+            Position.X = left;
+            Position.Y = top;
+            UpdatePositionAndSizeXml();
+        }
+
+        private void AdjustFromXYToXY(double x, double y)
+        {
+            if (y < 0)
             {
-                var off = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:off", NameSpaceManager);
-                off.Attributes["x"].Value = ((int)PercentLeft).ToString();
-                off.Attributes["y"].Value = ((int)PercentTop).ToString();
-                PercentTop = PercentTop / this._drawings.screenHeight;
-                PercentLeft = PercentLeft / this._drawings.screenWidth;
+                y = 0;
+            }
+            else if (y > 1)
+            {
+                y = 1;
+            }
+            if (x < 0)
+            {
+                x = 0;
+            }
+            else if (x > 1)
+            {
+                x = 1;
             }
 
-            if (PercentTop < 0)
-            {
-                PercentTop = 0;
-            }
-            else if (PercentTop > ChartDrawingsPercentageScale)
-            {
-                PercentTop = ChartDrawingsPercentageScale;
-            }
-            PercentTop /= ChartDrawingsPercentageScale;
-            if (PercentLeft < 0)
-            {
-                PercentLeft = 0;
-            }
-            else if (PercentLeft > ChartDrawingsPercentageScale)
-            {
-                PercentLeft = ChartDrawingsPercentageScale;
-            }
-            PercentLeft /= ChartDrawingsPercentageScale;
+            var width = Math.Abs(From.X - To.X);
+            var height = Math.Abs(From.Y - To.Y);
 
-            _width = Math.Abs( From.X - To.X);
-            _height = Math.Abs( From.Y - To.Y);
-
-            From.X = PercentLeft;
-            From.Y = PercentTop;
-            To.X = PercentLeft + _width;
-            To.Y = PercentTop + _height;
+            From.X = x;
+            From.Y = y;
+            To.X = x + width;
+            To.Y = y + height;
             if (To.X > 1)
             {
                 var diff = To.X - 1;
@@ -1099,8 +1110,61 @@ namespace OfficeOpenXml.Drawing
                 To.Y = 1;
                 From.Y -= diff;
             }
-            UpdatePositionAndSizeXml();
         }
+
+        //private int ChartDrawingsPercentageScale = 1;
+        //private void SetPositionChartShapes(double PercentTop, double PercentLeft)
+        //{
+        //    if (this is ExcelGroupShape)
+        //    {
+        //        var off = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:off", NameSpaceManager);
+        //        off.Attributes["x"].Value = ((int)PercentLeft).ToString();
+        //        off.Attributes["y"].Value = ((int)PercentTop).ToString();
+        //        PercentTop = PercentTop / this._drawings.screenHeight;
+        //        PercentLeft = PercentLeft / this._drawings.screenWidth;
+        //    }
+
+        //    if (PercentTop < 0)
+        //    {
+        //        PercentTop = 0;
+        //    }
+        //    else if (PercentTop > ChartDrawingsPercentageScale)
+        //    {
+        //        PercentTop = ChartDrawingsPercentageScale;
+        //    }
+        //    PercentTop /= ChartDrawingsPercentageScale;
+        //    if (PercentLeft < 0)
+        //    {
+        //        PercentLeft = 0;
+        //    }
+        //    else if (PercentLeft > ChartDrawingsPercentageScale)
+        //    {
+        //        PercentLeft = ChartDrawingsPercentageScale;
+        //    }
+        //    PercentLeft /= ChartDrawingsPercentageScale;
+
+        //    _width = Math.Abs( From.X - To.X);
+        //    _height = Math.Abs( From.Y - To.Y);
+
+        //    From.X = PercentLeft;
+        //    From.Y = PercentTop;
+        //    To.X = PercentLeft + _width;
+        //    To.Y = PercentTop + _height;
+        //    if (To.X > 1)
+        //    {
+        //        var diff = To.X - 1;
+        //        To.X = 1;
+        //        From.X -= diff;
+        //    }
+        //    if (To.Y > 1)
+        //    {
+        //        var diff = To.Y - 1;
+        //        To.Y = 1;
+        //        From.Y -= diff;
+        //    }
+        //    UpdatePositionAndSizeXml();
+        //}
+
         /// <summary>
         /// How the drawing is anchored to the cells.
         /// This effect how the drawing will be resize
@@ -1259,12 +1323,9 @@ namespace OfficeOpenXml.Drawing
         {
             if (_drawings.DrawingsType == DrawingsCollectionType.chart)
             {
-                //get current ext and mult with percent and divide by EMU and send to setSize
-                var ext = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:ext");
-                var width = (int.Parse(ext.Attributes["cx"].Value) * Percent) / EMU_PER_PIXEL;
-                var height = (int.Parse(ext.Attributes["cy"].Value) * Percent) / EMU_PER_PIXEL;
-                SetSize(width, height);
-                return;
+                var pixelWidth = (Size.Width / EMU_PER_PIXEL) * ((double)Percent / 100);
+                var pixelHeight = (Size.Height / EMU_PER_PIXEL) * ((double)Percent / 100);
+                SetSizeChartShape((int)pixelWidth, (int)pixelHeight);
             }
             else
             {
@@ -1283,6 +1344,21 @@ namespace OfficeOpenXml.Drawing
             }
             UpdatePositionAndSizeXml();
         }
+
+
+        private void SetSizeChartShape(int PixelWidth, int PixelHeight)
+        {
+            var right = Position.X / EMU_PER_PIXEL + PixelWidth;
+            var bottom = Position.Y / EMU_PER_PIXEL + PixelHeight;
+            var x = right / (_drawings.screenWidth);
+            var y = bottom / (_drawings.screenHeight);
+            To.Y = y;
+            To.X = x;
+            AdjustFromXYToXY(From.X, From.Y);
+            Size.Width = PixelWidth * EMU_PER_PIXEL;
+            Size.Height = PixelHeight * EMU_PER_PIXEL;
+        }
+
         /// <summary>
         /// Set size in pixels
         /// Note that resizing columns / rows after using this function will effect the size of the drawing
@@ -1293,54 +1369,7 @@ namespace OfficeOpenXml.Drawing
         {
             if (_drawings.DrawingsType == DrawingsCollectionType.chart)
             {
-                if (this is ExcelGroupShape)
-                {
-                    var ext = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:ext", NameSpaceManager);
-                    ext.Attributes["cx"].Value = (PixelWidth * EMU_PER_PIXEL).ToString();
-                    ext.Attributes["cy"].Value = (PixelHeight * EMU_PER_PIXEL).ToString();
-                    PixelHeight = (int)(PixelHeight / this._drawings.screenHeight);
-                    PixelWidth = (int)(PixelWidth / this._drawings.screenWidth);
-                }
-
-                double scaleW = PixelWidth / 100.0d;
-                double scaleH = PixelHeight / 100.0d;
-                double cX = (From.X + To.X) / 2;
-                double cY = (From.Y + To.Y) / 2;
-                _width = (To.X - From.X) * scaleW;
-                _height = (To.Y - From.Y) * scaleH;
-                var x1 = cX - _width / 2;
-                var y1 = cY - _height / 2;
-                var x2 = cX + _width / 2;
-                var y2 = cY + _height / 2;
-
-                From.X = x1;
-                From.Y = y1;
-                To.X = x2;
-                To.Y = y2;
-                if(From.X < 0)
-                {
-                    var diff = 0 - From.X;
-                    From.X = 0;
-                    To.X += diff;
-                }
-                if (From.Y < 0)
-                {
-                    var diff = 0 - From.Y;
-                    From.Y = 0;
-                    To.Y += diff;
-                }
-                if (To.X > 1)
-                {
-                    var diff = To.X - 1;
-                    To.X = 1;
-                    From.X -= diff;
-                }
-                if (To.Y > 1)
-                {
-                    var diff = To.Y - 1;
-                    To.Y = 1;
-                    From.Y -= diff;
-                }
+                SetSizeChartShape(PixelWidth, PixelHeight);
             }
             else
             {
@@ -1409,6 +1438,10 @@ namespace OfficeOpenXml.Drawing
             if(node.LocalName == "sp" || node.LocalName == "pic" || node.LocalName == "cxnSp")
             {
                 return (XmlElement)CreateNode(node, NamespacePrefixes[prefixIndex] + ":spPr/a:xfrm");
+            }
+            else if(node.LocalName == "grpSp")
+            {
+                return (XmlElement)CreateNode(node, NamespacePrefixes[prefixIndex] + ":grpSpPr/a:xfrm");
             }
             else if(node.LocalName == "graphicFrame")
             {
