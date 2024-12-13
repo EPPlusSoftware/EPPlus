@@ -156,7 +156,17 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             {
                 if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                 {
-                    var style = new StyleXml(styles.CellXfs[ce.Value._styleId]);
+                    StyleXml style;
+                    if (_exporterContext.XfsGenericCache.ContainsKey(ce.Value._styleId))
+                    {
+                        style = (StyleXml)_exporterContext.XfsGenericCache[ce.Value._styleId];
+                    }
+                    else
+                    {
+                        style = new StyleXml(styles.CellXfs[ce.Value._styleId]);
+                    }
+ 
+
                     if (style.HasStyle)
                     {
                         var sc = new StyleChecker(styles, style, _exporterContext._styleCache);

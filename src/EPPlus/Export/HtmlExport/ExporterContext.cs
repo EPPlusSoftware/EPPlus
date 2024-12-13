@@ -19,6 +19,8 @@ namespace OfficeOpenXml.Export.HtmlExport
     {
         internal readonly StyleCache _styleCache = new StyleCache();
         internal readonly StyleCache _dxfStyleCache = new StyleCache();
+        internal readonly StyleCacheAlt XfsGenericCache = new StyleCacheAlt();
+
         internal QuadTree<ExcelConditionalFormattingRule> _cfQuadTree = null;
 
         internal ExporterContext() 
