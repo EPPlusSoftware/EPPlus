@@ -205,5 +205,18 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             var a1 = sheet.Cells["a1"].Value;
             Assert.AreEqual("Red riding ", a1);
         }
+
+        [TestMethod]
+        public void TextBeforeShouldOutputDynamicRange()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = "abc def ghi";
+            sheet.Cells["A2"].Value = "a def g";
+            sheet.Cells["A3"].Formula = "TEXTBEFORE(A1:A2, \"def\")";
+            sheet.Calculate();
+            Assert.AreEqual("abc ", sheet.Cells["A3"].Value);
+            Assert.AreEqual("a ", sheet.Cells["A4"].Value);
+        }
     }
 }

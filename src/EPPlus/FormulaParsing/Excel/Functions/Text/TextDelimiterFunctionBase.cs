@@ -141,7 +141,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             {
                 if (emptyDelimiterExists)
                 {
-                    return new CompileResult(string.Empty, DataType.String);
+                    return getBefore ? new CompileResult(string.Empty, DataType.String) : new CompileResult(text, DataType.String);
                 }
                 if (ifNotFound == null)
                 {
