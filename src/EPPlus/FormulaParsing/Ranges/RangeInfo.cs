@@ -14,6 +14,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -22,6 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
     /// <summary>
     /// EPPlus implementation of the <see cref="IRangeInfo"/> interface
     /// </summary>
+    [DebuggerDisplay("ExcelRange: {GetAddresses()}")]
     public class RangeInfo : IRangeInfo
     {
         internal ExcelWorksheet _ws;
@@ -395,6 +397,28 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 return false;
             }
 
+        }
+
+        // used in DebuggerDisplay attribute only
+        internal string GetAddresses()
+        {
+            var sb = new StringBuilder();
+            if(Addresses != null)
+            {
+                foreach(var address in Addresses)
+                {
+                    sb.Append(address.ToString());
+                    sb.Append(", ");
+                }
+                var result = sb.ToString();
+                result = result.TrimEnd(' ');
+                return result.TrimEnd(',');
+            }
+            if(Address != null)
+            {
+                return Address.ToString();
+            }
+            return "<No address>";
         }
     }
 }

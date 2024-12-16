@@ -10,42 +10,45 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Core;
+using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.Core.RichValues;
+using OfficeOpenXml.Core.Worksheet;
+using OfficeOpenXml.Core.Worksheet.XmlWriter;
+using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Controls;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.OleObject;
+using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Drawing.Vml;
+using OfficeOpenXml.Filter;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.RichData;
+using OfficeOpenXml.Sorting;
+using OfficeOpenXml.Sparkline;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.XmlAccess;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.Table.PivotTable;
+using OfficeOpenXml.ThreadedComments;
+using OfficeOpenXml.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Linq;
-using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Vml;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Packaging.Ionic.Zip;
-using OfficeOpenXml.Style.XmlAccess;
-using OfficeOpenXml.Table;
-using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Sparkline;
-using OfficeOpenXml.Filter;
-using OfficeOpenXml.Core;
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Core.Worksheet;
-using OfficeOpenXml.Drawing.Slicer;
-using OfficeOpenXml.ThreadedComments;
-using OfficeOpenXml.Drawing.Controls;
-using OfficeOpenXml.Sorting;
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Core.Worksheet.XmlWriter;
-using OfficeOpenXml.FormulaParsing;
-using System.Collections;
-using OfficeOpenXml.Drawing.OleObject;
 
 namespace OfficeOpenXml
 {
@@ -71,8 +74,8 @@ namespace OfficeOpenXml
         /// </summary>
         internal struct MetaDataReference
         {
-            internal int cm;
-            internal int vm;
+            internal uint cm;
+            internal uint vm;
             internal bool aca;
             internal bool ca;
         }
@@ -296,7 +299,9 @@ namespace OfficeOpenXml
         internal CellStore<int> _commentsStore;
         internal CellStore<int> _threadedCommentsStore;
         internal CellStore<int?> _dataValidationsStore;
-        internal CellStore<MetaDataReference> _metadataStore;
+        internal MetadataCellStore _metadataStore;
+        internal RichDataStore _richDataStore;
+        internal RichValueErrorManager _richValueErrorManager;
 
         internal Dictionary<int, SharedFormula> _sharedFormulas = new Dictionary<int, SharedFormula>();
         internal RangeSorter _rangeSorter;
@@ -349,9 +354,11 @@ namespace OfficeOpenXml
             _formulas = new CellStore<object>();
             _formulaTokens = new CellStore<IList<Token>>();
             _flags = new FlagCellStore();
-            _metadataStore = new CellStore<MetaDataReference>();
+            _metadataStore = new MetadataCellStore(this);
+            _richDataStore = new RichDataStore(this);
             _commentsStore = new CellStore<int>();
             _threadedCommentsStore = new CellStore<int>();
+            _richValueErrorManager = new RichValueErrorManager(_package, this);
             _dataValidationsStore = new CellStore<int?>();
             _hyperLinks = new CellStore<Uri>();
             _nextControlId = (PositionId + 1) * 1024 + 1;
@@ -1499,7 +1506,8 @@ namespace OfficeOpenXml
             int style = 0;
             int row = 0;
             int col = 0;
-            int currentCm=0, currentVm = 0;
+            uint currentCm = 0;
+            uint currentVm = 0;
             xr.Read();
 
             while (!xr.EOF)
@@ -1575,15 +1583,30 @@ namespace OfficeOpenXml
                     var vm = xr.GetAttribute("vm");
                     if (cm != null || vm != null)
                     {
-                        currentCm = string.IsNullOrEmpty(cm) ? 0 : int.Parse(cm);
-                        currentVm = string.IsNullOrEmpty(vm) ? 0 : int.Parse(vm);
+                        if (!this.Workbook.RichDataInitialized)
+                        {
+                            Workbook.InitializeRichData();
+                        }
+                        currentCm = string.IsNullOrEmpty(cm) ? 0 : uint.Parse(cm);
+                        currentVm = string.IsNullOrEmpty(vm) ? 0 : uint.Parse(vm);
+                        uint cmId = 0u;
+                        uint vmId = 0u;
+                        if (currentCm > 0)
+                        {
+                            cmId = Workbook.Metadata.Db.CellMetadata.GetIdByIndex((int)currentCm - 1);
+                        }
+                        if (currentVm > 0)
+                        {
+                            vmId = Workbook.Metadata.Db.ValueMetadata.GetIdByIndex((int)currentVm - 1);
+                        }
+                        _package.OnWorksheetValueMetadataRead(Index, address._fromRow, address._fromCol, currentVm);
                         _metadataStore.SetValue(
                             address._fromRow,
                             address._fromCol,
                             new MetaDataReference()
                             {
-                                cm = currentCm,
-                                vm = currentVm
+                                cm = cmId,
+                                vm = vmId
                             });
                     }
                     else
@@ -1596,8 +1619,42 @@ namespace OfficeOpenXml
                 }
                 else if (xr.LocalName == "v")
                 {
-                    SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
-
+                    if (currentVm > 0)
+                    {
+                        var rd = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
+                        rd.SetStructure(_package.Workbook.RichData.Db);
+                        if (rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImage)
+                        {
+                            var rdLi = rd.As.LocalImage;
+                            var pic = new ExcelCellPicture(currentVm, rdLi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.LocalImage)
+                            {
+                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
+                                AltText = rdLi.Text,
+                                CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
+                            };
+                            SetValueInner(row, col, pic);
+                        }
+                        else if (rd != null && rd.Structure.StructureType == RichDataStructureTypes.WebImage)
+                        {
+                            var rdWi = rd.As.WebImage;
+                            var pic = new ExcelCellPicture(currentVm, rdWi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.WebImage)
+                            {
+                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
+                                AltText = rdWi.Text,
+                                CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None
+                            };
+                            SetValueInner(row, col, pic);
+                        }
+                        else
+                        {
+                            SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
+                        }
+                        xr.Read();
+                    }
+                    else
+                    {
+                        SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
+                    }
                     xr.Read();
                 }
                 else if (xr.LocalName == "f")
@@ -1652,11 +1709,11 @@ namespace OfficeOpenXml
                         {
                             WriteArrayFormulaRange(refAddress, afIndex, CellFlags.ArrayFormula);
                         }
-                        if(currentCm>0 && Workbook.Metadata.IsDynamicArray(currentCm-1))
+                        if (currentCm > 0 && Workbook.Metadata.IsDynamicIdByIndex((int)currentCm - 1))
                         {
                             _flags.SetFlagValue(row, col, true, CellFlags.CanBeDynamicArray);
                         }
-                        _sharedFormulas.Add(afIndex, new SharedFormula(this, row, col, refAddress, formula) { Index = afIndex, FormulaType = FormulaType.Array });                        
+                        _sharedFormulas.Add(afIndex, new SharedFormula(this, row, col, refAddress, formula) { Index = afIndex, FormulaType = FormulaType.Array });
                     }
                     else if (t=="dataTable") 
                     {
@@ -1810,56 +1867,10 @@ namespace OfficeOpenXml
             {
                 if(type=="e")
                 {
-                    var md = _metadataStore.GetValue(row, col);
-                    if(md.vm > 0)
-                    {
-                        v = GetErrorFromMetaData(md, v);
-                    }
+                    v = _richValueErrorManager.GetErrorFromMetaData(row, col, v);
                 }
                 _values.SetValue(row, col, v, styleID); // Style is set later on from the s attribute
             }
-        }
-
-        private object GetErrorFromMetaData(MetaDataReference md, object v)
-        {
-            var metaData = Workbook.Metadata;
-            var valueMetaData = metaData.ValueMetadata[md.vm - 1];
-            var valueRecord = valueMetaData.Records[0];
-            var type = metaData.MetadataTypes[valueRecord.RecordTypeIndex - 1];
-            if (type.Name.Equals("XLRICHVALUE"))
-            {
-                var fmd = metaData.FutureMetadata[type.Name];
-                var ix = fmd.Types[valueRecord.ValueTypeIndex].AsRichData.Index;
-
-                var rdValue = Workbook.RichData.Values.Items[ix];
-
-                var errorTypeIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("errorType"));
-                if (errorTypeIndex>=0)
-                {
-                    switch(int.Parse(rdValue.Values[errorTypeIndex]))
-                    {
-                        case 4:
-                            return ErrorValues.NameError;
-                        case 8:
-                            var rowOffsetIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("rwOffset"));
-                            var colOffsetIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("colOffset"));
-                            if (rowOffsetIndex > -1 && colOffsetIndex > 0)
-                            {
-                                return new ExcelRichDataErrorValue(int.Parse(rdValue.Values[rowOffsetIndex]), int.Parse(rdValue.Values[colOffsetIndex]));
-                            }
-                            else
-                            {
-                                return new ExcelRichDataErrorValue(0, 0);
-                            }
-                        case 13:
-                            return ErrorValues.CalcError;
-                        default:    //We can implement other error types here later, See MS-XLSX 2.3.6.1.3
-                            return v;
-
-                    }
-                }
-            }
-            return v;
         }
 
         //private string GetSharedString(int stringID)

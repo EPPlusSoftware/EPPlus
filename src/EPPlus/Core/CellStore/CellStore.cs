@@ -255,7 +255,7 @@ namespace OfficeOpenXml.Core.CellStore
             }
             return c;
         }
-        internal T GetValue(int Row, int Column)
+        internal virtual T GetValue(int Row, int Column)
         {
             lock (_syncRoot)
             {
@@ -299,7 +299,7 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
-        internal void SetValue(int row, int column, T value)
+        internal virtual void SetValue(int row, int column, T value)
         {
             lock (_syncRoot)
             {
@@ -457,15 +457,15 @@ namespace OfficeOpenXml.Core.CellStore
             return (row >= column._pages[pagePos].MinIndex && row <= column._pages[pagePos].MaxIndex);
         }
 
-        internal void Clear(int fromRow, int fromCol, int rows, int columns)
+        internal virtual void Clear(int fromRow, int fromCol, int rows, int columns)
         {
             Delete(fromRow, fromCol, rows, columns, false);
         }
-        internal void Delete(int fromRow, int fromCol, int rows, int columns)
+        internal virtual void Delete(int fromRow, int fromCol, int rows, int columns)
         {
             Delete(fromRow, fromCol, rows, columns, true);
         }
-        internal void Delete(int fromRow, int fromCol, int rows, int columns, bool shift)
+        internal virtual void Delete(int fromRow, int fromCol, int rows, int columns, bool shift)
         {
             if (rows == 0)
             {

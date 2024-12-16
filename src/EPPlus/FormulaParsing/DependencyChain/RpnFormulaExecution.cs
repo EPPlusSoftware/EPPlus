@@ -5,6 +5,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -329,7 +330,7 @@ namespace OfficeOpenXml.FormulaParsing
                 SetCurrentCell(depChain, f);
                 f.SetFormula(s, depChain);
             }
-            f._ws._metadataStore.Clear(f._row, f._column, 1, 1);
+            CheckAndClearRichData(f);
             var id = ExcelCellBase.GetCellId(ws?.IndexInList ?? ushort.MaxValue, f._row, f._column);
             depChain.processedCells.Add(id);
 
@@ -612,6 +613,34 @@ namespace OfficeOpenXml.FormulaParsing
             return hasAddress;
         }
 
+        private static void CheckAndClearRichData(RpnFormula f)
+        {
+            var ws = f._ws;
+            if (ws == null) return;
+            var md = f._ws._metadataStore.GetValue(f._row, f._column);
+            if (md.vm > 0u)
+            {
+                var mdb = ws.Workbook.Metadata.Db.ValueMetadata.Get(md.vm);
+                if (mdb != null)
+                {
+                    mdb.DeleteMe();
+                }
+            }
+            if(md.cm > 0u)
+            {
+                var metadata = ws.Workbook.Metadata;
+                if(!metadata.DynamicArrayTypeId.HasValue || md.cm != metadata.DynamicArrayTypeId.Value)
+                {
+                    var cdb = metadata.Db.CellMetadata.Get(md.cm);
+                    if (cdb != null)
+                    {
+                        cdb.DeleteMe();
+                    }
+                }
+            }
+            f._ws._metadataStore.Clear(f._row, f._column, 1, 1);
+        }
+
         private static void SetValueToWorkbook(RpnOptimizedDependencyChain depChain, RpnFormula f, RangeHashset rd, CompileResult cr)
         {
             //Set the value.
@@ -667,6 +696,21 @@ namespace OfficeOpenXml.FormulaParsing
                                 RecalculateDirtyCells(dirtyRange, depChain, rd);
                             }
                             depChain.HasAnyArrayFormula = true;
+                        }
+                        else if (cr.ResultType == CompileResultType.LocalImage)
+                        {
+                            var picManager = new CellPicturesManager(f._ws);
+                            var pic = cr.Result as ExcelCellPicture;
+                            picManager.SetCellPicture(f._row, f._column, pic.GetImageBytes(), pic.AltText, CalcOrigins.Reference);
+                        }
+                        else if (cr.ResultType == CompileResultType.WebImage)
+                        {
+                            var pic = cr.Result as ExcelCellPicture;
+                            if (pic.IsReferenceTo(f._ws.Name, f._row, f._column))
+                            {
+                                var picManager = new CellPicturesManager(f._ws);
+                                picManager.SetWebPicture(f._row, f._column, pic.ExternalAddress, pic.GetImageBytes(), pic.AltText, CalcOrigins.Reference);
+                            }
                         }
                         else
                         {
@@ -1254,6 +1298,9 @@ namespace OfficeOpenXml.FormulaParsing
                     break;
                 case DataType.Empty:
                     f._expressionStack.Push(Expression.Empty);
+                    break;
+                case DataType.WebImage:
+                    f._expressionStack.Push(new WebImageExpression(result, context));
                     break;
                 default:
                     //throw new InvalidOperationException($"Unhandled compile result for data type {result.DataType}");
