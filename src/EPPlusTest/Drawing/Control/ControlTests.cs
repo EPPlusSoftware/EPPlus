@@ -272,7 +272,7 @@ namespace EPPlusTest.Drawing.Control
         {
             _ws = _pck.Workbook.Worksheets.Add("Scrollbar");
             var ctrl = _ws.Drawings.AddScrollBarControl("Scrollbar 1");
-            ctrl.Macro = "ScrolbarButton_Click";
+            ctrl.Macro = "ScrollbarButton_Click";
             ctrl.SetPosition(500, 100);
             //ctrl.SetSize(200, 100);
 
@@ -282,7 +282,7 @@ namespace EPPlusTest.Drawing.Control
             ctrl.MaxValue = 100;
             ctrl.MinValue = 2;
             ctrl.Page = 20;
-            _codeModule.Code += "Sub ScrolbarButton_Click()\r\n  MsgBox \"Selected SpinButton!!\"\r\nEnd Sub\r\n";
+            _codeModule.Code += "Sub ScrollbarButton_Click()\r\n  MsgBox \"Selected ScrollbarButton!!\"\r\nEnd Sub\r\n";
         }
 
         [TestMethod]

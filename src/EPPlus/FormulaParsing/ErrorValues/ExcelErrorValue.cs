@@ -221,14 +221,7 @@ namespace OfficeOpenXml
             return v1;
         }
 
-        /// <summary>
-        /// Calculates a hash code for the object
-        /// </summary>
-        /// <returns></returns>
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+
         /// <summary>
         /// Checks if the object is equals to another
         /// </summary>

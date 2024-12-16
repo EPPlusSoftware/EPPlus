@@ -302,21 +302,6 @@ namespace OfficeOpenXml.Metadata
                 CreateDefaultXmlDynamicArray();
             }
             cmId  = DynamicArrayTypeId.Value;
-            //var daType = default(ExcelMetadataType);
-            //if(!Db.MetadataTypes.TryGetValue(FutureMetadataBase.DYNAMIC_ARRAY_NAME, out ExcelMetadataType type) || type.Deleted)
-            //{
-            //    CreateDefaultXmlDynamicArray();
-            //    daType = Db.MetadataTypes.First(x => x.Name == FutureMetadataBase.DYNAMIC_ARRAY_NAME && !x.Deleted);
-            //}
-            //else
-            //{
-            //    daType = type;
-            //}
-
-            ////var cellMetadataBlock = Db.FutureMetadata[FutureMetadataBase.DYNAMIC_ARRAY_NAME].GetFirstOutgoingRelByType<ExcelCellMetadataRecord>();
-            //var rc = daType.GetFirstIncomingRelByType<ExcelCellMetadataRecord>();
-            //var bk = rc.GetFirstOutgoingRelByType<ExcelCellMetadataBlock>();
-            //cmId = bk.Id;
         }
 
         internal void Save(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)

@@ -158,13 +158,6 @@ namespace OfficeOpenXml.RichData.IndexRelations
             return rel;
         }
 
-        //public IndexRelationWithSubRelations CreateAndAddRelationWithSubRelations(IndexEndpoint endPoint, RichDataEntities entity)
-        //{
-        //    var rel = new IndexRelationWithSubRelations(this, endPoint, RichDataEntities.MetadataType, IndexType.SubRelations);
-        //    AddRelationWithSubRelations(rel);
-        //    return rel;
-        //}
-
         public void AddRelation(IndexRelation relation)
         {
             if(!_outgoingRelations.ContainsKey(relation.From.Id))
@@ -179,25 +172,6 @@ namespace OfficeOpenXml.RichData.IndexRelations
             _incomingRelations[relation.To.Id].Add(relation);
             _relations.Add(relation.Id, relation);
         }
-
-        //public void AddRelationWithSubRelations(IndexRelationWithSubRelations relation)
-        //{
-        //    _relations.Add(relation.Id, relation);
-        //    if(relation.To.Id != IndexEndpoint.NoneId)
-        //    {
-        //        if (!_incomingRelations.ContainsKey(relation.To.Id))
-        //        {
-        //            _incomingRelations.Add(relation.To.Id, new List<IndexRelation>());
-        //        }
-        //        _incomingRelations[relation.To.Id].Add(relation);
-        //    }
-            
-        //    if(!_outgoingRelations.ContainsKey(relation.From.Id))
-        //    {
-        //        _outgoingRelations.Add(relation.From.Id, new List<IndexRelation>());
-        //    }
-        //    _outgoingRelations[relation.From.Id].Add(relation);
-        //}
 
         public IEnumerable<IndexRelation> GetOutgoingRelations(uint id)
         {
