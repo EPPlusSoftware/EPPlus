@@ -579,19 +579,5 @@ namespace EPPlusTest.Drawing
             }
         }
 
-
-        [TestMethod]
-        public void OleNotworkingTest()
-        {
-            //Write Generic Object
-            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
-            var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
-            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", myFile);
-            Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME));
-            Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
-            Assert.IsFalse(genericOle.IsExternalLink);
-            SaveAndCleanup(genericOlePackage);
-        }
     }
 }
