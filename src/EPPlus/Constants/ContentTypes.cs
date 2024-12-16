@@ -50,6 +50,9 @@ namespace OfficeOpenXml.Constants
         internal const string contentTypeRichDataValue = "application/vnd.ms-excel.rdrichvalue+xml";
         internal const string contentTypeRichDataValueStructure = "application/vnd.ms-excel.rdrichvaluestructure+xml";
         internal const string contentTypeRichDataValueType = "application/vnd.ms-excel.rdrichvaluetypes+xml";
+        internal const string contentTypeRichDataValueRel = "application/vnd.ms-excel.richvaluerel+xml";
+        internal const string contentTypeRichDataArray = "application/vnd.ms-excel.rdarray+xml";
+        internal const string contentTypeRichDataWebImage = "application/vnd.ms-excel.rdrichvaluewebimage+xml";
 
         //Ole Object
         internal const string contentTypeOleObject = "application/vnd.openxmlformats-officedocument.oleObject";

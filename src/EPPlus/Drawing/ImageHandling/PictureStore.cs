@@ -36,24 +36,73 @@ namespace OfficeOpenXml.Drawing
         ExcelPackage _pck;
         internal int _id = 1;
         internal Dictionary<string, ImageInfo> _images;
+        internal Dictionary<string, string> _uriToHashIndex;
         public PictureStore(ExcelPackage pck)
         {
             _pck = pck;
             _images = _pck.Workbook._images;
+            _uriToHashIndex = new Dictionary<string, string>();
+            InitiateUriToHashIndex();
+        }
+
+        private void InitiateUriToHashIndex()
+        {
+            if (_images == null) return;
+            foreach (var hash in _images.Keys)
+            {
+                var img = _images[hash];
+                var uri = img.Uri.OriginalString.Trim('.');
+                _uriToHashIndex[uri] = img.Hash;
+            }
+        }
+
+        private ImageInfo GetImageInfoByUri(string uri, out string indexUri)
+        {
+            indexUri = uri.Trim('.');
+            if (!indexUri.StartsWith("/xl"))
+            {
+                indexUri = $"/xl{indexUri}";
+            }
+            if (_uriToHashIndex.ContainsKey(indexUri))
+            {
+                var hash = _uriToHashIndex[indexUri];
+                return _images[hash];
+            }
+            return null;
+        }
+
+        internal byte[] GetImageBytes(Uri imageUri)
+        {
+            var part = _pck.ZipPackage.GetPart(imageUri);
+            var s = part.GetStream();
+            var ms = new MemoryStream();
+            var destStream = ms as Stream;
+            StreamUtil.CopyStream(s, ref destStream);
+            return ms.ToArray();
         }
         internal ImageInfo AddImage(byte[] image)
         {
             return AddImage(image, null, null);
         }
-        internal ImageInfo AddImage(byte[] image, Uri uri, ePictureType? pictureType)
+
+        internal string GetImageHash(byte[] image)
         {
-            if (pictureType.HasValue == false) pictureType = ePictureType.Jpg;
 #if (Core)
             var hashProvider = SHA1.Create();
 #else
             var hashProvider = new SHA1CryptoServiceProvider();
 #endif
             var hash = BitConverter.ToString(hashProvider.ComputeHash(image)).Replace("-", "");
+            return hash;
+        }
+
+        internal ImageInfo AddImage(byte[] image, Uri uri, ePictureType? pictureType)
+        {
+            if (pictureType.HasValue == false)
+            {
+                pictureType = ImageReader.GetPictureType(new MemoryStream(image), true);
+            }
+            var hash = GetImageHash(image);
             lock (_images)
             {
                 if (_images.ContainsKey(hash))
@@ -188,6 +237,20 @@ namespace OfficeOpenXml.Drawing
                 }
             }
         }
+
+        internal void RemoveReference(Uri imageUri)
+        {
+            var imgInfo = GetImageInfoByUri(imageUri.OriginalString, out string indexUri);
+            if (imgInfo == null) return;
+            imgInfo.RefCount--;
+            if (imgInfo.RefCount == 0)
+            {
+                _pck.ZipPackage.DeletePart(imgInfo.Uri);
+                _images.Remove(imgInfo.Hash);
+                _uriToHashIndex.Remove(indexUri);
+            }
+        }
+
         internal ImageInfo GetImageInfo(byte[] image)
         {
             var hash = GetHash(image);
@@ -204,6 +267,23 @@ namespace OfficeOpenXml.Drawing
         {
             var hash = GetHash(image);
             return _images.ContainsKey(hash);
+        }
+
+        internal bool ImageExists(string hash)
+        {
+            return _images.ContainsKey(hash);
+        }
+
+        internal ImageInfo GetImageInfoByHash(string hash)
+        {
+            if (_images.ContainsKey(hash))
+            {
+                return _images[hash];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         internal static string GetHash(byte[] image)
