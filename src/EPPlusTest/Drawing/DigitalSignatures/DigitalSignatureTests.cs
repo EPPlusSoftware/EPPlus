@@ -522,10 +522,11 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             }
         }
 
-        [TestMethod]
-        public void CreateDigSigSHA512()
+        public void TestHashAlgorithm(string signatureMethod, string digestMethod, DigitalSignatureHashAlgorithm algorithm)
         {
-            string fileName = $"{SubFolder}DigSig_SignatureLineSHA512.xlsx";
+            var name = Enum.GetName(typeof(DigitalSignatureHashAlgorithm), algorithm);
+
+            string fileName = $"{SubFolder}DigSig_SignatureLine{name}.xlsx";
 
             using (ExcelPackage package = OpenPackage(fileName, true))
             {
@@ -538,10 +539,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "TestingSignatureLine");
                 var info = digSig.Details;
 
-                digSig.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA512);
+                digSig.SetDigestMethod(algorithm);
 
-                Assert.AreEqual("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", digSig._signatureMethod);
-                Assert.AreEqual("http://www.w3.org/2001/04/xmlenc#sha512", digSig._digestMethod);
+                Assert.AreEqual(signatureMethod, digSig._signatureMethod);
+                Assert.AreEqual(digestMethod, digSig._digestMethod);
 
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
@@ -563,11 +564,32 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var digSig = wb.DigitialSignatures[0];
 
                 //Ensure it is read correctly:
-                Assert.AreEqual("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", digSig._signatureMethod);
-                Assert.AreEqual("http://www.w3.org/2001/04/xmlenc#sha512", digSig._digestMethod);
+                Assert.AreEqual(signatureMethod, digSig._signatureMethod);
+                Assert.AreEqual(digestMethod, digSig._digestMethod);
 
                 SaveAndCleanup(package);
             }
+        }
+        [TestMethod]
+        public void CreateDigSigSHA1()
+        {
+            TestHashAlgorithm("http://www.w3.org/2000/09/xmldsig#rsa-sha1", "http://www.w3.org/2000/09/xmldsig#sha1", DigitalSignatureHashAlgorithm.SHA1);
+        }
+        [TestMethod]
+        public void CreateDigSigSHA256()
+        {
+            TestHashAlgorithm("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256", "http://www.w3.org/2001/04/xmlenc#sha256", DigitalSignatureHashAlgorithm.SHA256);
+        }
+        [TestMethod]
+        public void CreateDigSigSHA384()
+        {
+            TestHashAlgorithm("http://www.w3.org/2001/04/xmldsig-more#rsa-sha384", "http://www.w3.org/2001/04/xmldsig-more#sha384", DigitalSignatureHashAlgorithm.SHA384);
+        }
+
+        [TestMethod]
+        public void CreateDigSigSHA512()
+        {
+            TestHashAlgorithm("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", "http://www.w3.org/2001/04/xmlenc#sha512", DigitalSignatureHashAlgorithm.SHA512);
         }
     }
 }
