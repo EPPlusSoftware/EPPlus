@@ -654,7 +654,7 @@ namespace OfficeOpenXml
                     v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
                     if(string.IsNullOrEmpty(v))
                     {
-                        v = v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.LicenseContext", _configuration, initErrors);
+                        v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.LicenseContext", _configuration, initErrors);
                     }
 #endif
                     inEnvironment = false;
