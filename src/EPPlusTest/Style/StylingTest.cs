@@ -424,12 +424,10 @@ namespace EPPlusTest.Style
                 Assert.IsTrue(ws.Cells["A10"].Style.Checkbox);
                 Assert.IsFalse(ws.Cells["A11"].Style.Checkbox);
 
-                var exporter = ws.Cells["A1:B5"].CreateHtmlExporter();
-                //var getCss = exporter.GetCssString();
-                //var getHTML = exporter.GetHtmlString();
+                var exporter = ws.Cells["A1:A10"].CreateHtmlExporter();
 
                 var singlePage = exporter.GetSinglePage();
-                //File.Create("C:\\epplusTest\\Testoutput",);
+
                 File.WriteAllText("C:\\epplusTest\\Testoutput\\Checkboxes.html", singlePage);
             }
         }

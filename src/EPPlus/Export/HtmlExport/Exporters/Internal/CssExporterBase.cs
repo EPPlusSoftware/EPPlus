@@ -165,7 +165,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     {
                         style = new StyleXml(styles.CellXfs[ce.Value._styleId]);
                     }
- 
+                    
 
                     if (style.HasStyle)
                     {

@@ -20,7 +20,8 @@ namespace OfficeOpenXml.Export.HtmlExport
         = new HashSet<string>
         {
             { "col" },
-            { Img }
+            { Img },
+            { "input" }
         };
 
         internal static readonly HashSet<string> NoIndentElements

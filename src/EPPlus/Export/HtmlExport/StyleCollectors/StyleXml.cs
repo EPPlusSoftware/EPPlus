@@ -49,6 +49,8 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
 
         public IFont Font { get; } = null;
 
+        public bool CheckBox { get; }
+
         public StyleXml(ExcelXfs style)        
         {
             _style = style;
@@ -65,6 +67,8 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             {
                 Border = new BorderXml(style.Border);
             }
+
+            CheckBox = style.Checkbox;
         }
 
         internal string GetStyleKey()

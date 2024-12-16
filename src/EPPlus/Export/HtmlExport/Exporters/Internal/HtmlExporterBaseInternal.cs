@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
@@ -344,6 +345,40 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             }
         }
 
+        protected void AddContent(ExcelRangeBase cell, HTMLElement contentElement)
+        {
+            if (cell.Style.Checkbox)
+            {
+                if (cell.Value == null || HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value) == HtmlDataTypes.Boolean)
+                {
+                    var childHtml = new HTMLElement("input");
+                    childHtml.AddAttribute("type", "checkbox");
+
+                    if (cell.Value != null)
+                    {
+                        var str = cell.Value.ToString();
+
+                        if (bool.TryParse(str, out bool res))
+                        {
+                            if (res)
+                            {
+                                childHtml.AddAttributeValueLess("checked");
+                            }
+                        }
+                    }
+                    contentElement.AddChildElement(childHtml);
+                }
+                else
+                {
+                    contentElement.Content = GetCellText(cell, Settings);
+                }
+            }
+            else
+            {
+                contentElement.Content = GetCellText(cell, Settings);
+            }
+        }
+
         protected void AddImage(HTMLElement parent, HtmlExportSettings settings, HtmlImage image, object value)
         {
             if (image != null)
@@ -616,37 +651,34 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, isHeader, settings, imageCellClassName, content);
             var stylesAndExtras = AttributeTranslator.GetConditionalFormattings(cell, settings, content, ref classString);
 
-            valueElement = element;
-
-            if(cell.Style.Checkbox)
+            if (cell.Style.Checkbox)
             {
-                var childHtml = new HTMLElement("input");
-                childHtml.AddAttribute("type", "checkbox");
-                //element.AddChildElement(childHtml);
-                var str = cell.Value.ToString();
+                if (cell.Value == null || HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value) == HtmlDataTypes.Boolean)
+                {
+                    var childHtml = new HTMLElement("input");
+                    childHtml.AddAttribute("type", "checkbox");
 
-                if(str == "TRUE" || str == "1" || str == "FALSE" || str == "0")
-                {
-                    childHtml.AddAttribute("value", str);
-                    //element = childHtml;
-                }
-                else
-                {
+                    if (cell.Value != null)
+                    {
+                        var str = cell.Value.ToString();
+
+                        if (bool.TryParse(str, out bool res))
+                        {
+                            if (res)
+                            {
+                                childHtml.AddAttributeValueLess("checked");
+                            }
+                        }
+                    }
+                    //Hide content text if node has it
+                    element.AddAttribute("style","font-size: 0px;");
+                    childHtml.AddAttribute("style", "text-align: center; display: flex;");
+
                     element.AddChildElement(childHtml);
                 }
-
-                if (bool.TryParse(str, out bool res))
-                {
-                    if(res)
-                    {
-                        childHtml.AddAttributeValueLess("checked");
-                    }
-                }
-                else if(str == "1")
-                {
-                    childHtml.AddAttributeValueLess("checked");
-                }
             }
+
+            valueElement = element;
 
             if (!string.IsNullOrEmpty(classString))
             {
@@ -690,6 +722,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             GetClassData(element, true, image, cell, settings, content, out HTMLElement contentElement);
 
             AddImage(contentElement, settings, image, cell.Value);
+
             if (cell.IsRichText)
             {
                 contentElement.Content = cell.RichText.HtmlText;

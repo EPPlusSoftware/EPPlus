@@ -162,7 +162,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             }
             if (style.Font != null && style.Font.HasValue && _context.Exclude.Font != eFontExclude.All)
             {
-                translators.Add(new CssFontTranslator(style.Font, ns.Style.Font));
+                translators.Add(new CssFontTranslator(style.Font, ns.Style.Font, style.CheckBox));
             }
 
             if (styleList.Count > 1)
@@ -193,6 +193,11 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 _context.AddDeclarations(styleClass);
             }
 
+            //if (style.CheckBox && _context.Exclude.Font != eFontExclude.All)
+            //{
+            //    if(translators.Contains(CssFontTranslator))
+            //    styleClass.AddDeclaration("Accent-Color", );
+            //}
             _ruleCollection.CssRules.Add(styleClass);
         }
 
