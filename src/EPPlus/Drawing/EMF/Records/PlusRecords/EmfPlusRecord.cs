@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Drawing.EMF.Records
 
         internal virtual void WriteBytes(BinaryWriter bw)
         {
-            bw.Write((uint)Type);
+            bw.Write((ushort)Type);
             bw.Write(PlusFlags);
             bw.Write(Size);
             bw.Write(DataSize);

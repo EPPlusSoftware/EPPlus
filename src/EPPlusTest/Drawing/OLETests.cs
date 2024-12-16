@@ -578,5 +578,6 @@ namespace EPPlusTest.Drawing
                 SaveAndCleanup(genericOlePackage);
             }
         }
+
     }
 }
