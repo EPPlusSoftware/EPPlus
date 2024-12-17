@@ -48,7 +48,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
 
-                var sline = ws.AddSignatureLine();
+                var sline = ws.SignatureLines.Add();
 
                 SaveAndCleanup(package);
             }
@@ -81,7 +81,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
 
-                var slineStamp = ws.AddSignatureLineStamp();
+                var slineStamp = ws.SignatureLines.AddStamp();
                 SaveAndCleanup(package);
             }
 
@@ -120,12 +120,12 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
 
-                var sline = ws.AddSignatureLineStamp();
+                var sline = ws.SignatureLines.AddStamp();
 
-                var sLine2 = ws.AddSignatureLineStamp();
-                var sLine3 = ws.AddSignatureLine();
-                var sLine4 = ws.AddSignatureLineStamp();
-                var sLine5 = ws.AddSignatureLine();
+                var sLine2 = ws.SignatureLines.AddStamp();
+                var sLine3 = ws.SignatureLines.Add();
+                var sLine4 = ws.SignatureLines.AddStamp();
+                var sLine5 = ws.SignatureLines.Add();
 
                 sLine2.From.Column = 3;
                 sLine2.To.Column = 5;
@@ -214,7 +214,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
-                ws.AddSignatureLine();
+                ws.SignatureLines.Add();
 
                 var copiedWs = wb.Worksheets.Copy(wsName, "CopiedSheet");
 
@@ -240,7 +240,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var cert = GetSelfCert();
 
-                var sLine = sSline.AddSignatureLine();
+                var sLine = sSline.SignatureLines.Add();
                 sLine.Sign(cert, signatureImage);
 
                 SaveAndCleanup(package);
@@ -257,7 +257,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var sSline = package.Workbook.Worksheets.Add("SignedSignatureLine");
 
-                var sLine = sSline.AddSignatureLine();
+                var sLine = sSline.SignatureLines.Add();
 
                 var cert = GetSelfCert();
                 sLine.Sign(cert, signatureImage);
@@ -413,7 +413,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets.Add("sLineWs");
 
-                var sLine = ws.AddSignatureLine();
+                var sLine = ws.SignatureLines.Add();
                 sLine.SigningInstructions = "These are Instructions";
                 sLine.Signer = "ASigner";
                 sLine.Title = "SomeDeveloper";
@@ -476,7 +476,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var cert = GetSelfCert();
 
-                var sLine = sSline.AddSignatureLine();
+                var sLine = sSline.SignatureLines.Add();
                 sLine.SigningInstructions = "These are Instructions";
                 sLine.Signer = "ASigner";
                 sLine.Title = "SomeDeveloper";
@@ -581,7 +581,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
 
-                var sLine = ws.AddSignatureLine();
+                var sLine = ws.SignatureLines.Add();
                 sLine.Signer = "Ossian Edström åäö";
                 sLine.Title = "#Maker \"Quotation`¨'m!";
                 sLine.Email = "Example@Site.com";
@@ -633,7 +633,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var ws = package.Workbook.Worksheets.Add("New ws");
 
-                var stamp = ws.AddSignatureLineStamp();
+                var stamp = ws.SignatureLines.AddStamp();
                 var cert = GetSelfCert();
                 stamp.Sign(cert, signatureImage);
 

@@ -1028,7 +1028,7 @@ namespace OfficeOpenXml
         {
             get
             {
-                return VmlDrawings.SignatureLines;
+                return VmlDrawings._signatureLines;
             }
         }
 
@@ -3988,24 +3988,6 @@ namespace OfficeOpenXml
         private object GetDisplayedValue(ExcelValue c)
         {
             return Workbook.Styles.RoundValueFromNumberFormat(c);
-        }
-
-        /// <summary>
-        /// Add an empty signatureLine to the worksheet
-        /// </summary>
-        /// <returns></returns>
-        public ExcelSignatureLine AddSignatureLine()
-        {
-            return VmlDrawings.AddSignatureLine();
-        }
-
-        /// <summary>
-        /// Add an empty signatureLine Stamp to the worksheet
-        /// </summary>
-        /// <returns></returns>
-        public ExcelSignatureLineStamp AddSignatureLineStamp()
-        {
-            return VmlDrawings.AddSignatureLineStamp();
         }
 
         #endregion

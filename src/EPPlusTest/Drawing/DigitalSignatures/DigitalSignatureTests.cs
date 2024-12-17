@@ -254,7 +254,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadOnly);
 
-                var sLine = ws.AddSignatureLine();
+                var sLine = ws.SignatureLines.Add;
                 sLine.Signer = "ASigner";
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
@@ -398,7 +398,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 //wb.Calculate();
 
                 //ws.Cells["A1"].AddComment("Do Something about this", "ossian");
-                var sigLine = ws.AddSignatureLine();
+                var sigLine = ws.SignatureLines.Add;
                 sigLine.Sign(cert, "ASigner");
 
                 var test = wb.DigitialSignatures[0].Certificate.GetRSAPrivateKey();
@@ -533,7 +533,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
 
-                var sLine = ws.AddSignatureLine();
+                var sLine = ws.SignatureLines.Add;
                 sLine.Signer = "ASigner";
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "TestingSignatureLine");
