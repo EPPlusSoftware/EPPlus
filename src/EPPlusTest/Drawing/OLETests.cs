@@ -471,7 +471,7 @@ namespace EPPlusTest.Drawing
             SaveAndCleanup(p);
         }
         [TestMethod]
-        public void CopyELinkedOleObjectTestSameWorkbook()
+        public void CopyLinkedOleObjectTestSameWorkbook()
         {
             var p = OpenTemplatePackage("OleObjectTest_Link_CopyMe.xlsx");
             var ws = p.Workbook.Worksheets[0];
