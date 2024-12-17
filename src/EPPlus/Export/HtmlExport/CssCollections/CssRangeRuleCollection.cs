@@ -111,7 +111,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             _ruleCollection.Last().AddDeclaration("outline-color", "currentColor");
             _ruleCollection.Last().AddDeclaration("accent-color", "currentColor");
 
-            if(_settings.CheckboxesDisabled)
+            if(_settings.CheckboxesEnabled == false)
             {
                 _ruleCollection.Last().AddDeclaration("pointer-events", "none");
             }
@@ -206,11 +206,6 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
                 _context.AddDeclarations(styleClass);
             }
 
-            //if (style.CheckBox && _context.Exclude.Font != eFontExclude.All)
-            //{
-            //    if(translators.Contains(CssFontTranslator))
-            //    styleClass.AddDeclaration("Accent-Color", );
-            //}
             _ruleCollection.CssRules.Add(styleClass);
         }
 

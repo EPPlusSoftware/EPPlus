@@ -660,11 +660,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                     childHtml.AddAttribute("type", "checkbox");
                     childHtml.AddAttribute("class", $"{settings.StyleClassPrefix}checkbox");
 
-                    //if (settings.CheckboxesDisabled)
-                    //{
-                    //    childHtml.AddAttributeValueLess("disabled");
-                    //}
-
                     if (cell.Value != null)
                     {
                         var str = cell.Value.ToString();

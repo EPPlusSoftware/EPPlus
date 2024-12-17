@@ -423,12 +423,43 @@ namespace EPPlusTest.Style
                 Assert.IsFalse((bool)ws.Cells["A2"].Value);
                 Assert.IsTrue(ws.Cells["A10"].Style.Checkbox);
                 Assert.IsFalse(ws.Cells["A11"].Style.Checkbox);
+            }
+        }
 
+        [TestMethod]
+        public void ReadExportCheckboxesToHtml()
+        {
+            using (var p = OpenPackage("StyleRead.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Checkboxes"];
                 var exporter = ws.Cells["A1:A10"].CreateHtmlExporter();
+                var singlePage = exporter.GetSinglePage();
+
+                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;pointer-events:none;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
+                Assert.AreEqual(origString, singlePage);
+
+                var outputFile = GetOutputFile("", "CheckboxesColoured.html");
+                File.WriteAllText(outputFile.FullName, singlePage);
+            }
+        }
+
+        [TestMethod]
+        public void ReadExportCheckboxesToHtmlActivated()
+        {
+            using (var p = OpenPackage("StyleRead.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Checkboxes"];
+                var exporter = ws.Cells["A1:A10"].CreateHtmlExporter();
+
+                exporter.Settings.CheckboxesEnabled = true;
 
                 var singlePage = exporter.GetSinglePage();
 
-                File.WriteAllText("C:\\epplusTest\\Testoutput\\Checkboxes.html", singlePage);
+                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
+                Assert.AreEqual(origString, singlePage);
+
+                var outputFile = GetOutputFile("", "CheckboxesColouredActive.html");
+                File.WriteAllText(outputFile.FullName, singlePage);
             }
         }
     }
