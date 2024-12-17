@@ -1661,6 +1661,8 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name">Name of the drawing.</param>
         /// <param name="OleStream">Stream containing OLE Object.</param>
+        /// <param name="FileName">The name of the file.</param>
+        /// <param name="Extension">The file extension.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
         public ExcelOleObject AddOleObject(string Name, Stream OleStream, string FileName, string Extension)
         {
@@ -1672,6 +1674,8 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name">Name of the drawing.</param>
         /// <param name="OleStream">Stream containing OLE Object.</param>
+        /// <param name="FileName">The name of the file.</param>
+        /// <param name="Extension">The file extension.</param>
         /// <param name="DisplayAsIcon">Optional - Set to display the object as in icon.</param>
         /// <param name="IconInfo">Optional: Stream for the icon.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
@@ -1690,6 +1694,8 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name">Name of the drawing.</param>
         /// <param name="OleStream">Stream containing the OLE Object.</param>
+        /// <param name="FileName">The name of the file.</param>
+        /// <param name="Extension">The file extension.</param>
         /// <param name="Parameters">Object containing additional parameters.</param>
         /// <param name="IconStream">Optional: Stream for the icon.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
