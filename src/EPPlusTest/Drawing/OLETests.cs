@@ -571,13 +571,12 @@ namespace EPPlusTest.Drawing
             var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
             using (FileStream fileStream = new FileStream(myFile, FileMode.Open, FileAccess.Read))
             {
-                var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileStream);
+                var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileStream, "MyTextFile.txt", ".txt");
                 Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME));
                 Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
                 Assert.IsFalse(genericOle.IsExternalLink);
                 SaveAndCleanup(genericOlePackage);
             }
         }
-
     }
 }

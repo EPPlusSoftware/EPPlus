@@ -17,7 +17,26 @@ namespace OfficeOpenXml.Drawing.OleObject
     /// </summary>
     public class ExcelOleObjectParameters
     {
-        internal string OlePath = null;
+        private string _olePath = null;
+        internal string OlePath
+        {
+            get 
+            {
+                return _olePath;
+            }
+            set
+            {
+                if (value.Contains("."))
+                {
+                    _olePath = value;
+                }
+                else
+                {
+                    _olePath = value + Extension;
+                }
+            }
+        }
+
         internal string mediaFileExtension = ".bmp";
 
         /// <summary>
