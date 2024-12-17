@@ -79,13 +79,11 @@ namespace OfficeOpenXml.DigitalSignatures
             _signatures.Add(digitalSignature);
         }
 
-        public ExcelDigitalSignature AddSignature(X509Certificate2 certificate, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        public ExcelDigitalSignature AddSignature(X509Certificate2 certificate)
         {
             var digSig = new ExcelDigitalSignature(_wb, _ns, _signatures.Count + 1);
 
             digSig.Certificate = certificate;
-            digSig.CommitmentTyping = cType;
-            digSig.PurposeForSigning = purposeForSigning;
 
             _signatures.Add(digSig);
             return digSig;

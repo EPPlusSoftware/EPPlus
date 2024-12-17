@@ -9,6 +9,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using System.Text;
 using OfficeOpenXml.Utils;
+using System.Runtime.ConstrainedExecution;
 
 //REMEMBER:
 //1. Cannonize
@@ -62,7 +63,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var test = package.Workbook.FullCalcOnLoad;
 
-                var digSig = ws.Workbook.DigitialSignatures.AddSignature(cert, CommitmentType.CreatedAndApproved, "TestingSignatureLine");
+                var digSig = ws.Workbook.DigitialSignatures.AddSignature(cert);
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+                digSig.PurposeForSigning = "TestingSignatureLine";
+
                 var info = digSig.Details;
 
                 info.SignerRoleTitle = "A Title";
@@ -191,7 +195,11 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             using (ExcelPackage package = OpenPackage(fileName))
             {
                 var wb = package.Workbook;
-                wb.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "DoubleSigning");
+
+                var digSig = wb.DigitialSignatures.AddSignature(GetSelfCert());
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+                digSig.PurposeForSigning = "DoubleSigning";
+
                 SaveAndCleanup(package);
             }
 
@@ -221,7 +229,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("newWs");
 
-                wb.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "Counter-signing");
+                var digSig = wb.DigitialSignatures.AddSignature(GetSelfCert());
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+                digSig.PurposeForSigning = "Counter-signing";
 
                 SaveAndCleanup(package);
             }
@@ -257,7 +267,11 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var sLine = ws.SignatureLines.Add();
                 sLine.Signer = "ASigner";
 
-                var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
+
+                var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+                digSig.PurposeForSigning = "TestingSignatureLine";
+
                 var info = digSig.Details;
 
                 info.SignerRoleTitle = "A Title";
@@ -536,7 +550,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var sLine = ws.SignatureLines.Add();
                 sLine.Signer = "ASigner";
 
-                var digSig = ws.Workbook.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "TestingSignatureLine");
+                var digSig = wb.DigitialSignatures.AddSignature(GetSelfCert());
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+                digSig.PurposeForSigning = "TestingSignatureLine";
+
                 var info = digSig.Details;
 
                 digSig.SetDigestMethod(algorithm);

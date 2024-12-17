@@ -38,9 +38,7 @@ namespace OfficeOpenXml.DigitalSignatures
             }
         }
 
-        const string _originPartUri = @"/_xmlsignatures/origin.sigs";
         const string relType = "http://schemas.openxmlformats.org/package/2006/relationships/digital-signature/signature";
-        const string relTypeOrigin = "http://schemas.openxmlformats.org/package/2006/relationships/digital-signature/origin";
         private const string PartUriBase = @"/_xmlsignatures/sig{0}.xml";
         internal string PartUri = "";
 
