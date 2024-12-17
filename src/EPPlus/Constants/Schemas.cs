@@ -17,5 +17,7 @@ namespace OfficeOpenXml.Constants
         
         //Styling Property bag (in-cell checkbox)
         internal const string schemaFeaturePropertyBag = "http://schemas.microsoft.com/office/spreadsheetml/2022/featurepropertybag";
+        internal const string schemaRichValueRel = "http://schemas.microsoft.com/office/spreadsheetml/2022/richvaluerel";
+        internal const string schemaWebImage = "http://schemas.microsoft.com/office/spreadsheetml/2020/richdatawebimage";
     }
 }

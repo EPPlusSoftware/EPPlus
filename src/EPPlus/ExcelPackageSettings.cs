@@ -12,6 +12,8 @@
  *************************************************************************************************/
 using System.Collections.Generic;
 using System;
+using OfficeOpenXml.Interfaces.Net;
+using OfficeOpenXml.FormulaParsing.Services;
 
 namespace OfficeOpenXml
 {
@@ -73,5 +75,10 @@ namespace OfficeOpenXml
         /// In the case you want to handle this manually, set this property to false.
         /// </summary>
         public bool ApplyFiltersOnSave { get; set; } = false;
+
+        /// <summary>
+        /// This service is used by the IMAGE function to download images over https
+        /// </summary>
+        public IHttpsService ImageFunctionService { get; set; } = new ImageFunctionDefaultService();
     }
 }

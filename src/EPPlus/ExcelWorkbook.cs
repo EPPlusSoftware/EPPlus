@@ -38,6 +38,8 @@ using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.DigitalSignatures;
 using System.Security.Cryptography.Xml;
 
@@ -106,7 +108,8 @@ namespace OfficeOpenXml
 		//internal HashSet<string> _tableSlicerNames = new HashSet<string>();
 		internal HashSet<string> _slicerNames = null;
 		internal Dictionary<string, ImageInfo> _images = new Dictionary<string, ImageInfo>();
-		internal bool GetPivotCacheFromAddress(string fullAddress, out PivotTableCacheInternal cacheReference)
+        private readonly CellPictureReferenceCache _cellPictureReferenceCache = new CellPictureReferenceCache();
+        internal bool GetPivotCacheFromAddress(string fullAddress, out PivotTableCacheInternal cacheReference)
 		{
 			if (_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
 			{
@@ -226,6 +229,7 @@ namespace OfficeOpenXml
             base(namespaceManager)
         {
             _package = package;
+            _indexStore = new RichDataIndexStore(this);
             SetUris();
 
 			_names = new ExcelNamedRangeCollection(this);
@@ -2113,32 +2117,49 @@ namespace OfficeOpenXml
 			}
 		}
 
-		ExcelMetadata _metadata = null;
+        ExcelMetadata _metadata = null;
 
-		internal ExcelMetadata Metadata
-		{
-			get
-			{
-				if (_metadata == null)
-				{
-					_metadata = new ExcelMetadata(this);
-				}
-				return _metadata;
-			}
-		}
-		ExcelRichData _richData = null;
+        internal ExcelMetadata Metadata
+        {
+            get
+            {
+                if (_metadata == null)
+                {
+                    _metadata = new ExcelMetadata(this);
+                    _metadata.InitRelations(RichData.Db);
+                }
+                return _metadata;
+            }
+        }
 
-		internal ExcelRichData RichData
-		{
-			get
-			{
-				if (_richData == null)
-				{
-					_richData = new ExcelRichData(this);
-				}
-				return _richData;
-			}
-		}
+        ExcelRichData _richData = null;
+
+        internal bool RichDataInitialized => _richData != null;
+
+        internal void InitializeRichData()
+        {
+            if (_richData == null)
+            {
+                _richData = new ExcelRichData(this);
+            }
+        }
+
+        internal ExcelRichData RichData
+        {
+            get
+            {
+                if (_richData == null)
+                {
+                    InitializeRichData();
+                }
+                return _richData;
+            }
+        }
+        internal CellPictureReferenceCache CellPictureReferenceCache => _cellPictureReferenceCache;
+
+        private readonly RichDataIndexStore _indexStore;
+
+        internal RichDataIndexStore IndexStore => _indexStore;
         /// <summary>
 		/// Handler for the <see cref="ExcelRangeBase.Text" /> property to override the default behaviour.
 		/// This can be used to handle localized number formats or formats where EPPlus differs from the spread sheet application.

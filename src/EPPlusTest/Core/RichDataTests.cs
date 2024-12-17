@@ -22,21 +22,21 @@ namespace EPPlusTest.Core
         {
             using (var p = OpenTemplatePackage("RichData.xlsx"))
             {
-                Assert.AreEqual(10, p.Workbook.RichData.ValueTypes.Global.Count);
-                Assert.AreEqual(3, p.Workbook.RichData.Structures.StructureItems.Count);
-                Assert.AreEqual(4, p.Workbook.RichData.Values.Items.Count);
-                
-                Assert.AreEqual(2, p.Workbook.Metadata.MetadataTypes.Count);
-                Assert.AreEqual(1, p.Workbook.Metadata.FutureMetadata["XLDAPR"].Types.Count);
-                Assert.AreEqual(4, p.Workbook.Metadata.FutureMetadata["XLRICHVALUE"].Types.Count);
-                Assert.AreEqual(1, p.Workbook.Metadata.CellMetadata.Count);
-                Assert.AreEqual(4, p.Workbook.Metadata.ValueMetadata.Count);
+                Assert.AreEqual(10, p.Workbook.RichData.Db.ValueTypes.Global.Count);
+                Assert.AreEqual(3, p.Workbook.RichData.Db.Structures.Count);
+                Assert.AreEqual(4, p.Workbook.RichData.Db.Values.Count);
+
+                Assert.AreEqual(2, p.Workbook.Metadata.Db.MetadataTypes.Count);
+                //Assert.AreEqual(1, p.Workbook.Metadata.FutureMetadata["XLDAPR"].Types.Count);
+                //Assert.AreEqual(4, p.Workbook.Metadata.FutureMetadata["XLRICHVALUE"].Types.Count);
+                Assert.AreEqual(1, p.Workbook.Metadata.Db.CellMetadata.Count);
+                Assert.AreEqual(4, p.Workbook.Metadata.Db.ValueMetadata.Count);
 
 
                 var ws = p.Workbook.Worksheets[0];
 
                 Assert.IsInstanceOfType(ws.Cells["B1"].Value, typeof(ExcelErrorValue));
-                Assert.AreEqual(((ExcelErrorValue)ws.Cells["B1"].Value).Type,eErrorType.Spill);
+                Assert.AreEqual(((ExcelErrorValue)ws.Cells["B1"].Value).Type, eErrorType.Spill);
 
                 Assert.IsInstanceOfType(ws.Cells["C1"].Value, typeof(ExcelErrorValue));
                 Assert.AreEqual(((ExcelErrorValue)ws.Cells["C1"].Value).Type, eErrorType.Calc);

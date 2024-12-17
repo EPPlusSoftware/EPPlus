@@ -570,12 +570,15 @@
 	<ItemGroup>
 		<Compile Remove="Core\Worksheet\Fonts\Tables\**" />
 		<Compile Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
+		<Compile Remove="Settings\**" />
 		<Compile Remove="Utils\RecyclableMemoryStream\**" />
 		<EmbeddedResource Remove="Core\Worksheet\Fonts\Tables\**" />
 		<EmbeddedResource Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
+		<EmbeddedResource Remove="Settings\**" />
 		<EmbeddedResource Remove="Utils\RecyclableMemoryStream\**" />
 		<None Remove="Core\Worksheet\Fonts\Tables\**" />
 		<None Remove="FormulaParsing\Excel\Functions\DynamicArray\**" />
+		<None Remove="Settings\**" />
 		<None Remove="Utils\RecyclableMemoryStream\**" />
 	</ItemGroup>
 
@@ -665,7 +668,6 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="FormulaParsing\FormulaExpressions\Variables\" />
-	  <Folder Include="Settings\" />
 	</ItemGroup>
 	<!-- Direct dependencies to System.Formats.Asn1 and System.Text.Json to remove versions with vulnerabilities that were referenced via transient dependencies via Microsoft.Extensions.Configuration.Json and System.Security.Cryptography.Pkcs-->
 	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">

@@ -300,7 +300,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 _mediaImage = _worksheet._package.PictureStore.AddImage(image, null, ePictureType.Emf);
                 
             }
-            var imgRelId = _mediaImage.Part.CreateRelationship(_mediaImage.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+            var imgRelId = _worksheet.Part.CreateRelationship(_mediaImage.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
             //Create drawings xml
             XmlElement spElement = CreateShapeNode();
             spElement.InnerXml = CreateOleObjectDrawingNode(name);
@@ -310,7 +310,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             To.Column = 1;    To.ColumnOff = 304800;
             To.Row = 3;       To.RowOff = 114300;
             //Create vml
-            _vml = drawings.Worksheet.VmlDrawings.AddOlePicture(this.Id.ToString(), imgRelId.TargetUri);
+            _vml = drawings.Worksheet.VmlDrawings.AddOlePicture(this.Id.ToString(), _mediaImage.Uri);
             _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
             //Create worksheet xml
             var wsNode = _worksheet.CreateOleContainerNode();
