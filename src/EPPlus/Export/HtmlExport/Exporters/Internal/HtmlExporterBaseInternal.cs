@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime;
 using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
@@ -657,6 +658,12 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 {
                     var childHtml = new HTMLElement("input");
                     childHtml.AddAttribute("type", "checkbox");
+                    childHtml.AddAttribute("class", $"{settings.StyleClassPrefix}checkbox");
+
+                    //if (settings.CheckboxesDisabled)
+                    //{
+                    //    childHtml.AddAttributeValueLess("disabled");
+                    //}
 
                     if (cell.Value != null)
                     {
@@ -671,8 +678,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         }
                     }
                     //Hide content text if node has it
-                    element.AddAttribute("style","font-size: 0px;");
-                    childHtml.AddAttribute("style", "text-align: center; display: flex;");
+                    element.AddAttribute("style", "font-size: 0px; text-align:center;");
 
                     element.AddChildElement(childHtml);
                 }
