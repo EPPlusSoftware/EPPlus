@@ -26,8 +26,7 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
-using OfficeOpenXml.ConditionalFormatting;
-using System.Xml.Linq;
+
 
 
 
@@ -1553,51 +1552,51 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Embed or link an OLE object using a string file path.
         /// </summary>
-        /// <param name="Name">Name of the drawing.</param>
-        /// <param name="OlePath">The path to the file.</param>
+        /// <param name="name">Name of the drawing.</param>
+        /// <param name="olePath">The path to the file.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
-        public ExcelOleObject AddOleObject(string Name, string OlePath)
+        public ExcelOleObject AddOleObject(string name, string olePath)
         {
-            return AddOleObject(Name, OlePath, false, false, null);
+            return AddOleObject(name, olePath, false, false, null);
         }
 
         /// <summary>
         /// Embed or link an OLE object using a string file path.
         /// </summary>
-        /// <param name="Name">Name of the drawing.</param>
-        /// <param name="OlePath">The path to the file.</param>
-        /// <param name="LinkToFile">Optional - True: File will be linked. False: File will be embedded.</param>
-        /// <param name="DisplayAsIcon">Optional - Set to display the object as in icon.</param>
-        /// <param name="IconFilePath">Optional: Path for the icon.</param>
+        /// <param name="name">Name of the drawing.</param>
+        /// <param name="olePath">The path to the file.</param>
+        /// <param name="linkToFile">Optional - True: File will be linked. False: File will be embedded.</param>
+        /// <param name="displayAsIcon">Optional - Set to display the object as in icon.</param>
+        /// <param name="iconFilePath">Optional: Path for the icon.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
-        public ExcelOleObject AddOleObject(string Name, string OlePath, bool LinkToFile = false, bool DisplayAsIcon = false, string IconFilePath = null)
+        public ExcelOleObject AddOleObject(string name, string olePath, bool linkToFile = false, bool displayAsIcon = false, string iconFilePath = null)
         {
             ExcelOleObjectParameters parameters = new ExcelOleObjectParameters()
             {
-                LinkToFile = LinkToFile,
-                DisplayAsIcon = DisplayAsIcon,
-                OlePath = OlePath,
+                LinkToFile = linkToFile,
+                DisplayAsIcon = displayAsIcon,
+                OlePath = olePath,
             };
-            return AddOleObject(Name, OlePath, parameters, IconFilePath);
+            return AddOleObject(name, olePath, parameters, iconFilePath);
         }
 
         /// <summary>
         /// Embed or link an OLE object using a string file path.
         /// </summary>
-        /// <param name="Name">Name of the drawing.</param>
-        /// <param name="OlePath">The path to the file.</param>
-        /// <param name="Parameters">Object containing additional parameters.</param>
-        /// <param name="IconFilePath">Optional: Path for the icon.</param>
+        /// <param name="name">Name of the drawing.</param>
+        /// <param name="olePath">The path to the file.</param>
+        /// <param name="parameters">Object containing additional parameters.</param>
+        /// <param name="iconFilePath">Optional: Path for the icon.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
         /// <exception cref="Exception">Can Throw exception if Name exsists.</exception>
-        public ExcelOleObject AddOleObject(string Name, string OlePath, ExcelOleObjectParameters Parameters, string IconFilePath = null)
+        public ExcelOleObject AddOleObject(string name, string olePath, ExcelOleObjectParameters parameters, string iconFilePath = null)
         {
-            if (_drawingNames.ContainsKey(Name))
+            if (_drawingNames.ContainsKey(name))
             {
                 throw new Exception("Name already exists in the drawings collection");
             }
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
-            ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode,Name, OlePath, Parameters, IconFilePath);
+            ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode,name, olePath, parameters, iconFilePath);
             _drawingsList.Add(oleObj);
             _drawingNames.Add(oleObj.Name, _drawingsList.Count - 1);
             return oleObj;
@@ -1606,51 +1605,51 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Embed or link and OLE Object using FileInfo.
         /// </summary>
-        /// <param name="Name">Name of the drawing.</param>
-        /// <param name="OleInfo">FileInfo for the OLE Object.</param>
+        /// <param name="name">Name of the drawing.</param>
+        /// <param name="oleInfo">FileInfo for the OLE Object.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
-        public ExcelOleObject AddOleObject(string Name, FileInfo OleInfo)
+        public ExcelOleObject AddOleObject(string name, FileInfo oleInfo)
         {
-            return AddOleObject(Name, OleInfo, false, false, null);
+            return AddOleObject(name, oleInfo, false, false, null);
         }
 
         /// <summary>
         /// Embed or link an OLE Object using FileInfo.
         /// </summary>
-        /// <param name="Name">Name of the drawing.</param>
-        /// <param name="OleInfo">FileInfo for the OLE Object.</param>
-        /// <param name="LinkToFile">Optional - True: File will be linked. False: File will be embedded.</param>
-        /// <param name="DisplayAsIcon">Optional - Set to display the object as in icon.</param>
-        /// <param name="IconInfo">Optional: FileInfo for the icon.</param>
+        /// <param name="name">Name of the drawing.</param>
+        /// <param name="oleInfo">FileInfo for the OLE Object.</param>
+        /// <param name="linkToFile">Optional - True: File will be linked. False: File will be embedded.</param>
+        /// <param name="displayAsIcon">Optional - Set to display the object as in icon.</param>
+        /// <param name="iconInfo">Optional: FileInfo for the icon.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
-        public ExcelOleObject AddOleObject(string Name, FileInfo OleInfo, bool LinkToFile, bool DisplayAsIcon = false, FileInfo IconInfo = null)
+        public ExcelOleObject AddOleObject(string name, FileInfo oleInfo, bool linkToFile, bool displayAsIcon = false, FileInfo iconInfo = null)
         {
             ExcelOleObjectParameters parameters = new ExcelOleObjectParameters()
             {
-                DisplayAsIcon = DisplayAsIcon,
-                LinkToFile = LinkToFile,
-                OlePath = OleInfo.FullName,
+                DisplayAsIcon = displayAsIcon,
+                LinkToFile = linkToFile,
+                OlePath = oleInfo.FullName,
             };
-            return AddOleObject(Name, OleInfo, parameters, IconInfo);
+            return AddOleObject(name, oleInfo, parameters, iconInfo);
         }
 
         /// <summary>
         /// Embed or link an OLE Object using FileInfo.
         /// </summary>
-        /// <param name="Name">Name of the drawing.</param>
-        /// <param name="OleInfo">FileInfo for the OLE Object.</param>
-        /// <param name="Parameters">Object containing additional parameters.</param>
-        /// <param name="IconInfo">Optional: FileInfo for the icon.</param>
+        /// <param name="name">Name of the drawing.</param>
+        /// <param name="oleInfo">FileInfo for the OLE Object.</param>
+        /// <param name="parameters">Object containing additional parameters.</param>
+        /// <param name="iconInfo">Optional: FileInfo for the icon.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
         /// <exception cref="Exception">Can Throw exception if Name exsists.</exception>
-        public ExcelOleObject AddOleObject(string Name, FileInfo OleInfo, ExcelOleObjectParameters Parameters, FileInfo IconInfo = null)
+        public ExcelOleObject AddOleObject(string name, FileInfo oleInfo, ExcelOleObjectParameters parameters, FileInfo iconInfo = null)
         {
-            if (_drawingNames.ContainsKey(Name))
+            if (_drawingNames.ContainsKey(name))
             {
                 throw new Exception("Name already exists in the drawings collection");
             }
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
-            ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, Name, OleInfo, Parameters, IconInfo);
+            ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, name, oleInfo, parameters, iconInfo);
             _drawingsList.Add(oleObj);
             _drawingNames.Add(oleObj.Name, _drawingsList.Count - 1);
             return oleObj;
@@ -1659,72 +1658,82 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Embed an OLE Object using a Stream. Can only Embed objects using a stream.
         /// </summary>
-        /// <param name="Name">Name of the drawing.</param>
-        /// <param name="OleStream">Stream containing OLE Object.</param>
-        /// <param name="FileName">The name of the file.</param>
-        /// <param name="Extension">The file extension.</param>
+        /// <param name="name">Name of the drawing.</param>
+        /// <param name="oleStream">Stream containing OLE Object.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="extension">The file extension.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
-        public ExcelOleObject AddOleObject(string Name, Stream OleStream, string FileName, string Extension)
+        public ExcelOleObject AddOleObject(string name, Stream oleStream, string fileName, string extension)
         {
-            return AddOleObject(Name, OleStream, FileName, Extension, false, null);
+            return AddOleObject(name, oleStream, fileName, extension, false, null);
         }
 
         /// <summary>
         /// Embed an OLE Object using a Stream. Can only Embed objects using a stream.
         /// </summary>
-        /// <param name="Name">Name of the drawing.</param>
-        /// <param name="OleStream">Stream containing OLE Object.</param>
-        /// <param name="FileName">The name of the file.</param>
-        /// <param name="Extension">The file extension.</param>
-        /// <param name="DisplayAsIcon">Optional - Set to display the object as in icon.</param>
-        /// <param name="IconInfo">Optional: Stream for the icon.</param>
+        /// <param name="name">Name of the drawing.</param>
+        /// <param name="oleStream">Stream containing OLE Object.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="extension">The file extension.</param>
+        /// <param name="displayAsIcon">Optional - Set to display the object as in icon.</param>
+        /// <param name="iconInfo">Optional: Stream for the icon.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
-        public ExcelOleObject AddOleObject(string Name, Stream OleStream, string FileName, string Extension, bool DisplayAsIcon = false, Stream IconInfo = null)
+        public ExcelOleObject AddOleObject(string name, Stream oleStream, string fileName, string extension, bool displayAsIcon = false, Stream iconInfo = null)
         {
             
             ExcelOleObjectParameters parameters = new ExcelOleObjectParameters()
             {
-                DisplayAsIcon = DisplayAsIcon,
+                DisplayAsIcon = displayAsIcon,
             };
-            return AddOleObject(Name, OleStream, FileName, Extension, parameters, IconInfo);
+            return AddOleObject(name, oleStream, fileName, extension, parameters, iconInfo);
         }
 
         /// <summary>
         /// Embed an OLE Object using a Stream. Can only Embed objects using a stream.
         /// </summary>
-        /// <param name="Name">Name of the drawing.</param>
-        /// <param name="OleStream">Stream containing the OLE Object.</param>
-        /// <param name="FileName">The name of the file.</param>
-        /// <param name="Extension">The file extension.</param>
-        /// <param name="Parameters">Object containing additional parameters.</param>
-        /// <param name="IconStream">Optional: Stream for the icon.</param>
+        /// <param name="name">Name of the drawing.</param>
+        /// <param name="oleStream">Stream containing the OLE Object.</param>
+        /// <param name="fileName">The name of the file.</param>
+        /// <param name="extension">The file extension.</param>
+        /// <param name="parameters">Object containing additional parameters.</param>
+        /// <param name="iconStream">Optional: Stream for the icon.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
         /// <exception cref="Exception">Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.</exception>
-        public ExcelOleObject AddOleObject(string Name, Stream OleStream, string FileName, string Extension, ExcelOleObjectParameters Parameters, Stream IconStream = null)
+        public ExcelOleObject AddOleObject(string name, Stream oleStream, string fileName, string extension, ExcelOleObjectParameters parameters, Stream iconStream = null)
         {
-            if (_drawingNames.ContainsKey(Name))
+            if (_drawingNames.ContainsKey(name))
             {
                 throw new Exception("Name already exists in the drawings collection");
             }
-            if (OleStream == null)
+            if (oleStream == null)
             {
                 throw (new ArgumentNullException("OleStream cannot be null"));
             }
-            if (!OleStream.CanRead || !OleStream.CanSeek)
+            if (!oleStream.CanRead || !oleStream.CanSeek)
             {
                 throw (new IOException("OleStream must be readable and seekable"));
             }
-            if(IconStream != null)
+            if(iconStream != null)
             {
-                if (!IconStream.CanRead || !IconStream.CanSeek)
+                if (!iconStream.CanRead || !iconStream.CanSeek)
                 {
                     throw (new IOException("IconStream must be readable and seekable"));
                 }
             }
-            Parameters.Extension = Extension;
-            Parameters.OlePath = FileName;
+
+            FileInfo fi = new FileInfo(fileName);
+            if(fi.Extension == "")
+            {
+                parameters.Extension = extension;
+                parameters.OlePath = fileName + parameters.Extension;
+            }
+            else
+            {
+                parameters.Extension = fi.Extension;
+                parameters.OlePath = fileName;
+            }
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
-            ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, Name, OleStream, Parameters, IconStream);
+            ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, name, oleStream, parameters, iconStream);
             _drawingsList.Add(oleObj);
             _drawingNames.Add(oleObj.Name, _drawingsList.Count - 1);
             return oleObj;
