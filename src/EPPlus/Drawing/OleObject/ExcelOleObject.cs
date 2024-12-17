@@ -134,7 +134,11 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, string olePath, ExcelOleObjectParameters parameters, string iconPath = null, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
-            byte[] oleData = File.ReadAllBytes(olePath);
+            byte[] oleData = null;
+            if (parameters.LinkToFile == false)
+            {
+                oleData = File.ReadAllBytes(olePath);
+            }
             parameters.Extension = Path.GetExtension(olePath);
             byte[] iconData;
             if(string.IsNullOrEmpty(iconPath))
@@ -163,15 +167,15 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, FileInfo oleInfo, ExcelOleObjectParameters parameters, FileInfo iconInfo = null, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
-            if(oleInfo.Length > _maxFileSize)
-            {
-                throw new IOException("The file is too long.This operation is currently limited to supporting files less than 2 gigabytes in size.");
-            }
             byte[] oleData = null;
             parameters.Extension = string.IsNullOrEmpty(parameters.Extension) ? oleInfo.Extension : parameters.Extension;
             parameters.OlePath = oleInfo.FullName;
             if (parameters.LinkToFile == false)
             {
+                if (oleInfo.Length > _maxFileSize)
+                {
+                    throw new IOException("The file is too long.This operation is currently limited to supporting files less than 2 gigabytes in size.");
+                }
                 using FileStream oleFs = oleInfo.OpenRead();
                 {
                     oleData = new byte[oleFs.Length];
