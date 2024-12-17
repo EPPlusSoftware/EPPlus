@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using System.Security.Cryptography.X509Certificates;
-using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
@@ -92,19 +91,19 @@ namespace OfficeOpenXml.DigitalSignatures
             return digSig;
         }
 
-        internal void AddExcelSignatureLine(ExcelSignatureLineStamp line)
-        {
-            _wb._signatureLinesWorkbook.Add(line.SetupID, line);
-        }
+        //internal void AddExcelSignatureLine(ExcelSignatureLineStamp line)
+        //{
+        //    _wb._signatureLinesWorkbook.Add(line.SetupID, line);
+        //}
 
-        internal ExcelSignatureLineStamp GetSignatureLineBySignature(ExcelDigitalSignature digitalSignature)
-        {
-            if(digitalSignature.SignatureLine != null)
-            {
-                return _wb._signatureLinesWorkbook[digitalSignature.SignatureLine.SetupID];
-            }
-            throw new AccessViolationException($"DigitalSignature {digitalSignature} is not connected to any signature lines.");
-        }
+        //internal ExcelSignatureLineStamp GetSignatureLineBySignature(ExcelDigitalSignature digitalSignature)
+        //{
+        //    if(digitalSignature.SignatureLine != null)
+        //    {
+        //        return _wb._signatureLinesWorkbook[digitalSignature.SignatureLine.SetupID];
+        //    }
+        //    throw new AccessViolationException($"DigitalSignature {digitalSignature} is not connected to any signature lines.");
+        //}
 
         internal ExcelDigitalSignature GetSignatureBySignatureLineGuid(Guid id)
         {

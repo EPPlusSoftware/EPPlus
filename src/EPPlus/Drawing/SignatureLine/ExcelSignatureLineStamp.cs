@@ -35,6 +35,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// The Signature itself.
         /// Note that setting SignatureImage will erase SignatureText and vice-versa
+        /// Must be .bmp format.
         /// </summary>
         public virtual ExcelImage SignatureImage
         {
@@ -152,54 +153,27 @@ namespace OfficeOpenXml.Drawing
 
         /// <summary>
         /// Sign the signatureline with a new digital signature.
+        /// The image must be .bmp format
         /// </summary>
         /// <param name="image">Must be in .bmp format</param>
-        /// <param name="certificate"></param>
-        /// <param name="cType"></param>
-        /// <param name="purposeForSigning"></param>
+        /// <param name="certificate">Certificate for creating the digital signature</param>
         /// <returns></returns>
-        public ExcelDigitalSignature Sign(X509Certificate2 certificate, ExcelImage image, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        public ExcelDigitalSignature SignWithImage(X509Certificate2 certificate, ExcelImage image)
         {
             SignatureImage = image;
             CheckSignature();
-            return Sign(certificate, cType, purposeForSigning);
+            return Sign(certificate);
         }
 
         /// <summary>
-        /// Sign with an image.
         /// </summary>
         /// <param name="certificate"></param>
-        /// <param name="cType"></param>
-        /// <param name="purposeForSigning"></param>
         /// <returns></returns>
-        private protected ExcelDigitalSignature Sign(X509Certificate2 certificate, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        private protected ExcelDigitalSignature Sign(X509Certificate2 certificate)
         {
-            var digSig = wb.DigitialSignatures.AddSignature(certificate, cType, purposeForSigning);
+            var digSig = wb.DigitialSignatures.AddSignature(certificate);
             digSig.SignatureLine = this;
             return digSig;
-        }
-
-        /// <summary>
-        /// Sign the signatureline with an image and an existing digital signature.
-        /// Note: Overwrites the digitalSignature.SignatureLine with the new one.
-        /// </summary>
-        /// <param name="digitalSignature"></param>
-        /// <param name="image"></param>
-        public void SignWithExisting(ExcelDigitalSignature digitalSignature, ExcelImage image)
-        {
-            SignatureImage = image;
-            CheckSignature();
-            SignWithExisting(digitalSignature);
-        }
-
-        /// <summary>
-        /// Sign the signatureline with an existing digital signature.
-        /// Note: Overwrites the digitalSignature.SignatureLine with the new one.
-        /// </summary>
-        /// <param name="digitalSignature"></param>
-        private protected void SignWithExisting(ExcelDigitalSignature digitalSignature)
-        {
-            digitalSignature.SignatureLine = this;
         }
 
         /// <summary>

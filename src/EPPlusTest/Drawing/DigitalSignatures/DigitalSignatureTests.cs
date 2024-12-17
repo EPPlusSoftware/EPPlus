@@ -254,7 +254,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadOnly);
 
-                var sLine = ws.SignatureLines.Add;
+                var sLine = ws.SignatureLines.Add();
                 sLine.Signer = "ASigner";
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
@@ -398,8 +398,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 //wb.Calculate();
 
                 //ws.Cells["A1"].AddComment("Do Something about this", "ossian");
-                var sigLine = ws.SignatureLines.Add;
-                sigLine.Sign(cert, "ASigner");
+                var sigLine = ws.SignatureLines.Add();
+                sigLine.SignWithText(cert, "ASigner");
 
                 var test = wb.DigitialSignatures[0].Certificate.GetRSAPrivateKey();
                 var test2 = wb.DigitialSignatures[0].Certificate.GetRSAPrivateKey();
@@ -533,7 +533,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
 
-                var sLine = ws.SignatureLines.Add;
+                var sLine = ws.SignatureLines.Add();
                 sLine.Signer = "ASigner";
 
                 var digSig = ws.Workbook.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "TestingSignatureLine");
@@ -552,7 +552,19 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.CountryOrRegion = "Rainbow";
                 info.StateOrProvince = "WayUpHigh";
 
-                sLine.SignWithExistingText(digSig, "ASigner");
+
+
+                //var signature = ws.Workbook.DigitialSignatures.AddSignature(GetSelfCert());
+
+                //var digSigAlt = ws.Workbook.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "TestingSignatureLine");
+
+                //sLine.SignWithTextAndSignature(signature, "ASigner");
+
+                var signature = sLine.SignWithText(GetSelfCert(), "ASigner");
+                signature.Details.Address1 = "Address";
+                signature.CommitmentTyping = CommitmentType.Approved;
+                //sLine.SignWithText(GetSelfCert(),"aSigner", CommitmentType.CreatedAndApproved, "TestingSignatureLine");
+
 
                 SaveAndCleanup(package);
             }

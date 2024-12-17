@@ -63,27 +63,12 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="signatureText">Cannot be null or empty</param>
         /// <param name="certificate"></param>
-        /// <param name="cType"></param>
-        /// <param name="purposeForSigning"></param>
         /// <returns></returns>
-        public ExcelDigitalSignature Sign(X509Certificate2 certificate, string signatureText, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        public ExcelDigitalSignature SignWithText(X509Certificate2 certificate, string signatureText)
         {
             SignatureText = signatureText;
             CheckSignature();
-            return Sign(certificate, cType, purposeForSigning);
+            return Sign(certificate);
         }
-        /// <summary>
-        /// Sign with text and existing signature
-        /// </summary>
-        /// <param name="signatureText">Cannot be null or empty</param>
-        /// <param name="digitalSignature"></param>
-        /// <returns></returns>
-        public void SignWithExistingText(ExcelDigitalSignature digitalSignature, string signatureText)
-        {
-            SignatureText = signatureText;
-            CheckSignature();
-            SignWithExisting(digitalSignature);
-        }
-
     }
 }

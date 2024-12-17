@@ -241,7 +241,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var cert = GetSelfCert();
 
                 var sLine = sSline.SignatureLines.Add();
-                sLine.Sign(cert, signatureImage);
+                sLine.SignWithImage(cert, signatureImage);
 
                 SaveAndCleanup(package);
             }
@@ -260,7 +260,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var sLine = sSline.SignatureLines.Add();
 
                 var cert = GetSelfCert();
-                sLine.Sign(cert, signatureImage);
+                sLine.SignWithImage(cert, signatureImage);
 
                 SaveAndCleanup(package);
             }
@@ -422,7 +422,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 sLine.ShowSignDate = true;
 
                 var cert = GetSelfCert();
-                sLine.Sign(cert, signatureImage);
+                sLine.SignWithImage(cert, signatureImage);
 
                 SaveAndCleanup(pck);
             }
@@ -484,7 +484,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 sLine.AllowComments = true;
                 sLine.ShowSignDate = true;
 
-                sLine.Sign(cert, signatureImage);
+                sLine.SignWithImage(cert, signatureImage);
 
                 var digSig = sLine.DigitalSignature;
 
@@ -635,7 +635,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var stamp = ws.SignatureLines.AddStamp();
                 var cert = GetSelfCert();
-                stamp.Sign(cert, signatureImage);
+                stamp.SignWithImage(cert, signatureImage);
 
                 //Arguably if there is a way to throw here we should.
                 signatureImage.SetImage(GetResourceFile("EPPlus.png"));
