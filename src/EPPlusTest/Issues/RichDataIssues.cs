@@ -29,5 +29,16 @@ namespace EPPlusTest.Issues
             using var package = OpenTemplatePackage("RichDataPreserve3.xlsx");
             SaveWorkbook("RichDataPreserve3Output.xlsx", package);
         }
+
+        [TestMethod]
+        public void RichDataPreserveError1()
+        {
+            using var package = OpenTemplatePackage("RichDataPreserveError1.xlsx");
+            var ws = package.Workbook.Worksheets[0];
+            var stockholm = ws.Cells["G1"].Picture.Get();
+            var ws2 = package.Workbook.Worksheets.Add("Sheet 2");
+            ws2.Cells["G1"].Picture.Set(stockholm.GetImageBytes(), "Stockolm");
+            SaveWorkbook("RichDataPreserveError1_Output.xlsx", package);
+        }
     }
 }
