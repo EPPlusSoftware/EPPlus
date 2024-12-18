@@ -42,5 +42,20 @@ namespace EPPlusTest.Issues
             ws2.Cells["G2"].Picture.Set(tokyo.GetImageBytes(), "Tokyo");
             SaveWorkbook("RichDataPreserveError1_Output.xlsx", package);
         }
+
+        [TestMethod]
+        public void LoadCellsAndCopyLocalImage()
+        {
+            using var package = OpenTemplatePackage("LocalImageLoadCells.xlsx");
+            var ws = package.Workbook.Worksheets[0];
+            var stockholm = ws.Cells["D1"].Picture.Get();
+            var tokyo = ws.Cells["D2"].Picture.Get();
+            var ws2 = package.Workbook.Worksheets.Add("Sheet2");
+            ws2.Cells["D1"].Picture.Set(stockholm.GetImageBytes());
+            ws2.Cells["D2"].Picture.Set(tokyo.GetImageBytes());
+            var stockholm2 = ws2.Cells["D1"].Picture.Get();
+            var tokyo2 = ws2.Cells["D2"].Picture.Get();
+            SaveWorkbook("LocalImageLoadCells_Output.xlsx", package);
+        }
     }
 }
