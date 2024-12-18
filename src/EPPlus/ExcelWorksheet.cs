@@ -1646,7 +1646,7 @@ namespace OfficeOpenXml
                                 CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None
                             };
                             SetValueInner(row, col, pic);
-                            while(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c")
+                            while(!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
                             {
                                 xr.Read();
                             }
