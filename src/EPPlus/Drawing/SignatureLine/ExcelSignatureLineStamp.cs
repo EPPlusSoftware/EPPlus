@@ -61,7 +61,7 @@ namespace OfficeOpenXml.Drawing
 
         /// <summary>
         /// The digital signature this signatureline is linked to one.
-        /// Must be set via Sign methods.
+        /// Must be set via SignWithText methods.
         /// </summary>
         public ExcelDigitalSignature DigitalSignature
         {
@@ -151,7 +151,7 @@ namespace OfficeOpenXml.Drawing
         }
 
         /// <summary>
-        /// Sign the signatureline with a new digital signature.
+        /// SignWithText the signatureline with a new digital signature.
         /// </summary>
         /// <param name="image">Must be in .bmp format</param>
         /// <param name="certificate"></param>
@@ -166,7 +166,7 @@ namespace OfficeOpenXml.Drawing
         }
 
         /// <summary>
-        /// Sign with an image.
+        /// SignWithText with an image.
         /// </summary>
         /// <param name="certificate"></param>
         /// <param name="cType"></param>
@@ -180,7 +180,7 @@ namespace OfficeOpenXml.Drawing
         }
 
         /// <summary>
-        /// Sign the signatureline with an image and an existing digital signature.
+        /// SignWithText the signatureline with an image and an existing digital signature.
         /// Note: Overwrites the digitalSignature.SignatureLine with the new one.
         /// </summary>
         /// <param name="digitalSignature"></param>
@@ -193,7 +193,7 @@ namespace OfficeOpenXml.Drawing
         }
 
         /// <summary>
-        /// Sign the signatureline with an existing digital signature.
+        /// SignWithText the signatureline with an existing digital signature.
         /// Note: Overwrites the digitalSignature.SignatureLine with the new one.
         /// </summary>
         /// <param name="digitalSignature"></param>
