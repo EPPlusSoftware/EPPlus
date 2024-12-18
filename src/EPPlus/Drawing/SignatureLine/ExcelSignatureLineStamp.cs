@@ -18,6 +18,7 @@ namespace OfficeOpenXml.Drawing
         private protected ExcelImage _signatureImage = null;
         private protected string _signatureText = "";
         internal ExcelWorkbook wb;
+        internal ExcelWorksheet _ws;
 
         private protected eSignatureLineType _signatureLineType = eSignatureLineType.Stamp;
         ePictureType[] restrictedTypes = Enum.GetValues(typeof(ePictureType)).Cast<ePictureType>().Where(x => x != ePictureType.Bmp).ToArray();
@@ -77,8 +78,9 @@ namespace OfficeOpenXml.Drawing
         internal string ValidSigLnImage;
         internal string SigLnImage;
 
-        internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId)
+        internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId, ws)
         {
+            _ws = ws;
             wb = ws.Workbook;
             IsStamp = true;
 
@@ -91,14 +93,27 @@ namespace OfficeOpenXml.Drawing
 
         internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
         {
+            _ws = ws;
             wb = ws.Workbook;
         }
 
         internal void SaveMedia(ZipPackagePart part)
         {
+            From.UpdateXml();
+            To.UpdateXml();
+
             Emf = _signatureLineType == eSignatureLineType.Stamp ? new SignatureLineTemplateEmfStamp() : new SignatureLineTemplateEmf();
             Emf.SuggestedSigner = Signer;
             Emf.SuggestedTitle = Title;
+
+            if (To.Row <= From.Row)
+            {
+                throw new InvalidDataException($"To.Row property '{To.Row}' cannot be less than or equal to From.Row property '{From.Row}'. Signature line with id '{SetupID}' will not be visible.");
+            }
+            else if(To.Column <= From.Column)
+            {
+                throw new InvalidDataException($"To.Column property '{To.Column}' cannot be less than or equal to From.Column property '{From.Column}'. signature line '{SetupID}' will not be visible.");
+            }
 
             //Note: Intentionally not disposed.
             MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);

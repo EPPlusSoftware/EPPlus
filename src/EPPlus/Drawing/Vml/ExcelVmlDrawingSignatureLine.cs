@@ -1,4 +1,8 @@
-﻿using System;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Utils;
+using System;
+using System.Drawing;
+using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Vml
@@ -10,9 +14,14 @@ namespace OfficeOpenXml.Drawing.Vml
     {
         const string provIdStamp = "{000CD6A4-0000-0000-C000-000000000046}";
         const string provID = "{00000000-0000-0000-0000-000000000000}";
-        internal Guid SetupID;
+        ExcelWorksheet _ws;
 
-        internal ExcelVmlDrawingSignatureLine(XmlNode topNode, XmlNamespaceManager ns, Guid lineID) : base(topNode, ns)
+        /// <summary>
+        /// Id of signature line
+        /// </summary>
+        public Guid SetupID { get; internal set; }
+
+        internal ExcelVmlDrawingSignatureLine(XmlNode topNode, XmlNamespaceManager ns, Guid lineID, ExcelWorksheet ws) : base(topNode, ns)
         {
             SetupID = lineID;
             SetXmlNodeString("o:signatureline/@id", $"{{{SetupID.ToString().ToUpper()}}}");
@@ -20,6 +29,7 @@ namespace OfficeOpenXml.Drawing.Vml
             ShowSignDate = true;
             AllowComments = false;
             SigningInstructions = "Before signing this document, verify that the content you are signing is correct.";
+            _ws = ws;
         }
 
         internal ExcelVmlDrawingSignatureLine(XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
@@ -213,8 +223,6 @@ namespace OfficeOpenXml.Drawing.Vml
         }
 
         const string vNameSpace = "urn:schemas-microsoft-com:vml";
-        const string oNameSpace = "urn:schemas-microsoft-com:office:office";
-        const string xNameSpace = "urn:schemas-microsoft-com:office:excel";
 
         internal static void CreateFormulaElementAsChildOf(XmlNode node)
         {
@@ -242,6 +250,137 @@ namespace OfficeOpenXml.Drawing.Vml
             var f1 = document.CreateElement("v", "f", vNameSpace);
             f1.SetAttribute("eqn", formula);
             formulaParentNode.AppendChild(f1);
+        }
+
+        /// <summary>
+        /// The ratio between EMU and Pixels
+        /// </summary>
+        public const int EMU_PER_PIXEL = 9525;
+        /// <summary>
+        /// The ratio between EMU and Points
+        /// </summary>
+        public const int EMU_PER_POINT = 12700;
+
+        internal void GetToRowFromPixels(double pixels, out int toRow, out int rowOff, int fromRow = -1, int fromRowOff = -1)
+        {
+            if (fromRow < 0)
+            {
+                fromRow = From.Row;
+                fromRowOff = From.RowOff;
+            }
+            ExcelWorksheet ws = _ws;
+            var pixOff = pixels - ((ws.GetRowHeight(fromRow + 1) / 0.75) - (fromRowOff / (double)EMU_PER_PIXEL));
+            double prevPixOff = pixels;
+            int row = fromRow + 1;
+
+            while (pixOff >= 0)
+            {
+                prevPixOff = pixOff;
+                pixOff -= (ws.GetRowHeight(++row) / 0.75);
+            }
+            //Specific for signature lines?
+            toRow = row /*- 1*/;
+            if (fromRow == toRow)
+            {
+                rowOff = (int)(fromRowOff + (pixels) * EMU_PER_PIXEL);
+            }
+            else
+            {
+                rowOff = (int)(prevPixOff * EMU_PER_PIXEL);
+            }
+        }
+
+        internal void GetToColumnFromPixels(double pixels, out int col, out int colOff, int fromColumn = -1, int fromColumnOff = -1)
+        {
+            ExcelWorksheet ws = _ws;
+            decimal mdw = ws.Workbook.MaxFontWidth;
+            if (fromColumn < 0)
+            {
+                fromColumn = From.Column;
+                fromColumnOff = From.ColumnOff;
+            }
+            double pixOff = pixels - (double)(decimal.Truncate(((256 * ws.GetColumnWidth(fromColumn + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
+            double offset = (double)fromColumnOff / EMU_PER_PIXEL + pixels;
+            col = fromColumn + 2;
+            while (pixOff >= 0)
+            {
+                offset = pixOff;
+                pixOff -= (double)decimal.Truncate(((256 * ws.GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+            }
+            colOff = (int)offset;
+        }
+
+        internal void SetPixelHeight(double pixels)
+        {
+            GetToRowFromPixels(pixels, out int toRow, out int pixOff);
+            To.Row = toRow;
+            To.RowOff = pixOff;
+
+            From.UpdateXml();
+            To.UpdateXml();
+        }
+
+        internal void SetPixelWidth(double pixels)
+        {
+            GetToColumnFromPixels(pixels, out int col, out int pixOff);
+
+            To.Column = col - 2;
+            To.ColumnOff = pixOff * EMU_PER_PIXEL;
+
+            From.UpdateXml();
+            To.UpdateXml();
+        }
+
+        internal int pxWidth;
+        internal int pxHeight;
+
+        internal double GetPixelWidth()
+        {
+            var cols = From.Column - To.Column;
+            var str = GetXmlNodeString("@style");
+
+            var widthIndex = str.IndexOf("width:");
+            var heightIndex = str.IndexOf("height:");
+
+            var substringWidth = str.GetSubstringStoppingAtSymbol(widthIndex + 6, "p");
+            var substringHeight = str.GetSubstringStoppingAtSymbol(heightIndex + 7, "p");
+
+            var widthPt = int.Parse(substringWidth);
+            var heightPt = int.Parse(substringHeight);
+
+            pxWidth = (widthPt * EMU_PER_POINT)/EMU_PER_PIXEL;
+            pxHeight = (heightPt * EMU_PER_POINT) / EMU_PER_PIXEL;
+
+            double pix;
+            decimal mdw = _ws.Workbook.MaxFontWidth;
+
+            pix = -From.ColumnOff / (double)EMU_PER_PIXEL;
+            for (int col = From.Column + 1; col <= To.Column; col++)
+            {
+                pix += (double)decimal.Truncate(((256 * _ws.GetColumnWidth(col) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+            }
+
+            var w = (double)decimal.Truncate(((256 * _ws.GetColumnWidth(To.Column + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+            pix += Math.Min(w, Convert.ToDouble(To.ColumnOff) / EMU_PER_PIXEL);
+
+            return pix;
+        }
+
+        internal double GetPixelHeight()
+        {
+            ExcelWorksheet ws = _ws;
+
+            double pix;
+
+            pix = -(From.RowOff / (double)EMU_PER_PIXEL);
+            for (int row = From.Row + 1; row <= To.Row; row++)
+            {
+                pix += ws.GetRowHeight(row) / 0.75;
+            }
+            var h = ws.GetRowHeight(To.Row + 1) / 0.75;
+            pix += Math.Min(h, Convert.ToDouble(To.RowOff) / EMU_PER_PIXEL);
+
+            return pix;
         }
     }
 }

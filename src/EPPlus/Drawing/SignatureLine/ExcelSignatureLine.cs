@@ -1,7 +1,7 @@
-﻿using System;
+﻿using OfficeOpenXml.DigitalSignatures;
+using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
-using OfficeOpenXml.DigitalSignatures;
 
 namespace OfficeOpenXml.Drawing
 {

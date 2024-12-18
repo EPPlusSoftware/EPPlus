@@ -10,6 +10,7 @@ using OfficeOpenXml.Packaging;
 using System.Text;
 using OfficeOpenXml.Utils;
 using System.Runtime.ConstrainedExecution;
+using System.IO;
 
 //REMEMBER:
 //1. Cannonize
@@ -209,7 +210,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 //Ensure both are valid and tests enumerator.
                 int i = 0;
-                foreach(var sig in wb.DigitialSignatures)
+                foreach (var sig in wb.DigitialSignatures)
                 {
                     Assert.IsTrue(sig.IsValid);
                     i += 1;
@@ -235,7 +236,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 SaveAndCleanup(package);
             }
-            
+
             using (ExcelPackage package = OpenPackage(fileName))
             {
                 var wb = package.Workbook;
@@ -569,19 +570,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.CountryOrRegion = "Rainbow";
                 info.StateOrProvince = "WayUpHigh";
 
-
-
-                //var signature = ws.Workbook.DigitialSignatures.AddSignature(GetSelfCert());
-
-                //var digSigAlt = ws.Workbook.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "TestingSignatureLine");
-
-                //sLine.SignWithTextAndSignature(signature, "ASigner");
-
                 var signature = sLine.SignWithText(GetSelfCert(), "ASigner");
                 signature.Details.Address1 = "Address";
                 signature.CommitmentTyping = CommitmentType.Approved;
-                //sLine.SignWithText(GetSelfCert(),"aSigner", CommitmentType.CreatedAndApproved, "TestingSignatureLine");
-
 
                 SaveAndCleanup(package);
             }
@@ -619,6 +610,40 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         public void CreateDigSigSHA512()
         {
             TestHashAlgorithm("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", "http://www.w3.org/2001/04/xmlenc#sha512", DigitalSignatureHashAlgorithm.SHA512);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidDataException))]
+        public void SetFaultyFromToRow()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("AWs");
+
+                var sLine = ws.SignatureLines.Add();
+                sLine.From.Row = 5;
+                sLine.To.Row = 4;
+
+                package.Save();
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidDataException))]
+        public void SetFaultyFromToRowColumn()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("AWs");
+
+                var sLine = ws.SignatureLines.Add();
+                sLine.From.Column = 5;
+                sLine.To.Column = 4;
+
+                package.Save();
+            }
         }
     }
 }

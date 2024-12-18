@@ -166,7 +166,7 @@ namespace OfficeOpenXml.DigitalSignatures
                     SigLnImage = signatureProperty.sigInfo1.SignatureImage;
                     SignatureText = signatureProperty.sigInfo1.SignatureText;
 
-                    //Could be made more effective if we only find the  id string via part instead.
+                    //Could be made more effective if we only find the id string via part instead.
                     //Must load drawings to find SetupID in one of the shapes in one of the files.
                     //Worksheets must exist to load drawings.
                     var worksheets = _wb.Worksheets;

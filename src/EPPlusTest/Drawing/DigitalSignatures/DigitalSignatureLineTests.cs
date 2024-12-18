@@ -8,6 +8,7 @@ using OfficeOpenXml.Drawing;
 using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
@@ -706,6 +707,34 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
             inValidTemplate.SuggestedTitle = testText;
             Assert.AreEqual(inValidTemplate.suggestedTitleObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL...");
+        }
+
+        [TestMethod]
+        public void SignatureLinePixels()
+        {
+            using (ExcelPackage package = OpenPackage("sizingSignatureLine.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("SomeWs");
+
+                var sLine = ws.SignatureLines.Add();
+                var sLineOther = ws.SignatureLines.Add();
+
+
+                var pixHeightCurrent = sLine.GetPixelHeight();
+                var pixWidthCurrent = sLine.GetPixelWidth();
+
+                sLine.SetPixelWidth(pixWidthCurrent);
+                sLine.SetPixelHeight(pixHeightCurrent);
+
+                Assert.AreEqual(pixHeightCurrent, sLine.GetPixelHeight());
+                Assert.AreEqual(pixWidthCurrent, sLine.GetPixelWidth());
+
+                sLine.SetPixelWidth(pixWidthCurrent*2);
+                sLine.SetPixelHeight(pixHeightCurrent*2);
+
+                SaveAndCleanup(package);
+            }
         }
     }
 }
