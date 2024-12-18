@@ -1635,6 +1635,10 @@ namespace OfficeOpenXml
                                 CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
                             };
                             SetValueInner(row, col, pic);
+                            while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
+                            {
+                                xr.Read();
+                            }
                         }
                         else if (rd != null && rd.Structure.StructureType == RichDataStructureTypes.WebImage)
                         {
