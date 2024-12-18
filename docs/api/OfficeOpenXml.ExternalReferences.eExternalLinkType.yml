@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eExternalLinkType
     path: ../src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalWorkbook
     path: ../src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DdeLink
     path: ../src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OleLink
     path: ../src/EPPlus/ExternalReferences/enum/eExternalLinkType.cs

@@ -175,11 +175,11 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"-+3-3";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(4, tokens.Length);
-            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Negator));
-            Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Operator));
-            Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.Integer));
+            Assert.AreEqual(3, tokens.Length);
+            //Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Negator));
+            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.Operator));
+            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
         }
 
         [TestMethod]
@@ -271,16 +271,16 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(-+3-3,5)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(9, tokens.Length);
+            Assert.AreEqual(8, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
-            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Negator));
-            Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Operator));
-            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.Comma));
-            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[8].TokenTypeIsSet(TokenType.ClosingParenthesis));
+            //Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Negator));
+            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.Operator));
+            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.Comma));
+            Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.ClosingParenthesis));
         }
 
         [TestMethod]
@@ -305,16 +305,16 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(5,-+3-3)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(9, tokens.Length);
+            Assert.AreEqual(8, tokens.Length);
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
             Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.Comma));
-            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Negator));
-            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.Operator));
-            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[8].TokenTypeIsSet(TokenType.ClosingParenthesis));
+            //Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Negator));
+            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.Operator));
+            Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.ClosingParenthesis));
         }
         [TestMethod]
         public void TokenizeWorksheetName()

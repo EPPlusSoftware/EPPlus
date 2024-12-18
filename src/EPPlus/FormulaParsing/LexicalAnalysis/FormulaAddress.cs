@@ -5,14 +5,12 @@ using System.Collections.Generic;
 using System.Text;
 using static OfficeOpenXml.ExcelAddressBase;
 using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System.Globalization;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Linq;
 using OfficeOpenXml.Utils;
-using System.Net;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -209,21 +207,24 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 
         internal SharedFormula Clone()
         {
-            return new SharedFormula(_ws, StartRow, StartCol, EndRow, EndCol, Formula)
-            {
-                Index = Index,
-                FormulaType = FormulaType,
-                Tokens = Tokens,
-                RpnTokens = RpnTokens,
-                Address = Address,
-                DataTableIsTwoDimesional = DataTableIsTwoDimesional,
-                IsDataTableRow = IsDataTableRow,
-                R1CellAddress = R1CellAddress,
-                R2CellAddress = R2CellAddress,
-                FirstCellDeleted = FirstCellDeleted,
-                SecondCellDeleted = SecondCellDeleted,
-                _ws = _ws,                
-            };
+            var sh = new SharedFormula(_ws, StartRow, StartCol, EndRow, EndCol, Formula);
+
+            sh.Index = Index;
+            sh.FormulaType = FormulaType;
+            sh.Tokens = null;
+            sh.RpnTokens = null;
+            //sh.Address = Address;
+            sh.StartColOffset = StartColOffset;
+            sh.StartRowOffset = StartRowOffset;
+            //sh.StartCol = StartCol;
+            sh.DataTableIsTwoDimesional = DataTableIsTwoDimesional;
+            sh.IsDataTableRow = IsDataTableRow;
+            sh.R1CellAddress = R1CellAddress;
+            sh.R2CellAddress = R2CellAddress;
+            sh.FirstCellDeleted = FirstCellDeleted;
+            sh.SecondCellDeleted = SecondCellDeleted;
+            sh._ws = _ws;
+            return sh;
         }
         internal Formula GetFormula(int row, int col)
         {
@@ -232,16 +233,18 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                 AddressExpressionIndex = 0,
                 Tokens = Tokens,
                 RpnTokens = RpnTokens,                
-                //ExpressionTree = GetExpressionTree(row, col),
                 StartRow = row,
                 StartCol = col,
-                //_compiler = _compiler,
             };
         }
         private Dictionary<int, Expression> _compiledExpressions;
         internal RpnFormula GetRpnFormula(RpnOptimizedDependencyChain depChain, int row, int col)
         {
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws.IndexInList, row, col);
+            if(RpnTokens==null)
+            {
+                SetFormula(_ws, Formula);
+            }
             if (_compiledExpressions == null)
             {
                 _compiledExpressions = FormulaExecutor.CompileExpressions(ref RpnTokens, depChain._parsingContext);
@@ -533,6 +536,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     /// <summary>
     /// Represents a range address
     /// </summary>
+    [DebuggerDisplay("Address: {ToString()}")]
     public class FormulaRangeAddress : FormulaAddressBase, IAddressInfo, IComparable<FormulaRangeAddress>
     {
         internal ParsingContext _context;
@@ -936,6 +940,11 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         /// Address
         /// </summary>
         public FormulaRangeAddress Address => this;
+
+        /// <summary>
+        /// If the address contains multiple comma separated addresses, the individual addresses are stored here.
+        /// </summary>
+        public FormulaRangeAddress[] Addresses => [this];
     }
     /// <summary>
     /// Formula table address

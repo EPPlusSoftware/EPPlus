@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaProtection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaProtection
     path: ../src/EPPlus/Vba/ExcelVbaProtection.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaProtection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UserProtected
     path: ../src/EPPlus/Vba/ExcelVbaProtection.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaProtection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HostProtected
     path: ../src/EPPlus/Vba/ExcelVbaProtection.cs
@@ -137,7 +137,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaProtection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VbeProtected
     path: ../src/EPPlus/Vba/ExcelVbaProtection.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaProtection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VisibilityState
     path: ../src/EPPlus/Vba/ExcelVbaProtection.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaProtection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPassword
     path: ../src/EPPlus/Vba/ExcelVbaProtection.cs

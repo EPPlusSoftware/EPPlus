@@ -202,7 +202,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eShapeStyle
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AccentBorderCallout1
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -269,7 +269,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AccentBorderCallout2
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AccentBorderCallout3
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -337,7 +337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AccentCallout1
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -371,7 +371,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AccentCallout2
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -405,7 +405,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AccentCallout3
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -439,7 +439,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActionButtonBackPrevious
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -473,7 +473,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActionButtonBeginning
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -507,7 +507,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActionButtonBlank
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -541,7 +541,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActionButtonDocument
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -575,7 +575,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActionButtonEnd
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -609,7 +609,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActionButtonForwardNext
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -643,7 +643,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActionButtonHelp
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -677,7 +677,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActionButtonHome
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -711,7 +711,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActionButtonInformation
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -745,7 +745,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActionButtonMovie
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -779,7 +779,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActionButtonReturn
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -813,7 +813,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActionButtonSound
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -847,7 +847,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Arc
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -881,7 +881,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BentArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -915,7 +915,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BentConnector2
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -949,7 +949,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BentConnector3
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -983,7 +983,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BentConnector4
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1017,7 +1017,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BentConnector5
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1051,7 +1051,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BentUpArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1085,7 +1085,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bevel
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1119,7 +1119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BlockArc
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1153,7 +1153,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BorderCallout1
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1187,7 +1187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BorderCallout2
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1221,7 +1221,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BorderCallout3
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1255,7 +1255,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BracePair
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1289,7 +1289,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BracketPair
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1323,7 +1323,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Callout1
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1357,7 +1357,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Callout2
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1391,7 +1391,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Callout3
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1425,7 +1425,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Can
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1459,7 +1459,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChartPlus
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1493,7 +1493,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChartStar
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1527,7 +1527,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChartX
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1561,7 +1561,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Chevron
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1595,7 +1595,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Chord
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1629,7 +1629,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CircularArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1663,7 +1663,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cloud
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1697,7 +1697,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CloudCallout
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1731,7 +1731,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Corner
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1765,7 +1765,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CornerTabs
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1799,7 +1799,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cube
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1833,7 +1833,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurvedConnector2
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1867,7 +1867,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurvedConnector3
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1901,7 +1901,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurvedConnector4
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1935,7 +1935,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurvedConnector5
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -1969,7 +1969,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurvedDownArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2003,7 +2003,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurvedLeftArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2037,7 +2037,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurvedRightArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2071,7 +2071,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurvedUpArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2105,7 +2105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Decagon
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2139,7 +2139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DiagStripe
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2173,7 +2173,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Diamond
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2207,7 +2207,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dodecagon
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2241,7 +2241,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Donut
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2275,7 +2275,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoubleWave
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2309,7 +2309,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DownArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2343,7 +2343,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DownArrowCallout
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2377,7 +2377,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ellipse
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2411,7 +2411,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EllipseRibbon
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2445,7 +2445,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EllipseRibbon2
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2479,7 +2479,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartAlternateProcess
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2513,7 +2513,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartCollate
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2547,7 +2547,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartConnector
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2581,7 +2581,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartDecision
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2615,7 +2615,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartDelay
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2649,7 +2649,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartDisplay
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2683,7 +2683,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartDocument
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2717,7 +2717,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartExtract
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2751,7 +2751,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartInputOutput
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2785,7 +2785,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartInternalStorage
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2819,7 +2819,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartMagneticDisk
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2853,7 +2853,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartMagneticDrum
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2887,7 +2887,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartMagneticTape
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2921,7 +2921,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartManualInput
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2955,7 +2955,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartManualOperation
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -2989,7 +2989,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartMerge
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3023,7 +3023,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartMultidocument
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3057,7 +3057,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartOfflineStorage
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3091,7 +3091,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartOffpageConnector
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3125,7 +3125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartOnlineStorage
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3159,7 +3159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartOr
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3193,7 +3193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartPredefinedProcess
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3227,7 +3227,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartPreparation
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3261,7 +3261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartProcess
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3295,7 +3295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartPunchedCard
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3329,7 +3329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartPunchedTape
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3363,7 +3363,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartSort
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3397,7 +3397,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartSummingJunction
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3431,7 +3431,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartTerminator
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3465,7 +3465,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FoldedCorner
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3499,7 +3499,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Frame
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3533,7 +3533,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Funnel
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3567,7 +3567,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gear6
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3601,7 +3601,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Gear9
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3635,7 +3635,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HalfFrame
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3669,7 +3669,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Heart
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3703,7 +3703,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Heptagon
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3737,7 +3737,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hexagon
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3771,7 +3771,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HomePlate
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3805,7 +3805,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalScroll
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3839,7 +3839,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IrregularSeal1
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3873,7 +3873,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IrregularSeal2
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3907,7 +3907,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3941,7 +3941,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftArrowCallout
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -3975,7 +3975,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftBrace
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4009,7 +4009,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftBracket
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4043,7 +4043,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftCircularArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4077,7 +4077,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftRightArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4111,7 +4111,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftRightArrowCallout
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4145,7 +4145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftRightCircularArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4179,7 +4179,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftRightRibbon
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4213,7 +4213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftRightUpArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4247,7 +4247,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftUpArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4281,7 +4281,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LightningBolt
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4315,7 +4315,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Line
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4349,7 +4349,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LineInv
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4383,7 +4383,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MathDivide
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4417,7 +4417,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MathEqual
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4451,7 +4451,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MathMinus
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4485,7 +4485,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MathMultiply
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4519,7 +4519,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MathNotEqual
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4553,7 +4553,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MathPlus
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4587,7 +4587,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Moon
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4621,7 +4621,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NonIsoscelesTrapezoid
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4655,7 +4655,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NoSmoking
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4689,7 +4689,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NotchedRightArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4723,7 +4723,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Octagon
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4757,7 +4757,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parallelogram
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4791,7 +4791,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pentagon
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4825,7 +4825,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pie
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4859,7 +4859,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PieWedge
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4893,7 +4893,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Plaque
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4927,7 +4927,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PlaqueTabs
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4961,7 +4961,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Plus
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -4995,7 +4995,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: QuadArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5029,7 +5029,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: QuadArrowCallout
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5063,7 +5063,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rect
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5097,7 +5097,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ribbon
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5131,7 +5131,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ribbon2
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5165,7 +5165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5199,7 +5199,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightArrowCallout
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5233,7 +5233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightBrace
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5267,7 +5267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightBracket
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5301,7 +5301,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Round1Rect
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5335,7 +5335,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Round2DiagRect
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5369,7 +5369,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Round2SameRect
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5403,7 +5403,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RoundRect
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5437,7 +5437,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RtTriangle
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5471,7 +5471,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SmileyFace
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5505,7 +5505,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Snip1Rect
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5539,7 +5539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Snip2DiagRect
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5573,7 +5573,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Snip2SameRect
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5607,7 +5607,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SnipRoundRect
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5641,7 +5641,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SquareTabs
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5675,7 +5675,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Star10
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5709,7 +5709,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Star12
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5743,7 +5743,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Star16
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5777,7 +5777,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Star24
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5811,7 +5811,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Star32
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5845,7 +5845,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Star4
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5879,7 +5879,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Star5
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5913,7 +5913,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Star6
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5947,7 +5947,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Star7
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -5981,7 +5981,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Star8
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6015,7 +6015,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StraightConnector1
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6049,7 +6049,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StripedRightArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6083,7 +6083,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sun
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6117,7 +6117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SwooshArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6151,7 +6151,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Teardrop
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6185,7 +6185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Trapezoid
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6219,7 +6219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Triangle
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6253,7 +6253,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6287,7 +6287,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpArrowCallout
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6321,7 +6321,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpDownArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6355,7 +6355,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpDownArrowCallout
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6389,7 +6389,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UturnArrow
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6423,7 +6423,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Wave
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6457,7 +6457,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WedgeEllipseCallout
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6491,7 +6491,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WedgeRectCallout
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6525,7 +6525,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WedgeRoundRectCallout
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs
@@ -6559,7 +6559,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalScroll
     path: ../src/EPPlus/Drawing/Enums/eShapeStyle.cs

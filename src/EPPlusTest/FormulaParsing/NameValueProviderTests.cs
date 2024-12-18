@@ -33,6 +33,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml;
+using System.Net.Http.Headers;
 
 namespace EPPlusTest.FormulaParsing
 {
@@ -106,7 +107,7 @@ namespace EPPlusTest.FormulaParsing
         [TestMethod]
         public void CalculateWorkbookNameFormula()
         {
-            using(var p=OpenPackage("NameWorkbook"))
+            using(var p=new ExcelPackage())
             {
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 LoadTestdata(ws, 100, 1,1,false,false,new DateTime(2022,11,1));
@@ -119,7 +120,55 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual(403847D, ws.Cells["L1"].Value);
             }
         }
+        [TestMethod]
+        public void VerifyDefinedNameWithMultipleAddresses_Sum()
+        {
+            using (var p = OpenPackage("NameMultipleAddresses.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 1;
+                ws.Cells["A2"].Value = 2;
+                ws.Names.Add("MultAddr", ws.Cells["A1,A2"]);
+                ws.Cells["A3"].Formula = "Sum(MultAddr)";
+                ws.Calculate();
 
+                Assert.AreEqual(3D, ws.Cells["A3"].Value);
+            }
+        }
+        [TestMethod]
+        public void VerifyWithMultipleAddresses_Sum()
+        {
+            using (var p = OpenPackage("NameMultipleAddresses.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 1;
+                ws.Cells["A2"].Value = 2;
+                ws.Cells["A3"].Value = 3;
+                ws.Cells["A4"].Formula = "Sum((A1,A2),A3)";
+                ws.Calculate();
+
+                Assert.AreEqual(6D, ws.Cells["A4"].Value);
+            }
+        }
+
+        [TestMethod]
+        public void VerifyDefinedNameWithMultipleAddresses_Avg()
+        {
+            using (var p = OpenPackage("NameMultipleAddresses.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 1;
+                ws.Cells["A2"].Value = 2;
+                ws.Cells["A3"].Value = 3;
+                ws.Cells["A4"].Value = 4;
+                ws.Cells["A5"].Value = 5;
+                ws.Names.Add("MultAddr", ws.Cells["A1,A2,A4:A5"]);
+                ws.Cells["A6"].Formula = "Average(MultAddr)";
+                ws.Calculate();
+
+                Assert.AreEqual(3D, ws.Cells["A6"].Value);
+            }
+        }
         [TestMethod]
         public void ReadRelativeAddressesInDefinedName()
         {

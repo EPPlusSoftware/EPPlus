@@ -84,15 +84,39 @@ namespace OfficeOpenXml.Style
         /// </summary>
         public ExcelVerticalAlignmentFont? VerticalAlign { get; set; } = ExcelVerticalAlignmentFont.None;
 
+        private float _size = 0;
         /// <summary>
         /// Font size
         /// </summary>
-        public float Size { get; set; } = 0;
+        public float Size
+        {
+            get
+            {
+                if (_size < 1 && _collection?._cells!=null) return _collection._cells.Style.Font.Size;
+                return _size;
+            }
+            set
+            {
+                _size = value;
+            }
+        }
 
+        private string _fontName = "";
         /// <summary>
         /// Name of the font
         /// </summary>
-        public string FontName { get; set; } = "";
+        public string FontName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_fontName) && _collection?._cells != null) return _collection._cells.Style.Font.Name;
+                return _fontName;
+            }
+            set
+            {
+                _fontName = value;
+            }
+        }
 
         /// <summary>
         /// Text color.
@@ -142,10 +166,22 @@ namespace OfficeOpenXml.Style
         /// </summary>
         public int Charset { get; set; } = 0;
 
+        private int _family = 0;
         /// <summary>
         /// Font family
         /// </summary>
-        public int Family { get; set; } = 0;
+        public int Family
+        {
+            get
+            {
+                if (_family == 0 && _collection?._cells != null) return _collection._cells.Style.Font.Family;
+                return _family;
+            }
+            set
+            {
+                _family = value;
+            }
+        }
 
         /// <summary>
         /// Underline type of text
@@ -317,7 +353,7 @@ namespace OfficeOpenXml.Style
             sb.Append("<span style=\"");
             HtmlRichText.GetRichTextStyle(this, sb);
             sb.Append("\">");
-            sb.Append(Text);
+            sb.Append(ConvertUtil.ExcelEscapeAndEncodeString(Text));
             sb.Append("</span>");
         }
 
@@ -435,17 +471,17 @@ namespace OfficeOpenXml.Style
                 if (!HasDefaultValue)
                 {
                     sb.Append("<rPr>");
-                    if (!String.IsNullOrEmpty(FontName))
+                    if (!String.IsNullOrEmpty(_fontName))
                     {
-                        sb.Append($"<rFont val=\"{FontName}\"/>");
+                        sb.Append($"<rFont val=\"{_fontName.EncodeXMLAttribute()}\"/>");
                     }
                     if (Charset != 0)
                     {
                         sb.Append($"<charset val=\"{Charset}\"/>");
                     }
-                    if (Family != 0)
+                    if (_family != 0)
                     {
-                        sb.Append($"<family val=\"{Family}\"/>");
+                        sb.Append($"<family val=\"{_family}\"/>");
                     }
                     if (Bold == true)
                     {
@@ -463,9 +499,9 @@ namespace OfficeOpenXml.Style
                     {
                         WriteRichTextColorAttributes(sb);
                     }
-                    if (Size > 0)
+                    if (_size > 0)
                     {
-                        sb.Append($"<sz val=\"{Size.ToString(CultureInfo.InvariantCulture)}\"/>");
+                        sb.Append($"<sz val=\"{_size.ToString(CultureInfo.InvariantCulture)}\"/>");
                     }
                     if (UnderLine)
                     {
@@ -541,11 +577,11 @@ namespace OfficeOpenXml.Style
                       Italic == false &&
                       Strike == false &&
                VerticalAlign == ExcelVerticalAlignmentFont.None &&
-                        Size == 0 &&
-             String.IsNullOrEmpty(FontName) &&
+                        _size == 0 &&
+             String.IsNullOrEmpty(_fontName) &&
                        Color == Color.Empty &&
                      Charset == 0 &&
-                      Family == 0 &&
+                      _family == 0 &&
                UnderLineType == 0;
                    //Outline == false &&
                     //Shadow == false &&

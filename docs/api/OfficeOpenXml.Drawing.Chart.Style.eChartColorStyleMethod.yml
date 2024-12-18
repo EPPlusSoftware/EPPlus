@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eChartColorStyleMethod
     path: ../src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
@@ -53,7 +53,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cycle
     path: ../src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WithinLinear
     path: ../src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AcrossLinear
     path: ../src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WithinLinearReversed
     path: ../src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AcrossLinearReversed
     path: ../src/EPPlus/Drawing/Chart/Style/eChartColorStyleMethod.cs

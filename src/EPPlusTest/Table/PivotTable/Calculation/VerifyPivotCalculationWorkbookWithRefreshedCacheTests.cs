@@ -13,7 +13,6 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 	{
 		static ExcelPackage _package;
 		static ExcelWorksheet _ptWs;
-		static ExcelWorksheet _ptWs2;
 		[ClassInitialize]
 		public static void Init(TestContext context)
 

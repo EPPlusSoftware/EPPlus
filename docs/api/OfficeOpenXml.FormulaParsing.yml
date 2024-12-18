@@ -14,13 +14,10 @@ items:
   - OfficeOpenXml.FormulaParsing.IFormulaCellInfo
   - OfficeOpenXml.FormulaParsing.INameInfo
   - OfficeOpenXml.FormulaParsing.INameValueProvider
-  - OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
   - OfficeOpenXml.FormulaParsing.IRangeInfo
   - OfficeOpenXml.FormulaParsing.NameValueProvider
   - OfficeOpenXml.FormulaParsing.ParsingConfiguration
   - OfficeOpenXml.FormulaParsing.ParsingContext
-  - OfficeOpenXml.FormulaParsing.ParsingScope
-  - OfficeOpenXml.FormulaParsing.ParsingScopes
   - OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
   langs:
   - csharp
@@ -84,12 +81,6 @@ references:
   name: INameValueProvider
   nameWithType: INameValueProvider
   fullName: OfficeOpenXml.FormulaParsing.INameValueProvider
-- uid: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
-  commentId: T:OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
-  parent: OfficeOpenXml.FormulaParsing
-  name: IParsingLifetimeEventHandler
-  nameWithType: IParsingLifetimeEventHandler
-  fullName: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
 - uid: OfficeOpenXml.FormulaParsing.IRangeInfo
   commentId: T:OfficeOpenXml.FormulaParsing.IRangeInfo
   parent: OfficeOpenXml.FormulaParsing
@@ -119,18 +110,6 @@ references:
   name: ParsingContext
   nameWithType: ParsingContext
   fullName: OfficeOpenXml.FormulaParsing.ParsingContext
-- uid: OfficeOpenXml.FormulaParsing.ParsingScope
-  commentId: T:OfficeOpenXml.FormulaParsing.ParsingScope
-  parent: OfficeOpenXml.FormulaParsing
-  name: ParsingScope
-  nameWithType: ParsingScope
-  fullName: OfficeOpenXml.FormulaParsing.ParsingScope
-- uid: OfficeOpenXml.FormulaParsing.ParsingScopes
-  commentId: T:OfficeOpenXml.FormulaParsing.ParsingScopes
-  parent: OfficeOpenXml.FormulaParsing
-  name: ParsingScopes
-  nameWithType: ParsingScopes
-  fullName: OfficeOpenXml.FormulaParsing.ParsingScopes
 - uid: OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
   commentId: T:OfficeOpenXml.FormulaParsing.PrecisionAndRoundingStrategy
   parent: OfficeOpenXml.FormulaParsing

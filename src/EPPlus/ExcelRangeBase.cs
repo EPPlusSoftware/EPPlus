@@ -12,39 +12,23 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
-using System.Data;
-using System.Threading;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.Style;
-using System.Xml;
-using System.Drawing;
 using System.Globalization;
 using System.Collections;
 using OfficeOpenXml.Table;
-using System.Text.RegularExpressions;
-using System.IO;
-using System.Linq;
 using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.DataValidation.Contracts;
-using System.Reflection;
-using OfficeOpenXml.Style.XmlAccess;
-using System.Security;
 using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.ThreadedComments;
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Sorting;
-using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml
 {
@@ -64,12 +48,14 @@ namespace OfficeOpenXml
         private int _styleID;
         private static SourceCodeTokenizer _tokenizer=new SourceCodeTokenizer(null, null, false, true);
         private FunctionRepository _functions;
+        private readonly ExcelRangePicture _rangePicture;
         #region Constructors
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet)
         {
             Init(xlWorksheet);
             _ws = _worksheet.Name;
             _workbook = _worksheet.Workbook;
+            _rangePicture = new ExcelRangePicture(this);
             SetDelegate();
             _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;            
         }
@@ -79,6 +65,7 @@ namespace OfficeOpenXml
         {
             Init(xlWorksheet);
             _workbook = _worksheet.Workbook;
+            _rangePicture = new ExcelRangePicture(this);
             base.SetRCFromTable(_worksheet._package, null);
             if (string.IsNullOrEmpty(_ws)) _ws = _worksheet == null ? "" : _worksheet.Name;
             SetDelegate();
@@ -90,6 +77,10 @@ namespace OfficeOpenXml
             Init(xlWorksheet);
             SetRCFromTable(wb._package, null);
             _workbook = wb;
+            if(_worksheet != null)
+            {
+                _rangePicture = new ExcelRangePicture(this);
+            }
             if (string.IsNullOrEmpty(_ws)) _ws = (xlWorksheet == null ? null : xlWorksheet.Name);
             SetDelegate();
             _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;
@@ -303,18 +294,23 @@ namespace OfficeOpenXml
             f.FormulaType = IsArray ? FormulaType.Array : FormulaType.Shared;
             var ws = range._worksheet;
             ws._sharedFormulas.Add(f.Index, f);
-            ws.Workbook.Metadata.GetDynamicArrayIndex(out int diIx);
+            ws.Workbook.Metadata.GetDynamicArrayId(out uint diId);
             for (int col = address.Start.Column; col <= address.End.Column; col++)
             {
                 for (int row = address.Start.Row; row <= address.End.Row; row++)
                 {
                     ws._formulas.SetValue(row, col, f.Index);
-                    ws._flags.SetFlagValue(row, col, true, CellFlags.ArrayFormula);
+                    var flags = CellFlags.ArrayFormula;
+                    if(isDynamic)
+                    {
+                        flags |= CellFlags.CanBeDynamicArray;                        
+                    }
+                    ws._flags.SetFlagValue(row, col, true, flags);
                     ws.SetValueInner(row, col, null);
                     if(isDynamic)
                     {
                         var md=ws._metadataStore.GetValue(row, col);
-                        md.cm = diIx;
+                        md.cm = diId;
                         ws._metadataStore.SetValue(row, col, md);
                     }
                 }
@@ -833,6 +829,12 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        /// <summary>
+        /// Used to add/remove cell pictures in the range
+        /// </summary>
+        public ExcelRangePicture Picture => _rangePicture;
+
         /// <summary>
         /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
         /// The minimum width is the value of the ExcelWorksheet.defaultColumnWidth property.
@@ -856,9 +858,8 @@ namespace OfficeOpenXml
         /// <param name="MinimumWidth">Minimum column width</param>
         public void AutoFitColumns(double MinimumWidth)
         {
-            AutoFitColumns(MinimumWidth, double.MaxValue);
+            AutoFitColumns(MinimumWidth, 256d);
         }
-
         /// <summary>
         /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
         /// </summary>
@@ -1289,6 +1290,26 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
+        /// Returns true if the range is empty.
+        /// </summary>
+        public bool IsEmpty(bool formula = true, bool comment = true, bool threadedComment = true)
+        {
+            var cells = new CellStoreEnumerator<ExcelValue>(this.Worksheet._values, this.Start.Row, this.Start.Column, this.End.Row, this.End.Column);
+            while (cells.Next())
+            {
+                if (cells.Value._value == null)
+                {
+                    if (formula && this.Worksheet.Cells[cells.CellAddress].Formula != null) return false;
+                    if (comment && this.Worksheet.Cells[cells.CellAddress].Comment != null) return false;
+                    if (threadedComment && this.Worksheet.Cells[cells.CellAddress].ThreadedComment != null) return false;
+                    continue;
+                }
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// If the value is in richtext format.
         /// </summary>
         public bool IsRichText
@@ -1345,20 +1366,29 @@ namespace OfficeOpenXml
         /// Insert cells into the worksheet and shift the cells to the selected direction.
         /// </summary>
         /// <param name="shift">The direction that the cells will shift.</param>
-        public void Insert(eShiftTypeInsert shift)
+        public ExcelRangeBase Insert(eShiftTypeInsert shift)
         {
             if (shift == eShiftTypeInsert.EntireColumn)
             {
                 WorksheetRangeInsertHelper.InsertColumn(_worksheet, _fromCol, Columns, _fromCol - 1);
+                var offset = this.Offset(0, (_toCol - _fromCol) + 1);
+                return offset.EntireColumn.Range;
             }
             else if (shift == eShiftTypeInsert.EntireRow)
             {
                 WorksheetRangeInsertHelper.InsertRow(_worksheet, _fromRow, Rows, _fromRow - 1);
+                var offset = this.Offset((_toRow - _fromRow) + 1, 0);
+                return offset.EntireRow.Range;
             }
             else
             {
                 WorksheetRangeInsertHelper.Insert(this, shift, true, false);
+                if (shift == eShiftTypeInsert.Down)
+                    return this.Offset((_toRow - _fromRow) + 1, 0);
+                else if (shift == eShiftTypeInsert.Right)
+                    return this.Offset(0, (_toCol - _fromCol) + 1); 
             }
+            return null;
         }
         /// <summary>
         /// Delete the range from the worksheet and shift affected cells in the selected direction.
@@ -2020,6 +2050,46 @@ namespace OfficeOpenXml
             helper.Copy();
         }
         /// <summary>
+        /// Copies the range of cells to another range of cells. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
+        /// </summary>
+        /// <param name="Destination">The range of cells to copy into.</param>
+        public void CopyFill(ExcelRangeBase Destination)
+        {
+            var helper = new RangeCopyHelper(this, Destination, ExcelRangeCopyOptionFlags.Fill);
+            helper.Copy();
+        }
+        /// <summary>
+        /// Copies the range of cells to another range of cells. The desination ranges rows and columns needs to be a multiple of the source's ranges rows and columns.
+        /// </summary>
+        /// <param name="Destination">The range of cells to copy into.</param>
+        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied. Fill property will be set.</param>
+        public void CopyFill(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
+        {
+            ExcelRangeCopyOptionFlags flags = 0;
+            flags |= ExcelRangeCopyOptionFlags.Fill;
+            Copy(Destination, flags);
+        }
+        /// <summary>
+        /// Copies the range of cells to another range of cells transposed.
+        /// </summary>
+        /// <param name="Destination">The range of cells to copy into.</param>
+        public void CopyTranspose(ExcelRangeBase Destination)
+        {
+            var helper = new RangeCopyHelper(this, Destination, ExcelRangeCopyOptionFlags.Transpose);
+            helper.Copy();
+        }
+        /// <summary>
+        /// Copies the range of cells to another range of cells transposed.
+        /// </summary>
+        /// <param name="Destination">The range of cells to copy into.</param>
+        /// <param name="excelRangeCopyOptionFlags">Cell properties that will not be copied. Transpose property will be set.</param>
+        public void CopyTranspose(ExcelRangeBase Destination, params ExcelRangeCopyOptionFlags[] excelRangeCopyOptionFlags)
+        {
+            ExcelRangeCopyOptionFlags flags = 0;
+            flags |= ExcelRangeCopyOptionFlags.Transpose;
+            Copy(Destination, flags);
+        }
+        /// <summary>
         /// Copy the styles from the source range to the destination range.
         /// If the destination range is larger than the source range, the styles of the column to the right and the row at the bottom will be expanded to the destination.
         /// </summary>
@@ -2040,7 +2110,12 @@ namespace OfficeOpenXml
         /// Creates an array-formula.
         /// </summary>
         /// <param name="ArrayFormula">The formula</param>
-        /// <param name="isDynamic">If the array formula is dynamic. In most cases this is determined by the calculation when calculating the formula, so it is not be necessary to set this flag if you calculate the range. Setting this argument to true will only add the dynamic array formula cell meta data flag to the range.</param>
+        /// <param name="isDynamic">If the array formula is dynamic. 
+        /// Setting this argument to true will only add the dynamic array formula cell meta data flag to the formula. 
+        /// If you calculate the formula it is not be necessary to set this flag. If you set this flag, you are responsible to set the correct range for the dynamic array formula, so in most cases calculating is a better approach.
+        /// If you calculate the formula this flag will be overwritten with the value the EPPlus decides for the formula.
+        /// Also see <see cref="CalculationExtension.Calculate(ExcelWorkbook)" />, <seealso cref="CalculationExtension.Calculate(ExcelWorksheet)"/>, <seealso cref="CalculationExtension.Calculate(ExcelRangeBase)"/>
+        /// </param>
         public void CreateArrayFormula(string ArrayFormula, bool isDynamic=false)
         {
             if (Addresses != null)

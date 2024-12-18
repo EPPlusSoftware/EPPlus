@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eVmlLineStyle
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
@@ -54,7 +54,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NoLine
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
@@ -88,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Single
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
@@ -122,7 +122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThinThin
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThinThick
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThickThin
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThickBetweenThin
     path: ../src/EPPlus/Drawing/Vml/enum/eVmlLineStyle.cs

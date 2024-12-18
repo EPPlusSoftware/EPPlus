@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ePanePosition
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomLeft
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomRight
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopLeft
     path: ../src/EPPlus/ExcelWorksheetView.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheetView.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopRight
     path: ../src/EPPlus/ExcelWorksheetView.cs

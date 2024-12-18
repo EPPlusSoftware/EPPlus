@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EpplusTableColumnAttributeBase
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
@@ -111,7 +111,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Order
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Header
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormat
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
@@ -222,7 +222,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormatId
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
@@ -296,7 +296,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UseBuiltInHyperlinkStyle
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
@@ -333,7 +333,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFunction
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
@@ -370,7 +370,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFormula
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
@@ -407,7 +407,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowNumberFormat
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
@@ -444,7 +444,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowLabel
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttributeBase.cs

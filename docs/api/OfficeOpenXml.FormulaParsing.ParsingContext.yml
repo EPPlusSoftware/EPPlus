@@ -12,7 +12,6 @@ items:
   - OfficeOpenXml.FormulaParsing.ParsingContext.CurrentWorksheet
   - OfficeOpenXml.FormulaParsing.ParsingContext.Debug
   - OfficeOpenXml.FormulaParsing.ParsingContext.NameValueProvider
-  - OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml#FormulaParsing#IParsingLifetimeEventHandler#ParsingCompleted
   - OfficeOpenXml.FormulaParsing.ParsingContext.Parser
   langs:
   - csharp
@@ -24,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParsingContext
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
@@ -35,14 +34,10 @@ items:
   summary: "\nParsing context\n"
   example: []
   syntax:
-    content: 'public class ParsingContext : IParsingLifetimeEventHandler'
-    content.vb: >-
-      Public Class ParsingContext
-          Implements IParsingLifetimeEventHandler
+    content: public class ParsingContext
+    content.vb: Public Class ParsingContext
   inheritance:
   - System.Object
-  implements:
-  - OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -71,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parser
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
@@ -108,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameValueProvider
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
@@ -145,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Configuration
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
@@ -182,11 +177,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Debug
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 93
+    startLine: 81
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -219,11 +214,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 103
+    startLine: 91
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -260,11 +255,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 118
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -283,37 +278,6 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml#FormulaParsing#IParsingLifetimeEventHandler#ParsingCompleted
-  commentId: M:OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml#FormulaParsing#IParsingLifetimeEventHandler#ParsingCompleted
-  id: OfficeOpenXml#FormulaParsing#IParsingLifetimeEventHandler#ParsingCompleted
-  isEii: true
-  parent: OfficeOpenXml.FormulaParsing.ParsingContext
-  langs:
-  - csharp
-  - vb
-  name: IParsingLifetimeEventHandler.ParsingCompleted()
-  nameWithType: ParsingContext.IParsingLifetimeEventHandler.ParsingCompleted()
-  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted()
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: bug/issue1566
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
-    path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 123
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing
-  syntax:
-    content: void IParsingLifetimeEventHandler.ParsingCompleted()
-    content.vb: Sub OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted Implements IParsingLifetimeEventHandler.ParsingCompleted
-  overload: OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml#FormulaParsing#IParsingLifetimeEventHandler#ParsingCompleted*
-  implements:
-  - OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
-  nameWithType.vb: ParsingContext.OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted()
-  name.vb: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted()
 - uid: OfficeOpenXml.FormulaParsing.ParsingContext.CurrentCell
   commentId: P:OfficeOpenXml.FormulaParsing.ParsingContext.CurrentCell
   id: CurrentCell
@@ -328,11 +292,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurrentCell
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 150
+    startLine: 132
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -365,11 +329,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurrentWorksheet
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
-    startLine: 154
+    startLine: 136
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -401,12 +365,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
-  commentId: T:OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
-  parent: OfficeOpenXml.FormulaParsing
-  name: IParsingLifetimeEventHandler
-  nameWithType: IParsingLifetimeEventHandler
-  fullName: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -770,41 +728,6 @@ references:
   name: OfficeOpenXml
   nameWithType: OfficeOpenXml
   fullName: OfficeOpenXml
-- uid: OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml#FormulaParsing#IParsingLifetimeEventHandler#ParsingCompleted*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml#FormulaParsing#IParsingLifetimeEventHandler#ParsingCompleted
-  name: IParsingLifetimeEventHandler.ParsingCompleted
-  nameWithType: ParsingContext.IParsingLifetimeEventHandler.ParsingCompleted
-  fullName: OfficeOpenXml.FormulaParsing.ParsingContext.OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
-  nameWithType.vb: ParsingContext.OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
-  name.vb: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
-- uid: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
-  commentId: M:OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
-  parent: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler
-  name: ParsingCompleted()
-  nameWithType: IParsingLifetimeEventHandler.ParsingCompleted()
-  fullName: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted()
-  spec.csharp:
-  - uid: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
-    name: ParsingCompleted
-    nameWithType: IParsingLifetimeEventHandler.ParsingCompleted
-    fullName: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
-    name: ParsingCompleted
-    nameWithType: IParsingLifetimeEventHandler.ParsingCompleted
-    fullName: OfficeOpenXml.FormulaParsing.IParsingLifetimeEventHandler.ParsingCompleted
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: OfficeOpenXml.FormulaParsing.ParsingContext.CurrentCell*
   commentId: Overload:OfficeOpenXml.FormulaParsing.ParsingContext.CurrentCell
   name: CurrentCell

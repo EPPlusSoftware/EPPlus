@@ -315,6 +315,55 @@ namespace EPPlusTest.Core.Range
                 ws.Tables.Add(ws.Cells["D4:E5"], "Table1");
             }
         }
+
+        [TestMethod]
+        public void RangeIsEmptyTest()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            //Value
+            ws.Cells["A1"].Value = 1;
+            ws.Cells["B2"].Value = 2;
+            var range = ws.Cells["A1:B2"];
+            bool isEmpty = range.IsEmpty();
+            Assert.IsFalse(isEmpty);
+
+            //Formula
+            ws.Cells["A4"].Formula = "SUM($A1:$B2)";
+            range = ws.Cells["A4:B4"];
+            isEmpty = range.IsEmpty();
+            Assert.IsFalse(isEmpty);
+            //Skip formula
+            isEmpty = range.IsEmpty(false);
+            Assert.IsTrue(isEmpty);
+
+            //Comment
+            ws.Cells["A6"].AddComment("This is a comment", "The Commentator");
+            range = ws.Cells["A6:B6"];
+            isEmpty = range.IsEmpty();
+            Assert.IsFalse(isEmpty);
+            isEmpty = range.IsEmpty(false, false);
+            Assert.IsTrue(isEmpty);
+
+            //Threaded Comment
+            var p1 = ws.ThreadedComments.Persons.Add("Luther");
+            var p2 = ws.ThreadedComments.Persons.Add("Josh");
+            var thread = ws.Cells["A8"].AddThreadedComment();
+            var r1 = thread.AddComment(p2.Id, "This is my comment");
+            var r2 = thread.AddComment(p1.Id, "This is someones reply");
+            range = ws.Cells["A8:B8"];
+            isEmpty = range.IsEmpty();
+            Assert.IsFalse(isEmpty);
+            isEmpty = range.IsEmpty(false, false, false);
+            Assert.IsTrue(isEmpty);
+
+            range = ws.Cells["A10:G55"];
+            isEmpty = range.IsEmpty();
+            Assert.IsTrue(isEmpty);
+        }
+
+
 #if NET6_0_OR_GREATER
         [TestMethod]
         public void ValidateDateOnlyConvertsion()

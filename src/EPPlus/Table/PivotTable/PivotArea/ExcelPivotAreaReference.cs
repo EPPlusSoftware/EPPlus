@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Table.PivotTable
         /// References to the pivot table cache or within the table.
         /// </summary>
         public ExcelPivotAreaReferenceItems Items { get; }
-        internal override void UpdateXml()
+        internal override bool UpdateXml()
         {
             //Remove reference, so they can be re-written 
             if (TopNode.LocalName == "reference")
@@ -76,6 +76,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
 
+            var ret = false;
             if (FieldIndex >= 0 && FieldIndex < _pt.Fields.Count)
             {
                 var items = Field.Items;
@@ -93,10 +94,12 @@ namespace OfficeOpenXml.Table.PivotTable
                         {
                             var n = (XmlElement)CreateNode("d:x", false, true);
                             n.SetAttribute("v", ix.ToString(CultureInfo.InvariantCulture));
+                            ret = true;
                         }
                     }
                 }
             }
+            return ret;
         }
     }
 }

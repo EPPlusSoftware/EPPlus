@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingBlipEffects
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDuotone
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveDuotone
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
@@ -134,7 +134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Duotone
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
@@ -171,7 +171,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddColorChange
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
@@ -203,7 +203,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveColorChange
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorChange
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
@@ -272,7 +272,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddColorReplace
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
@@ -304,7 +304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveColorReplace
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
@@ -336,7 +336,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorReplace
     path: ../src/EPPlus/Drawing/Style/Fill/ExcelDrawingBlipEffects.cs

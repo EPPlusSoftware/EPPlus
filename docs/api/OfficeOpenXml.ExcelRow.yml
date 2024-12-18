@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRow
     path: ../src/EPPlus/ExcelRow.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowID
     path: ../src/EPPlus/ExcelRow.cs
@@ -118,7 +118,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/ExcelRow.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Height
     path: ../src/EPPlus/ExcelRow.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomHeight
     path: ../src/EPPlus/ExcelRow.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelRow.cs
@@ -266,7 +266,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelRow.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/ExcelRow.cs
@@ -340,15 +340,15 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Collapsed
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 214
+    startLine: 216
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nIf outline level is set this tells that the row is collapsed\n"
+  summary: "\nIf outline level is set this tells that the row is collapsed.\nSetting this property will not hide the children. \nUse the <xref href=\"OfficeOpenXml.ExcelRangeRow.CollapseChildren(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel(System.Int32%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> methods to collapse and hide columns/rows via the <xref href=\"OfficeOpenXml.ExcelWorksheet.Rows\" data-throw-if-not-resolved=\"false\"></xref> collection. \n"
   example: []
   syntax:
     content: public bool Collapsed { get; set; }
@@ -377,11 +377,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineLevel
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 237
+    startLine: 239
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -414,11 +414,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Phonetic
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 275
+    startLine: 277
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -451,11 +451,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 299
+    startLine: 301
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -488,11 +488,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageBreak
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 309
+    startLine: 311
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -525,11 +525,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRow.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Merged
     path: ../src/EPPlus/ExcelRow.cs
-    startLine: 332
+    startLine: 334
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -916,11 +916,123 @@ references:
   name: Row
   nameWithType: ExcelRow.Row
   fullName: OfficeOpenXml.ExcelRow.Row
+- uid: OfficeOpenXml.ExcelRangeRow.CollapseChildren(System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeRow.CollapseChildren(System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeRow
+  isExternal: true
+  name: CollapseChildren(Boolean)
+  nameWithType: ExcelRangeRow.CollapseChildren(Boolean)
+  fullName: OfficeOpenXml.ExcelRangeRow.CollapseChildren(System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeRow.CollapseChildren(System.Boolean)
+    name: CollapseChildren
+    nameWithType: ExcelRangeRow.CollapseChildren
+    fullName: OfficeOpenXml.ExcelRangeRow.CollapseChildren
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeRow.CollapseChildren(System.Boolean)
+    name: CollapseChildren
+    nameWithType: ExcelRangeRow.CollapseChildren
+    fullName: OfficeOpenXml.ExcelRangeRow.CollapseChildren
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel(System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel(System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeRow
+  isExternal: true
+  name: SetVisibleOutlineLevel(Int32, Boolean)
+  nameWithType: ExcelRangeRow.SetVisibleOutlineLevel(Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel(System.Int32, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel(System.Int32,System.Boolean)
+    name: SetVisibleOutlineLevel
+    nameWithType: ExcelRangeRow.SetVisibleOutlineLevel
+    fullName: OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel(System.Int32,System.Boolean)
+    name: SetVisibleOutlineLevel
+    nameWithType: ExcelRangeRow.SetVisibleOutlineLevel
+    fullName: OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Rows
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Rows
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Rows
+  nameWithType: ExcelWorksheet.Rows
+  fullName: OfficeOpenXml.ExcelWorksheet.Rows
 - uid: OfficeOpenXml.ExcelRow.Collapsed*
   commentId: Overload:OfficeOpenXml.ExcelRow.Collapsed
   name: Collapsed
   nameWithType: ExcelRow.Collapsed
   fullName: OfficeOpenXml.ExcelRow.Collapsed
+- uid: OfficeOpenXml.ExcelRangeRow
+  commentId: T:OfficeOpenXml.ExcelRangeRow
+  parent: OfficeOpenXml
+  name: ExcelRangeRow
+  nameWithType: ExcelRangeRow
+  fullName: OfficeOpenXml.ExcelRangeRow
+- uid: OfficeOpenXml.ExcelWorksheet
+  commentId: T:OfficeOpenXml.ExcelWorksheet
+  parent: OfficeOpenXml
+  name: ExcelWorksheet
+  nameWithType: ExcelWorksheet
+  fullName: OfficeOpenXml.ExcelWorksheet
 - uid: OfficeOpenXml.ExcelRow.OutlineLevel*
   commentId: Overload:OfficeOpenXml.ExcelRow.OutlineLevel
   name: OutlineLevel
@@ -948,12 +1060,6 @@ references:
   name: ExcelStyle
   nameWithType: ExcelStyle
   fullName: OfficeOpenXml.Style.ExcelStyle
-- uid: OfficeOpenXml.ExcelWorksheet
-  commentId: T:OfficeOpenXml.ExcelWorksheet
-  parent: OfficeOpenXml
-  name: ExcelWorksheet
-  nameWithType: ExcelWorksheet
-  fullName: OfficeOpenXml.ExcelWorksheet
 - uid: OfficeOpenXml.Style
   commentId: N:OfficeOpenXml.Style
   name: OfficeOpenXml.Style

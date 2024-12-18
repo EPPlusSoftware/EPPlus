@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eThemeSchemeColor
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Background1
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
@@ -94,7 +94,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text1
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Background2
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
@@ -162,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text2
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent1
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent2
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
@@ -264,7 +264,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent3
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent4
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
@@ -332,7 +332,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent5
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
@@ -366,7 +366,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accent6
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
@@ -400,7 +400,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hyperlink
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
@@ -434,7 +434,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FollowedHyperlink
     path: ../src/EPPlus/Drawing/Enums/eThemeSchemeColor.cs

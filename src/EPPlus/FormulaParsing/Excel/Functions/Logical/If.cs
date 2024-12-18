@@ -20,6 +20,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Utils;
 
@@ -44,37 +45,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             var arg2 = arguments.Count < 3 ? new FunctionArgument(false,DataType.Boolean) : arguments[2];
             if (arg0 is IRangeInfo ri)
             {
-                var arg1Type = GetType(arg1.Value);
-                var arg2Type = GetType(arg2.Value);
-                var range = new InMemoryRange(ri.Address, GetSizeForArray(ri, arg1, arg2));
-                var isConditionSingleRow = ri.Size.NumberOfRows == 1;
-                var isConditionSingleCol = ri.Size.NumberOfCols == 1;
-                for (var row = 0; row < range.Size.NumberOfRows; row++)
-                {
-                    for (var col = 0; col < range.Size.NumberOfCols; col++)
-                    {
-                        var cellValue = ri.GetOffset(isConditionSingleRow ? 0 : row, isConditionSingleCol ? 0 : col);
-                        var condition = ConvertUtil.GetValueBool(cellValue);
-                        if (condition.HasValue)
-                        {
-                            object v = condition.Value ? GetArrayResult(arg1, arg1Type, row, col) : GetArrayResult(arg2, arg2Type, row, col);
 
-                            range.SetValue(row, col, v);
-                        }
-                        else
-                        {
-                            if(cellValue is ExcelErrorValue error)
-                            {
-                                range.SetValue(row, col, error);
-                            }
-                            else
-                            {
-                                range.SetValue(row, col, ErrorValues.ValueError);
-                            }
-                        }
-                    }
+                if((ri.Size.NumberOfRows > 1 || ri.Size.NumberOfCols > 1) && 
+                    context.CurrentWorksheet._flags.GetFlagValue(context.CurrentCell.Row, context.CurrentCell.Column, CellFlags.CanBeDynamicArray))
+                {
+                    return If_DynamicArrayFormula(arg1, arg2, ri);
                 }
-                return new CompileResult(range, DataType.ExcelRange);
+                else
+                {
+                    return If_ImplicitInterection(arguments[0], arg1, arg2, ri, context.CurrentCell);
+                }
             }
             else
             {
@@ -116,6 +96,122 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                     }
                 }
             }
+        }
+
+        private CompileResult If_DynamicArrayFormula(FunctionArgument arg1, FunctionArgument arg2, IRangeInfo ri)
+        {
+            var arg1Type = GetType(arg1.Value);
+            var arg2Type = GetType(arg2.Value);
+            var range = new InMemoryRange(ri.Address, GetSizeForArray(ri, arg1, arg2));
+            var isConditionSingleRow = ri.Size.NumberOfRows == 1;
+            var isConditionSingleCol = ri.Size.NumberOfCols == 1;
+
+            for (var row = 0; row < range.Size.NumberOfRows; row++)
+            {
+                for (var col = 0; col < range.Size.NumberOfCols; col++)
+                {
+                    var cellValue = ri.GetOffset(isConditionSingleRow ? 0 : row, isConditionSingleCol ? 0 : col);
+                    var condition = ConvertUtil.GetValueBool(cellValue);
+                    if (condition.HasValue)
+                    {
+                        object v = condition.Value ? GetArrayResult(arg1, arg1Type, row, col) : GetArrayResult(arg2, arg2Type, row, col);
+
+                        range.SetValue(row, col, v);
+                    }
+                    else
+                    {
+                        if (cellValue is ExcelErrorValue error)
+                        {
+                            range.SetValue(row, col, error);
+                        }
+                        else
+                        {
+                            range.SetValue(row, col, ErrorValues.ValueError);
+                        }
+                    }
+                }
+            }
+            var resultType = isConditionSingleRow && isConditionSingleCol ? CompileResultType.DynamicArray : CompileResultType.DynamicArray_AlwaysSetCellAsDynamic;
+            return new DynamicArrayCompileResult(range, DataType.ExcelRange, null, resultType);
+        }
+
+        private CompileResult If_ImplicitInterection(FunctionArgument arg0, FunctionArgument arg1, FunctionArgument arg2, IRangeInfo ri, FormulaCellAddress currentCell)
+        {
+            var arg1Type = GetType(arg1.Value);
+            var arg2Type = GetType(arg2.Value);
+            var range = new InMemoryRange(ri.Address, GetSizeForArray(ri, arg1, arg2));
+            var isConditionSingleRow = ri.Size.NumberOfRows == 1;
+            var isConditionSingleCol = ri.Size.NumberOfCols == 1;
+
+            GetIntersectingRowCol(arg0.Address, currentCell, out int offsetRow, out int offsetCol);
+
+            var cellValue = ri.GetOffset(offsetRow, offsetCol);
+            FunctionArgument arg;
+            ArgumentType type;
+            var condition = ConvertUtil.GetValueBool(cellValue);
+            if (condition.HasValue)
+            {
+                if (condition.Value)
+                {
+                    arg = arg1;
+                    type = arg1Type;
+                }
+                else
+                {
+                    arg = arg2;
+                    type = arg2Type;
+                }
+                for (var row = 0; row < range.Size.NumberOfRows; row++)
+                {
+                    for (var col = 0; col < range.Size.NumberOfCols; col++)
+                    {
+                        var v = GetArrayResult(arg, type, row, col);
+                        range.SetValue(row, col, v);
+                    }
+                }
+                return new DynamicArrayCompileResult(range, DataType.ExcelRange, arg.Address);
+            }
+            else
+            {
+                ExcelErrorValue error;
+                if (cellValue is ExcelErrorValue condError)
+                {
+                    error = condError;
+                }
+                else
+                {
+                    error = ErrorValues.ValueError;
+                }
+
+                for (var row = 0; row < range.Size.NumberOfRows; row++)
+                {
+                    for (var col = 0; col < range.Size.NumberOfCols; col++)
+                    {
+                        range.SetValue(row, col, error);
+                    }
+                }
+                return new DynamicArrayCompileResult(range, DataType.ExcelRange);
+            }
+        }
+
+        private void GetIntersectingRowCol(FormulaRangeAddress address, FormulaCellAddress currentCell, out int offsetRow, out int offsetCol)
+        {
+            if(address.FromRow <= currentCell.Row && address.ToRow >= currentCell.Row)
+            {
+                offsetRow = currentCell.Row - address.FromRow;
+                offsetCol = 0;
+            }
+            else if(address.FromCol <= currentCell.Column && address.ToCol >= currentCell.Column)
+            {
+                offsetRow = 0;
+                offsetCol = currentCell.Column - address.FromCol;
+            }
+            else
+            {
+                offsetRow = -1;
+                offsetCol = -1;
+            }
+
         }
 
         private RangeDefinition GetSizeForArray(IRangeInfo ri, FunctionArgument arg1, FunctionArgument arg2)

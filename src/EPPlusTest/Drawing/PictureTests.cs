@@ -1,14 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Utils;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
+using OfficeOpenXml.Drawing.Interfaces;
 
 namespace EPPlusTest.Drawing
 {
@@ -181,6 +179,141 @@ namespace EPPlusTest.Drawing
 			var ws = wb.Worksheets.Add("jpgCalibri18");
 			var pic = ws.Drawings.AddPicture("jpgFile2", GetResourceFile("Test1.jpg"));			
 		}
-		#endregion
-	}
+        #endregion
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
+        public void AddPictureWithIllegalCharsShouldFail()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+
+                var pic = sheet.Drawings.AddPicture("ImageName", "testafhkai/[/\\|stuff", PictureLocation.Link);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
+        public void AddPictureWithFaultyPathShouldFail()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+
+                var pic = sheet.Drawings.AddPicture("ImageName", "C:\\temp\\\test???", PictureLocation.Link);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
+        public void AddPictureWithFaultyPathShouldFail2()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+
+                var pic = sheet.Drawings.AddPicture("ImageName", "C:\\temp\\test???", PictureLocation.Link);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException), "Illegal characters in path.")]
+        public void AddPictureWithIllegalCharsAndHyperlinkShouldFail()
+        {
+            using (var package = OpenPackage("LinkPic.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("emptyWS");
+
+                var pic = sheet.Drawings.AddPicture("ImageName", "testafhkai/[/\\|stuff", new ExcelHyperLink("https://www.google.com/"), PictureLocation.Link);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i1688()
+        {
+            using (ExcelPackage package = OpenPackage("i1688.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewSheet");
+
+                var pic = ws.Drawings.AddPicture("mypic", GetResourceFile("EPPlus.png"));
+                pic.Image.SetImage(GetResourceFile("car-silhouette-color-low-poly.svg"));
+
+                SaveAndCleanup(package);
+            }
+        }
+
+
+		[TestMethod]
+		public void SwitchFromSvgToPng()
+		{
+			using (ExcelPackage package = OpenPackage("SvgToPng.xlsx", true))
+			{
+				ExcelPackage otherPackage = new ExcelPackage();
+				var someWs = otherPackage.Workbook.Worksheets.Add("SomeWorksheet");
+				someWs.Drawings.AddPicture("picturetiff", GetResourceFile("Code.tif"));
+                someWs.Drawings.AddPicture("pictureSvg", GetResourceFile("car-silhouette-color-low-poly.svg"));
+                someWs.Drawings.AddPicture("picturePng", GetResourceFile("EPPlus.png"));
+
+                var wb = package.Workbook;
+				var ws = wb.Worksheets.Add("NewSheet");
+
+                var originalSvg = ws.Drawings.AddPicture("svgOrig", GetResourceFile("car-silhouette-color-low-poly.svg"));
+
+                originalSvg.Image.SetImage(GetResourceFile("EPPlus.png"));
+
+                Assert.IsTrue(ws.Drawings.Part.RelationshipExists("rId1"));
+
+                var rel = ws.Drawings.Part.GetRelationship("rId1");
+
+                var relUri = UriHelper.ResolvePartUri(originalSvg.Part.Uri, rel.TargetUri);
+
+                Assert.AreEqual(originalSvg.Part.Uri, relUri);
+                Assert.AreEqual("../media/image1.png", rel.TargetUri.OriginalString);
+
+				otherPackage.Dispose();
+                SaveAndCleanup(package);
+            }
+		}
+
+        [TestMethod]
+        public void SwitchingFromPictureReferencedByOtherPicture()
+        {
+            using (ExcelPackage package = OpenPackage("PicturesMultipleReferences.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewSheet");
+
+				var originalSvg = ws.Drawings.AddPicture("svgOrig", GetResourceFile("car-silhouette-color-low-poly.svg"));
+
+				originalSvg.SetPosition(10, 200);
+
+                var originalPng = ws.Drawings.AddPicture("otherpic", GetResourceFile("EPPlus.png"));
+
+				originalPng.SetPosition(10, 400);
+
+                var SwitchedPicture = ws.Drawings.AddPicture("mypic", GetResourceFile("EPPlus.png"));
+
+                SwitchedPicture.Image.SetImage(GetResourceFile("car-silhouette-color-low-poly.svg"));
+                SwitchedPicture.Image.SetImage(GetResourceFile("EPPlus.png"));
+
+				Assert.IsTrue(ws.Drawings.Part.RelationshipExists("rId1"));
+				var rel = ws.Drawings.Part.GetRelationship("rId1");
+                Assert.AreEqual("../media/image1.Svg", rel.TargetUri.OriginalString);
+
+                Assert.AreEqual(SwitchedPicture.Part.Uri, originalPng.Part.Uri);
+                var rel2 = ws.Drawings.Part.GetRelationship("rId2");
+                Assert.AreEqual("../media/image1.Png", rel2.TargetUri.OriginalString);
+
+                SaveAndCleanup(package);
+            }
+        }
+    }
 }

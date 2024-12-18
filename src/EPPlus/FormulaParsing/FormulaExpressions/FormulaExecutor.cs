@@ -37,6 +37,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal static List<Token> CreateRPNTokens(IList<Token> tokens)
         {
             var bracketCount = 0;
+            var lastOpeningParanthesesPos = -1;
+            var lastCommaPos=-1;
             var operators = OperatorsDict.Instance;
             Stack<Token> operatorStack = new Stack<Token>();
             var expressions = new List<Token>();
@@ -46,23 +48,41 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 switch (token.TokenType)
                 {
                     case TokenType.OpeningParenthesis:
+                        lastOpeningParanthesesPos = expressions.Count;
                         operatorStack.Push(token);
                         break;
                     case TokenType.ClosingParenthesis:
                         if (operatorStack.Count > 0)
-                        {
-                            
+                        {                            
                             var o = operatorStack.Pop();
+                            var noOperator = true;
                             while (o.TokenType != TokenType.OpeningParenthesis)
                             {
                                 expressions.Add(o);
                                 if (operatorStack.Count == 0) throw new InvalidOperationException("No closing parenthesis");
                                 o = operatorStack.Pop();
+                                noOperator = false;
                             }
+
                             if (operatorStack.Count > 0 && operatorStack.Peek().TokenType == TokenType.Function)
                             {
                                 expressions.Add(operatorStack.Pop());
+                                noOperator = false;
                             }
+
+                            if (noOperator && lastOpeningParanthesesPos > -1 && lastCommaPos > -1 && expressions.Count - lastOpeningParanthesesPos > 1) // Handle comma separated addresses to become one expression. For Example SUM( (A1,A3) ,A5) where A1,A3 should become one argument to the SUM function.
+                            {
+                                var sb = new StringBuilder();
+                                while(expressions.Count > lastOpeningParanthesesPos)
+                                {
+                                    sb.Append(expressions[lastOpeningParanthesesPos].Value);
+                                    expressions.RemoveAt(lastOpeningParanthesesPos);
+                                }
+                                expressions.Add(new Token(sb.ToString(), TokenType.ExcelAddress));
+
+                            }
+                            lastOpeningParanthesesPos = -1;
+                            lastCommaPos = -1;
                         }
                         break;
                     case TokenType.Operator:
@@ -106,6 +126,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 op = operatorStack.Peek().TokenType;
                             }
                         }
+                        lastCommaPos = i;
                         expressions.Add(token);
                         break;
                     case TokenType.OpeningBracket:
@@ -164,7 +185,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             tokens.RemoveAt(i - 1);
                             tokens.RemoveAt(i);
                             i--;
-                            tokens[i] = new Token(e.GetAddress().WorksheetAddress, TokenType.ExcelAddress);
+                            tokens[i] = new Token(e.GetAddress()[0].WorksheetAddress, TokenType.ExcelAddress);
                         }
                         else
                         {
@@ -173,8 +194,20 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         extRefIx = short.MinValue;
                         wsIx = int.MinValue;
                         break;
-                    case TokenType.NameValue:
-                        
+                    case TokenType.ExcelAddress:
+                        var a = new ExcelAddressBase(t.Value);
+                        if(a.Addresses?.Count>1)
+                        {
+                            expressions.Add(i, new MultiRangeExpression(a, parsingContext));
+                        }
+                        else
+                        {
+                            expressions.Add(i, new RangeExpression(a.AsFormulaRangeAddress(parsingContext)));
+                        }
+                        extRefIx = short.MinValue;
+                        wsIx = int.MinValue;
+                        break;
+                    case TokenType.NameValue:                        
                         expressions.Add(i, new NamedValueExpression(t.Value, parsingContext, extRefIx, wsIx));
                         break;
                     case TokenType.ExternalReference:
@@ -258,7 +291,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         private static void ExtractTableAddress(int extRef, int wsIx, IList<Token> exps, int i, out FormulaTableAddress tableAddress, ParsingContext parsingContext)
         {
-            //var adr = exps[i].Value;
             tableAddress = new FormulaTableAddress(parsingContext) {ExternalReferenceIx = extRef, WorksheetIx=wsIx, TableName = exps[i].Value };
             exps.RemoveAt(i);
             int bracketCount=0;

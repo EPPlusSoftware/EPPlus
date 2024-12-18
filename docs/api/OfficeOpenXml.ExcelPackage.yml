@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPackage
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxColumns
     path: ../src/EPPlus/ExcelPackage.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxRows
     path: ../src/EPPlus/ExcelPackage.cs
@@ -194,7 +194,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -262,7 +262,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -337,7 +337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -376,7 +376,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -415,7 +415,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -457,7 +457,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -499,7 +499,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -538,7 +538,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -580,7 +580,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -616,7 +616,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -655,7 +655,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -694,7 +694,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -736,7 +736,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Encryption
     path: ../src/EPPlus/ExcelPackage.cs
@@ -773,7 +773,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseContext
     path: ../src/EPPlus/ExcelPackage.cs
@@ -812,7 +812,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Workbook
     path: ../src/EPPlus/ExcelPackage.cs
@@ -849,7 +849,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Configure
     path: ../src/EPPlus/ExcelPackage.cs
@@ -890,7 +890,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializationErrors
     path: ../src/EPPlus/ExcelPackage.cs
@@ -927,7 +927,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoAdjustDrawings
     path: ../src/EPPlus/ExcelPackage.cs
@@ -964,7 +964,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelPackage.cs
@@ -998,7 +998,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Save
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1030,7 +1030,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Save
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1066,7 +1066,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1102,7 +1102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1138,7 +1138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1177,7 +1177,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1216,7 +1216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1252,7 +1252,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1291,7 +1291,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: File
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1328,7 +1328,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Stream
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1365,7 +1365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compression
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1402,7 +1402,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compatibility
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1439,7 +1439,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Settings
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1476,7 +1476,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MemorySettings
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1515,7 +1515,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArray
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1551,7 +1551,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArray
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1591,7 +1591,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1627,7 +1627,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/ExcelPackage.cs
@@ -1666,7 +1666,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -1708,7 +1708,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -1750,7 +1750,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -1795,7 +1795,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -1840,7 +1840,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -1888,7 +1888,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -1936,7 +1936,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -1978,7 +1978,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2023,7 +2023,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2062,7 +2062,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2104,7 +2104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2146,7 +2146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2188,7 +2188,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2233,7 +2233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2278,7 +2278,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2320,7 +2320,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2365,7 +2365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArrayAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2406,7 +2406,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArrayAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs

@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelCustomFilterColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCustomFilterColumn
     path: ../src/EPPlus/Filter/ExcelCustomFilterColumn.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelCustomFilterColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNumericFilter
     path: ../src/EPPlus/Filter/ExcelCustomFilterColumn.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelCustomFilterColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: And
     path: ../src/EPPlus/Filter/ExcelCustomFilterColumn.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelCustomFilterColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Filters
     path: ../src/EPPlus/Filter/ExcelCustomFilterColumn.cs

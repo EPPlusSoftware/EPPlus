@@ -24,25 +24,25 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Highlights cells that are above the average for all values in the range.
         /// </summary>
         /// <remarks>AboveAverage Excel CF Rule Type</remarks>
-        AboveAverage,
+        AboveAverage = 0,
 
         /// <summary>
         /// Highlights cells that are above or equal to the average for all values in the range.
         /// </summary>
         /// <remarks>AboveAverage Excel CF Rule Type</remarks>
-        AboveOrEqualAverage,
+        AboveOrEqualAverage = 1,
 
         /// <summary>
         /// Highlights cells that are below the average for all values in the range.
         /// </summary>
         /// <remarks>AboveAverage Excel CF Rule Type</remarks>
-        BelowAverage,
+        BelowAverage = 2,
 
         /// <summary>
         /// Highlights cells that are below or equal to the average for all values in the range.
         /// </summary>
         /// <remarks>AboveAverage Excel CF Rule Type</remarks>
-        BelowOrEqualAverage,
+        BelowOrEqualAverage = 3,
         #endregion
 
         #region StdDev
@@ -50,13 +50,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Highlights cells that are above the standard deviation for all values in the range.
         /// <remarks>AboveAverage Excel CF Rule Type</remarks>
         /// </summary>
-        AboveStdDev,
+        AboveStdDev = 4,
 
         /// <summary>
         /// Highlights cells that are below the standard deviation for all values in the range.
         /// </summary>
         /// <remarks>AboveAverage Excel CF Rule Type</remarks>
-        BelowStdDev,
+        BelowStdDev = 5,
         #endregion
 
         #region TopBottom
@@ -64,25 +64,25 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Highlights cells whose values fall in the bottom N bracket as specified.
         /// </summary>
         /// <remarks>Top10 Excel CF Rule Type</remarks>
-        Bottom,
+        Bottom = 6,
 
         /// <summary>
         /// Highlights cells whose values fall in the bottom N percent as specified.
         /// </summary>
         /// <remarks>Top10 Excel CF Rule Type</remarks>
-        BottomPercent,
+        BottomPercent = 7,
 
         /// <summary>
         /// Highlights cells whose values fall in the top N bracket as specified.
         /// </summary>
         /// <remarks>Top10 Excel CF Rule Type</remarks>
-        Top,
+        Top = 8,
 
         /// <summary>
         /// Highlights cells whose values fall in the top N percent as specified.
         /// </summary>
         /// <remarks>Top10 Excel CF Rule Type</remarks>
-        TopPercent,
+        TopPercent = 9,
         #endregion
 
         #region TimePeriod
@@ -90,61 +90,61 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Highlights cells containing dates in the last 7 days.
         /// </summary>
         /// <remarks>TimePeriod Excel CF Rule Type</remarks>
-        Last7Days,
+        Last7Days = 10,
 
         /// <summary>
         /// Highlights cells containing dates in the last month.
         /// </summary>
         /// <remarks>TimePeriod Excel CF Rule Type</remarks>
-        LastMonth,
+        LastMonth = 11,
 
         /// <summary>
         /// Highlights cells containing dates in the last week.
         /// </summary>
         /// <remarks>TimePeriod Excel CF Rule Type</remarks>
-        LastWeek,
+        LastWeek = 12,
 
         /// <summary>
         /// Highlights cells containing dates in the next month.
         /// </summary>
         /// <remarks>TimePeriod Excel CF Rule Type</remarks>
-        NextMonth,
+        NextMonth = 13,
 
         /// <summary>
         /// Highlights cells containing dates in the next week.
         /// </summary>
         /// <remarks>TimePeriod Excel CF Rule Type</remarks>
-        NextWeek,
+        NextWeek = 14,
 
         /// <summary>
         /// Highlights cells containing dates in this month.
         /// </summary>
         /// <remarks>TimePeriod Excel CF Rule Type</remarks>
-        ThisMonth,
+        ThisMonth = 15,
 
         /// <summary>
         /// Highlights cells containing dates in this week.
         /// </summary>
         /// <remarks>TimePeriod Excel CF Rule Type</remarks>
-        ThisWeek,
+        ThisWeek = 16,
 
         /// <summary>
         /// Highlights cells containing todays date.
         /// </summary>
         /// <remarks>TimePeriod Excel CF Rule Type</remarks>
-        Today,
+        Today = 17,
 
         /// <summary>
         /// Highlights cells containing tomorrows date.
         /// </summary>
         /// <remarks>TimePeriod Excel CF Rule Type</remarks>
-        Tomorrow,
+        Tomorrow = 18,
 
         /// <summary>
         /// Highlights cells containing yesterdays date.
         /// </summary>
         /// <remarks>TimePeriod Excel CF Rule Type</remarks>
-        Yesterday,
+        Yesterday = 19,
         #endregion
 
         #region CellIs
@@ -155,13 +155,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Equivalent to using the LEFT() sheet function and comparing values.
         /// </remarks>
         /// <remarks>BeginsWith Excel CF Rule Type</remarks>
-        BeginsWith,
+        BeginsWith = 20,
 
         /// <summary>
         /// Highlights cells in the range between the given two formulas.
         /// </summary>
         /// <remarks>CellIs Excel CF Rule Type</remarks>
-        Between,
+        Between = 21,
 
         /// <summary>
         /// Highlights cells that are completely blank.
@@ -172,7 +172,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// is also considered blank.
         /// </remarks>
         /// <remarks>ContainsBlanks Excel CF Rule Type</remarks>
-        ContainsBlanks,
+        ContainsBlanks = 22,
 
         /// <summary>
         /// Highlights cells with formula errors.
@@ -182,7 +182,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// a formula error.
         /// </remarks>
         /// <remarks>ContainsErrors Excel CF Rule Type</remarks>
-        ContainsErrors,
+        ContainsErrors = 23,
 
         /// <summary>
         /// Highlights cells in the range that begin with
@@ -192,13 +192,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Equivalent to using the LEFT() sheet function and comparing values.
         /// </remarks>
         /// <remarks>ContainsText Excel CF Rule Type</remarks>
-        ContainsText,
+        ContainsText = 24,
 
         /// <summary>
         /// Highlights duplicated values.
         /// </summary>
         /// <remarks>DuplicateValues Excel CF Rule Type</remarks>
-        DuplicateValues,
+        DuplicateValues = 25,
 
         /// <summary>
         /// Highlights cells ending with the given text.
@@ -207,55 +207,55 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Equivalent to using the RIGHT() sheet function and comparing values.
         /// </remarks>
         /// <remarks>EndsWith Excel CF Rule Type</remarks>
-        EndsWith,
+        EndsWith = 26,
 
         /// <summary>
         /// Highlights cells equal to the given formula.
         /// </summary>
         /// <remarks>CellIs Excel CF Rule Type</remarks>
-        Equal,
+        Equal = 27,
 
         /// <summary>
         /// This rule contains a formula to evaluate. When the formula result is true, the cell is highlighted.
         /// </summary>
         /// <remarks>Expression Excel CF Rule Type</remarks>
-        Expression,
+        Expression = 28,
 
         /// <summary>
         /// Highlights cells greater than the given formula.
         /// </summary>
         /// <remarks>CellIs Excel CF Rule Type</remarks>
-        GreaterThan,
+        GreaterThan = 29,
 
         /// <summary>
         /// Highlights cells greater than or equal the given formula.
         /// </summary>
         /// <remarks>CellIs Excel CF Rule Type</remarks>
-        GreaterThanOrEqual,
+        GreaterThanOrEqual = 30,
 
         /// <summary>
         /// Highlights cells less than the given formula.
         /// </summary>
         /// <remarks>CellIs Excel CF Rule Type</remarks>
-        LessThan,
+        LessThan = 31,
 
         /// <summary>
         /// Highlights cells less than or equal the given formula.
         /// </summary>
         /// <remarks>CellIs Excel CF Rule Type</remarks>
-        LessThanOrEqual,
+        LessThanOrEqual = 32,
 
         /// <summary>
         /// Highlights cells outside the range in given two formulas.
         /// </summary>
         /// <remarks>CellIs Excel CF Rule Type</remarks>
-        NotBetween,
+        NotBetween = 33,
 
         /// <summary>
         /// Highlights cells that does not contains the given formula.
         /// </summary>
         /// <remarks>CellIs Excel CF Rule Type</remarks>
-        NotContains,
+        NotContains = 34,
 
         /// <summary>
         /// Highlights cells that are not blank.
@@ -266,7 +266,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// is also considered blank.
         /// </remarks>
         /// <remarks>NotContainsBlanks Excel CF Rule Type</remarks>
-        NotContainsBlanks,
+        NotContainsBlanks = 35,
 
         /// <summary>
         /// Highlights cells without formula errors.
@@ -276,7 +276,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// formula error.
         /// </remarks>
         /// <remarks>NotContainsErrors Excel CF Rule Type</remarks>
-        NotContainsErrors,
+        NotContainsErrors = 36,
 
         /// <summary>
         /// Highlights cells that do not contain the given text.
@@ -285,19 +285,19 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Equivalent to using the SEARCH() sheet function.
         /// </remarks>
         /// <remarks>NotContainsText Excel CF Rule Type</remarks>
-        NotContainsText,
+        NotContainsText = 37,
 
         /// <summary>
         ///     .
         /// </summary>
         /// <remarks>CellIs Excel CF Rule Type</remarks>
-        NotEqual,
+        NotEqual = 38,
 
         /// <summary>
         /// Highlights unique values in the range.
         /// </summary>
         /// <remarks>UniqueValues Excel CF Rule Type</remarks>
-        UniqueValues,
+        UniqueValues = 39,
         #endregion
 
         #region ColorScale
@@ -305,13 +305,13 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// Three Color Scale (Low, Middle and High Color Scale)
         /// </summary>
         /// <remarks>ColorScale Excel CF Rule Type</remarks>
-        ThreeColorScale,
+        ThreeColorScale = 40,
 
         /// <summary>
         /// Two Color Scale (Low and High Color Scale)
         /// </summary>
         /// <remarks>ColorScale Excel CF Rule Type</remarks>
-        TwoColorScale,
+        TwoColorScale = 41,
         #endregion
 
         #region IconSet
@@ -320,21 +320,21 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// to their values.
         /// </summary>
         /// <remarks>IconSet Excel CF Rule Type</remarks>
-        ThreeIconSet,
+        ThreeIconSet = 42,
 
         /// <summary>
         /// This conditional formatting rule applies a 4 set icons to cells according
         /// to their values.
         /// </summary>
         /// <remarks>IconSet Excel CF Rule Type</remarks>
-        FourIconSet,
+        FourIconSet = 43,
 
         /// <summary>
         /// This conditional formatting rule applies a 5 set icons to cells according
         /// to their values.
         /// </summary>
         /// <remarks>IconSet Excel CF Rule Type</remarks>
-        FiveIconSet,
+        FiveIconSet = 44,
         #endregion
 
         #region DataBar
@@ -342,7 +342,7 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// This conditional formatting rule displays a gradated data bar in the range of cells.
         /// </summary>
         /// <remarks>DataBar Excel CF Rule Type</remarks>
-        DataBar
+        DataBar = 45
         #endregion
     }
 
@@ -1098,4 +1098,220 @@ namespace OfficeOpenXml.ConditionalFormatting
         /// </summary>
         None
     }
-}
+
+    /// <summary>
+    /// Conditional formatting rule types valid for pivot tables.
+    /// </summary>
+    public enum eExcelPivotTableConditionalFormattingRuleType
+    {
+        #region Average
+        /// <summary>
+        /// Highlights cells that are above the average for all values in the range.
+        /// </summary>
+        /// <remarks>AboveAverage Excel CF Rule Type</remarks>
+        AboveAverage = 0,
+
+        /// <summary>
+        /// Highlights cells that are above or equal to the average for all values in the range.
+        /// </summary>
+        /// <remarks>AboveAverage Excel CF Rule Type</remarks>
+        AboveOrEqualAverage = 1,
+
+        /// <summary>
+        /// Highlights cells that are below the average for all values in the range.
+        /// </summary>
+        /// <remarks>AboveAverage Excel CF Rule Type</remarks>
+        BelowAverage = 2,
+
+        /// <summary>
+        /// Highlights cells that are below or equal to the average for all values in the range.
+        /// </summary>
+        /// <remarks>AboveAverage Excel CF Rule Type</remarks>
+        BelowOrEqualAverage = 3,
+        #endregion
+
+        #region StdDev
+        /// <summary>
+        /// Highlights cells that are above the standard deviation for all values in the range.
+        /// <remarks>AboveAverage Excel CF Rule Type</remarks>
+        /// </summary>
+        AboveStdDev = 4,
+
+        /// <summary>
+        /// Highlights cells that are below the standard deviation for all values in the range.
+        /// </summary>
+        /// <remarks>AboveAverage Excel CF Rule Type</remarks>
+        BelowStdDev = 5,
+        #endregion
+
+        #region TopBottom
+        /// <summary>
+        /// Highlights cells whose values fall in the bottom N bracket as specified.
+        /// </summary>
+        /// <remarks>Top10 Excel CF Rule Type</remarks>
+        Bottom = 6,
+
+        /// <summary>
+        /// Highlights cells whose values fall in the bottom N percent as specified.
+        /// </summary>
+        /// <remarks>Top10 Excel CF Rule Type</remarks>
+        BottomPercent = 7,
+
+        /// <summary>
+        /// Highlights cells whose values fall in the top N bracket as specified.
+        /// </summary>
+        /// <remarks>Top10 Excel CF Rule Type</remarks>
+        Top = 8,
+
+        /// <summary>
+        /// Highlights cells whose values fall in the top N percent as specified.
+        /// </summary>
+        /// <remarks>Top10 Excel CF Rule Type</remarks>
+        TopPercent = 9,
+        #endregion
+
+        #region CellIs
+
+        /// <summary>
+        /// Highlights cells in the range between the given two formulas.
+        /// </summary>
+        /// <remarks>CellIs Excel CF Rule Type</remarks>
+        Between = 21,
+
+        /// <summary>
+        /// Highlights cells that are completely blank.
+        /// </summary>
+        /// <remarks>
+        /// Equivalent of using LEN(TRIM()). This means that if the cell contains only
+        /// characters that TRIM() would remove, then it is considered blank. An empty cell
+        /// is also considered blank.
+        /// </remarks>
+        /// <remarks>ContainsBlanks Excel CF Rule Type</remarks>
+        ContainsBlanks = 22,
+
+        /// <summary>
+        /// Highlights cells with formula errors.
+        /// </summary>
+        /// <remarks>
+        /// Equivalent to using ISERROR() sheet function to determine if there is
+        /// a formula error.
+        /// </remarks>
+        /// <remarks>ContainsErrors Excel CF Rule Type</remarks>
+        ContainsErrors = 23,
+
+        /// <summary>
+        /// Highlights cells equal to the given formula.
+        /// </summary>
+        /// <remarks>CellIs Excel CF Rule Type</remarks>
+        Equal = 27,
+
+        /// <summary>
+        /// This rule contains a formula to evaluate. When the formula result is true, the cell is highlighted.
+        /// </summary>
+        /// <remarks>Expression Excel CF Rule Type</remarks>
+        Expression = 28,
+
+        /// <summary>
+        /// Highlights cells greater than the given formula.
+        /// </summary>
+        /// <remarks>CellIs Excel CF Rule Type</remarks>
+        GreaterThan = 29,
+
+        /// <summary>
+        /// Highlights cells greater than or equal the given formula.
+        /// </summary>
+        /// <remarks>CellIs Excel CF Rule Type</remarks>
+        GreaterThanOrEqual = 30,
+
+        /// <summary>
+        /// Highlights cells less than the given formula.
+        /// </summary>
+        /// <remarks>CellIs Excel CF Rule Type</remarks>
+        LessThan = 31,
+
+        /// <summary>
+        /// Highlights cells less than or equal the given formula.
+        /// </summary>
+        /// <remarks>CellIs Excel CF Rule Type</remarks>
+        LessThanOrEqual = 32,
+
+        /// <summary>
+        /// Highlights cells outside the range in given two formulas.
+        /// </summary>
+        /// <remarks>CellIs Excel CF Rule Type</remarks>
+        NotBetween = 33,
+
+        /// <summary>
+        /// Highlights cells that are not blank.
+        /// </summary>
+        /// <remarks>
+        /// Equivalent of using LEN(TRIM()). This means that if the cell contains only
+        /// characters that TRIM() would remove, then it is considered blank. An empty cell
+        /// is also considered blank.
+        /// </remarks>
+        /// <remarks>NotContainsBlanks Excel CF Rule Type</remarks>
+        NotContainsBlanks = 35,
+
+        /// <summary>
+        /// Highlights cells without formula errors.
+        /// </summary>
+        /// <remarks>
+        /// Equivalent to using ISERROR() sheet function to determine if there is a
+        /// formula error.
+        /// </remarks>
+        /// <remarks>NotContainsErrors Excel CF Rule Type</remarks>
+        NotContainsErrors = 36,
+
+        /// <summary>
+        ///     .
+        /// </summary>
+        /// <remarks>CellIs Excel CF Rule Type</remarks>
+        NotEqual = 38,
+        #endregion
+
+        #region ColorScale
+        /// <summary>
+        /// Three Color Scale (Low, Middle and High Color Scale)
+        /// </summary>
+        /// <remarks>ColorScale Excel CF Rule Type</remarks>
+        ThreeColorScale = 40,
+
+        /// <summary>
+        /// Two Color Scale (Low and High Color Scale)
+        /// </summary>
+        /// <remarks>ColorScale Excel CF Rule Type</remarks>
+        TwoColorScale = 41,
+        #endregion
+
+        #region IconSet
+        /// <summary>
+        /// This conditional formatting rule applies a 3 set icons to cells according
+        /// to their values.
+        /// </summary>
+        /// <remarks>IconSet Excel CF Rule Type</remarks>
+        ThreeIconSet = 42,
+
+        /// <summary>
+        /// This conditional formatting rule applies a 4 set icons to cells according
+        /// to their values.
+        /// </summary>
+        /// <remarks>IconSet Excel CF Rule Type</remarks>
+        FourIconSet = 43,
+
+        /// <summary>
+        /// This conditional formatting rule applies a 5 set icons to cells according
+        /// to their values.
+        /// </summary>
+        /// <remarks>IconSet Excel CF Rule Type</remarks>
+        FiveIconSet = 44,
+        #endregion
+
+        #region DataBar
+        /// <summary>
+        /// This conditional formatting rule displays a gradated data bar in the range of cells.
+        /// </summary>
+        /// <remarks>DataBar Excel CF Rule Type</remarks>
+        DataBar = 45
+        #endregion
+    }
+    }

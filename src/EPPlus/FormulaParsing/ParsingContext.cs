@@ -25,7 +25,7 @@ namespace OfficeOpenXml.FormulaParsing
     /// <summary>
     /// Parsing context
     /// </summary>
-    public class ParsingContext : IParsingLifetimeEventHandler
+    public class ParsingContext 
     {
         private ParsingContext(ExcelPackage package) {
             SubtotalAddresses = new HashSet<ulong>();
@@ -76,18 +76,6 @@ namespace OfficeOpenXml.FormulaParsing
         /// Configuration
         /// </summary>
         public ParsingConfiguration Configuration { get; set; }
-
-        ///// <summary>
-        ///// Scopes, a scope represents the parsing of a cell or a value.
-        ///// </summary>
-        //public ParsingScopes Scopes { get; private set; }
-
-        ///// <summary>
-        ///// Address cache
-        ///// </summary>
-        ///// <seealso cref="ExcelAddressCache"/>
-        //public ExcelAddressCache AddressCache { get; private set; }
-
         /// <summary>
         /// Returns true if a <see cref="IFormulaParserLogger"/> is attached to the parser.
         /// </summary>
@@ -121,12 +109,6 @@ namespace OfficeOpenXml.FormulaParsing
             return Create(null);
         }
 
-        void IParsingLifetimeEventHandler.ParsingCompleted()
-        {
-            //AddressCache.Clear();
-           // SubtotalAddresses.Clear();
-        }
-
         internal int GetWorksheetIndex(string wsName)
         {
             if(string.IsNullOrEmpty(wsName))
@@ -158,7 +140,7 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 if(Package != null && CurrentCell.WorksheetIx>=0 && CurrentCell.WorksheetIx < Package.Workbook.Worksheets.Count)
                 {
-                    return Package.Workbook.Worksheets[CurrentCell.WorksheetIx];
+                    return Package.Workbook.GetWorksheetByIndexInList(CurrentCell.WorksheetIx);
                 }
                 return null;
             }

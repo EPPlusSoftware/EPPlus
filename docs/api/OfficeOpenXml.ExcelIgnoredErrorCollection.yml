@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredErrorCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelIgnoredErrorCollection
     path: ../src/EPPlus/ExcelIgnoredErrorCollection.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredErrorCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelIgnoredErrorCollection.cs
@@ -114,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredErrorCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExcelIgnoredErrorCollection.cs
@@ -152,7 +152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredErrorCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelIgnoredErrorCollection.cs
@@ -187,7 +187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredErrorCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelIgnoredErrorCollection.cs
@@ -227,7 +227,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredErrorCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.ExcelIgnoredError>.GetEnumerator
     path: ../src/EPPlus/ExcelIgnoredErrorCollection.cs
@@ -262,7 +262,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelIgnoredErrorCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelIgnoredErrorCollection.cs

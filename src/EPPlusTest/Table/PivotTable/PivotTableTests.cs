@@ -355,6 +355,8 @@ namespace EPPlusTest.Table.PivotTable
             var rf = pt.RowFields.Add(pt.Fields[0]);
             rf.SubTotalFunctions = eSubTotalFunctions.None;
             pt.DataOnRows = true;
+            pt.Fields[0].Items.Refresh();
+            pt.Fields[1].Items.Refresh();
         }
         [TestMethod]
         public void Pivot_SaveDataFalse()
@@ -385,7 +387,6 @@ namespace EPPlusTest.Table.PivotTable
             rf.SubTotalFunctions = eSubTotalFunctions.None;
             pt.DataOnRows = true;
             pt.CacheDefinition.SaveData = false;    //Remove the record xml
-            pt.CacheDefinition.SaveData = true;     //Add the record xml
         }
         [TestMethod]
         public void Pivot_ManyPageFields()
@@ -1169,5 +1170,104 @@ namespace EPPlusTest.Table.PivotTable
             }
             SwitchBackToCurrentCulture();
         }
+        [TestMethod]
+        public void PivotTableCopyTest()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotTableCopy");
+            var range = LoadItemData(ws);
+            var pt = ws.PivotTables.Add(ws.Cells["A1"], range, "CopyTable1");
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.DataFields.Add(pt.Fields[3]);
+            var ptCopy = pt.Copy(ws.Cells["A50"]);
+            Assert.AreEqual(2, ws.PivotTables.Count);
+            Assert.AreEqual("CopyTable12", ptCopy.Name);
+            Assert.AreEqual(1, ptCopy.RowFields.Count);
+            Assert.AreEqual(1, ptCopy.DataFields.Count);
+        }
+        [TestMethod]
+        public void PivotTableCopyWithNameChangeTest()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotTableCopyNewName");
+            var range = LoadItemData(ws);
+            var pt = ws.PivotTables.Add(ws.Cells["A1"], range, "CopyPivotTable2");
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.DataFields.Add(pt.Fields[3]);
+
+            pt.Copy(ws.Cells["A1"], "CopiedPivotTable21");
+            Assert.AreEqual(2, ws.PivotTables.Count);
+            Assert.AreEqual("CopyPivotTable22", ws.PivotTables[1].Name);
+        }
+        [TestMethod]
+        public void PivotTableCopyInRangeTest()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotTableCopyFromRange");
+            var range = LoadItemData(ws);
+            var pt = ws.PivotTables.Add(ws.Cells["B2"], range, "CopyPivotTable3");
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.DataFields.Add(pt.Fields[3]);
+
+            ws.Cells["A1:B2"].Copy(ws.Cells["A50"]);
+
+            Assert.AreEqual(2, ws.PivotTables.Count);
+            Assert.AreEqual("CopyPivotTable32", ws.PivotTables[1].Name);
+        }
+        [TestMethod]
+        public void PivotTable_CopyToNewWorksheet()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("PivotTableCopySource");
+            var range = LoadItemData(ws);
+            var pt = ws.PivotTables.Add(ws.Cells["B2"], range, "CopyPivotTable4");
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.DataFields.Add(pt.Fields[3]);
+
+            var wsCopy = _pck.Workbook.Worksheets.Add("PivotTableCopyDest");
+            ws.Cells["A1:B2"].Copy(wsCopy.Cells["A1"]);
+
+            Assert.AreEqual(1, ws.PivotTables.Count);
+            Assert.AreEqual(1, wsCopy.PivotTables.Count);
+            Assert.AreEqual("CopyPivotTable42", wsCopy.PivotTables[0].Name);
+        }
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void PivotTable_CopyToNewWorkbook()
+        {
+            using var p1 = new ExcelPackage();
+            var ws = p1.Workbook.Worksheets.Add("PivotTableCopyNewPackage");
+            var range = LoadItemData(ws);
+            var pt = ws.PivotTables.Add(ws.Cells["B2"], range, "CopyPivotTable5");
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.DataFields.Add(pt.Fields[3]);
+
+            using var p2 = new ExcelPackage();
+            var wsCopy = p2.Workbook.Worksheets.Add("PivotTableCopyDest");
+            ws.Cells["A1:B2"].Copy(wsCopy.Cells["A1"]);
+
+            Assert.AreEqual(1, ws.PivotTables.Count);
+            Assert.AreEqual(1, wsCopy.PivotTables.Count);
+            Assert.AreEqual("CopyPivotTable5", wsCopy.PivotTables[0].Name);
+        }
+        [TestMethod]
+        public void FillDownTest()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            var range = LoadItemData(ws);
+            var pt = ws.PivotTables.Add(ws.Cells["B2"], range, "FillDownTable");
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.RowFields.Add(pt.Fields[0]);
+            pt.DataFields.Add(pt.Fields[3]);
+            foreach (var field in pt.Fields)
+            {
+                field.ShowAll = false;
+                field.SubtotalTop = true;
+                field.ShowMemberPropertyToolTip = false;
+                field.RepeatItemLabels = true;
+                field.Compact = false;
+                field.Outline = true;
+                field.InsertBlankRow = true;
+            }
+            //p.SaveAs(@"C:\epplustest\testoutput\pivot_filldown.xlsx");
+        }        
     }
 }

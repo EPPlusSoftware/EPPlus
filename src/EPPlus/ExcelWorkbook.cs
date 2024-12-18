@@ -38,6 +38,10 @@ using OfficeOpenXml.Export.HtmlExport.Exporters;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.DigitalSignatures;
+using System.Security.Cryptography.Xml;
 
 namespace OfficeOpenXml
 {
@@ -104,7 +108,8 @@ namespace OfficeOpenXml
 		//internal HashSet<string> _tableSlicerNames = new HashSet<string>();
 		internal HashSet<string> _slicerNames = null;
 		internal Dictionary<string, ImageInfo> _images = new Dictionary<string, ImageInfo>();
-		internal bool GetPivotCacheFromAddress(string fullAddress, out PivotTableCacheInternal cacheReference)
+        private readonly CellPictureReferenceCache _cellPictureReferenceCache = new CellPictureReferenceCache();
+        internal bool GetPivotCacheFromAddress(string fullAddress, out PivotTableCacheInternal cacheReference)
 		{
 			if (_pivotTableCaches.TryGetValue(fullAddress, out PivotTableCacheRangeInfo cacheInfo))
 			{
@@ -131,7 +136,23 @@ namespace OfficeOpenXml
 			}
 		}
 
-		internal string GetSlicerName(string name)
+        internal void LoadAllVmlDrawings(string loadingWsName)
+		{
+            if (_worksheets._areVmlDrawingsLoaded)
+            {
+                return;
+            }
+            _worksheets._areVmlDrawingsLoaded = true;
+            foreach (var ws in Worksheets)
+            {
+                if (loadingWsName.Equals(ws.Name, StringComparison.OrdinalIgnoreCase) == false)
+                {
+                    var vmlDrawings = ws.VmlDrawings;
+                }
+            }
+        }
+
+        internal string GetSlicerName(string name)
 		{
 			if (_slicerNames == null) LoadSlicerNames();
 			return GetUniqueName(name, _slicerNames);
@@ -208,9 +229,10 @@ namespace OfficeOpenXml
             base(namespaceManager)
         {
             _package = package;
+            _indexStore = new RichDataIndexStore(this);
             SetUris();
 
-            _names = new ExcelNamedRangeCollection(this);
+			_names = new ExcelNamedRangeCollection(this);
             _namespaceManager = namespaceManager;
             TopNode = WorkbookXml.DocumentElement;
             SchemaNodeOrder = new string[] { "fileVersion", "fileSharing", "workbookPr", "workbookProtection", "bookViews", "sheets", "functionGroups", "functionPrototypes", "externalReferences", "definedNames", "calcPr", "oleSize", "customWorkbookViews", "pivotCaches", "smartTagPr", "smartTagTypes", "webPublishing", "fileRecoveryPr", "webPublishObjects", "extLst" };
@@ -240,16 +262,19 @@ namespace OfficeOpenXml
 
 		private void SetUris()
 		{
-			foreach (var rel in _package.ZipPackage.GetRelationships())
-			{
-				if (rel.RelationshipType == ExcelPackage.schemaRelationships + "/officeDocument")
-				{
-					WorkbookUri = rel.TargetUri;
-					break;
-				}
-			}
+            foreach (var rel in _package.ZipPackage.GetRelationships())
+            {
+                if (rel.RelationshipType == ExcelPackage.schemaRelationships + "/officeDocument")
+                {
+                    WorkbookUri = rel.TargetUri;
+                }
+                else if (rel.RelationshipType == ExcelPackage.packageSchemaRelationships + "/digital-signature/origin")
+                {
+                    SignatureOriginUri = rel.TargetUri;
+                }
+            }
 
-			if (WorkbookUri == null)
+            if (WorkbookUri == null)
 			{
 				WorkbookUri = new Uri("/xl/workbook.xml", UriKind.Relative);
 			}
@@ -341,13 +366,23 @@ namespace OfficeOpenXml
 						if (xr.LocalName == "t" && xr.NodeType == XmlNodeType.Element)
 						{
 							var text = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
-							_sharedStringsListNew.Add(new SharedStringTextItem() { Text = text, Position = index });
-							if (!_sharedStringsLookup.ContainsKey(text))
+							if(xr.Name=="r" && xr.NodeType == XmlNodeType.Element)
 							{
-								_sharedStringsLookup.Add(text, index++);
-							}
-						}
-						else if (xr.LocalName == "r" && xr.NodeType == XmlNodeType.Element)
+                                var item = new SharedStringRichTextItem() { RichText = new ExcelRichTextCollection(xr, this), Position = index++ };
+								item.RichText.Insert(0, text);
+								_sharedStringsListNew.Add(item);
+                                text = item.RichText.GetXML();
+                            }
+                            else
+							{
+                                _sharedStringsListNew.Add(new SharedStringTextItem() { Text = text, Position = index });
+                                if (!_sharedStringsLookup.ContainsKey(text))
+                                {
+                                    _sharedStringsLookup.Add(text, index++);
+                                }
+                            }
+                        }
+						if (xr.LocalName == "r" && xr.NodeType == XmlNodeType.Element)
 						{
 							var item = new SharedStringRichTextItem() { RichText = new ExcelRichTextCollection(xr, this), Position = index++ };
 							_sharedStringsListNew.Add(item);
@@ -684,7 +719,6 @@ namespace OfficeOpenXml
 
 				}
 				return _externalLinks;
-
 			}
 		}
 		#region Workbook Properties
@@ -733,34 +767,37 @@ namespace OfficeOpenXml
 			}
 		}
 		/// <summary>
-		/// Max font width for the workbook
-		/// <remarks>This method uses GDI. If you use Azure or another environment that does not support GDI, you have to set this value manually if you don't use the standard Calibri font</remarks>
+		/// Max font width for the workbook, used in the calculation of column widths.
+		/// <remarks>This property uses the static <see cref="FontSize.FontWidths"></see> dictionary to get the max font width /></remarks>
 		/// </summary>
 		public decimal MaxFontWidth
 		{
 			get
 			{
-				var ix = Styles.GetNormalStyleIndex();
-				if (ix >= 0)
+				if (_standardFontWidth == decimal.MinValue)
 				{
-					var font = Styles.NamedStyles[ix].Style.Font;
-					if (font.Index == int.MinValue) font.Index = 0;
-					if (_standardFontWidth == decimal.MinValue || _fontID != font.Id)
+					var ix = Styles.GetNormalStyleIndex();
+					if (ix >= 0)
 					{
-						try
+						var font = Styles.NamedStyles[ix].Style.Font;
+						if (font.Index == int.MinValue) font.Index = 0;
+						if (_standardFontWidth == decimal.MinValue || _fontID != font.Id)
 						{
-							_standardFontWidth = FontSize.GetWidthPixels(font.Name, font.Size);
-							_fontID = Styles.NamedStyles[ix].Style.Font.Id;
-						}
-						catch   //Error, Font missing and Calibri removed in dictionary
-						{
-							_standardFontWidth = (int)(font.Size * (2D / 3D)); //Aprox for Calibri.
+							try
+							{
+								_standardFontWidth = FontSize.GetWidthPixels(font.Name, font.Size);
+								_fontID = Styles.NamedStyles[ix].Style.Font.Id;
+							}
+							catch   //Error, Font missing and Calibri removed in dictionary
+							{
+								_standardFontWidth = (int)(font.Size * (2D / 3D)); //Aprox for Calibri.
+							}
 						}
 					}
-				}
-				else
-				{
-					_standardFontWidth = 7; //Calibri 11
+					else
+					{
+						_standardFontWidth = 7; //Calibri 11
+					}
 				}
 				return _standardFontWidth;
 			}
@@ -853,10 +890,55 @@ namespace OfficeOpenXml
 				return _vba;
 			}
 		}
+
+        internal Dictionary<Guid, ExcelSignatureLineStamp> _signatureLinesWorkbook = new Dictionary<Guid, ExcelSignatureLineStamp>();
+        internal ExcelSignatureLineStamp GetSignatureLineStamp(Guid id)
+        {
+			return _signatureLinesWorkbook[id];
+            //foreach (var sig in _signatures)
+            //{
+            //    if (sig.SignatureLine != null && sig.SignatureLine.SetupID.Equals(id))
+            //    {
+            //        return sig;
+            //    }
+            //}
+            //return null;
+        }
+
+        internal ExcelDigitalSignatureCollection _digSig = null;
+
 		/// <summary>
-		/// Remove the from the file VBA project.
+		/// A collection of digital signatures for the workbook
 		/// </summary>
-		public void RemoveVBAProject()
+        public ExcelDigitalSignatureCollection DigitialSignatures
+        {
+            get
+            {
+                if (_digSig == null)
+                {
+                    if (SignatureOriginUri == null)
+                    {
+                        var originSigsUri = new Uri("_xmlsignatures/origin.sigs", UriKind.Relative);
+						var originPart = _package.ZipPackage.CreatePart(originSigsUri, ContentTypes.signatureOrigin, CompressionLevel.Default, "sigs");
+						var stream = originPart.GetStream();
+						stream.Write([], 0, 0);
+						var rel = _package.ZipPackage.CreateRelationship(originSigsUri, TargetMode.Internal, ExcelPackage.packageSchemaRelationships + "/digital-signature/origin");
+                        SignatureOriginUri = rel.TargetUri;
+                        _digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager);
+                    }
+					else
+					{
+                        _digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
+                    }
+                }
+                return _digSig;
+            }
+        }
+
+        /// <summary>
+        /// Remove the from the file VBA project.
+        /// </summary>
+        public void RemoveVBAProject()
 		{
 			if (_vba != null)
 			{
@@ -923,11 +1005,14 @@ namespace OfficeOpenXml
 		/// URI to the person elements inside the package
 		/// </summary>
 		internal Uri PersonsUri { get; private set; }
-
-		/// <summary>
-		/// Returns a reference to the workbook's part within the package
-		/// </summary>
-		internal Packaging.ZipPackagePart Part { get { return (_package.ZipPackage.GetPart(WorkbookUri)); } }
+        /// <summary>
+        /// Uri to the digital signatures in the package
+        /// </summary>
+        internal Uri SignatureOriginUri { get; private set; } = null;
+        /// <summary>
+        /// Returns a reference to the workbook's part within the package
+        /// </summary>
+        internal Packaging.ZipPackagePart Part { get { return (_package.ZipPackage.GetPart(WorkbookUri)); } }
 
 		#region WorkbookXml
 		private XmlDocument _workbookXml;
@@ -1378,9 +1463,23 @@ namespace OfficeOpenXml
 			{
 				VbaProject.Save();
 			}
-		}
 
-		private void SaveExternalLinks()
+			//If signatures have not been loaded yet but should exist load them
+			if (SignatureOriginUri != null && _digSig == null)
+			{
+				_digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
+            }
+
+			if(_digSig != null)
+			{
+                foreach (var signature in _digSig)
+                {
+                    signature._part.SaveHandler = SaveDigitalSignatureHandler;
+                }
+            }
+        }
+
+        private void SaveExternalLinks()
 		{
 			var packageFile = _package.File;
 			foreach (var er in _externalLinks)
@@ -1555,7 +1654,20 @@ namespace OfficeOpenXml
 			//Part.CreateRelationship(UriHelper.GetRelativeUri(WorkbookUri, SharedStringsUri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/sharedStrings");
 		}
 
-		private void UpdateDefinedNamesXml()
+        internal void SaveDigitalSignatureHandler(ZipOutputStream stream, CompressionLevel compressionLevel, string fileName)
+        {
+            //Init Zip
+            stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
+            stream.PutNextEntry(fileName);
+
+            var signature = DigitialSignatures.GetSignatureByFileName(fileName);
+            signature.Save();
+
+            var b = ((MemoryStream)signature._part.GetStream()).ToArray();
+            stream.Write(b, 0, b.Length);
+        }
+
+        private void UpdateDefinedNamesXml()
 		{
 			List<ExcelNamedRange> nameList = new List<ExcelNamedRange>();
 			try
@@ -1956,13 +2068,14 @@ namespace OfficeOpenXml
 
 		internal void ClearDefaultHeightsAndWidths()
 		{
-			foreach (var ws in Worksheets)
+			_standardFontWidth = decimal.MinValue;
+            foreach (var ws in Worksheets)
 			{
 				if (ws.IsChartSheet == false)
 				{
 					if (ws.CustomHeight == false)
 					{
-						ws._defaultRowHeight = double.NaN;
+						ws._defaultRowHeight = double.NaN;						
 					}
 				}
 			}
@@ -2003,32 +2116,49 @@ namespace OfficeOpenXml
 			}
 		}
 
-		ExcelMetadata _metadata = null;
+        ExcelMetadata _metadata = null;
 
-		internal ExcelMetadata Metadata
-		{
-			get
-			{
-				if (_metadata == null)
-				{
-					_metadata = new ExcelMetadata(this);
-				}
-				return _metadata;
-			}
-		}
-		ExcelRichData _richData = null;
+        internal ExcelMetadata Metadata
+        {
+            get
+            {
+                if (_metadata == null)
+                {
+                    _metadata = new ExcelMetadata(this);
+                    _metadata.InitRelations(RichData.Db);
+                }
+                return _metadata;
+            }
+        }
 
-		internal ExcelRichData RichData
-		{
-			get
-			{
-				if (_richData == null)
-				{
-					_richData = new ExcelRichData(this);
-				}
-				return _richData;
-			}
-		}
+        ExcelRichData _richData = null;
+
+        internal bool RichDataInitialized => _richData != null;
+
+        internal void InitializeRichData()
+        {
+            if (_richData == null)
+            {
+                _richData = new ExcelRichData(this);
+            }
+        }
+
+        internal ExcelRichData RichData
+        {
+            get
+            {
+                if (_richData == null)
+                {
+                    InitializeRichData();
+                }
+                return _richData;
+            }
+        }
+        internal CellPictureReferenceCache CellPictureReferenceCache => _cellPictureReferenceCache;
+
+        private readonly RichDataIndexStore _indexStore;
+
+        internal RichDataIndexStore IndexStore => _indexStore;
         /// <summary>
 		/// Handler for the <see cref="ExcelRangeBase.Text" /> property to override the default behaviour.
 		/// This can be used to handle localized number formats or formats where EPPlus differs from the spread sheet application.

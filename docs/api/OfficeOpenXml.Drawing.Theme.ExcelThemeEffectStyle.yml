@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeEffectStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelThemeEffectStyle
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeEffectStyle.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeEffectStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeEffectStyle.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeEffectStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeEffectStyle.cs

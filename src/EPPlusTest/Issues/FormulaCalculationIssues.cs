@@ -45,7 +45,7 @@ namespace EPPlusTest.Issues
 		[TestMethod]
 		public void I1229()
 		{
-			using (var p = OpenPackage("XLOOKUP.xlsx"))
+			using (var p = OpenPackage("XLOOKUP.xlsx", true))
 			{
 				var ws = p.Workbook.Worksheets.Add("Sheet1");
 				ws.Cells["A1:A5"].Formula = "XLOOKUP(B1,$C$1:$C$5,$D$1:$D$5,0)";
@@ -83,6 +83,8 @@ namespace EPPlusTest.Issues
 				Assert.AreEqual(13, ws.Cells["E3"].Value);
 				Assert.AreEqual(14, ws.Cells["E4"].Value);
 				Assert.AreEqual(15, ws.Cells["E5"].Value);
+
+				SaveWorkbook("XLOOKUP.xlsx", p);
 
 			}
 		}
@@ -406,15 +408,20 @@ namespace EPPlusTest.Issues
                 ws.Cells["B1:B3"].FillNumber(1, 1);
                 ws.Cells["C1:C3"].FillNumber(10, 10);
 				ws.Cells["E1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";							//Should be set as an array formula
-                ws.Cells["E2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";					//Should be set as an array formula
-                ws.Cells["F1"].CreateArrayFormula("SUM(If(A:A=\"A\",B:B,C:C))", true);
-                ws.Cells["F2"].CreateArrayFormula("SUM(If(A1:A3=\"A\",B1:B3,C1:C3))", true);
+                ws.Cells["E2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
+                ws.Cells["F1"].Formula = "SUM(If(A:A=\"A\",B:B,C:C))";							//Should be set as an array formula
+                ws.Cells["F2"].Formula = "SUM(If(A1:A3=\"A\",B1:B3,C1:C3))";                    //Should be set as an array formula
+                ws.Cells["F1:F2"].UseImplicitItersection = true;
 
-				ws.Calculate();
-                //Assert.AreEqual(6D, ws.Cells["E1"].Value); //Will be handled as a dynamic formula when calculated, not as in Excel where implicit intersections seems to be applied inside the sum.
-                //Assert.AreEqual(60D, ws.Cells["E2"].Value);
-                Assert.AreEqual(51D, ws.Cells["F1"].Value);
-                Assert.AreEqual(51D, ws.Cells["F2"].Value);
+                ws.Cells["G1"].CreateArrayFormula("SUM(If(A:A=\"A\",B:B,C:C))", true);
+                ws.Cells["G2"].CreateArrayFormula("SUM(If(A1:A3=\"A\",B1:B3,C1:C3))", true);
+
+				ws.Cells["E1:G2"].Calculate();
+
+                Assert.AreEqual(51D, ws.Cells["E1"].Value); //Will be handled as a dynamic formula when calculated, not as in Excel where implicit intersections seems to be applied inside the sum.
+                Assert.AreEqual(51D, ws.Cells["E2"].Value);
+                Assert.AreEqual(6D, ws.Cells["F1"].Value);
+                Assert.AreEqual(60D, ws.Cells["F2"].Value);
 
                 SaveAndCleanup(p);
 			}
@@ -444,6 +451,127 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(2D, ws.Cells["A4"].Value);
 
             }
+        }
+
+		[TestMethod]
+		public void i1671()
+		{
+			using var package = new ExcelPackage();
+			var sheet1 = package.Workbook.Worksheets.Add("Sheet1");
+            var sheet2 = package.Workbook.Worksheets.Add("Sheet2");
+
+			sheet1.Cells["A1"].Value = "h1";
+			sheet1.Cells["B1"].Value = "h2";
+			sheet1.Cells["C1"].Value = "h3";
+			sheet1.Cells["A2"].Value = "a1";
+            sheet1.Cells["B2"].Formula = "VLOOKUP($A2,Sheet2!$A:$B,2,FALSE)";
+            sheet1.Cells["C2"].Formula = "VLOOKUP($A2,Sheet2!$A:$C,3,FALSE)";
+
+            sheet2.Cells["A1"].Value = "a1";
+            sheet2.Cells["B1"].Value = "b1";
+            sheet2.Cells["C1"].Value = "c1";
+            sheet2.Cells["A2"].Value = "a2";
+			sheet2.Cells["B2"].Value = "b2";
+			sheet2.Cells["C2"].Value = "c2";
+
+			Assert.IsNull(sheet1.Cells["B2"].Value);
+
+			sheet1.Calculate();
+
+			Assert.AreEqual("b1", sheet1.Cells["B2"].Value);
+			Assert.AreEqual("c1", sheet1.Cells["C2"].Value);		
+        }
+        [TestMethod]
+        public void Issue1696()
+        {
+            using (var wb = OpenTemplatePackage("i1696-1.xlsx"))
+            {
+                wb.Workbook.Worksheets.Copy("template", "Test-Copy");
+                wb.Workbook.Calculate();
+                wb.Workbook.Worksheets.Delete("template");
+
+                wb.Workbook.Calculate();
+            }
+
+            using (var wb = OpenTemplatePackage("i1696-2.xlsx"))
+            {
+				wb.Compatibility.IsWorksheets1Based = true;
+				wb.Workbook.Worksheets.Copy("template", "Test-Copy");
+                wb.Workbook.Calculate();
+                wb.Workbook.Worksheets.Delete("template");
+
+                wb.Workbook.Calculate();
+            }
+        }
+		[TestMethod]
+        public void i1708()
+        {
+            using (var package = OpenPackage("i1708.xlsx"))
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("Sheet1");
+                package.Compatibility.IsWorksheets1Based = true;
+
+                sheet1.Cells["C3"].Formula = @"IFERROR(IF(OR(H3="""",I3="""",E3=0),""N/A"",IF(J3<>"""",INDEX($G$1:$J$1,MATCH(TRUE,INDEX(ABS(G3:J3-E3)=MIN(INDEX(ABS(G3:J3-E3),,)),,),0)),INDEX($G$1:$I$1,MATCH(TRUE,INDEX(ABS(G3:I3-E3)=MIN(INDEX(ABS(G3:I3-E3),,)),,),0)))),"""")";
+                sheet1.Cells["E3"].Value = 25;
+
+                sheet1.Cells["G1"].Value = "one";
+                sheet1.Cells["H1"].Value = "two";
+                sheet1.Cells["I1"].Value = "three";
+                sheet1.Cells["J1"].Value = "four";
+
+                sheet1.Cells["G3"].Value = 10;
+                sheet1.Cells["H3"].Value = 20;
+                sheet1.Cells["I3"].Value = 30;
+                sheet1.Cells["J3"].Value = 40;
+
+                package.Workbook.Calculate();
+                Assert.AreEqual("two", sheet1.Cells["C3"].Value);
+            }
+        }
+
+		[TestMethod]
+		public void i1729()
+		{
+			using var package = new ExcelPackage();
+			var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+			worksheet.Cells["A1"].Value = "A";
+			worksheet.Cells["A2"].Formula = "VLOOKUP(1,B1:C2,2,FALSE)"; //Return #N/A
+            worksheet.Cells["A3"].Value = "B";
+            worksheet.Cells["A4"].Formula = "TEXTJOIN(\"\",TRUE,A1:A3)";
+            worksheet.Cells["A5"].Formula = "TEXTJOIN(\"\",TRUE,A1,A2,A3)";
+            worksheet.Cells["A6"].Formula = "CONCAT(A1:A3)";
+            worksheet.Cells["A7"].Formula = "CONCAT(A1,A2,A3)";
+			worksheet.Calculate();
+			var a4 = worksheet.Cells["A4"].Value;
+            var a5 = worksheet.Cells["A5"].Value;
+            var a6 = worksheet.Cells["A6"].Value;
+            var a7 = worksheet.Cells["A7"].Value;
+
+			var naError = ExcelErrorValue.Create(eErrorType.NA);
+
+			Assert.AreEqual(naError, a4);
+			Assert.AreEqual(naError, a5);
+			Assert.AreEqual(naError, a6);
+			Assert.AreEqual(naError, a7);
+        }
+		[TestMethod]
+		public void i1748()
+		{
+            using var package = new ExcelPackage();
+			var formula = "SUMIF($I$3:$L$3,1,INDEX($I:$I,ROW()):INDEX($L:$L,ROW()))";
+			var formulaLong = "IF(COLUMN()-COLUMN($J23)>(COUNTA('#CompaniesAndConsolidations'!$A:$A)+1),0,IF(K$5=\"TopConsolidation\",SUMIFS(INDEX(23:23,1,COLUMN()+1):INDEX(23:23,1,COLUMN($L23)),INDEX($7:$7,1,COLUMN()+1):INDEX($7:$7,1,COLUMN($L23)),K$2,INDEX($6:$6,1,COLUMN()+1):INDEX($6:$6,1,COLUMN($L23)),FALSE),IF(K$5=\"SubConsolidation\",SUMIFS(INDEX(23:23,1,COLUMN()+1):INDEX(23:23,1,COLUMN($L23)),INDEX($8:$8,1,COLUMN()+1):INDEX($8:$8,1,COLUMN($L23)),K$2,INDEX($6:$6,1,COLUMN()+1):INDEX($6:$6,1,COLUMN($L23)),FALSE),IF(K$5=\"DivisionalConsolidation\",SUMIFS(INDEX(23:23,1,COLUMN()+1):INDEX(23:23,1,COLUMN($L23)),INDEX($9:$9,1,COLUMN()+1):INDEX($9:$9,1,COLUMN($L23)),K$2,INDEX($6:$6,1,COLUMN()+1):INDEX($6:$6,1,COLUMN($L23)),FALSE),-SUMIFS('#TrialBalance_CY'!$E:$E,'#TrialBalance_CY'!$A:$A,K$2,'#TrialBalance_CY'!$G:$G,\"IncomeStatement\")))))";
+            var ws = package.Workbook.Worksheets.Add("Sheet1");
+			ws.Cells["A1"].Formula = formula;
+			ws.Cells["A2"].Formula = formulaLong;
+			ws.InsertRow(1,1);
+
+            var formulaInserted = "SUMIF($I$4:$L$4,1,INDEX($I:$I,ROW()):INDEX($L:$L,ROW()))";
+
+            Assert.AreEqual(formulaInserted, ws.Cells["A2"].Formula);
+
+            var formulaLongInserted = "IF(COLUMN()-COLUMN($J24)>(COUNTA('#CompaniesAndConsolidations'!$A:$A)+1),0,IF(K$6=\"TopConsolidation\",SUMIFS(INDEX(24:24,1,COLUMN()+1):INDEX(24:24,1,COLUMN($L24)),INDEX($8:$8,1,COLUMN()+1):INDEX($8:$8,1,COLUMN($L24)),K$3,INDEX($7:$7,1,COLUMN()+1):INDEX($7:$7,1,COLUMN($L24)),FALSE),IF(K$6=\"SubConsolidation\",SUMIFS(INDEX(24:24,1,COLUMN()+1):INDEX(24:24,1,COLUMN($L24)),INDEX($9:$9,1,COLUMN()+1):INDEX($9:$9,1,COLUMN($L24)),K$3,INDEX($7:$7,1,COLUMN()+1):INDEX($7:$7,1,COLUMN($L24)),FALSE),IF(K$6=\"DivisionalConsolidation\",SUMIFS(INDEX(24:24,1,COLUMN()+1):INDEX(24:24,1,COLUMN($L24)),INDEX($10:$10,1,COLUMN()+1):INDEX($10:$10,1,COLUMN($L24)),K$3,INDEX($7:$7,1,COLUMN()+1):INDEX($7:$7,1,COLUMN($L24)),FALSE),-SUMIFS('#TrialBalance_CY'!$E:$E,'#TrialBalance_CY'!$A:$A,K$3,'#TrialBalance_CY'!$G:$G,\"IncomeStatement\")))))";
+
+            Assert.AreEqual(formulaLongInserted, ws.Cells["A3"].Formula);
         }
     }
 }

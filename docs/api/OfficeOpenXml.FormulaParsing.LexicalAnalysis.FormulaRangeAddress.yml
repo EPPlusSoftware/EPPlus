@@ -11,6 +11,7 @@ items:
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.Int32,System.Int32,System.Int32,System.Int32,System.Int32)
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.#ctor(OfficeOpenXml.FormulaParsing.ParsingContext,System.String)
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Address
+  - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Addresses
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Clone
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.CompareTo(OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
   - OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Empty
@@ -32,11 +33,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaRangeAddress
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 535
+    startLine: 533
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -85,11 +86,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 541
+    startLine: 539
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -117,11 +118,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 549
+    startLine: 547
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -153,11 +154,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 558
+    startLine: 556
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -192,11 +193,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 603
+    startLine: 601
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -231,11 +232,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 628
+    startLine: 626
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -282,11 +283,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromRow
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 639
+    startLine: 637
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -315,11 +316,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FromCol
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 639
+    startLine: 637
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -348,11 +349,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToRow
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 639
+    startLine: 637
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -381,11 +382,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCol
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 639
+    startLine: 637
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -414,11 +415,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsSingleCell
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 644
+    startLine: 642
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -451,11 +452,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Empty
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 654
+    startLine: 652
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -490,11 +491,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 687
+    startLine: 685
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -528,11 +529,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetAddress
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 700
+    startLine: 698
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -565,11 +566,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetName
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 711
+    startLine: 709
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -602,11 +603,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompareTo
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 778
+    startLine: 776
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -643,11 +644,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clone
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 805
+    startLine: 803
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -680,11 +681,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-    startLine: 937
+    startLine: 935
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -699,6 +700,45 @@ items:
   overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Address*
   implements:
   - OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Addresses
+  commentId: P:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Addresses
+  id: Addresses
+  parent: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  langs:
+  - csharp
+  - vb
+  name: Addresses
+  nameWithType: FormulaRangeAddress.Addresses
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Addresses
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Addresses
+    path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
+    startLine: 940
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
+  summary: "\nIf the address contains multiple comma separated addresses, the individual addresses are stored here.\n"
+  example: []
+  syntax:
+    content: public FormulaRangeAddress[] Addresses { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress[]
+    content.vb: Public ReadOnly Property Addresses As FormulaRangeAddress()
+  overload: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Addresses*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
   modifiers.csharp:
   - public
   - get
@@ -1287,3 +1327,38 @@ references:
   name: Address
   nameWithType: IAddressInfo.Address
   fullName: OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Addresses*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Addresses
+  name: Addresses
+  nameWithType: FormulaRangeAddress.Addresses
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress.Addresses
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+  commentId: P:OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+  parent: OfficeOpenXml.FormulaParsing.IAddressInfo
+  name: Addresses
+  nameWithType: IAddressInfo.Addresses
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress[]
+  isExternal: true
+  name: FormulaRangeAddress[]
+  nameWithType: FormulaRangeAddress[]
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress[]
+  nameWithType.vb: FormulaRangeAddress()
+  fullName.vb: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress()
+  name.vb: FormulaRangeAddress()
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: ()
+    nameWithType: ()
+    fullName: ()

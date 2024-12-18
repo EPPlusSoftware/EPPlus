@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeAngel(_latPath);
+                return GetXmlNodeAngle(_latPath);
             }
             set
             {
@@ -58,7 +58,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeAngel(_lonPath);
+                return GetXmlNodeAngle(_lonPath);
             }
             set
             {
@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeAngel(_revPath);
+                return GetXmlNodeAngle(_revPath);
             }
             set
             {

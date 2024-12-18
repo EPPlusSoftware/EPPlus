@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFont
     path: ../src/EPPlus/Style/ExcelFont.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Style/ExcelFont.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Style/ExcelFont.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Family
     path: ../src/EPPlus/Style/ExcelFont.cs
@@ -187,7 +187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Style/ExcelFont.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Scheme
     path: ../src/EPPlus/Style/ExcelFont.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bold
     path: ../src/EPPlus/Style/ExcelFont.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Italic
     path: ../src/EPPlus/Style/ExcelFont.cs
@@ -335,7 +335,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Strike
     path: ../src/EPPlus/Style/ExcelFont.cs
@@ -372,7 +372,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLine
     path: ../src/EPPlus/Style/ExcelFont.cs
@@ -409,11 +409,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLineType
     path: ../src/EPPlus/Style/ExcelFont.cs
-    startLine: 180
+    startLine: 179
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -446,11 +446,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalAlign
     path: ../src/EPPlus/Style/ExcelFont.cs
-    startLine: 194
+    startLine: 193
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -483,11 +483,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Charset
     path: ../src/EPPlus/Style/ExcelFont.cs
-    startLine: 241
+    startLine: 240
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -521,11 +521,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelFont.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetFromFont
     path: ../src/EPPlus/Style/ExcelFont.cs
-    startLine: 261
+    startLine: 260
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style

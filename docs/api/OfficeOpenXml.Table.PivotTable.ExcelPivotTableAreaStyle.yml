@@ -5,7 +5,6 @@ items:
   id: ExcelPivotTableAreaStyle
   parent: OfficeOpenXml.Table.PivotTable
   children:
-  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Conditions
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Style
   langs:
   - csharp
@@ -17,11 +16,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableAreaStyle
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyle.cs
-    startLine: 20
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -37,6 +36,7 @@ items:
   - OfficeOpenXml.XmlHelper
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea
   inheritedMembers:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
   - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField
@@ -63,43 +63,6 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Conditions
-  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Conditions
-  id: Conditions
-  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
-  langs:
-  - csharp
-  - vb
-  name: Conditions
-  nameWithType: ExcelPivotTableAreaStyle.Conditions
-  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Conditions
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyle.cs
-      branch: bug/issue1566
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Conditions
-    path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyle.cs
-    startLine: 32
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Table.PivotTable
-  summary: "\nConditions for the pivot table. Conditions can be set for specific row-, column- or data fields. Specify labels, data grand totals and more.\n"
-  example: []
-  syntax:
-    content: public ExcelPivotAreaStyleConditions Conditions { get; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
-    content.vb: Public ReadOnly Property Conditions As ExcelPivotAreaStyleConditions
-  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Conditions*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Style
   commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Style
   id: Style
@@ -114,11 +77,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Table/PivotTable/PivotArea/Style/ExcelPivotTableAreaStyle.cs
-    startLine: 41
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -162,6 +125,12 @@ references:
   name: ExcelPivotArea
   nameWithType: ExcelPivotArea
   fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: Conditions
+  nameWithType: ExcelPivotArea.Conditions
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
   commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
   parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
@@ -530,17 +499,6 @@ references:
   name: OfficeOpenXml
   nameWithType: OfficeOpenXml
   fullName: OfficeOpenXml
-- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Conditions*
-  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Conditions
-  name: Conditions
-  nameWithType: ExcelPivotTableAreaStyle.Conditions
-  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Conditions
-- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
-  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
-  parent: OfficeOpenXml.Table.PivotTable
-  name: ExcelPivotAreaStyleConditions
-  nameWithType: ExcelPivotAreaStyleConditions
-  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotAreaStyleConditions
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Style*
   commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle.Style
   name: Style

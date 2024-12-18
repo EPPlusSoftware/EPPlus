@@ -30,7 +30,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaProject
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SystemKind
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompatVersion
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Description
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HelpFile1
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -257,7 +257,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HelpFile2
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HelpContextID
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -331,7 +331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Constants
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -368,7 +368,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CodePage
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -405,7 +405,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: References
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -442,7 +442,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Modules
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -479,7 +479,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Signature
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -516,7 +516,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Protection
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -553,7 +553,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs
@@ -585,7 +585,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVBAProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/Vba/ExcelVBAProject.cs

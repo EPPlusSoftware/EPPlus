@@ -29,20 +29,27 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 				var pt = ws.PivotTables[0];
 			}
         }
-        private object GetPtData(ExcelPivotTable pt, int datafield, params object[] values)
+        [TestMethod]
+        public void VerifyDuplicateNumberAndString()
 		{
-			var l = new List<PivotDataFieldItemSelection>();
-			int ix = 0;
-			foreach (var f in pt.RowColumnFieldIndicies)
+            using (var p = OpenPackage("PivotDupTest.xlsx", true))
 			{
-				if (values!=null && values[ix] != null)
-				{
-					l.Add(new PivotDataFieldItemSelection(pt.Fields[f].Name, values[ix]));
-				}
-				ix++;
-			}
+				var ws = p.Workbook.Worksheets.Add("Sheet1");
+				ws.Cells["A1"].Value = "Col";
+                ws.Cells["B1"].Value = "Value";
+                ws.Cells["A2"].Value = "200";
+                ws.Cells["B2"].Value = 1;
+                ws.Cells["A3"].Value = 200;
+                ws.Cells["B3"].Value = 2;
+                ws.Cells["A3"].Value = 201;
+                ws.Cells["B3"].Value = 3;
 
-			return pt.GetPivotData(pt.DataFields[datafield].Name, l);
-		}
+				var pt = ws.PivotTables.Add(ws.Cells["E5"], ws.Cells["A1:B3"], "PivotTable1");
+
+				pt.Calculate(true);
+
+				SaveAndCleanup(p);
+            }
+        }
 	}
 }

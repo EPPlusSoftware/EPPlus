@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCalcMode
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Automatic
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutomaticNoTable
     path: ../src/EPPlus/ExcelWorkbook.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Manual
     path: ../src/EPPlus/ExcelWorkbook.cs

@@ -272,5 +272,16 @@ namespace OfficeOpenXml.Table.PivotTable
             retNode.InnerXml = $"<pivotArea xmlns=\"{ExcelPackage.schemaMain}\"/>";
             return retNode;
         }
+
+        internal void Remove(ExcelPivotTableAreaStyle x)
+        {
+            _list.Remove(x);
+            x.TopNode.ParentNode.RemoveChild(x.TopNode);
+        }
+        internal void RemoveAt(int index)
+        {
+            var x = _list[index];
+            Remove(x);
+        }
     }
 }

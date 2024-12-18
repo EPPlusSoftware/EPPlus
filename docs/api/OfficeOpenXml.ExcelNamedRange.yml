@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelNamedRange
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -276,7 +276,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -313,7 +313,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LocalSheetId
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -350,7 +350,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNameHidden
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -387,7 +387,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameComment
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -424,7 +424,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -462,7 +462,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/ExcelNamedRange.cs
@@ -504,7 +504,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelNamedRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/ExcelNamedRange.cs

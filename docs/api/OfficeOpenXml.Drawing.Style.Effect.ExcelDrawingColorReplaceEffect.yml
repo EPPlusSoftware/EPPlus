@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingColorReplaceEffect.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingColorReplaceEffect
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingColorReplaceEffect.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Effect/ExcelDrawingColorReplaceEffect.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Drawing/Style/Effect/ExcelDrawingColorReplaceEffect.cs

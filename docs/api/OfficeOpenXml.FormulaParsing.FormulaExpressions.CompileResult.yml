@@ -37,11 +37,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompileResult
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 60
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -85,11 +85,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Empty
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 92
+    startLine: 96
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -124,11 +124,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ZeroDecimal
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 100
+    startLine: 104
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -163,11 +163,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ZeroInt
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 108
+    startLine: 112
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -202,11 +202,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: "False"
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 115
+    startLine: 119
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -241,11 +241,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: "True"
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 119
+    startLine: 123
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -280,11 +280,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 127
+    startLine: 131
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -319,11 +319,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetErrorResult
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 185
+    startLine: 189
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -360,11 +360,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 212
+    startLine: 216
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -396,11 +396,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 221
+    startLine: 225
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -432,11 +432,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Result
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 230
+    startLine: 234
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -469,11 +469,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultValue
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 238
+    startLine: 242
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -506,11 +506,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultNumeric
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 263
+    startLine: 267
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -543,11 +543,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 311
+    startLine: 315
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -580,11 +580,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNumeric
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 319
+    startLine: 323
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -617,11 +617,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNumericString
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 330
+    startLine: 334
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -654,11 +654,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsPercentageString
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 345
+    startLine: 349
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -691,11 +691,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsDateString
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 361
+    startLine: 365
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -728,11 +728,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsResultOfSubtotal
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 376
+    startLine: 380
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -765,11 +765,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHiddenCell
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 381
+    startLine: 385
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -802,11 +802,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsResultOfResolvedExcelRange
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 388
+    startLine: 392
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -839,11 +839,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 395
+    startLine: 399
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -878,11 +878,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 405
+    startLine: 409
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions

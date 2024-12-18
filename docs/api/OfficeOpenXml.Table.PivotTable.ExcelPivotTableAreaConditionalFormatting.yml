@@ -1,0 +1,463 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  id: ExcelPivotTableAreaConditionalFormatting
+  parent: OfficeOpenXml.Table.PivotTable
+  children: []
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotTableAreaConditionalFormatting
+  nameWithType: ExcelPivotTableAreaConditionalFormatting
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableAreaConditionalFormatting.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotTableAreaConditionalFormatting
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableAreaConditionalFormatting.cs
+    startLine: 19
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nDefines an area for conditional formatting within a pivot table.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotTableAreaConditionalFormatting : ExcelPivotArea'
+    content.vb: >-
+      Public Class ExcelPivotTableAreaConditionalFormatting
+          Inherits ExcelPivotArea
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.XmlHelper
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  inheritedMembers:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.PivotAreaType
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandRow
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandColumn
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Outline
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Offset
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.XmlHelper
+  commentId: T:OfficeOpenXml.XmlHelper
+  parent: OfficeOpenXml
+  name: XmlHelper
+  nameWithType: XmlHelper
+  fullName: OfficeOpenXml.XmlHelper
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotArea
+  nameWithType: ExcelPivotArea
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: Conditions
+  nameWithType: ExcelPivotArea.Conditions
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Conditions
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: FieldIndex
+  nameWithType: ExcelPivotArea.FieldIndex
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldIndex
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: FieldPosition
+  nameWithType: ExcelPivotArea.FieldPosition
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.FieldPosition
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: IsValuesField
+  nameWithType: ExcelPivotArea.IsValuesField
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.IsValuesField
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.PivotAreaType
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.PivotAreaType
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: PivotAreaType
+  nameWithType: ExcelPivotArea.PivotAreaType
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.PivotAreaType
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: Axis
+  nameWithType: ExcelPivotArea.Axis
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Axis
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: DataOnly
+  nameWithType: ExcelPivotArea.DataOnly
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.DataOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: LabelOnly
+  nameWithType: ExcelPivotArea.LabelOnly
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.LabelOnly
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandRow
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandRow
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: GrandRow
+  nameWithType: ExcelPivotArea.GrandRow
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandRow
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandColumn
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandColumn
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: GrandColumn
+  nameWithType: ExcelPivotArea.GrandColumn
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.GrandColumn
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: CacheIndex
+  nameWithType: ExcelPivotArea.CacheIndex
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CacheIndex
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Outline
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Outline
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: Outline
+  nameWithType: ExcelPivotArea.Outline
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Outline
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Offset
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Offset
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: Offset
+  nameWithType: ExcelPivotArea.Offset
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.Offset
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotArea
+  name: CollapsedLevelsAreSubtotals
+  nameWithType: ExcelPivotArea.CollapsedLevelsAreSubtotals
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotArea.CollapsedLevelsAreSubtotals
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml

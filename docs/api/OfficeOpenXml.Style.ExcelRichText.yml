@@ -33,7 +33,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRichText
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PreserveSpace
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bold
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Italic
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -187,7 +187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Strike
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLine
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalAlign
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -335,7 +335,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontName
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -372,7 +372,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -409,7 +409,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorSettings
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -446,7 +446,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Charset
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -483,7 +483,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Family
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -520,7 +520,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLineType
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -557,7 +557,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -594,7 +594,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetUnderlineType
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -635,7 +635,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetUVerticalAlignmentFont
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -676,7 +676,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HtmlText
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -713,7 +713,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDefaultValue
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs

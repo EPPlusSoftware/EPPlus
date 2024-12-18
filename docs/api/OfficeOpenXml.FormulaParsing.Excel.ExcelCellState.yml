@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCellState
     path: ../src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HiddenCell
     path: ../src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
@@ -95,7 +95,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ContainsError
     path: ../src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
@@ -129,7 +129,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsResultOfSubtotal
     path: ../src/EPPlus/FormulaParsing/Excel/ExcelCellState.cs

@@ -1041,7 +1041,7 @@ namespace OfficeOpenXml
                 return defaultValue;
             }
         }
-        internal double GetXmlNodeAngel(string path, double defaultValue = 0)
+        internal double GetXmlNodeAngle(string path, double defaultValue = 0)
         {
             int a = GetXmlNodeInt(path);
             if (a < 0) return defaultValue;
@@ -1226,6 +1226,18 @@ namespace OfficeOpenXml
                 uri = new Uri(string.Format(sUri, ++id), UriKind.Relative);
             }
             return uri;
+        }
+        internal T GetXmlEnum<T>(string path, T defaultValue) where T : struct, Enum
+        {
+            var v = GetXmlNodeString(path);
+            if (string.IsNullOrEmpty(v))
+            {
+                return defaultValue;
+            }
+            else
+            {
+                return v.ToEnum(default(T));
+            }
         }
         internal T? GetXmlEnumNull<T>(string path, T? defaultValue = null) where T : struct, Enum
         {

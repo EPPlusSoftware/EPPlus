@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/NumberFormatToTextArgs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormatToTextArgs
     path: ../src/EPPlus/NumberFormatToTextArgs.cs
@@ -29,7 +29,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nNumberformat settings used in the <see cref=\"!:\"></see>\n"
+  summary: "\nNumberformat settings used in the <xref href=\"OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public class NumberFormatToTextArgs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/NumberFormatToTextArgs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/NumberFormatToTextArgs.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/NumberFormatToTextArgs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/NumberFormatToTextArgs.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/NumberFormatToTextArgs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/NumberFormatToTextArgs.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/NumberFormatToTextArgs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormat
     path: ../src/EPPlus/NumberFormatToTextArgs.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/NumberFormatToTextArgs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/NumberFormatToTextArgs.cs
@@ -249,7 +249,7 @@ items:
   source:
     remote:
       path: src/EPPlus/NumberFormatToTextArgs.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/NumberFormatToTextArgs.cs
@@ -273,6 +273,9 @@ items:
   - Public
   - ReadOnly
 references:
+- uid: OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler
+  commentId: P:OfficeOpenXml.ExcelWorkbook.NumberFormatToTextHandler
+  isExternal: true
 - uid: OfficeOpenXml
   commentId: N:OfficeOpenXml
   name: OfficeOpenXml

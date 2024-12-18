@@ -15,17 +15,13 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Globalization;
 using OfficeOpenXml.Drawing.Slicer;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using System.Linq;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Drawing;
 using System.Text;
-using System.Collections;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Table.PivotTable.Filter;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.Table.PivotTable
@@ -55,7 +51,6 @@ namespace OfficeOpenXml.Table.PivotTable
         }
 
         internal ExcelPivotTable PivotTable { get; set; }
-        //internal ExcelPivotTableCacheField CacheField { get; set; } = null;
 
         /// <summary>
         /// The index of the pivot table field
@@ -121,6 +116,35 @@ namespace OfficeOpenXml.Table.PivotTable
             set
             {
                 SetXmlNodeBool("@outline", value);
+            }
+        }
+        /// <summary>
+        /// A boolean that indicates whether a blank row should be inserted after each item.
+        /// </summary>
+        public bool InsertBlankRow
+        {
+            get
+            {
+                return GetXmlNodeBool("@insertBlankRow");
+            }
+            set
+            {
+                SetXmlNodeBool("@insertBlankRow", value);
+            }
+        }
+        /// <summary>
+        /// A boolean that indicates whether the item labels should repeat or not.
+        /// </summary>
+        public bool RepeatItemLabels
+        {
+            get
+            {
+                return GetXmlNodeBool("d:extLst/d:ext/x14:pivotField/@fillDownLabels");
+            }
+            set
+            {
+                SetXmlNodeString("d:extLst/d:ext/@uri", "{2946ED86-A175-432a-8AC1-64E0C546D7DE}");
+                SetXmlNodeBool("d:extLst/d:ext/x14:pivotField/@fillDownLabels", value);
             }
         }
         /// <summary>
@@ -739,7 +763,7 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         foreach (var d in ws.Drawings)
                         {
-                            if (d is ExcelPivotTableSlicer s && s.Cache != null && s.Cache.PivotTables.Contains(PivotTable) && Index == s.Cache._field.Index)
+                            if (d is ExcelPivotTableSlicer s && s.Cache != null && s.Cache.PivotTables.Contains(PivotTable) && Index == s.Cache._field?.Index)
                             {
                                 _slicer = s;
                                 return _slicer;

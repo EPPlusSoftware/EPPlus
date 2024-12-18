@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelValueFilterColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelValueFilterColumn
     path: ../src/EPPlus/Filter/ExcelValueFilterColumn.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelValueFilterColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Filters
     path: ../src/EPPlus/Filter/ExcelValueFilterColumn.cs

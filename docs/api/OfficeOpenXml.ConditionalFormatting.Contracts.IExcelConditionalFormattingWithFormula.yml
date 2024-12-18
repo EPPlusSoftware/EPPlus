@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithFormula.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingWithFormula
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithFormula.cs
@@ -49,7 +49,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithFormula.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingWithFormula.cs

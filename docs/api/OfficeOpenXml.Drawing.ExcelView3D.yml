@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelView3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelView3D
     path: ../src/EPPlus/Drawing/ExcelView3D.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelView3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Perspective
     path: ../src/EPPlus/Drawing/ExcelView3D.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelView3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RotX
     path: ../src/EPPlus/Drawing/ExcelView3D.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelView3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RotY
     path: ../src/EPPlus/Drawing/ExcelView3D.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelView3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightAngleAxes
     path: ../src/EPPlus/Drawing/ExcelView3D.cs
@@ -217,7 +217,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelView3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DepthPercent
     path: ../src/EPPlus/Drawing/ExcelView3D.cs
@@ -254,7 +254,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelView3D.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeightPercent
     path: ../src/EPPlus/Drawing/ExcelView3D.cs

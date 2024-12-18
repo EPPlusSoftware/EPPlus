@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelTheme.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTheme
     path: ../src/EPPlus/Drawing/Theme/ExcelTheme.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelTheme.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Drawing/Theme/ExcelTheme.cs

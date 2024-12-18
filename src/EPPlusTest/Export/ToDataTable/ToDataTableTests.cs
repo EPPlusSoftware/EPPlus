@@ -7,7 +7,7 @@ using System.Data;
 namespace EPPlusTest.Export.ToDataTable
 {
     [TestClass]
-    public class ToDataTableTests
+    public class ToDataTableTests : TestBase
     {
         [TestMethod]
         public void ToDataTableShouldReturnDataTable_WithDefaultOptions()
@@ -478,6 +478,36 @@ namespace EPPlusTest.Export.ToDataTable
                 Assert.AreEqual("Scott", dt.Rows[0]["Name"]);
             }
         }
+        //i1632
+        [TestMethod]
+        public void EnsureErrorValuesCanBeWritten()
+        {
+            using (var package = OpenTemplatePackage("TableToDataTable.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets["Sheet1"];
+                var table = sheet.Tables["Table1"];
 
+                ToDataTableOptions dtOptions = ToDataTableOptions.Create();
+                for (int i = 0; i < table.Columns.Count; i++)
+                {
+                    dtOptions.Mappings.Add(i, table.Columns[i].Name, typeof(object), false, cellVal => {
+                        if (cellVal is ExcelErrorValue eev)
+                        {
+                            return cellVal.ToString();
+                            // return eev.Type;
+                        }
+                        return cellVal;
+                    });
+                }
+
+                var dt = table.ToDataTable(dtOptions);
+                var rows = dt.Rows;
+
+                Assert.AreEqual("#VALUE!", rows[2][2]);
+                Assert.AreEqual("#N/A", rows[2][3]);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

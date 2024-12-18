@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSurface.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartSurface
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSurface.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSurface.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Thickness
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSurface.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSurface.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSurface.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSurface.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSurface.cs
@@ -177,7 +177,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSurface.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSurface.cs
@@ -214,7 +214,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartSurface.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartSurface.cs

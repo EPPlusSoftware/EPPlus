@@ -1,6 +1,5 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;

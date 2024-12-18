@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Exceptions/ExcelErrorValueException.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelErrorValueException
     path: ../src/EPPlus/FormulaParsing/Exceptions/ExcelErrorValueException.cs
@@ -81,7 +81,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Exceptions/ExcelErrorValueException.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Exceptions/ExcelErrorValueException.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Exceptions/ExcelErrorValueException.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Exceptions/ExcelErrorValueException.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Exceptions/ExcelErrorValueException.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Exceptions/ExcelErrorValueException.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Exceptions/ExcelErrorValueException.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorValue
     path: ../src/EPPlus/FormulaParsing/Exceptions/ExcelErrorValueException.cs

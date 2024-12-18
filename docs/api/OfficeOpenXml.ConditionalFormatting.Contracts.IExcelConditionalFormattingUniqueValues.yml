@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingUniqueValues.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingUniqueValues
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingUniqueValues.cs

@@ -11,6 +11,7 @@ items:
   - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(System.Collections.Generic.List{System.Collections.Generic.List{System.Object}})
   - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.#ctor(System.Int32,System.Int16)
   - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Address
+  - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Addresses
   - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Current
   - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dimension
   - OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose
@@ -44,7 +45,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InMemoryRange
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -97,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -133,7 +134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -172,7 +173,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -211,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -247,7 +248,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -286,7 +287,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Empty
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -325,7 +326,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -367,7 +368,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCell
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -409,7 +410,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRef
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -448,7 +449,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -487,7 +488,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMulti
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -526,7 +527,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsInMemoryRange
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -565,7 +566,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -604,7 +605,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -643,7 +644,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -682,7 +683,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dimension
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -721,7 +722,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -761,7 +762,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
@@ -784,6 +785,45 @@ items:
   modifiers.vb:
   - ReadOnly
   name.vb: System.Collections.IEnumerator.Current
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Addresses
+  commentId: P:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Addresses
+  id: Addresses
+  parent: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange
+  langs:
+  - csharp
+  - vb
+  name: Addresses
+  nameWithType: InMemoryRange.Addresses
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Addresses
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Addresses
+    path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
+    startLine: 192
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nThe addresses for the range, if more than one.\n"
+  example: []
+  syntax:
+    content: public FormulaRangeAddress[] Addresses { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress[]
+    content.vb: Public ReadOnly Property Addresses As FormulaRangeAddress()
+  overload: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Addresses*
+  implements:
+  - OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose
   commentId: M:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose
   id: Dispose
@@ -798,11 +838,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 192
+    startLine: 197
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -832,11 +872,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 200
+    startLine: 205
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -869,11 +909,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 211
+    startLine: 216
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -906,11 +946,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 221
+    startLine: 226
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -950,11 +990,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 239
+    startLine: 244
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1000,11 +1040,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 265
+    startLine: 270
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1044,11 +1084,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 275
+    startLine: 280
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1088,11 +1128,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCell
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 298
+    startLine: 303
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1130,11 +1170,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 308
+    startLine: 313
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1167,11 +1207,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 323
+    startLine: 328
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1202,11 +1242,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 329
+    startLine: 334
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -2040,6 +2080,41 @@ references:
   name: Current
   nameWithType: IEnumerator.Current
   fullName: System.Collections.IEnumerator.Current
+- uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Addresses*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Addresses
+  name: Addresses
+  nameWithType: InMemoryRange.Addresses
+  fullName: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Addresses
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+  commentId: P:OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+  parent: OfficeOpenXml.FormulaParsing.IAddressInfo
+  name: Addresses
+  nameWithType: IAddressInfo.Addresses
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+- uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress[]
+  isExternal: true
+  name: FormulaRangeAddress[]
+  nameWithType: FormulaRangeAddress[]
+  fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress[]
+  nameWithType.vb: FormulaRangeAddress()
+  fullName.vb: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress()
+  name.vb: FormulaRangeAddress()
+  spec.csharp:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+    name: FormulaRangeAddress
+    nameWithType: FormulaRangeAddress
+    fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+  - name: ()
+    nameWithType: ()
+    fullName: ()
 - uid: OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose*
   commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.InMemoryRange.Dispose
   name: Dispose

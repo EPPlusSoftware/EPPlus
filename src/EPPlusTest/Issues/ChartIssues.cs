@@ -359,5 +359,14 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s754()
+		{
+			using (var package = OpenTemplatePackage("s754.xlsx"))
+			{
+				var workbook = package.Workbook;
+				SaveAndCleanup(package);
+			}
+        }
     }
 }

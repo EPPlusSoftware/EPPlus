@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameValueProvider.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: INameValueProvider
     path: ../src/EPPlus/FormulaParsing/INameValueProvider.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameValueProvider.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsNamedValue
     path: ../src/EPPlus/FormulaParsing/INameValueProvider.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameValueProvider.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNamedValue
     path: ../src/EPPlus/FormulaParsing/INameValueProvider.cs
@@ -125,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameValueProvider.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNamedValue
     path: ../src/EPPlus/FormulaParsing/INameValueProvider.cs
@@ -163,7 +163,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/INameValueProvider.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reload
     path: ../src/EPPlus/FormulaParsing/INameValueProvider.cs

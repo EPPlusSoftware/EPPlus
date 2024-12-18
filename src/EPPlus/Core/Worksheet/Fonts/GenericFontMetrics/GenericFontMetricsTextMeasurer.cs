@@ -14,8 +14,6 @@ using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
 {
@@ -37,6 +35,35 @@ namespace OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements
         public bool ValidForEnvironment()
         {
             return true;
+        }
+
+        internal List<uint> MeasureIndividualCharacters(string text, MeasurementFont font, float ppi = 108.73578912433f)
+        {
+            var fontKey = GetKey(font.FontFamily, font.Style);
+            if (IsValidFont(fontKey))
+            {
+                return MeasureTextSpacingInternal(text, fontKey, font.Style, font.Size, ppi);
+            }
+            else
+            {
+                throw new InvalidOperationException("Font is not valid");
+            }
+        }
+        internal uint MeasureIndividualCharacter(char c, MeasurementFont font, float ppi = 108.73578912433f)
+        {
+            var fontKey = GetKey(font.FontFamily, font.Style);
+            if (IsValidFont(fontKey))
+            {
+                float resolutionDifference = ppi / 96f;
+                float ptSize = font.Size * (72f / 96f);
+                float finalFactor = resolutionDifference * ptSize;
+
+                return MeasureCharacter(c, fontKey, font.Style, ptSize, finalFactor);
+            }
+            else
+            {
+                throw new InvalidOperationException("Font is not valid");
+            }
         }
     }
 }

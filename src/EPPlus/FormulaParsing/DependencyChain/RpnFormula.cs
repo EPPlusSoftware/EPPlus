@@ -13,6 +13,12 @@ namespace OfficeOpenXml.FormulaParsing
         NameFormula,
         FixedArrayFormula
     }
+    [Flags]
+    internal enum FormulaFlags : short
+    {
+        IsDynamic           = 1,
+        IsAllwaysDynamic    = 2,
+    }
     internal class RpnFormula
     {
         internal ExcelWorksheet _ws;
@@ -27,7 +33,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal Stack<Expression> _expressionStack;
         internal Stack<FunctionExpression> _funcStack;
         internal int _arrayIndex = -1;
-        internal bool _isDynamic = false;
+        internal FormulaFlags _flags = 0;
         internal FunctionExpression _currentFunction = null;
 
         public bool CanBeDynamicArray

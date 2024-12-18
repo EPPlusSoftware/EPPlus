@@ -22,6 +22,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal List<int> _startOfChain = new List<int>();
         internal bool HasDynamicArrayFormula=false;
         internal Dictionary<int, Dictionary<string, CompileResult>> _expressionCache = new Dictionary<int, Dictionary<string, CompileResult>>();
+        internal bool HasAnyArrayFormula { get; set; } = false;
         public RpnOptimizedDependencyChain(ExcelWorkbook wb, ExcelCalculationOption options)
         {
             _tokenizer = SourceCodeTokenizer.Default;
@@ -68,8 +69,10 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 if((e.Value.Status & ExpressionStatus.IsAddress) == ExpressionStatus.IsAddress)
                 {
-                    var a = e.Value.GetAddress();
-                    qr.Add(new QuadRange(a), _formulas.Count);
+                    foreach (var a in e.Value.GetAddress())
+                    {
+                        qr.Add(new QuadRange(a), _formulas.Count);
+                    }
                 }
             }
             _formulas.Add(f);

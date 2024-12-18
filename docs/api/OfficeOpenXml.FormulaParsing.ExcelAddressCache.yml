@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelAddressCache.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAddressCache
     path: ../src/EPPlus/FormulaParsing/ExcelAddressCache.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelAddressCache.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNewId
     path: ../src/EPPlus/FormulaParsing/ExcelAddressCache.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelAddressCache.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/FormulaParsing/ExcelAddressCache.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelAddressCache.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/FormulaParsing/ExcelAddressCache.cs
@@ -177,7 +177,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelAddressCache.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Get
     path: ../src/EPPlus/FormulaParsing/ExcelAddressCache.cs
@@ -216,7 +216,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelAddressCache.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/FormulaParsing/ExcelAddressCache.cs

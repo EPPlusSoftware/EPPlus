@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Style.Table;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -1431,5 +1432,32 @@ namespace EPPlusTest.Core.Range.Insert
             }
         }
 
+        [TestMethod]
+        public void InsertReturnRangeTest()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            var a1 = ws.Cells["A1"];
+            ws.Cells["A1"].Value = "Down";
+            var a2 = a1.Insert(eShiftTypeInsert.Down);
+            ws.Cells["A1"].Value = "Right";
+            var b1 = a1.Insert(eShiftTypeInsert.Right);
+            ws.Cells["A1"].Value = "Row";
+            var row1 = a1.Insert(eShiftTypeInsert.EntireRow);
+            ws.Cells["A1"].Value = "Column";
+            var col1 = a1.Insert(eShiftTypeInsert.EntireColumn);
+
+            Assert.AreEqual(ws.Cells["A2"], a2);
+            Assert.AreEqual(ws.Cells["B1"], b1);
+            Assert.AreEqual(ws.Cells["A2"].EntireRow.Range, row1);
+            Assert.AreEqual(ws.Cells["B1"].EntireColumn.Range, col1);
+
+            var abc123 = ws.Cells["A1:C3"];
+            var abc456 = abc123.Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual(ws.Cells["A4:C6"], abc456);
+            var def123 = abc123.Insert(eShiftTypeInsert.Right);
+            Assert.AreEqual(ws.Cells["D1:F3"], def123);
+        }
     }
 }

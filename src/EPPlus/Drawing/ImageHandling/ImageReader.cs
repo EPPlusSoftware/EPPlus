@@ -670,7 +670,7 @@ namespace OfficeOpenXml.Drawing
             return false;
         }
 
-        private static bool IsEmf(BinaryReader br)
+        internal static bool IsEmf(BinaryReader br)
         {
             br.BaseStream.Position = 0;
             var type = br.ReadInt32();

@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotAreaReferenceCollection
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceCollection.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceCollection.cs
@@ -111,7 +111,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotAreaReferenceCollection.cs

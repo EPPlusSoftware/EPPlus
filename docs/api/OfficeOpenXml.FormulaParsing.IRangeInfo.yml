@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IRangeInfo
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -44,6 +44,7 @@ items:
           Inherits IAddressInfo, IEnumerator(Of ICellInfo), IEnumerable(Of ICellInfo)
   inheritedMembers:
   - OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+  - OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
   - System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}.Current
   - System.Collections.IEnumerator.MoveNext
   - System.Collections.IEnumerator.Reset
@@ -69,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -104,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMulti
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -139,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRef
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -174,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsInMemoryRange
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -209,7 +210,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -240,7 +241,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -275,7 +276,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -313,7 +314,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -351,7 +352,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -395,7 +396,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -433,7 +434,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -468,7 +469,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dimension
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
@@ -501,6 +502,12 @@ references:
   name: Address
   nameWithType: IAddressInfo.Address
   fullName: OfficeOpenXml.FormulaParsing.IAddressInfo.Address
+- uid: OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+  commentId: P:OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
+  parent: OfficeOpenXml.FormulaParsing.IAddressInfo
+  name: Addresses
+  nameWithType: IAddressInfo.Addresses
+  fullName: OfficeOpenXml.FormulaParsing.IAddressInfo.Addresses
 - uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}.Current
   commentId: P:System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}.Current
   parent: System.Collections.Generic.IEnumerator{OfficeOpenXml.FormulaParsing.ICellInfo}

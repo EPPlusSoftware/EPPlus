@@ -31,7 +31,6 @@ namespace OfficeOpenXml.Table.PivotTable
 	{
 		ExcelPivotTable _tbl;
 		List<PivotCalculationStore> _calcItems;
-		List<int> _calcOrder;
 		FormulaParser _formulaParser;
 		FunctionRepository _fr;
         public PivotTableColumnCalculation(ExcelPivotTable tbl)

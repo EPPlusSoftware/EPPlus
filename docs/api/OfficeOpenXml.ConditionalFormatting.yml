@@ -17,6 +17,7 @@ items:
   - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectPosition
   - OfficeOpenXml.ConditionalFormatting.eExcelConditionalFormattingValueObjectType
   - OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+  - OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingAsType
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingCollection
   - OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingColorScaleValue
@@ -129,6 +130,12 @@ references:
   name: eExcelDatabarAxisPosition
   nameWithType: eExcelDatabarAxisPosition
   fullName: OfficeOpenXml.ConditionalFormatting.eExcelDatabarAxisPosition
+- uid: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  commentId: T:OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
+  parent: OfficeOpenXml.ConditionalFormatting
+  name: eExcelPivotTableConditionalFormattingRuleType
+  nameWithType: eExcelPivotTableConditionalFormattingRuleType
+  fullName: OfficeOpenXml.ConditionalFormatting.eExcelPivotTableConditionalFormattingRuleType
 - uid: OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
   commentId: T:OfficeOpenXml.ConditionalFormatting.ExcelConditionalFormattingIconDataBarValue
   parent: OfficeOpenXml.ConditionalFormatting

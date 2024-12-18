@@ -27,18 +27,14 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
-using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Threading;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace EPPlusTest.Excel
 {
@@ -229,7 +225,8 @@ namespace EPPlusTest.Excel
             var operatorResult = Operator.Concat.Apply(result1, result2, ctx);
             Assert.AreEqual($"{date1.ToString(dateFormat)}{date2.ToString(dateFormat)}", operatorResult.Result);
             operatorResult = Operator.Divide.Apply(result1, result2, ctx);
-            Assert.AreEqual(numericDate1 / numericDate2, operatorResult.Result);
+            var normResult = numericDate1 / numericDate2;
+            Assert.AreEqual(normResult, operatorResult.Result);
             operatorResult = Operator.Exp.Apply(result1, result2, ctx);
             Assert.AreEqual(Math.Pow(numericDate1, numericDate2), operatorResult.Result);
             operatorResult = Operator.Minus.Apply(result1, result2, ctx);
@@ -253,5 +250,29 @@ namespace EPPlusTest.Excel
 			Assert.IsFalse((bool)operatorResult.Result);
             Thread.CurrentThread.CurrentCulture = culture;
         }
-	}
+
+        [TestMethod]
+        public void ChangePrecisionTest()
+        {
+            var ctx = ParsingContext.Create();
+            var pc = ParsingConfiguration.Create();
+            
+            double anum = 42055, bnum = 42339;
+            var normResult = anum / bnum;
+
+            CompileResult a = new CompileResult(anum.ToString("n"), DataType.String);
+            CompileResult b = new CompileResult(bnum.ToString("n"), DataType.String);
+
+            pc.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.DotNet;
+            ctx.Configuration = pc;
+            var DotNetResult = Operator.Divide.Apply(a, b, ctx);
+            Assert.AreEqual(normResult, DotNetResult.Result);
+
+            pc.PrecisionAndRoundingStrategy = PrecisionAndRoundingStrategy.Excel;
+            ctx.Configuration = pc;
+            var ExcelResult = Operator.Divide.Apply(a, b, ctx);
+            Assert.AreEqual(0.993292236472283d, ExcelResult.Result);
+            Assert.AreNotEqual(normResult, ExcelResult.Result);
+        }
+    }
 }

@@ -2,6 +2,8 @@
 using OfficeOpenXml.FormulaParsing.Ranges;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+
 /*************************************************************************************************
   Required Notice: Copyright (C) EPPlus Software AB. 
   This software is licensed under PolyForm Noncommercial License 1.0.0 
@@ -99,5 +101,9 @@ namespace OfficeOpenXml.FormulaParsing
         /// The address.
         /// </summary>
         FormulaRangeAddress Address { get; }
+        /// <summary>
+        /// If the address contains commaseparated addresses, this array contains the individual addresses.
+        /// </summary>
+        FormulaRangeAddress[] Addresses { get; }
     }
 }

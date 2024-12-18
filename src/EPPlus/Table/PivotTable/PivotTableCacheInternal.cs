@@ -9,6 +9,7 @@ using System.Linq;
 using System.Security;
 using System.Text;
 using System.Xml;
+using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
@@ -224,7 +225,8 @@ namespace OfficeOpenXml.Table.PivotTable
             //Add fields.
             var index = 0;
             _fields = new List<ExcelPivotTableCacheField>();
-            foreach (XmlNode node in CacheDefinitionXml.DocumentElement.SelectNodes("d:cacheFields/d:cacheField", NameSpaceManager))
+            var cacheNodes = CacheDefinitionXml.DocumentElement.SelectNodes("d:cacheFields/d:cacheField", NameSpaceManager);
+            foreach (XmlNode node in cacheNodes)
             {
                 _fields.Add(new ExcelPivotTableCacheField(NameSpaceManager, node, this, index++));
             }
@@ -591,7 +593,17 @@ namespace OfficeOpenXml.Table.PivotTable
             xml += string.Format("<cacheFields count=\"{0}\">", sourceRange._toCol - sourceRange._fromCol + 1);
             for (int col = sourceRange._fromCol; col <= sourceRange._toCol; col++)
             {
-                var name = sourceWorksheet?.GetValueInner(sourceRange._fromRow, col);
+                var innerValue = sourceWorksheet?.GetValueInner(sourceRange._fromRow, col);
+                string name = "";
+                if (sourceWorksheet._flags.GetFlagValue(sourceRange._fromRow, col, CellFlags.RichText))
+                {
+                    name = sourceWorksheet.GetRichText(sourceRange._fromRow, col, sourceWorksheet.Cells[sourceRange._fromRow, col]).Text;
+                }
+                else
+                {
+                    name = innerValue.ToString();
+                }
+
                 if (name == null || name.ToString() == "")
                 {
                     xml += string.Format("<cacheField name=\"Column{0}\" numFmtId=\"0\">", col - sourceRange._fromCol + 1);

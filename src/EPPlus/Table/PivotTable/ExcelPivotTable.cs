@@ -10,28 +10,19 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Table.PivotTable.Calculation;
+using OfficeOpenXml.Table.PivotTable.Filter;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Text.RegularExpressions;
-using OfficeOpenXml.Table;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Packaging;
-using System.Linq;
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.Filter;
-using OfficeOpenXml.Packaging.Ionic;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.Style.Dxf;
-using System.IO;
 using System.Globalization;
-using OfficeOpenXml.Table.PivotTable.Filter;
-using OfficeOpenXml.Table.PivotTable.Calculation;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
-using OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs;
-using System.Diagnostics.CodeAnalysis;
-
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
 namespace OfficeOpenXml.Table.PivotTable
 {
     /// <summary>
@@ -61,18 +52,27 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <summary>
         /// The hash value for the object 
         /// </summary>
-        /// <param name="obj"></param>
         /// <returns></returns>
-        public int GetHashCode(PivotNull obj)
+        public override int GetHashCode()
 		{
 			return 0;
 		}
 
-		/// <summary>
-		/// Return the string representation of the pivot null value
-		/// </summary>
-		/// <returns>An empty string</returns>
-		public override string ToString()
+        /// <summary>
+        /// The hash value for the object 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public int GetHashCode(PivotNull obj)
+        {
+            return 0;
+        }
+
+        /// <summary>
+        /// Return the string representation of the pivot null value
+        /// </summary>
+        /// <returns>An empty string</returns>
+        public override string ToString()
 		{
 			return "";
 		}
@@ -104,6 +104,13 @@ namespace OfficeOpenXml.Table.PivotTable
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this);
             LoadFields();
 
+            LoadFromXml();
+
+            Styles = new ExcelPivotTableAreaStyleCollection(this);
+        }
+
+        private void LoadFromXml()
+        {
             var pos = 0;
             //Add row fields.
             foreach (XmlElement rowElem in TopNode.SelectNodes("d:rowFields/d:field", NameSpaceManager))
@@ -165,9 +172,9 @@ namespace OfficeOpenXml.Table.PivotTable
                     DataFields.AddInternal(dataField);
                 }
             }
-
-            Styles = new ExcelPivotTableAreaStyleCollection(this);
+            ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
         }
+
         /// <summary>
         /// Add a new pivottable
         /// </summary>
@@ -179,14 +186,29 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotTable(ExcelWorksheet sheet, ExcelAddressBase address, PivotTableCacheInternal pivotTableCache, string name, int tblId) :
         base(sheet.NameSpaceManager)
         {
-            CreatePivotTable(sheet, address, pivotTableCache.Fields.Count, name, tblId);
+            CreatePivotTable(sheet, address, pivotTableCache.Fields.Count, name, tblId, null);
 
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, pivotTableCache);
             CacheId = pivotTableCache.ExtLstCacheId;
 
             LoadFields();
             Styles = new ExcelPivotTableAreaStyleCollection(this);
+            ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
         }
+        internal ExcelPivotTable(ExcelWorksheet sheet, ExcelAddressBase address, ExcelPivotTable ptCopy, string name, int tblId) :
+        base(sheet.NameSpaceManager)
+        {
+            var cache = ptCopy.CacheDefinition._cacheReference;
+            CreatePivotTable(sheet, address, cache.Fields.Count, name, tblId, ptCopy);
+
+            CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, cache);
+            CacheId = cache.ExtLstCacheId;
+
+            LoadFields();
+            LoadFromXml();
+            Styles = new ExcelPivotTableAreaStyleCollection(this);
+        }
+
         /// <summary>
         /// Add a new pivottable
         /// </summary>
@@ -198,26 +220,37 @@ namespace OfficeOpenXml.Table.PivotTable
         internal ExcelPivotTable(ExcelWorksheet sheet, ExcelAddressBase address, ExcelRangeBase sourceAddress, string name, int tblId) :
         base(sheet.NameSpaceManager)
         {
-            CreatePivotTable(sheet, address, sourceAddress._toCol - sourceAddress._fromCol + 1, name, tblId);
+            CreatePivotTable(sheet, address, sourceAddress._toCol - sourceAddress._fromCol + 1, name, tblId, null);
 
             CacheDefinition = new ExcelPivotCacheDefinition(sheet.NameSpaceManager, this, sourceAddress);
             CacheId = CacheDefinition._cacheReference.ExtLstCacheId;
 
             LoadFields();
             Styles = new ExcelPivotTableAreaStyleCollection(this);
+            ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
+
         }
 
-        private void CreatePivotTable(ExcelWorksheet sheet, ExcelAddressBase address, int fields, string name, int tblId)
+        private void CreatePivotTable(ExcelWorksheet sheet, ExcelAddressBase address, int fields, string name, int tblId, ExcelPivotTable copy)
         {
             WorkSheet = sheet;
             Address = address;
             var pck = sheet._package.ZipPackage;
 
-            PivotTableXml = new XmlDocument();
-            LoadXmlSafe(PivotTableXml, GetStartXml(name, address, fields), Encoding.UTF8);
-            TopNode = PivotTableXml.DocumentElement;
-            PivotTableUri = GetNewUri(pck, "/xl/pivotTables/pivotTable{0}.xml", ref tblId);
             Init();
+            PivotTableXml = new XmlDocument();
+            if(copy==null)
+            {
+                LoadXmlSafe(PivotTableXml, GetStartXml(name, address, fields), Encoding.UTF8);
+                TopNode = PivotTableXml.DocumentElement;
+            }
+            else
+            {
+                LoadXmlSafe(PivotTableXml, copy.PivotTableXml.OuterXml, Encoding.UTF8);
+                TopNode = PivotTableXml.DocumentElement;
+                Name = name;
+            }
+            PivotTableUri = GetNewUri(pck, "/xl/pivotTables/pivotTable{0}.xml", ref tblId);
 
             Part = pck.CreatePart(PivotTableUri, ContentTypes.contentTypePivotTable);
             PivotTableXml.Save(Part.GetStream());
@@ -254,15 +287,15 @@ namespace OfficeOpenXml.Table.PivotTable
             string xml = string.Format("<pivotTableDefinition xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" name=\"{0}\" dataOnRows=\"1\" applyNumberFormats=\"0\" applyBorderFormats=\"0\" applyFontFormats=\"0\" applyPatternFormats=\"0\" applyAlignmentFormats=\"0\" applyWidthHeightFormats=\"1\" dataCaption=\"Data\"  createdVersion=\"6\" updatedVersion=\"6\" showMemberPropertyTips=\"0\" useAutoFormatting=\"1\" itemPrintTitles=\"1\" indent=\"0\" compact=\"0\" compactData=\"0\" gridDropZones=\"1\">",
                 ConvertUtil.ExcelEscapeString(name));
 
-            xml += string.Format("<location ref=\"{0}\" firstHeaderRow=\"1\" firstDataRow=\"1\" firstDataCol=\"1\" /> ", address.FirstAddress);
+            xml += string.Format("<location ref=\"{0}\" firstHeaderRow=\"1\" firstDataRow=\"1\" firstDataCol=\"1\"/> ", address.FirstAddress);
             xml += string.Format("<pivotFields count=\"{0}\">", fields);
             for (int col = 0; col < fields; col++)
             {
-                xml += "<pivotField showAll=\"0\" />"; //compact=\"0\" outline=\"0\" subtotalTop=\"0\" includeNewItemsInFilter=\"1\"     
+                xml += "<pivotField showAll=\"0\"/>"; //compact=\"0\" outline=\"0\" subtotalTop=\"0\" includeNewItemsInFilter=\"1\"     
             }
 
             xml += "</pivotFields>";
-            xml += "<pivotTableStyleInfo name=\"PivotStyleMedium9\" showRowHeaders=\"1\" showColHeaders=\"1\" showRowStripes=\"0\" showColStripes=\"0\" showLastColumn=\"1\" />";
+            xml += "<pivotTableStyleInfo name=\"PivotStyleMedium9\" showRowHeaders=\"1\" showColHeaders=\"1\" showRowStripes=\"0\" showColStripes=\"0\" showLastColumn=\"1\"/>";
             xml += $"<extLst><ext xmlns:xpdl=\"http://schemas.microsoft.com/office/spreadsheetml/2016/pivotdefaultlayout\" uri=\"{ExtLstUris.PivotTableDefinition16Uri}\"><xpdl:pivotTableDefinition16/></ext></extLst>";
             xml += "</pivotTableDefinition>";
             return xml;
@@ -1627,6 +1660,10 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
 
+        /// <summary>
+        /// A collection of Conditional Formatting's to apply to the pivot table.
+        /// </summary>
+        public ExcelPivotTableConditionalFormattingCollection ConditionalFormattings { get; private set; } 
 
         internal int ChangeCacheId(int oldCacheId)
         {
@@ -1696,7 +1733,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
             SetXmlNodeString("d:location/@ref", Address.Address);
 
-            foreach (var field in Fields)
+            foreach(var field in Fields)
             {
                 field.SaveToXml();
             }
@@ -1728,16 +1765,42 @@ namespace OfficeOpenXml.Table.PivotTable
             }
 
             UpdatePivotTableStyles();
+            UpdatePivotTableConditionalFormats();
             PivotTableXml.Save(Part.GetStream(FileMode.Create));
         }
         private void UpdatePivotTableStyles()
         {
+            var deletedItems = new List<ExcelPivotTableAreaStyle>();
             foreach (ExcelPivotTableAreaStyle a in Styles)
             {
                 a.Conditions.UpdateXml();
             }
         }
-
+        private void UpdatePivotTableConditionalFormats()
+        {
+            var cfToDelete = new List<ExcelPivotTableConditionalFormatting>();
+            foreach (var cf in ConditionalFormattings)
+            {
+                cf.Priority = cf.ConditionalFormatting.Priority;
+                var areasToDelete = new List<ExcelPivotTableAreaConditionalFormatting>();
+                foreach (ExcelPivotTableAreaConditionalFormatting a in cf.Areas)
+                {
+                    if(a.Conditions.UpdateXml()==false)
+                    {
+                        areasToDelete.Add(a);
+                    }
+                }
+                if(cf.Areas.Count==areasToDelete.Count)
+                {
+                    cfToDelete.Add(cf);
+                }
+                else
+                {
+                    areasToDelete.ForEach(x => cf.Areas.Remove(x));
+                }
+            }
+            cfToDelete.ForEach(x => ConditionalFormattings.Remove(x));
+        }
         internal void Sort()
         {
             foreach (var field in RowFields.Union(ColumnFields))
@@ -1845,6 +1908,36 @@ namespace OfficeOpenXml.Table.PivotTable
         internal List<int[]> GetTableColumnKeys()
         {
             return _colItems.OrderBy(x => x, ArrayComparer.Instance).ToList<int[]>();
+        }
+
+        /// <summary>
+        /// Copies the pivot table to another range. The range must be within the same workbook.
+        /// </summary>
+        /// <param name="destinationRange">The destination range.</param>
+        /// <param name="name">The name of the new pivot table.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public ExcelPivotTable Copy(ExcelRange destinationRange, string name)
+        {
+            if(name.Equals(Name, StringComparison.OrdinalIgnoreCase) == false && WorkSheet.PivotTables._pivotTableNames.ContainsKey(name))
+            {
+                throw new ArgumentException($"A pivot table with name {name} already exists in the workbook.", nameof(name));
+            }
+            var pt = Copy(destinationRange);
+            pt.Name = name;
+            return pt;
+        }
+        /// <summary>
+        /// Copies the pivot table to another range. The range must be within the same workbook.
+        /// </summary>
+        /// <param name="destinationRange">The destination range.</param>
+        /// <returns>The new copy of the <see cref="ExcelPivotTable" /></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public ExcelPivotTable Copy(ExcelRange destinationRange)
+        {
+            var range = WorkSheet.Cells[Address.Address];
+            range.Copy(destinationRange);
+            return WorkSheet.PivotTables.GetByAddress(destinationRange);
         }
     }
 }

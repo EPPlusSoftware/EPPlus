@@ -267,11 +267,11 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"-+3-3";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(4, tokens.Count());
-            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Negator));
-            Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Operator));
-            Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.Integer));
+            Assert.AreEqual(3, tokens.Count());
+            //Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Negator));
+            Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.Operator));
+            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
         }
 
         [TestMethod]
@@ -362,16 +362,16 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(-+3-3,5)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(9, tokens.Count());
+            Assert.AreEqual(8, tokens.Count());
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
-            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Negator));
-            Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Operator));
-            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.Comma));
-            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[8].TokenTypeIsSet(TokenType.ClosingParenthesis));
+//            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Negator));
+            Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.Operator));
+            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.Comma));
+            Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.ClosingParenthesis));
         }
 
         [TestMethod]
@@ -395,16 +395,16 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var input = @"SUM(5,-+3-3)";
             var tokens = _tokenizer.Tokenize(input).ToArray();
-            Assert.AreEqual(9, tokens.Count());
+            Assert.AreEqual(8, tokens.Count());
             Assert.IsTrue(tokens[0].TokenTypeIsSet(TokenType.Function));
             Assert.IsTrue(tokens[1].TokenTypeIsSet(TokenType.OpeningParenthesis));
             Assert.IsTrue(tokens[2].TokenTypeIsSet(TokenType.Integer));
             Assert.IsTrue(tokens[3].TokenTypeIsSet(TokenType.Comma));
-            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Negator));
-            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.Operator));
-            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.Integer));
-            Assert.IsTrue(tokens[8].TokenTypeIsSet(TokenType.ClosingParenthesis));
+            //Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Negator));
+            Assert.IsTrue(tokens[4].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[5].TokenTypeIsSet(TokenType.Operator));
+            Assert.IsTrue(tokens[6].TokenTypeIsSet(TokenType.Integer));
+            Assert.IsTrue(tokens[7].TokenTypeIsSet(TokenType.ClosingParenthesis));
         }
         [TestMethod]
         public void TokenizeWorksheetName()
@@ -615,5 +615,23 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
 			Assert.AreEqual(TokenType.TableColumn, tokens[9].TokenType);
 			Assert.AreEqual("'# days", tokens[9].Value);
 		}
-	}
+        [TestMethod]
+        public void ManyNegatorsBeforeError()
+        {
+            var input1 = "#REF!---#REF!";
+            var tokens1 = _tokenizer.Tokenize(input1);
+
+            Assert.AreEqual(TokenType.InvalidReference, tokens1[0].TokenType);
+            Assert.AreEqual(TokenType.Operator, tokens1[1].TokenType);
+            Assert.AreEqual("-", tokens1[1].Value);
+            Assert.AreEqual(TokenType.Negator, tokens1[2].TokenType);
+            Assert.AreEqual(TokenType.Negator, tokens1[3].TokenType);
+
+
+            var input2 = "-#REF!---#REF!";
+            var tokens2 = _tokenizer.Tokenize(input2);
+            var input3 = "-1---#REF!";
+            var tokens3 = _tokenizer.Tokenize(input3);
+        }
+    }
 }

@@ -22,7 +22,7 @@ namespace OfficeOpenXml
         Constant,
         Enumerable,
         Variable,
-        //ExcelRange,
+        WebImage,
         Group,
         ValueError,
         Function,
@@ -30,6 +30,7 @@ namespace OfficeOpenXml
         NameValue,
         CellAddress,
         //RangeAddress,
+        MultiAddress,
         TableAddress,
         //RangeDefinition,
         Empty

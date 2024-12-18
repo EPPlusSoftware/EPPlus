@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingLineEnd.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingLineEnd
     path: ../src/EPPlus/Drawing/ExcelDrawingLineEnd.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingLineEnd.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Drawing/ExcelDrawingLineEnd.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingLineEnd.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/Drawing/ExcelDrawingLineEnd.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingLineEnd.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Height
     path: ../src/EPPlus/Drawing/ExcelDrawingLineEnd.cs

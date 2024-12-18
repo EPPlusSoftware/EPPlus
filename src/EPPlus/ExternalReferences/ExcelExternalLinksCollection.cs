@@ -10,7 +10,7 @@
  *************************************************************************************************
   04/16/2021         EPPlus Software AB       EPPlus 5.7
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
@@ -93,7 +93,7 @@ namespace OfficeOpenXml.ExternalReferences
             {
                 foreach (XmlElement elem in nl)
                 {
-                    string rID = elem.GetAttribute("r:id");
+                    string rID = elem.GetAttribute("id",ExcelPackage.schemaRelationships);
                     var rel = _wb.Part.GetRelationship(rID);
                     var part = _wb._package.ZipPackage.GetPart(UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri));
                     var xr = new XmlTextReader(part.GetStream());
@@ -207,7 +207,7 @@ namespace OfficeOpenXml.ExternalReferences
             }
             return ret;
         }
-        internal int GetExternalLink(string extRef)
+        internal int GetExternalLink(string extRef, ZipPackageRelationship relationship = null)
         {
             if (string.IsNullOrEmpty(extRef)) return -1;
             if(extRef.Any(c=>char.IsDigit(c)==false))
@@ -254,6 +254,14 @@ namespace OfficeOpenXml.ExternalReferences
                             if (fi.Name.Equals(wb.File.Name, StringComparison.OrdinalIgnoreCase))
                             {
                                 ret = ix;
+                            }
+                        }
+                        if (_list[ix].ExternalLinkType == eExternalLinkType.OleLink)
+                        {
+                            var wb = _list[ix].As.OleLink;
+                            if( string.Equals( wb.Relation.Target, "file:///" + extRef, StringComparison.OrdinalIgnoreCase) && wb.Relation.Id == relationship.Id)
+                            {
+                                return ix;
                             }
                         }
                     }

@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDataTypes
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
@@ -53,7 +53,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Unknown
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: String
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
@@ -121,7 +121,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Number
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateTime
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormat.cs

@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EPPlusTableColumnSortorderAttribute.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EPPlusTableColumnSortOrderAttribute
     path: ../src/EPPlus/Attributes/EPPlusTableColumnSortorderAttribute.cs
@@ -112,7 +112,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EPPlusTableColumnSortorderAttribute.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Properties
     path: ../src/EPPlus/Attributes/EPPlusTableColumnSortorderAttribute.cs

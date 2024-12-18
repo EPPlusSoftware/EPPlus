@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.FormulaParsing;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace EPPlusTest.Issues
 {
@@ -40,6 +41,18 @@ namespace EPPlusTest.Issues
 
             }
         }
- 
+        [TestMethod]
+        public void i1653()
+        {
+            using(var package = OpenTemplatePackage("i1653.xlsx"))
+            {
+                ExcelWorkbook workbook = package.Workbook;
+                ExcelWorksheet worksheet = workbook.Worksheets[0];
+                var cell = worksheet.Cells["C17"].Text;
+
+                // Assert failed: `cell.Text` and `cell.Value` are both empty string
+                    Debug.Assert(cell == "{\"any_orange_frag\" : 700, \"any_purple_frag\" : 800,\"any_blue_frag\" : 1200, \"any_green_frag\":2500}");
+            }
+        }
     }
 }

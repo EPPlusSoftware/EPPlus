@@ -1285,8 +1285,8 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             if (_needToWriteEntryHeader)
                 _InitiateCurrentEntry(false);
 
-            if (count != 0)
-                _entryOutputStream.Write(buffer, offset, count);
+            //if (count != 0)
+            _entryOutputStream.Write(buffer, offset, count);
         }
         
         /// <summary>
@@ -1465,6 +1465,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                 if (_currentEntry.OutputUsedZip64!=null)
                     _anyEntriesUsedZip64 |= _currentEntry.OutputUsedZip64.Value;
 
+                if(_currentEntry.UncompressedSize > _largestEntrySize)
+                {
+                    _largestEntrySize = _currentEntry.UncompressedSize;
+                }
+
                 // reset all the streams
                 _outputCounter = null; _encryptor = _deflater = null; _entryOutputStream = null;
             }
@@ -1613,6 +1618,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         private Stream _outputStream;
         private ZipEntry _currentEntry;
         internal Zip64Option _zip64;
+        internal long _largestEntrySize = 0;
         private Dictionary<String, ZipEntry> _entriesWritten;
         private int _entryCount;
         private ZipOption _alternateEncodingUsage = ZipOption.Never;

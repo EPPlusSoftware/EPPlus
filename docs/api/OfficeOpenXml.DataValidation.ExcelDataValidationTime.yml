@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationTime.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationTime
     path: ../src/EPPlus/DataValidation/ExcelDataValidationTime.cs
@@ -91,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationTime.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidationTime.cs

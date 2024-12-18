@@ -31,7 +31,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableNamedStyle
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -92,7 +92,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AppliesTo
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -132,7 +132,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageFieldLabels
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -169,7 +169,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageFieldValues
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -206,7 +206,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstSubtotalColumn
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -243,7 +243,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondSubtotalColumn
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -280,7 +280,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThirdSubtotalColumn
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -317,7 +317,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BlankRow
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -354,7 +354,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstSubtotalRow
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -391,7 +391,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondSubtotalRow
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -428,7 +428,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThirdSubtotalRow
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -465,7 +465,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstColumnSubheading
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -502,7 +502,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondColumnSubheading
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -539,7 +539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThirdColumnSubheading
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -576,7 +576,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstRowSubheading
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -613,7 +613,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SecondRowSubheading
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
@@ -650,7 +650,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThirdRowSubheading
     path: ../src/EPPlus/Style/Table/ExcelPivotTableNamedStyle.cs

@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using System.IO;
 using OfficeOpenXml.FormulaParsing;
+using System;
 
 namespace EPPlusTest.Issues
 {
@@ -37,5 +38,19 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(p);
             }
 		}
+        [TestMethod]
+        public void i1642()
+        {
+            using (var package = OpenTemplatePackage("i1642.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets["Sheet1"];
+                var excelTable = worksheet.Tables[0];
+                
+                var col = excelTable.Range.Offset(0, 10).TakeSingleColumn(0).SkipRows(1);
+                var formulaStr = col.TakeSingleCell(0, 0).Formula;
+                col.CreateArrayFormula(formulaStr, true);
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

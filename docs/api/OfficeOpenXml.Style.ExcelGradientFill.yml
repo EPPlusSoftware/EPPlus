@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelGradientFill.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelGradientFill
     path: ../src/EPPlus/Style/ExcelGradientFill.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelGradientFill.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Degree
     path: ../src/EPPlus/Style/ExcelGradientFill.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelGradientFill.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Style/ExcelGradientFill.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelGradientFill.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Top
     path: ../src/EPPlus/Style/ExcelGradientFill.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelGradientFill.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bottom
     path: ../src/EPPlus/Style/ExcelGradientFill.cs
@@ -217,7 +217,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelGradientFill.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Left
     path: ../src/EPPlus/Style/ExcelGradientFill.cs
@@ -254,7 +254,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelGradientFill.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Right
     path: ../src/EPPlus/Style/ExcelGradientFill.cs
@@ -291,7 +291,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelGradientFill.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color1
     path: ../src/EPPlus/Style/ExcelGradientFill.cs
@@ -328,7 +328,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelGradientFill.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color2
     path: ../src/EPPlus/Style/ExcelGradientFill.cs

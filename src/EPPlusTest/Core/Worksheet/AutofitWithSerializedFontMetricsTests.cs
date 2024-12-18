@@ -18,6 +18,8 @@ namespace EPPlusTest.Core.Worksheet
     {
         [DataTestMethod]
         [DataRow("Calibri")]
+        [DataRow("Aptos Narrow")]
+        [DataRow("Aptos Display")]
         [DataRow("Arial")]
         [DataRow("Arial Black")]
         [DataRow("Times New Roman")]
@@ -33,6 +35,7 @@ namespace EPPlusTest.Core.Worksheet
         [DataRow("Trebuchet MS")]
         [DataRow("Tw Cen MT")]
         [DataRow("Tw Cen MT Condensed")]
+        [DataRow("Segoe UI")]
         public void AutofitWithSerializedFonts(string fontFamily)
         {
             using (var package = new ExcelPackage())
@@ -92,7 +95,7 @@ namespace EPPlusTest.Core.Worksheet
         }
 
         [DataTestMethod, Ignore]
-        //[DataRow("Calibri", 1)]
+        [DataRow("Calibri", 1)]
         //[DataRow("Calibri Light", 2)]
         //[DataRow("Arial", 3)]
         //[DataRow("Arial Black", 4)]
@@ -100,7 +103,7 @@ namespace EPPlusTest.Core.Worksheet
         //[DataRow("Bookman Old Style", 6)]
         //[DataRow("Calisto MT", 7)]
         //[DataRow("Times New Roman", 8)]
-        [DataRow("Courier New", 9)]
+        //[DataRow("Courier New", 9)]
         //[DataRow("Liberation Serif", 10)]
         //[DataRow("Verdana", 11)]
         //[DataRow("Cambria", 12)]
@@ -116,6 +119,8 @@ namespace EPPlusTest.Core.Worksheet
         //[DataRow("Trebuchet MS", 22)]
         //[DataRow("Tw Cen MT", 23)]
         //[DataRow("Tw Cen MT Condensed", 24)]
+        [DataRow("Aptos Narrow", 25)]
+        [DataRow("Aptos Display", 26)]
         public void AutofitWithSerializedFonts2(string fontFamily, int run)
         {
             var report = new ExcelPackage(@"c:\Temp\fontreport2.xlsx");
@@ -316,10 +321,10 @@ namespace EPPlusTest.Core.Worksheet
         {
             using (var p = new ExcelPackage())
             {
-                var expectedLoaded = 895;
+                var expectedLoaded = 897;
                 if (FontSize._isLoaded == false)
                 {
-                    var expectedDefault = 23;
+                    var expectedDefault = 25;
                     Assert.AreEqual(expectedDefault, FontSize.FontHeights.Count);
                     Assert.AreEqual(expectedDefault, FontSize.FontWidths.Count);
                 }

@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ImageHandling/GenericImageHandler.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GenericImageHandler
     path: ../src/EPPlus/Drawing/ImageHandling/GenericImageHandler.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ImageHandling/GenericImageHandler.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SupportedTypes
     path: ../src/EPPlus/Drawing/ImageHandling/GenericImageHandler.cs
@@ -105,7 +105,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ImageHandling/GenericImageHandler.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastException
     path: ../src/EPPlus/Drawing/ImageHandling/GenericImageHandler.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ImageHandling/GenericImageHandler.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetImageBounds
     path: ../src/EPPlus/Drawing/ImageHandling/GenericImageHandler.cs
@@ -203,7 +203,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ImageHandling/GenericImageHandler.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidForEnvironment
     path: ../src/EPPlus/Drawing/ImageHandling/GenericImageHandler.cs

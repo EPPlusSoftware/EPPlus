@@ -40,7 +40,7 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (_dataLabels == null)
                 {
-                    _dataLabels = new ExcelChartDataLabelCollection(_chart, NameSpaceManager, TopNode, SchemaNodeOrder);
+                    _dataLabels = new ExcelChartDataLabelCollection(_chart, NameSpaceManager, TopNode, SchemaNodeOrder, this as ExcelChartDataLabelStandard);
                 }
                 return _dataLabels;
             }

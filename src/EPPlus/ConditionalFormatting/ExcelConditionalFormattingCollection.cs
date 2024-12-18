@@ -583,8 +583,9 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 Remove(RulesByPriority(priority));
             }
-            catch
+            catch(Exception ex)
             {
+                throw new InvalidOperationException($"Could not remove item with priority {priority}", ex);
             }
         }
 
@@ -1876,6 +1877,18 @@ namespace OfficeOpenXml.ConditionalFormatting
             dataBar.BorderColor.Color = color;
 
             return dataBar;
+        }
+
+        internal IExcelConditionalFormattingRule GetByPriority(int priority)
+        {
+            foreach (var rule in _rules)
+            {
+                if(rule.Priority == priority)
+                {
+                    return rule;
+                }
+            }
+            return null;
         }
     }
 }

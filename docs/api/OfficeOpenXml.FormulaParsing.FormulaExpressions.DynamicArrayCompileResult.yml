@@ -9,6 +9,7 @@ items:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor(OfficeOpenXml.ExcelErrorValue)
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType)
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType)
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.ResultType
   langs:
   - csharp
@@ -20,11 +21,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DynamicArrayCompileResult
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 479
+    startLine: 483
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -72,6 +73,51 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType)
+  commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType)
+  id: '#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress,OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType)'
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult
+  langs:
+  - csharp
+  - vb
+  name: DynamicArrayCompileResult(Object, DataType, FormulaRangeAddress, CompileResultType)
+  nameWithType: DynamicArrayCompileResult.DynamicArrayCompileResult(Object, DataType, FormulaRangeAddress, CompileResultType)
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.DynamicArrayCompileResult(System.Object, OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType, OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress, OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType)
+  type: Constructor
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: .ctor
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 493
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nConstructor\n"
+  example: []
+  syntax:
+    content: public DynamicArrayCompileResult(object result, DataType dataType, FormulaRangeAddress address, CompileResultType resultType)
+    parameters:
+    - id: result
+      type: System.Object
+      description: ''
+    - id: dataType
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+      description: ''
+    - id: address
+      type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+      description: ''
+    - id: resultType
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+      description: ''
+    content.vb: Public Sub New(result As Object, dataType As DataType, address As FormulaRangeAddress, resultType As CompileResultType)
+  overload: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
   commentId: M:OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)
   id: '#ctor(System.Object,OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType,OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress)'
@@ -86,11 +132,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 487
+    startLine: 504
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -128,11 +174,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 496
+    startLine: 513
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -167,11 +213,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 504
+    startLine: 521
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -203,11 +249,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 512
+    startLine: 529
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -239,11 +285,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 519
+    startLine: 536
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -736,6 +782,12 @@ references:
   name: FormulaRangeAddress
   nameWithType: FormulaRangeAddress
   fullName: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  name: CompileResultType
+  nameWithType: CompileResultType
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
 - uid: OfficeOpenXml.FormulaParsing.LexicalAnalysis
   commentId: N:OfficeOpenXml.FormulaParsing.LexicalAnalysis
   name: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -769,9 +821,3 @@ references:
   name: ResultType
   nameWithType: DynamicArrayCompileResult.ResultType
   fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult.ResultType
-- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
-  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
-  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
-  name: CompileResultType
-  nameWithType: CompileResultType
-  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType

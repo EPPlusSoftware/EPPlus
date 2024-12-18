@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionRepository
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadModule
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFunction
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
@@ -186,7 +186,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsFunctionName
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FunctionNames
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOrReplaceFunction
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
@@ -337,7 +337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NamespaceFunctions
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/FunctionRepository.cs

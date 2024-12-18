@@ -17,6 +17,7 @@ using System;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System.Collections.Generic;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -54,7 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             if (value is IRangeInfo)
             {
                 var range = (IRangeInfo)value;
-                if (range.GetNCells()>1)
+                if (range.GetNCells() > 1)
                 {
                     if(_negate == -1)
                     {
@@ -68,7 +69,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     {
                         return new AddressCompileResult(null, DataType.Empty, range.Address);
                     }
-                    var v = range.GetOffset(0,0);
+                    var v = range.GetOffset(0, 0);
                     return GetNegatedValue(v, range.Address);
                 }
             }
@@ -144,17 +145,18 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             }
             return new NamedValueExpression(_name, Context, _externalReferenceIx, _worksheetIx, n);
         }
-        public override FormulaRangeAddress GetAddress()
+        public override FormulaRangeAddress[] GetAddress()
         {
+
             if(_name?.Value is IRangeInfo ri) 
             {
                 if(_name.IsRelative)
                 {
-                    return _name.GetRelativeRange(ri, Context.CurrentCell).Address;
+                    return _name.GetRelativeRange(ri, Context.CurrentCell).Addresses.Select(x => x.Clone()).ToArray();
                 }
                 else
                 {
-                    return ri.Address.Clone();
+                    return ri.Addresses.Select(x=>x.Clone()).ToArray();
                 }
             }
             return null;

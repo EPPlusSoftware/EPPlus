@@ -33,7 +33,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelColumn
     path: ../src/EPPlus/ExcelColumn.cs
@@ -75,7 +75,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelColumn.cs
@@ -114,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnMin
     path: ../src/EPPlus/ExcelColumn.cs
@@ -151,7 +151,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnMax
     path: ../src/EPPlus/ExcelColumn.cs
@@ -188,7 +188,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/ExcelColumn.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/ExcelColumn.cs
@@ -262,7 +262,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BestFit
     path: ../src/EPPlus/ExcelColumn.cs
@@ -299,15 +299,15 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Collapsed
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 171
+    startLine: 173
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nIf the column is collapsed in outline mode\n"
+  summary: "\nIf the column is collapsed in outline mode. \nSetting this property will not hide the children. \nUse the <xref href=\"OfficeOpenXml.ExcelRangeColumn.CollapseChildren(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"OfficeOpenXml.ExcelRangeColumn.SetVisibleOutlineLevel(System.Int32%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> methods to collapse and hide columns/rows via the <xref href=\"OfficeOpenXml.ExcelWorksheet.Columns\" data-throw-if-not-resolved=\"false\"></xref> collection.\n"
   example: []
   syntax:
     content: public bool Collapsed { get; set; }
@@ -336,11 +336,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineLevel
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 175
+    startLine: 177
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -373,11 +373,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Phonetic
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 183
+    startLine: 185
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -410,11 +410,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 191
+    startLine: 193
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -447,11 +447,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 204
+    startLine: 206
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -484,11 +484,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 219
+    startLine: 221
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -521,11 +521,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageBreak
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 233
+    startLine: 235
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -558,11 +558,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Merged
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 241
+    startLine: 243
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -595,11 +595,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 258
+    startLine: 260
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -633,11 +633,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 267
+    startLine: 269
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -665,11 +665,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 278
+    startLine: 280
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -701,11 +701,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 290
+    startLine: 292
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1050,11 +1050,117 @@ references:
   name: BestFit
   nameWithType: ExcelColumn.BestFit
   fullName: OfficeOpenXml.ExcelColumn.BestFit
+- uid: OfficeOpenXml.ExcelRangeColumn.CollapseChildren(System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeColumn.CollapseChildren(System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeColumn
+  isExternal: true
+  name: CollapseChildren(Boolean)
+  nameWithType: ExcelRangeColumn.CollapseChildren(Boolean)
+  fullName: OfficeOpenXml.ExcelRangeColumn.CollapseChildren(System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeColumn.CollapseChildren(System.Boolean)
+    name: CollapseChildren
+    nameWithType: ExcelRangeColumn.CollapseChildren
+    fullName: OfficeOpenXml.ExcelRangeColumn.CollapseChildren
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeColumn.CollapseChildren(System.Boolean)
+    name: CollapseChildren
+    nameWithType: ExcelRangeColumn.CollapseChildren
+    fullName: OfficeOpenXml.ExcelRangeColumn.CollapseChildren
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeColumn.SetVisibleOutlineLevel(System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeColumn.SetVisibleOutlineLevel(System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeColumn
+  isExternal: true
+  name: SetVisibleOutlineLevel(Int32, Boolean)
+  nameWithType: ExcelRangeColumn.SetVisibleOutlineLevel(Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeColumn.SetVisibleOutlineLevel(System.Int32, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeColumn.SetVisibleOutlineLevel(System.Int32,System.Boolean)
+    name: SetVisibleOutlineLevel
+    nameWithType: ExcelRangeColumn.SetVisibleOutlineLevel
+    fullName: OfficeOpenXml.ExcelRangeColumn.SetVisibleOutlineLevel
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeColumn.SetVisibleOutlineLevel(System.Int32,System.Boolean)
+    name: SetVisibleOutlineLevel
+    nameWithType: ExcelRangeColumn.SetVisibleOutlineLevel
+    fullName: OfficeOpenXml.ExcelRangeColumn.SetVisibleOutlineLevel
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelWorksheet.Columns
+  commentId: P:OfficeOpenXml.ExcelWorksheet.Columns
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: Columns
+  nameWithType: ExcelWorksheet.Columns
+  fullName: OfficeOpenXml.ExcelWorksheet.Columns
 - uid: OfficeOpenXml.ExcelColumn.Collapsed*
   commentId: Overload:OfficeOpenXml.ExcelColumn.Collapsed
   name: Collapsed
   nameWithType: ExcelColumn.Collapsed
   fullName: OfficeOpenXml.ExcelColumn.Collapsed
+- uid: OfficeOpenXml.ExcelRangeColumn
+  commentId: T:OfficeOpenXml.ExcelRangeColumn
+  parent: OfficeOpenXml
+  name: ExcelRangeColumn
+  nameWithType: ExcelRangeColumn
+  fullName: OfficeOpenXml.ExcelRangeColumn
 - uid: OfficeOpenXml.ExcelColumn.OutlineLevel*
   commentId: Overload:OfficeOpenXml.ExcelColumn.OutlineLevel
   name: OutlineLevel

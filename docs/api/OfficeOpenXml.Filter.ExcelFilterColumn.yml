@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFilterColumn
     path: ../src/EPPlus/Filter/ExcelFilterColumn.cs
@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFilterValue
     path: ../src/EPPlus/Filter/ExcelFilterColumn.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Filter/ExcelFilterColumn.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HiddenButton
     path: ../src/EPPlus/Filter/ExcelFilterColumn.cs
@@ -187,7 +187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterColumn.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowButton
     path: ../src/EPPlus/Filter/ExcelFilterColumn.cs

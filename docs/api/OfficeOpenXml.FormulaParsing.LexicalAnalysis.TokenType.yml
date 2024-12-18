@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TokenType
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -106,7 +106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Operator
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Negator
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OpeningParenthesis
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -208,7 +208,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClosingParenthesis
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -242,7 +242,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OpeningEnumerable
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -276,7 +276,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClosingEnumerable
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -310,7 +310,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OpeningBracket
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -344,7 +344,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClosingBracket
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -378,7 +378,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Enumerable
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -412,7 +412,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Comma
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -446,7 +446,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SemiColon
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -480,7 +480,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: String
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -514,7 +514,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StringContent
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -548,7 +548,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetName
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -582,7 +582,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetNameContent
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -616,7 +616,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Integer
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -650,7 +650,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Boolean
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -684,7 +684,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Decimal
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -718,7 +718,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percent
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -752,7 +752,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Function
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -786,7 +786,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAddress
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -820,7 +820,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameValue
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -854,7 +854,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InvalidReference
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -888,7 +888,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumericError
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -922,7 +922,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueDataTypeError
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -956,7 +956,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: "Null"
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -990,7 +990,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Unrecognized
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1024,7 +1024,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAddressR1C1
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1058,7 +1058,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CircularReference
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1092,7 +1092,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Colon
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1126,7 +1126,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeOffset
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1160,7 +1160,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WhiteSpace
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1194,7 +1194,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalReference
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1228,7 +1228,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableName
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1262,7 +1262,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TablePart
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1296,7 +1296,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableColumn
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1330,7 +1330,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellAddress
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1364,7 +1364,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullColumnAddress
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1398,7 +1398,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullRowAddress
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1432,7 +1432,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartFunctionArguments
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1466,7 +1466,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Array
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1500,7 +1500,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NAError
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1534,7 +1534,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SingleQuote
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1568,7 +1568,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HashMark
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1602,7 +1602,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotField
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1636,7 +1636,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParameterVariableDeclaration
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1670,7 +1670,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameError
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
@@ -1704,7 +1704,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParameterVariable
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/TokenType.cs

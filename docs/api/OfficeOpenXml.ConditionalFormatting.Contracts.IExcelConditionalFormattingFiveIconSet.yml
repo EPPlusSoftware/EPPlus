@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingFiveIconSet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingFiveIconSet
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingFiveIconSet.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingFiveIconSet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Icon5
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingFiveIconSet.cs

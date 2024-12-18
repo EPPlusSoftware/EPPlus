@@ -423,12 +423,12 @@ namespace EPPlusTest.Drawing
         {
             using (var p = OpenPackage("ImageReaderRead.xlsx"))
             {
-                if(p.Workbook.Worksheets.Count==0)
+                if (p.Workbook.Worksheets.Count == 0)
                 {
                     Assert.Inconclusive("ImageReaderRead.xlsx does not exists. Run a full test round to create it.");
                 }
 
-                foreach(var ws in p.Workbook.Worksheets)
+                foreach (var ws in p.Workbook.Worksheets)
                 {
                     ws.Columns[1, 20].Width = 35;
 

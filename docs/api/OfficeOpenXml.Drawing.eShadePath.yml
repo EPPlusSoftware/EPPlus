@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShadePath.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eShadePath
     path: ../src/EPPlus/Drawing/Enums/eShadePath.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShadePath.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Linear
     path: ../src/EPPlus/Drawing/Enums/eShadePath.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShadePath.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Circle
     path: ../src/EPPlus/Drawing/Enums/eShadePath.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShadePath.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rectangle
     path: ../src/EPPlus/Drawing/Enums/eShadePath.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShadePath.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Shape
     path: ../src/EPPlus/Drawing/Enums/eShadePath.cs

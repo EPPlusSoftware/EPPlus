@@ -1,4 +1,66 @@
+# Features / Fixed issues - EPPlus 8
+## Version 8.0.0
+### Features
+* Added a new rounding that is more true to Excels precision. You can swtich between .Net and Excel precision with ParsingContext.
+* Added IsEmpty() method on ExcelRange. Can test for value, comments, threaded comments and formulas.
+* Override borders in Adjacent cells in BorderAround method.
+
 # Features / Fixed issues - EPPlus 7
+## Version 7.5.1
+* Style set on column/row level did not save on cells with a value and styleId is 0.
+* Fix for inserting rows after array formulas when referring to worksheets with '#' as part of the worksheet name.
+* Pivottable Field.Names on a field with rich text now returns the text content instead of OfficeOpenXml.Style.ExcelRichTextCollection
+* Fixed .ToDataTable not reading rich text correctly in rare cases.
+* ExcelPicture.Image.SetImage(" can now correctly be set to a .svg even if the original ExcelPicture was not created with a .svg file. And vice versa for other file formats.
+* Fixed reference mismatches in some cases after removing and adding a picture multiple times. When referring to the same picture with multiple ExcelPicture's.
+* Files created in the /media zipped subfolder now have the correct name index for a given workbook. Even if other workbooks in the same session reference the same image/images.
+* Shared formulas failed to calculate if a worksheet was copied.
+* Formulas referencing a deleted worksheet was not calculated correctly.
+
+## Version 7.5.0
+### Fixed issues and minor features
+ * Added signatures to the EPPlus.dll's and the EPPlus Nuget package.
+ * Added new properties RepeatItemLabels and InsertBlankRow to ExcelPivotTableField
+ * A NullReferenceException was sometimes thrown when saving line charts with droplines.
+ * Fix for cells with null values and no style id getting incorrect styling.
+ * Fixed an issue where two VLOOKUPs on the same worksheet intersected the same range. (kolla ev. #1671 för bättre beskrivning, tror det var du som fixade den).
+ * Added AllowDuplicateColumnNames to ToDataTableOptions. This allows the exported range in the ToDataTable method to have duplicate column names.
+ * EPPlus encoded CR and TAB characters in the shared string to _0x000D_ and _0x000A_, which was not necessary. 
+ * NullReferenceException thrown in some cases when saving a line chart with droplines
+
+## Version 7.4.2
+* Added support the array attribute on table column formulas.
+	* Added new property 'ExcelTableColumn.IsCalculatedFormulaArray'
+	* EPPlus automatically updates the IsCalculatedFormulaArray if a table formula is identified as an array formula in the calculation.
+* Allows adding mappings for error values as string in the ToDataTableOptions.
+* Rich text strings in the shared strings xml did not support both text and RichText elements in the same item.
+* The dynamic array formula flag was not set for single cell results containing range operations. 
+* Fixed inacurate relative addresses in cloned formulas in rare cases.
+* Deleting and adding a table with multiple worksheets no longer gives the added table an invalid id. 
+* Ensured ExcelPictures are sized correctly when copying worksheets
+* Fixed issue where adding rows to a Table that contained error values would throw error or generate a corrupt workbook. When the table was the source range of a pivot table.
+* Fixed ExcelErrorValues GetHashCode and Equals methods to return appropriate Type value.
+* Fixed incorrect datatype flags for ExcelPivotTableCacheField.
+* One-cell anchored, and absolute positioned drawings failed to copy when copying ranges.
+* Pivot tables with a page field, item filter or a slicer added new items as visible when refreshing the pivot table. EPPlus will now keep the filter when refreshing the pivot table, hiding values not matched by the filter.
+* Fixes for preserving geo, stock and currency data types.
+
+## Version 7.4.1
+* Updated for vulnerability in System.Text.Json 8.0.4 - Microsoft.Extensions.Configuration.Json 8.0.0 -> 8.0.1
+
+## Version 7.4.0
+### Features
+* Support for Conditional Formattings in Pivot tables via Pivot Areas.
+* Added support for multiple addresses in function arguments, i.e Sum((A1:A2,A4:A5)) should be handled as a single argument.
+* Added support for linked pictures in the ExcelDrawings.AddPicture method using the 'PictureLocation' argument.
+* Added new function
+	* AREAS
+	* TDIST
+
+### Fixed issues
+* Loading a vml drawing without the Anchor element caused EPPlus to throw an Exception.
+* Removed unused classes ParsingScope and ParsingScopes and the interface IParsingLifetimeEventHandler
+
 ## Version 7.3.2
 ### Fixed issues
 * Upgraded System.Text.Json to version 8.0.4 and System.Formats.Asn1 to version 8.0.1 to address vulnerabilities in previous versions of these libraries. See our [Security Policy](https://github.com/EPPlusSoftware/EPPlus/blob/develop7/SECURITY.md)

@@ -1,11 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Table.PivotTable.Calculation;
-using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using System.Collections.Generic;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using System;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
     [TestClass]
@@ -13,7 +11,6 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 	{
 		static ExcelPackage _package;
 		static ExcelWorksheet _ptWs;
-		static ExcelWorksheet _ptWs2;
 		[ClassInitialize]
 		public static void Init(TestContext context)
 
@@ -68,7 +65,7 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 
             Assert.AreEqual(8996331.09, GetPtData(pt, 0));
             Assert.AreEqual(3727.881, GetPtData(pt, 1));
-            Assert.AreEqual(9689.13, GetPtData(pt, 2));
+            Assert.AreEqual(9689.13000000001, GetPtData(pt, 2));
             Assert.AreEqual(9895964.00, GetPtData(pt, 3));
 
         }

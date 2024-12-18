@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FixedWidthFormatErrorStrategy
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Truncate
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThrowError
     path: ../src/EPPlus/ExcelTextFormats/ExcelTextFormatFixedWidthBase.cs

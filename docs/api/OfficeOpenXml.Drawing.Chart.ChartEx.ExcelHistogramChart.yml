@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelHistogramChart.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelHistogramChart
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelHistogramChart.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelHistogramChart.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelHistogramChart.cs

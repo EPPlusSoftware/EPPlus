@@ -79,7 +79,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return  GetXmlNodeAngel(_horizontalSkewAnglePath);
+                return  GetXmlNodeAngle(_horizontalSkewAnglePath);
             }
             set
             {
@@ -94,7 +94,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return GetXmlNodeAngel(_verticalSkewAnglePath);
+                return GetXmlNodeAngle(_verticalSkewAnglePath);
             }
             set
             {

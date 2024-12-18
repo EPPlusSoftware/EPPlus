@@ -150,7 +150,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeAngel($"{_path}/@rot");
+                return GetXmlNodeAngle($"{_path}/@rot");
             }
             set
             {

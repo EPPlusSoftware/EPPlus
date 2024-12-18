@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableFieldDateGroup
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GroupBy
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
@@ -107,7 +107,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoStart
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoEnd
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
@@ -181,7 +181,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartDate
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
@@ -218,7 +218,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndDate
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
@@ -255,7 +255,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GroupInterval
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldDateGroup.cs

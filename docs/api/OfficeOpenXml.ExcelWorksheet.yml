@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWorksheet
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulas
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulaValues
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -207,7 +207,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -267,7 +267,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -304,7 +304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFilterAddress
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -353,7 +353,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFilter
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -390,7 +390,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SortState
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -427,7 +427,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: View
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -464,7 +464,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -501,7 +501,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Names
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -538,7 +538,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -575,7 +575,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultRowHeight
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -612,7 +612,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowZeroHeight
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -649,7 +649,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomHeight
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -686,7 +686,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultColWidth
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -723,7 +723,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutLineSummaryBelow
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -760,7 +760,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutLineSummaryRight
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -797,7 +797,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutLineApplyStyle
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -834,7 +834,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TabColor
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -871,7 +871,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CodeModule
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -908,7 +908,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetXml
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -945,7 +945,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Comments
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -982,7 +982,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreadedComments
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1019,7 +1019,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderFooter
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1057,7 +1057,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrinterSettings
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1094,7 +1094,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cells
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1131,7 +1131,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SelectedRange
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1168,7 +1168,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MergedCells
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1205,7 +1205,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1244,7 +1244,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1283,7 +1283,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1321,7 +1321,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Select
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1353,7 +1353,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Select
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1389,7 +1389,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Select
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1428,7 +1428,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Select
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1464,7 +1464,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Select
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1503,7 +1503,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertRow
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1542,7 +1542,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertRow
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1584,7 +1584,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertColumn
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1623,7 +1623,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertColumn
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1665,7 +1665,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteRow
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1701,7 +1701,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteRow
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1740,7 +1740,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteRow
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1794,7 +1794,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteColumn
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1830,7 +1830,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteColumn
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1869,7 +1869,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1911,7 +1911,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -1959,7 +1959,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetValue
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -2001,7 +2001,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetValue
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -2040,7 +2040,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetMergeCellId
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -2082,7 +2082,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dimension
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -2119,7 +2119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DimensionByValue
     path: ../src/EPPlus/ExcelWorksheet.cs
@@ -2156,11 +2156,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstValueCell
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 2991
+    startLine: 2989
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2193,11 +2193,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LastValueCell
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3017
+    startLine: 3015
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2230,11 +2230,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Protection
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3042
+    startLine: 3040
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2267,11 +2267,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ProtectedRanges
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3058
+    startLine: 3056
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2304,11 +2304,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Drawings
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3084
+    startLine: 3082
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2341,11 +2341,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SparklineGroups
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3107
+    startLine: 3105
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2378,11 +2378,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tables
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3123
+    startLine: 3121
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2415,11 +2415,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTables
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3140
+    startLine: 3138
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2452,11 +2452,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConditionalFormatting
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3166
+    startLine: 3164
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2492,11 +2492,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataValidations
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3185
+    startLine: 3183
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2532,11 +2532,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IgnoredErrors
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3263
+    startLine: 3261
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2569,11 +2569,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BackgroundImage
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3280
+    startLine: 3278
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2606,11 +2606,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Workbook
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3294
+    startLine: 3292
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2643,11 +2643,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3403
+    startLine: 3401
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2677,11 +2677,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3467
+    startLine: 3465
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2721,11 +2721,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3476
+    startLine: 3474
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2762,11 +2762,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rows
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3495
+    startLine: 3493
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2799,11 +2799,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Columns
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3505
+    startLine: 3503
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2836,11 +2836,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheet.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFormulaRange
     path: ../src/EPPlus/ExcelWorksheet.cs
-    startLine: 3888
+    startLine: 3897
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

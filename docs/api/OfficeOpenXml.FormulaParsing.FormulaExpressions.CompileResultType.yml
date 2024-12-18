@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml.FormulaParsing.FormulaExpressions
   children:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.DynamicArray
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.DynamicArray_AlwaysSetCellAsDynamic
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.Normal
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.RangeAddress
   langs:
@@ -18,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompileResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
@@ -51,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Normal
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
@@ -85,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeAddress
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
@@ -119,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DynamicArray
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
@@ -131,6 +132,40 @@ items:
   example: []
   syntax:
     content: DynamicArray = 2
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.DynamicArray_AlwaysSetCellAsDynamic
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.DynamicArray_AlwaysSetCellAsDynamic
+  id: DynamicArray_AlwaysSetCellAsDynamic
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  langs:
+  - csharp
+  - vb
+  name: DynamicArray_AlwaysSetCellAsDynamic
+  nameWithType: CompileResultType.DynamicArray_AlwaysSetCellAsDynamic
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.DynamicArray_AlwaysSetCellAsDynamic
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DynamicArray_AlwaysSetCellAsDynamic
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
+    startLine: 49
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nThe result is a dynamic array formula. Even if the result is nested in another function that the cell should be marked as dynamic.\n"
+  example: []
+  syntax:
+    content: DynamicArray_AlwaysSetCellAsDynamic = 3
     return:
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
   modifiers.csharp:

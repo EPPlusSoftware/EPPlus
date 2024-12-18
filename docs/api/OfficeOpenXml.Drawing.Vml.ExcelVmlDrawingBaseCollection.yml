@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingBaseCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVmlDrawingBaseCollection
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingBaseCollection.cs

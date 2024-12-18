@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Exceptions/InvalidFormulaException.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InvalidFormulaException
     path: ../src/EPPlus/FormulaParsing/Exceptions/InvalidFormulaException.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Exceptions/InvalidFormulaException.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Exceptions/InvalidFormulaException.cs
@@ -112,7 +112,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Exceptions/InvalidFormulaException.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Exceptions/InvalidFormulaException.cs

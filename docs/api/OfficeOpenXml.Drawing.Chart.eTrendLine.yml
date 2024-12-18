@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eTrendLine
     path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
@@ -54,7 +54,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Exponential
     path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
@@ -88,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Linear
     path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
@@ -122,7 +122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Logarithmic
     path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MovingAverage
     path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Polynomial
     path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/enums/eTrendLine.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Power
     path: ../src/EPPlus/Drawing/Chart/enums/eTrendLine.cs

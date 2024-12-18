@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Threading;
 using System.IO;
 using System.Drawing;
+
 namespace EPPlusTest.Issues
 {
 	[TestClass]
@@ -32,7 +33,7 @@ namespace EPPlusTest.Issues
 			{
 				ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Invoice");
 
-				//var namedStyle = package.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
+				//var namedStyle = p.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
 				//namedStyle.Style.Font.Name = "Arial";
 				//namedStyle.Style.Font.Size = 7;
 				var namedStyle = package.Workbook.Styles.NamedStyles[0]; // Create a default style
@@ -231,7 +232,7 @@ namespace EPPlusTest.Issues
 				package.Workbook.Names.AddValue("ValueName5", "String Value with \"");
 
 				package.Save();
-				//SaveWorkbook("i1317.xlsx",package);
+				//SaveWorkbook("i1317.xlsx",p);
 				using(var p2=new  ExcelPackage(package.Stream)) 
 				{
 					var ws = p2.Workbook.Worksheets[0];
@@ -334,7 +335,7 @@ namespace EPPlusTest.Issues
 						excelCalculationOption.AllowCircularReferences = true;
 						worksheet.Calculate(excelCalculationOption);
 					}
-					catch (Exception ex)
+					catch
 					{
 
 
@@ -350,7 +351,7 @@ namespace EPPlusTest.Issues
 						excelCalculationOption.AllowCircularReferences = true;
 						worksheet.Calculate(excelCalculationOption);
 					}
-					catch (Exception ex)
+					catch 
 					{
 
 
@@ -396,7 +397,7 @@ namespace EPPlusTest.Issues
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("error");
+                    Console.WriteLine($"error {ex}");
                 }
 
 				SaveAndCleanup(p);
@@ -465,6 +466,101 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void I1596()
+        {
+            using (var p = OpenTemplatePackage("i1596.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                ExcelWorksheet worksheet = workbook.Worksheets[1];
 
+                worksheet.DeleteRow(256);
+            }
+        }
+        [TestMethod]
+        public void s746()
+		{
+            using (var p = OpenTemplatePackage("s746.xlsm"))
+            {
+                var workbook = p.Workbook;
+                var worksheet = workbook.Worksheets["Sheet1"];
+                workbook.Worksheets["Sheet1"].Columns[2].Width = 100; //Commenting this line out stops the error.
+				SaveAndCleanup(p);
+
+            }
+        }
+        [TestMethod]
+        public void I1628()
+        {
+            using (var p = OpenPackage("i1628.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = "A\r\n\tB";
+                SaveAndCleanup(p);
+
+            }
+        }
+        [TestMethod]
+        public void I1691()
+        {
+            using (var p = OpenTemplatePackage("i1691.xlsx"))
+            {
+				var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void I1728()
+        {
+            using var p = OpenTemplatePackage("Issue1728.xlsm");
+            var nWs = p.Workbook.Worksheets.Count;
+            var i = 0;
+            foreach (var ws in p.Workbook.Worksheets)
+            {
+                i++;
+                var dimensionRows = ws.Dimension.Rows;
+                var dimensionByValueRows = ws.DimensionByValue.Rows;
+            }
+        }
+
+		[TestMethod]
+		public void i1742()
+		{
+			// before this fix we couldn't delete the very last coloumn on the sheet...
+			using var package = new ExcelPackage();
+			var sheet = package.Workbook.Worksheets.Add("Sheet1");
+			var maxCol = ExcelPackage.MaxColumns;
+			sheet.DeleteColumn(maxCol);
+		}
+		[TestMethod]
+		public void i1709()
+		{
+			using (var p = OpenTemplatePackage("i1709.xlsx"))
+			{
+				var ws = p.Workbook.Worksheets[0];
+				SaveAndCleanup(p);
+			}
+		}
+		[TestMethod]
+		public void i1709_2()
+		{
+            using (var p = OpenPackage("i1709-2.xlsx",true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+				ws.Cells["A1"].Value = "row 1_x000d__x000d_col 1";
+                ws.Cells["A2"].Value = "row 2\r\rcol 1";
+                ws.Cells["A3"].Value = "row 3\r\n\r\ncol 1";
+                ws.Cells["A4"].Value = "row 4\n\ncol 1";
+                ws.Cells["A5"].Value = "row 5_x000d_\ncol 1";
+                ws.Cells["A6"].Value = "row 6_x000d__x000a_col 1";
+
+                ws.Cells["A1:A6"].Style.WrapText = true;
+				ws.Cells["B1:B6"].Formula = "=CODE(MID(A1,5,1))";
+                ws.Cells["C1:C6"].Formula = "=CODE(MID(A1,6,1))";
+                ws.Cells["D1:D6"].Formula = "=CODE(MID(A1,7,1))";
+                ws.Cells["E1:E6"].Formula = "=CODE(MID(A1,8,1))";
+                SaveAndCleanup(p);
+            }
+        }
     }
 }

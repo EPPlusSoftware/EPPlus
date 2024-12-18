@@ -120,7 +120,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     return new DynamicArrayCompileResult(emptyValue.Value, emptyValue.DataType);
                 }
             }
-            return new DynamicArrayCompileResult(new InMemoryRange(filteredData), DataType.ExcelRange);
+            return new DynamicArrayCompileResult(new InMemoryRange(filteredData), DataType.ExcelRange, null, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
         }
         private static CompileResult FilterOnColumn(IRangeInfo arg1, IRangeInfo arg2, FunctionArgument emptyValue)
         {
@@ -169,7 +169,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     return new DynamicArrayCompileResult(emptyValue.Value, emptyValue.DataType);
                 }
             }
-            return new DynamicArrayCompileResult(new InMemoryRange(filteredData), DataType.ExcelRange);
+            return new DynamicArrayCompileResult(new InMemoryRange(filteredData), DataType.ExcelRange, null, CompileResultType.DynamicArray_AlwaysSetCellAsDynamic);
         }
 
         public override string NamespacePrefix

@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilterCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableFilterCollection
     path: ../src/EPPlus/Table/PivotTable/Filter/ExcelPivotTableFilterCollection.cs

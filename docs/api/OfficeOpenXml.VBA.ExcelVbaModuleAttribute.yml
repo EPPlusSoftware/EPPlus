@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaModuleAttribute.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaModuleAttribute
     path: ../src/EPPlus/Vba/ExcelVbaModuleAttribute.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaModuleAttribute.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Vba/ExcelVbaModuleAttribute.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaModuleAttribute.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/Vba/ExcelVbaModuleAttribute.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaModuleAttribute.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/Vba/ExcelVbaModuleAttribute.cs
@@ -172,7 +172,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaModuleAttribute.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/Vba/ExcelVbaModuleAttribute.cs

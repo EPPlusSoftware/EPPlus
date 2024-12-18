@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eBevelPresetType
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -61,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -95,7 +95,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Angle
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -129,7 +129,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ArtDeco
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -163,7 +163,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Circle
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Convex
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -231,7 +231,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CoolSlant
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -265,7 +265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cross
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -299,7 +299,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Divot
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -333,7 +333,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HardEdge
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -367,7 +367,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RelaxedInset
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -401,7 +401,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Riblet
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -435,7 +435,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Slope
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs
@@ -469,7 +469,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eBevelPresetType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SoftRound
     path: ../src/EPPlus/Drawing/Enums/eBevelPresetType.cs

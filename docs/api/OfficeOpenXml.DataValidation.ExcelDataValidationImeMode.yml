@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationImeMode
     path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
@@ -59,7 +59,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NoControl
     path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Off
     path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: On
     path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Disabled
     path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hiragana
     path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullKatakana
     path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HalfKatakana
     path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
@@ -297,7 +297,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullAlpha
     path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
@@ -331,7 +331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HalfAlpha
     path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
@@ -365,7 +365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullHangul
     path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
@@ -399,7 +399,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HalfHangul
     path: ../src/EPPlus/DataValidation/ExcelDataValidationImeMode.cs

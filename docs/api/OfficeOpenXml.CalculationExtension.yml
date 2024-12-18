@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalculationExtension
     path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
@@ -162,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
@@ -207,7 +207,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
@@ -249,7 +249,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
@@ -343,7 +343,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
@@ -385,7 +385,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
@@ -434,7 +434,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
@@ -479,7 +479,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs
@@ -527,7 +527,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/CalculateExtensions.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calculate
     path: ../src/EPPlus/FormulaParsing/CalculateExtensions.cs

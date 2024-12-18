@@ -20,12 +20,21 @@ namespace OfficeOpenXml.Table.PivotTable
     /// </summary>
     public class ExcelPivotArea : XmlHelper
     {
-        ExcelPivotTable _pt;
+        internal ExcelPivotTable _pt;
         internal ExcelPivotArea(XmlNamespaceManager nsm, XmlNode topNode, ExcelPivotTable pt) : 
             base(nsm, topNode)
         {
             _pt = pt;
+            Conditions = new ExcelPivotAreaStyleConditions(nsm, topNode, pt);
         }
+        /// <summary>
+        /// Conditions for the pivot table. Conditions can be set for specific row-, column- or data fields. Specify labels, data grand totals and more.
+        /// </summary>
+        public ExcelPivotAreaStyleConditions Conditions
+        {
+            get;
+        }
+
         /// <summary>
         /// The field referenced. -2 means refers to values.
         /// </summary>
@@ -123,7 +132,7 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 if (value && (PivotAreaType == ePivotAreaType.Data || PivotAreaType == ePivotAreaType.Normal || PivotAreaType == ePivotAreaType.Origin || PivotAreaType == ePivotAreaType.TopEnd))
                 {
-                    throw (new InvalidOperationException("Can't set LabelOnly to True for the PivotAreaType"));
+                    throw (new InvalidOperationException("Can't set DataOnly to True for the PivotAreaType"));
                 }
                 if (value && LabelOnly)
                 {

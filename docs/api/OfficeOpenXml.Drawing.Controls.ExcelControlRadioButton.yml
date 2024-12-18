@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlRadioButton.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelControlRadioButton
     path: ../src/EPPlus/Drawing/Controls/ExcelControlRadioButton.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlRadioButton.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ControlType
     path: ../src/EPPlus/Drawing/Controls/ExcelControlRadioButton.cs
@@ -159,7 +159,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlRadioButton.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Checked
     path: ../src/EPPlus/Drawing/Controls/ExcelControlRadioButton.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlRadioButton.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LinkedCell
     path: ../src/EPPlus/Drawing/Controls/ExcelControlRadioButton.cs
@@ -233,7 +233,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlRadioButton.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstButton
     path: ../src/EPPlus/Drawing/Controls/ExcelControlRadioButton.cs

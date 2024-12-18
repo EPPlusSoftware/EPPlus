@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Font/ExcelDrawingFontSpecial.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingFontSpecial
     path: ../src/EPPlus/Drawing/Style/Font/ExcelDrawingFontSpecial.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Font/ExcelDrawingFontSpecial.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Drawing/Style/Font/ExcelDrawingFontSpecial.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Font/ExcelDrawingFontSpecial.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Panose
     path: ../src/EPPlus/Drawing/Style/Font/ExcelDrawingFontSpecial.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Font/ExcelDrawingFontSpecial.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PitchFamily
     path: ../src/EPPlus/Drawing/Style/Font/ExcelDrawingFontSpecial.cs

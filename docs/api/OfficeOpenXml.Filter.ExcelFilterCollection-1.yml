@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFilterCollection
     path: ../src/EPPlus/Filter/ExcelFilterCollection.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelFilterCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Filter/ExcelFilterCollection.cs

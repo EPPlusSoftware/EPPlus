@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelFunctionCategory
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
@@ -94,7 +94,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Information
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
@@ -128,7 +128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LookupAndReference
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
@@ -162,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Statistical
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Financial
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
@@ -230,7 +230,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cube
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
@@ -264,7 +264,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Logical
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DateAndTime
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
@@ -332,7 +332,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MathAndTrig
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
@@ -366,7 +366,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Database
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
@@ -400,7 +400,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Engineering
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
@@ -434,7 +434,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Web
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Metadata/ExcelFunctionCategory.cs

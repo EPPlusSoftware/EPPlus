@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eColorTransformDataType
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
@@ -55,7 +55,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Percentage
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PositivePercentage
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
@@ -123,7 +123,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FixedPercentage
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
@@ -157,7 +157,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FixedPositivePercentage
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
@@ -191,7 +191,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Angle
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
@@ -225,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FixedAngle90
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Boolean
     path: ../src/EPPlus/Drawing/Style/Coloring/eColorTransformDataType.cs

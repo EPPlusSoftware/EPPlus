@@ -28,6 +28,10 @@ using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Drawing.Style.Fill;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 namespace OfficeOpenXml.Utils
 {
     internal static class ConvertUtil
@@ -428,7 +432,9 @@ namespace OfficeOpenXml.Utils
             }
             for (int i = 0; i < t.Length; i++)
             {
-                if (t[i] <= 0x1f && ((t[i] != '\n' && encodeTabLF == false) || encodeTabLF)) //Not Tab, CR or LF
+                if (t[i] <= 0x1f && 
+                    ((t[i] != '\n' && t[i] != '\r' && t[i] != '\t' && encodeTabLF == false) ||  //Not Tab, CR or LF
+                    encodeTabLF)) 
                 {
                     sb.AppendFormat("_x00{0}_", (t[i] <= 0xf ? "0" : "") + ((int)t[i]).ToString("X"));
                 }
@@ -466,37 +472,63 @@ namespace OfficeOpenXml.Utils
         }
         internal static string ExcelDecodeString(string t)
         {
-            var match = Regex.Match(t, "(_x005F|_x[0-9A-Fa-f]{4,4}_)");
-            if (!match.Success) return t;
-
-            var useNextValue = false;
-            var ret = new StringBuilder();
-            var prevIndex = 0;
-            while (match.Success)
+            var ret=new StringBuilder();
+            var ix = 0;
+            for(var i=0;i<t.Length;i++)
             {
-                if (prevIndex < match.Index) ret.Append(t.Substring(prevIndex, match.Index - prevIndex));
-                if (!useNextValue && match.Value == "_x005F")
+                var c = t[i];
+                if(c=='\r')
                 {
-                    useNextValue = true;
+                    ret.Append('\n');
+                    if (i+1 < t.Length && t[i + 1]=='\n')
+                    {
+                        i++;
+                    }
                 }
                 else
                 {
-                    if (useNextValue)
+                    if(Matches(c, ref ix))
                     {
-                        ret.Append(match.Value);
-                        useNextValue = false;
+                        if(ix==7)
+                        {
+                            var encoded = t.Substring(i - 4, 4);
+                            ret.Append((char)int.Parse(encoded, NumberStyles.AllowHexSpecifier));
+                            ix = 0;
+                        }
                     }
                     else
                     {
-                        ret.Append((char)int.Parse(match.Value.Substring(2, 4), NumberStyles.AllowHexSpecifier));
+                        if(ix>0)
+                        {
+                            ret.Append(t.Substring(i - ix, ix+1));
+                            ix = 0;
+                        }
+                        else
+                        {
+                            ret.Append(c);
+                        }
                     }
                 }
-                prevIndex = match.Index + match.Length;
-                match = match.NextMatch();
             }
-            ret.Append(t.Substring(prevIndex, t.Length - prevIndex));
             return ret.ToString();
         }
+
+        private static bool Matches(char c, ref int ix)
+        {
+            if((ix==0 && c=='_') ||
+               (ix==1 && c=='x') || 
+               (ix>=2 && ix <= 5 && ((c >='0' && c<='9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'))) ||
+               (c == '_' && ix == 6))
+            {
+                ix++;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         ///     Convert cell value to desired type, including nullable structs.
         ///     When converting blank string to nullable struct (e.g. ' ' to int?) null is returned.

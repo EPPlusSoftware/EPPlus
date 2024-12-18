@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDatavalidationAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDatavalidationAddress
     path: ../src/EPPlus/DataValidation/ExcelDatavalidationAddress.cs
@@ -100,7 +100,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDatavalidationAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BeforeChangeAddress
     path: ../src/EPPlus/DataValidation/ExcelDatavalidationAddress.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDatavalidationAddress.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChangeAddress
     path: ../src/EPPlus/DataValidation/ExcelDatavalidationAddress.cs

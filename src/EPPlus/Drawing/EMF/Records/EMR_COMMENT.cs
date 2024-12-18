@@ -1,0 +1,153 @@
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using OfficeOpenXml.Drawing.EMF.Records;
+using OfficeOpenXml.Utils;
+
+namespace OfficeOpenXml.Drawing.EMF
+{
+    internal class EMR_COMMENT : EMR_RECORD
+    {
+        internal uint dataSize;
+        internal uint commentIdentifier;
+        internal byte[] PrivateData;
+
+        enum CommentIdentifier
+        {
+            EMR_COMMENT_EMFSPOOL = 0,
+            EMR_COMMENT_EMFPLUS = 0x2B464D45,
+            EMR_COMMENT_PUBLIC = 0x43494447
+        }
+
+        CommentIdentifier? commentType = null;
+
+        //EMFSpool
+        uint EMFSpoolRecordIdentifier;
+        byte[] EMFSpoolRecords;
+
+        //EMFPLUS
+       // byte[] EMFPLUSRECORDS;
+
+        List<EmfPlusRecord> EmfPlusRecords = new();
+
+        //PUBLIC
+        uint PublicCommentIdentifier;
+
+        enum EmrComment : uint
+        {
+            EMR_COMMENT_WINDOWS_METAFILE = 0x80000001,
+            EMR_COMMENT_BEGINGROUP = 0x00000002,
+            EMR_COMMENT_ENDGROUP = 0x00000003,
+            EMR_COMMENT_MULTIFORMATS = 0x40000004,
+            EMR_COMMENT_UNICODE_STRING = 0x00000040,
+            EMR_COMMENT_UNICODE_END = 0x00000080
+        }
+
+        EmrComment emrComment;
+        //BeginComment
+        RectLObject rect;
+        uint nDescription;
+        string Description;
+
+        internal EMR_COMMENT() : base()
+        {
+            Type = RECORD_TYPES.EMR_COMMENT;
+        }
+
+        internal EMR_COMMENT(BinaryReader br) : base(br, (uint)RECORD_TYPES.EMR_COMMENT)
+        {
+            dataSize = br.ReadUInt32();
+            commentIdentifier = br.ReadUInt32();
+
+            switch (commentIdentifier)
+            {
+                case 0:
+                case 0x2B464D45:
+                case 0x43494447:
+                    commentType = (CommentIdentifier)commentIdentifier;
+                    break;
+                default:
+                    commentType = null;
+                    break;
+            }
+
+            if (commentType != null)
+            {
+                if(commentType == CommentIdentifier.EMR_COMMENT_PUBLIC)
+                {
+                    PublicCommentIdentifier = br.ReadUInt32();
+                    emrComment = (EmrComment)PublicCommentIdentifier;
+
+                    if (emrComment == EmrComment.EMR_COMMENT_BEGINGROUP)
+                    {
+                        rect = new RectLObject(br);
+                        nDescription = br.ReadUInt32();
+                        Description = BinaryHelper.GetString(br, (nDescription * 2), Encoding.Unicode);
+                    }
+                }
+                else if(commentType == CommentIdentifier.EMR_COMMENT_EMFPLUS)
+                {
+                    while (br.BaseStream.Position < (position + Size))
+                    {
+                        RECORD_TYPES_PLUS plusType = (RECORD_TYPES_PLUS)br.ReadUInt16();
+
+                        EmfPlusRecord record;
+
+                        switch (plusType)
+                        {
+                            case RECORD_TYPES_PLUS.EmfPlusHeader:
+                                record = new EmfPlusHeader(br);
+                                break;
+                            default:
+                                record = new EmfPlusRecord(br, plusType, true);
+                                break;
+                        }
+
+                        EmfPlusRecords.Add(record);
+                    }
+                }
+            }
+            else
+            {
+                br.BaseStream.Position = br.BaseStream.Position - 4;
+                PrivateData = new byte[dataSize];
+                br.Read(PrivateData, 0, (int)dataSize);
+            }
+        }
+
+        internal override void WriteBytes(BinaryWriter bw)
+        {
+            base.WriteBytes(bw);
+            bw.Write(dataSize);
+            if(commentType != null)
+            {
+                bw.Write(commentIdentifier);
+            }
+ 
+            if(commentType!= null)
+            {
+                if(commentType == CommentIdentifier.EMR_COMMENT_PUBLIC)
+                {
+                    bw.Write(PublicCommentIdentifier);
+                    if (emrComment == EmrComment.EMR_COMMENT_BEGINGROUP)
+                    {
+                        rect.WriteBytes(bw);
+                        bw.Write(nDescription);
+                        bw.Write(BinaryHelper.GetByteArray(Description, Encoding.Unicode));
+                    }
+                }
+                else if(commentType == CommentIdentifier.EMR_COMMENT_EMFPLUS)
+                {
+                    foreach(var record in EmfPlusRecords)
+                    {
+                        record.WriteBytes(bw);
+                    }
+                }
+            }
+            else
+            {
+                bw.Write(PrivateData);
+            }
+        }
+    }
+}

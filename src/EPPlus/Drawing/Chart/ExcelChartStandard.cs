@@ -101,10 +101,9 @@ namespace OfficeOpenXml.Drawing.Chart
             Part = part;
             ChartXml = chartXml;
             _chartNode = chartNode;
-            InitSeries(this, drawings.NameSpaceManager, _chartNode, PivotTableSource != null);
-            InitChartLoad(drawings, chartNode);
+            InitChartLoad(drawings, chartNode, PivotTableSource != null);
             ChartType = GetChartType(chartNode.LocalName);
-        }
+        } 
         internal ExcelChartStandard(ExcelChart topChart, XmlNode chartNode, ExcelGroupShape parent, string drawingPath = "xdr:graphicFrame", string nvPrPath = "xdr:nvGraphicFramePr/xdr:cNvPr") :
             base(topChart, chartNode, parent, drawingPath, nvPrPath)
         {
@@ -113,12 +112,10 @@ namespace OfficeOpenXml.Drawing.Chart
             ChartXml = topChart.ChartXml;
             _plotArea = topChart.PlotArea;
             _chartNode = chartNode;
-            InitSeries(this, topChart._drawings.NameSpaceManager, _chartNode, false);
-            InitChartLoad(topChart._drawings, chartNode);
+            InitChartLoad(topChart._drawings, chartNode, false);
         }
-        private void InitChartLoad(ExcelDrawings drawings, XmlNode chartNode)
+        private void InitChartLoad(ExcelDrawings drawings, XmlNode chartNode, bool isPivot)
         {
-            bool isPivot = false;
             Init(drawings, chartNode);
             InitSeries(this, drawings.NameSpaceManager, _chartNode, isPivot);
             LoadAxis();
@@ -181,7 +178,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 XmlElement graphFrame = TopNode.OwnerDocument.CreateElement("graphicFrame", ExcelPackage.schemaSheetDrawings);
                 graphFrame.SetAttribute("macro", "");
                 TopNode.AppendChild(graphFrame);
-                graphFrame.InnerXml = string.Format("<xdr:nvGraphicFramePr><xdr:cNvPr id=\"{0}\" name=\"Chart 1\" /><xdr:cNvGraphicFramePr /></xdr:nvGraphicFramePr><xdr:xfrm><a:off x=\"0\" y=\"0\" /> <a:ext cx=\"0\" cy=\"0\" /></xdr:xfrm><a:graphic><a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/chart\"><c:chart xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"rId1\" />   </a:graphicData>  </a:graphic>", _id);
+                graphFrame.InnerXml = string.Format("<xdr:nvGraphicFramePr><xdr:cNvPr id=\"{0}\" name=\"Chart 1\"/><xdr:cNvGraphicFramePr/></xdr:nvGraphicFramePr><xdr:xfrm><a:off x=\"0\" y=\"0\"/> <a:ext cx=\"0\" cy=\"0\"/></xdr:xfrm><a:graphic><a:graphicData uri=\"http://schemas.openxmlformats.org/drawingml/2006/chart\"><c:chart xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" r:id=\"rId1\"/>   </a:graphicData>  </a:graphic>", _id);
                 TopNode.AppendChild(TopNode.OwnerDocument.CreateElement("clientData", ExcelPackage.schemaSheetDrawings));
 
                 var package = drawings.Worksheet._package.ZipPackage;
@@ -398,7 +395,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
         private string AddLegend()
         {
-            return "<c:legend><c:legendPos val=\"r\"/><c:layout/><c:overlay val=\"0\" />" +
+            return "<c:legend><c:legendPos val=\"r\"/><c:layout/><c:overlay val=\"0\"/>" +
                 //"<c:spPr><a:noFill/><a:ln><a:noFill/></a:ln><a:effectLst/></c:spPr>" +
                 "<c:txPr><a:bodyPr anchorCtr=\"1\" anchor=\"ctr\" wrap=\"square\" vert=\"horz\" vertOverflow=\"ellipsis\" spcFirstLastPara=\"1\" rot=\"0\"/><a:lstStyle/><a:p><a:pPr><a:defRPr/></a:pPr><a:endParaRPr/></a:p></c:txPr>" +
                 "</c:legend>";
@@ -474,7 +471,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 type == eChartType.XYScatterSmooth ||
                 type == eChartType.XYScatterSmoothNoMarkers)
             {
-                return "<c:scatterStyle val=\"\" />";
+                return "<c:scatterStyle val=\"\"/>";
             }
             else
             {
@@ -487,7 +484,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 type == eChartType.RadarFilled ||
                 type == eChartType.RadarMarkers)
             {
-                return "<c:radarStyle val=\"\" />";
+                return "<c:radarStyle val=\"\"/>";
             }
             else
             {
@@ -511,7 +508,7 @@ namespace OfficeOpenXml.Drawing.Chart
             if (type == eChartType.Doughnut ||
                 type == eChartType.DoughnutExploded)
             {
-                return "<c:holeSize val=\"50\" />";
+                return "<c:holeSize val=\"50\"/>";
             }
             else
             {
@@ -523,7 +520,7 @@ namespace OfficeOpenXml.Drawing.Chart
             if (type == eChartType.Doughnut ||
                 type == eChartType.DoughnutExploded)
             {
-                return "<c:firstSliceAng val=\"0\" />";
+                return "<c:firstSliceAng val=\"0\"/>";
             }
             else
             {
@@ -540,11 +537,11 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (IsTypePieDoughnut())
                 {
-                    return "<c:varyColors val=\"1\" />";
+                    return "<c:varyColors val=\"1\"/>";
                 }
                 else
                 {
-                    return "<c:varyColors val=\"0\" />";
+                    return "<c:varyColors val=\"0\"/>";
                 }
             }
         }
@@ -567,7 +564,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             if (IsTypeShape())
             {
-                return "<c:shape val=\"box\" />";
+                return "<c:shape val=\"box\"/>";
             }
             else
             {
@@ -578,7 +575,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             if (IsTypeShape())
             {
-                return "<c:barDir val=\"col\" />";
+                return "<c:barDir val=\"col\"/>";
             }
             else
             {
@@ -590,7 +587,7 @@ namespace OfficeOpenXml.Drawing.Chart
             //Add for 3D sharts
             if (IsType3D())
             {
-                return "<c:view3D><c:perspective val=\"30\" /></c:view3D>";
+                return "<c:view3D><c:perspective val=\"30\"/></c:view3D>";
             }
             else
             {
@@ -741,13 +738,13 @@ namespace OfficeOpenXml.Drawing.Chart
 
             if (_axis.Length == 0)
             {
-                catAx.InnerXml = string.Format("<c:axId val=\"{0}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\" /><c:axPos val=\"b\"/><c:tickLblPos val=\"nextTo\"/><c:crossAx val=\"{1}\"/><c:crosses val=\"autoZero\"/><c:auto val=\"1\"/><c:lblAlgn val=\"ctr\"/><c:lblOffset val=\"100\"/>", axID, axID + 1);
-                valAx.InnerXml = string.Format("<c:axId val=\"{1}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\" /><c:axPos val=\"l\"/><c:majorGridlines/><c:tickLblPos val=\"nextTo\"/><c:crossAx val=\"{0}\"/><c:crosses val=\"autoZero\"/><c:crossBetween val=\"between\"/>", axID, axID + 1);
+                catAx.InnerXml = string.Format("<c:axId val=\"{0}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"b\"/><c:tickLblPos val=\"nextTo\"/><c:crossAx val=\"{1}\"/><c:crosses val=\"autoZero\"/><c:auto val=\"1\"/><c:lblAlgn val=\"ctr\"/><c:lblOffset val=\"100\"/>", axID, axID + 1);
+                valAx.InnerXml = string.Format("<c:axId val=\"{1}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"l\"/><c:majorGridlines/><c:tickLblPos val=\"nextTo\"/><c:crossAx val=\"{0}\"/><c:crosses val=\"autoZero\"/><c:crossBetween val=\"between\"/>", axID, axID + 1);
             }
             else
             {
-                catAx.InnerXml = string.Format("<c:axId val=\"{0}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"1\" /><c:axPos val=\"b\"/><c:tickLblPos val=\"none\"/><c:crossAx val=\"{1}\"/><c:crosses val=\"autoZero\"/>", axID, axID + 1);
-                valAx.InnerXml = string.Format("<c:axId val=\"{0}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\" /><c:axPos val=\"r\"/><c:tickLblPos val=\"nextTo\"/><c:crossAx val=\"{1}\"/><c:crosses val=\"max\"/><c:crossBetween val=\"between\"/>", axID + 1, axID);
+                catAx.InnerXml = string.Format("<c:axId val=\"{0}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"1\"/><c:axPos val=\"b\"/><c:tickLblPos val=\"none\"/><c:crossAx val=\"{1}\"/><c:crosses val=\"autoZero\"/>", axID, axID + 1);
+                valAx.InnerXml = string.Format("<c:axId val=\"{0}\"/><c:scaling><c:orientation val=\"minMax\"/></c:scaling><c:delete val=\"0\"/><c:axPos val=\"r\"/><c:tickLblPos val=\"nextTo\"/><c:crossAx val=\"{1}\"/><c:crosses val=\"max\"/><c:crossBetween val=\"between\"/>", axID + 1, axID);
             }
 
             if (_axis.Length == 0)

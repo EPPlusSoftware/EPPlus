@@ -11,13 +11,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance.Implementations;
 
 namespace OfficeOpenXml.Packaging
 {
@@ -134,10 +130,10 @@ namespace OfficeOpenXml.Packaging
             if (SaveHandler == null)
             {
                 b = ((MemoryStream)GetStream()).ToArray();
-                if (b.Length == 0)   //Make sure the file isn't empty. DotNetZip streams does not seems to handle zero sized files.
-                {
-                    return;
-                }
+                //if (b.Length == 0)   //Make sure the file isn't empty. DotNetZip streams does not seems to handle zero sized files.
+                //{
+                //    return;
+                //}
                 os.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)CompressionLevel;
                 os.PutNextEntry(Uri.OriginalString);
                 os.Write(b, 0, b.Length);

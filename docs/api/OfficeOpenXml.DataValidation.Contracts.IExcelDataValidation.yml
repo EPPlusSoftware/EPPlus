@@ -31,7 +31,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelDataValidation
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Uid
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -134,7 +134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -169,7 +169,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorStyle
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -203,7 +203,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowBlank
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -237,7 +237,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowInputMessage
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -271,7 +271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowErrorMessage
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -305,7 +305,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorTitle
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -339,7 +339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Error
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -373,7 +373,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PromptTitle
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -407,7 +407,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Prompt
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -441,7 +441,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowsOperator
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -476,7 +476,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -504,7 +504,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -539,7 +539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ImeMode
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
@@ -573,7 +573,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsStale
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidation.cs

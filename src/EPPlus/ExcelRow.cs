@@ -21,7 +21,7 @@ namespace OfficeOpenXml
     {
         internal double Height=-1;
         internal bool Hidden;
-        internal bool Collapsed;        
+        internal bool Collapsed;
         internal short OutlineLevel;
         internal bool PageBreak;
         internal bool Phonetic;
@@ -210,7 +210,9 @@ namespace OfficeOpenXml
             set;
         }
         /// <summary>
-        /// If outline level is set this tells that the row is collapsed
+        /// If outline level is set this tells that the row is collapsed.
+        /// Setting this property will not hide the children. 
+        /// Use the <see cref="ExcelRangeRow.CollapseChildren(bool)" /> or <see cref="ExcelRangeRow.SetVisibleOutlineLevel(int, bool)"/> methods to collapse and hide columns/rows via the <see cref="ExcelWorksheet.Rows"/> collection. 
         /// </summary>
         public bool Collapsed
         {

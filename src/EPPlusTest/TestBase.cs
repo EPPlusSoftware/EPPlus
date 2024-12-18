@@ -212,8 +212,10 @@ namespace EPPlusTest
 				{
                     return t;
 				}
-			}
-			return null;
+
+                Assert.Inconclusive($"Template File {name} does not exist in path {_testInputPath} or {_worksheetPath}");
+            }
+            return null;
 		}
         protected static FileInfo GetOutputFile(string subPath, string fileName)
         {
@@ -467,8 +469,6 @@ namespace EPPlusTest
                 Assert.IsNotNull(r.Value);
             }
         }
-
-
         protected void AssertNoChange(ExcelRangeBase range)
         {
             foreach (var r in range)

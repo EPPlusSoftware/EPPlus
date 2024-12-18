@@ -43,6 +43,13 @@ namespace OfficeOpenXml.Export.HtmlExport.HtmlCollections
             _attributes.Add(new EpplusHtmlAttribute { AttributeName = attributeName, Value = attributeValue });
         }
 
+
+        public void AddAttributeValueLess(string attributeName)
+        {
+            Require.Argument(attributeName).IsNotNullOrEmpty("attributeName");
+            _attributes.Add(new EpplusHtmlAttribute { AttributeName = attributeName });
+        }
+
         public void AddChildElement(HTMLElement element)
         {
             _childElements.Add(element);

@@ -24,6 +24,9 @@ using OfficeOpenXml.Drawing.Slicer.Style;
 using OfficeOpenXml.Table;
 using System.Globalization;
 using System.Drawing;
+using System.IO;
+using OfficeOpenXml.Utils;
+using System.Text;
 
 namespace OfficeOpenXml
 {
@@ -48,7 +51,9 @@ namespace OfficeOpenXml
         internal ExcelWorkbook _wb;
         ExcelNamedStyleXml _normalStyle;
         XmlNamespaceManager _nameSpaceManager;
-        internal int _nextDfxNumFmtID = 164;
+        internal int _nextDfxNumFmtID = 164;        
+        internal bool _hasCheckbox = false;
+        internal bool _hasDxfCheckbox = false;
 
 
         private readonly string[] _indexedColors = new string[]
@@ -692,7 +697,6 @@ namespace OfficeOpenXml
             while (cse2.Next())
             {
                 var s = cse2.Value._styleId;
-                if (s == 0) continue;
                 if (styleCashe.ContainsKey(s))
                 {
                     ws.SetStyleInner(cse2.Row, cse2.Column, styleCashe[s]);
@@ -710,7 +714,6 @@ namespace OfficeOpenXml
             cse2 = new CellStoreEnumerator<ExcelValue>(ws._values, 0, 1, 0, address._toCol);
             while (cse2.Next())
             {
-                if (cse2.Value._styleId == 0) continue;
                 for (int r = address._fromRow; r <= address._toRow; r++)
                 {
                     if (!ws.ExistsStyleInner(r, cse2.Column))
@@ -820,8 +823,7 @@ namespace OfficeOpenXml
             while (cse.Next())
             {
                 if (cse.Column >= address.Start.Column &&
-                    cse.Column <= address.End.Column &&
-                    cse.Value._styleId != 0)
+                    cse.Column <= address.End.Column)
                 {
                     if (styleCashe.ContainsKey(cse.Value._styleId))
                     {
@@ -843,7 +845,6 @@ namespace OfficeOpenXml
                 cse = new CellStoreEnumerator<ExcelValue>(ws._values, 1, 0, address._toRow, 0);
                 while (cse.Next())
                 {
-                    if (cse.Value._styleId == 0) continue;
                     for (int c = address._fromCol; c <= address._toCol; c++)
                     {
                         if (!ws.ExistsStyleInner(cse.Row, c))
@@ -1332,6 +1333,16 @@ namespace OfficeOpenXml
             UpdateNamedStylesAndXfs(normalIx);
 
             DxfStyleHandler.UpdateDxfXml(_wb);
+
+            //If any in-cell checkbox exists, create the feature propery bag xml
+            if (_hasCheckbox || _hasDxfCheckbox)
+            {
+                AddOrVerifyProperyBagXml();
+            }
+            else
+            {
+                RemovePropertyBagXml();
+            }
         }
 
         private void UpdateNamedStylesAndXfs(int normalIx)
@@ -1418,11 +1429,56 @@ namespace OfficeOpenXml
                     cellXfsNode.AppendChild(xf.CreateXmlNode(_styleXml.CreateElement("xf", ExcelPackage.schemaMain)));
                     xf.newID = xfsCount;
                     xfsCount++;
+                    if(xf.Checkbox)
+                    {
+                        _hasCheckbox = true;
+                    }
                 }
                 xfix++;
             }
             (cellXfsNode as XmlElement).SetAttribute("count", xfsCount.ToString(CultureInfo.InvariantCulture));
+        }
 
+        private void RemovePropertyBagXml()
+        {
+            //throw new NotImplementedException();
+        }
+
+        private void AddOrVerifyProperyBagXml()
+        {
+            var zipPackage = _wb._package.ZipPackage;
+            var part = zipPackage.GetPartByContentType(ContentTypes.contentTypeFeaturePropertyBag);
+            if(part==null)
+            {
+                var uri = new Uri("/xl/featurePropertyBag/featurePropertyBag.xml", UriKind.Relative);
+                part = zipPackage.CreatePart(uri, ContentTypes.contentTypeFeaturePropertyBag);
+                var xml = GetFeaturePropertyStartXml();
+                var stream = part.GetStream(FileMode.Create, FileAccess.Write);
+                var sw = new StreamWriter(stream, Encoding.UTF8);
+                sw.Write(xml);
+                sw.Flush();
+                _wb.Part.CreateRelationship(UriHelper.GetRelativeUri(_wb.Part.Uri, uri), Packaging.TargetMode.Internal, Relationsships.schemaFeaturePropertyBag);
+            }
+            else
+            {
+                //TODO:Handle Xml for xfs & dxf.
+            }
+        }
+
+        private string GetFeaturePropertyStartXml()
+        {
+            var sb=new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
+            sb.Append("<FeaturePropertyBags xmlns=\"http://schemas.microsoft.com/office/spreadsheetml/2022/featurepropertybag\">");
+            sb.Append("<bag type=\"Checkbox\"/>");
+            sb.Append("<bag type=\"XFControls\"><bagId k=\"CellControl\">0</bagId></bag>");
+            sb.Append("<bag type=\"XFComplement\"><bagId k=\"XFControls\">1</bagId></bag>");
+            sb.Append("<bag type=\"XFComplements\" extRef=\"XFComplementsMapperExtRef\"><a k=\"MappedFeaturePropertyBags\"><bagId>2</bagId></a></bag>");
+            if(_hasDxfCheckbox)
+            {
+                sb.Append("<bag type=\"DXFComplements\" extRef=\"DXFComplementsMapperExtRef\"><a k=\"MappedFeaturePropertyBags\"><bagId>2</bagId></a></bag>");
+            }
+            sb.Append("</FeaturePropertyBags>");
+            return sb.ToString();
         }
 
         private void UpdateBorderXml()

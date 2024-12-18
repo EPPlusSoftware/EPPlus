@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingSphereCoordinate.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingSphereCoordinate
     path: ../src/EPPlus/Drawing/ExcelDrawingSphereCoordinate.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingSphereCoordinate.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _path
     path: ../src/EPPlus/Drawing/ExcelDrawingSphereCoordinate.cs
@@ -98,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingSphereCoordinate.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Latitude
     path: ../src/EPPlus/Drawing/ExcelDrawingSphereCoordinate.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingSphereCoordinate.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Longitude
     path: ../src/EPPlus/Drawing/ExcelDrawingSphereCoordinate.cs
@@ -172,7 +172,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingSphereCoordinate.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Revolution
     path: ../src/EPPlus/Drawing/ExcelDrawingSphereCoordinate.cs

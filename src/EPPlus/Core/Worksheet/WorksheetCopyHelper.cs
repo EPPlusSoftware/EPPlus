@@ -29,10 +29,15 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.ConditionalFormatting;
-using System.Xml.Linq;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Linq;
+using OfficeOpenXml.Drawing.OleObject;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.Drawing.OleObject.Structures;
+using System.Xml.Linq;
+using OfficeOpenXml.Utils.CompundDocument;
+using System.Security.Cryptography.X509Certificates;
+using OfficeOpenXml.Table;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -81,6 +86,11 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 CopyVmlDrawing(sourceWorksheet, targetWorksheet);
             }
+
+            // Copy cell- and web pictures (rich data)
+            var richDataCopyHelper = new RichDataCopyHelper(sourceWorksheet.Cells, targetWorksheet.Cells);
+            richDataCopyHelper.Copy();
+
 
             //Copy HeaderFooter
             CopyHeaderFooterPictures(sourceWorksheet, targetWorksheet);
@@ -345,7 +355,12 @@ namespace OfficeOpenXml.Core.Worksheet
                     //The slicer still reference the copied slicers cache. We need to create a new cache for the copied slicer.
                     ptSlicer.CreateNewCache(((ExcelPivotTableSlicer)draw).Cache._field);
                 }
-
+                else if (c is ExcelPicture pic)
+                {
+                    var origPic = (ExcelPicture)draw;
+                    pic.SetPixelWidth(origPic.GetPixelWidth());
+                    pic.SetPixelHeight(origPic.GetPixelHeight());
+                }
             }
         }
 
@@ -388,6 +403,10 @@ namespace OfficeOpenXml.Core.Worksheet
             else if (sourceDraw is ExcelShape shp)
             {
                 CopyBlipFillDrawing(target, partDraw, drawXml, sourceDraw, shp.Fill, uriDraw);
+            }
+            else if(sourceDraw is ExcelOleObject ole)
+            {
+                CopyOleObject(pck, target, ole, drawXml);
             }
             else if (sourceDraw is ExcelGroupShape grpDraw)
             {
@@ -432,8 +451,161 @@ namespace OfficeOpenXml.Core.Worksheet
             var prevRelID = ctrl._control.RelationshipId;
             var rel = target.Part.CreateRelationship(UriHelper.GetRelativeUri(target.WorksheetUri, UriCtrl), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/ctrlProp");
             var relAtts = target.WorksheetXml.SelectNodes(string.Format("//d:control/@r:id[.='{0}']", prevRelID), target.NameSpaceManager);
-            XmlAttribute relAtt = relAtts.Item(relAtts.Count-1) as XmlAttribute; //target.WorksheetXml.SelectSingleNode(string.Format("//d:control/@r:id[.='{0}']", prevRelID), target.NameSpaceManager) as XmlAttribute;
+            XmlAttribute relAtt = relAtts.Item(relAtts.Count-1) as XmlAttribute;
             relAtt.Value = rel.Id;
+        }
+
+        internal static string CopyOleObject(ExcelPackage package, ExcelWorksheet target, ExcelOleObject SourceOle, XmlDocument drawXml)
+        {
+            string oleShapeId = "";
+            if (target == SourceOle._worksheet || target.Workbook != SourceOle._worksheet.Workbook)
+            {
+                oleShapeId = (++target._nextControlId).ToString();
+            }
+            else
+            {
+                if(target._nextControlId <= SourceOle._worksheet._nextControlId)
+                    target._nextControlId = ((target.PositionId + 1) * 1024 + 1);
+                oleShapeId = (++target._nextControlId).ToString();
+            }
+            //Update DrawNode Id
+            var drawIdNode = drawXml.SelectSingleNode($"//*[@id='{SourceOle.TopNode.SelectSingleNode("xdr:sp/xdr:nvSpPr/xdr:cNvPr", target.NameSpaceManager).Attributes["id"].Value}']", target.NameSpaceManager);
+            string oldSpid = drawIdNode.Attributes["id"].Value;
+            drawIdNode.Attributes["id"].Value = oleShapeId;
+            var drawSpIdNode = drawIdNode.SelectSingleNode("a:extLst/a:ext/a14:compatExt", SourceOle.NameSpaceManager);
+            var spid = drawSpIdNode.Attributes["spid"].Value = "_x0000_s" + oleShapeId;
+
+            //Get worksheet node
+            var wsNode = target.WorksheetXml.SelectSingleNode($"//*[@shapeId='{oldSpid}']", target.NameSpaceManager);
+
+            //copy image here
+            ZipPackageRelationship imgRel = null;
+            var emfStream = (MemoryStream)SourceOle._worksheet._package.ZipPackage.GetPart(SourceOle._mediaImage.Uri).GetStream();
+            byte[] image = emfStream.ToArray();
+            var ii = target._package.PictureStore.AddImage(image, null, ePictureType.Emf);
+            if (target == SourceOle._worksheet)
+            {
+                imgRel = target.Part.GetRelationship(wsNode.FirstChild.Attributes["r:id"].Value);
+            }
+            else
+            {
+                //check if relationship exsist and get that relationship
+                bool relExsists = false;
+                var rels = target.Part.GetRelationships();
+                foreach( var rel in rels)
+                {
+                    var relFile = Path.GetFileName(rel.TargetUri.ToString());
+                    var iiFile = Path.GetFileName(ii.Uri.ToString());
+                    if (relFile == iiFile)
+                    {
+                        imgRel = rel;
+                        relExsists = true;
+                        break;
+                    }
+                }
+                if (!relExsists)
+                {
+                    imgRel = target.Part.CreateRelationship(UriHelper.GetRelativeUri(target.WorksheetUri, ii.Uri), TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+                }
+            }
+
+            //create vml
+            target.VmlDrawings.AddOlePicture(oleShapeId, imgRel.TargetUri);
+            var vmlId = target.VmlDrawings._drawings[target.VmlDrawings._drawings.Count - 1].TopNode;
+            //Find and remove old vml node
+            if (target != SourceOle._worksheet)
+            {
+                var oldVmlNode = target.VmlDrawings.VmlDrawingXml.SelectSingleNode($"//*[@id='{"_x0000_s" + oldSpid}']");
+                if (oldVmlNode != null)
+                {
+                    XmlNode vmlParent = oldVmlNode.ParentNode;
+                    vmlParent.RemoveChild(oldVmlNode);
+                }
+            }
+
+            //Uppdate relation in worksheet node.
+            wsNode.FirstChild.Attributes["r:id"].Value = imgRel.Id;
+            //Update Shape Id and fallback.
+            wsNode.Attributes["shapeId"].Value = oleShapeId;
+            wsNode.ParentNode.NextSibling.FirstChild.Attributes["shapeId"].Value = oleShapeId;
+
+            if (SourceOle.IsExternalLink)
+            {
+                if (target.Workbook == SourceOle._worksheet.Workbook)
+                    return oleShapeId;
+                //Copy linked object
+                var UriLinked = XmlHelper.GetNewUri(package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml");
+                var linkPart = package.ZipPackage.CreatePart(UriLinked, ContentTypes.contentTypeExternalLink);
+                StreamWriter streamChart = new StreamWriter(linkPart.GetStream(FileMode.Create, FileAccess.Write));
+                streamChart.Write(SourceOle._linkedOleObjectXml.OuterXml);
+                streamChart.Flush();
+                Uri targetUri = new Uri(SourceOle._linkedObjectFilepath);
+                var fileRel = linkPart.CreateRelationship(targetUri, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
+                //copy workbook node
+                var rel = target.Workbook.Part.CreateRelationship(UriLinked, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
+                var extRef = (XmlElement)target.Workbook.CreateNode("d:externalReferences/d:externalReference", false, true);
+                extRef.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
+            }
+            else
+            {
+                //copy embeded object
+                var orgUri = SourceOle._oleObjectPart.Uri.OriginalString;
+                string name;
+                var fileType = Path.GetExtension(orgUri).ToLower();
+                bool isMsOffDoc = true;
+                string schemaRelEnding = "/package";
+                string contentType = "";
+                string ext = null;
+                if (fileType == ".docx")
+                {
+                    name = "Microsoft_Word_Document";
+                    contentType = ContentTypes.contentTypeOleDocx;
+                    ext = "docx";
+                }
+                else if (fileType == ".xlsx")
+                {
+                    name = "Microsoft_Excel_Worksheet";
+                    contentType = ContentTypes.contentTypeOleXlsx;
+                    ext = "xlsx";
+                }
+                else if (fileType == ".pptx")
+                {
+                    name = "Microsoft_PowerPoint_Presentation";
+                    contentType = ContentTypes.contentTypeOlePptx;
+                    ext = "pptx";
+                }
+                else
+                {
+                    name = "oleObject";
+                    schemaRelEnding = "/oleObject";
+                    isMsOffDoc = false;
+                    contentType = ContentTypes.contentTypeOleObject;
+                }
+                int newID = 1;
+                var oleUri = XmlHelper.GetNewUri(target._package.ZipPackage, "/xl/embeddings/" + name + "{0}" + fileType, ref newID);
+                var part = target._package.ZipPackage.CreatePart(oleUri, contentType, CompressionLevel.None, ext);
+                var rel = target.Part.CreateRelationship(oleUri, TargetMode.Internal, ExcelPackage.schemaRelationships + schemaRelEnding);
+                MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
+                if(isMsOffDoc)
+                {
+                    var p = (MemoryStream)SourceOle._oleObjectPart.GetStream();
+                    var arr = p.ToArray();
+                    ms.Write(arr,0, arr.Length);
+                }
+                else
+                {
+                    CompoundDocument cd = new CompoundDocument();
+                    foreach (var ds in SourceOle._document.Storage.DataStreams)
+                    {
+                        cd.Storage.DataStreams.Add(ds.Key, ds.Value);
+                    }
+                    cd.RootItem.ClsID = SourceOle._document.RootItem.ClsID;
+                    cd.Save(ms);
+                }
+                wsNode.Attributes["r:id"].Value = rel.Id;
+                wsNode.ParentNode.NextSibling.FirstChild.Attributes["r:id"].Value = rel.Id; //This is the fallback node
+            }
+            return oleShapeId;
         }
 
         internal static void CopyChartRelations(ExcelChart chart, ExcelWorksheet target, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet source)
@@ -482,21 +654,32 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyPicture(ExcelWorksheet added, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet copy, ExcelPicture pic)
         {
-            IPictureContainer container = pic;
-            var uri = container.UriPic;
-            var ii = added.Workbook._package.PictureStore.AddImage(pic.Image.ImageBytes, null, pic.Image.Type);
+            if (pic.Image != null && (pic.LocationType & PictureLocation.Embed) == PictureLocation.Embed)
+            {
+                var ii = added.Workbook._package.PictureStore.AddImage(pic.Image.ImageBytes, null, pic.Image.Type);
+                var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
 
-            var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(added.WorksheetUri, ii.Uri), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
-            //Fixes problem with invalid image when the same image is used more than once.
-            XmlNode relAtt =
-                drawXml.SelectSingleNode(
-                    string.Format(
-                        "//xdr:pic/xdr:nvPicPr/xdr:cNvPr/@name[.='{0}']/../../../xdr:blipFill/a:blip/@r:embed",
-                        pic.Name), copy.Drawings.NameSpaceManager);
+                UpdatePictureAttributeID("embed", rel.Id, pic.Name, copy.Drawings.NameSpaceManager, drawXml);
+            }
 
+            if (pic.LinkedImageRel != null)
+            {
+                var rel = partDraw.CreateRelationship(pic.LinkedImageRel.TargetUri, TargetMode.External, ExcelPackage.schemaRelationships + "/image");
+                UpdatePictureAttributeID("link", rel.Id, pic.Name, copy.Drawings.NameSpaceManager, drawXml);
+            }
+        }
+
+        //Fixes problem with invalid image when the same image is used more than once.
+        private static void UpdatePictureAttributeID(string attrName, string id, string picName, XmlNamespaceManager nsm, XmlDocument drawXml)
+        {
+            var nodeName = string.Format(
+                           "//xdr:pic/xdr:nvPicPr/xdr:cNvPr/@name[.='{0}']/../../../xdr:blipFill/a:blip/@r:{1}",
+                           picName, attrName);
+
+            XmlNode relAtt = drawXml.SelectSingleNode(nodeName, nsm);
             if (relAtt != null)
             {
-                relAtt.Value = rel.Id;
+                relAtt.Value = id;
             }
         }
 
@@ -560,7 +743,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyVmlDrawing(ExcelWorksheet origSheet, ExcelWorksheet newSheet)
         {
-            var xml = origSheet.VmlDrawings.VmlDrawingXml.OuterXml;
+            var xml = origSheet.VmlDrawings.GetOuterXmlWithoutSignatureLines();
             var vmlUri = new Uri(string.Format("/xl/drawings/vmlDrawing{0}.vml", newSheet.SheetId), UriKind.Relative);
             var part = newSheet._package.ZipPackage.CreatePart(vmlUri, "application/vnd.openxmlformats-officedocument.vmlDrawing", newSheet._package.Compression);
             var streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
@@ -631,13 +814,22 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyVmlRelations(ExcelWorksheet Copy, ExcelWorksheet added)
         {
+            //Excel does not copy signature lines we shouldn'te either.
+            if (added.SignatureLines.Count() > 0)
+            {
+                added.SignatureLines.Clear();
+            }
+
             if (Copy._vmlDrawings.Part == null) return;
             foreach (var r in Copy._vmlDrawings.Part.GetRelationships())
             {
-                var newRel = added._vmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
-                if (newRel.Id != r.Id) //Make sure the id's are the same.
+                if (added._vmlDrawings != null)
                 {
-                    newRel.Id = r.Id;
+                    var newRel = added.VmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
+                    if (newRel.Id != r.Id) //Make sure the id's are the same.
+                    {
+                        newRel.Id = r.Id;
+                    }
                 }
                 if (Copy.Workbook != added.Workbook)
                 {
@@ -976,19 +1168,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 var tblFrom = copy.Tables[i];
                 var tblTo = added.Tables[tblFrom.Name]; //Use Name, as id can differ if the worksheets are in different workbooks.
-                if (tblFrom.HeaderRowStyle.HasValue) tblTo.HeaderRowStyle = (ExcelDxfStyle)tblFrom.HeaderRowStyle.Clone();
-                if (tblFrom.HeaderRowBorderStyle.HasValue) tblTo.HeaderRowBorderStyle = (ExcelDxfBorderBase)tblFrom.HeaderRowBorderStyle.Clone();
-                if (tblFrom.DataStyle.HasValue) tblTo.DataStyle = (ExcelDxfStyle)tblFrom.DataStyle.Clone();
-                if (tblFrom.TableBorderStyle.HasValue) tblTo.TableBorderStyle = (ExcelDxfBorderBase)tblFrom.TableBorderStyle.Clone();
-                if (tblFrom.TotalsRowStyle.HasValue) tblTo.TotalsRowStyle = (ExcelDxfStyle)tblFrom.TotalsRowStyle.Clone();
-                for (int c=0;c < tblFrom.Columns.Count;c++)
-                {
-                    var colFrom = tblFrom.Columns[c];
-                    var colTo = tblTo.Columns[c];
-                    if (colFrom.HeaderRowStyle.HasValue) colTo.HeaderRowStyle = (ExcelDxfStyle)colFrom.HeaderRowStyle.Clone();
-                    if (colFrom.DataStyle.HasValue) colTo.DataStyle = (ExcelDxfStyle)colFrom.DataStyle.Clone();
-                    if (colFrom.TotalsRowStyle.HasValue) colTo.TotalsRowStyle = (ExcelDxfStyle)colFrom.TotalsRowStyle.Clone();
-                }
+                DxfStyleHandler.CopyDxfStylesTable(tblFrom, tblTo);
             }
         }
         private static void CopyDxfStylesPivotTables(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<int, int> dxfStyleCache)
@@ -1001,9 +1181,9 @@ namespace OfficeOpenXml.Core.Worksheet
                 foreach (var a in pt.Styles._list)
                 {
                     var addedStyle = newPt.Styles[ix++];
-                    addedStyle.DxfId = int.MinValue;                    
+                    addedStyle.DxfId = int.MinValue;
                     addedStyle.Style = (ExcelDxfStyle)a.Style.Clone();
-                }                
+                }
             }
         }
         private static void CopyDxfStylesConditionalFormatting(ExcelWorksheet copy, ExcelWorksheet added, Dictionary<int, int> dxfStyleCache)

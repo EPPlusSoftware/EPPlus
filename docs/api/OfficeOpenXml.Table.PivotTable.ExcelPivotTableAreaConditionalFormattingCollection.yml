@@ -1,0 +1,1009 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection
+  id: ExcelPivotTableAreaConditionalFormattingCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField[])
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting)
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.RemoveAt(System.Int32)
+  langs:
+  - csharp
+  - vb
+  name: ExcelPivotTableAreaConditionalFormattingCollection
+  nameWithType: ExcelPivotTableAreaConditionalFormattingCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableAreaConditionalFormattingCollection.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelPivotTableAreaConditionalFormattingCollection
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableAreaConditionalFormattingCollection.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA collection of pivot areas used for conditional formatting\n"
+  example: []
+  syntax:
+    content: 'public class ExcelPivotTableAreaConditionalFormattingCollection : EPPlusReadOnlyList<ExcelPivotTableAreaConditionalFormatting>, IEnumerable<ExcelPivotTableAreaConditionalFormatting>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelPivotTableAreaConditionalFormattingCollection
+          Inherits EPPlusReadOnlyList(Of ExcelPivotTableAreaConditionalFormatting)
+          Implements IEnumerable(Of ExcelPivotTableAreaConditionalFormatting), IEnumerable
+  inheritance:
+  - System.Object
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.System#Collections#IEnumerable#GetEnumerator
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.Item(System.Int32)
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.GetIndexByValue(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting)
+  - OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.Count
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField[])
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField[])
+  id: Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField[])
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(ExcelPivotTableDataField[])
+  nameWithType: ExcelPivotTableAreaConditionalFormattingCollection.Add(ExcelPivotTableDataField[])
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableAreaConditionalFormattingCollection.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableAreaConditionalFormattingCollection.cs
+    startLine: 44
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nAdds a new area for the one or more data fields\n"
+  example: []
+  syntax:
+    content: public ExcelPivotTableAreaConditionalFormatting Add(params ExcelPivotTableDataField[] fields)
+    parameters:
+    - id: fields
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField[]
+      description: The data field(s) where the conditional formatting should be applied. If no fields are supplied all the pivot tables data fields will be added to the area
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+      description: The pivot area for the conditional formatting
+    content.vb: Public Function Add(ParamArray fields As ExcelPivotTableDataField()) As ExcelPivotTableAreaConditionalFormatting
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Add*
+  nameWithType.vb: ExcelPivotTableAreaConditionalFormattingCollection.Add(ExcelPivotTableDataField())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Add(OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField())
+  name.vb: Add(ExcelPivotTableDataField())
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting)
+  id: Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelPivotTableAreaConditionalFormatting)
+  nameWithType: ExcelPivotTableAreaConditionalFormattingCollection.Remove(ExcelPivotTableAreaConditionalFormatting)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Remove(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableAreaConditionalFormattingCollection.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableAreaConditionalFormattingCollection.cs
+    startLine: 74
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\n/// Removes the the <code data-dev-comment-type=\"paramref\" class=\"paramref\">item</code> from the collection \n"
+  example: []
+  syntax:
+    content: public void Remove(ExcelPivotTableAreaConditionalFormatting item)
+    parameters:
+    - id: item
+      type: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+      description: The item to remove.
+    content.vb: Public Sub Remove(item As ExcelPivotTableAreaConditionalFormatting)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.RemoveAt(System.Int32)
+  commentId: M:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.RemoveAt(System.Int32)
+  id: RemoveAt(System.Int32)
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection
+  langs:
+  - csharp
+  - vb
+  name: RemoveAt(Int32)
+  nameWithType: ExcelPivotTableAreaConditionalFormattingCollection.RemoveAt(Int32)
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.RemoveAt(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableAreaConditionalFormattingCollection.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RemoveAt
+    path: ../src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableAreaConditionalFormattingCollection.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nRemoves the <xref href=\"OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle\" data-throw-if-not-resolved=\"false\"></xref> at the <code data-dev-comment-type=\"paramref\" class=\"paramref\">index</code>\n"
+  example: []
+  syntax:
+    content: public void RemoveAt(int index)
+    parameters:
+    - id: index
+      type: System.Int32
+      description: The zero-based index in the collction to remove
+    content.vb: Public Sub RemoveAt(index As Integer)
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.RemoveAt*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}
+  parent: OfficeOpenXml.Core
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<ExcelPivotTableAreaConditionalFormatting>
+  nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaConditionalFormatting>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaConditionalFormatting)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting)
+  name.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaConditionalFormatting)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+    name: ExcelPivotTableAreaConditionalFormatting
+    nameWithType: ExcelPivotTableAreaConditionalFormatting
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+    name: ExcelPivotTableAreaConditionalFormatting
+    nameWithType: ExcelPivotTableAreaConditionalFormatting
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelPivotTableAreaConditionalFormatting>
+  nameWithType: IEnumerable<ExcelPivotTableAreaConditionalFormatting>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>
+  nameWithType.vb: IEnumerable(Of ExcelPivotTableAreaConditionalFormatting)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting)
+  name.vb: IEnumerable(Of ExcelPivotTableAreaConditionalFormatting)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+    name: ExcelPivotTableAreaConditionalFormatting
+    nameWithType: ExcelPivotTableAreaConditionalFormatting
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+    name: ExcelPivotTableAreaConditionalFormatting
+    nameWithType: ExcelPivotTableAreaConditionalFormatting
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  name: IEnumerable<ExcelPivotTableAreaConditionalFormatting>.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaConditionalFormatting>.IEnumerable<ExcelPivotTableAreaConditionalFormatting>.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>.System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaConditionalFormatting).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: IEnumerable<ExcelPivotTableAreaConditionalFormatting>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaConditionalFormatting>.IEnumerable<ExcelPivotTableAreaConditionalFormatting>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>.System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of ExcelPivotTableAreaConditionalFormatting).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.System#Collections#IEnumerable#GetEnumerator
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaConditionalFormatting>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaConditionalFormatting).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaConditionalFormatting>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of ExcelPivotTableAreaConditionalFormatting).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.Item(System.Int32)
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+  name: Item[Int32]
+  nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaConditionalFormatting>.Item[Int32]
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>.Item[System.Int32]
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaConditionalFormatting).Item(Int32)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaConditionalFormatting>.Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList(Of ExcelPivotTableAreaConditionalFormatting).Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.GetIndexByValue(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting)
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.GetIndexByValue(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting)
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+  name: GetIndexByValue(ExcelPivotTableAreaConditionalFormatting)
+  nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaConditionalFormatting>.GetIndexByValue(ExcelPivotTableAreaConditionalFormatting)
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>.GetIndexByValue(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting)
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaConditionalFormatting).GetIndexByValue(ExcelPivotTableAreaConditionalFormatting)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting).GetIndexByValue(OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaConditionalFormatting>.GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>.GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+    name: ExcelPivotTableAreaConditionalFormatting
+    nameWithType: ExcelPivotTableAreaConditionalFormatting
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList(Of ExcelPivotTableAreaConditionalFormatting).GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting).GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+    name: ExcelPivotTableAreaConditionalFormatting
+    nameWithType: ExcelPivotTableAreaConditionalFormatting
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.Count
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}.Count
+  parent: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting}
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Count
+  name: Count
+  nameWithType: EPPlusReadOnlyList<ExcelPivotTableAreaConditionalFormatting>.Count
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting>.Count
+  nameWithType.vb: EPPlusReadOnlyList(Of ExcelPivotTableAreaConditionalFormatting).Count
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting).Count
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<T>
+  nameWithType: EPPlusReadOnlyList<T>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>
+  nameWithType.vb: EPPlusReadOnlyList(Of T)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T)
+  name.vb: EPPlusReadOnlyList(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core
+  commentId: N:OfficeOpenXml.Core
+  name: OfficeOpenXml.Core
+  nameWithType: OfficeOpenXml.Core
+  fullName: OfficeOpenXml.Core
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  name: IEnumerable<T>.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<T>.IEnumerable<T>.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: IEnumerable<T>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<T>.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+    name: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator()
+  nameWithType: EPPlusReadOnlyList<T>.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.IEnumerable.GetEnumerator()
+  nameWithType.vb: EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator()
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList<T>.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.System#Collections#IEnumerable#GetEnumerator
+    name: System.Collections.IEnumerable.GetEnumerator
+    nameWithType: EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+  isExternal: true
+  name: Item[Int32]
+  nameWithType: EPPlusReadOnlyList<T>.Item[Int32]
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.Item[System.Int32]
+  nameWithType.vb: EPPlusReadOnlyList(Of T).Item(Int32)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).Item(System.Int32)
+  name.vb: Item(Int32)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList<T>.Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.Item
+  - name: '['
+    nameWithType: '['
+    fullName: '['
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ']'
+    nameWithType: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Item(System.Int32)
+    name: Item
+    nameWithType: EPPlusReadOnlyList(Of T).Item
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).Item
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+  commentId: M:OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+  name: GetIndexByValue(T)
+  nameWithType: EPPlusReadOnlyList<T>.GetIndexByValue(T)
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.GetIndexByValue(T)
+  nameWithType.vb: EPPlusReadOnlyList(Of T).GetIndexByValue(T)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).GetIndexByValue(T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList<T>.GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.GetIndexByValue(`0)
+    name: GetIndexByValue
+    nameWithType: EPPlusReadOnlyList(Of T).GetIndexByValue
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).GetIndexByValue
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1.Count
+  commentId: P:OfficeOpenXml.Core.EPPlusReadOnlyList`1.Count
+  name: Count
+  nameWithType: EPPlusReadOnlyList<T>.Count
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>.Count
+  nameWithType.vb: EPPlusReadOnlyList(Of T).Count
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T).Count
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Add*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Add
+  name: Add
+  nameWithType: ExcelPivotTableAreaConditionalFormattingCollection.Add
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Add
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField[]
+  isExternal: true
+  name: ExcelPivotTableDataField[]
+  nameWithType: ExcelPivotTableDataField[]
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField[]
+  nameWithType.vb: ExcelPivotTableDataField()
+  fullName.vb: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField()
+  name.vb: ExcelPivotTableDataField()
+  spec.csharp:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+    name: ExcelPivotTableDataField
+    nameWithType: ExcelPivotTableDataField
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+    name: ExcelPivotTableDataField
+    nameWithType: ExcelPivotTableDataField
+    fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableAreaConditionalFormatting
+  nameWithType: ExcelPivotTableAreaConditionalFormatting
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormatting
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Remove*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Remove
+  name: Remove
+  nameWithType: ExcelPivotTableAreaConditionalFormattingCollection.Remove
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.Remove
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableAreaStyle
+  nameWithType: ExcelPivotTableAreaStyle
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaStyle
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.RemoveAt*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.RemoveAt
+  name: RemoveAt
+  nameWithType: ExcelPivotTableAreaConditionalFormattingCollection.RemoveAt
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableAreaConditionalFormattingCollection.RemoveAt
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32

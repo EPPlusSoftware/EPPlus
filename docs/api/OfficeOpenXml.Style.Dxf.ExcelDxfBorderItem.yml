@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfBorderItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDxfBorderItem
     path: ../src/EPPlus/Style/Dxf/ExcelDxfBorderItem.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfBorderItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/Style/Dxf/ExcelDxfBorderItem.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfBorderItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Style/Dxf/ExcelDxfBorderItem.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfBorderItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfBorderItem.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfBorderItem.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfBorderItem.cs

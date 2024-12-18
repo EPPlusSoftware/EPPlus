@@ -142,7 +142,10 @@ namespace OfficeOpenXml
                 var cols= a._fromCol - Range._fromCol;
                 Range.Address = value;
                 _commentHelper.SetXmlNodeString("@ref", value);
-
+                
+                //The Anchor element is not mandantory, so exit if it does not exist.
+                if(GetXmlNodeString("x:ClientData/x:Anchor") == "") return;
+                
                 From.Row += rows;
                 To.Row += rows;
 

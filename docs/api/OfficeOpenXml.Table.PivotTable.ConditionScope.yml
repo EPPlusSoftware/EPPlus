@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.PivotTable.ConditionScope
+  commentId: T:OfficeOpenXml.Table.PivotTable.ConditionScope
+  id: ConditionScope
+  parent: OfficeOpenXml.Table.PivotTable
+  children:
+  - OfficeOpenXml.Table.PivotTable.ConditionScope.Data
+  - OfficeOpenXml.Table.PivotTable.ConditionScope.Field
+  - OfficeOpenXml.Table.PivotTable.ConditionScope.Selection
+  langs:
+  - csharp
+  - vb
+  name: ConditionScope
+  nameWithType: ConditionScope
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionScope
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConditionScope
+    path: ../src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe scope of the pivot table conditional formatting rule\n"
+  example: []
+  syntax:
+    content: public enum ConditionScope
+    content.vb: Public Enum ConditionScope
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Table.PivotTable.ConditionScope.Data
+  commentId: F:OfficeOpenXml.Table.PivotTable.ConditionScope.Data
+  id: Data
+  parent: OfficeOpenXml.Table.PivotTable.ConditionScope
+  langs:
+  - csharp
+  - vb
+  name: Data
+  nameWithType: ConditionScope.Data
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionScope.Data
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Data
+    path: ../src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe conditional formatting is applied to the selected data fields.\n"
+  example: []
+  syntax:
+    content: Data = 0
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ConditionScope
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ConditionScope.Field
+  commentId: F:OfficeOpenXml.Table.PivotTable.ConditionScope.Field
+  id: Field
+  parent: OfficeOpenXml.Table.PivotTable.ConditionScope
+  langs:
+  - csharp
+  - vb
+  name: Field
+  nameWithType: ConditionScope.Field
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionScope.Field
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Field
+    path: ../src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
+    startLine: 26
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe conditional formatting is applied to the selected PivotTable field intersections.\n"
+  example: []
+  syntax:
+    content: Field = 1
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ConditionScope
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Table.PivotTable.ConditionScope.Selection
+  commentId: F:OfficeOpenXml.Table.PivotTable.ConditionScope.Selection
+  id: Selection
+  parent: OfficeOpenXml.Table.PivotTable.ConditionScope
+  langs:
+  - csharp
+  - vb
+  name: Selection
+  nameWithType: ConditionScope.Selection
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionScope.Selection
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
+      branch: fix/comments-and-warings
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Selection
+    path: ../src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nThe conditional formatting is applied to the selected data fields.\n"
+  example: []
+  syntax:
+    content: Selection = 2
+    return:
+      type: OfficeOpenXml.Table.PivotTable.ConditionScope
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Table.PivotTable
+  commentId: N:OfficeOpenXml.Table.PivotTable
+  name: OfficeOpenXml.Table.PivotTable
+  nameWithType: OfficeOpenXml.Table.PivotTable
+  fullName: OfficeOpenXml.Table.PivotTable
+- uid: OfficeOpenXml.Table.PivotTable.ConditionScope
+  commentId: T:OfficeOpenXml.Table.PivotTable.ConditionScope
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ConditionScope
+  nameWithType: ConditionScope
+  fullName: OfficeOpenXml.Table.PivotTable.ConditionScope

@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalDdeItemCollection.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalDdeItemCollection
     path: ../src/EPPlus/ExternalReferences/ExcelExternalDdeItemCollection.cs

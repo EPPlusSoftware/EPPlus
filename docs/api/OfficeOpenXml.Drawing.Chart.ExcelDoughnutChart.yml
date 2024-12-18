@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelDoughnutChart.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDoughnutChart
     path: ../src/EPPlus/Drawing/Chart/ExcelDoughnutChart.cs
@@ -158,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelDoughnutChart.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstSliceAngle
     path: ../src/EPPlus/Drawing/Chart/ExcelDoughnutChart.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelDoughnutChart.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HoleSize
     path: ../src/EPPlus/Drawing/Chart/ExcelDoughnutChart.cs

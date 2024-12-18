@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVbaReferenceProject
     path: ../src/EPPlus/Vba/ExcelVbaReferenceProject.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Vba/ExcelVbaReferenceProject.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LibIdRelative
     path: ../src/EPPlus/Vba/ExcelVbaReferenceProject.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MajorVersion
     path: ../src/EPPlus/Vba/ExcelVbaReferenceProject.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Vba/ExcelVbaReferenceProject.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MinorVersion
     path: ../src/EPPlus/Vba/ExcelVbaReferenceProject.cs

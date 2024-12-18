@@ -11,17 +11,10 @@
     11/24/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
 using OfficeOpenXml.Constants;
-using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Reflection.Emit;
 using System.Text;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Controls
@@ -58,7 +51,7 @@ namespace OfficeOpenXml.Drawing.Controls
             CreateClientData();
 
             ControlPropertiesXml = new XmlDocument();
-            ControlPropertiesXml.LoadXml(ControlStartControlPrXml());            
+            ControlPropertiesXml.LoadXml(ControlStartControlPrXml());
             int id= ws.SheetId;
             ControlPropertiesUri = GetNewUri(ws._package.ZipPackage, "/xl/ctrlProps/ctrlProp{0}.xml",ref id);
             ControlPropertiesPart = ws._package.ZipPackage.CreatePart(ControlPropertiesUri, ContentTypes.contentTypeControlProperties);

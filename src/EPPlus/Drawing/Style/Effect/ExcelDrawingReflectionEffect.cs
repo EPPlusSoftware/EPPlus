@@ -115,7 +115,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return GetXmlNodeAngel(_fadeDirectionPath, 90);
+                return GetXmlNodeAngle(_fadeDirectionPath, 90);
             }
             set
             {
@@ -165,7 +165,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return GetXmlNodeAngel(_horizontalSkewAnglePath);
+                return GetXmlNodeAngle(_horizontalSkewAnglePath);
             }
             set
             {
@@ -180,7 +180,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return GetXmlNodeAngel(_verticalSkewAnglePath);
+                return GetXmlNodeAngle(_verticalSkewAnglePath);
             }
             set
             {
@@ -224,7 +224,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return GetXmlNodeAngel(_directionPath);
+                return GetXmlNodeAngle(_directionPath);
             }
             set
             {

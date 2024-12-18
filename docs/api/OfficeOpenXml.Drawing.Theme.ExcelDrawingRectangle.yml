@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingRectangle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawingRectangle
     path: ../src/EPPlus/Drawing/ExcelDrawingRectangle.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingRectangle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TopOffset
     path: ../src/EPPlus/Drawing/ExcelDrawingRectangle.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingRectangle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BottomOffset
     path: ../src/EPPlus/Drawing/ExcelDrawingRectangle.cs
@@ -136,7 +136,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingRectangle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LeftOffset
     path: ../src/EPPlus/Drawing/ExcelDrawingRectangle.cs
@@ -173,7 +173,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawingRectangle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RightOffset
     path: ../src/EPPlus/Drawing/ExcelDrawingRectangle.cs

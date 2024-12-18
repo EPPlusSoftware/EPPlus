@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDxfStyle
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Font
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
@@ -108,7 +108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormat
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Alignment
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
@@ -182,7 +182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Protection
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
@@ -219,7 +219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasValue
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/Dxf/ExcelDxfStyle.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Style/Dxf/ExcelDxfStyle.cs

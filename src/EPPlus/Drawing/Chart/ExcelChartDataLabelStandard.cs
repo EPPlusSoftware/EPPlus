@@ -161,7 +161,7 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                if(TopNode.LocalName == "dLbl")
+                if(TopNode.LocalName == "dLbl" && TopNode.SelectSingleNode("c:idx", NameSpaceManager) == null)
                 {
                     return GetXmlNodeBool(showLeaderLinesPath, TopNode.ParentNode);
                 }
@@ -169,9 +169,9 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             set
             {
-                if (TopNode.LocalName == "dLbl")
+                if (TopNode.LocalName == "dLbl" && TopNode.SelectSingleNode("c:idx", NameSpaceManager) == null)
                 {
-                    SetXmlNodeString(TopNode.ParentNode, showBubbleSizePath, value ? "1" : "0");
+                    SetXmlNodeString(TopNode.ParentNode, showLeaderLinesPath, value ? "1" : "0");
                 }
                 else
                 {

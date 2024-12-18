@@ -26,7 +26,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eShapeConnectorStyle
     path: ../src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
@@ -59,7 +59,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BentConnector2
     path: ../src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BentConnector3
     path: ../src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BentConnector4
     path: ../src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
@@ -161,7 +161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BentConnector5
     path: ../src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurvedConnector2
     path: ../src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurvedConnector3
     path: ../src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
@@ -263,7 +263,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurvedConnector4
     path: ../src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
@@ -297,7 +297,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurvedConnector5
     path: ../src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
@@ -331,7 +331,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartConnector
     path: ../src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
@@ -365,7 +365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FlowChartOffpageConnector
     path: ../src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
@@ -399,7 +399,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
-      branch: bug/issue1566
+      branch: fix/comments-and-warings
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StraightConnector1
     path: ../src/EPPlus/Drawing/Enums/eShapeStyleConnectors.cs
