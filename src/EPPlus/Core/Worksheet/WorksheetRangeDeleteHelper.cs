@@ -881,6 +881,5 @@ namespace OfficeOpenXml.Core.Worksheet
                 return new ExcelAddressBase(range._fromRow, 1, ExcelPackage.MaxRows, ExcelPackage.MaxColumns);
             }
         }
-
     }
 }

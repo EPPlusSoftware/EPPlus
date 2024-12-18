@@ -22,6 +22,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.DigitalSignatures;
 using System.Security.Cryptography;
 using System.Drawing;
+using System.Globalization;
 
 namespace OfficeOpenXml.Packaging
 {
@@ -321,7 +322,7 @@ namespace OfficeOpenXml.Packaging
         {
             if(Enum.IsDefined(typeof(DigitalSignatureHashAlgorithm),hashAlgorithm) == false)
             {
-                throw new InvalidOperationException($"Cannot save. value '{hashAlgorithm}' is undefined for enum {typeof(DigitalSignatureHashAlgorithm)}\n " +
+                throw new InvalidOperationException($"Cannot save. Value '{hashAlgorithm}' is undefined for enum {typeof(DigitalSignatureHashAlgorithm)}\n " +
                     $"if the file was Read it may contain unknown algorithm. Please use SetDigestMethod on signatures");
             }
 
@@ -502,6 +503,11 @@ namespace OfficeOpenXml.Packaging
                 part.Dispose();
             }
             _zip?.Dispose();
+        }
+
+        internal ZipPackagePart GetPartByContentType(string contentTypeFeaturePropertyBag)
+        {
+            return Parts.Values.FirstOrDefault(x=>x.ContentType.Equals(contentTypeFeaturePropertyBag,StringComparison.OrdinalIgnoreCase));
         }
 
         CompressionLevel _compression = CompressionLevel.Default;
