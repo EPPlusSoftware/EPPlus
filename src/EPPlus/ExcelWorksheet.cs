@@ -1646,12 +1646,15 @@ namespace OfficeOpenXml
                                 CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None
                             };
                             SetValueInner(row, col, pic);
+                            while(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c")
+                            {
+                                xr.Read();
+                            }
                         }
                         else
                         {
                             SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
                         }
-                        xr.Read();
                     }
                     else
                     {

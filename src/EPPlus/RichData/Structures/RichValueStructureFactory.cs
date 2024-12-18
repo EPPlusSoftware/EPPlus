@@ -36,6 +36,8 @@ namespace OfficeOpenXml.RichData.Structures
         {
             switch (type)
             {
+                case StructureTypes.Error:
+                    return RichDataStructureTypes.Error;
                 case StructureTypes.WebImage:
                     return RichDataStructureTypes.WebImage;
                 case StructureTypes.ImageUrl:
