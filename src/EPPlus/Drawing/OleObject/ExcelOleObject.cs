@@ -398,7 +398,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
                 _oleObjectPart = _worksheet._package.ZipPackage.GetPart(oleObj);
                 var oleStream = (MemoryStream)_oleObjectPart.GetStream(FileMode.Open, FileAccess.Read);
-                _document = new CompoundDocument(oleStream);
+                _document = new CompoundDocument(oleStream, true);
             }
             else if(oleRel != null && ( oleRel.TargetUri.ToString().Contains(".docx") || oleRel.TargetUri.ToString().Contains(".pptx") || oleRel.TargetUri.ToString().Contains(".xlsx")))
             {

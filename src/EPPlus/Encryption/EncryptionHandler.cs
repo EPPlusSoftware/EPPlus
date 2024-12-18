@@ -746,7 +746,7 @@ namespace OfficeOpenXml.Encryption
         /// Validate the password
         /// </summary>
         /// <param name="key">The encryption key</param>
-        /// <param name="encryptionInfo">The encryption info extracted from the ENCRYPTIOINFO ms inside the OLE document</param>
+        /// <param name="encryptionInfo">The encryption info extracted from the ENCRYPTIOINFO stream inside the OLE document</param>
         /// <returns></returns>
         private bool IsPasswordValid(byte[] key, EncryptionInfoBinary encryptionInfo)
         {
@@ -807,7 +807,7 @@ namespace OfficeOpenXml.Encryption
         /// Validate the password
         /// </summary>
         /// <param name="sha">The hash algorithm</param>
-        /// <param name="encr">The encryption info extracted from the ENCRYPTIOINFO ms inside the OLE document</param>
+        /// <param name="encr">The encryption info extracted from the ENCRYPTIOINFO stream inside the OLE document</param>
         /// <returns></returns>
         private bool IsPasswordValid(HashAlgorithm sha, EncryptionInfoAgile.EncryptionKeyEncryptor encr)
         {
@@ -951,7 +951,7 @@ namespace OfficeOpenXml.Encryption
         /// This method is written with the help of Lyquidity library, many thanks for this nice sample
         /// </summary>
         /// <param name="password">The password</param>
-        /// <param name="encryptionInfo">The encryption info extracted from the ENCRYPTIOINFO ms inside the OLE document</param>
+        /// <param name="encryptionInfo">The encryption info extracted from the ENCRYPTIOINFO stream inside the OLE document</param>
         /// <returns>The hash to encrypt the document</returns>
         private byte[] GetPasswordHashBinary(string password, EncryptionInfoBinary encryptionInfo)
         {
@@ -1025,7 +1025,7 @@ namespace OfficeOpenXml.Encryption
         /// This method is written with the help of Lyquidity library, many thanks for this nice sample
         /// </summary>
         /// <param name="password">The password</param>
-        /// <param name="encr">The encryption info extracted from the ENCRYPTIOINFO ms inside the OLE document</param>
+        /// <param name="encr">The encryption info extracted from the ENCRYPTIOINFO stream inside the OLE document</param>
         /// <param name="blockKey">The block key appended to the hash to obtain the final hash</param>
         /// <returns>The hash to encrypt the document</returns>
         private byte[] GetPasswordHashAgile(string password, EncryptionInfoAgile.EncryptionKeyEncryptor encr, byte[] blockKey)
