@@ -17,6 +17,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Table.PivotTable.Calculation;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -119,7 +120,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     {
                         return CompileResult.GetErrorResult(eErrorType.Ref);
                     }
-                    criteria[criteria.Count-1].Value = sb.ToString();
+                    var s = sb.ToString();
+                    if(ConvertUtil.TryParseNumericString(s, out double n))
+                    {
+                        criteria[criteria.Count - 1].Value = n;
+                    }
+                    else
+                    {
+                        criteria[criteria.Count - 1].Value = s;
+                    }
                     hasValue = true;
                     sb = new StringBuilder();
                 }
@@ -157,7 +166,15 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 if (functionIsRowField.HasValue)
                 {
                     AddCriterias(fieldValues, (functionIsRowField.Value ? pivotTable.ColumnFields : pivotTable.RowFields), ref criteria);
-                    criteria[criteria.Count - 1].Value = fieldValues[fieldValues.Count - 1];
+                    var s = fieldValues[fieldValues.Count - 1];
+                    if (ConvertUtil.TryParseNumericString(s, out double n))
+                    {
+                        criteria[criteria.Count - 1].Value = n;
+                    }
+                    else
+                    {
+                        criteria[criteria.Count - 1].Value = s;
+                    }
                 }
                 else
                 {

@@ -169,5 +169,10 @@ namespace OfficeOpenXml.Export.HtmlExport
         /// If true conditionalFormattings will be rendered
         /// </summary>
         public bool RenderConditionalFormattings { get; set; } = true;
+
+        /// <summary>
+        /// If true checkboxes are enabled
+        /// </summary>
+        public bool CheckboxesEnabled { get; set; } = false;
     }
 }

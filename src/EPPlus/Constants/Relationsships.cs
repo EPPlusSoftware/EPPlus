@@ -18,5 +18,6 @@ namespace OfficeOpenXml.Constants
         internal const string schemaRichDataRichDataValueArray = "http://schemas.microsoft.com/office/2017/06/relationships/rdArray";
         internal const string schemaRichDataWebImage = "http://schemas.microsoft.com/office/2020/07/relationships/rdRichValueWebImage";
 
+        internal const string schemaFeaturePropertyBag = "http://schemas.microsoft.com/office/2022/11/relationships/FeaturePropertyBag";
     }
 }

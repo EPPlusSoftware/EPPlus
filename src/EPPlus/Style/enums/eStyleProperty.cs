@@ -53,6 +53,7 @@ namespace OfficeOpenXml.Style
         QuotePrefix,
         Theme,
         Charset,
-        JustifyLastLine
+        JustifyLastLine,
+        Checkbox
     }
 }

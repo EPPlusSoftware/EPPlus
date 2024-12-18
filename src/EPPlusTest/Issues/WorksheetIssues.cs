@@ -8,6 +8,7 @@ using System.Globalization;
 using System.Threading;
 using System.IO;
 using System.Drawing;
+
 namespace EPPlusTest.Issues
 {
 	[TestClass]
@@ -509,5 +510,28 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void I1728()
+        {
+            using var p = OpenTemplatePackage("Issue1728.xlsm");
+            var nWs = p.Workbook.Worksheets.Count;
+            var i = 0;
+            foreach (var ws in p.Workbook.Worksheets)
+            {
+                i++;
+                var dimensionRows = ws.Dimension.Rows;
+                var dimensionByValueRows = ws.DimensionByValue.Rows;
+            }
+        }
+
+		[TestMethod]
+		public void i1742()
+		{
+			// before this fix we couldn't delete the very last coloumn on the sheet...
+			using var package = new ExcelPackage();
+			var sheet = package.Workbook.Worksheets.Add("Sheet1");
+			var maxCol = ExcelPackage.MaxColumns;
+			sheet.DeleteColumn(maxCol);
+		}
     }
 }

@@ -55,6 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
 
             int? col = default;
+            //If column is not supplied and row has a value, argument 2 can be either row or column depending on the orientation of the supplied range.
             var colGivenButEmpty = false;
             if(arguments.Count > 2)
             {
@@ -71,7 +72,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             if (arg1.IsExcelRangeOrSingleCell)
             {
                 var ri = arg1.ValueAsRangeInfo;
-                if(!colGivenButEmpty && !col.HasValue && ri.Size.NumberOfRows > 1 && ri.Size.NumberOfCols > 1)
+                if (row == null && (colGivenButEmpty || col==null)) return CreateAddressResult(ri, arg1.DataType);
+                if (!colGivenButEmpty && !col.HasValue && ri.Size.NumberOfRows > 1 && ri.Size.NumberOfCols > 1)
                 {
                     return CreateResult(eErrorType.Ref);
                 }

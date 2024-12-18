@@ -64,5 +64,8 @@ namespace OfficeOpenXml.Constants
         internal const string contentTypeOleDocx = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
         internal const string contentTypeOlePptx = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
         internal const string contentTypeOleXlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+        //Feature property bag (in-cell checkboxes)
+        internal const string contentTypeFeaturePropertyBag = "application/vnd.ms-excel.featurepropertybag+xml";
     }
 }
