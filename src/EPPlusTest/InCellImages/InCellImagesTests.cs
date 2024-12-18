@@ -149,5 +149,28 @@ namespace EPPlusTest.InCellImages
             var widthInPixels = measurement.Width;
             var heightInPixels = measurement.Height;
         }
+
+
+
+        [TestMethod]
+        public void testImageInCell()
+        {
+            using var p = new ExcelPackage(@"c:\epplustest\workbooks\richdata.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var stockholm = ws.Cells["G1"].Picture.Get();
+            var text = ws.Cells["F1"].Value;
+            var text2 = ws.Cells["H1"].Value;
+            var tokyo = ws.Cells["G2"].Picture.Get();
+            var dallas = ws.Cells["G3"].Picture.Get();
+
+            var ws2 = p.Workbook.Worksheets.Add("Sheet 2");
+            ws2.Cells["G1"].Picture.Set(stockholm.GetImageBytes());
+            ws2.Cells["G2"].Picture.Set(tokyo.GetImageBytes());
+            ws2.Cells["G3"].Picture.Set(dallas.GetImageBytes());
+
+            p.SaveAs(@"c:\epplustest\testoutput\A_RichDataTest.xlsx");
+        }
+
+
     }
 }

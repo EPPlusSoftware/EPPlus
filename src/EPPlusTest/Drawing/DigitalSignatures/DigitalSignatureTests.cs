@@ -399,7 +399,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 //ws.Cells["A1"].AddComment("Do Something about this", "ossian");
                 var sigLine = ws.AddSignatureLine();
-                sigLine.Sign(cert, "ASigner");
+                sigLine.SignWithText(cert, "ASigner");
 
                 var test = wb.DigitialSignatures[0].Certificate.GetRSAPrivateKey();
                 var test2 = wb.DigitialSignatures[0].Certificate.GetRSAPrivateKey();
