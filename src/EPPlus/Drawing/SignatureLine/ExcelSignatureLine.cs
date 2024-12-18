@@ -66,7 +66,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="cType"></param>
         /// <param name="purposeForSigning"></param>
         /// <returns></returns>
-        public ExcelDigitalSignature Sign(X509Certificate2 certificate, string signatureText, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        public ExcelDigitalSignature SignWithText(X509Certificate2 certificate, string signatureText, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
         {
             SignatureText = signatureText;
             CheckSignature();

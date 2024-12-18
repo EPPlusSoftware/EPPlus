@@ -2513,21 +2513,25 @@ namespace OfficeOpenXml
             if (d is ExcelChart c)
             {
                 var chartStream = c.Part.GetStream(FileMode.Create, FileAccess.Write);
+                c.ChartXml.PreserveWhitespace = true;
                 c.ChartXml.Save(chartStream);
             }
             else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
             {
+                s.Cache.SlicerCacheXml.PreserveWhitespace = true;
                 s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
             }
             else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
             {
                 if (p.Cache == null) return;
                 p.Cache.UpdateItemsXml();
+                p.Cache.SlicerCacheXml.PreserveWhitespace = true;
                 p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
             }
             else if (d is ExcelControl ctrl)
             {
                 ctrl.ControlPropertiesXml.Save(ctrl.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
+                ctrl.ControlPropertiesXml.PreserveWhitespace = true;
                 ctrl.UpdateXml();
             }
             else if(d is ExcelOleObject o)
@@ -2535,7 +2539,7 @@ namespace OfficeOpenXml
                 if(o._oleObjectPart != null && o._linkedOleObjectXml != null)
                     o._linkedOleObjectXml.Save(o._oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
             }
-            if (d is ExcelGroupShape grp)
+            else if (d is ExcelGroupShape grp)
             {
                 foreach (var sd in grp.Drawings)
                 {

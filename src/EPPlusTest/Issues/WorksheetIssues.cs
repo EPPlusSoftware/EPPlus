@@ -33,7 +33,7 @@ namespace EPPlusTest.Issues
 			{
 				ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Invoice");
 
-				//var namedStyle = package.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
+				//var namedStyle = p.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
 				//namedStyle.Style.Font.Name = "Arial";
 				//namedStyle.Style.Font.Size = 7;
 				var namedStyle = package.Workbook.Styles.NamedStyles[0]; // Create a default style
@@ -232,7 +232,7 @@ namespace EPPlusTest.Issues
 				package.Workbook.Names.AddValue("ValueName5", "String Value with \"");
 
 				package.Save();
-				//SaveWorkbook("i1317.xlsx",package);
+				//SaveWorkbook("i1317.xlsx",p);
 				using(var p2=new  ExcelPackage(package.Stream)) 
 				{
 					var ws = p2.Workbook.Worksheets[0];
@@ -533,5 +533,35 @@ namespace EPPlusTest.Issues
 			var maxCol = ExcelPackage.MaxColumns;
 			sheet.DeleteColumn(maxCol);
 		}
+		[TestMethod]
+		public void i1709()
+		{
+			using (var p = OpenTemplatePackage("i1709.xlsx"))
+			{
+				var ws = p.Workbook.Worksheets[0];
+				SaveAndCleanup(p);
+			}
+		}
+		[TestMethod]
+		public void i1709_2()
+		{
+            using (var p = OpenPackage("i1709-2.xlsx",true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+				ws.Cells["A1"].Value = "row 1_x000d__x000d_col 1";
+                ws.Cells["A2"].Value = "row 2\r\rcol 1";
+                ws.Cells["A3"].Value = "row 3\r\n\r\ncol 1";
+                ws.Cells["A4"].Value = "row 4\n\ncol 1";
+                ws.Cells["A5"].Value = "row 5_x000d_\ncol 1";
+                ws.Cells["A6"].Value = "row 6_x000d__x000a_col 1";
+
+                ws.Cells["A1:A6"].Style.WrapText = true;
+				ws.Cells["B1:B6"].Formula = "=CODE(MID(A1,5,1))";
+                ws.Cells["C1:C6"].Formula = "=CODE(MID(A1,6,1))";
+                ws.Cells["D1:D6"].Formula = "=CODE(MID(A1,7,1))";
+                ws.Cells["E1:E6"].Formula = "=CODE(MID(A1,8,1))";
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
