@@ -101,7 +101,7 @@ namespace OfficeOpenXml.Drawing.Chart.ChartEx
 
             if (chartXml == null)
             {
-                ChartXml = new XmlDocument()
+                ChartXml = new XmlDocument
                 {
                     PreserveWhitespace = ExcelPackage.preserveWhitespace
                 };

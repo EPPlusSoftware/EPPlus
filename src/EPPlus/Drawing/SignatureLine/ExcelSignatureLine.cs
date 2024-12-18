@@ -59,7 +59,7 @@ namespace OfficeOpenXml.Drawing
 
 
         /// <summary>
-        /// SignWithText with text
+        /// Sign with text
         /// </summary>
         /// <param name="signatureText">Cannot be null or empty</param>
         /// <param name="certificate"></param>
@@ -73,7 +73,7 @@ namespace OfficeOpenXml.Drawing
             return Sign(certificate, cType, purposeForSigning);
         }
         /// <summary>
-        /// SignWithText with text and existing signature
+        /// Sign with text and existing signature
         /// </summary>
         /// <param name="signatureText">Cannot be null or empty</param>
         /// <param name="digitalSignature"></param>
