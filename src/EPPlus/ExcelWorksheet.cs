@@ -1650,6 +1650,7 @@ namespace OfficeOpenXml
                                 AltText = rdWi.Text,
                                 CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None
                             };
+                            Workbook._package.PictureStore.AddImage(pic.GetImageBytes(), rdWi.ImageUri, null);
                             SetValueInner(row, col, pic);
                             while(!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
                             {
