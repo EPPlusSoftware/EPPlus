@@ -35,11 +35,13 @@ namespace EPPlusTest.Core
 
                 var ws = p.Workbook.Worksheets[0];
 
-                Assert.IsInstanceOfType(ws.Cells["B1"].Value, typeof(ExcelErrorValue));
-                Assert.AreEqual(((ExcelErrorValue)ws.Cells["B1"].Value).Type, eErrorType.Spill);
+                var b1 = ws.Cells["B1"].Value;
+                var c1 = ws.Cells["C1"].Value;
+                Assert.IsInstanceOfType(b1, typeof(ExcelErrorValue));
+                Assert.AreEqual(((ExcelErrorValue)b1).Type, eErrorType.Spill);
 
-                Assert.IsInstanceOfType(ws.Cells["C1"].Value, typeof(ExcelErrorValue));
-                Assert.AreEqual(((ExcelErrorValue)ws.Cells["C1"].Value).Type, eErrorType.Calc);
+                Assert.IsInstanceOfType(c1, typeof(ExcelErrorValue));
+                Assert.AreEqual(((ExcelErrorValue)c1).Type, eErrorType.Calc);
 
                 Assert.IsInstanceOfType(ws.Cells["F1"].Value, typeof(ExcelErrorValue));
                 Assert.AreEqual(((ExcelErrorValue)ws.Cells["F1"].Value).Type, eErrorType.Spill);

@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 
+using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.Structures.Constants;
 
 namespace OfficeOpenXml.RichData.RichValues.Errors
@@ -18,8 +19,14 @@ namespace OfficeOpenXml.RichData.RichValues.Errors
     internal class ErrorSpillRichValue : ErrorRichValueBase
     {
 
-        public ErrorSpillRichValue(RichDataDatabase richDataDb) : base(richDataDb, RichDataStructureTypes.ErrorSpill)
+        public ErrorSpillRichValue(RichDataDatabase richDataDb) : base(richDataDb, RichDataStructureTypes.Error | RichDataStructureTypes.ErrorSpill)
         {
+        }
+
+        public ErrorSpillRichValue(RichDataDatabase richDataDb, IndexedSubsetCollection<ExcelRichValueValue> values)
+            : base(richDataDb, values, RichDataStructureTypes.Error | RichDataStructureTypes.ErrorSpill)
+        {
+            
         }
 
         public int? ColOffset

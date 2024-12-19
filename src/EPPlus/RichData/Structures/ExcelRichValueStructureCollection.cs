@@ -151,7 +151,12 @@ namespace OfficeOpenXml.RichData.Structures
         internal ExcelRichValueStructure GetByType(RichDataStructureTypes structure, List<string> keyNames)
         {
             var keyIds = _keyNamesCache.GetIds(keyNames);
-            if (_structures.TryGetValue(structure, out List<RichValueStructureReference> structureRefs))
+            var sk = structure;
+            if((sk & RichDataStructureTypes.Error) == RichDataStructureTypes.Error)
+            {
+                sk = RichDataStructureTypes.Error;
+            }
+            if (_structures.TryGetValue(sk, out List<RichValueStructureReference> structureRefs))
             {
                 foreach(var reference in structureRefs)
                 {

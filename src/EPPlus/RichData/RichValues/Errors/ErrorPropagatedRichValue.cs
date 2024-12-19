@@ -23,7 +23,11 @@ namespace OfficeOpenXml.RichData.RichValues.Errors
 {
     internal class ErrorPropagatedRichValue : ErrorRichValueBase
     {
-        public ErrorPropagatedRichValue(RichDataDatabase richDataDb) : base(richDataDb, RichDataStructureTypes.ErrorPropagated)
+        public ErrorPropagatedRichValue(RichDataDatabase richDataDb) : base(richDataDb, RichDataStructureTypes.Error | RichDataStructureTypes.ErrorPropagated)
+        {
+        }
+
+        public ErrorPropagatedRichValue(RichDataDatabase richDataDb, IndexedSubsetCollection<ExcelRichValueValue> values) : base(richDataDb, values, RichDataStructureTypes.Error | RichDataStructureTypes.ErrorPropagated)
         {
         }
         public string Propagated
