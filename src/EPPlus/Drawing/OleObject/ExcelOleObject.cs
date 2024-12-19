@@ -213,7 +213,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;
-            CreateOleObject(drawings, node, Name, oleData, parameters, iconData, parent);
+            CreateOleObject(drawings, node, name, oleData, parameters, iconData, parent);
         }
 
         internal void CreateOleObject(ExcelDrawings drawings, XmlNode node, string name, byte[] oleData, ExcelOleObjectParameters parameters, byte[] iconData = null, ExcelGroupShape parent = null)
