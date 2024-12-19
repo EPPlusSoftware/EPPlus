@@ -155,7 +155,7 @@ namespace EPPlusTest.InCellImages
         [TestMethod]
         public void testImageInCell()
         {
-            using var p = new ExcelPackage(@"c:\epplustest\workbooks\richdata.xlsx");
+            using var p = OpenTemplatePackage(@"c:\epplustest\workbooks\richdata.xlsx");
             var ws = p.Workbook.Worksheets[0];
             var stockholm = ws.Cells["G1"].Picture.Get();
             var text = ws.Cells["F1"].Value;
@@ -168,7 +168,7 @@ namespace EPPlusTest.InCellImages
             ws2.Cells["G2"].Picture.Set(tokyo.GetImageBytes());
             ws2.Cells["G3"].Picture.Set(dallas.GetImageBytes());
 
-            p.SaveAs(@"c:\epplustest\testoutput\A_RichDataTest.xlsx");
+            SaveAndCleanup(p);
         }
 
 
