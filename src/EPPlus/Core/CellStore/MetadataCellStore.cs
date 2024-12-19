@@ -10,6 +10,7 @@
  *************************************************************************************************
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Metadata;
 using System;
@@ -57,26 +58,23 @@ namespace OfficeOpenXml.Core.CellStore
 
         private void HandleMetadataReferencesRange(int fromRow, int fromCol, int rows, int columns)
         {
-            for (var row = fromRow; row < fromRow + rows; row++)
-            {
-                for (var col = fromCol; col < fromCol + columns; col++)
+            var cse = new CellStoreEnumerator<MetaDataReference>(this, fromRow, fromCol, fromRow + rows - 1, fromCol + columns + 1);
+            foreach(var cell in cse)
+            { 
+                if (cell.cm > 0)
                 {
-                    var existingMetadata = GetValue(row, col);
-                    if (existingMetadata.cm > 0)
+                    var existingCmBk = _metadata.Db.CellMetadata.Get(cell.cm);
+                    if (existingCmBk != null)
                     {
-                        var existingCmBk = _metadata.Db.CellMetadata.Get(existingMetadata.cm);
-                        if (existingCmBk != null)
-                        {
-                            existingCmBk.DecreaseReferences();
-                        }
+                        existingCmBk.DecreaseReferences();
                     }
-                    if (existingMetadata.vm > 0)
+                }
+                if (cell.vm > 0)
+                {
+                    var existingVmBk = _metadata.Db.CellMetadata.Get(cell.vm);
+                    if (existingVmBk != null)
                     {
-                        var existingVmBk = _metadata.Db.CellMetadata.Get(existingMetadata.vm);
-                        if (existingVmBk != null)
-                        {
-                            existingVmBk.DecreaseReferences();
-                        }
+                        existingVmBk.DecreaseReferences();
                     }
                 }
             }
