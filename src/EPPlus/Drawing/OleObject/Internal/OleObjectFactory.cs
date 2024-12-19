@@ -32,17 +32,17 @@ namespace OfficeOpenXml.Drawing.OleObject
             return new ExcelOleObject(drawings, node, oleObject, parent);
         }
 
-        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string name, string olePath, ExcelOleObjectParameters parameters, string iconFilePath = null)
+        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string name, string olePath, ExcelOleObjectParameters parameters)
         {
-            return new ExcelOleObject(drawings, drawNode, name, olePath, parameters, iconFilePath);
+            return new ExcelOleObject(drawings, drawNode, name, olePath, parameters);
         }
-        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string name, FileInfo oleInfo, ExcelOleObjectParameters parameters, FileInfo iconInfo = null)
+        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string name, FileInfo oleInfo, ExcelOleObjectParameters parameters)
         {
-            return new ExcelOleObject(drawings, drawNode, name, oleInfo, parameters, iconInfo);
+            return new ExcelOleObject(drawings, drawNode, name, oleInfo, parameters);
         }
-        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string name, Stream oleStream, ExcelOleObjectParameters parameters, Stream iconStream = null)
+        internal static ExcelOleObject CreateOleObject(ExcelDrawings drawings, XmlElement drawNode, string name, Stream oleStream, ExcelOleObjectParameters parameters)
         {
-            return new ExcelOleObject(drawings, drawNode, name, oleStream, parameters, iconStream);
+            return new ExcelOleObject(drawings, drawNode, name, oleStream, parameters);
         }
     }
 }
