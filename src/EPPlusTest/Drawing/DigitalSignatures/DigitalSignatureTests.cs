@@ -38,7 +38,15 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             return newCert;
         }
 
-        [ClassInitialize]
+        //Alternate method for if you have a valid cert locally already
+        //X509Certificate2 GetSelfCert()
+        //{
+        //    X509Store store = new X509Store(StoreLocation.CurrentUser);
+        //    store.Open(OpenFlags.ReadOnly);
+        //    return store.Certificates[1];
+        //}
+
+            [ClassInitialize]
         public static void Init(TestContext context)
         {
             CreatePathIfNotExists(_worksheetPath + SubFolder);
@@ -47,6 +55,17 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [ClassCleanup]
         public static void Cleanup()
         {
+        }
+
+        void FillInfoWithString(AdditionalSignatureInfo info, string s)
+        {
+            info.SignerRoleTitle = s;
+            info.Address1 = s;
+            info.Address2 = s;
+            info.ZipOrPostalCode = s;
+            info.City = s;
+            info.CountryOrRegion = s;
+            info.StateOrProvince = s;
         }
 
         [TestMethod]
@@ -73,7 +92,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
                 info.Address2 = "Where";
-                info.ZIPorPostalCode = "Over";
+                info.ZipOrPostalCode = "Over";
                 info.City = "The";
                 info.CountryOrRegion = "Rainbow";
                 info.StateOrProvince = "WayUpHigh";
@@ -92,7 +111,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual("A Title", info.SignerRoleTitle);
                 Assert.AreEqual("Some", info.Address1);
                 Assert.AreEqual("Where", info.Address2);
-                Assert.AreEqual("Over", info.ZIPorPostalCode);
+                Assert.AreEqual("Over", info.ZipOrPostalCode);
                 Assert.AreEqual("The", info.City);
                 Assert.AreEqual("Rainbow", info.CountryOrRegion);
                 Assert.AreEqual("WayUpHigh", info.StateOrProvince);
@@ -278,7 +297,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
                 info.Address2 = "Where";
-                info.ZIPorPostalCode = "Over";
+                info.ZipOrPostalCode = "Over";
                 info.City = "The";
                 info.CountryOrRegion = "Rainbow";
                 info.StateOrProvince = "WayUpHigh";
@@ -449,7 +468,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.SignerRoleTitle = title;
                 info.Address1 = address;
                 info.Address2 = address2;
-                info.ZIPorPostalCode = ZIPorPostalCode;
+                info.ZipOrPostalCode = ZIPorPostalCode;
                 info.City = city;
                 info.CountryOrRegion = CountryOrRegion;
                 info.StateOrProvince = StateOrProvince;
@@ -463,7 +482,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual(title, signerInformation.SignerRoleTitle);
                 Assert.AreEqual(address, signerInformation.Address1);
                 Assert.AreEqual(address2, signerInformation.Address2);
-                Assert.AreEqual(ZIPorPostalCode, signerInformation.ZIPorPostalCode);
+                Assert.AreEqual(ZIPorPostalCode, signerInformation.ZipOrPostalCode);
                 Assert.AreEqual(city, signerInformation.City);
                 Assert.AreEqual(CountryOrRegion, signerInformation.CountryOrRegion);
                 Assert.AreEqual(StateOrProvince, signerInformation.StateOrProvince);
@@ -565,7 +584,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
                 info.Address2 = "Where";
-                info.ZIPorPostalCode = "Over";
+                info.ZipOrPostalCode = "Over";
                 info.City = "The";
                 info.CountryOrRegion = "Rainbow";
                 info.StateOrProvince = "WayUpHigh";
@@ -612,6 +631,27 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             TestHashAlgorithm("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", "http://www.w3.org/2001/04/xmlenc#sha512", DigitalSignatureHashAlgorithm.SHA512);
         }
 
+
+        [TestMethod]
+        public void TwoDifferentHashAlgsOnDifferentSignaturesShouldOnlyBeTheLastSet()
+        {
+            string fileName = $"{SubFolder}DoubleHashes.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets.Add("SignatureWs");
+
+                var signature = wb.DigitialSignatures.AddSignature(GetSelfCert());
+                signature.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA384);
+
+                var signature2 = wb.DigitialSignatures.AddSignature(GetSelfCert());
+                signature2.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA512);
+
+                SaveAndCleanup(package);
+            }
+        }
+
         [TestMethod]
         [ExpectedException(typeof(InvalidDataException))]
         public void SetFaultyFromToRow()
@@ -631,7 +671,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
         [TestMethod]
         [ExpectedException(typeof(InvalidDataException))]
-        public void SetFaultyFromToRowColumn()
+        public void SetFaultyFromToColumn()
         {
             using (ExcelPackage package = new ExcelPackage())
             {
@@ -643,6 +683,64 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 sLine.To.Column = 4;
 
                 package.Save();
+            }
+        }
+
+        [TestMethod]
+        public void EnsureTextIsEscaped()
+        {
+            string fileName = $"{SubFolder}StrangeSymbolsEscapedSignedSignatureLine.xlsx";
+            var symbols = "\"&%/Stuff���}=``#�\"<>\"An Example\"";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
+
+                var sLine = ws.SignatureLines.Add();
+                sLine.Signer = symbols;
+                sLine.Title = symbols;
+                sLine.Email = symbols;
+                sLine.SigningInstructions = symbols;
+                sLine.AllowComments = true;
+
+                var digSig = wb.DigitialSignatures.AddSignature(GetSelfCert());
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+                digSig.PurposeForSigning = symbols;
+
+                var info = digSig.Details;
+                FillInfoWithString(info, symbols);
+
+                var signature = sLine.SignWithText(GetSelfCert(), symbols);
+                signature.PurposeForSigning = symbols;
+                signature.CommitmentTyping = CommitmentType.Approved;
+
+                FillInfoWithString(signature.Details, symbols);
+
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage(fileName))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets[0];
+
+                var sigLine = ws.SignatureLines[0].AsSignatureLine;
+
+                Assert.AreEqual(symbols, sigLine.Signer);
+                Assert.AreEqual(symbols, sigLine.Title);
+                Assert.AreEqual(symbols, sigLine.Email);
+                Assert.AreEqual(symbols, sigLine.SigningInstructions);
+
+                var digSig = sigLine.DigitalSignature;
+
+                Assert.AreEqual(symbols, digSig.Details.SignerRoleTitle);
+                Assert.AreEqual(symbols, digSig.Details.Address1);
+                Assert.AreEqual(symbols, digSig.Details.Address2);
+                Assert.AreEqual(symbols, digSig.Details.ZipOrPostalCode);
+                Assert.AreEqual(symbols, digSig.Details.City);
+                Assert.AreEqual(symbols, digSig.Details.CountryOrRegion);
+                Assert.AreEqual(symbols, digSig.Details.StateOrProvince);
             }
         }
     }

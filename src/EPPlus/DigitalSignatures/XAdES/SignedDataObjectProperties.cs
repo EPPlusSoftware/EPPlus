@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
@@ -136,7 +137,7 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
             //Purposes for signing document
             for(int i = 0; i< CommitmentTypeQualifiers.Count; i++)
             {
-                sb.Append($"<{Prefix}:CommitmentTypeQualifier>{CommitmentTypeQualifiers[i]}</{Prefix}:CommitmentTypeQualifier>");
+                sb.Append($"<{Prefix}:CommitmentTypeQualifier>{ConvertUtil.ExcelEscapeAndEncodeString(CommitmentTypeQualifiers[i])}</{Prefix}:CommitmentTypeQualifier>");
             }
             sb.Append($"</{Prefix}:CommitmentTypeQualifiers>");
 

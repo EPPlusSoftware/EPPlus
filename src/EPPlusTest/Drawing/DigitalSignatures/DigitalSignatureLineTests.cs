@@ -28,6 +28,14 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             return newCert;
         }
 
+        //Alternate method for if you have a valid cert locally already
+        //X509Certificate2 GetSelfCert()
+        //{
+        //    X509Store store = new X509Store(StoreLocation.CurrentUser);
+        //    store.Open(OpenFlags.ReadOnly);
+        //    return store.Certificates[1];
+        //}
+
         [ClassInitialize]
         public static void Init(TestContext context)
         {
@@ -494,7 +502,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
                 info.Address2 = "Where";
-                info.ZIPorPostalCode = "Over";
+                info.ZipOrPostalCode = "Over";
                 info.City = "The";
                 info.CountryOrRegion = "Rainbow";
                 info.StateOrProvince = "WayUpHigh";
@@ -520,7 +528,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual("A Title", info.SignerRoleTitle);
                 Assert.AreEqual("Some", info.Address1);
                 Assert.AreEqual("Where", info.Address2);
-                Assert.AreEqual("Over", info.ZIPorPostalCode);
+                Assert.AreEqual("Over", info.ZipOrPostalCode);
                 Assert.AreEqual("The", info.City);
                 Assert.AreEqual("Rainbow", info.CountryOrRegion);
                 Assert.AreEqual("WayUpHigh", info.StateOrProvince);

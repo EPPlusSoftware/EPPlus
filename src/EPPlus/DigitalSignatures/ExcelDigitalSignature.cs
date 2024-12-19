@@ -224,8 +224,10 @@ namespace OfficeOpenXml.DigitalSignatures
             {
                 //if there is no read manifest then the manifest has changed
                 bool manifestChanged = true;
-  
-                _manifest = new DigSigManifest(_wb._package.ZipPackage.XmlManifest, _wb._package.ZipPackage.hashAlgorithm);
+
+                SetDigestMethod(_wb._package.ZipPackage.hashAlgorithm);
+
+               _manifest = new DigSigManifest(_wb._package.ZipPackage.XmlManifest, _wb._package.ZipPackage.hashAlgorithm);
 
                 if (readManifest != null)
                 {

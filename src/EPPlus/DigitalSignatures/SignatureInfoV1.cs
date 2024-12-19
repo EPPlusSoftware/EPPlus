@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.Utils;
+using System;
 using System.Text;
 using System.Xml;
 
@@ -7,7 +8,7 @@ namespace OfficeOpenXml.DigitalSignatures
     /// <summary>
     /// Information about the signature including OSversion and office version
     /// </summary>
-    public class SignatureInfoV1
+    internal class SignatureInfoV1
     {
         internal SignatureInfoV1(bool eastAsianProvider = false) 
         {
@@ -44,19 +45,19 @@ namespace OfficeOpenXml.DigitalSignatures
             var delegateList1 = SignatureInfo1Node.GetElementsByTagName("DelegateSuggestedSigner");
             if (delegateList1.Count != 0)
             {
-                DelegateSuggestedSigner = delegateList1[0].InnerText;
+                DelegateSuggestedSigner = ConvertUtil.ExcelDecodeString(delegateList1[0].InnerText);
             }
 
             var delegateList2 = SignatureInfo1Node.GetElementsByTagName("DelegateSuggestedSigner2");
             if (delegateList2.Count != 0)
             {
-                DelegateSuggestedSigner = delegateList2[0].InnerText;
+                DelegateSuggestedSigner = ConvertUtil.ExcelDecodeString(delegateList2[0].InnerText);
             }
 
             var DelegateSuggestedSignerEmailLst = SignatureInfo1Node.GetElementsByTagName("DelegateSuggestedSignerEmail");
             if (DelegateSuggestedSignerEmailLst.Count != 0)
             {
-                DelegateSuggestedSigner = DelegateSuggestedSignerEmailLst[0].InnerText;
+                DelegateSuggestedSigner = ConvertUtil.ExcelDecodeString(DelegateSuggestedSignerEmailLst[0].InnerText);
             }
 
             var testNullVar = SignatureInfo1Node.GetElementsByTagName("ManifestHashAlgorithm")[0];
@@ -70,27 +71,27 @@ namespace OfficeOpenXml.DigitalSignatures
         }
 
         //Required children
-        public string SetUpId = "";
-        public string SignatureText = "";
+        internal string SetUpId = "";
+        internal string SignatureText = "";
         //Base64 binary image string
-        public string SignatureImage;
-        public string SignatureComments;
-        public string WindowsVersion;
-        public string OfficeVersion;
-        public string ApplicationVersion;
-        public uint Monitors;
-        public uint HorizontalResolution;
-        public uint VerticalResolution;
-        public uint ColorDepth;
-        public string SignatureProviderID;
-        public string SignatureProviderUrl;
-        public int SignatureProviderDetails;
-        public DigitalSignatureType SignatureType;
+        internal string SignatureImage;
+        internal string SignatureComments;
+        internal string WindowsVersion;
+        internal string OfficeVersion;
+        internal string ApplicationVersion;
+        internal uint Monitors;
+        internal uint HorizontalResolution;
+        internal uint VerticalResolution;
+        internal uint ColorDepth;
+        internal string SignatureProviderID;
+        internal string SignatureProviderUrl;
+        internal int SignatureProviderDetails;
+        internal DigitalSignatureType SignatureType;
         //Optional children
-        public string DelegateSuggestedSigner = null;
-        public string DelegateSuggestedSigner2 = null;
-        public string DelegateSuggestedSignerEmail = null;
-        public Uri ManifestHashAlgorithm = null;
+        internal string DelegateSuggestedSigner = null;
+        internal string DelegateSuggestedSigner2 = null;
+        internal string DelegateSuggestedSignerEmail = null;
+        internal Uri ManifestHashAlgorithm = null;
 
         internal string GetXml()
         {
@@ -98,9 +99,9 @@ namespace OfficeOpenXml.DigitalSignatures
 
             sb.Append($"<SignatureInfoV1 xmlns=\"http://schemas.microsoft.com/office/2006/digsig\">");
             sb.Append($"<SetupID>{SetUpId}</SetupID>");
-            sb.Append($"<SignatureText>{SignatureText}</SignatureText>");
+            sb.Append($"<SignatureText>{ConvertUtil.ExcelEscapeAndEncodeString(SignatureText)}</SignatureText>");
             sb.Append($"<SignatureImage>{SignatureImage}</SignatureImage>");
-            sb.Append($"<SignatureComments>{SignatureComments}</SignatureComments>");
+            sb.Append($"<SignatureComments>{ConvertUtil.ExcelEscapeAndEncodeString(SignatureComments)}</SignatureComments>");
             sb.Append($"<WindowsVersion>{WindowsVersion}</WindowsVersion>");
             sb.Append($"<OfficeVersion>{OfficeVersion}</OfficeVersion>");
             sb.Append($"<ApplicationVersion>{ApplicationVersion}</ApplicationVersion>");
@@ -115,17 +116,17 @@ namespace OfficeOpenXml.DigitalSignatures
 
             if (DelegateSuggestedSigner != null)
             {
-                sb.Append($"<DelegateSuggestedSigner>{DelegateSuggestedSigner}</DelegateSuggestedSigner>");
+                sb.Append($"<DelegateSuggestedSigner>{ConvertUtil.ExcelEscapeAndEncodeString(DelegateSuggestedSigner)}</DelegateSuggestedSigner>");
             }
 
             if(DelegateSuggestedSigner2 != null)
             {
-                sb.Append($"<DelegateSuggestedSigner2>{DelegateSuggestedSigner2}</DelegateSuggestedSigner2>");
+                sb.Append($"<DelegateSuggestedSigner2>{ConvertUtil.ExcelEscapeAndEncodeString(DelegateSuggestedSigner2)}</DelegateSuggestedSigner2>");
             }
 
             if (DelegateSuggestedSignerEmail != null)
             {
-                sb.Append($"<DelegateSuggestedSignerEmail>{DelegateSuggestedSignerEmail}</DelegateSuggestedSignerEmail>");
+                sb.Append($"<DelegateSuggestedSignerEmail>{ConvertUtil.ExcelEscapeAndEncodeString(DelegateSuggestedSignerEmail)}</DelegateSuggestedSignerEmail>");
             }
 
             if(ManifestHashAlgorithm != null)
