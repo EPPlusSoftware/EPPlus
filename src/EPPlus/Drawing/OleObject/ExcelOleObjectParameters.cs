@@ -46,6 +46,10 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// Use to set custom progId.
         /// </summary>
         public string ProgId = null;
+        /// <summary>
+        /// The icon for the object.
+        /// </summary>
+        public ExcelImage Icon = null;
         private string _extension;
         /// <summary>
         /// File Extension of OLE Object.

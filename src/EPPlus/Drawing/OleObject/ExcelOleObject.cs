@@ -23,6 +23,7 @@ using System.IO;
 using System.Text;
 using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Drawing.OleObject.Structures;
+using System.Drawing;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
@@ -129,9 +130,8 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// <param name="name"></param>
         /// <param name="olePath"></param>
         /// <param name="parameters"></param>
-        /// <param name="iconPath"></param>
         /// <param name="parent"></param>
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, string olePath, ExcelOleObjectParameters parameters, string iconPath = null, ExcelGroupShape parent = null)
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, string olePath, ExcelOleObjectParameters parameters, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             byte[] oleData = null;
@@ -140,18 +140,14 @@ namespace OfficeOpenXml.Drawing.OleObject
                 oleData = File.ReadAllBytes(olePath);
             }
             parameters.Extension = Path.GetExtension(olePath);
-            byte[] iconData;
-            if(string.IsNullOrEmpty(iconPath))
+            byte[] iconData = null;
+            if (parameters.Icon != null)
             {
-                iconData = null;
-            }
-            else
-            {
-                iconData = File.ReadAllBytes(iconPath);
+                iconData = parameters.Icon.ImageBytes;
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;
-            CreateOleObject(drawings, node, Name, oleData, parameters, iconData, parent);
+            CreateOleObject(drawings, node, name, oleData, parameters, iconData, parent);
         }
 
         /// <summary>
@@ -162,9 +158,8 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// <param name="name"></param>
         /// <param name="oleInfo"></param>
         /// <param name="parameters"></param>
-        /// <param name="iconInfo"></param>
         /// <param name="parent"></param>
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, FileInfo oleInfo, ExcelOleObjectParameters parameters, FileInfo iconInfo = null, ExcelGroupShape parent = null)
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, FileInfo oleInfo, ExcelOleObjectParameters parameters, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             byte[] oleData = null;
@@ -182,22 +177,14 @@ namespace OfficeOpenXml.Drawing.OleObject
                     oleFs.Read(oleData, 0, oleData.Length);
                 }
             }
-            byte[] iconData;
-            if (iconInfo == null)
+            byte[] iconData = null;
+            if (parameters.Icon != null)
             {
-                iconData = null;
-            }
-            else
-            {
-                using FileStream icoFs = oleInfo.OpenRead();
-                {
-                    iconData = new byte[icoFs.Length];
-                    icoFs.Read(iconData, 0, iconData.Length);
-                }
+                iconData = parameters.Icon.ImageBytes;
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;
-            CreateOleObject(drawings, node, Name, oleData, parameters, iconData, parent);
+            CreateOleObject(drawings, node, name, oleData, parameters, iconData, parent);
         }
 
         /// <summary>
@@ -208,9 +195,8 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// <param name="name"></param>
         /// <param name="oleStream"></param>
         /// <param name="parameters"></param>
-        /// <param name="iconStream"></param>
         /// <param name="parent"></param>
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, Stream oleStream, ExcelOleObjectParameters parameters, Stream iconStream = null, ExcelGroupShape parent = null)
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, Stream oleStream, ExcelOleObjectParameters parameters, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             byte[] oleData = new byte[oleStream.Length];
@@ -221,11 +207,9 @@ namespace OfficeOpenXml.Drawing.OleObject
                 throw new IOException("The file is too long.This operation is currently limited to supporting files less than 2 gigabytes in size.");
             }
             byte[] iconData = null;
-            if (iconStream != null)
+            if (parameters.Icon != null)
             {
-                iconData = new byte[iconStream.Length];
-                iconStream.Seek(0, SeekOrigin.Begin);
-                iconStream.Read(iconData, 0, (int)iconStream.Length);
+                iconData = parameters.Icon.ImageBytes;
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;

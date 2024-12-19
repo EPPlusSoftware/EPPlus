@@ -155,7 +155,7 @@ namespace EPPlusTest.InCellImages
         [TestMethod]
         public void testImageInCell()
         {
-            using var p = OpenTemplatePackage(@"c:\epplustest\workbooks\richdata.xlsx");
+            using var p = OpenTemplatePackage("MyRichData.xlsx");
             var ws = p.Workbook.Worksheets[0];
             var stockholm = ws.Cells["G1"].Picture.Get();
             var text = ws.Cells["F1"].Value;
