@@ -6251,6 +6251,6 @@ namespace EPPlusTest
 
                 SaveAndCleanup(package);
             }
-        }       
+        }
     }
 }

@@ -14,7 +14,6 @@ namespace OfficeOpenXml.Drawing.Vml
             base(ns, node)
         {
             _setWidthCallback = setWidthCallback;
-            Load();
         }
 
         internal int _column, _row, _columnOff, _rowOff;

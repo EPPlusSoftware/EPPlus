@@ -672,6 +672,14 @@ namespace OfficeOpenXml.Drawing.Vml
 
         internal override void CreateVmlPart(bool save)
         {
+            if (save)
+            {
+                foreach (var sLine in _signatureLines)
+                {
+                    sLine.UpdateXml();
+                }
+            }
+
             base.CreateVmlPart(save);
             //Signature Line emf picture is created based on the vmlpart
             //TODO: Avoid saving if no change made?

@@ -50,6 +50,7 @@ namespace OfficeOpenXml.Drawing
             To.Column = 4;
             From.Row = 0;
             To.Row = 6;
+            To.RowOffset = 8;
         }
 
         internal ExcelSignatureLine(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(ws, topNode, ns)

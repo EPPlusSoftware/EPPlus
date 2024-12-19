@@ -31,9 +31,6 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             _startPos = startPos;
             Load();
-            ////_column = GetXmlNodeInt(colPath);
-            //string anchor = GetXmlNodeString("x:Anchor");
-            //string[] numbers = anchor.Split(',');
         }
 
         //Hide slightly different worded otherwise public props
@@ -60,12 +57,10 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             get
             {
-                //return GetNumber(3);
                 return _rowOff;
             }
             set
             {
-                //SetNumber(3, value);
                 _rowOff = value;
             }
         }
@@ -83,41 +78,14 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             get
             {
-                //return GetNumber(1);
                 return _columnOff;
             }
             set
             {
-                //SetNumber(1, value);
                 _columnOff = value;
             }
         }
 
-        //private void SetNumber(int pos, int value)
-        //{
-        //    string anchor = GetXmlNodeString("x:Anchor");
-        //    string[] numbers = anchor.Split(',');
-
-        //    if (numbers.Length == 8)
-        //    {
-        //        numbers[_startPos + pos] = value.ToString();
-        //    }
-        //    else
-        //    {
-        //        var size = numbers.Length;
-        //        Array.Resize<string>(ref numbers, 8);
-        //        for (int i = 0; i < 8; i++)
-        //        {
-        //            if(string.IsNullOrEmpty(numbers[i]))
-        //            {
-        //                numbers[i] = "0";
-        //            }
-        //        }
-        //    }
-
-        //    var outString = string.Format(anchorFormat, numbers[0], numbers[1], numbers[2], numbers[3], numbers[4], numbers[5], numbers[6], numbers[7]);
-        //    SetXmlNodeString("x:Anchor", outString);
-        //}
         private void SetNumbers()
         {
             string anchor = GetXmlNodeString("x:Anchor");
@@ -164,10 +132,10 @@ namespace OfficeOpenXml.Drawing.Vml
         /// </summary>
         public override void Load()
         {
-            _column = GetNumber(0);
-            _columnOff = GetNumber(1);
-            _row = GetNumber(2);
-            _rowOff = GetNumber(3);
+            Column = GetNumber(0);
+            ColumnOffset = GetNumber(1);
+            Row = GetNumber(2);
+            RowOffset = GetNumber(3);
         }
         /// <summary>
         /// Update xml data
@@ -175,10 +143,6 @@ namespace OfficeOpenXml.Drawing.Vml
         public override void UpdateXml()
         {
             SetNumbers();
-            //SetXmlNodeString(colPath, _column.ToString());
-            //SetXmlNodeString(colOffPath, _columnOff.ToString());
-            //SetXmlNodeString(rowPath, _row.ToString());
-            //SetXmlNodeString(rowOffPath, _rowOff.ToString());
         }
     }
 }

@@ -91,7 +91,7 @@ namespace OfficeOpenXml.Drawing
             To.Row = 8;
         }
 
-        internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
+        internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns, ws)
         {
             _ws = ws;
             wb = ws.Workbook;
@@ -99,9 +99,6 @@ namespace OfficeOpenXml.Drawing
 
         internal void SaveMedia(ZipPackagePart part)
         {
-            From.UpdateXml();
-            To.UpdateXml();
-
             Emf = _signatureLineType == eSignatureLineType.Stamp ? new SignatureLineTemplateEmfStamp() : new SignatureLineTemplateEmf();
             Emf.SuggestedSigner = Signer;
             Emf.SuggestedTitle = Title;

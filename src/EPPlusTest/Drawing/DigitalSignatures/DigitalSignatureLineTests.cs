@@ -441,7 +441,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var invalidImg = GetOutputFile(SubFolder, $"{sharedName}Invalid.emf");
 
                 DecodeAndSaveEmf(sLine.SigLnImage, imageOnly.FullName);
-                var emptyTemplatePart = pck.Workbook._package.ZipPackage.GetPart(new Uri("xl\\media\\image1.emf",UriKind.Relative));
+                var emptyTemplatePart = pck.Workbook._package.ZipPackage.GetPart(new Uri("xl\\media\\image1.emf", UriKind.Relative));
                 var imageStream = (MemoryStream)emptyTemplatePart.GetStream(FileMode.Open, FileAccess.Read);
                 var bytes = imageStream.ToArray();
                 File.WriteAllBytes(noSigOnlyTemplate.FullName, bytes);
@@ -712,7 +712,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [TestMethod]
         public void SignatureLinePixels()
         {
-            using (ExcelPackage package = OpenPackage("sizingSignatureLine.xlsx", true))
+            var fileName = $"{SubFolder}SizingSigLine.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("SomeWs");
@@ -720,20 +722,106 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var sLine = ws.SignatureLines.Add();
                 var sLineOther = ws.SignatureLines.Add();
 
+                var origPixHeight = sLine.GetPixelHeight();
+                var origPixWidth = sLine.GetPixelWidth();
 
-                var pixHeightCurrent = sLine.GetPixelHeight();
-                var pixWidthCurrent = sLine.GetPixelWidth();
+                var origCol = sLine.To.Column;
+                var origColOff = sLine.To.ColumnOffset;
+                var origRow = sLine.To.Row;
+                var origRowOff = sLine.To.RowOffset;
 
-                sLine.SetPixelWidth(pixWidthCurrent);
-                sLine.SetPixelHeight(pixHeightCurrent);
+                sLine.SetPixelWidth(origPixWidth);
+                sLine.SetPixelHeight(origPixHeight);
 
-                Assert.AreEqual(pixHeightCurrent, sLine.GetPixelHeight());
-                Assert.AreEqual(pixWidthCurrent, sLine.GetPixelWidth());
+                Assert.AreEqual(origPixHeight, sLine.GetPixelHeight());
+                Assert.AreEqual(origPixWidth, sLine.GetPixelWidth());
 
-                sLine.SetPixelWidth(pixWidthCurrent*2);
-                sLine.SetPixelHeight(pixHeightCurrent*2);
+                Assert.AreEqual(origCol, sLine.To.Column);
+                Assert.AreEqual(origColOff, sLine.To.ColumnOffset);
+                Assert.AreEqual(origRow, sLine.To.Row);
+                Assert.AreEqual(origRowOff, sLine.To.RowOffset);
+
+                sLine.SetPixelWidth(origPixWidth * 2);
+                sLine.SetPixelHeight(origPixHeight * 2);
+
+                Assert.AreEqual(origPixHeight * 2, sLine.GetPixelHeight());
+                Assert.AreEqual(origPixWidth * 2, sLine.GetPixelWidth());
+
+                Assert.AreEqual(origCol * 2, sLine.To.Column);
+                Assert.AreEqual(origColOff * 2, sLine.To.ColumnOffset);
+                Assert.AreEqual(origRow * 2, sLine.To.Row);
+                Assert.AreEqual(origRowOff * 2, sLine.To.RowOffset);
+
+                sLineOther.SetSize(200);
+
+                //Ensure 200% is equal
+                Assert.AreEqual(sLine.GetPixelHeight(), sLineOther.GetPixelHeight());
+                Assert.AreEqual(sLine.GetPixelWidth(), sLineOther.GetPixelWidth());
 
                 SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void SignatureLinesShouldBeRead()
+        {
+            var fileName = $"{SubFolder}readSizingSigLine.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var ws = package.Workbook.Worksheets.Add("aWs");
+
+                var sLine = ws.SignatureLines.Add();
+
+                sLine.From.Row = 9;
+                sLine.From.Column = 5;
+
+                sLine.To.Row = 9 + 6;
+                sLine.To.Column = 5 + 4;
+
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage(fileName))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                var sLine = ws.SignatureLines[0].AsSignatureLine;
+
+                Assert.AreEqual(9, sLine.From.Row);
+                Assert.AreEqual(9 + 6, sLine.To.Row);
+                Assert.AreEqual(5, sLine.From.Column);
+                Assert.AreEqual(9, sLine.To.Column);
+            }
+        }
+
+        [TestMethod]
+        public void SignatureLinesShouldBeReadCorrectlyAfterSettingPixelSize()
+        {
+            var fileName = $"{SubFolder}SetPixelSizeSignatureLine.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var ws = package.Workbook.Worksheets.Add("SetPixelSize");
+
+                var sLine = ws.SignatureLines.Add();
+
+                sLine.From.Row = 9;
+                sLine.From.Column = 5;
+
+                sLine.SetSize(100, 100);
+
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage(fileName))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                var sLine = ws.SignatureLines[0].AsSignatureLine;
+
+                Assert.AreEqual(100, sLine.GetPixelWidth());
+                Assert.AreEqual(100, sLine.GetPixelHeight());
             }
         }
     }
