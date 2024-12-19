@@ -45,7 +45,7 @@ namespace EPPlusTest.Issues
 		[TestMethod]
 		public void I1229()
 		{
-			using (var p = OpenPackage("XLOOKUP.xlsx"))
+			using (var p = OpenPackage("XLOOKUP.xlsx", true))
 			{
 				var ws = p.Workbook.Worksheets.Add("Sheet1");
 				ws.Cells["A1:A5"].Formula = "XLOOKUP(B1,$C$1:$C$5,$D$1:$D$5,0)";
@@ -83,6 +83,8 @@ namespace EPPlusTest.Issues
 				Assert.AreEqual(13, ws.Cells["E3"].Value);
 				Assert.AreEqual(14, ws.Cells["E4"].Value);
 				Assert.AreEqual(15, ws.Cells["E5"].Value);
+
+				SaveWorkbook("XLOOKUP.xlsx", p);
 
 			}
 		}
@@ -500,6 +502,76 @@ namespace EPPlusTest.Issues
 
                 wb.Workbook.Calculate();
             }
+        }
+		[TestMethod]
+        public void i1708()
+        {
+            using (var package = OpenPackage("i1708.xlsx"))
+            {
+                var sheet1 = package.Workbook.Worksheets.Add("Sheet1");
+                package.Compatibility.IsWorksheets1Based = true;
+
+                sheet1.Cells["C3"].Formula = @"IFERROR(IF(OR(H3="""",I3="""",E3=0),""N/A"",IF(J3<>"""",INDEX($G$1:$J$1,MATCH(TRUE,INDEX(ABS(G3:J3-E3)=MIN(INDEX(ABS(G3:J3-E3),,)),,),0)),INDEX($G$1:$I$1,MATCH(TRUE,INDEX(ABS(G3:I3-E3)=MIN(INDEX(ABS(G3:I3-E3),,)),,),0)))),"""")";
+                sheet1.Cells["E3"].Value = 25;
+
+                sheet1.Cells["G1"].Value = "one";
+                sheet1.Cells["H1"].Value = "two";
+                sheet1.Cells["I1"].Value = "three";
+                sheet1.Cells["J1"].Value = "four";
+
+                sheet1.Cells["G3"].Value = 10;
+                sheet1.Cells["H3"].Value = 20;
+                sheet1.Cells["I3"].Value = 30;
+                sheet1.Cells["J3"].Value = 40;
+
+                package.Workbook.Calculate();
+                Assert.AreEqual("two", sheet1.Cells["C3"].Value);
+            }
+        }
+
+		[TestMethod]
+		public void i1729()
+		{
+			using var package = new ExcelPackage();
+			var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+			worksheet.Cells["A1"].Value = "A";
+			worksheet.Cells["A2"].Formula = "VLOOKUP(1,B1:C2,2,FALSE)"; //Return #N/A
+            worksheet.Cells["A3"].Value = "B";
+            worksheet.Cells["A4"].Formula = "TEXTJOIN(\"\",TRUE,A1:A3)";
+            worksheet.Cells["A5"].Formula = "TEXTJOIN(\"\",TRUE,A1,A2,A3)";
+            worksheet.Cells["A6"].Formula = "CONCAT(A1:A3)";
+            worksheet.Cells["A7"].Formula = "CONCAT(A1,A2,A3)";
+			worksheet.Calculate();
+			var a4 = worksheet.Cells["A4"].Value;
+            var a5 = worksheet.Cells["A5"].Value;
+            var a6 = worksheet.Cells["A6"].Value;
+            var a7 = worksheet.Cells["A7"].Value;
+
+			var naError = ExcelErrorValue.Create(eErrorType.NA);
+
+			Assert.AreEqual(naError, a4);
+			Assert.AreEqual(naError, a5);
+			Assert.AreEqual(naError, a6);
+			Assert.AreEqual(naError, a7);
+        }
+		[TestMethod]
+		public void i1748()
+		{
+            using var package = new ExcelPackage();
+			var formula = "SUMIF($I$3:$L$3,1,INDEX($I:$I,ROW()):INDEX($L:$L,ROW()))";
+			var formulaLong = "IF(COLUMN()-COLUMN($J23)>(COUNTA('#CompaniesAndConsolidations'!$A:$A)+1),0,IF(K$5=\"TopConsolidation\",SUMIFS(INDEX(23:23,1,COLUMN()+1):INDEX(23:23,1,COLUMN($L23)),INDEX($7:$7,1,COLUMN()+1):INDEX($7:$7,1,COLUMN($L23)),K$2,INDEX($6:$6,1,COLUMN()+1):INDEX($6:$6,1,COLUMN($L23)),FALSE),IF(K$5=\"SubConsolidation\",SUMIFS(INDEX(23:23,1,COLUMN()+1):INDEX(23:23,1,COLUMN($L23)),INDEX($8:$8,1,COLUMN()+1):INDEX($8:$8,1,COLUMN($L23)),K$2,INDEX($6:$6,1,COLUMN()+1):INDEX($6:$6,1,COLUMN($L23)),FALSE),IF(K$5=\"DivisionalConsolidation\",SUMIFS(INDEX(23:23,1,COLUMN()+1):INDEX(23:23,1,COLUMN($L23)),INDEX($9:$9,1,COLUMN()+1):INDEX($9:$9,1,COLUMN($L23)),K$2,INDEX($6:$6,1,COLUMN()+1):INDEX($6:$6,1,COLUMN($L23)),FALSE),-SUMIFS('#TrialBalance_CY'!$E:$E,'#TrialBalance_CY'!$A:$A,K$2,'#TrialBalance_CY'!$G:$G,\"IncomeStatement\")))))";
+            var ws = package.Workbook.Worksheets.Add("Sheet1");
+			ws.Cells["A1"].Formula = formula;
+			ws.Cells["A2"].Formula = formulaLong;
+			ws.InsertRow(1,1);
+
+            var formulaInserted = "SUMIF($I$4:$L$4,1,INDEX($I:$I,ROW()):INDEX($L:$L,ROW()))";
+
+            Assert.AreEqual(formulaInserted, ws.Cells["A2"].Formula);
+
+            var formulaLongInserted = "IF(COLUMN()-COLUMN($J24)>(COUNTA('#CompaniesAndConsolidations'!$A:$A)+1),0,IF(K$6=\"TopConsolidation\",SUMIFS(INDEX(24:24,1,COLUMN()+1):INDEX(24:24,1,COLUMN($L24)),INDEX($8:$8,1,COLUMN()+1):INDEX($8:$8,1,COLUMN($L24)),K$3,INDEX($7:$7,1,COLUMN()+1):INDEX($7:$7,1,COLUMN($L24)),FALSE),IF(K$6=\"SubConsolidation\",SUMIFS(INDEX(24:24,1,COLUMN()+1):INDEX(24:24,1,COLUMN($L24)),INDEX($9:$9,1,COLUMN()+1):INDEX($9:$9,1,COLUMN($L24)),K$3,INDEX($7:$7,1,COLUMN()+1):INDEX($7:$7,1,COLUMN($L24)),FALSE),IF(K$6=\"DivisionalConsolidation\",SUMIFS(INDEX(24:24,1,COLUMN()+1):INDEX(24:24,1,COLUMN($L24)),INDEX($10:$10,1,COLUMN()+1):INDEX($10:$10,1,COLUMN($L24)),K$3,INDEX($7:$7,1,COLUMN()+1):INDEX($7:$7,1,COLUMN($L24)),FALSE),-SUMIFS('#TrialBalance_CY'!$E:$E,'#TrialBalance_CY'!$A:$A,K$3,'#TrialBalance_CY'!$G:$G,\"IncomeStatement\")))))";
+
+            Assert.AreEqual(formulaLongInserted, ws.Cells["A3"].Formula);
         }
     }
 }

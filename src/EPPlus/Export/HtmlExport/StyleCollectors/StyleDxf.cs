@@ -30,6 +30,8 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         public IFont Font { get; } = null;
         public IBorder Border { get; } = null;
 
+        public bool CheckBox { get; }
+
         public StyleDxf(ExcelDxfStyleConditionalFormatting style)
         {
             _style = style;
@@ -46,6 +48,8 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             {
                 Border = new BorderDxf(style.Border);
             }
+
+            CheckBox = false;
         }
 
         public StyleDxf(ExcelDxfStyleLimitedFont style)

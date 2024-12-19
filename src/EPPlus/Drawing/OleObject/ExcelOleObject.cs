@@ -43,6 +43,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal string _linkedObjectFilepath;
         internal ImageInfo _mediaImage;
         internal static int ExternalLinkId = 1;
+        private static long _maxFileSize = 2L * 1024 * 1024 * 1024;
 
         /// <summary>
         /// True: File is displayed as Icon.
@@ -133,7 +134,11 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, string olePath, ExcelOleObjectParameters parameters, string iconPath = null, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
-            byte[] oleData = File.ReadAllBytes(olePath);
+            byte[] oleData = null;
+            if (parameters.LinkToFile == false)
+            {
+                oleData = File.ReadAllBytes(olePath);
+            }
             parameters.Extension = Path.GetExtension(olePath);
             byte[] iconData;
             if(string.IsNullOrEmpty(iconPath))
@@ -167,6 +172,10 @@ namespace OfficeOpenXml.Drawing.OleObject
             parameters.OlePath = oleInfo.FullName;
             if (parameters.LinkToFile == false)
             {
+                if (oleInfo.Length > _maxFileSize)
+                {
+                    throw new IOException("The file is too long.This operation is currently limited to supporting files less than 2 gigabytes in size.");
+                }
                 using FileStream oleFs = oleInfo.OpenRead();
                 {
                     oleData = new byte[oleFs.Length];
@@ -207,6 +216,10 @@ namespace OfficeOpenXml.Drawing.OleObject
             byte[] oleData = new byte[oleStream.Length];
             oleStream.Seek(0, SeekOrigin.Begin);
             oleStream.Read(oleData, 0, (int)oleStream.Length);
+            if (oleData.Length > _maxFileSize)
+            {
+                throw new IOException("The file is too long.This operation is currently limited to supporting files less than 2 gigabytes in size.");
+            }
             byte[] iconData = null;
             if (iconStream != null)
             {
@@ -300,7 +313,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 _mediaImage = _worksheet._package.PictureStore.AddImage(image, null, ePictureType.Emf);
                 
             }
-            var imgRelId = _mediaImage.Part.CreateRelationship(_mediaImage.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+            var imgRelId = _worksheet.Part.CreateRelationship(_mediaImage.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
             //Create drawings xml
             XmlElement spElement = CreateShapeNode();
             spElement.InnerXml = CreateOleObjectDrawingNode(name);
@@ -310,7 +323,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             To.Column = 1;    To.ColumnOff = 304800;
             To.Row = 3;       To.RowOff = 114300;
             //Create vml
-            _vml = drawings.Worksheet.VmlDrawings.AddOlePicture(this.Id.ToString(), imgRelId.TargetUri);
+            _vml = drawings.Worksheet.VmlDrawings.AddOlePicture(this.Id.ToString(), _mediaImage.Uri);
             _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
             //Create worksheet xml
             var wsNode = _worksheet.CreateOleContainerNode();

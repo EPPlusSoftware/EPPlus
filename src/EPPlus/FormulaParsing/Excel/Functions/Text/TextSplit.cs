@@ -45,7 +45,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             string rowDelimiter = string.Empty;
             var ignoreEmpty = "0";
             var matchMode = "0";
-            var padWith = "#N/A";
+            //var padWith = "#N/A";
+            object padding = ExcelErrorValue.Create(eErrorType.NA);
             if (arguments.Count > 2 && arguments[2].Value != null)
             {
                 rowDelimiter = ArgDelimiterCollectionToString(arguments, 2, out result);
@@ -64,23 +65,30 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                     rowDelimiter += rowDelimiter.ToLower() + rowDelimiter.ToUpper();
                 }
             }
-            if (arguments.Count > 5 && arguments[5].Value != null)
+            if (arguments.Count > 5)
             {
-                padWith = ArgToString(arguments, 5);
+                if(arguments[5].Value != null)
+                {
+                    padding = ArgToString(arguments, 5);
+                }
+                else
+                {
+                    padding = 0d;
+                }
             }
 
             if (range != null)
             {
-                return CreateRangeResult(text, range, colDelimiter, rowDelimiter, ignoreEmpty, matchMode, padWith);
+                return CreateRangeResult(text, range, colDelimiter, rowDelimiter, ignoreEmpty, matchMode, padding);
             }
 
             else
             {
-                return CreateStringResult(text, colDelimiter, rowDelimiter, ignoreEmpty, matchMode, padWith);
+                return CreateStringResult(text, colDelimiter, rowDelimiter, ignoreEmpty, matchMode, padding);
             }
         }
 
-        private CompileResult CreateStringResult(string text, string colDelimiter, string rowDelimiter, string ignoreEmpty, string matchMode, string padWith)
+        private CompileResult CreateStringResult(string text, string colDelimiter, string rowDelimiter, string ignoreEmpty, string matchMode, object padding)
         {
             var rows = new string[] { text };
             if (!string.IsNullOrEmpty(rowDelimiter))
@@ -96,14 +104,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 {
                     if (rowCols.Length < cols.Length && col >= rowCols.Length)
                     {
-                        if (padWith == "#N/A")
-                        {
-                            returnRange.SetValue(row, col, ExcelErrorValue.Create(eErrorType.NA));
-                        }
-                        else
-                        {
-                            returnRange.SetValue(row, col, padWith);
-                        }
+                        returnRange.SetValue(row, col, padding);
                     }
                     else
                     {
@@ -114,7 +115,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             return CreateDynamicArrayResult(returnRange, DataType.ExcelRange);
         }
 
-        private CompileResult CreateRangeResult(string text, IRangeInfo range, string colDelimiter, string rowDelimiter, string ignoreEmpty, string matchMode, string padWith)
+        private CompileResult CreateRangeResult(string text, IRangeInfo range, string colDelimiter, string rowDelimiter, string ignoreEmpty, string matchMode, object padding)
         {
             int row = range == null ? 0 : range.Address.FromRow;
             int col = range == null ? 0 : range.Address.FromCol;

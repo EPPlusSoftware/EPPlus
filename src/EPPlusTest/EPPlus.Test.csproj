@@ -56,6 +56,9 @@
 		<Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
 	</ItemGroup>
 	<ItemGroup>
+		<Compile Update="Core\RichDataTests.cs">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Compile>
 		<Compile Update="Filter\ValueFilterTest.cs" />
 		<Compile Update="Filter\DynamicFilterTest.cs" />
 		<Compile Update="Filter\AutoFilterReadWriteTest.cs" />
@@ -217,6 +220,9 @@
 		<None Update="Workbooks\LinestTest.xlsx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Workbooks\LocalImageLoadCells.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Workbooks\MultiColorConditionalFormatting.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -224,6 +230,15 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
     <None Update="Workbooks\PivotTableCF.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\RichData.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\RichDataPreserve.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Workbooks\RichDataPreserveError1.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
 		<None Update="Workbooks\SignedWorkbook1.xlsm">
