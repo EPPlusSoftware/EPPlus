@@ -666,7 +666,7 @@ namespace OfficeOpenXml
                     v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
                     if(string.IsNullOrEmpty(v))
                     {
-                        v = v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.LicenseContext", _configuration, initErrors);
+                        v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.LicenseContext", _configuration, initErrors);
                     }
 #endif
                     inEnvironment = false;
@@ -793,6 +793,7 @@ namespace OfficeOpenXml
             ns.AddNamespace("a14", schemaDrawings2010);
             ns.AddNamespace("xdr", schemaSheetDrawings);
             ns.AddNamespace("xda", schemaDynamicArrays);
+            ns.AddNamespace("xfpb", Schemas.schemaFeaturePropertyBag);
             return ns;
         }
 

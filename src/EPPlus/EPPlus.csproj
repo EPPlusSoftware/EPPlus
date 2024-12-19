@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-		<AssemblyVersion>7.5.1.0</AssemblyVersion>
-		<FileVersion>7.5.1.0</FileVersion>
-		<Version>7.5.1</Version>
+		<AssemblyVersion>8.0.0.0</AssemblyVersion>
+		<FileVersion>8.0.0.0</FileVersion>
+		<Version>8.0.0-beta</Version>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
@@ -18,18 +18,25 @@
 		<PackageReadmeFile>readme.md</PackageReadmeFile>
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
-			EPPlus 7.5.1
-			
+			EPPlus 8.0.0
+
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
 			EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
+			
+			## Version 8.0.0
+			* Support for OLE objects in drawings.
+			* Support for digital signing workbooks and signature lines.
+			* Support for in-cell checkboxes.
+			* Interfaces to integrate EPPlus with the MIP API to handle sensibility labels.
+			* Minor features and bug fixes.
 
 			## Version 7.5.1
 			* Minor features and bug fixes. See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
-			
+
 			## Version 7.5.0
 			* Added signatures to the EPPlus.dll's and the EPPlus Nuget package.
 			* Added new properties RepeatItemLabels and InsertBlankRow to ExcelPivotTableField

@@ -242,5 +242,43 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             SaveAndCleanup(package);
         }
 
+        [TestMethod]
+        public void TextSplit_ShouldReturnNAerrorDefault()
+        {
+            using var package = OpenPackage("TextSplit.xlsx", true);
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = "ScottxMatsXJimmyxxCameron-xLutherXJoshxx";
+            sheet.Cells["D3"].Formula = "TEXTSPLIT(A1, \"x\",\"-\",1,1)";
+            sheet.Calculate();
+            var naError = ExcelErrorValue.Create(eErrorType.NA);
+            Assert.AreEqual("Scott", sheet.Cells["D3"].Value);
+            Assert.AreEqual("Mats", sheet.Cells["E3"].Value);
+            Assert.AreEqual("Jimmy", sheet.Cells["F3"].Value);
+            Assert.AreEqual("Cameron", sheet.Cells["G3"].Value);
+            Assert.AreEqual("Luther", sheet.Cells["D4"].Value);
+            Assert.AreEqual("Josh", sheet.Cells["E4"].Value);
+            Assert.AreEqual(naError, sheet.Cells["F4"].Value);
+            Assert.AreEqual(naError, sheet.Cells["G4"].Value);
+        }
+
+        [TestMethod]
+        public void TextSplit_ShouldReturn0IfEmptyArg()
+        {
+            using var package = OpenPackage("TextSplit.xlsx", true);
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = "ScottxMatsXJimmyxxCameron-xLutherXJoshxx";
+            sheet.Cells["D3"].Formula = "TEXTSPLIT(A1, \"x\",\"-\",1,1,)";
+            sheet.Calculate();
+            var naError = ExcelErrorValue.Create(eErrorType.NA);
+            Assert.AreEqual("Scott", sheet.Cells["D3"].Value);
+            Assert.AreEqual("Mats", sheet.Cells["E3"].Value);
+            Assert.AreEqual("Jimmy", sheet.Cells["F3"].Value);
+            Assert.AreEqual("Cameron", sheet.Cells["G3"].Value);
+            Assert.AreEqual("Luther", sheet.Cells["D4"].Value);
+            Assert.AreEqual("Josh", sheet.Cells["E4"].Value);
+            Assert.AreEqual(0d, sheet.Cells["F4"].Value);
+            Assert.AreEqual(0d, sheet.Cells["G4"].Value);
+        }
+
     }
 }

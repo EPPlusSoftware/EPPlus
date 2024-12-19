@@ -10,6 +10,8 @@
  *************************************************************************************************
   01/01/2025         EPPlus Software AB           Initial release EPPlus 8
  *************************************************************************************************/
+using System.IO;
+
 namespace OfficeOpenXml.Drawing.OleObject
 {
     /// <summary>
@@ -26,14 +28,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
             set
             {
-                if (value.Contains("."))
-                {
-                    _olePath = value;
-                }
-                else
-                {
-                    _olePath = value + Extension;
-                }
+                _olePath = value;
             }
         }
 

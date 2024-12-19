@@ -1562,7 +1562,6 @@ namespace OfficeOpenXml
                     if (xr.GetAttribute("t") != null)
                     {
                         type = xr.GetAttribute("t");
-                        //_types.SetValue(address._fromRow, address._fromCol, type); 
                     }
                     else
                     {
@@ -1573,7 +1572,6 @@ namespace OfficeOpenXml
                     {
                         style = int.Parse(xr.GetAttribute("s"));
                         SetStyleInner(address._fromRow, address._fromCol, style < 0 ? 0 : style);
-                        //SetValueInner(address._fromRow, address._fromCol, null); //TODO:Better Performance ??
                     }
                     else
                     {
@@ -1868,7 +1866,7 @@ namespace OfficeOpenXml
             var v = ConvertUtil.GetValueFromType(xr, type, styleID, Workbook);
             if (type == "s" && v is int ix)
             {
-                SetValueInner(row, col, _package.Workbook.GetSharedString(ix, out bool isRichText));
+                _values.SetValue(row, col, _package.Workbook.GetSharedString(ix, out bool isRichText), styleID); // Style is set later on from the s attribute                
                 if (isRichText)
                 {
                     _flags.SetFlagValue(row, col, true, CellFlags.RichText);
@@ -1880,7 +1878,7 @@ namespace OfficeOpenXml
                 {
                     v = _richValueErrorManager.GetErrorFromMetaData(row, col, v);
                 }
-                SetValueInner(row, col, v);
+                _values.SetValue(row, col, v, styleID); // Style is set later on from the s attribute
             }
         }
 
@@ -2517,21 +2515,25 @@ namespace OfficeOpenXml
             if (d is ExcelChart c)
             {
                 var chartStream = c.Part.GetStream(FileMode.Create, FileAccess.Write);
+                c.ChartXml.PreserveWhitespace = true;
                 c.ChartXml.Save(chartStream);
             }
             else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
             {
+                s.Cache.SlicerCacheXml.PreserveWhitespace = true;
                 s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
             }
             else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
             {
                 if (p.Cache == null) return;
                 p.Cache.UpdateItemsXml();
+                p.Cache.SlicerCacheXml.PreserveWhitespace = true;
                 p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
             }
             else if (d is ExcelControl ctrl)
             {
                 ctrl.ControlPropertiesXml.Save(ctrl.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
+                ctrl.ControlPropertiesXml.PreserveWhitespace = true;
                 ctrl.UpdateXml();
             }
             else if(d is ExcelOleObject o)
@@ -2539,7 +2541,7 @@ namespace OfficeOpenXml
                 if(o._oleObjectPart != null && o._linkedOleObjectXml != null)
                     o._linkedOleObjectXml.Save(o._oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
             }
-            if (d is ExcelGroupShape grp)
+            else if (d is ExcelGroupShape grp)
             {
                 foreach (var sd in grp.Drawings)
                 {
@@ -3049,9 +3051,9 @@ namespace OfficeOpenXml
                 var toCol = Dimension._toCol;
                 if (_values.GetValue(toRow, toCol)._value == null)
                 {
-                    while (_values.PrevCell(ref toRow, ref toCol))
+                    while (_values.PrevCell(ref toRow, ref toCol) && toRow > 0)
                     {
-                        if (_values.GetValue(toRow, toCol)._value != null)
+                        if (toCol > 0 && _values.GetValue(toRow, toCol)._value != null)
                         {
                             return Cells[toRow, toCol];
                         }
@@ -3645,7 +3647,14 @@ namespace OfficeOpenXml
             {
                 if (!ExistsStyleInner(row, 0, ref s))
                 {
-                    s = GetStyleInner(0, col);
+                    if (!ExistsStyleInner(0, col, ref s) && col > 1)
+                    {
+                        var c=GetColumn(col);
+                        if(c!= null)
+                        {
+                            return c.StyleID;
+                        }
+                    }                        
                 }
             }
             return s;

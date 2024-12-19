@@ -51,7 +51,6 @@ namespace OfficeOpenXml.Table.PivotTable
         }
 
         internal ExcelPivotTable PivotTable { get; set; }
-        //internal ExcelPivotTableCacheField CacheField { get; set; } = null;
 
         /// <summary>
         /// The index of the pivot table field

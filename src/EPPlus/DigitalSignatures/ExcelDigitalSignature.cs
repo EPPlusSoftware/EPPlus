@@ -125,7 +125,7 @@ namespace OfficeOpenXml.DigitalSignatures
             _wb = wb;
             _doc = new XmlDocument()
             {
-                PreserveWhitespace = true,
+                PreserveWhitespace = true,                
             };
             //Full read only REALLY relevant for verification of signature
             _doc.Load(part.GetStream());

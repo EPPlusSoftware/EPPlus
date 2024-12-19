@@ -80,7 +80,7 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                ws = wb.Worksheets[cell.WorksheetIx];
+                ws = wb.GetWorksheetByIndexInList(cell.WorksheetIx);
             }
             return ExecuteChain(depChain, ws, formula, cell, options, false);
         }
@@ -145,7 +145,7 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     foreach (var c in table.Columns)
                     {
-                        if (string.IsNullOrEmpty(c.CalculatedColumnFormula) == false)
+                        if(string.IsNullOrEmpty(c.CalculatedColumnFormula) == false)
                         {
                             var ca = c.DataAddress;
                             if (ca.Collide(range) != eAddressCollition.No)
@@ -1262,7 +1262,7 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 result = funcExp.Compile();
             }
-            if(funcExp._function!=null && funcExp._function.ReturnsReference && result.Address!=null)
+            if(funcExp._function!=null && funcExp._function.ReturnsReference && result.Address!=null && result.Address.FromRow > 0)
             {
                 f._expressionStack.Push(new RangeExpression(result.Address));
             }
@@ -1318,7 +1318,7 @@ namespace OfficeOpenXml.FormulaParsing
                 f._expressionStack.Push(new EmptyExpression());
             }
             var s = f._expressionStack;
-            for(int i=0;i<func.NumberOfArguments && s.Count > 0;i++)
+            for(int i=0;i < func.NumberOfArguments && s.Count > 0;i++)
             {
                 var si = s.Pop();
                 if(si.ExpressionType!=ExpressionType.Empty)
