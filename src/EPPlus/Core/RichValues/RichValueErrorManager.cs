@@ -108,7 +108,6 @@ namespace OfficeOpenXml.Core.RichValues
             if(richValue == null) return false;
             if (richValue.Structure.Type == StructureTypes.Error)
             {
-                //var rdErrorBase = richValue.As.Type<ErrorRichValueBase>();
                 var rdErrorBase = RichValueErrorFactory.CreateRichValueErrorFromRichData(richValue, _package.Workbook.IndexStore, _package.Workbook.RichData.Db);
                 switch (error.Type)
                 {
