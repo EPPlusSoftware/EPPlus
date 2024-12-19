@@ -21,9 +21,13 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.RichValues.Errors
 {
-    internal class ErrorFieldRichValue : ExcelRichValue
+    internal class ErrorFieldRichValue : ErrorRichValueBase
     {
-        public ErrorFieldRichValue(RichDataDatabase richDataDb) : base(richDataDb, RichDataStructureTypes.ErrorField)
+        public ErrorFieldRichValue(RichDataDatabase richDataDb) : base(richDataDb, RichDataStructureTypes.Error | RichDataStructureTypes.ErrorField)
+        {
+        }
+
+        public ErrorFieldRichValue(RichDataDatabase richDataDb, IndexedSubsetCollection<ExcelRichValueValue> values) : base(richDataDb, values, RichDataStructureTypes.Error | RichDataStructureTypes.ErrorField)
         {
         }
 

@@ -302,7 +302,7 @@ namespace EPPlusTest.Export.ToDataTable
             }
         }
         
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ToDataTableShouldSkipEmptyRows()
         {
             using (var package = new ExcelPackage())

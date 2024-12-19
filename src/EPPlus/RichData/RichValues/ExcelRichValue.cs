@@ -37,6 +37,12 @@ namespace OfficeOpenXml.RichData.RichValues
             As = new ExcelRichValueAsType(this);
         }
 
+        public ExcelRichValue(RichDataDatabase richDatadb, IndexedSubsetCollection<ExcelRichValueValue> values, RichDataStructureTypes structureType)
+            : this(richDatadb, structureType)
+        {
+            Values = values;
+        }
+
 
         private readonly RichDataDatabase _richDataDb;
         private readonly RichDataIndexStore _indexStore;

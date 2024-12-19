@@ -72,10 +72,12 @@ namespace OfficeOpenXml.RichData.Structures.Constants
 
         internal static string GetStructureName(RichDataStructureTypes structureType)
         {
+            if((structureType & RichDataStructureTypes.Error) == RichDataStructureTypes.Error)
+            {
+                return Error;
+            }
             switch(structureType)
             {
-                case RichDataStructureTypes.Error:
-                    return Error;
                 case RichDataStructureTypes.LocalImage:
                     return LocalImage;
                 case RichDataStructureTypes.WebImage:
