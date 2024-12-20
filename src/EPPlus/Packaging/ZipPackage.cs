@@ -446,16 +446,19 @@ namespace OfficeOpenXml.Packaging
                 part.WriteZip(os);
             }
 
-            if (digSigParts.Count > 0)
+            if(digSigOriginPart != null)
             {
-                digSigOriginPart.WriteZip(os);
-                CreateXmlManifest(stream, os._largestEntrySize);
-                //CreateDigitalSignatureManifest(stream);
-
-                foreach (var part in digSigParts)
+                if (digSigParts.Count > 0)
                 {
-                    //Add last entry
-                    part.WriteZip(os);
+                    digSigOriginPart.WriteZip(os);
+                    CreateXmlManifest(stream, os._largestEntrySize);
+                    //CreateDigitalSignatureManifest(stream);
+
+                    foreach (var part in digSigParts)
+                    {
+                        //Add last entry
+                        part.WriteZip(os);
+                    }
                 }
             }
 

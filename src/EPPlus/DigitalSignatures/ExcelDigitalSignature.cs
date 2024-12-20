@@ -157,15 +157,15 @@ namespace OfficeOpenXml.DigitalSignatures
             if(officeObj != null)
             {
                 signatureProperty = new SignatureProperty((XmlElement)officeObj, Details);
-                PurposeForSigning = signatureProperty.sigInfo1.SignatureComments;
+                PurposeForSigning = signatureProperty.sigInfo1._signatureComments;
 
-                if (string.IsNullOrEmpty(signatureProperty.sigInfo1.SetUpId) == false)
+                if (string.IsNullOrEmpty(signatureProperty.sigInfo1._setUpId) == false)
                 {
                     ValidSigLnImage = _doc.SelectSingleNode("//*[@Id='idValidSigLnImg']").InnerText;
                     InvalidSigLnImg = _doc.SelectSingleNode("//*[@Id='idInvalidSigLnImg']").InnerText;
 
-                    SigLnImage = signatureProperty.sigInfo1.SignatureImage;
-                    SignatureText = signatureProperty.sigInfo1.SignatureText;
+                    SigLnImage = signatureProperty.sigInfo1._signatureImage;
+                    SignatureText = signatureProperty.sigInfo1._signatureText;
 
                     //Could be made more effective if we only find the id string via part instead.
                     //Must load drawings to find SetupID in one of the shapes in one of the files.
@@ -173,7 +173,7 @@ namespace OfficeOpenXml.DigitalSignatures
                     var worksheets = _wb.Worksheets;
                     _wb.LoadAllVmlDrawings("");
 
-                    SetupId = new Guid(signatureProperty.sigInfo1.SetUpId);
+                    SetupId = new Guid(signatureProperty.sigInfo1._setUpId);
                     _signatureLine = _wb.GetSignatureLineStamp(SetupId);
 
                     _signatureLine.ValidSigLnImage = ValidSigLnImage;
@@ -385,21 +385,21 @@ namespace OfficeOpenXml.DigitalSignatures
 
             if(SignatureLine != null)
             {
-                props.sigInfo1.SetUpId = $"{{{SignatureLine.SetupID.ToString().ToUpper()}}}";
-                props.sigInfo1.SignatureProviderID = SignatureLine.ProvID;
+                props.sigInfo1._setUpId = $"{{{SignatureLine.SetupID.ToString().ToUpper()}}}";
+                props.sigInfo1._signatureProviderID = SignatureLine.ProvID;
 
                 if(SignatureLine is ExcelSignatureLine)
                 {
                     var sigLine = SignatureLine as ExcelSignatureLine;
                     if (sigLine.SignatureText != null)
                     {
-                        props.sigInfo1.SignatureText = sigLine.SignatureText;
+                        props.sigInfo1._signatureText = sigLine.SignatureText;
                     }
                 }
 
                 if (SignatureLine.SignatureImage != null && SignatureLine.SignatureImage.ImageBytes.Length > 0)
                 {
-                    props.sigInfo1.SignatureImage = SignatureLine.SigLnImage;
+                    props.sigInfo1._signatureImage = SignatureLine.SigLnImage;
                 }
             }
 

@@ -183,7 +183,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns></returns>
         private protected ExcelDigitalSignature Sign(X509Certificate2 certificate)
         {
-            var digSig = wb.DigitialSignatures.AddSignature(certificate);
+            var digSig = wb.DigitialSignatures.Add(certificate);
             digSig.SignatureLine = this;
             return digSig;
         }

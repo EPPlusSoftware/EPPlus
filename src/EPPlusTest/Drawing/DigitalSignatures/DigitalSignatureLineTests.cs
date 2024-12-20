@@ -832,5 +832,51 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual(100, sLine.GetPixelHeight());
             }
         }
+
+        [TestMethod]
+        public void DeleteSignatureLine()
+        {
+            var fileName = $"{SubFolder}SignatureLineDelete.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var ws = package.Workbook.Worksheets.Add("SetPixelSize");
+
+                var sLine = ws.SignatureLines.Add();
+
+                sLine.From.Row = 9;
+                sLine.From.Column = 5;
+
+                sLine.SetSize(100, 100);
+
+                ws.SignatureLines.Remove(sLine);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void DeleteSignatureLineAndAddAgain()
+        {
+            var fileName = $"{SubFolder}SignatureLineDeleteReAdd.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var ws = package.Workbook.Worksheets.Add("SetPixelSize");
+
+                var sLine = ws.SignatureLines.Add();
+
+                sLine.From.Row = 9;
+                sLine.From.Column = 5;
+
+                sLine.SetSize(100, 100);
+
+                ws.SignatureLines.Remove(sLine);
+
+                var sLineNew = ws.SignatureLines.Add();
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
