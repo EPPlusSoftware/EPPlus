@@ -24,6 +24,7 @@ using System.Text;
 using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Drawing.OleObject.Structures;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
@@ -557,6 +558,31 @@ namespace OfficeOpenXml.Drawing.OleObject
             er.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
             //Add the externalLink to externalLink collection
             _externalLink = wb.ExternalLinks[wb.ExternalLinks.GetExternalLink(filePath, fileRel)] as ExcelExternalOleLink;
+        }
+
+        internal void SaveExternalLink()
+        {
+            var wb = _worksheet.Workbook;
+            var index = wb.ExternalLinks.GetIndex(_externalLink);
+            var el = _externalLink.Part.Uri.ToString();
+            var match = Regex.Match(el, @"\d+"); // \d+ matches one or more digits
+            //Update worksheet.
+            var oleNodes = _worksheet.WorksheetXml.SelectNodes("oleObjects/mc:AlternateContent");
+            foreach ( XmlElement oleNode in oleNodes )
+            {
+                var ole = oleNode.SelectSingleNode("<mc:Choice/oleObject");
+                if (ole.Attributes["link"].Value.ToString().Contains(match.Value))
+                {
+                    string link = string.Format("[{0}]!''''", index);
+                    ole.Attributes["link"].Value = link;
+                    var fb = oleNode.SelectSingleNode("<mc:Fallback/oleObject");
+                    fb.Attributes["link"].Value = link;
+                }
+            }
+            //Update contenttypes
+            //Uppdate workbook rel
+            //update externallink name
+            //uppdate externallink rel name
         }
 
         private string GetProgId(string extension)
