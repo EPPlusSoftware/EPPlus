@@ -83,7 +83,7 @@ namespace OfficeOpenXml.Drawing.Vml
 
         #region "Style Handling methods"
         /// <summary>
-        /// Gets a style from the semi-colo separated list with the specifik key
+        /// Gets a style from the semi-colo separated list with the specific key
         /// </summary>
         /// <param name="style">The list</param>
         /// <param name="key">The key to search for</param>

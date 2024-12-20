@@ -1465,17 +1465,29 @@ namespace OfficeOpenXml
 				VbaProject.Save();
 			}
 
-			//If signatures have not been loaded yet but should exist load them
-			if (SignatureOriginUri != null && _digSig == null)
+			if(SignatureOriginUri != null)
 			{
-				_digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
-            }
-
-			if(_digSig != null)
-			{
-                foreach (var signature in _digSig)
+                //If signatures have not been loaded yet but should exist load them
+                if (_digSig == null)
                 {
-                    signature._part.SaveHandler = SaveDigitalSignatureHandler;
+                    _digSig = new ExcelDigitalSignatureCollection(this, NameSpaceManager, SignatureOriginUri);
+                }
+
+				if(_digSig.Count() > 0)
+				{
+                    foreach (var signature in _digSig)
+                    {
+                        signature._part.SaveHandler = SaveDigitalSignatureHandler;
+                    }
+                }
+				else
+				{
+                    //Delete part does not delete zip package's own relationships
+                    var zipRels = _package.ZipPackage.GetRelationships();
+					var originDigSigRel = zipRels.First(x => x.TargetUri == SignatureOriginUri);
+					_package.ZipPackage.DeleteRelationship(originDigSigRel.Id);
+
+                    _package.ZipPackage.DeletePart(SignatureOriginUri);
                 }
             }
         }

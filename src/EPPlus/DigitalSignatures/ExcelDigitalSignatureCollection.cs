@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using System.Security.Cryptography.X509Certificates;
-using OfficeOpenXml.Drawing;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
@@ -80,30 +79,31 @@ namespace OfficeOpenXml.DigitalSignatures
             _signatures.Add(digitalSignature);
         }
 
-        public ExcelDigitalSignature AddSignature(X509Certificate2 certificate, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        /// <summary>
+        /// Add digital signature
+        /// Requires a valid X509Certificate2 with a private key.
+        /// </summary>
+        /// <param name="certificate"></param>
+        /// <returns></returns>
+        public ExcelDigitalSignature Add(X509Certificate2 certificate)
         {
             var digSig = new ExcelDigitalSignature(_wb, _ns, _signatures.Count + 1);
 
             digSig.Certificate = certificate;
-            digSig.CommitmentTyping = cType;
-            digSig.PurposeForSigning = purposeForSigning;
 
             _signatures.Add(digSig);
             return digSig;
         }
 
-        internal void AddExcelSignatureLine(ExcelSignatureLineStamp line)
+        /// <summary>
+        /// Remove digital signature
+        /// </summary>
+        /// <param name="signature"></param>
+        public void Remove(ExcelDigitalSignature signature)
         {
-            _wb._signatureLinesWorkbook.Add(line.SetupID, line);
-        }
+            _wb._package.ZipPackage.DeletePart(new Uri(signature.PartUri, UriKind.Relative));
 
-        internal ExcelSignatureLineStamp GetSignatureLineBySignature(ExcelDigitalSignature digitalSignature)
-        {
-            if(digitalSignature.SignatureLine != null)
-            {
-                return _wb._signatureLinesWorkbook[digitalSignature.SignatureLine.SetupID];
-            }
-            throw new AccessViolationException($"DigitalSignature {digitalSignature} is not connected to any signature lines.");
+            _signatures.Remove(signature);
         }
 
         internal ExcelDigitalSignature GetSignatureBySignatureLineGuid(Guid id)
@@ -117,13 +117,6 @@ namespace OfficeOpenXml.DigitalSignatures
             }
             return null;
         }
-
-        //public ExcelSignatureLine AddSignatureLine(X509Certificate2 certificate, ExcelWorksheet ws, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
-        //{
-        //    _signatureLines.Add(new ExcelSignatureLine(ws));
-        //    return _signatureLines.Last();
-        //}
-
         internal ExcelDigitalSignature GetSignatureByFileName(string fileName)
         {
             foreach (var sig in _signatures)

@@ -32,7 +32,7 @@ namespace OfficeOpenXml.DigitalSignatures
         /// <summary>
         /// Zip or Postal Code
         /// </summary>
-        public string ZIPorPostalCode { get; set; } = null;
+        public string ZipOrPostalCode { get; set; } = null;
         /// <summary>
         /// City
         /// </summary>

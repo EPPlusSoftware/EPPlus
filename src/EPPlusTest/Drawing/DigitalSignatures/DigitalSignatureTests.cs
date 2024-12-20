@@ -9,6 +9,8 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
 using System.Text;
 using OfficeOpenXml.Utils;
+using System.Runtime.ConstrainedExecution;
+using System.IO;
 
 //REMEMBER:
 //1. Cannonize
@@ -36,7 +38,15 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             return newCert;
         }
 
-        [ClassInitialize]
+        //Alternate method for if you have a valid cert locally already
+        //X509Certificate2 GetSelfCert()
+        //{
+        //    X509Store store = new X509Store(StoreLocation.CurrentUser);
+        //    store.Open(OpenFlags.ReadOnly);
+        //    return store.Certificates[1];
+        //}
+
+            [ClassInitialize]
         public static void Init(TestContext context)
         {
             CreatePathIfNotExists(_worksheetPath + SubFolder);
@@ -45,6 +55,17 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         [ClassCleanup]
         public static void Cleanup()
         {
+        }
+
+        void FillInfoWithString(AdditionalSignatureInfo info, string s)
+        {
+            info.SignerRoleTitle = s;
+            info.Address1 = s;
+            info.Address2 = s;
+            info.ZipOrPostalCode = s;
+            info.City = s;
+            info.CountryOrRegion = s;
+            info.StateOrProvince = s;
         }
 
         [TestMethod]
@@ -62,13 +83,16 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var test = package.Workbook.FullCalcOnLoad;
 
-                var digSig = ws.Workbook.DigitialSignatures.AddSignature(cert, CommitmentType.CreatedAndApproved, "TestingSignatureLine");
+                var digSig = ws.Workbook.DigitialSignatures.Add(cert);
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+                digSig.PurposeForSigning = "TestingSignatureLine";
+
                 var info = digSig.Details;
 
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
                 info.Address2 = "Where";
-                info.ZIPorPostalCode = "Over";
+                info.ZipOrPostalCode = "Over";
                 info.City = "The";
                 info.CountryOrRegion = "Rainbow";
                 info.StateOrProvince = "WayUpHigh";
@@ -87,7 +111,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual("A Title", info.SignerRoleTitle);
                 Assert.AreEqual("Some", info.Address1);
                 Assert.AreEqual("Where", info.Address2);
-                Assert.AreEqual("Over", info.ZIPorPostalCode);
+                Assert.AreEqual("Over", info.ZipOrPostalCode);
                 Assert.AreEqual("The", info.City);
                 Assert.AreEqual("Rainbow", info.CountryOrRegion);
                 Assert.AreEqual("WayUpHigh", info.StateOrProvince);
@@ -183,7 +207,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("newWs");
 
-                wb.DigitialSignatures.AddSignature(GetSelfCert());
+                wb.DigitialSignatures.Add(GetSelfCert());
 
                 SaveAndCleanup(package);
             }
@@ -191,7 +215,11 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             using (ExcelPackage package = OpenPackage(fileName))
             {
                 var wb = package.Workbook;
-                wb.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "DoubleSigning");
+
+                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+                digSig.PurposeForSigning = "DoubleSigning";
+
                 SaveAndCleanup(package);
             }
 
@@ -201,7 +229,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 //Ensure both are valid and tests enumerator.
                 int i = 0;
-                foreach(var sig in wb.DigitialSignatures)
+                foreach (var sig in wb.DigitialSignatures)
                 {
                     Assert.IsTrue(sig.IsValid);
                     i += 1;
@@ -221,11 +249,13 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add("newWs");
 
-                wb.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "Counter-signing");
+                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+                digSig.PurposeForSigning = "Counter-signing";
 
                 SaveAndCleanup(package);
             }
-            
+
             using (ExcelPackage package = OpenPackage(fileName))
             {
                 var wb = package.Workbook;
@@ -254,16 +284,20 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 X509Store store = new X509Store(StoreLocation.CurrentUser);
                 store.Open(OpenFlags.ReadOnly);
 
-                var sLine = ws.AddSignatureLine();
+                var sLine = ws.SignatureLines.Add();
                 sLine.Signer = "ASigner";
 
-                var digSig = ws.Workbook.DigitialSignatures.AddSignature(store.Certificates[1], CommitmentType.CreatedAndApproved, "TestingSignatureLine");
+
+                var digSig = wb.DigitialSignatures.Add(store.Certificates[1]);
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+                digSig.PurposeForSigning = "TestingSignatureLine";
+
                 var info = digSig.Details;
 
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
                 info.Address2 = "Where";
-                info.ZIPorPostalCode = "Over";
+                info.ZipOrPostalCode = "Over";
                 info.City = "The";
                 info.CountryOrRegion = "Rainbow";
                 info.StateOrProvince = "WayUpHigh";
@@ -315,7 +349,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 wb.Calculate();
 
-                var digSig = wb.DigitialSignatures.AddSignature(cert);
+                var digSig = wb.DigitialSignatures.Add(cert);
 
                 SaveAndCleanup(pck);
             }
@@ -338,7 +372,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 wb.FullCalcOnLoad = false;
 
                 var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.AddSignature(cert);
+                var digSig = wb.DigitialSignatures.Add(cert);
 
                 pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
@@ -358,7 +392,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 wb.FullCalcOnLoad = false;
 
                 var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.AddSignature(cert);
+                var digSig = wb.DigitialSignatures.Add(cert);
 
                 pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
@@ -376,7 +410,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 wb.FullCalcOnLoad = false;
 
                 var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.AddSignature(cert);
+                var digSig = wb.DigitialSignatures.Add(cert);
 
                 pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
@@ -398,7 +432,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 //wb.Calculate();
 
                 //ws.Cells["A1"].AddComment("Do Something about this", "ossian");
-                var sigLine = ws.AddSignatureLine();
+                var sigLine = ws.SignatureLines.Add();
                 sigLine.SignWithText(cert, "ASigner");
 
                 var test = wb.DigitialSignatures[0].Certificate.GetRSAPrivateKey();
@@ -428,13 +462,13 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 wb.FullCalcOnLoad = false;
 
                 var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.AddSignature(cert);
+                var digSig = wb.DigitialSignatures.Add(cert);
                 var info = digSig.Details;
 
                 info.SignerRoleTitle = title;
                 info.Address1 = address;
                 info.Address2 = address2;
-                info.ZIPorPostalCode = ZIPorPostalCode;
+                info.ZipOrPostalCode = ZIPorPostalCode;
                 info.City = city;
                 info.CountryOrRegion = CountryOrRegion;
                 info.StateOrProvince = StateOrProvince;
@@ -448,7 +482,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual(title, signerInformation.SignerRoleTitle);
                 Assert.AreEqual(address, signerInformation.Address1);
                 Assert.AreEqual(address2, signerInformation.Address2);
-                Assert.AreEqual(ZIPorPostalCode, signerInformation.ZIPorPostalCode);
+                Assert.AreEqual(ZIPorPostalCode, signerInformation.ZipOrPostalCode);
                 Assert.AreEqual(city, signerInformation.City);
                 Assert.AreEqual(CountryOrRegion, signerInformation.CountryOrRegion);
                 Assert.AreEqual(StateOrProvince, signerInformation.StateOrProvince);
@@ -467,7 +501,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 wb.FullCalcOnLoad = false;
 
                 var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.AddSignature(cert);
+                var digSig = wb.DigitialSignatures.Add(cert);
 
                 pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
@@ -475,22 +509,22 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
         //Interestingly enough. Excel gets invalid signature when EXCEL tries to save this.
         //We do too
-        //[TestMethod]
-        //public void SignSaveFileWithLOTSOfData2()
-        //{
-        //    using (var pck = OpenTemplatePackage("S610.xlsx"))
-        //    {
-        //        var wb = pck.Workbook;
+        [TestMethod]
+        public void SignSaveFileWithLOTSOfData2()
+        {
+            using (var pck = OpenTemplatePackage("S610.xlsx"))
+            {
+                var wb = pck.Workbook;
 
-        //        wb.FullCalcOnLoad = false;
+                wb.FullCalcOnLoad = false;
 
-        //        X509Store store = new X509Store(StoreLocation.CurrentUser);
-        //        store.Open(OpenFlags.ReadOnly);
-        //        var digSig = wb.DigitialSignatures.AddSignature(store.Certificates[1]);
+                X509Store store = new X509Store(StoreLocation.CurrentUser);
+                store.Open(OpenFlags.ReadOnly);
+                var digSig = wb.DigitialSignatures.Add(store.Certificates[1]);
 
-        //        SaveAndCleanup(pck);
-        //    }
-        //}
+                SaveAndCleanup(pck);
+            }
+        }
 
 
         [TestMethod]
@@ -505,7 +539,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 wb.FullCalcOnLoad = false;
 
                 var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.AddSignature(cert);
+                var digSig = wb.DigitialSignatures.Add(cert);
 
                 pck.SaveAs(GetOutputFile(SubFolder, fileName));
             }
@@ -522,36 +556,42 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             }
         }
 
-        [TestMethod]
-        public void CreateDigSigSHA512()
+        public void TestHashAlgorithm(string signatureMethod, string digestMethod, DigitalSignatureHashAlgorithm algorithm)
         {
-            string fileName = $"{SubFolder}DigSig_SignatureLineSHA512.xlsx";
+            var name = Enum.GetName(typeof(DigitalSignatureHashAlgorithm), algorithm);
+
+            string fileName = $"{SubFolder}DigSig_SignatureLine{name}.xlsx";
 
             using (ExcelPackage package = OpenPackage(fileName, true))
             {
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
 
-                var sLine = ws.AddSignatureLine();
+                var sLine = ws.SignatureLines.Add();
                 sLine.Signer = "ASigner";
 
-                var digSig = ws.Workbook.DigitialSignatures.AddSignature(GetSelfCert(), CommitmentType.CreatedAndApproved, "TestingSignatureLine");
+                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+                digSig.PurposeForSigning = "TestingSignatureLine";
+
                 var info = digSig.Details;
 
-                digSig.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA512);
+                digSig.SetDigestMethod(algorithm);
 
-                Assert.AreEqual("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", digSig._signatureMethod);
-                Assert.AreEqual("http://www.w3.org/2001/04/xmlenc#sha512", digSig._digestMethod);
+                Assert.AreEqual(signatureMethod, digSig._signatureMethod);
+                Assert.AreEqual(digestMethod, digSig._digestMethod);
 
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
                 info.Address2 = "Where";
-                info.ZIPorPostalCode = "Over";
+                info.ZipOrPostalCode = "Over";
                 info.City = "The";
                 info.CountryOrRegion = "Rainbow";
                 info.StateOrProvince = "WayUpHigh";
 
-                sLine.SignWithExistingText(digSig, "ASigner");
+                var signature = sLine.SignWithText(GetSelfCert(), "ASigner");
+                signature.Details.Address1 = "Address";
+                signature.CommitmentTyping = CommitmentType.Approved;
 
                 SaveAndCleanup(package);
             }
@@ -563,10 +603,265 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var digSig = wb.DigitialSignatures[0];
 
                 //Ensure it is read correctly:
-                Assert.AreEqual("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", digSig._signatureMethod);
-                Assert.AreEqual("http://www.w3.org/2001/04/xmlenc#sha512", digSig._digestMethod);
+                Assert.AreEqual(signatureMethod, digSig._signatureMethod);
+                Assert.AreEqual(digestMethod, digSig._digestMethod);
 
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void CreateDigSigSHA1()
+        {
+            TestHashAlgorithm("http://www.w3.org/2000/09/xmldsig#rsa-sha1", "http://www.w3.org/2000/09/xmldsig#sha1", DigitalSignatureHashAlgorithm.SHA1);
+        }
+        [TestMethod]
+        public void CreateDigSigSHA256()
+        {
+            TestHashAlgorithm("http://www.w3.org/2001/04/xmldsig-more#rsa-sha256", "http://www.w3.org/2001/04/xmlenc#sha256", DigitalSignatureHashAlgorithm.SHA256);
+        }
+        [TestMethod]
+        public void CreateDigSigSHA384()
+        {
+            TestHashAlgorithm("http://www.w3.org/2001/04/xmldsig-more#rsa-sha384", "http://www.w3.org/2001/04/xmldsig-more#sha384", DigitalSignatureHashAlgorithm.SHA384);
+        }
+
+        [TestMethod]
+        public void CreateDigSigSHA512()
+        {
+            TestHashAlgorithm("http://www.w3.org/2001/04/xmldsig-more#rsa-sha512", "http://www.w3.org/2001/04/xmlenc#sha512", DigitalSignatureHashAlgorithm.SHA512);
+        }
+
+
+        [TestMethod]
+        public void TwoDifferentHashAlgsOnDifferentSignaturesShouldOnlyBeTheLastSet()
+        {
+            string fileName = $"{SubFolder}DoubleHashes.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets.Add("SignatureWs");
+
+                var signature = wb.DigitialSignatures.Add(GetSelfCert());
+                signature.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA384);
+
+                var signature2 = wb.DigitialSignatures.Add(GetSelfCert());
+                signature2.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA512);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+
+        [TestMethod]
+        public void CreatingSignatureLineFilledAfterHash()
+        {
+            string fileName = $"{SubFolder}DoubleHashesNoSet.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets.Add("SignatureWs");
+
+                var signature = wb.DigitialSignatures.Add(GetSelfCert());
+                signature.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA384);
+
+                var sLine = ws.SignatureLines.Add();
+
+                sLine.AllowComments = true;
+                sLine.SigningInstructions = "Some instructions";
+                sLine.Signer = "Eric";
+                sLine.Title = "The Eternal";
+                sLine.Email = "TheEternal@SufferingPunishment.se";
+                sLine.AllowComments = true;
+                sLine.ShowSignDate = true;
+
+                sLine.SignWithText(GetSelfCert(), "SomeText");
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidDataException))]
+        public void SetFaultyFromToRow()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("AWs");
+
+                var sLine = ws.SignatureLines.Add();
+                sLine.From.Row = 5;
+                sLine.To.Row = 4;
+
+                package.Save();
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidDataException))]
+        public void SetFaultyFromToColumn()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("AWs");
+
+                var sLine = ws.SignatureLines.Add();
+                sLine.From.Column = 5;
+                sLine.To.Column = 4;
+
+                package.Save();
+            }
+        }
+
+        [TestMethod]
+        public void EnsureTextIsEscaped()
+        {
+            string fileName = $"{SubFolder}StrangeSymbolsEscapedSignedSignatureLine.xlsx";
+            var symbols = "\"&%/Stuff���}=``#�\"<>\"An Example\"";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
+
+                var sLine = ws.SignatureLines.Add();
+                sLine.Signer = symbols;
+                sLine.Title = symbols;
+                sLine.Email = symbols;
+                sLine.SigningInstructions = symbols;
+                sLine.AllowComments = true;
+
+                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
+                digSig.PurposeForSigning = symbols;
+
+                var info = digSig.Details;
+                FillInfoWithString(info, symbols);
+
+                var signature = sLine.SignWithText(GetSelfCert(), symbols);
+                signature.PurposeForSigning = symbols;
+                signature.CommitmentTyping = CommitmentType.Approved;
+
+                FillInfoWithString(signature.Details, symbols);
+
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage(fileName))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets[0];
+
+                var sigLine = ws.SignatureLines[0].AsSignatureLine;
+
+                Assert.AreEqual(symbols, sigLine.Signer);
+                Assert.AreEqual(symbols, sigLine.Title);
+                Assert.AreEqual(symbols, sigLine.Email);
+                Assert.AreEqual(symbols, sigLine.SigningInstructions);
+
+                var digSig = sigLine.DigitalSignature;
+
+                Assert.AreEqual(symbols, digSig.Details.SignerRoleTitle);
+                Assert.AreEqual(symbols, digSig.Details.Address1);
+                Assert.AreEqual(symbols, digSig.Details.Address2);
+                Assert.AreEqual(symbols, digSig.Details.ZipOrPostalCode);
+                Assert.AreEqual(symbols, digSig.Details.City);
+                Assert.AreEqual(symbols, digSig.Details.CountryOrRegion);
+                Assert.AreEqual(symbols, digSig.Details.StateOrProvince);
+            }
+        }
+
+        [TestMethod]
+        public void RemoveDigitalSignatures()
+        {
+            string fileName = $"{SubFolder}AddedAndRemovedSignatures.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets.Add("emptySignatures");
+
+                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                digSig.Details.Address1 = "SomeAddress";
+
+                ws.Cells["A1"].Value = "53";
+
+                wb.DigitialSignatures.Remove(digSig);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void RemoveDigitalSignaturesAddAgain()
+        {
+            string fileName = $"{SubFolder}AddedAndRemovedSignaturesAddedAgain.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets.Add("emptySignatures");
+
+                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                digSig.Details.Address1 = "SomeAddress";
+
+                ws.Cells["A1"].Value = "53";
+
+                wb.DigitialSignatures.Remove(digSig);
+
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage pck = OpenPackage(fileName))
+            {
+
+                var wb = pck.Workbook;
+                var ws = pck.Workbook.Worksheets[0];
+                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void RemoveDigitalSignaturesAddAgainNoResave()
+        {
+            string fileName = $"{SubFolder}AddedAndRemovedSignaturesAddedAgainNoResave.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets.Add("emptySignatures");
+
+                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
+                digSig.Details.Address1 = "SomeAddress";
+
+                ws.Cells["A1"].Value = "53";
+
+                wb.DigitialSignatures.Remove(digSig);
+
+                var digSigNew = wb.DigitialSignatures.Add(GetSelfCert());
+                digSigNew.Details.Address1 = "Another address";
+
+                var digSigRead = wb.DigitialSignatures[0];
+
+                Assert.AreEqual("Another address", digSigRead.Details.Address1);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void CheckingDigitalSignaturesWhenNotExists()
+        {
+            using (ExcelPackage package = new ExcelPackage())
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets.Add("emptySignatures");
+                var digSigCollection = wb.DigitialSignatures;
             }
         }
     }
