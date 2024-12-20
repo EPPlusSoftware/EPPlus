@@ -652,6 +652,36 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             }
         }
 
+
+        [TestMethod]
+        public void CreatingSignatureLineFilledAfterHash()
+        {
+            string fileName = $"{SubFolder}DoubleHashesNoSet.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var ws = package.Workbook.Worksheets.Add("SignatureWs");
+
+                var signature = wb.DigitialSignatures.AddSignature(GetSelfCert());
+                signature.SetDigestMethod(DigitalSignatureHashAlgorithm.SHA384);
+
+                var sLine = ws.SignatureLines.Add();
+
+                sLine.AllowComments = true;
+                sLine.SigningInstructions = "Some instructions";
+                sLine.Signer = "Eric";
+                sLine.Title = "The Eternal";
+                sLine.Email = "TheEternal@SufferingPunishment.se";
+                sLine.AllowComments = true;
+                sLine.ShowSignDate = true;
+
+                sLine.SignWithText(GetSelfCert(), "SomeText");
+
+                SaveAndCleanup(package);
+            }
+        }
+
         [TestMethod]
         [ExpectedException(typeof(InvalidDataException))]
         public void SetFaultyFromToRow()

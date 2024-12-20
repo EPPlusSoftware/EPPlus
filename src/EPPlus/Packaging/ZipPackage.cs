@@ -316,7 +316,7 @@ namespace OfficeOpenXml.Packaging
         }
 
         internal DigSigManifestContext XmlManifest = null;
-        internal DigitalSignatureHashAlgorithm hashAlgorithm;
+        internal DigitalSignatureHashAlgorithm hashAlgorithm = DigitalSignatureHashAlgorithm.SHA1;
 
         private void CreateXmlManifest(Stream stream, long bufferSize)
         {

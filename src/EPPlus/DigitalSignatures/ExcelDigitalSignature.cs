@@ -8,6 +8,7 @@ using System.Xml;
 using OfficeOpenXml.DigitalSignatures.XAdES;
 using System.Collections.Generic;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Encryption;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
@@ -215,7 +216,10 @@ namespace OfficeOpenXml.DigitalSignatures
             _part = wb._package.ZipPackage.CreatePart(new Uri(PartUri, UriKind.Relative), ContentTypes.xmlSignatures);
             _originPart = wb._package.ZipPackage.GetPart(wb.SignatureOriginUri);
             _originPart.CreateRelationship(string.Format("sig{0}.xml", num), TargetMode.Internal, relType);
-            SetDigestMethod(DigitalSignatureHashAlgorithm.SHA1);
+
+            var alg = _wb._package.ZipPackage.hashAlgorithm;
+            _digestMethod = DigestMethods.GetDigestMethod(alg);
+            _signatureMethod = DigestMethods.GetSignatureMethod(alg);
         }
 
         internal void Save()
@@ -225,9 +229,11 @@ namespace OfficeOpenXml.DigitalSignatures
                 //if there is no read manifest then the manifest has changed
                 bool manifestChanged = true;
 
-                SetDigestMethod(_wb._package.ZipPackage.hashAlgorithm);
+                var alg = _wb._package.ZipPackage.hashAlgorithm;
+                _digestMethod = DigestMethods.GetDigestMethod(alg);
+                _signatureMethod = DigestMethods.GetSignatureMethod(alg);
 
-               _manifest = new DigSigManifest(_wb._package.ZipPackage.XmlManifest, _wb._package.ZipPackage.hashAlgorithm);
+                _manifest = new DigSigManifest(_wb._package.ZipPackage.XmlManifest, _wb._package.ZipPackage.hashAlgorithm);
 
                 if (readManifest != null)
                 {
