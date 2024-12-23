@@ -186,7 +186,10 @@ namespace OfficeOpenXml.RichData.Structures
             var newStructureRef = new RichValueStructureReference(rvStructure.Id);
             newStructureRef.WordIds.AddRange(_keyNamesCache.GetIds(keyNames2));
             _structures[structure].Add(newStructureRef);
-            Add(rvStructure);
+            if(rvStructure.Keys.Count > 0)
+            {
+                Add(rvStructure);
+            }
             return rvStructure;
         }
 

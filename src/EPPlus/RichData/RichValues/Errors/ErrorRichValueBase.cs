@@ -20,13 +20,12 @@ namespace OfficeOpenXml.RichData.RichValues.Errors
         public ErrorRichValueBase(RichDataDatabase richDataDb, RichDataStructureTypes structureType) 
             : base(richDataDb, structureType)
         {
-            SetStructure(richDataDb);
+
         }
 
         public ErrorRichValueBase(RichDataDatabase richDataDb, IndexedSubsetCollection<ExcelRichValueValue> values, RichDataStructureTypes structureType)
             : base(richDataDb, values, structureType)
         {
-            SetStructure(richDataDb);
         }
 
         public int? ErrorType

@@ -52,5 +52,20 @@ namespace EPPlusTest.Core
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void VerifySpillError()
+        {
+            using (var p = OpenPackage("SpillError.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Formula = "RandArray(3,3)";
+                ws.Cells["B3"].Value = 4;
+                ws.Calculate();
+                Assert.IsInstanceOfType(ws.Cells["A1"].Value, typeof(ExcelRichDataErrorValue));
+                SaveAndCleanup(p);
+            }
+        }
+
     }
 }

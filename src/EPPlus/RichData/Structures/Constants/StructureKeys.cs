@@ -86,7 +86,10 @@ namespace OfficeOpenXml.RichData.Structures.Constants
 
         private static void RegisterKeys(string structureName, List<ExcelRichValueStructureKey> keys)
         {
-            _dataTypes[structureName] = new Dictionary<string, RichValueDataType>();
+            if(!_dataTypes.ContainsKey(structureName))
+            {
+                _dataTypes[structureName] = new Dictionary<string, RichValueDataType>();
+            }
             foreach(var key in keys)
             {
                 _dataTypes[structureName][key.Name] = key.DataType;
