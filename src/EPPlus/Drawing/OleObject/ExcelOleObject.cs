@@ -334,6 +334,23 @@ namespace OfficeOpenXml.Drawing.OleObject
             var oleObjectXmlNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0);
             _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectXmlNode);
         }
+        
+        internal void UpdateXml()
+        {
+            //Update data
+            _oleObject.From.Column = From.Column;
+            _oleObject.From.ColumnOff = From.ColumnOff;
+            _oleObject.From.RowOff = From.RowOff;
+            _oleObject.From._rowOff = From._rowOff;
+            _oleObject.To.Column = To.Column;
+            _oleObject.To.ColumnOff = To.ColumnOff;
+            _oleObject.To.Row = To.Row;
+            _oleObject.To.RowOff = To.RowOff;
+
+            //Update xml
+            _oleObject.From.UpdateXml();
+            _oleObject.To.UpdateXml();
+        }
 
         private string CreateOleObjectDrawingNode(string name)
         {
@@ -565,7 +582,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             var wb = _worksheet.Workbook;
             var index = wb.ExternalLinks.GetIndex(_externalLink);
             var el = _externalLink.Part.Uri.ToString();
-            var match = Regex.Match(el, @"\d+"); // \d+ matches one or more digits
+            var match = Regex.Match(el, @"\d+");
             //Update worksheet.
             var oleNodes = _worksheet.WorksheetXml.SelectNodes("oleObjects/mc:AlternateContent");
             foreach ( XmlElement oleNode in oleNodes )

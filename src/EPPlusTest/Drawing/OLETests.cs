@@ -601,6 +601,44 @@ namespace EPPlusTest.Drawing
         }
 
         [TestMethod]
+        public void SetPosition()
+        {
+            using (ExcelPackage pck = OpenPackage("OLETest.xlsx", true))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets.Add("OleSheet");
+                var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+                var oleImage = ws.Drawings.AddOleObject("ObjectImage", myIcon);
+                oleImage.From.Column = 5;
+                oleImage.To.Column = 20;
+                oleImage.SetSize(175);
+                oleImage.UpdateXml();
+                SaveAndCleanup(pck);
+            }
+        }
+
+
+        [TestMethod]
+        public void TestingOLEObjectCopy()
+        {
+            using (ExcelPackage pck = OpenPackage("OLETest.xlsx", true))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets.Add("OleSheet");
+
+                var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+
+                var oleImage = ws.Drawings.AddOleObject("ObjectImage", myIcon);
+
+                var ws2 = wb.Worksheets.Add("OleSheetOther");
+
+                oleImage.Copy(ws2, 1, 5);
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
         public void NewAdd()
         {
             //Write Generic Object
@@ -609,8 +647,10 @@ namespace EPPlusTest.Drawing
             var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
             var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
             FileInfo fileInfo = new FileInfo(myFile);
-            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileInfo, new ExcelOleObjectParameters { Icon = new ExcelImage(myIcon)});
+            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileInfo, new ExcelOleObjectParameters { Icon = new ExcelImage(myIcon) });
             SaveAndCleanup(genericOlePackage);
         }
+
+
     }
 }

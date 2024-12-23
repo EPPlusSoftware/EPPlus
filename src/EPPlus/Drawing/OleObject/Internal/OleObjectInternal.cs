@@ -70,7 +70,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             {
                 if (_from == null)
                 {
-                    _from = new ExcelPosition(NameSpaceManager, GetNode("d:objectPr/d:anchor/d:from"), null);
+                    _from = new ExcelPosition(NameSpaceManager, GetNode("d:oleObject/d:objectPr/d:anchor/d:from"), null);
                 }
                 return _from;
             }
@@ -82,7 +82,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             {
                 if (_to == null)
                 {
-                    _to = new ExcelPosition(NameSpaceManager, GetNode("d:objectPr/d:anchor/d:to"), null);
+                    _to = new ExcelPosition(NameSpaceManager, GetNode("d:oleObject/d:objectPr/d:anchor/d:to"), null);
                 }
                 return _to;
             }
