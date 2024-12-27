@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.Xml;
-using System.Text;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
@@ -10,8 +6,14 @@ namespace OfficeOpenXml.DigitalSignatures
     {
         public const string SHA1 = "http://www.w3.org/2000/09/xmldsig#sha1";
         public const string SHA256 = "http://www.w3.org/2001/04/xmlenc#sha256";
-        public const string SHA384 = "http://www.w3.org/2001/04/xmlenc#sha384";
+        public const string SHA384 = "http://www.w3.org/2001/04/xmldsig-more#sha384";
         public const string SHA512 = "http://www.w3.org/2001/04/xmlenc#sha512";
+
+        private const string SHA1_RSA = "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
+        private const string SHA256_RSA = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
+        private const string SHA384_RSA = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha384";
+        private const string SHA512_RSA = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha512";
+
 
         internal static string GetDigestMethod(DigitalSignatureHashAlgorithm algorithm)
         {
@@ -53,13 +55,13 @@ namespace OfficeOpenXml.DigitalSignatures
             switch (algorithm)
             {
                 case DigitalSignatureHashAlgorithm.SHA1:
-                    return "http://www.w3.org/2000/09/xmldsig#rsa-sha1";
+                    return SHA1_RSA;
                 case DigitalSignatureHashAlgorithm.SHA256:
-                    return "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
+                    return SHA256_RSA;
                 case DigitalSignatureHashAlgorithm.SHA384:
-                    return "http://www.w3.org/2001/04/xmldsig-more#rsa-sha384";
+                    return SHA384_RSA;
                 case DigitalSignatureHashAlgorithm.SHA512:
-                    return "http://www.w3.org/2001/04/xmldsig-more#rsa-sha512";
+                    return SHA512_RSA;
                 default:
                     throw new InvalidOperationException($"The hash algorithm '{algorithm}' is invalid. Please use another algorithm");
             }
