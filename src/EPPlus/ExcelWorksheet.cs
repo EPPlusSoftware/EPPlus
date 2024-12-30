@@ -2393,23 +2393,23 @@ namespace OfficeOpenXml
           if (string.IsNullOrEmpty(oldName) || string.IsNullOrEmpty(newName))
             throw new ArgumentNullException("Sheet name can't be empty");
 
-          lock (this)
-          {
-            foreach (var sf in _sharedFormulas.Values)
+            lock (this)
             {
-              sf.Formula = ExcelCellBase.UpdateSheetNameInFormula(sf.Formula, oldName, newName);
-            }
-            using (var cse = new CellStoreEnumerator<object>(_formulas))
-            {
-                while (cse.Next())
+                foreach (var sf in _sharedFormulas.Values)
                 {
-              if (cse.Value is string v) //Non shared Formulas 
+                    sf.Formula = ExcelCellBase.UpdateSheetNameInFormula(sf.Formula, oldName, newName);
+                }
+                using (var cse = new CellStoreEnumerator<object>(_formulas))
+                {
+                    while (cse.Next())
                     {
-                cse.Value = ExcelCellBase.UpdateSheetNameInFormula(v, oldName, newName);
+                        if (cse.Value is string v) //Non shared Formulas 
+                        {
+                            cse.Value = ExcelCellBase.UpdateSheetNameInFormula(v, oldName, newName);
+                        }
                     }
                 }
             }
-          }
         }
 #region Worksheet Save
         internal void Save()

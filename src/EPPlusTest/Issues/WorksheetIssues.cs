@@ -32,7 +32,7 @@ namespace EPPlusTest.Issues
 			{
 				ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Invoice");
 
-				//var namedStyle = package.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
+				//var namedStyle = p.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
 				//namedStyle.Style.Font.Name = "Arial";
 				//namedStyle.Style.Font.Size = 7;
 				var namedStyle = package.Workbook.Styles.NamedStyles[0]; // Create a default style
@@ -231,7 +231,7 @@ namespace EPPlusTest.Issues
 				package.Workbook.Names.AddValue("ValueName5", "String Value with \"");
 
 				package.Save();
-				//SaveWorkbook("i1317.xlsx",package);
+				//SaveWorkbook("i1317.xlsx",p);
 				using(var p2=new  ExcelPackage(package.Stream)) 
 				{
 					var ws = p2.Workbook.Worksheets[0];
@@ -605,6 +605,20 @@ namespace EPPlusTest.Issues
 			Assert.IsNotNull(ws.Cells["B2"].Hyperlink);
 
             SaveAndCleanup(p);
+		}
+		[TestMethod]
+		public void s787()
+		{
+            using var p = OpenPackage("s787.xlsx", true);
+
+            var renamedWorksheet = p.Workbook.Worksheets.Add("RenamedWorksheet");
+            renamedWorksheet.Cells[1, 1].Value = "Value";
+
+            var referencingWorksheet = p.Workbook.Worksheets.Add("ReferencingWorksheet");
+            referencingWorksheet.Cells[1, 1].Formula = "=RenamedWorksheet!A1";
+
+            renamedWorksheet.Name = "Renamed Worksheet";
+			SaveAndCleanup(p);
 		}
     }
 }
