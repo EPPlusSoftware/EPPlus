@@ -86,10 +86,45 @@ namespace OfficeOpenXml.RichData.Structures.Constants
 
         private static void RegisterKeys(string structureName, List<ExcelRichValueStructureKey> keys)
         {
-            _dataTypes[structureName] = new Dictionary<string, RichValueDataType>();
+            if(!_dataTypes.ContainsKey(structureName))
+            {
+                _dataTypes[structureName] = new Dictionary<string, RichValueDataType>();
+            }
             foreach(var key in keys)
             {
-                _dataTypes[structureName][key.Name] = key.DataType;
+                if (!_dataTypes[structureName].ContainsKey(key.Name))
+                {
+                    _dataTypes[structureName][key.Name] = key.DataType;
+                }
+            }
+        }
+
+        internal static void SortKeyNames(RichDataStructureTypes st, ref List<string> keyNames)
+        {
+            if((st & RichDataStructureTypes.Error) == RichDataStructureTypes.Error)
+            {
+                var ck = default(List<ExcelRichValueStructureKey>);
+                if((st & RichDataStructureTypes.ErrorSpill) == RichDataStructureTypes.ErrorSpill)
+                {
+                    ck = Errors.Spill;
+                }
+                else if((st & RichDataStructureTypes.ErrorPropagated) == RichDataStructureTypes.ErrorPropagated)
+                {
+                    ck = Errors.Propagated;
+                }
+                else if((st & RichDataStructureTypes.ErrorWithSubType) == RichDataStructureTypes.ErrorWithSubType)
+                {
+                    ck = Errors.WithSubType;
+                }
+                else if((st & RichDataStructureTypes.ErrorField) == RichDataStructureTypes.ErrorField)
+                {
+                    ck = Errors.Field;
+                }
+                if(ck != null)
+                {
+                    var sortedKeys = ck.Select(x => x.Name).ToList();
+                    keyNames.Sort((a, b) => sortedKeys.IndexOf(a).CompareTo(sortedKeys.IndexOf(b)));
+                }
             }
         }
 
