@@ -320,5 +320,31 @@ namespace EPPlusTest
             }
             return options.Text;
         }
+
+        [TestMethod]
+        public void I1792()
+        {
+            using var p = OpenTemplatePackage("i1792.xlsx");
+            ExcelWorksheet ws = p.Workbook.Worksheets["Sheet1"];
+
+            List<TestData> tData = new List<TestData>();
+            tData.Add(new TestData() { Id = 1, Fname = "Bob", Lname = "Smith" });
+            Assert.IsTrue(ws.Cells["A1"].Style.Locked);
+            Assert.IsFalse(ws.Cells["A2"].Style.Locked);
+            ws.Cells[1, 1].LoadFromCollection(tData, true);
+
+            Assert.IsTrue(ws.Cells["A1"].Style.Locked);
+            Assert.IsFalse(ws.Cells["A2"].Style.Locked);
+
+            SaveAndCleanup(p);
+        }
+
+        public class TestData
+        {
+            public int Id { get; set; }
+            public string Fname { get; set; }
+            public string Lname { get; set; }
+        }
+
     }
 }

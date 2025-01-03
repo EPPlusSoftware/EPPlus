@@ -218,7 +218,8 @@ namespace OfficeOpenXml.ExternalReferences
                     _sheetValues.Add(ix, new CellStore<object>());
                     _sheetMetaData.Add(ix, new CellStore<int>());
                     _definedNamesValues.Add(ix, new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>());
-                    _sheetNames.Add(reader.GetAttribute("val"), ix++);                    
+                    var wsName = reader.GetAttribute("val");
+                    _sheetNames.Add(wsName, ix++);                    
 
                 }
             }
@@ -742,7 +743,7 @@ namespace OfficeOpenXml.ExternalReferences
             sw.Write("<sheetNames>");
             foreach(var sheet in _sheetNames.OrderBy(x=>x.Value))
             {
-                sw.Write($"<sheetName val=\"{ConvertUtil.ExcelEscapeString(sheet.Key)}\"/>");
+                sw.Write($"<sheetName val=\"{sheet.Key.EncodeXMLAttribute()}\"/>");
             }
             sw.Write("</sheetNames><definedNames>");
             foreach (var sheet in _definedNamesValues.Keys)
@@ -751,11 +752,11 @@ namespace OfficeOpenXml.ExternalReferences
                 {
                     if(name.SheetId<0)
                     {
-                        sw.Write($"<definedName name=\"{ConvertUtil.ExcelEscapeString(name.Name)}\" refersTo=\"{name.RefersTo}\" />");
+                        sw.Write($"<definedName name=\"{name.Name.EncodeXMLAttribute()}\" refersTo=\"{name.RefersTo}\" />");
                     }
                     else
                     {
-                        sw.Write($"<definedName name=\"{ConvertUtil.ExcelEscapeString(name.Name)}\" refersTo=\"{name.RefersTo}\" sheetId=\"{name.SheetId:N0}\"/>");
+                        sw.Write($"<definedName name=\"{name.Name.EncodeXMLAttribute()}\" refersTo=\"{name.RefersTo}\" sheetId=\"{name.SheetId:N0}\"/>");
                     }
                 }
             }
