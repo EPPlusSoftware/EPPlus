@@ -384,13 +384,6 @@ namespace OfficeOpenXml
 
         #endregion
 
-        internal void SetNewWorksheetUri(Uri newUri)
-        {
-            var part = Part;
-            _worksheetUri = newUri;
-            //part.Uri = newUri;
-        }
-
         /// <summary>
         /// The Uri to the worksheet within the package
         /// </summary>
