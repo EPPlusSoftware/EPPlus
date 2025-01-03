@@ -87,8 +87,12 @@ namespace OfficeOpenXml
                     throw new InvalidLicenseKeyException("The license key is not valid. Please use the license key as stated on your license document or as displayed on your account at https://epplussoftware.com");
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                if(ex is LicenseNotValidException)
+                {
+                    throw;
+                }
                 throw new InvalidLicenseKeyException("The license key is not in a valid format. Please use the license key as stated on your license document or as displayed on your account at https://epplussoftware.com");
             }        
         }
