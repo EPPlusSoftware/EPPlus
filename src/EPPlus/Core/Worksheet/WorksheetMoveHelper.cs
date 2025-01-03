@@ -72,7 +72,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 // Preserve ActiveTab after rearrange
                 if (activeSheet != null)
                 {
-                    package.Workbook.View.ActiveTab = activeSheet.PositionId;
+                    package.Workbook.View.ActiveTab = activeSheet.PositionId - package._worksheetAdd;
                 }
             }
         }

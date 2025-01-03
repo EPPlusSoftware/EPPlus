@@ -146,17 +146,15 @@ namespace OfficeOpenXml.Export.ToDataTable
 
         /// <summary>
         /// If true, EPPlus will prepend duplicate column names from the exported worksheet with a number (2,3,4,..n).
-        /// If false, EPPlus will throw an <see cref="InvalidOperationException"/> when processing a duplicate column name. Default value is false.
+        /// If false, EPPlus will throw an <see cref="InvalidOperationException" /> when processing a duplicate column name. Default value is false.
         /// </summary>
         public bool AllowDuplicateColumnNames { get; set; }
 
-        /// <summary>
-        /// </summary>
-        public bool AllowDuplicateColumnNames { get; set; }
 
         /// <summary>
+        /// Sets the primary key of the data table. 
         /// </summary>
-        /// <param name="columnNames">The name or names of one or more column in the <see cref="System.Data.DataTable"/> that constitutes the primary _key</param>
+        /// <param name="columnNames">The name or names of one or more column in the <see cref="System.Data.DataTable"/> that constitutes the primary key</param>
         public void SetPrimaryKey(params string[] columnNames)
         {
             _primaryKeyFields.Clear();

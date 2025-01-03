@@ -105,6 +105,23 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}al ", "text-align", "left");
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}ar ", "text-align", "right");
 
+           
+            if (_ranges.Any(x => x.Style.Checkbox == true))
+            {
+                //Checkbox classes
+                _ruleCollection.AddRule($"input[type=checkbox].{_settings.StyleClassPrefix}checkbox", "outline", "0.15rem solid");
+                _ruleCollection.Last().AddDeclaration("outline-offset", "-0.1rem");
+                _ruleCollection.Last().AddDeclaration("outline-color", "currentColor");
+                _ruleCollection.Last().AddDeclaration("accent-color", "currentColor");
+
+                if (_settings.CheckboxesEnabled == false)
+                {
+                    _ruleCollection.Last().AddDeclaration("pointer-events", "none");
+                }
+
+                _ruleCollection.AddRule($"input[type=checkbox].{_settings.StyleClassPrefix}checkbox:hover", "outline-color", "hwb(from currentcolor h w b / 0.6)");
+            }
+
             AddWorksheetDimensions();
             AddImageAlignment();
         }
@@ -162,7 +179,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             }
             if (style.Font != null && style.Font.HasValue && _context.Exclude.Font != eFontExclude.All)
             {
-                translators.Add(new CssFontTranslator(style.Font, ns.Style.Font));
+                translators.Add(new CssFontTranslator(style.Font, ns.Style.Font, style.CheckBox));
             }
 
             if (styleList.Count > 1)

@@ -838,16 +838,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         {
                             IList<Token> tokens;
 
-                            try
-                            {
-                                tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
-                            }
-                            catch (Exception e) 
-                            {
-                                var text = e.Message;
-                            }
                             tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
-
                             cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name, false, false, tokens);
                         }
                         else if (v.Contains(ws.Name))

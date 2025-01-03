@@ -156,7 +156,17 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             {
                 if (ce.Value._styleId > 0 && ce.Value._styleId < styles.CellXfs.Count)
                 {
-                    var style = new StyleXml(styles.CellXfs[ce.Value._styleId]);
+                    StyleXml style;
+                    if (_exporterContext.XfsGenericCache.ContainsKey(ce.Value._styleId))
+                    {
+                        style = (StyleXml)_exporterContext.XfsGenericCache[ce.Value._styleId];
+                    }
+                    else
+                    {
+                        style = new StyleXml(styles.CellXfs[ce.Value._styleId]);
+                    }
+                    
+
                     if (style.HasStyle)
                     {
                         var sc = new StyleChecker(styles, style, _exporterContext._styleCache);
@@ -224,7 +234,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         case eExcelConditionalFormattingRuleType.ThreeColorScale:
                             break;
                         case eExcelConditionalFormattingRuleType.DataBar:
-                            var hasBeenAddedToCache = _exporterContext._dxfStyleCache.IsAdded($"{cf.Value.Uid}", out int cfId);
+                            var hasBeenAddedToCache = _exporterContext._dxfStyleCache.GetOrCreateId($"{cf.Value.Uid}", out int cfId);
                             var hasBeenAddedToCss = _addedToCssDxf.Contains(cfId);
 
                             if (hasBeenAddedToCache == false || hasBeenAddedToCss == false)
@@ -246,7 +256,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                             if (cf.Value.Style.HasValue)
                             {
                                 var style = new StyleDxf(cf.Value.Style);
-                                if (!_exporterContext._dxfStyleCache.IsAdded(style.StyleKey, out int id) || _addedToCssDxf.Contains(id) == false)
+                                if (!_exporterContext._dxfStyleCache.GetOrCreateId(style.StyleKey, out int id) || _addedToCssDxf.Contains(id) == false)
                                 {
                                     _addedToCssDxf.Add(id);
                                     var name = $".{Settings.StyleClassPrefix}{Settings.DxfStyleClassName}{id}";
@@ -262,7 +272,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
         internal void AddIconSetToCollection<T>(ExcelConditionalFormattingIconSetBase<T> iconSet, ExcelConditionalFormattingRule rule, CssRangeRuleCollection cssTranslator) 
             where T : struct, Enum
         {
-            var hasBeenAddedToCache = _exporterContext._dxfStyleCache.IsAdded($"{rule.Uid}", out int cfId);
+            var hasBeenAddedToCache = _exporterContext._dxfStyleCache.GetOrCreateId($"{rule.Uid}", out int cfId);
             var hasBeenAddedToCss = _addedToCssDxf.Contains(cfId);
 
             if (hasBeenAddedToCache == false || hasBeenAddedToCss == false)

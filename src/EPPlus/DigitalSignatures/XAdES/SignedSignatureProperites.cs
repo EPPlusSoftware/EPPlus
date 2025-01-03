@@ -92,31 +92,31 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
                 var cityNode = prodPlace.GetElementsByTagName($"{prefix}:City")[0];
                 if(cityNode != null)
                 {
-                    info.City = string.IsNullOrEmpty(cityNode.InnerText) ? null : cityNode.InnerText;
+                    info.City = string.IsNullOrEmpty(cityNode.InnerText) ? null : ConvertUtil.ExcelDecodeString(cityNode.InnerText);
                 }
 
                 var stateNode = prodPlace.GetElementsByTagName($"{prefix}:StateOrProvince")[0];
                 if (stateNode != null)
                 {
-                    info.StateOrProvince = string.IsNullOrEmpty(stateNode.InnerText) ? null : stateNode.InnerText;
+                    info.StateOrProvince = string.IsNullOrEmpty(stateNode.InnerText) ? null : ConvertUtil.ExcelDecodeString(stateNode.InnerText);
                 }
                 var postalCode = prodPlace.GetElementsByTagName($"{prefix}:PostalCode")[0];
                 if (postalCode != null)
                 {
-                    info.ZIPorPostalCode = string.IsNullOrEmpty(postalCode.InnerText) ? null : postalCode.InnerText;
+                    info.ZipOrPostalCode = string.IsNullOrEmpty(postalCode.InnerText) ? null : ConvertUtil.ExcelDecodeString(postalCode.InnerText);
                 }
 
                 var countryName = prodPlace.GetElementsByTagName($"{prefix}:CountryName")[0];
                 if (countryName != null)
                 {
-                    info.CountryOrRegion = string.IsNullOrEmpty(countryName.InnerText) ? null : countryName.InnerText;
+                    info.CountryOrRegion = string.IsNullOrEmpty(countryName.InnerText) ? null : ConvertUtil.ExcelDecodeString(countryName.InnerText);
                 }
             }
 
             var roleNode = SignedSignaturePropertiesNode.GetElementsByTagName($"{prefix}:ClaimedRole")[0];
             if(roleNode != null)
             {
-                info.SignerRoleTitle = string.IsNullOrEmpty(roleNode.InnerText) ? null : roleNode.InnerText;
+                info.SignerRoleTitle = string.IsNullOrEmpty(roleNode.InnerText) ? null : ConvertUtil.ExcelDecodeString(roleNode.InnerText);
             }
 
             _info = info;
@@ -168,19 +168,19 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
 
             if (_info.City != null)
             {
-                signatureProductionPlace += $"<{Prefix}:City>{_info.City}</{Prefix}:City>";
+                signatureProductionPlace += $"<{Prefix}:City>{ConvertUtil.ExcelEscapeAndEncodeString(_info.City)}</{Prefix}:City>";
             }
             if (_info.StateOrProvince != null)
             {
-                signatureProductionPlace += $"<{Prefix}:StateOrProvince>{_info.StateOrProvince}</{Prefix}:StateOrProvince>";
+                signatureProductionPlace += $"<{Prefix}:StateOrProvince>{ConvertUtil.ExcelEscapeAndEncodeString(_info.StateOrProvince)}</{Prefix}:StateOrProvince>";
             }
-            if (_info.ZIPorPostalCode != null)
+            if (_info.ZipOrPostalCode != null)
             {
-                signatureProductionPlace += $"<{Prefix}:PostalCode>{_info.ZIPorPostalCode}</{Prefix}:PostalCode>";
+                signatureProductionPlace += $"<{Prefix}:PostalCode>{ConvertUtil.ExcelEscapeAndEncodeString(_info.ZipOrPostalCode)}</{Prefix}:PostalCode>";
             }
             if (_info.CountryOrRegion != null)
             {
-                signatureProductionPlace += $"<{Prefix}:CountryName>{_info.CountryOrRegion}</{Prefix}:CountryName>";
+                signatureProductionPlace += $"<{Prefix}:CountryName>{ConvertUtil.ExcelEscapeAndEncodeString(_info.CountryOrRegion)}</{Prefix}:CountryName>";
             }
 
             if(signatureProductionPlace != $"<{Prefix}:SignatureProductionPlace>")
@@ -195,7 +195,7 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
                     ($"<{Prefix}:SignerRole>" +
                          $"<{Prefix}:ClaimedRoles>" +
                             $"<{Prefix}:ClaimedRole>" +
-                                $"{_info.SignerRoleTitle}" +
+                                $"{ConvertUtil.ExcelEscapeAndEncodeString(_info.SignerRoleTitle)}" +
                             $"</{Prefix}:ClaimedRole>" +
                         $"</{Prefix}:ClaimedRoles>" + 
                     $"</{Prefix}:SignerRole>");

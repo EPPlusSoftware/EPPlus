@@ -22,6 +22,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.DigitalSignatures;
 using System.Security.Cryptography;
 using System.Drawing;
+using System.Globalization;
 
 namespace OfficeOpenXml.Packaging
 {
@@ -315,13 +316,13 @@ namespace OfficeOpenXml.Packaging
         }
 
         internal DigSigManifestContext XmlManifest = null;
-        internal DigitalSignatureHashAlgorithm hashAlgorithm;
+        internal DigitalSignatureHashAlgorithm hashAlgorithm = DigitalSignatureHashAlgorithm.SHA1;
 
         private void CreateXmlManifest(Stream stream, long bufferSize)
         {
             if(Enum.IsDefined(typeof(DigitalSignatureHashAlgorithm),hashAlgorithm) == false)
             {
-                throw new InvalidOperationException($"Cannot save. value '{hashAlgorithm}' is undefined for enum {typeof(DigitalSignatureHashAlgorithm)}\n " +
+                throw new InvalidOperationException($"Cannot save. Value '{hashAlgorithm}' is undefined for enum {typeof(DigitalSignatureHashAlgorithm)}\n " +
                     $"if the file was Read it may contain unknown algorithm. Please use SetDigestMethod on signatures");
             }
 
@@ -445,16 +446,19 @@ namespace OfficeOpenXml.Packaging
                 part.WriteZip(os);
             }
 
-            if (digSigParts.Count > 0)
+            if(digSigOriginPart != null)
             {
-                digSigOriginPart.WriteZip(os);
-                CreateXmlManifest(stream, os._largestEntrySize);
-                //CreateDigitalSignatureManifest(stream);
-
-                foreach (var part in digSigParts)
+                if (digSigParts.Count > 0)
                 {
-                    //Add last entry
-                    part.WriteZip(os);
+                    digSigOriginPart.WriteZip(os);
+                    CreateXmlManifest(stream, os._largestEntrySize);
+                    //CreateDigitalSignatureManifest(stream);
+
+                    foreach (var part in digSigParts)
+                    {
+                        //Add last entry
+                        part.WriteZip(os);
+                    }
                 }
             }
 
@@ -502,6 +506,11 @@ namespace OfficeOpenXml.Packaging
                 part.Dispose();
             }
             _zip?.Dispose();
+        }
+
+        internal ZipPackagePart GetPartByContentType(string contentTypeFeaturePropertyBag)
+        {
+            return Parts.Values.FirstOrDefault(x=>x.ContentType.Equals(contentTypeFeaturePropertyBag,StringComparison.OrdinalIgnoreCase));
         }
 
         CompressionLevel _compression = CompressionLevel.Default;

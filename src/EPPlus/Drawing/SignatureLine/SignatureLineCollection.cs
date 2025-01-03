@@ -13,9 +13,11 @@ namespace OfficeOpenXml.Drawing
     {
         Dictionary<Guid, ExcelSignatureLineStamp> _dict = new();
         List<ExcelSignatureLineStamp> _list = new();
+        ExcelWorksheet _ws;
 
-        internal SignatureLineCollection()
+        internal SignatureLineCollection(ExcelWorksheet ws)
         {
+            _ws = ws;
         }
 
         /// <summary>
@@ -34,6 +36,7 @@ namespace OfficeOpenXml.Drawing
                 _list[index] = value;
             }
         }
+
         //public ExcelSignatureLineStamp this[int index]
         //{
         //    get 
@@ -98,7 +101,7 @@ namespace OfficeOpenXml.Drawing
         /// Add a signatureline to the collection.
         /// </summary>
         /// <param name="signatureLine"></param>
-        public void Add(ExcelSignatureLineStamp signatureLine)
+        internal void Add(ExcelSignatureLineStamp signatureLine)
         {
             _list.Add(signatureLine);
             _dict.Add(signatureLine.SetupID, signatureLine);
@@ -132,6 +135,24 @@ namespace OfficeOpenXml.Drawing
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();
+        }
+
+        /// <summary>
+        /// Add an empty signatureLine to the worksheet
+        /// </summary>
+        /// <returns></returns>
+        public ExcelSignatureLine Add()
+        {
+            return _ws.VmlDrawings.AddSignatureLine();
+        }
+
+        /// <summary>
+        /// Add an empty signatureLine Stamp to the worksheet
+        /// </summary>
+        /// <returns></returns>
+        public ExcelSignatureLineStamp AddStamp()
+        {
+            return _ws.VmlDrawings.AddSignatureLineStamp();
         }
     }
 }

@@ -53,8 +53,8 @@ namespace OfficeOpenXml.Core
         private readonly bool _sameWorkbook;
 		private ExcelMetadata _sourceMd, _destMd;
 		Dictionary<ulong, CopiedCell> _copiedCells=new Dictionary<ulong, CopiedCell>();
-        int _sourceDaIx = -1;
-        int _destDaIx = -1;
+        uint? _sourceDaIx;
+        uint? _destDaIx;
         internal RangeCopyHelper(ExcelRangeBase sourceRange, ExcelRangeBase destination, ExcelRangeCopyOptionFlags copyOptions)
         {
             _sourceRange = sourceRange;
@@ -99,6 +99,12 @@ namespace OfficeOpenXml.Core
                 rowAdder = 0;
                 colAdder += colIncrement;
             }
+            if(EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures) || EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeWebPictures))
+            {
+                var richDataHelper = new RichDataCopyHelper(_sourceRange, _destinationRange);
+                richDataHelper.Copy(_copyOptions);
+            }
+           
             
             if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeDataValidations))
             {
@@ -693,40 +699,44 @@ namespace OfficeOpenXml.Core
             }
         }
 
-		private void CopyMetaDataToNewPackage(CopiedCell cell)
-		{
-            if(cell.MetaData.cm > 0)
+        private void CopyMetaDataToNewPackage(CopiedCell cell)
+        {
+            // TODO: we need to test and adjust this after having changed Metadata indexes to Id:s
+            if (cell.MetaData.cm > 0)
             {
-                if(_sourceDaIx==-1)
+                if (_sourceDaIx == -1)
                 {
                     _sourceMd = _sourceRange.Worksheet.Workbook.Metadata;
-					_destMd = _destinationRange.Worksheet.Workbook.Metadata;
-                    _sourceMd.GetDynamicArrayIndex(out _sourceDaIx);
-				}
+                    _destMd = _destinationRange.Worksheet.Workbook.Metadata;
+                    //_sourceMd.GetDynamicArrayIndex(out _sourceDaIx);
+                }
 
-				var md = cell.MetaData;
-				if (cell.MetaData.cm == _sourceDaIx)
+                var md = cell.MetaData;
+                if (cell.MetaData.cm == _sourceDaIx)
                 {
-                    if(_destDaIx < 0)
+                    if (_destDaIx < 0)
                     {
-						_destMd.GetDynamicArrayIndex(out _destDaIx);
-					}
-                    md.cm = _destDaIx;
+                        //_destMd.GetDynamicArrayIndex(out _destDaIx);
+                        _destMd.GetDynamicArrayId(out uint destDaId);
+                        _destDaIx = destDaId;
+
+                    }
+                    md.cm = _destDaIx ?? 0u;
                     cell.MetaData = md;
-				}
+                }
                 else
                 {
-					cell.MetaData = default;
-				}
-			}
+                    cell.MetaData = default;
+                }
+            }
             else
             {
                 //We don't copy value meta data. Errors are handled on save for rich data types like #CALC and #SPILL, via the error values. Rich Data - DataTypes are currently not supported.
                 cell.MetaData = default;
             }
-		}
+        }
 
-		private static void CopyComment(ExcelRangeBase destination, CopiedCell cell)
+        private static void CopyComment(ExcelRangeBase destination, CopiedCell cell)
         {
             var c = destination.Worksheet.Cells[cell.Row, cell.Column].AddComment(cell.Comment.Text, cell.Comment.Author);
             var offsetCol = c.Column - cell.Comment.Column;

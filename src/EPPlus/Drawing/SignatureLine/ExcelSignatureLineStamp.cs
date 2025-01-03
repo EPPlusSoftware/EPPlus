@@ -18,6 +18,7 @@ namespace OfficeOpenXml.Drawing
         private protected ExcelImage _signatureImage = null;
         private protected string _signatureText = "";
         internal ExcelWorkbook wb;
+        internal ExcelWorksheet _ws;
 
         private protected eSignatureLineType _signatureLineType = eSignatureLineType.Stamp;
         ePictureType[] restrictedTypes = Enum.GetValues(typeof(ePictureType)).Cast<ePictureType>().Where(x => x != ePictureType.Bmp).ToArray();
@@ -35,6 +36,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// The Signature itself.
         /// Note that setting SignatureImage will erase SignatureText and vice-versa
+        /// Must be .bmp format.
         /// </summary>
         public virtual ExcelImage SignatureImage
         {
@@ -76,8 +78,9 @@ namespace OfficeOpenXml.Drawing
         internal string ValidSigLnImage;
         internal string SigLnImage;
 
-        internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId)
+        internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns, Guid lineId) : base(topNode, ns, lineId, ws)
         {
+            _ws = ws;
             wb = ws.Workbook;
             IsStamp = true;
 
@@ -88,8 +91,9 @@ namespace OfficeOpenXml.Drawing
             To.Row = 8;
         }
 
-        internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns)
+        internal ExcelSignatureLineStamp(ExcelWorksheet ws, XmlNode topNode, XmlNamespaceManager ns) : base(topNode, ns, ws)
         {
+            _ws = ws;
             wb = ws.Workbook;
         }
 
@@ -98,6 +102,15 @@ namespace OfficeOpenXml.Drawing
             Emf = _signatureLineType == eSignatureLineType.Stamp ? new SignatureLineTemplateEmfStamp() : new SignatureLineTemplateEmf();
             Emf.SuggestedSigner = Signer;
             Emf.SuggestedTitle = Title;
+
+            if (To.Row <= From.Row)
+            {
+                throw new InvalidDataException($"To.Row property '{To.Row}' cannot be less than or equal to From.Row property '{From.Row}'. Signature line with id '{SetupID}' will not be visible.");
+            }
+            else if(To.Column <= From.Column)
+            {
+                throw new InvalidDataException($"To.Column property '{To.Column}' cannot be less than or equal to From.Column property '{From.Column}'. signature line '{SetupID}' will not be visible.");
+            }
 
             //Note: Intentionally not disposed.
             MemoryStream ms = (MemoryStream)part.GetStream(FileMode.Create, FileAccess.Write);
@@ -152,54 +165,27 @@ namespace OfficeOpenXml.Drawing
 
         /// <summary>
         /// Sign the signatureline with a new digital signature.
+        /// The image must be .bmp format
         /// </summary>
         /// <param name="image">Must be in .bmp format</param>
-        /// <param name="certificate"></param>
-        /// <param name="cType"></param>
-        /// <param name="purposeForSigning"></param>
+        /// <param name="certificate">Certificate for creating the digital signature</param>
         /// <returns></returns>
-        public ExcelDigitalSignature Sign(X509Certificate2 certificate, ExcelImage image, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        public ExcelDigitalSignature SignWithImage(X509Certificate2 certificate, ExcelImage image)
         {
             SignatureImage = image;
             CheckSignature();
-            return Sign(certificate, cType, purposeForSigning);
+            return Sign(certificate);
         }
 
         /// <summary>
-        /// Sign with an image.
         /// </summary>
         /// <param name="certificate"></param>
-        /// <param name="cType"></param>
-        /// <param name="purposeForSigning"></param>
         /// <returns></returns>
-        private protected ExcelDigitalSignature Sign(X509Certificate2 certificate, CommitmentType cType = CommitmentType.None, string purposeForSigning = "")
+        private protected ExcelDigitalSignature Sign(X509Certificate2 certificate)
         {
-            var digSig = wb.DigitialSignatures.AddSignature(certificate, cType, purposeForSigning);
+            var digSig = wb.DigitialSignatures.Add(certificate);
             digSig.SignatureLine = this;
             return digSig;
-        }
-
-        /// <summary>
-        /// Sign the signatureline with an image and an existing digital signature.
-        /// Note: Overwrites the digitalSignature.SignatureLine with the new one.
-        /// </summary>
-        /// <param name="digitalSignature"></param>
-        /// <param name="image"></param>
-        public void SignWithExisting(ExcelDigitalSignature digitalSignature, ExcelImage image)
-        {
-            SignatureImage = image;
-            CheckSignature();
-            SignWithExisting(digitalSignature);
-        }
-
-        /// <summary>
-        /// Sign the signatureline with an existing digital signature.
-        /// Note: Overwrites the digitalSignature.SignatureLine with the new one.
-        /// </summary>
-        /// <param name="digitalSignature"></param>
-        private protected void SignWithExisting(ExcelDigitalSignature digitalSignature)
-        {
-            digitalSignature.SignatureLine = this;
         }
 
         /// <summary>

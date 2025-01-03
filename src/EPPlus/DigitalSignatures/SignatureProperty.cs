@@ -48,7 +48,7 @@ namespace OfficeOpenXml.DigitalSignatures
         internal void CreateSignatureInfo(AdditionalSignatureInfo signatureInfo, string purpose)
         {
             sigInfo1 = new SignatureInfoV1();
-            sigInfo1.SignatureComments = purpose;
+            sigInfo1._signatureComments = purpose;
             if (signatureInfo.Address1 != null || signatureInfo.Address2 != null) 
             {
                 sigInfo2 = new SignatureInfoV2(signatureInfo);

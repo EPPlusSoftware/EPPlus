@@ -92,7 +92,7 @@ namespace OfficeOpenXml.Style.Dxf
         {
             get
             {
-                return GetId() + ExcelDxfFill.GetEmptyId() + ExcelDxfFont.GetEmptyId() + ExcelDxfNumberFormat.GetEmptyId() + ExcelDxfAlignment.GetEmptyId() + ExcelDxfProtection.GetEmptyId();
+                return GetId() + ExcelDxfFill.GetEmptyId() + ExcelDxfFont.GetEmptyId() + ExcelDxfNumberFormat.GetEmptyId() + ExcelDxfAlignment.GetEmptyId() + ExcelDxfProtection.GetEmptyId() + ExcelDxfStyle.GetEmptyId();
             }
         }
         internal string GetId()
@@ -101,8 +101,8 @@ namespace OfficeOpenXml.Style.Dxf
 		}
 		internal static string GetEmptyId()
 		{
-			return ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId();
-		}
+			return ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfBorderItem.GetEmptyId() + ExcelDxfStyle.GetEmptyId();
+        }
 		/// <summary>
 		/// Creates the the xml node
 		/// </summary>

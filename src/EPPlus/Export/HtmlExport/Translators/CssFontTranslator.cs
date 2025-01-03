@@ -23,13 +23,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
     {
         IFont _f;
         ExcelFont _nf;
+        bool _accentColor;
 
-        internal CssFontTranslator(IFont f, ExcelFont nf) : base() 
+        internal CssFontTranslator(IFont f, ExcelFont nf, bool accentColor = false) : base() 
         {
             _f = f;
             _nf = nf;
+            _accentColor = accentColor;
         }
-
 
         internal override List<Declaration> GenerateDeclarationList(TranslatorContext context)
         {
@@ -48,6 +49,10 @@ namespace OfficeOpenXml.Export.HtmlExport.Translators
             if (fontRules.HasColor)
             {
                 declarations.Add(new Declaration("color", _f.Color.GetColor(context.Theme)));
+                if(_accentColor)
+                {
+                    declarations.Add(new Declaration("accent-color", _f.Color.GetColor(context.Theme)));
+                }
             }
             if (fontRules.HasBold)
             {
