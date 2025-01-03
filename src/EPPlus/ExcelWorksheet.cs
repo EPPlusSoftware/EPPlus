@@ -383,6 +383,14 @@ namespace OfficeOpenXml
         }
 
         #endregion
+
+        internal void SetNewWorksheetUri(Uri newUri)
+        {
+            var part = Part;
+            _worksheetUri = newUri;
+            //part.Uri = newUri;
+        }
+
         /// <summary>
         /// The Uri to the worksheet within the package
         /// </summary>
@@ -399,6 +407,37 @@ namespace OfficeOpenXml
         /// The unique identifier for the worksheet.
         /// </summary>
         internal int SheetId { get { return (_sheetID); } set { _sheetID = value; } }
+
+        /// <summary>
+        /// A <see cref="Guid" /> used by Office 365. It is not mandatory and used when muliple users are working on the same worksheet simultaniously.
+        /// EPPlus primarily needs to deal with this attribute when creating copies of existing worksheets.
+        /// </summary>
+        internal Guid? SheetUid
+        {
+            get
+            {
+                var val = GetXmlNodeString("@xr:uid");
+                if(!string.IsNullOrEmpty(val))
+                {
+                    val = val.Trim('{').Trim('}');
+                    try
+                    {
+                        return new Guid(val);
+                    }
+                    catch { }
+                }
+                return default;
+            }
+            set
+            {
+                var sVal = value?.ToString();
+                if(!string.IsNullOrEmpty(sVal))
+                {
+                    sVal = "{" + sVal.ToUpperInvariant() + "}";
+                }
+                SetXmlNodeString("@xr:uid", sVal, true);
+            }
+        }
         internal bool IsChartSheet { get; set; } = false;
         internal static bool NameNeedsApostrophes(string ws)
         {

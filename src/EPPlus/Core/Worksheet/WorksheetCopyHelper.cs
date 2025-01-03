@@ -66,6 +66,11 @@ namespace OfficeOpenXml.Core.Worksheet
 
             ExcelWorksheet targetWorksheet = new ExcelWorksheet(nsm, pck, relID, uriWorksheet, name, sheetID, targetWorksheets.Count + pck._worksheetAdd, eWorkSheetHidden.Visible);
 
+            if(sourceWorksheet.SheetUid.HasValue)
+            {
+                targetWorksheet.SheetUid = Guid.NewGuid();
+            }
+
             //Copy comments
             if (sourceWorksheet.ThreadedComments.Count > 0)
             {
