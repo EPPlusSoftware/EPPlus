@@ -1708,6 +1708,8 @@ namespace OfficeOpenXml.Drawing
                 toColOff.InnerText = copy.To.ColumnOff.ToString();
                 toRow.InnerText = copy.To.Row.ToString();
                 toRowOff.InnerText = copy.To.RowOff.ToString();
+                copy.From.UpdateXml();
+                copy.To.UpdateXml();
             }
             var oleInternal = new OleObjectInternal(worksheet.NameSpaceManager, newNode.FirstChild.FirstChild);
             int shapeIdKey = int.Parse(shapeId);
