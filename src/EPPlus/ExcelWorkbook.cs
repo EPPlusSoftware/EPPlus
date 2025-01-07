@@ -1506,6 +1506,10 @@ namespace OfficeOpenXml
                     {
                         LicenseHandler.TrialTagDocument(this);
                     }
+					else
+					{
+                        LicenseHandler.ApplyCommercialLicense(this);
+                    }
                     break;
                 case EPPlusLicenseType.NonCommercialOrganization:
                 case EPPlusLicenseType.NonCommercialPersonal:

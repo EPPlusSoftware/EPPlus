@@ -6,6 +6,7 @@ using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using static OfficeOpenXml.EPPlusLicenseInfo;
 namespace OfficeOpenXml
@@ -13,6 +14,7 @@ namespace OfficeOpenXml
     internal class LicenseHandler
     {
         static readonly string _key = "<RSAKeyValue><Modulus>vKJxhqMkmgoCZFBU4/RWfQ86PaNA2Adj3ZbhmN7Op3YIJNy+YhduR9/nm4ynM2XduXlFFZ6xNQgKl3xqgm9pcQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
+        static Uri licenseTextUri = new Uri("/EPPlusLicense.txt", UriKind.Relative);
 
         internal static void TagDocument(ExcelWorkbook wb)
         {
@@ -38,12 +40,21 @@ namespace OfficeOpenXml
                 wb.Properties.Author = ExcelPackage.License.LegalName;
             }
 
-            var part = wb._package.ZipPackage.CreatePart(new Uri("/EPPlusLicense.txt", UriKind.Relative), "text/plain");
-            var stream = part.GetStream();
+            ZipPackagePart part;
+            if (wb._package.ZipPackage.PartExists(licenseTextUri) == false)
+            {
+                part = wb._package.ZipPackage.CreatePart(licenseTextUri, "text/plain");
+            }
+            else
+            {
+                part = wb._package.ZipPackage.GetPart(licenseTextUri);
+            }
+            var stream = part.GetStream(FileMode.Create);
             var sw = new StreamWriter(stream);
-            sw.WriteLine($"This workbook was created with the EPPlus library{(string.IsNullOrEmpty(ExcelPackage.License?.LegalName) ? "" : ", licensed to "+ ExcelPackage.License?.LegalName)} under the Polyform Noncommercial license, see https://polyformproject.org/licenses/noncommercial/1.0.0");
+            sw.WriteLine($"This workbook was created with the EPPlus library{(string.IsNullOrEmpty(ExcelPackage.License?.LegalName) ? "" : ", licensed to " + ExcelPackage.License?.LegalName)} under the Polyform Noncommercial license, see https://polyformproject.org/licenses/noncommercial/1.0.0");
             sw.WriteLine("For more information about EPPlus, see https://epplussoftware.com/");
-            sw.Flush();            
+            sw.Flush();
+
         }
         internal static void TrialTagDocument(ExcelWorkbook wb)
         {
@@ -52,8 +63,16 @@ namespace OfficeOpenXml
             wb.Properties.Comments = $"This workbook has been created with EPPlus using a trial license expiring: {ExcelPackage.License.LicenseInfo.LicenseValidTo:d}";
             wb.Properties.Application = "EPPlus";
             wb.Properties.AppVersion = $"{version.Major}.{version.Minor}";
-            var part = wb._package.ZipPackage.CreatePart(new Uri("/EPPlusLicense.txt", UriKind.Relative), "text/plain");
-            var stream = part.GetStream();
+            ZipPackagePart part;
+            if (wb._package.ZipPackage.PartExists(licenseTextUri)==false)
+            {
+                part = wb._package.ZipPackage.CreatePart(licenseTextUri, "text/plain");
+            }
+            else
+            {
+                part = wb._package.ZipPackage.GetPart(licenseTextUri);
+            }
+            var stream = part.GetStream(FileMode.Create);
             var sw = new StreamWriter(stream);
             sw.WriteLine($"This workbook was created with the EPPlus library using a trial License: {ExcelPackage.License.LicenseInfo.LicenseNumber}.");
             sw.WriteLine("For more information about EPPlus, see https://epplussoftware.com/");
@@ -180,6 +199,14 @@ namespace OfficeOpenXml
                 toDate = baseYear.AddDays(tdDays);
                 licenseType = (EPPlusCommercialLicenseType)br.ReadByte();
                 noOfLicenses = br.ReadInt16();
+            }
+        }
+
+        internal static void ApplyCommercialLicense(ExcelWorkbook wb)
+        {
+            if (wb._package.ZipPackage.PartExists(licenseTextUri))
+            {
+                wb._package.ZipPackage.DeletePart(licenseTextUri);
             }
         }
     }
