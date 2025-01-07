@@ -331,7 +331,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             sb.Append(oleObjectNode + "</oleObject>");
             sb.Append("</mc:Fallback></mc:AlternateContent>");
             wsNode.InnerXml = sb.ToString();
-            var oleObjectXmlNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0);
+            var oleObjectXmlNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0).GetChildAtPosition(0);
             _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectXmlNode);
         }
         
