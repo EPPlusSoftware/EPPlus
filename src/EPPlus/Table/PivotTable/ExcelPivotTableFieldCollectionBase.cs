@@ -75,6 +75,11 @@ namespace OfficeOpenXml.Table.PivotTable
         /// <returns>The pivot table field</returns>
         public ExcelPivotTableFieldItem GetByValue(object value)
         {
+            if (value == null)
+            {
+                value = ExcelPivotTable.PivotNullValue;
+            }
+
             var cl = _field.Cache.GetCacheLookup();
             if (cl.TryGetValue(value, out int ix))
             {
