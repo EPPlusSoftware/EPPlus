@@ -625,13 +625,13 @@ namespace EPPlusTest.Issues
 		[TestMethod]
 		public void Issue1794_1()
 		{
-            // This tests creates a workbook without errors. When this workbook is opened in Excel
-            // and then closed without changing anything, Excel still shows a "Save changes" dialog.
-            // this seems to be related to that Excel renames the worksheet xml files.
-            // EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
+			// This tests creates a workbook without errors. When this workbook is opened in Excel
+			// and then closed without changing anything, Excel still shows a "Save changes" dialog.
+			// this seems to be related to that Excel renames the worksheet xml files.
+			// EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
 			// this bug was fixed in Github Issue 1794 /MA
-            var template = new FileInfo(Path.Combine(_testInputPathOptional, "Issue1794.xltx"));
-			using var p = new ExcelPackage(new FileInfo(Path.Combine(_worksheetPath, "Issue1794.xlsx")), template);
+
+			using var p = OpenTemplatePackage("Issue1794.xltx");
             var wsTemplate = p.Workbook.Worksheets[0];
 
             for (int i = 0; i < 2; i++)
@@ -651,8 +651,7 @@ namespace EPPlusTest.Issues
             // this seems to be related to that Excel renames the worksheet xml files.
             // EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
             // this bug was fixed in Github Issue 1794 /MA
-            var fi = new FileInfo(Path.Combine(_testInputPathOptional, "Issue1794_2.xlsx"));
-			using var p = new ExcelPackage(fi);
+            using var p = OpenTemplatePackage("Issue1794.xlsx");
             var wsTemplate = p.Workbook.Worksheets[0];
 
             for (int i = 0; i < 2; i++)
