@@ -360,6 +360,11 @@ namespace OfficeOpenXml.Style.XmlAccess
                             }
                             else if (clc == 'm')
                             {
+                                if (bracketText == "h")
+                                {
+                                    useMinute = true;
+                                }
+
                                 if (useMinute || NextCharIsTimeOperator(ExcelFormat, pos)) //Excel uses m for both month and minutes, so we need to check if the previous operator is 
                                 {
                                     sb.Append('m');
