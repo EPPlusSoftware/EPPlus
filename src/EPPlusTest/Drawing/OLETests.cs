@@ -654,7 +654,7 @@ namespace EPPlusTest.Drawing
         [TestMethod]
         public void DeleteTest()
         {
-            using var p = OpenPackage("EpplusOleObject_Linked_Deleted1.xlsx");
+            using var p = OpenPackage("EpplusOleObject_Linked_Deleted1.xlsx", true);
             using var ws = p.Workbook.Worksheets.Add("Sheet 1");
             var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
             var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");

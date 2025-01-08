@@ -21,11 +21,8 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System.IO;
 using System.Text;
-using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Drawing.OleObject.Structures;
-using System.Drawing;
 using System.Text.RegularExpressions;
-using OfficeOpenXml.ConditionalFormatting;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
@@ -221,7 +218,10 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal void UpdateExternalLinkIndex()
         {
             _externalLinkIndex -= 1;
-            _oleObject.TopNode.Attributes["link"].Value = string.Format( "\"[{0}]!''''\"", _externalLinkIndex); //uppdaterar endast attributet, men ej i själva xml. också till kommer en tom xmlns attribut någonstans på vägen...
+            var val = string.Format("[{0}]!''''", _externalLinkIndex);
+            _oleObject.TopNode.Attributes["link"].Value = val;
+            var fb = _oleObject.TopNode.ParentNode.ParentNode.SelectSingleNode("mc:Fallback/oleObject", NameSpaceManager);
+            fb.Attributes["link"].Value = val;
         }
 
         internal void CreateOleObject(ExcelDrawings drawings, XmlNode node, string name, byte[] oleData, ExcelOleObjectParameters parameters, byte[] iconData = null, ExcelGroupShape parent = null)
@@ -320,7 +320,8 @@ namespace OfficeOpenXml.Drawing.OleObject
             //Create worksheet xml
             var wsNode = _worksheet.CreateOleContainerNode();
             StringBuilder sb = new StringBuilder();
-            sb.Append("<mc:AlternateContent xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
+            sb.Append("<dummyNode xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">");
+            sb.Append("<mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
             sb.Append("<mc:Choice Requires=\"x14\">");
             //Create object node
             sb.Append(oleObjectNode);
@@ -336,14 +337,13 @@ namespace OfficeOpenXml.Drawing.OleObject
             //fallback
             sb.AppendFormat("<mc:Fallback>");
             sb.Append(oleObjectNode + "</oleObject>");
-            sb.Append("</mc:Fallback></mc:AlternateContent>");
+            sb.Append("</mc:Fallback></mc:AlternateContent></dummyNode>");
             XmlDocument tempDoc = new XmlDocument();
             tempDoc.LoadXml(sb.ToString());
-            XmlNode tempNode = tempDoc.DocumentElement;
+            XmlNode tempNode = tempDoc.DocumentElement.FirstChild;
             var importedNode = wsNode.OwnerDocument.ImportNode(tempNode, true);
-            wsNode.AppendChild(importedNode);
-            var oleObjectXmlNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0).GetChildAtPosition(0);
-            _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectXmlNode);
+            var oleObjectXmlNode = wsNode.AppendChild(importedNode); //Tom xmlns i oleObject och i fallback/oleObject...
+            _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectXmlNode.FirstChild.FirstChild);
         }
         
         internal void UpdateXml()
