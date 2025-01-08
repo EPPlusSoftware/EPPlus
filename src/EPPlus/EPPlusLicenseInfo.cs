@@ -33,5 +33,13 @@ namespace OfficeOpenXml
         /// The number of developers covered by this license.
         /// </summary>
         public int NumberOfLicensedDevelopers { get; internal set; }        
+        /// <summary>
+        /// 
+        /// </summary>
+        public EPPlusLicenseStatus Status
+        {
+            get;
+            internal set;
+        }
     }
 }

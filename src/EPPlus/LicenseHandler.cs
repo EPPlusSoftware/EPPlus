@@ -13,7 +13,7 @@ namespace OfficeOpenXml
 {
     internal class LicenseHandler
     {
-        static readonly string _key = "<RSAKeyValue><Modulus>vKJxhqMkmgoCZFBU4/RWfQ86PaNA2Adj3ZbhmN7Op3YIJNy+YhduR9/nm4ynM2XduXlFFZ6xNQgKl3xqgm9pcQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
+        static readonly string _key = "<RSAKeyValue><Modulus>4iY/DJNamgOnXKWQCwuVqL7Jf5cAwZUWp23k6bjgUsiQNZzmDakeq2HRmlFTTUZrZC+frtAbxe6vFR9iqMvA9Q==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
         static Uri licenseTextUri = new Uri("/EPPlusLicense.txt", UriKind.Relative);
 
         internal static void TagDocument(ExcelWorkbook wb)
@@ -79,7 +79,7 @@ namespace OfficeOpenXml
             sw.Flush();
         }
 
-        internal static bool ValidateLicenseKey(string licenseKey, out EPPlusLicenseInfo licenseInfo)
+        internal static bool ValidateLicenseKey(string licenseKey, out EPPlusLicenseInfo licenseInfo, out string msg)
         {
             try
             {
@@ -94,33 +94,39 @@ namespace OfficeOpenXml
                     LicenseValidTo = EnumUtil.HasFlag(licenseType, EPPlusCommercialLicenseType.Subscription) && EnumUtil.HasNotFlag(licenseType, EPPlusCommercialLicenseType.TemporaryKey) ? toDate.AddDays(30) : toDate,
                     NumberOfLicensedDevelopers = numberOfLicenses
                 };
+
                 var tb = GetLicenseData(version, licenseNo, fromDate, toDate, (byte)licenseType, numberOfLicenses);
                 var rsaClient = new RSACryptoServiceProvider();
                 rsaClient.FromXmlString(_key);
                 if (rsaClient.VerifyData(tb, "2.16.840.1.101.3.4.2.1", signature))
                 {
-                    return ValidateLicenseDates(licenseInfo);
+                    return ValidateLicenseDates(licenseInfo, out msg);
                 }
                 else
                 {
-                    throw new InvalidLicenseKeyException("The license key is not valid. Please use the license key as stated on your license document or as displayed on your account at https://epplussoftware.com");
+                    licenseInfo.Status = EPPlusLicenseStatus.IsInvalidLicenseKey;
+                    msg="The license key is not valid. Please use the license key as stated on your license document or as displayed on your account at https://epplussoftware.com";
+                    return false;
                 }
             }
             catch(Exception ex)
             {
-                if(ex is LicenseNotValidException)
+                licenseInfo = new EPPlusLicenseInfo()
                 {
-                    throw;
-                }
-                throw new InvalidLicenseKeyException("The license key is not in a valid format. Please use the license key as stated on your license document or as displayed on your account at https://epplussoftware.com");
-            }        
+                    Status = EPPlusLicenseStatus.IsInvalidLicenseKey
+                };
+                msg="The license key is not in a valid format. Please use the license key as stated on your license document or as displayed on your account at https://epplussoftware.com";
+                return false;
+            }
         }
 
-        private static bool ValidateLicenseDates(EPPlusLicenseInfo licenseInfo)
+        private static bool ValidateLicenseDates(EPPlusLicenseInfo licenseInfo, out string msg)
         {
             if (licenseInfo.LicenseValidFrom > DateTime.Today)
             {
-                throw new LicenseNotValidException($"This EPPlus license is not valid until {licenseInfo.LicenseValidFrom:d}.");
+                licenseInfo.Status = EPPlusLicenseStatus.IsNotValidForThisVersion;
+                msg = $"This EPPlus license is not valid until {licenseInfo.LicenseValidFrom:d}.";
+                return false;
             }
             if(EnumUtil.HasFlag(licenseInfo.LicenseType, EPPlusCommercialLicenseType.Subscription))
             {
@@ -139,12 +145,13 @@ namespace OfficeOpenXml
                 var extendUnderRenewal = ExcelPackage.License.ExtendUnderRenewal;
                 if (licenseInfo.LicenseValidTo.AddDays(extendUnderRenewal ? 15 : 0) < bd)
                 {
-                    var msg = $"This EPPlus license key is no longer valid {licenseInfo.LicenseValidTo:d}. If the license has been renewed, please use the new license key available on your license document or in your account on https://epplussoftware.com.";
+                    msg = $"This EPPlus license key is no longer valid {licenseInfo.LicenseValidTo:d}. If the license has been renewed, please use the new license key available on your license document or in your account on https://epplussoftware.com.";
                     if(extendUnderRenewal==false)
                     {
                         msg += " To get 15 additional days validity off this key, you can set the License.ExtendUnderRenewal to true.";
                     }
-                    throw new LicenseNotValidException(msg);
+                    licenseInfo.Status = EPPlusLicenseStatus.IsExpired;
+                    return false;
                 }
             }
             else
@@ -152,10 +159,12 @@ namespace OfficeOpenXml
                 var vd = DateTime.Parse(EPPlusLicense._versionDate, CultureInfo.InvariantCulture);
                 if (licenseInfo.LicenseValidTo < vd)
                 {
-                    throw new LicenseNotValidException($"This license key is not valid for EPPlus versions release after {licenseInfo.LicenseValidTo:d}. EPPlus version release date: ({EPPlusLicense._versionDate:d}).If the license has been renewed, please use the new license key available on your license document or in your account on https://epplussoftware.com");
+                    licenseInfo.Status = EPPlusLicenseStatus.IsNotValidForThisVersion;
+                    msg = "This license key is not valid for EPPlus versions release after {licenseInfo.LicenseValidTo:d}. EPPlus version release date: ({EPPlusLicense._versionDate:d}).If the license has been renewed, please use the new license key available on your license document or in your account on https://epplussoftware.com";
                 }
             }
-
+            msg = null;
+            licenseInfo.Status = EPPlusLicenseStatus.IsValid;
             return true;
         }
 

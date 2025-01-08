@@ -1501,7 +1501,10 @@ namespace OfficeOpenXml
             switch (ExcelPackage.License.LicenseType)
             {
                 case EPPlusLicenseType.Commercial:
-                    LicenseHandler.ValidateLicenseKey(ExcelPackage.License.LicenseKey, out var licenseInfo);
+                    if(LicenseHandler.ValidateLicenseKey(ExcelPackage.License.LicenseKey, out var licenseInfo, out string msg)==false)
+					{
+						throw new InvalidLicenseKeyException(msg);
+					}
                     if (EnumUtil.HasFlag(licenseInfo.LicenseType, EPPlusCommercialLicenseType.Trial))
                     {
                         LicenseHandler.TrialTagDocument(this);

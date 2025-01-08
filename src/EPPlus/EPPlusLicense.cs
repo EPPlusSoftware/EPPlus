@@ -75,6 +75,7 @@ namespace OfficeOpenXml
             LicenseType = EPPlusLicenseType.NonCommercialPersonal;
             Source = EPPlusLicenseSource.Code;
             LicenseInfo = null;
+            LicenseKey = null;
             _licenseSet = true;
         }
         /// <summary>
@@ -88,6 +89,7 @@ namespace OfficeOpenXml
             LegalName = organizationName;
             LicenseType = EPPlusLicenseType.NonCommercialOrganization;
             Source = EPPlusLicenseSource.Code;
+            LicenseKey = null;
             LicenseInfo = null;
             _licenseSet = true;
         }
@@ -98,13 +100,24 @@ namespace OfficeOpenXml
         /// <param name="licenseKey">The licens _key you recieved with your license</param>
         public void SetCommercial(string licenseKey)
         {
-            if (LicenseHandler.ValidateLicenseKey(licenseKey, out EPPlusLicenseInfo licenseInfo))
+            if (LicenseHandler.ValidateLicenseKey(licenseKey, out EPPlusLicenseInfo licenseInfo, out string msg))
             {
-                LicenseInfo = licenseInfo;
-                LicenseKey = licenseKey;
-                LicenseType = EPPlusLicenseType.Commercial;
-                Source = EPPlusLicenseSource.Code;
                 _licenseSet = true;
+            }
+            LicenseInfo = licenseInfo;
+            LicenseKey = licenseKey;
+            LicenseType = EPPlusLicenseType.Commercial;
+            Source = EPPlusLicenseSource.Code;
+            if(_licenseSet==false)
+            {
+                if(licenseInfo.Status==EPPlusLicenseStatus.IsInvalidLicenseKey)
+                {
+                    throw new InvalidLicenseKeyException(msg);
+                }
+                else
+                {
+                    throw new LicenseNotValidException(msg);
+                }
             }
         }
 
@@ -196,7 +209,7 @@ namespace OfficeOpenXml
             LicenseKey = null;
             Source = null;
             LegalName = null;
-            LicenseInfo = null;
+            LicenseInfo = null;            
             _licenseSet = false;
         }
     }

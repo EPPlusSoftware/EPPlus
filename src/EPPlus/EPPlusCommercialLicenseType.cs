@@ -21,7 +21,7 @@ namespace OfficeOpenXml
         /// </summary>
         Package = 0x4,
         /// <summary>
-        /// A custom license, for example an enterprice or site license.
+        /// A custom license, for example an enterprise or site license.
         /// </summary>
         Custom = 0x8,
         /// <summary>
@@ -36,5 +36,24 @@ namespace OfficeOpenXml
         /// This license has been temporary extended to complete the renewal process.
         /// </summary>
         TemporaryKey = 0x40
+    }
+    public enum EPPlusLicenseStatus
+    {
+        /// <summary>
+        /// The license key is valid for this version.
+        /// </summary>
+        IsValid,
+        /// <summary>
+        /// The license key is invalid.
+        /// </summary>
+        IsInvalidLicenseKey,
+        /// <summary>
+        /// The subscription license has expired.
+        /// </summary>
+        IsExpired,
+        /// <summary>
+        /// The perpetual license is valid, but requires a renewal for this version.
+        /// </summary>
+        IsNotValidForThisVersion
     }
 }
