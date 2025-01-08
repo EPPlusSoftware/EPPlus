@@ -25,6 +25,7 @@ using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Drawing.OleObject.Structures;
 using System.Drawing;
 using System.Text.RegularExpressions;
+using OfficeOpenXml.ConditionalFormatting;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
@@ -44,7 +45,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal XmlDocument _linkedOleObjectXml;
         internal string _linkedObjectFilepath;
         internal ImageInfo _mediaImage;
-        internal static int ExternalLinkId = 1;
+        internal int _externalLinkIndex;
         private static long _maxFileSize = 2L * 1024 * 1024 * 1024;
 
         /// <summary>
@@ -217,6 +218,12 @@ namespace OfficeOpenXml.Drawing.OleObject
             CreateOleObject(drawings, node, name, oleData, parameters, iconData, parent);
         }
 
+        internal void UpdateExternalLinkIndex()
+        {
+            _externalLinkIndex -= 1;
+            _oleObject.TopNode.Attributes["link"].Value = string.Format( "\"[{0}]!''''\"", _externalLinkIndex); //uppdaterar endast attributet, men ej i själva xml. också till kommer en tom xmlns attribut någonstans på vägen...
+        }
+
         internal void CreateOleObject(ExcelDrawings drawings, XmlNode node, string name, byte[] oleData, ExcelOleObjectParameters parameters, byte[] iconData = null, ExcelGroupShape parent = null)
         {
             _worksheet = drawings.Worksheet;
@@ -235,11 +242,11 @@ namespace OfficeOpenXml.Drawing.OleObject
                 CreateLinkToObject(parameters.OlePath, parameters.ProgId);
                 if (DisplayAsIcon)
                 {
-                    oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" oleUpdate=\"OLEUPDATE_ONCALL\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", parameters.ProgId, ExternalLinkId, _id);
+                    oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" oleUpdate=\"OLEUPDATE_ONCALL\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", parameters.ProgId, _externalLinkIndex, _id);
                 }
                 else
                 {
-                    oleObjectNode = string.Format("<oleObject oleUpdate=\"OLEUPDATE_ALWAYS\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", parameters.ProgId, ExternalLinkId, _id);
+                    oleObjectNode = string.Format("<oleObject oleUpdate=\"OLEUPDATE_ALWAYS\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", parameters.ProgId, _externalLinkIndex, _id);
                 }
             }
             else
@@ -313,7 +320,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             //Create worksheet xml
             var wsNode = _worksheet.CreateOleContainerNode();
             StringBuilder sb = new StringBuilder();
-            sb.Append("<mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
+            sb.Append("<mc:AlternateContent xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
             sb.Append("<mc:Choice Requires=\"x14\">");
             //Create object node
             sb.Append(oleObjectNode);
@@ -330,7 +337,11 @@ namespace OfficeOpenXml.Drawing.OleObject
             sb.AppendFormat("<mc:Fallback>");
             sb.Append(oleObjectNode + "</oleObject>");
             sb.Append("</mc:Fallback></mc:AlternateContent>");
-            wsNode.InnerXml = sb.ToString();
+            XmlDocument tempDoc = new XmlDocument();
+            tempDoc.LoadXml(sb.ToString());
+            XmlNode tempNode = tempDoc.DocumentElement;
+            var importedNode = wsNode.OwnerDocument.ImportNode(tempNode, true);
+            wsNode.AppendChild(importedNode);
             var oleObjectXmlNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0).GetChildAtPosition(0);
             _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectXmlNode);
         }
@@ -425,7 +436,6 @@ namespace OfficeOpenXml.Drawing.OleObject
                         _linkedOleObjectXml = _externalLink.ExternalOleXml;
                         _linkedObjectFilepath = _externalLink.Relation.TargetUri.OriginalString;
                         int linkId = int.Parse(splitFilename[0]);
-                        ExternalLinkId = linkId > ExternalLinkId ? linkId : ExternalLinkId;
                         break;
                     }
                 }
@@ -548,7 +558,8 @@ namespace OfficeOpenXml.Drawing.OleObject
         {
             var wb = _worksheet.Workbook;
             //create externalLink xml part
-            Uri uri = GetNewUri(wb._package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml", ref ExternalLinkId);
+            int i = wb.ExternalLinks.Count+1;
+            Uri uri = GetNewUri(wb._package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml", ref i);
             _oleObjectPart = wb._package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
             var rel = wb.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
             //Create relation to external file
@@ -574,7 +585,10 @@ namespace OfficeOpenXml.Drawing.OleObject
             var er = (XmlElement)wb.CreateNode("d:externalReferences/d:externalReference", false, true);
             er.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
             //Add the externalLink to externalLink collection
-            _externalLink = wb.ExternalLinks[wb.ExternalLinks.GetExternalLink(filePath, fileRel)] as ExcelExternalOleLink;
+            _externalLink = new ExcelExternalOleLink(wb,fileRel.Id,progId,DisplayAsIcon,_oleObjectPart, er );
+            wb.ExternalLinks.AddInternal(_externalLink);
+            //_externalLink = wb.ExternalLinks[wb.ExternalLinks.GetExternalLink(filePath, fileRel)] as ExcelExternalOleLink;
+            _externalLinkIndex = _externalLink.Index;
         }
 
         internal void SaveExternalLink()

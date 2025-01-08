@@ -405,6 +405,7 @@ namespace EPPlusTest.Drawing
                 o.LinkToFile = true;
                 o.Icon = new ExcelImage(myIcon);
             });
+            SaveAndCleanup(genericOlePackage);
             //Nothing To Assert just check the excel file and see if it has a different picture.
         }
 
@@ -617,7 +618,6 @@ namespace EPPlusTest.Drawing
             }
         }
 
-
         [TestMethod]
         public void TestingOLEObjectCopy()
         {
@@ -651,6 +651,20 @@ namespace EPPlusTest.Drawing
             SaveAndCleanup(genericOlePackage);
         }
 
+        [TestMethod]
+        public void DeleteTest()
+        {
+            using var p = OpenPackage("EpplusOleObject_Linked_Deleted1.xlsx");
+            using var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
+            var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+            FileInfo fileInfo1 = new FileInfo(myFile);
+            FileInfo fileInfo2 = new FileInfo(myIcon);
+            var ole1 = ws.Drawings.AddOleObject("MyTextFile", fileInfo1, o => o.LinkToFile = true);
+            var ole2 = ws.Drawings.AddOleObject("MyIconFile", fileInfo2, o => o.LinkToFile = true);
+            ws.Drawings.Remove(ole1);
+            SaveAndCleanup(p);
+        }
 
     }
 }
