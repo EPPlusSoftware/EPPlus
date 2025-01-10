@@ -265,12 +265,14 @@ namespace OfficeOpenXml
                 {
                     address = address.DeleteRow(fromRow, rows);
                 }
+
                 if(address==null || address.Address=="#REF!")
                 {
                     deletedComments.Add(comment);
                 }
                 else
                 {
+                    //Worksheet._commentsStore.SetValue(address.Start.Row, comment.);
                     comment.Reference = address.Address;
                 }
             }

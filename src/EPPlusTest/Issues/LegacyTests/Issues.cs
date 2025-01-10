@@ -56,7 +56,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using static Microsoft.IO.RecyclableMemoryStreamManager;
 
 namespace EPPlusTest
 {
@@ -6251,5 +6250,25 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void s793()
+        {
+            using (var package = OpenTemplatePackage("s793.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.First();
+
+                // Act
+               // sheet.Cells.Sort(column: 0);
+
+                sheet.DeleteRow(row: 2);
+
+                // Act
+                sheet.Cells.Sort(column: 0);
+
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }

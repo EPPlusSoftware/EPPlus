@@ -193,6 +193,12 @@ namespace OfficeOpenXml.Core.Worksheet
 
             deletedDrawings.ForEach(d => ws.Drawings.Remove(d));
         }
+
+        internal static void AdjustCommentsRow()
+        {
+
+        }
+
         internal static void AdjustDrawingsColumn(ExcelWorksheet ws, int columnFrom, int columns, int rowFrom = 0, int rowTo = ExcelPackage.MaxRows)
         {
             var deletedDrawings = new List<ExcelDrawing>();
