@@ -37,23 +37,4 @@ namespace OfficeOpenXml
         /// </summary>
         TemporaryKey = 0x40
     }
-    public enum EPPlusLicenseStatus
-    {
-        /// <summary>
-        /// The license key is valid for this version.
-        /// </summary>
-        IsValid,
-        /// <summary>
-        /// The license key is invalid.
-        /// </summary>
-        IsInvalidLicenseKey,
-        /// <summary>
-        /// The subscription license has expired.
-        /// </summary>
-        IsExpired,
-        /// <summary>
-        /// The perpetual license is valid, but requires a renewal for this version.
-        /// </summary>
-        IsNotValidForThisVersion
-    }
 }

@@ -104,7 +104,7 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    licenseInfo.Status = EPPlusLicenseStatus.IsInvalidLicenseKey;
+                    licenseInfo.Status = EPPlusLicenseStatus.InvalidLicenseKey;
                     msg="The license key is not valid. Please use the license key as stated on your license document or as displayed on your account at https://epplussoftware.com";
                     return false;
                 }
@@ -113,7 +113,7 @@ namespace OfficeOpenXml
             {
                 licenseInfo = new EPPlusLicenseInfo()
                 {
-                    Status = EPPlusLicenseStatus.IsInvalidLicenseKey
+                    Status = EPPlusLicenseStatus.InvalidLicenseKey
                 };
                 msg="The license key is not in a valid format. Please use the license key as stated on your license document or as displayed on your account at https://epplussoftware.com";
                 return false;
@@ -124,7 +124,7 @@ namespace OfficeOpenXml
         {
             if (licenseInfo.LicenseValidFrom > DateTime.Today)
             {
-                licenseInfo.Status = EPPlusLicenseStatus.IsNotValidForThisVersion;
+                licenseInfo.Status = EPPlusLicenseStatus.NotValidForThisVersion;
                 msg = $"This EPPlus license is not valid until {licenseInfo.LicenseValidFrom:d}.";
                 return false;
             }
@@ -145,12 +145,12 @@ namespace OfficeOpenXml
                 var extendUnderRenewal = ExcelPackage.License.ExtendUnderRenewal;
                 if (licenseInfo.LicenseValidTo.AddDays(extendUnderRenewal ? 15 : 0) < bd)
                 {
-                    msg = $"This EPPlus license key is no longer valid {licenseInfo.LicenseValidTo:d}. If the license has been renewed, please use the new license key available on your license document or in your account on https://epplussoftware.com.";
+                    msg = $"This EPPlus license key is no longer valid {licenseInfo.LicenseValidTo:d}. If your license has been renewed, please use the new license key found in your license document or in your account at https://epplussoftware.com";
                     if(extendUnderRenewal==false)
                     {
                         msg += " To get 15 additional days validity off this key, you can set the License.ExtendUnderRenewal to true.";
                     }
-                    licenseInfo.Status = EPPlusLicenseStatus.IsExpired;
+                    licenseInfo.Status = EPPlusLicenseStatus.Expired;
                     return false;
                 }
             }
@@ -159,12 +159,12 @@ namespace OfficeOpenXml
                 var vd = DateTime.Parse(EPPlusLicense._versionDate, CultureInfo.InvariantCulture);
                 if (licenseInfo.LicenseValidTo < vd)
                 {
-                    licenseInfo.Status = EPPlusLicenseStatus.IsNotValidForThisVersion;
-                    msg = "This license key is not valid for EPPlus versions release after {licenseInfo.LicenseValidTo:d}. EPPlus version release date: ({EPPlusLicense._versionDate:d}).If the license has been renewed, please use the new license key available on your license document or in your account on https://epplussoftware.com";
+                    licenseInfo.Status = EPPlusLicenseStatus.NotValidForThisVersion;
+                    msg = "This license key is not valid for EPPlus versions release after {licenseInfo.LicenseValidTo:d}. EPPlus version release date: ({EPPlusLicense._versionDate:d}). If your license has been renewed, please use the new license key found in your license document or in your account at https://epplussoftware.com";
                 }
             }
             msg = null;
-            licenseInfo.Status = EPPlusLicenseStatus.IsValid;
+            licenseInfo.Status = EPPlusLicenseStatus.Valid;
             return true;
         }
 

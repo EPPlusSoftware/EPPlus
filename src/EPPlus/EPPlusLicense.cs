@@ -110,7 +110,7 @@ namespace OfficeOpenXml
             Source = EPPlusLicenseSource.Code;
             if(_licenseSet==false)
             {
-                if(licenseInfo.Status==EPPlusLicenseStatus.IsInvalidLicenseKey)
+                if(licenseInfo.Status==EPPlusLicenseStatus.InvalidLicenseKey)
                 {
                     throw new InvalidLicenseKeyException(msg);
                 }
@@ -212,23 +212,5 @@ namespace OfficeOpenXml
             LicenseInfo = null;            
             _licenseSet = false;
         }
-    }
-    /// <summary>
-    /// The type of license used.
-    /// </summary>
-    public enum EPPlusLicenseType
-    {
-        /// <summary>
-        /// If you use EPPlus within a commercial organization or for commercial purposes.
-        /// </summary>
-        Commercial = 0,
-        /// <summary>
-        /// Use this license if you use EPPlus for personal noncommercial usage.
-        /// </summary>
-        NonCommercialPersonal = 1,
-        /// <summary>
-        /// Use this license if you use EPPlus representing a noncommercial organization.
-        /// </summary>
-        NonCommercialOrganization = 2
     }
 }

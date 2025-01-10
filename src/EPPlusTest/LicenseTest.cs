@@ -21,7 +21,7 @@ namespace EPPlusTest
             }
             catch(LicenseNotValidException)
             {
-                Assert.AreEqual(EPPlusLicenseStatus.IsExpired, ExcelPackage.License.LicenseInfo.Status);
+                Assert.AreEqual(EPPlusLicenseStatus.Expired, ExcelPackage.License.LicenseInfo.Status);
                 Assert.AreEqual(EPPlusLicenseSource.Code, ExcelPackage.License.Source);
                 Assert.AreEqual(new DateTime(2024, 3, 21).ToOADate(), ExcelPackage.License.LicenseInfo.LicenseValidFrom.ToOADate());
                 Assert.AreEqual(new DateTime(2024, 6, 9).ToOADate(), ExcelPackage.License.LicenseInfo.LicenseValidTo.ToOADate());
@@ -90,7 +90,7 @@ namespace EPPlusTest
             }
             catch 
             {
-                Assert.AreEqual(EPPlusLicenseStatus.IsExpired, ExcelPackage.License.LicenseInfo.Status);
+                Assert.AreEqual(EPPlusLicenseStatus.Expired, ExcelPackage.License.LicenseInfo.Status);
                 Assert.AreEqual(EPPlusLicenseSource.Code, ExcelPackage.License.Source);
                 Assert.AreEqual(EPPlusCommercialLicenseType.Trial | EPPlusCommercialLicenseType.Subscription, ExcelPackage.License.LicenseInfo.LicenseType);
             }
