@@ -10,7 +10,11 @@
  *************************************************************************************************
   07/01/2020         EPPlus Software AB       EPPlus 5.3
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting;
+using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.Extensions;
 using System;
@@ -19,6 +23,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Xml;
+using static OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItemsCollection;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
@@ -134,9 +139,33 @@ namespace OfficeOpenXml.Drawing.Slicer
             int x = 0;
             if (_cache._field == null) return;
 
-            var sortedItems = SortOrder == eSortOrder.Ascending ? _cache._field.Items.OrderBy(x => x.Value) : _cache._field.Items.OrderByDescending(x => x.Value);
 
-            foreach (var item in sortedItems)
+            //eSortType fieldSortType = SortOrder == eSortOrder.Ascending ? eSortType.Ascending : eSortType.Descending;
+            //var comparer = new PivotItemComparer(fieldSortType, _cache._field);
+
+            //////Copy the list so the pivottable list is not changed by the slicer sort
+            //var copiedList = _cache._field.Items._list.ToArray().ToList();
+            //copiedList.Sort(comparer);
+
+            //eSortType fieldSortType = SortOrder == eSortOrder.Ascending ? eSortType.Ascending : eSortType.Descending;
+            //var order = _cache._field.Items.OrderBy(x => x.Value, new PivotItemComparer(fieldSortType, _cache._field));
+
+            //foreach (var item in _cache._field.Items.OrderBy(x => x.X))
+
+            //IOrderedEnumerable<ExcelPivotTableFieldItem> listedItems;
+
+            //if(SortOrder == eSortOrder.Ascending)
+            //{
+            //    listedItems = _cache._field.Items.OrderBy(x => x.Value, new SortByComparer());
+            //}
+            //else
+            //{
+            //    listedItems = _cache._field.Items.OrderByDescending(x => x.Value, new SortByComparer());
+            //}
+
+
+            //foreach (var item in listedItems)
+            foreach(var item in _cache._field.Items.OrderBy(x => x.X))
             {
                 if (item.Type == eItemType.Data)
                 {

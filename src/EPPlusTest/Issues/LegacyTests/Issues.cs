@@ -3213,6 +3213,16 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void s314OpenClose()
+        {
+            using (var p = OpenTemplatePackage("SlicerIssue.xlsx"))
+            {
+                var drawings =  p.Workbook.Worksheets[0].Drawings;
+                p.Workbook.Worksheets.Add("aWs");
+                SaveWorkbook("SlicerIssueOpenClose.xlsx", p);
+            }
+        }
+                [TestMethod]
         public void i620()
         {
             using (var p = OpenTemplatePackage("i621.xlsx"))
@@ -6259,15 +6269,24 @@ namespace EPPlusTest
             {
                 var originalWs = package.Workbook.Worksheets[0];
 
-                //var ptSlicer = originalWs.Drawings[0].As.Slicer.PivotTableSlicer;
+                var drawing = originalWs.PivotTables;
+                //ptSlicer.Cache.Data.SortOrder = eSortOrder.Ascending;
                 //ptSlicer.Cache.Data.UpdateItemsXml();
-                //var origSortOrder = ptSlicer.Cache.Data.SortOrder;
-                //var sortTwo = ptSlicer.Cache.Data.CustomListSort;
-
-                //origSortOrder = eSortOrder.Ascending;
 
                 var ws = package.Workbook.Worksheets.Add("newWs");
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s789_IssuesNoAccessDrawing()
+        {
+            using (var package = OpenTemplatePackage("789_issue.xlsx"))
+            {
+                var originalWs = package.Workbook.Worksheets[0];
+
+                var ws = package.Workbook.Worksheets.Add("newWs");
+                SaveWorkbook("789_issue_only_ws.xlsx", package);
+               //SaveAndCleanup(package);
             }
         }
     }
