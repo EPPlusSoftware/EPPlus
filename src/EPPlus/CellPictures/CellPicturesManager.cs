@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.RichValues;
@@ -124,29 +125,34 @@ namespace OfficeOpenXml.CellPictures
             return img;
         }
 
-        public void SetCellPicture(int row, int col, Stream imageStream, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
+        public void SetCellPicture(int fromRow, int fromCol, int toRow, int toCol, Stream imageStream, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
         {
             var imageBytes = StreamUtil.ReadStreamToByteArray(imageStream);
-            SetCellPicture(row, col, imageBytes, altText, calcOrigin);
+            SetCellPicture(fromRow, fromCol, toRow, toCol, imageBytes, altText, calcOrigin);
         }
 
-        public void SetCellPicture(int row, int col, string path, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
+        public void SetCellPicture(int fromRow, int fromCol, int toRow, int toCol, string path, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
         {
             var imageBytes = File.ReadAllBytes(path);
-            SetCellPicture(row, col, imageBytes, altText, calcOrigin);
+            SetCellPicture(fromRow, fromCol, toRow, toCol, imageBytes, altText, calcOrigin);
         }
 
-        public void SetCellPicture(int row, int col, FileInfo fileInfo, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
+        public void SetCellPicture(int fromRow, int fromCol, int toRow, int toCol, FileInfo fileInfo, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
         {
-            SetCellPicture(row, col, fileInfo.FullName, altText, calcOrigin);
+            SetCellPicture(fromRow, fromCol, toRow, toCol, fileInfo.FullName, altText, calcOrigin);
         }
 
-        public void SetCellPicture(int row, int col, ExcelImage image, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
+        public void SetCellPicture(int fromRow, int fromCol, int toRow, int toCol, ExcelImage image, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
         {
-            SetCellPicture(row, col, image.ImageBytes, altText, calcOrigin);
+            SetCellPicture(fromRow, fromCol, toRow, toCol, image.ImageBytes, altText, calcOrigin);
         }
 
         public void SetCellPicture(int row, int col, byte[] imageBytes, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
+        {
+            SetCellPicture(row, col, row, col, imageBytes, altText, calcOrigin);
+        }
+
+        public void SetCellPicture(int fromRow, int fromCol, int toRow, int toCol, byte[] imageBytes, string altText, CalcOrigins calcOrigin = CalcOrigins.StandAlone)
         {
             // Add image to picture store and create relation
             var imageInfo = AddToPictureStore(imageBytes);
@@ -155,37 +161,42 @@ namespace OfficeOpenXml.CellPictures
             var imageUri = UriHelper.ResolvePartUri(rdUri, imageInfo.Uri);
             var cacheKey = new LocalImageCacheKey(imageUri, calcOrigin, altText);
 
-            if (_referenceCache.Contains(cacheKey, out uint cachedVmId))
+            for(var row = fromRow; row <=  toRow; row++)
             {
-                AddReferenceToPicture(row, col, cacheKey, cachedVmId);
-                return;
-            }
-
-            var hasRv = _richDataStore.HasRichData(row, col, out MetaDataReference md);
-            // no existing rich data, add new
-            if (!hasRv)
-            {
-                AddNewLocalPicture(row, col, altText, calcOrigin, imageUri);
-            }
-            else
-            {
-                var existingPic = GetCellPicture(row, col);
-                if(existingPic != null)
+                for(var col = fromCol; col  <= toCol; col++)
                 {
-                    if(existingPic.ImageUri.OriginalString == imageUri.OriginalString)
+                    if (_referenceCache.Contains(cacheKey, out uint cachedVmId))
                     {
-                        return;
+                        AddReferenceToPicture(row, col, cacheKey, cachedVmId);
+                        continue;
+                    }
+                    var hasRv = _richDataStore.HasRichData(row, col, out MetaDataReference md);
+                    // no existing rich data, add new
+                    if (!hasRv)
+                    {
+                        AddNewLocalPicture(row, col, altText, calcOrigin, imageUri);
                     }
                     else
                     {
-                        _referenceCache.RemoveReference(cacheKey, out int numberOfRefsLeft);
+                        var existingPic = GetCellPicture(row, col);
+                        if (existingPic != null)
+                        {
+                            if (existingPic.ImageUri.OriginalString == imageUri.OriginalString)
+                            {
+                                return;
+                            }
+                            else
+                            {
+                                _referenceCache.RemoveReference(cacheKey, out int numberOfRefsLeft);
+                            }
+                        }
+                        else
+                        {
+                            // there was rich data connected to the cell, we leave it as it is
+                        }
+                        AddNewLocalPicture(row, col, altText, calcOrigin, imageUri);
                     }
                 }
-                else
-                {
-                    // there was rich data connected to the cell, we leave it as it is
-                }
-                AddNewLocalPicture(row, col, altText, calcOrigin, imageUri);
             }
         }
 

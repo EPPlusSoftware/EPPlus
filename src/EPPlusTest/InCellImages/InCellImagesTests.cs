@@ -150,6 +150,15 @@ namespace EPPlusTest.InCellImages
             var heightInPixels = measurement.Height;
         }
 
+        [TestMethod]
+        public void SetPictureOnMulticellRange()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1:C3"].Picture.Set(Resources.Png2ByteArray);
+            SaveWorkbook("MulticellPics.xlsx", package);
+        }
+
 
 
         [TestMethod]

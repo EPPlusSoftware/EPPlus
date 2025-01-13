@@ -74,7 +74,7 @@ namespace OfficeOpenXml.CellPictures
         public void Set(byte[] imageBytes, string altText = null, bool isDecorative = false)
         {
             var calcOrigin = isDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
-            _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, imageBytes, altText, calcOrigin);
+            _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, _range._toRow, _range._toCol, imageBytes, altText, calcOrigin);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace OfficeOpenXml.CellPictures
         public void Set(Stream imageStream, string altText = null, bool isDecorative = false)
         {
             var calcOrigin = isDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
-            _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, imageStream, altText, calcOrigin);
+            _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, _range._toRow, _range._toCol, imageStream, altText, calcOrigin);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace OfficeOpenXml.CellPictures
         public void Set(string path, string altText = null, bool isDecorative = false)
         {
             var calcOrigin = isDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
-            _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, path, altText, calcOrigin);
+            _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, _range._toRow, _range._toCol, path, altText, calcOrigin);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace OfficeOpenXml.CellPictures
         public void Set(FileInfo fileInfo, string altText = null, bool isDecorative = false)
         {
             var calcOrigin = isDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
-            _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, fileInfo, altText, calcOrigin);
+            _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, _range._toRow, _range._toCol, fileInfo, altText, calcOrigin);
         }
 
         /// <summary>
