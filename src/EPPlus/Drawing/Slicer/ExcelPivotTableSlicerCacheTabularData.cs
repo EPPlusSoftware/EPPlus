@@ -10,9 +10,11 @@
  *************************************************************************************************
   07/01/2020         EPPlus Software AB       EPPlus 5.3
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.Extensions;
 using System;
+using System.Collections;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
@@ -132,7 +134,9 @@ namespace OfficeOpenXml.Drawing.Slicer
             int x = 0;
             if (_cache._field == null) return;
 
-            foreach (var item in _cache._field.Items.OrderBy(x=>x.X))
+            var sortedItems = SortOrder == eSortOrder.Ascending ? _cache._field.Items.OrderBy(x => x.Value) : _cache._field.Items.OrderByDescending(x => x.Value);
+
+            foreach (var item in sortedItems)
             {
                 if (item.Type == eItemType.Data)
                 {
@@ -149,6 +153,7 @@ namespace OfficeOpenXml.Drawing.Slicer
                     }
 
                     sb.Append($"/>");
+                    x++;
                 }
             }
 

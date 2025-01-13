@@ -6251,5 +6251,24 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void s789_Issues()
+        {
+            using (var package = OpenTemplatePackage("789_issue.xlsx"))
+            {
+                var originalWs = package.Workbook.Worksheets[0];
+
+                //var ptSlicer = originalWs.Drawings[0].As.Slicer.PivotTableSlicer;
+                //ptSlicer.Cache.Data.UpdateItemsXml();
+                //var origSortOrder = ptSlicer.Cache.Data.SortOrder;
+                //var sortTwo = ptSlicer.Cache.Data.CustomListSort;
+
+                //origSortOrder = eSortOrder.Ascending;
+
+                var ws = package.Workbook.Worksheets.Add("newWs");
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
