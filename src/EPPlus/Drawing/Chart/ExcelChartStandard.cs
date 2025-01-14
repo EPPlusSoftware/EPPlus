@@ -63,8 +63,7 @@ namespace OfficeOpenXml.Drawing.Chart
             }
 
             InitSeries(this, drawings.NameSpaceManager, _chartNode, PivotTableSource != null);
-            if (PivotTableSource != null) SetPivotSource(PivotTableSource);
-
+            if(PivotTableSource != null) SetPivotSource(PivotTableSource);
 
             if (topChart == null)
                 LoadAxis();

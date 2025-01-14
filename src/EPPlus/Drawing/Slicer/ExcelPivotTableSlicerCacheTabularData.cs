@@ -156,18 +156,17 @@ namespace OfficeOpenXml.Drawing.Slicer
 
             if (SortOrder == eSortOrder.Ascending)
             {
-                listedItems = _cache._field.Items.OrderBy(x => x.Value, new SortByComparer());
+                listedItems = _cache._field.Items.OrderBy(x => x, new SlicerDataComparer(CrossFilter));
             }
             else
             {
-                listedItems = _cache._field.Items.OrderByDescending(x => x.Value, new SortByComparer());
+                listedItems = _cache._field.Items.OrderByDescending(x => x, new SlicerDataComparer(CrossFilter));
             }
-
 
             foreach (var item in listedItems)
             //foreach (var item in _cache._field.Items.OrderBy(x => x.X))
             {
-                if (item.Type == eItemType.Data)
+                if (item.Type == eItemType.Data )
                 {
                     sb.Append($"<i x=\"{item.X}\" ");
 

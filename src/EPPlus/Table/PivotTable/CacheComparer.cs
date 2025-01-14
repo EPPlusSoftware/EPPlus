@@ -20,42 +20,13 @@ namespace OfficeOpenXml.Table.PivotTable
     {
         public new bool Equals(object x, object y)
         {
-			x = GetCaseInsensitiveValue(x);
-            y = GetCaseInsensitiveValue(y);
+			x = PivotTableUtils.GetCaseInsensitiveValue(x);
+            y = PivotTableUtils.GetCaseInsensitiveValue(y);
             return x.Equals(y);
 		}
-
-        private static object GetCaseInsensitiveValue(object x)
-        {
-            if (x == null || x.Equals(ExcelPivotTable.PivotNullValue) || x==DBNull.Value) return ExcelPivotTable.PivotNullValue;
-            var tc = Type.GetTypeCode(x.GetType());
-            switch(tc)
-            {
-                case TypeCode.String:
-                    return x.ToString().ToLower();
-                case TypeCode.Char:
-                    return ((char)x).ToString().ToLower();
-                case TypeCode.DateTime:
-                case TypeCode.Boolean:
-                    return x;
-                case TypeCode.Object:                
-                    if (x is TimeSpan ts)
-                    {
-                        return DateTime.FromOADate(0).Add(ts);
-                    }
-                    return x.ToString().ToLower();
-                default:
-                    if(ConvertUtil.IsExcelNumeric(x))
-                    {
-                        return ConvertUtil.GetValueDouble(x);
-                    }
-                    return x.ToString().ToLower();
-            }
-        }
-
         public int GetHashCode(object obj)
         {
-            return GetCaseInsensitiveValue(obj).GetHashCode();
+            return PivotTableUtils.GetCaseInsensitiveValue(obj).GetHashCode();
         }
     }
 }

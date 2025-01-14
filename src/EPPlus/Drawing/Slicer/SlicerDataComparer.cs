@@ -11,6 +11,7 @@
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
+using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -19,29 +20,33 @@ using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
 {
-    internal class SortByComparer : LookupComparerBase
+    internal class SlicerDataComparer : IComparer<ExcelPivotTableFieldItem>
     {
-        public SortByComparer() : base(LookupMatchMode.ExactMatch)
+        eCrossFilter _crossFilter;
+        public SlicerDataComparer(eCrossFilter crossFilter)
         {
+            _crossFilter = crossFilter;
         }
 
-        public override int Compare(object x, object y)
+        public int Compare(ExcelPivotTableFieldItem x, ExcelPivotTableFieldItem y)
         {
             return Compare(x, y, 1);
-        }
-
-        public override int Compare(object x, object y, int sortOrder)
+        }        
+        public virtual int Compare(ExcelPivotTableFieldItem x, ExcelPivotTableFieldItem y, int sortOrder)
         {
-            // null values should always be sorted last
-            if(x == null && y != null)
+            if (x.Value == null && y.Value != null && x.Hidden)
             {
                 return 1;
             }
-            else if(x != null && y == null)
+            else if (x.Value != null && y.Value == null)
             {
                 return -1;
             }
-            return ComparerUtil.CompareObjects(x, y) * sortOrder;
+            if (_crossFilter == eCrossFilter.ShowItemsWithDataAtTop)
+            { 
+
+            }
+            return ComparerUtil.CompareObjects(x.Value, y.Value) * sortOrder;
         }
     }
 }

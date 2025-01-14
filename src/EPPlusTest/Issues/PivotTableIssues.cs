@@ -296,5 +296,25 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void SlicerPivot()
+        {
+            using (var package = OpenTemplatePackage("Slicer_Empty.xlsx"))
+            {
+                var wb = package.Workbook;
+                foreach (var ws in package.Workbook.Worksheets)
+                {
+                    foreach (var pTable in ws.PivotTables)
+                    {
+                        foreach (var field in pTable.Fields)
+                        {
+
+                        }
+                    }
+                }
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
