@@ -352,7 +352,7 @@ namespace EPPlusTest
         [TestMethod]
         public void ShouldSortCommentsAfterDeleteRow()
         {
-            using (var package = OpenPackage("commentsDeletRowSort.xlsx", true))
+            using (var package = OpenPackage("commentsDeleteRowSort.xlsx", true))
             {
                 var sheet = package.Workbook.Worksheets.Add("Comments");
 
