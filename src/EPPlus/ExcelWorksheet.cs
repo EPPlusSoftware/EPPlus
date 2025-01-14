@@ -1659,7 +1659,7 @@ namespace OfficeOpenXml
                             _formulas.SetValue(address._fromRow, address._fromCol, sfIndex);
                             SetValueInner(address._fromRow, address._fromCol, null);
                             string fAddress = xr.GetAttribute("ref");
-                            string formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
+                            string formula =xr.ReadElementContentAsString();
                             if (formula != "")
                             {
                                 _sharedFormulas.Add(sfIndex, new SharedFormula(this, row, col, fAddress, formula) { Index = sfIndex, FormulaType=FormulaType.Shared });

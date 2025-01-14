@@ -417,13 +417,12 @@ namespace OfficeOpenXml.Utils
         {
             if (Regex.IsMatch(t, "(_x[0-9A-F]{4,4}_)"))
             {
-                var match = Regex.Match(t, "(_x[0-9A-F]{4,4}_)");
+                var matches = Regex.Matches(t, "(_x[0-9A-F]{4,4})");
                 int indexAdd = 0;
-                while (match.Success)
+                foreach(Match m in  matches) 
                 {
-                    t = t.Insert(match.Index + indexAdd, "_x005F");
+                    t = t.Insert(m.Index + indexAdd, "_x005F");
                     indexAdd += 6;
-                    match = match.NextMatch();
                 }
             }
             for (int i = 0; i < t.Length; i++)
@@ -468,6 +467,7 @@ namespace OfficeOpenXml.Utils
         }
         internal static string ExcelDecodeString(string t)
         {
+            if (string.IsNullOrEmpty(t)) return t;
             var match = Regex.Match(t, "(_x005F|_x[0-9A-Fa-f]{4,4}_)");
             if (!match.Success) return t;
 

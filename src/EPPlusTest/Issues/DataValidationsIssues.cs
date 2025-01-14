@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.Issues
 {
-    [TestClass]
-    public class DataValidationsIssues : TestBase
-    {
-        [TestMethod]
-        public void DatabarNegativesAndFormulasTest()
-        {
+	[TestClass]
+	public class DataValidationsIssues : TestBase
+	{
+		[TestMethod]
+		public void DatabarNegativesAndFormulasTest()
+		{
 			using (var package = OpenTemplatePackage("s621.xlsx"))
 			{
 				var Sheet1 = package.Workbook.Worksheets[$"Sheet1"];
@@ -40,5 +40,23 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(package);
 			}
 		}
+		[TestMethod]
+		public void s798()
+		{
+			var template = "s798.xlsx";
+			string dv = "";
+            using (var p1 = OpenTemplatePackage(template))
+			{
+				var ws = p1.Workbook.Worksheets[1];
+				dv = ws.DataValidations[2].As.ListValidation.Formula.Values[3];
+				SaveAndCleanup(p1);
+			}
+			using (var p2 = OpenPackage(template))
+			{
+				var ws = p2.Workbook.Worksheets[1];
+				Assert.AreEqual(dv, ws.DataValidations[2].As.ListValidation.Formula.Values[3]);
+				SaveWorkbook("s798-saved.xlsx", p2);
+			}
+        }
     }
 }
