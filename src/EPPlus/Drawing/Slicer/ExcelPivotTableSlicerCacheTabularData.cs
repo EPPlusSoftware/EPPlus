@@ -152,20 +152,20 @@ namespace OfficeOpenXml.Drawing.Slicer
 
             //foreach (var item in _cache._field.Items.OrderBy(x => x.X))
 
-            //IOrderedEnumerable<ExcelPivotTableFieldItem> listedItems;
+            IOrderedEnumerable<ExcelPivotTableFieldItem> listedItems;
 
-            //if(SortOrder == eSortOrder.Ascending)
-            //{
-            //    listedItems = _cache._field.Items.OrderBy(x => x.Value, new SortByComparer());
-            //}
-            //else
-            //{
-            //    listedItems = _cache._field.Items.OrderByDescending(x => x.Value, new SortByComparer());
-            //}
+            if (SortOrder == eSortOrder.Ascending)
+            {
+                listedItems = _cache._field.Items.OrderBy(x => x.Value, new SortByComparer());
+            }
+            else
+            {
+                listedItems = _cache._field.Items.OrderByDescending(x => x.Value, new SortByComparer());
+            }
 
 
-            //foreach (var item in listedItems)
-            foreach(var item in _cache._field.Items.OrderBy(x => x.X))
+            foreach (var item in listedItems)
+            //foreach (var item in _cache._field.Items.OrderBy(x => x.X))
             {
                 if (item.Type == eItemType.Data)
                 {

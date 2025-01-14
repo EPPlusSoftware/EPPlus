@@ -3217,8 +3217,11 @@ namespace EPPlusTest
         {
             using (var p = OpenTemplatePackage("SlicerIssue.xlsx"))
             {
-                var drawings =  p.Workbook.Worksheets[0].Drawings;
+                //var drawings =  p.Workbook.Worksheets[0].Drawings;
                 p.Workbook.Worksheets.Add("aWs");
+
+                //var table = p.Workbook.Worksheets[0].PivotTables;
+
                 SaveWorkbook("SlicerIssueOpenClose.xlsx", p);
             }
         }
