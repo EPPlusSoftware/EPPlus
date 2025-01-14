@@ -100,9 +100,10 @@ namespace OfficeOpenXml
         /// <param name="licenseKey">The licens _key you recieved with your license</param>
         public void SetCommercial(string licenseKey)
         {
-            if (LicenseHandler.ValidateLicenseKey(licenseKey, out EPPlusLicenseInfo licenseInfo, out string msg))
+            _licenseSet = LicenseHandler.ValidateLicenseKey(licenseKey, ExtendUnderRenewal, out EPPlusLicenseInfo licenseInfo, out string msg);
+            if (ExtendUnderRenewal && DateTime.UtcNow < licenseInfo.LicenseValidTo.AddDays(-20))
             {
-                _licenseSet = true;
+                throw new LicenseNotValidException("ExcelPackage.License.ExtendUnderRenewal should be set to false. It should only have a true value during renewals.");
             }
             LicenseInfo = licenseInfo;
             LicenseKey = licenseKey;

@@ -1501,7 +1501,7 @@ namespace OfficeOpenXml
             switch (ExcelPackage.License.LicenseType)
             {
                 case EPPlusLicenseType.Commercial:
-                    if(LicenseHandler.ValidateLicenseKey(ExcelPackage.License.LicenseKey, out var licenseInfo, out string msg)==false)
+                    if(LicenseHandler.ValidateLicenseKey(ExcelPackage.License.LicenseKey, ExcelPackage.License.ExtendUnderRenewal, out var licenseInfo, out string msg)==false)
 					{
 						throw new InvalidLicenseKeyException(msg);
 					}
