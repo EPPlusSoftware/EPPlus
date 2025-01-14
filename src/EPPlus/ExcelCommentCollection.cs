@@ -272,7 +272,6 @@ namespace OfficeOpenXml
                 }
                 else
                 {
-                    //Worksheet._commentsStore.SetValue(address.Start.Row, comment.);
                     comment.Reference = address.Address;
                 }
             }

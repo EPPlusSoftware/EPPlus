@@ -53,17 +53,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 var range = ws.Cells[rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns];
                 var effectedAddress = GetAffectedRange(range, eShiftTypeDelete.Up);
 
-
-                foreach (var comment in ws.Comments._list)
-                {
-                    var commentAddress = new ExcelAddress(comment.Address);
-                    if (commentAddress.Collide(effectedAddress) != ExcelAddressBase.eAddressCollition.No)
-                    {
-                        var aValue = ws._commentsStore.GetValue(commentAddress._fromRow, commentAddress._fromCol);
-                        ws._commentsStore.SetValue(commentAddress._fromRow, commentAddress._fromCol, aValue - 1);
-                    }
-                }
-
                 DeleteDataValidations(range, eShiftTypeDelete.Up, ws, effectedAddress);
                 DeleteConditionalFormatting(range, eShiftTypeDelete.Up, ws, effectedAddress);
                 DeleteFilterAddress(range, effectedAddress, eShiftTypeDelete.Up);

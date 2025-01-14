@@ -209,7 +209,7 @@ namespace OfficeOpenXml.Sorting
             {
                 var i = wsd.Comments[addr];
                 _worksheet._commentsStore.SetValue(row, col, i);
-                var comment = _worksheet._comments[i];
+                var comment = _worksheet._comments._list[i];
                 comment.Reference = ExcelCellBase.GetAddress(row, col);
             }
         }

@@ -318,6 +318,22 @@ namespace EPPlusTest
                     Assert.IsTrue(ws2.Cells["A1"].Comment.RichText[1].Italic);
                 }
             }
+
+        }
+        [TestMethod]
+        public void s793()
+        {
+            using (var package = OpenTemplatePackage("s793.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.First();
+
+                sheet.DeleteRow(row: 2);
+
+                // Act
+                sheet.Cells.Sort(column: 0);
+
+                SaveAndCleanup(package);
+            }
         }
     }
 }
