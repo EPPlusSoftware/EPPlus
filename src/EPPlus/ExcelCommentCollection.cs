@@ -159,6 +159,9 @@ namespace OfficeOpenXml
         /// <returns>The comment</returns>
         public ExcelComment Add(ExcelRangeBase cell, string Text, string author = null)
         {
+            //Check no other comment already on the cell
+            ExcelRangeBase.Exists_Comment(cell, null, cell._fromRow, cell._fromCol);
+
             if (string.IsNullOrEmpty(author))
             {
 #if Core
@@ -168,7 +171,6 @@ namespace OfficeOpenXml
 #endif
                 if (string.IsNullOrEmpty(author))
                 {
-
                     author = "Anonymous";
                 }
             }

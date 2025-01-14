@@ -382,12 +382,12 @@ namespace OfficeOpenXml
                 range._worksheet._flags.SetFlagValue(row, col, (bool)value, CellFlags.RichText);
             }
         }
-        private static void Exists_Comment(ExcelRangeBase range, object value, int row, int col)
+        internal static void Exists_Comment(ExcelRangeBase range, object value, int row, int col)
         {
             Exists_ThreadedComment(range, value, row, col);
             if (range._worksheet._commentsStore.Exists(row, col))
             {
-                throw (new InvalidOperationException(string.Format("Cell {0} already contain a comment.", new ExcelCellAddress(row, col).Address)));
+                throw (new InvalidOperationException(string.Format("Cell {0} already contains a comment.", new ExcelCellAddress(row, col).Address)));
             }
 
         }
