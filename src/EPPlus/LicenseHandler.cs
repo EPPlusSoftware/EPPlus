@@ -172,7 +172,8 @@ namespace OfficeOpenXml
                 if (licenseInfo.LicenseValidTo < vd)
                 {
                     licenseInfo.Status = EPPlusLicenseStatus.NotValidForThisVersion;
-                    msg = $"This license key is not valid for EPPlus versions release after {licenseInfo.LicenseValidTo:d}. EPPlus version release date: ({EPPlusLicense._versionDate:d}). If your license has been renewed, please use the new license key found in your license document or in your account at https://epplussoftware.com";
+                    msg = $"This license key is not valid for EPPlus versions released after {licenseInfo.LicenseValidTo:d}. This EPPlus version was released on {EPPlusLicense._versionDate:d}. If your license has been renewed, please use the new license key found in your license document or in your account at https://epplussoftware.com";
+                    return false;
                 }
             }
             msg = null;
