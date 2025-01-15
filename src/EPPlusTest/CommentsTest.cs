@@ -399,5 +399,24 @@ namespace EPPlusTest
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void Addcomment()
+        {
+            using (var package = OpenPackage("addComment.xlsx", true))
+            {
+                var worksheet = package.Workbook.Worksheets.Add("aws");
+
+                var aComment = worksheet.Comments.Add(worksheet.Cells["B3"], "Jan Källman:", "JK");
+                aComment.Font.Bold = true;
+
+                var rt = aComment.RichText.Add("\r\nSomeRichText");
+                rt.Bold = false;
+
+                worksheet.Cells["A7"].AddComment("AText:", "AnAuthor");
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

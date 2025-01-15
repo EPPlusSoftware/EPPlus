@@ -159,8 +159,11 @@ namespace OfficeOpenXml
         /// <returns>The comment</returns>
         public ExcelComment Add(ExcelRangeBase cell, string Text, string author = null)
         {
-            //Check no other comment already on the cell
-            ExcelRangeBase.Exists_Comment(cell, null, cell._fromRow, cell._fromCol);
+            //Check no other base comment already on the cell
+            if (cell._worksheet._commentsStore.Exists(cell._fromRow, cell._fromCol))
+            {
+                throw (new InvalidOperationException(string.Format("Cell {0} already contains a comment.", new ExcelCellAddress(cell._fromRow, cell._fromCol).Address)));
+            }
 
             if (string.IsNullOrEmpty(author))
             {

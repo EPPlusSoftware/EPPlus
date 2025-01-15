@@ -382,7 +382,7 @@ namespace OfficeOpenXml
                 range._worksheet._flags.SetFlagValue(row, col, (bool)value, CellFlags.RichText);
             }
         }
-        internal static void Exists_Comment(ExcelRangeBase range, object value, int row, int col)
+        private static void Exists_Comment(ExcelRangeBase range, object value, int row, int col)
         {
             Exists_ThreadedComment(range, value, row, col);
             if (range._worksheet._commentsStore.Exists(row, col))
