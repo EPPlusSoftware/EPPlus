@@ -165,7 +165,8 @@ namespace OfficeOpenXml.Table.PivotTable
                     DataFields.AddInternal(dataField);
                 }
             }
-
+            DeleteNode("d:rowItems");
+            DeleteNode("d:colItems");
             Styles = new ExcelPivotTableAreaStyleCollection(this);
             ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
         }
