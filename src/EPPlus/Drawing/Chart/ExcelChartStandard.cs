@@ -95,14 +95,7 @@ namespace OfficeOpenXml.Drawing.Chart
                 {
                     var ptName = ptSource.Substring(ptSource.LastIndexOf("!") + 1);
                     PivotTableSource = ws.PivotTables[ptName];
-                    if (PivotTableSource == null)
-                    {
-                        _chartXmlHelper.SetXmlNodeString("c:pivotSource/c:name", originalPtSource);
-                    }
-                    else
-                    {
-                        _chartXmlHelper.SetXmlNodeString("c:pivotSource/c:name", ptSource);
-                    }
+                    _chartXmlHelper.SetXmlNodeString("c:pivotSource/c:name", "[]" + ptSource);
                 }
             }
 
