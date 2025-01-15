@@ -125,6 +125,10 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             using (var pck = OpenTemplatePackage("s789_original_issue.xlsx"))
             {
                 var wb = pck.Workbook;
+
+                var ws = wb.Worksheets.GetByName("PivotTables");
+                var table = ws.PivotTables[0];
+
                 SaveAndCleanup(pck);
             }
         }
