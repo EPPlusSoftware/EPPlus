@@ -139,19 +139,6 @@ namespace OfficeOpenXml.Drawing.Slicer
             int x = 0;
             if (_cache._field == null) return;
 
-
-            //eSortType fieldSortType = SortOrder == eSortOrder.Ascending ? eSortType.Ascending : eSortType.Descending;
-            //var comparer = new PivotItemComparer(fieldSortType, _cache._field);
-
-            //////Copy the list so the pivottable list is not changed by the slicer sort
-            //var copiedList = _cache._field.Items._list.ToArray().ToList();
-            //copiedList.Sort(comparer);
-
-            //eSortType fieldSortType = SortOrder == eSortOrder.Ascending ? eSortType.Ascending : eSortType.Descending;
-            //var order = _cache._field.Items.OrderBy(x => x.Value, new PivotItemComparer(fieldSortType, _cache._field));
-
-            //foreach (var item in _cache._field.Items.OrderBy(x => x.X))
-
             IOrderedEnumerable<ExcelPivotTableFieldItem> listedItems;
 
             if (SortOrder == eSortOrder.Ascending)
@@ -164,7 +151,6 @@ namespace OfficeOpenXml.Drawing.Slicer
             }
 
             foreach (var item in listedItems)
-            //foreach (var item in _cache._field.Items.OrderBy(x => x.X))
             {
                 if (item.Type == eItemType.Data )
                 {
