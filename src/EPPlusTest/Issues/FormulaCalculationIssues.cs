@@ -573,5 +573,40 @@ namespace EPPlusTest.Issues
 
             Assert.AreEqual(formulaLongInserted, ws.Cells["A3"].Formula);
         }
+		[TestMethod]
+		public void s780()
+		{
+			using var p=new ExcelPackage();
+			var ws = p.Workbook.Worksheets.Add("Sheet1");
+			ws.Cells["A1"].Formula = "IF(B10+C10=0,\"\",B10+C10)";
+			ws.Cells["A2"].Formula = "IF(B10+C10=0,\" \",B10+C10)";
+            ws.Calculate();
+
+			Assert.AreEqual("", ws.Cells["A1"].Value);
+            Assert.AreEqual(" ", ws.Cells["A2"].Value);
+        }
+		[TestMethod]
+		public void i1766()
+		{
+            var ep = OpenTemplatePackage("i1766.xlsx");
+
+            Assert.AreEqual(ep.Workbook.CalcMode, ExcelCalcMode.Automatic);
+
+            var wr = ep.Workbook.Names["Width"];
+            var hr = ep.Workbook.Names["Height"];
+            var ar = ep.Workbook.Names["Area"];
+
+            wr.Worksheet.SetValue(wr.Address, 5);
+            hr.Worksheet.SetValue(hr.Address, 7);
+
+            ar.Calculate(); //no matter if we do ar.Calculate() or not, the value in the range will not update and remains 200.
+                            //ar.Worksheet.Calculate(); manual calculate on worksheet will solve the problem
+
+            var area = ar.Value;
+            var area2 = ar.Worksheet.Cells[ar.Address].Value;
+
+            Assert.AreEqual(area, 35D);
+            Assert.AreEqual(area, area2);
+        }
     }
 }

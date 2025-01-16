@@ -10,13 +10,20 @@
  *************************************************************************************************
   07/01/2020         EPPlus Software AB       EPPlus 5.3
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Finance;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting;
+using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Utils.Extensions;
 using System;
+using System.Collections;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
 using System.Xml;
+using static OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItemsCollection;
 
 namespace OfficeOpenXml.Drawing.Slicer
 {
@@ -132,9 +139,20 @@ namespace OfficeOpenXml.Drawing.Slicer
             int x = 0;
             if (_cache._field == null) return;
 
-            foreach (var item in _cache._field.Items.OrderBy(x=>x.X))
+            IOrderedEnumerable<ExcelPivotTableFieldItem> listedItems;
+
+            if (SortOrder == eSortOrder.Ascending)
             {
-                if (item.Type == eItemType.Data)
+                listedItems = _cache._field.Items.OrderBy(x => x, new SlicerDataComparer(CrossFilter));
+            }
+            else
+            {
+                listedItems = _cache._field.Items.OrderByDescending(x => x, new SlicerDataComparer(CrossFilter));
+            }
+
+            foreach (var item in listedItems)
+            {
+                if (item.Type == eItemType.Data )
                 {
                     sb.Append($"<i x=\"{item.X}\" ");
 
@@ -149,6 +167,7 @@ namespace OfficeOpenXml.Drawing.Slicer
                     }
 
                     sb.Append($"/>");
+                    x++;
                 }
             }
 

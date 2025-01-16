@@ -42,6 +42,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils
                     col = direction.Value == LookupRangeDirection.Vertical ? 0 : mid;
                     row = direction.Value == LookupRangeDirection.Vertical ? mid : 0;
                 }
+
+                //Row and col are 0-based if equal we will be past the last value due to GetOffset
+                if(row == nRows || col == nCols)
+                {
+                    break;
+                }
                 
                 var val = lookupRange.GetOffset(row, col);
 

@@ -82,7 +82,7 @@ namespace OfficeOpenXml.DataValidation
                     if (xr.ReadUntil(formulaIdentifier, "AlternateContent"))
                     {
                         xr.Read();
-                        retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+                        retVal = DefineFormulaClassType(ConvertUtil.ExcelDecodeString(xr.ReadString()), _workSheetName);
                         xr.Read();
 
                         xr.ReadUntil("Formula2", "dataValidation", "dataValidations");
@@ -107,13 +107,13 @@ namespace OfficeOpenXml.DataValidation
             {
                 xr.Read();
 
-                retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+                retVal = DefineFormulaClassType(ConvertUtil.ExcelDecodeString(xr.ReadString()), _workSheetName);
 
                 xr.Read();
             }
             else
             {
-                retVal = DefineFormulaClassType(xr.ReadString(), _workSheetName);
+                retVal = DefineFormulaClassType(ConvertUtil.ExcelDecodeString(xr.ReadString()), _workSheetName);
             }
 
             xr.Read();

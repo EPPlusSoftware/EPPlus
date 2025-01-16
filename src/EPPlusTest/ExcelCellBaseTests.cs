@@ -85,7 +85,7 @@ namespace EPPlusTest
         public void UpdateFormulaSheetReferences()
         {
           var result = ExcelCellBase.UpdateSheetNameInFormula("5+'OldSheet'!$G3+'Some Other Sheet'!C3+SUM(1,2,3)", "OldSheet", "NewSheet");
-          Assert.AreEqual("5+'NewSheet'!$G3+'Some Other Sheet'!C3+SUM(1,2,3)", result);
+          Assert.AreEqual("5+NewSheet!$G3+'Some Other Sheet'!C3+SUM(1,2,3)", result);
         }
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]

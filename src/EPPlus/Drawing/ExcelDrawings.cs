@@ -26,6 +26,10 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
+using System.Drawing;
+using System.Security.Cryptography;
+
+
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -1297,6 +1301,44 @@ namespace OfficeOpenXml.Drawing
             }
             return "";
         }
+        /// <summary>
+        /// Add a textbox to the worksheet
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public ExcelShape AddTextbox(string Name, string text = "")
+        {
+            var shape = Worksheet.Drawings.AddShape("txtDesc", eShapeStyle.Rect);
+            var node = (XmlElement)shape.TopNode.SelectSingleNode("xdr:sp/xdr:nvSpPr/xdr:cNvSpPr", shape.NameSpaceManager);
+            node.SetAttribute("txBox", "1");
+
+            shape.From.Column = 0;
+            shape.From.Row = 0;
+            shape.To.Column = 1;
+            shape.To.Row = 5;
+            shape.Text = text;
+
+            var pixelSize = ExcelColumn.ColumnWidthToPixels((decimal)Worksheet.DefaultColWidth, Worksheet.Workbook.MaxFontWidth);
+            int halfColumnInPixel = Convert.ToInt32((pixelSize * 0.5d));
+
+            shape.To.ColumnOff = halfColumnInPixel * 9525;
+
+            shape.EditAs = eEditAs.Absolute;
+            shape.Fill.Style = eFillStyle.SolidFill;
+            shape.Fill.Color = Color.White;
+            shape.Font.Fill.Color = Color.Black;
+
+            shape.TextAnchoring = eTextAnchoringType.Top;
+            shape.TextVertical = eTextVerticalType.Horizontal;
+            shape.TextAnchoringControl = false;
+
+            shape.Border.Width = 0.75f;
+            shape.Border.Fill.Color = Color.LightGray;
+
+            return shape;
+        }
+
         /// <summary>
         /// Adds a new shape to the worksheet
         /// </summary>

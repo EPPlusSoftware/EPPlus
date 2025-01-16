@@ -276,5 +276,44 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(p);
             }
         }
+        [TestMethod]
+        public void s789()
+        {
+            using (var package = OpenTemplatePackage("s789.xlsx"))
+            {
+                var wb = package.Workbook;
+                foreach (var ws in package.Workbook.Worksheets)
+                {
+                    foreach (var pTable in ws.PivotTables)
+                    {
+                        foreach (var field in pTable.Fields)
+                        {
+                        }
+                    }
+                }
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void SlicerPivot()
+        {
+            using (var package = OpenTemplatePackage("Slicer_Empty.xlsx"))
+            {
+                var wb = package.Workbook;
+                foreach (var ws in package.Workbook.Worksheets)
+                {
+                    foreach (var pTable in ws.PivotTables)
+                    {
+                        foreach (var field in pTable.Fields)
+                        {
+
+                        }
+                    }
+                }
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

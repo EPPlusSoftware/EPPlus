@@ -51,6 +51,8 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
         public void Initialize()
         {
             _currentCulture = CultureInfo.CurrentCulture;
+            //Some tests particularily ValueShouldHandleDate fails if current culture is e.g. en-GB
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
             _package = new ExcelPackage();
             _worksheet = _package.Workbook.Worksheets.Add("Test");
 
@@ -180,6 +182,32 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.BuiltInFunctions.ExcelRange
             var arg = new FunctionArgument(date.ToString(ci));
             var cr = func.Execute(new List<FunctionArgument> { arg }, ParsingContext.Create());
             Assert.AreEqual(date.ToOADate(), cr.Result);
+        }
+
+        //If trying to apply a function in a different culture than current culture
+        //Then it may be expected that dateTime.TryParse in DateValue.cs fails?
+        [TestMethod]
+        [ExpectedException(typeof(AssertFailedException))]
+        public void ValueShouldHandleDateGB()
+        {
+            var ci = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture = new CultureInfo("en-GB");
+            try
+            {
+                using (var p = new ExcelPackage())
+                {
+                    var otherCulture = new CultureInfo("en-US");
+                    var func = new Value(otherCulture);
+                    var date = new DateTime(2015, 12, 31);
+                    var arg = new FunctionArgument(date.ToString(otherCulture));
+                    var cr = func.Execute(new List<FunctionArgument> { arg }, ParsingContext.Create());
+                    Assert.AreEqual(date.ToOADate(), cr.Result);
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = ci;
+            }
         }
 
         [TestMethod]

@@ -35,7 +35,7 @@ namespace EPPlusTest.Core
                 ws.Cells["A1"].Value = expected;
                 Assert.AreEqual(expected, ws.Cells["A1"].Value);
 
-                ws.Save();
+                ws.Save(false);
 
                 using (var p2 = new ExcelPackage(p1.Stream))
                 {
