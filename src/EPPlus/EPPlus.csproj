@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
+		<TargetFrameworks>net8.0;net7.0;net9.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
 		<AssemblyVersion>8.0.0.0</AssemblyVersion>
 		<FileVersion>8.0.0.0</FileVersion>
 		<Version>8.0.0-beta</Version>
@@ -19,7 +19,6 @@
 		<Copyright>EPPlus Software AB</Copyright>
 		<PackageReleaseNotes>
 			EPPlus 8.0.0
-
 
 			IMPORTANT NOTICE!
 			From version 5 EPPlus changes the license model using a dual license, Polyform Non Commercial / Commercial license.
