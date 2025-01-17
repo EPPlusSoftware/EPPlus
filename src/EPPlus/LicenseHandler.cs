@@ -146,9 +146,10 @@ namespace OfficeOpenXml
                 msg = $"This EPPlus license is not valid until {licenseInfo.LicenseValidFrom:d}.";
                 return false;
             }
-            if(EnumUtil.HasFlag(licenseInfo.LicenseType, EPPlusCommercialLicenseType.Subscription))
+            var vd = DateTime.Parse(EPPlusLicense._versionDate, CultureInfo.InvariantCulture);
+            if (EnumUtil.HasFlag(licenseInfo.LicenseType, EPPlusCommercialLicenseType.Subscription))
             {
-                DateTime bd = DateTime.MinValue;
+                DateTime bd = vd;
                 if(Debugger.IsAttached)
                 {
                     bd = DateTime.Today; 
@@ -168,7 +169,6 @@ namespace OfficeOpenXml
             }
             else
             {
-                var vd = DateTime.Parse(EPPlusLicense._versionDate, CultureInfo.InvariantCulture);
                 if (licenseInfo.LicenseValidTo < vd)
                 {
                     licenseInfo.Status = EPPlusLicenseStatus.NotValidForThisVersion;

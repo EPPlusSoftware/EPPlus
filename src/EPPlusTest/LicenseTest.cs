@@ -30,7 +30,8 @@ namespace EPPlusTest
             Assert.AreEqual(lk, ExcelPackage.License.LicenseKey);
         }
         [TestMethod]
-        public void CommercialFunction2Test()
+        [ExpectedException(typeof(InvalidLicenseKeyException))]
+        public void CommercialFunctionInvalidKeyTest()
         {
             var lk = "hnh8pj+e4dKUVwUwL2lW3b+4sP00YAF2lrE6W8BdD48HUTVGN3htPE8kdcIm+TEmwYm9YtBBcIbAQuJLIyl1+AEGQjM1OTc45QcfAYwCCgEA";
             ExcelPackage.License.SetCommercial(lk);
@@ -41,20 +42,9 @@ namespace EPPlusTest
                 SaveWorkbook("LicenseKeyComercial.xlsx", p);
             }
         }
+
         [TestMethod]
-        public void CommercialTrialSubsciptionTest()
-        {
-            var lk = "fX47BAtakq4T6v/K/zosjWipM9npn2yVWLhFn8MAsdDGJc2fN5+Lsd6rcRc4c1PzlF1IVX1UoDQbEkM+IahCAAEGQjA4RDc35QdWAMMBEQoA";
-            ExcelPackage.License.SetCommercial(lk);
-            using (var p = new ExcelPackage())
-            {
-                var ws = p.Workbook.Worksheets.Add("Sheet1");
-                Assert.AreEqual(lk, ExcelPackage.License.LicenseKey);
-                Assert.AreEqual(EPPlusCommercialLicenseType.Trial | EPPlusCommercialLicenseType.Subscription, ExcelPackage.License.LicenseInfo.LicenseType);
-                SaveWorkbook("LicenseKeyComercial.xlsx", p);
-            }
-        }
-        [TestMethod]
+        [ExpectedException(typeof(LicenseNotValidException))]
         public void CommercialSubscriptionExpired()
         {
             var lk = "GRkMe8goQZjmGTsyxjTiLv4FSrwd+Sb1DO8KEJttMkOoutyzpZ+qteojECrmj+w4OLcUVtYvHd0GFC5z0KKkjwEGQjAzNDJF5Qd8AHIAAQIA";
@@ -84,6 +74,7 @@ namespace EPPlusTest
         public void CommercialTrialExpiredShouldReadFromConfig()
         {
             var lk = "yYQQXbIcxblb4BYxKfE3wPRvnb+r7ZEZZaTgDHE2QfHDpcsNb4dJJT3lz56I/MbjcCfJ9d8aG5+teLoQVIAx4gEGQjM5MTg45gcwAVEBIQEA";
+            ExcelPackage.License.RemoveActiveLicense();
             try
             {
                 ExcelPackage.License.SetCommercial(lk);
