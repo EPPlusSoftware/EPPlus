@@ -1553,7 +1553,7 @@ namespace OfficeOpenXml
             int ix = 0;
             foreach (ExcelFontXml fnt in Fonts)
             {
-                if (fnt.useCnt > 0 && ix!=nfIx)
+                if ((fnt.useCnt > 0 && ix != nfIx) || (count==0 && Fonts.Count==1))
                 {
                     fntNode.AppendChild(fnt.CreateXmlNode(_styleXml.CreateElement("font", ExcelPackage.schemaMain)));
                     fnt.newID = count;

@@ -1390,7 +1390,9 @@ namespace OfficeOpenXml
 
             UpdateDefinedNamesXml();
 
-            if (HasLoadedPivotTables)
+			var loadPivotTable = HasLoadedPivotTables;
+
+			if (loadPivotTable)
             {
                 //Updates the Workbook Xml, so must be before saving the wookbook part 
                 SavePivotTableCaches();
@@ -1442,7 +1444,7 @@ namespace OfficeOpenXml
                 {
                     worksheet.View.WindowProtection = true;
                 }
-                worksheet.Save();
+				worksheet.Save(loadPivotTable);
                 worksheet.Part.SaveHandler = worksheet.SaveHandler;
             }
 

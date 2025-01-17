@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.Table.PivotTable.Calculation;
 using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 
@@ -107,5 +108,29 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 			Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { PivotCalculationStore.SumLevelValue, PivotCalculationStore.SumLevelValue, 0 }, 1));
 			Assert.IsTrue(PivotFunction.IsNonTopLevel(new int[] { 0, PivotCalculationStore.SumLevelValue, 0 }, 1));
 		}
-	}
+
+        [TestMethod]
+        public void s789_charts()
+        {
+            using(var pck = OpenTemplatePackage("s789_charts_justOne.xlsx"))
+            {
+                var wb = pck.Workbook;
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void s789_orignals()
+        {
+            using (var pck = OpenTemplatePackage("s789_original_issue.xlsx"))
+            {
+                var wb = pck.Workbook;
+
+                var ws = wb.Worksheets.GetByName("PivotTables");
+                var table = ws.PivotTables[0];
+
+                SaveAndCleanup(pck);
+            }
+        }
+    }
 }

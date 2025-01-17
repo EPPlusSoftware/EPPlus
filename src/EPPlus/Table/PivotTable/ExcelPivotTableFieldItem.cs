@@ -194,8 +194,17 @@ namespace OfficeOpenXml.Table.PivotTable
         internal void GetXmlString(StringBuilder sb)
         {
             if (X == -1 && Type == eItemType.Data) return;
-            sb.Append("<item");
-            if(X>-1)
+            sb.Append("<item ");
+            AddBool(sb, "h", Hidden);
+            AddBool(sb, "sd", ShowDetails, true);
+            AddBool(sb, "c", C);
+            AddBool(sb, "d", D);
+            AddBool(sb, "e", E, true);
+            AddBool(sb, "f", F);
+            AddBool(sb, "m", M);
+            AddBool(sb, "s", S);
+
+            if (X>-1)
             {
                 sb.AppendFormat(" x=\"{0}\"", X);
             }
@@ -207,14 +216,6 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 sb.AppendFormat(" n=\"{0}\"", OfficeOpenXml.Utils.ConvertUtil.ExcelEscapeString(Text));
             }
-            AddBool(sb,"h", Hidden);
-            AddBool(sb, "sd", ShowDetails, true);
-            AddBool(sb, "c", C);
-            AddBool(sb, "d", D);
-            AddBool(sb, "e", E, true);
-            AddBool(sb, "f", F);
-            AddBool(sb, "m", M);
-            AddBool(sb, "s", S);
             sb.Append("/>");
         }
 

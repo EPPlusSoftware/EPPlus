@@ -172,5 +172,86 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             Assert.AreEqual("Luther,Josh", sheet.Cells["D10"].Value);
             SaveAndCleanup(package);
         }
+
+        [TestMethod]
+        public void TextAfterIssue1763()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "TEXTAFTER(\"Red riding hood’s, red hood\", \"hood\")";
+            sheet.Cells["A1"].Calculate();
+            var a1 = sheet.Cells["a1"].Value;
+            Assert.AreEqual("’s, red hood", a1);
+        }
+
+        [TestMethod]
+        public void TextAfterIssue1763_2()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "TEXTAFTER(\"Red riding hood’s, red hood\", \"\")";
+            sheet.Cells["A1"].Calculate();
+            var a1 = sheet.Cells["A1"].Value;
+            Assert.AreEqual("Red riding hood’s, red hood", a1);
+        }
+
+        [TestMethod]
+        public void TextAfterIssue1763_3()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "TEXTAFTER(\"Red riding hood’s, red hood\", { \"ö\", \"hood\" })";
+            sheet.Cells["A1"].Calculate();
+            var a1 = sheet.Cells["A1"].Value;
+            Assert.AreEqual("’s, red hood", a1);
+        }
+
+        [TestMethod]
+        public void TextAfterShouldOutputDynamicRange()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = "abc def ghi";
+            sheet.Cells["A2"].Value = "a def g";
+            sheet.Cells["A3"].Formula = "TEXTAFTER(A1:A2, \"def\")";
+            sheet.Calculate();
+            Assert.AreEqual(" ghi", sheet.Cells["A3"].Value);
+            Assert.AreEqual(" g", sheet.Cells["A4"].Value);
+        }
+
+        [TestMethod]
+        public void TextAfter_InstanceNumOutOfRange()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = "abc def ghi";
+            sheet.Cells["A3"].Formula = "TEXTAFTER(A1, \"def\", 2)";
+            sheet.Calculate();
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["A3"].Value);
+        }
+
+        [TestMethod]
+        public void TextAfter_EscapeQuotationMark()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = "abc b\"c def";
+            sheet.Cells["A3"].Formula = "TEXTAFTER(A1, \"b\"\"c\")";
+            var s = "\"b\"\"c\"";
+            var a = s.ToCharArray();
+            sheet.Calculate();
+            Assert.AreEqual(" def", sheet.Cells["A3"].Value);
+        }
+
+        [TestMethod]
+        public void TextAfter_EscapeQuotationMark2()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = "abc b def";
+            sheet.Cells["A3"].Formula = "TEXTAFTER(A1, \"bb\")";
+            sheet.Calculate();
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["A3"].Value);
+        }
     }
 }
