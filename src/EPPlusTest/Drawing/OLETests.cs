@@ -666,5 +666,15 @@ namespace EPPlusTest.Drawing
             SaveAndCleanup(p);
         }
 
+
+        [TestMethod]
+        public void DeleteExternalIndexingFixTest()
+        {
+            using var p = OpenTemplatePackage("ExternalOleLinks.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.Drawings.Remove(1);
+            SaveAndCleanup(p);
+        }
+
     }
 }

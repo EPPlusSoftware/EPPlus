@@ -220,7 +220,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             _externalLinkIndex -= 1;
             var val = string.Format("[{0}]!''''", _externalLinkIndex);
             _oleObject.TopNode.Attributes["link"].Value = val;
-            var fb = _oleObject.TopNode.ParentNode.ParentNode.SelectSingleNode("mc:Fallback/oleObject", NameSpaceManager);
+            var fb = _oleObject.TopNode.ParentNode.ParentNode.SelectSingleNode("mc:Fallback/d:oleObject", NameSpaceManager);
             fb.Attributes["link"].Value = val;
         }
 
@@ -435,7 +435,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                         _externalLink = el as ExcelExternalOleLink;
                         _linkedOleObjectXml = _externalLink.ExternalOleXml;
                         _linkedObjectFilepath = _externalLink.Relation.TargetUri.OriginalString;
-                        int linkId = int.Parse(splitFilename[0]);
+                        _externalLinkIndex = int.Parse(splitFilename[0]);
                         break;
                     }
                 }
