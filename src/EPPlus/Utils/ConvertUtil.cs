@@ -27,11 +27,6 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
-using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.Drawing.Style.Fill;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 namespace OfficeOpenXml.Utils
 {
     internal static class ConvertUtil
@@ -421,13 +416,12 @@ namespace OfficeOpenXml.Utils
         {
             if (Regex.IsMatch(t, "(_x[0-9A-F]{4,4}_)"))
             {
-                var match = Regex.Match(t, "(_x[0-9A-F]{4,4}_)");
+                var matches = Regex.Matches(t, "(_x[0-9A-F]{4,4})");
                 int indexAdd = 0;
-                while (match.Success)
+                foreach(Match m in  matches) 
                 {
-                    t = t.Insert(match.Index + indexAdd, "_x005F");
+                    t = t.Insert(m.Index + indexAdd, "_x005F");
                     indexAdd += 6;
-                    match = match.NextMatch();
                 }
             }
             for (int i = 0; i < t.Length; i++)
@@ -472,6 +466,7 @@ namespace OfficeOpenXml.Utils
         }
         internal static string ExcelDecodeString(string t)
         {
+            if (string.IsNullOrEmpty(t)) return t;
             var ret=new StringBuilder();
             var ix = 0;
             for(var i=0;i<t.Length;i++)

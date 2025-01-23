@@ -891,7 +891,7 @@ namespace OfficeOpenXml.Table.PivotTable
                      fld.IsColumnField ||
                      fld.IsPageField || fld.Cache.HasSlicer) )
                 {
-                    fld.UpdateGroupItems(this, true);
+                    fld.UpdateGroupItems(this);
                     fld.Items.MatchValueToIndex();
 				}
                 else

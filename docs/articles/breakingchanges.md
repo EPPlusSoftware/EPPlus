@@ -47,7 +47,7 @@ ExcelChart has been changed to an abstract class from Version 5.2. Standard char
 A chart that reference within its own worksheet will now change the worksheet in the series addresses for any copy made with the Worksheets.Add method
 
 ### Formula parser
-Handling of circular references has been redesigned to better reflect Excel.
+Handling of circular references has been redesigned to better reflect Excel. 
 Changed misspelled property name
 Misspelled property `ExcelCalculationOption.AllowCirculareReferences` has been removed. Please use `ExcelCalculationOption.AllowCircularReferences`
 
@@ -140,6 +140,8 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 * Removed unused interface IParsingLifetimeEventHandler and implemetation.
 * Removed implementation of IParsingLifetimeEventHandler.ParsingCompleted in the ParsingContext class.
 
+### Breaking change from EPPlus 7.5.2
+Renaming worksheet's will now change the formula correctly to include single quotes for the worksheet name if necessary.
 
 ### Breaking changes from EPPlus 8.0
 * Set ExcelPackageSettings.ApplyFiltersOnSave default value to false.

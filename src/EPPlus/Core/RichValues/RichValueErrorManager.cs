@@ -99,7 +99,10 @@ namespace OfficeOpenXml.Core.RichValues
             }
             if(newRv != null)
             {
-                _richDataStore.AddRichData(cse.Row, cse.Column, newRv);
+                _richDataStore.AddRichData(cse.Row, cse.Column, newRv, out uint vmId);
+                var metadataRef = _ws._metadataStore.GetValue(cse.Row, cse.Column);
+                metadataRef.vm = vmId;
+                _ws._metadataStore.SetValue(cse.Row, cse.Column, metadataRef);
             }
         }
 
@@ -145,6 +148,7 @@ namespace OfficeOpenXml.Core.RichValues
                     break;
 
             }
+            item.SetStructure(_ws.Workbook.RichData.Db);
             return item;
         }
 
@@ -164,6 +168,7 @@ namespace OfficeOpenXml.Core.RichValues
                     break;
 
             }
+            item.SetStructure(_ws.Workbook.RichData.Db);
             return item;
         }
 
@@ -176,6 +181,7 @@ namespace OfficeOpenXml.Core.RichValues
                 SubType = 1,
                 ErrorType = RichDataErrorType.Spill
             };
+            item.SetStructure(_ws.Workbook.RichData.Db);
             return item;
         }
     }

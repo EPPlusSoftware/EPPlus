@@ -296,8 +296,8 @@ namespace OfficeOpenXml.Style
         internal override string Id
         {
             get 
-            { 
-                return Numberformat.Id + "|" + Font.Id + "|" + Fill.Id + "|" + Border.Id + "|" + VerticalAlignment + "|" + HorizontalAlignment + "|" + WrapText.ToString() + "|" + ReadingOrder.ToString() + "|" + XfId.ToString() + "|" + QuotePrefix.ToString() + "|" + Checkbox.ToString(); 
+            {
+                return Numberformat.Id + "|" + Font.Id + "|" + Fill.Id + "|" + Border.Id + "|" + VerticalAlignment + "|" + HorizontalAlignment + "|" + WrapText.ToString() + "|" + ReadingOrder.ToString() + "|" + XfId.ToString() + "|" + Indent.ToString()+ "|" + Checkbox.ToString() + "|" + TextRotation.ToString() + "|" + (QuotePrefix ? "1" : "0") + (Locked ? "1" : "0") + (Hidden ? "1" : "0") + (JustifyLastLine ? "1" : "0") + (ShrinkToFit ? "1" : "0");
             }
         }
 

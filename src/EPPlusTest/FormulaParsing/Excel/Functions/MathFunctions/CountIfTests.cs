@@ -317,5 +317,54 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
             var result = func.Execute(args, _parsingContext);
             Assert.AreEqual(1d, result.Result);
         }
+        [TestMethod]
+        public void CountIfFullColumnValue()
+        {
+            _worksheet.Cells["B1"].Value = 1d;
+            _worksheet.Cells["B2"].Value = 2d;
+            _worksheet.Cells["B3"].Value = 3d;
+            _worksheet.Cells["A1:A3"].Formula = "CountIf(B:B,\"=\" & B1)";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual(1D, _worksheet.Cells["A1"].Value);
+            Assert.AreEqual(1D, _worksheet.Cells["A2"].Value);
+            Assert.AreEqual(1D, _worksheet.Cells["A3"].Value);
+            Assert.IsNull(_worksheet.Cells["A4"].Value);
+        }
+
+        [TestMethod]
+        public void CountIfFullColumnNullValue()
+        {
+            _worksheet.Cells["B1"].Value = 1d;
+            _worksheet.Cells["B2"].Value = 2d;
+            _worksheet.Cells["B3"].Value = 3d;
+            _worksheet.Cells["A1:A3"].Formula = "CountIf(B:B,\"=\")";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual(ExcelPackage.MaxRows - 3D, _worksheet.Cells["A1"].Value);
+            Assert.AreEqual(ExcelPackage.MaxRows - 3D, _worksheet.Cells["A2"].Value);
+            Assert.AreEqual(ExcelPackage.MaxRows - 3D, _worksheet.Cells["A3"].Value);
+            Assert.IsNull(_worksheet.Cells["A4"].Value);
+        }
+
+        [TestMethod]
+        public void CountIfFullColumnNullValueWithGap()
+        {
+            _worksheet.Cells["C3"].Value = 1d;
+            _worksheet.Cells["D5"].Value = 2d;
+            _worksheet.Cells["B8"].Value = 3d;
+            _worksheet.Cells["A1:A3"].Formula = "CountIf(B:D,\"=\")";
+
+            _worksheet.Calculate();
+
+            Assert.AreEqual(ExcelPackage.MaxRows * 3 - 3D, _worksheet.Cells["A1"].Value);
+            Assert.AreEqual(ExcelPackage.MaxRows * 3 - 3D, _worksheet.Cells["A2"].Value);
+            Assert.AreEqual(ExcelPackage.MaxRows * 3 - 3D, _worksheet.Cells["A3"].Value);
+            Assert.IsNull(_worksheet.Cells["A4"].Value);
+        }
+
+
     }
 }

@@ -384,6 +384,7 @@ namespace OfficeOpenXml
         }
 
         #endregion
+
         /// <summary>
         /// The Uri to the worksheet within the package
         /// </summary>
@@ -400,6 +401,37 @@ namespace OfficeOpenXml
         /// The unique identifier for the worksheet.
         /// </summary>
         internal int SheetId { get { return (_sheetID); } set { _sheetID = value; } }
+
+        /// <summary>
+        /// A <see cref="Guid" /> used by Office 365. It is not mandatory and used when muliple users are working on the same worksheet simultaniously.
+        /// EPPlus primarily needs to deal with this attribute when creating copies of existing worksheets.
+        /// </summary>
+        internal Guid? SheetUid
+        {
+            get
+            {
+                var val = GetXmlNodeString("@xr:uid");
+                if(!string.IsNullOrEmpty(val))
+                {
+                    val = val.Trim('{').Trim('}');
+                    try
+                    {
+                        return new Guid(val);
+                    }
+                    catch { }
+                }
+                return default;
+            }
+            set
+            {
+                var sVal = value?.ToString();
+                if(!string.IsNullOrEmpty(sVal))
+                {
+                    sVal = "{" + sVal.ToUpperInvariant() + "}";
+                }
+                SetXmlNodeString("@xr:uid", sVal, true);
+            }
+        }
         internal bool IsChartSheet { get; set; } = false;
         internal static bool NameNeedsApostrophes(string ws)
         {
@@ -1699,7 +1731,7 @@ namespace OfficeOpenXml
                             _formulas.SetValue(address._fromRow, address._fromCol, sfIndex);
                             SetValueInner(address._fromRow, address._fromCol, null);
                             string fAddress = xr.GetAttribute("ref");
-                            string formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
+                            string formula =xr.ReadElementContentAsString();
                             if (formula != "")
                             {
                                 _sharedFormulas.Add(sfIndex, new SharedFormula(this, row, col, fAddress, formula) { Index = sfIndex, FormulaType=FormulaType.Shared });
@@ -2419,32 +2451,32 @@ namespace OfficeOpenXml
           if (string.IsNullOrEmpty(oldName) || string.IsNullOrEmpty(newName))
             throw new ArgumentNullException("Sheet name can't be empty");
 
-          lock (this)
-          {
-            foreach (var sf in _sharedFormulas.Values)
+            lock (this)
             {
-              sf.Formula = ExcelCellBase.UpdateSheetNameInFormula(sf.Formula, oldName, newName);
-            }
-            using (var cse = new CellStoreEnumerator<object>(_formulas))
-            {
-                while (cse.Next())
+                foreach (var sf in _sharedFormulas.Values)
                 {
-              if (cse.Value is string v) //Non shared Formulas 
+                    sf.Formula = ExcelCellBase.UpdateSheetNameInFormula(sf.Formula, oldName, newName);
+                }
+                using (var cse = new CellStoreEnumerator<object>(_formulas))
+                {
+                    while (cse.Next())
                     {
-                cse.Value = ExcelCellBase.UpdateSheetNameInFormula(v, oldName, newName);
+                        if (cse.Value is string v) //Non shared Formulas 
+                        {
+                            cse.Value = ExcelCellBase.UpdateSheetNameInFormula(v, oldName, newName);
+                        }
                     }
                 }
             }
-          }
         }
 #region Worksheet Save
-        internal void Save()
+        internal void Save(bool hasLoadedPivotTables)
         {
             DeletePrinterSettings();
 
             if (_worksheetXml != null)
             {
-                SaveDrawings();
+                SaveDrawings(hasLoadedPivotTables);
                 if (!(this is ExcelChartsheet))
                 {
                     // save the header & footer (if defined)
@@ -2473,7 +2505,7 @@ namespace OfficeOpenXml
                     SaveThreadedComments();
                     HeaderFooter.SaveHeaderFooterImages();
                     SaveTables();
-                    if(HasLoadedPivotTables) SavePivotTables();
+                    if(hasLoadedPivotTables) SavePivotTables();
                     SaveSlicers();
 
                     //Meta data and rich data is currently used for #spill! and #calc! errors.
@@ -2486,7 +2518,7 @@ namespace OfficeOpenXml
             }
         }
 
-        private void SaveDrawings()
+        private void SaveDrawings(bool hasLoadedPivotTables)
         {
             if (Drawings.UriDrawing != null)
             {
@@ -2502,7 +2534,7 @@ namespace OfficeOpenXml
                     {
                         d.AdjustPositionAndSize();
                         d.UpdatePositionAndSizeXml();
-                        HandleSaveForIndividualDrawings(d);
+                        HandleSaveForIndividualDrawings(d, hasLoadedPivotTables);
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;
                     var partStream = partPack.GetStream(FileMode.Create, FileAccess.Write);
@@ -2511,7 +2543,7 @@ namespace OfficeOpenXml
             }
         }
 
-        private static void HandleSaveForIndividualDrawings(ExcelDrawing d)
+        private static void HandleSaveForIndividualDrawings(ExcelDrawing d, bool hasLoadedPivotTables)
         {
             if (d is ExcelChart c)
             {
@@ -2527,8 +2559,10 @@ namespace OfficeOpenXml
             else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
             {
                 if (p.Cache == null) return;
-                p.Cache.UpdateItemsXml();
-                p.Cache.SlicerCacheXml.PreserveWhitespace = true;
+                if(hasLoadedPivotTables)
+                {
+                    p.Cache.UpdateItemsXml();
+                }
                 p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
             }
             else if (d is ExcelControl ctrl)
@@ -2547,7 +2581,7 @@ namespace OfficeOpenXml
             {
                 foreach (var sd in grp.Drawings)
                 {
-                    HandleSaveForIndividualDrawings(sd);
+                    HandleSaveForIndividualDrawings(sd, hasLoadedPivotTables);
                 }
             }
         }

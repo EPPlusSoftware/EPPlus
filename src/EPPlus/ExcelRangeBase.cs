@@ -378,7 +378,7 @@ namespace OfficeOpenXml
             Exists_ThreadedComment(range, value, row, col);
             if (range._worksheet._commentsStore.Exists(row, col))
             {
-                throw (new InvalidOperationException(string.Format("Cell {0} already contain a comment.", new ExcelCellAddress(row, col).Address)));
+                throw (new InvalidOperationException(string.Format("Cell {0} already contains a comment.", new ExcelCellAddress(row, col).Address)));
             }
 
         }
