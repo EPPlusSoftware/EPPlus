@@ -242,11 +242,11 @@ namespace OfficeOpenXml.Drawing.OleObject
                 CreateLinkToObject(parameters.OlePath, parameters.ProgId);
                 if (DisplayAsIcon)
                 {
-                    oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" oleUpdate=\"OLEUPDATE_ONCALL\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", parameters.ProgId, _externalLinkIndex, _id);
+                    oleObjectNode = string.Format("<d:oleObject dvAspect=\"DVASPECT_ICON\" oleUpdate=\"OLEUPDATE_ONCALL\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", parameters.ProgId, _externalLinkIndex, _id);
                 }
                 else
                 {
-                    oleObjectNode = string.Format("<oleObject oleUpdate=\"OLEUPDATE_ALWAYS\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", parameters.ProgId, _externalLinkIndex, _id);
+                    oleObjectNode = string.Format("<d:oleObject oleUpdate=\"OLEUPDATE_ALWAYS\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", parameters.ProgId, _externalLinkIndex, _id);
                 }
             }
             else
@@ -254,11 +254,11 @@ namespace OfficeOpenXml.Drawing.OleObject
                 relId = CreateEmbeddedObject(name, parameters, oleData);
                 if (DisplayAsIcon)
                 {
-                    oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStructures.CompObj.Reserved1.String, _id, relId);
+                    oleObjectNode = string.Format("<d:oleObject dvAspect=\"DVASPECT_ICON\" progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStructures.CompObj.Reserved1.String, _id, relId);
                 }
                 else
                 {
-                    oleObjectNode = string.Format("<oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStructures.CompObj.Reserved1.String, _id, relId);
+                    oleObjectNode = string.Format("<d:oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStructures.CompObj.Reserved1.String, _id, relId);
                 }
 
             }
@@ -320,23 +320,23 @@ namespace OfficeOpenXml.Drawing.OleObject
             //Create worksheet xml
             var wsNode = _worksheet.CreateOleContainerNode();
             StringBuilder sb = new StringBuilder();
-            sb.Append("<dummyNode xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">");
+            sb.Append("<dummyNode xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">");
             sb.Append("<mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
             sb.Append("<mc:Choice Requires=\"x14\">");
             //Create object node
             sb.Append(oleObjectNode);
             if(IsExternalLink)
-                sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\" dde=\"1\">", imgRelId.Id);
+                sb.AppendFormat("<d:objectPr defaultSize=\"0\" r:id=\"{0}\" dde=\"1\">", imgRelId.Id);
             else
-                sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\">", imgRelId.Id);
-            sb.Append("<anchor moveWithCells=\"1\">");
-            sb.AppendFormat("<from><xdr:col>{0}</xdr:col><xdr:colOff>{1}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></from>", From.Column, From.ColumnOff, From.Row, From.RowOff);
-            sb.AppendFormat("<to><xdr:col>{0}</xdr:col><xdr:colOff>{1}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></to>", To.Column, To.ColumnOff, To.Row, To.RowOff);
-            sb.Append("</anchor></objectPr></oleObject>");
+                sb.AppendFormat("<d:objectPr defaultSize=\"0\" r:id=\"{0}\">", imgRelId.Id);
+            sb.Append("<d:anchor moveWithCells=\"1\">");
+            sb.AppendFormat("<d:from><xdr:col>{0}</xdr:col><xdr:colOff>{1}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></d:from>", From.Column, From.ColumnOff, From.Row, From.RowOff);
+            sb.AppendFormat("<d:to><xdr:col>{0}</xdr:col><xdr:colOff>{1}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></d:to>", To.Column, To.ColumnOff, To.Row, To.RowOff);
+            sb.Append("</d:anchor></d:objectPr></d:oleObject>");
             sb.Append("</mc:Choice>");
             //fallback
             sb.AppendFormat("<mc:Fallback>");
-            sb.Append(oleObjectNode + "</oleObject>");
+            sb.Append(oleObjectNode + "</d:oleObject>");
             sb.Append("</mc:Fallback></mc:AlternateContent></dummyNode>");
             XmlDocument tempDoc = new XmlDocument();
             tempDoc.LoadXml(sb.ToString());

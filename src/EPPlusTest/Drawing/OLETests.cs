@@ -118,7 +118,7 @@ namespace EPPlusTest.Drawing
             Assert.IsTrue(isExcelOleObject);
             linkedOle = docxOle as ExcelOleObject;
             Assert.IsTrue(linkedOle.IsExternalLink);
-            
+
             //Read PPTX Object
             var pptxOlePackage = OpenTemplatePackage("OleObjectTest_Link_PPTX.xlsx");
             var pptxOleWs = pptxOlePackage.Workbook.Worksheets[0];
@@ -526,15 +526,15 @@ namespace EPPlusTest.Drawing
             var p = OpenTemplatePackage("OleObjects.xlsx");
             var ws = p.Workbook.Worksheets[0];
             List<ExcelOleObject> oleObjects = new List<ExcelOleObject>();
-            foreach(var ole in ws.Drawings)
+            foreach (var ole in ws.Drawings)
             {
-                if(ole is ExcelOleObject)
+                if (ole is ExcelOleObject)
                 {
                     oleObjects.Add(ole as ExcelOleObject);
                 }
             }
             //Copy to same worksheet
-            foreach(var ole in oleObjects)
+            foreach (var ole in oleObjects)
             {
                 ole.Copy(ws, ole.From.Row, ole.From.Column + 10);
             }
@@ -675,6 +675,5 @@ namespace EPPlusTest.Drawing
             ws.Drawings.Remove(1);
             SaveAndCleanup(p);
         }
-
     }
 }
