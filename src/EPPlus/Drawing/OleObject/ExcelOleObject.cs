@@ -434,7 +434,14 @@ namespace OfficeOpenXml.Drawing.OleObject
                     {
                         _externalLink = el as ExcelExternalOleLink;
                         _linkedOleObjectXml = _externalLink.ExternalOleXml;
-                        _linkedObjectFilepath = _externalLink.Relation.TargetUri.OriginalString;
+                        if (_externalLink.Relation.Target == null)
+                        {
+                            _linkedObjectFilepath = _externalLink.Relation.TargetUri.OriginalString;
+                        }
+                        else
+                        {
+                            _linkedObjectFilepath = _externalLink.Relation.Target;
+                        }
                         _externalLinkIndex = int.Parse(splitFilename[0]);
                         break;
                     }
