@@ -74,15 +74,16 @@ namespace OfficeOpenXml.ExternalReferences
         /// Adds an external reference to another workbook. 
         /// </summary>
         /// <param name="file">The location of the external workbook. The external workbook must of type .xlsx, .xlsm or xlst</param>
+        /// <param name="absolute">Add the workbooks path as absolute if possible.</param>
         /// <returns>The <see cref="ExcelExternalWorkbook"/> object</returns>
-        public ExcelExternalWorkbook AddExternalWorkbook(FileInfo file)
+        public ExcelExternalWorkbook AddExternalWorkbook(FileInfo file, bool absolute=false)
         {
             if(file == null || file.Exists==false)
             {
                 throw (new FileNotFoundException("The file does not exist."));
             }
             var p = new ExcelPackage(file);
-            var ewb = new ExcelExternalWorkbook(_wb, p);
+            var ewb = new ExcelExternalWorkbook(_wb, p, absolute);
             _list.Add(ewb);
             return ewb;
         }

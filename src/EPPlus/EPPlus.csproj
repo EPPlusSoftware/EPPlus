@@ -564,10 +564,6 @@
 		<PackageIconUrl />
 	</PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\EPPlus.System.Drawing\EPPlus.System.Drawing.csproj" />
-	</ItemGroup>
-
 	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
 		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EPPlus.xml</DocumentationFile>
 	</PropertyGroup>
@@ -704,5 +700,8 @@
 	  <PackageReference Include="System.Formats.Asn1" />
 	  <PackageReference Include="System.Security.Cryptography.Xml" />
 	  <PackageReference Include="System.Text.Json" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
 	</ItemGroup>
 </Project>

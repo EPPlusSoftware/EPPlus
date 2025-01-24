@@ -11,7 +11,9 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Core;
+using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Shape;
+using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Style;
@@ -48,7 +50,7 @@ namespace OfficeOpenXml.Drawing
         private string _fontPath = "{0}xdr:txBody/a:p/a:pPr/a:defRPr";
         private string _textBodyPath = "{0}xdr:txBody/a:bodyPr";
         private string _presetGeometryPath = "{0}xdr:spPr/a:prstGeom/a:avLst";
-
+        private string _stylePath = "{0}xdr:style";
         private Dictionary<string, ShapeGuidePoint> _adjustmentPoints = null;
 
         internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null) :
@@ -78,6 +80,7 @@ namespace OfficeOpenXml.Drawing
             _fontPath = string.Format(_fontPath, topPath);
             _textBodyPath = string.Format(_textBodyPath, topPath);
             _presetGeometryPath = string.Format(_presetGeometryPath, topPath);
+            _stylePath = string.Format(_stylePath, topPath);
             AddSchemaNodeOrder(SchemaNodeOrder, new string[] { "nvSpPr", "spPr", "txSp", "style", "txBody", "hlinkClick", "hlinkHover", "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "blipFill", "gradFill", "pattFill", "grpFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d", "pPr", "r", "br", "fld", "endParaRPr", "lnRef", "fillRef", "effectRef", "fontRef" });
         }
         /// <summary>
@@ -223,6 +226,19 @@ namespace OfficeOpenXml.Drawing
                     _font = new ExcelTextFont(_drawings, NameSpaceManager, TopNode, _fontPath, SchemaNodeOrder);
                 }
                 return _font;
+            }
+        }
+        private ExcelChartStyleEntry _themeStyles=null;
+        internal ExcelChartStyleEntry ThemeStyles 
+        { 
+            get
+            {
+                var styleNode = GetNode(_stylePath);
+                if(styleNode!=null)
+                {
+                    _themeStyles = new ExcelChartStyleEntry(NameSpaceManager, styleNode, ".", null, "a");
+                }
+                return _themeStyles;
             }
         }
         bool isSpInit = false;

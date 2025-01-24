@@ -14,17 +14,51 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using System.Drawing;
 using OfficeOpenXml.Drawing.Theme;
+using System;
 
 namespace OfficeOpenXml.Utils
 {
-    internal class ColorConverter
+    public class ColorConverter
     {
-        internal static Color GetThemeColor(ExcelTheme theme, eThemeSchemeColor tc)
+        public static Color GetThemeColor(ExcelTheme theme, eThemeSchemeColor tc)
         {
             var cm = theme.ColorScheme.GetColorByEnum(tc);
             return GetThemeColor(cm);
         }
-        internal static Color GetThemeColor(ExcelDrawingThemeColorManager cm)
+        public static Color GetThemeColor(ExcelTheme theme, ExcelDrawingColorManager cm)
+        {
+            if(cm!=null && cm.ColorType==eDrawingColorType.Scheme)
+            {
+                var c= GetThemeColor(theme, (eThemeSchemeColor)cm.SchemeColor.Color);
+                return ApplyTransforms(c, cm.Transforms);
+            }
+            return GetThemeColor(cm);
+        }
+
+        private static Color ApplyTransforms(Color c, ExcelColorTransformCollection transforms)
+        {
+            if (transforms.Count == 0) return c;
+
+            var r = c.R;
+            var g = c.G;
+            var b = c.B;
+
+            foreach (var t in transforms)
+            {
+                switch(t.Type)
+                {
+                    case eColorTransformType.Shade:
+                        //ApplyShade(ref r, ref g,ref b, t); 
+                        return ApplyTint(c, -t.Value/100);
+                    case eColorTransformType.Tint:
+                        return ApplyTint(c, t.Value/100);
+                }
+            }
+            
+            return Color.FromArgb(r, g, b);
+        }
+
+        public static Color GetThemeColor(ExcelDrawingThemeColorManager cm)
         {
             Color color;
             switch (cm.ColorType)

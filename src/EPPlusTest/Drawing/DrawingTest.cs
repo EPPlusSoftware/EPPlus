@@ -37,6 +37,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Theme;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace EPPlusTest
 {
@@ -1213,6 +1214,29 @@ namespace EPPlusTest
 
                 SaveAndCleanup(package);
             }
-        }        
+        }
+        [TestMethod]
+        public void HandleNumberFormatToText()
+        {
+            using (var package = new ExcelPackage())
+            {
+                package.Workbook.NumberFormatToTextHandler = HandleGeneral;
+                var ws = package.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A1"].Value = 12345678901234D;
+
+                Assert.AreEqual("12345678901234", ws.Cells["A1"].Text);
+            }
+        }
+        public string HandleGeneral(NumberFormatToTextArgs args)
+        {
+            if(args.NumberFormat.Format.Equals("general", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if(args.Value is double d) //Check if value is double. If you have another data types, add a check for that type here.
+                {
+                    return d.ToString("0");
+                }
+            }
+            return args.Text; //Otherwise return the default Text here;
+        }
     }
 }

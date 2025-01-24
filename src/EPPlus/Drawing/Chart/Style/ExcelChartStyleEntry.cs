@@ -39,11 +39,12 @@ namespace OfficeOpenXml.Drawing.Chart.Style
 
         string _defaultTextRunPath = "{0}/{1}:defRPr";
         string _defaultTextBodyPath = "{0}/{1}:bodyPr";
-        string _prefix = "cs";
+        string _prefix;
 
         private readonly IPictureRelationDocument _pictureRelationDocument;
-        internal ExcelChartStyleEntry(XmlNamespaceManager nsm, XmlNode topNode, string path, IPictureRelationDocument pictureRelationDocument) : base(nsm, topNode)
+        internal ExcelChartStyleEntry(XmlNamespaceManager nsm, XmlNode topNode, string path, IPictureRelationDocument pictureRelationDocument, string prefix="cs") : base(nsm, topNode)
         {
+            _prefix = prefix;
             SchemaNodeOrder = new string[] { "lnRef", "fillRef", "effectRef", "fontRef", "spPr", "noFill", "solidFill", "blipFill", "gradFill", "noFill", "pattFill","ln", "defRPr" };
             _fillReferencePath = string.Format(_fillReferencePath, path, _prefix);
             _borderReferencePath = string.Format(_borderReferencePath, path, _prefix);

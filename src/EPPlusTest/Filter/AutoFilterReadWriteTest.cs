@@ -51,7 +51,6 @@ namespace EPPlusTest.Filter
             col.Filters.Add("19");
             col.Filters.Blank = true;
             col.Filters.Add(new ExcelFilterDateGroupItem(2018, 12));
-            
             var col2 = ws.AutoFilter.Columns.AddValueFilterColumn(2);
             col2.Filters.Add("Value 6");
             ws.AutoFilter.ApplyFilter();

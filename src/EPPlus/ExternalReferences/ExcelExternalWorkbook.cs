@@ -34,11 +34,12 @@ namespace OfficeOpenXml.ExternalReferences
         Dictionary<int, CellStore<int>> _sheetMetaData = new Dictionary<int, CellStore<int>>();
         Dictionary<int, ExcelExternalNamedItemCollection<ExcelExternalDefinedName>> _definedNamesValues = new Dictionary<int, ExcelExternalNamedItemCollection<ExcelExternalDefinedName>>();
         HashSet<int> _sheetRefresh = new HashSet<int>();
-        internal ExcelExternalWorkbook(ExcelWorkbook wb, ExcelPackage p) : base(wb)
+        internal ExcelExternalWorkbook(ExcelWorkbook wb, ExcelPackage p, bool absolute) : base(wb)
         {
             CachedWorksheets = new ExcelExternalNamedItemCollection<ExcelExternalWorksheet>();
             CachedNames = new ExcelExternalNamedItemCollection<ExcelExternalDefinedName>();
             CacheStatus = eExternalWorkbookCacheStatus.NotUpdated;
+            IsPathRelative = !absolute;
             SetPackage(p, false);
        }
         internal ExcelExternalWorkbook(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement)  : base(wb, reader, part, workbookElement)

@@ -14,7 +14,6 @@ using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Interfaces.Drawing.Image;
 using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.SystemDrawing.Image;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,19 +29,9 @@ namespace OfficeOpenXml
     {
         internal ExcelImageSettings()
         {
-            var m=new SystemDrawingImageHandler();
-            if(m.ValidForEnvironment())
-            {
-                PrimaryImageHandler = m;
-                SecondaryImageHandler = new GenericImageHandler();
-                TertiaryImageHandler = null;
-            }
-            else
-            {
-                PrimaryImageHandler = new GenericImageHandler();
-                SecondaryImageHandler = null;
-                TertiaryImageHandler = null;
-            }
+            PrimaryImageHandler = new GenericImageHandler();
+            SecondaryImageHandler = null;
+            TertiaryImageHandler = null;
         }
 
         /// <summary>

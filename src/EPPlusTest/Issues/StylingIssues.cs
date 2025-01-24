@@ -346,7 +346,6 @@ namespace EPPlusTest
             Assert.AreEqual(1, p.Workbook.Styles.Fonts.Count);
             SaveAndCleanup(p);
         }
-
         public class TestData
         {
             public int Id { get; set; }

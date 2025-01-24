@@ -4,6 +4,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.IO;
 
 namespace EPPlusTest.Core
@@ -327,7 +328,6 @@ namespace EPPlusTest.Core
             ws1.Cells["G3"].Formula = "Table1[[#This Row],[c]]+'[1]Sheet1'!$C3";
             ws1.Cells["G4"].Formula = "Table1[[#This Row],[c]]+'[1]Sheet8888'!$C3";
             var er = p.Workbook.ExternalLinks.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
-            
             ws1.Cells["G5"].Formula = $"[{er.Index}]Sheet1!FromF2*[{er.Index}]!CellH5";
 
             er.UpdateCache();
@@ -356,6 +356,7 @@ namespace EPPlusTest.Core
             ws1.Cells["F3"].Formula = "Table1[[#This Row],[b]]+[1]Sheet1!$B3";
             ws1.Cells["G3"].Formula = "Table1[[#This Row],[c]]+'[1]Sheet1'!$C3";
             var er = p.Workbook.ExternalLinks.AddExternalWorkbook(new FileInfo(_testInputPath + "externalreferences\\FromWB1.xlsx"));
+            er.IsPathRelative = false;
 
             ws1.Cells["G5"].Formula = $"[{er.Index}]Sheet1!FromF2*[{er.Index}]!CellH5";
             ws1.Cells["G6"].Formula = $"'[FromWB1.xlsx]Sheet1'!FromF2*[FromWB1.xlsx]Sheet1!H6";
@@ -453,8 +454,10 @@ namespace EPPlusTest.Core
             {
                 var ws = package.Workbook.Worksheets[0];
 
-                package.Workbook.ExternalLinks[0].As.ExternalWorkbook.Load();
-
+                var ewb = package.Workbook.ExternalLinks[0].As.ExternalWorkbook;
+                ewb.IsPathRelative = false;
+                ewb.Load();
+                
                 var f1 = ws.Cells["A1"].Formula;
                 var f2 = ws.Cells["B2"].Formula;
                 var f3 = ws.Cells["C3"].Formula;

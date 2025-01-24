@@ -1039,7 +1039,12 @@ namespace OfficeOpenXml.Drawing
             SetPixelWidth(width);
             SetPixelHeight(height);
         }
-
+        public void GetSizeInPixels(out int width, out int height)
+        {
+            GetPositionSize();
+            width = (int)_width;
+            height = (int)_height;
+        }
         private void ChangeCellAnchorTypeInternal(eEditAs type)
         {
             if (type != CellAnchor)
