@@ -5,6 +5,7 @@ using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.OleObject.Structures;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace EPPlusTest.Drawing
 {
@@ -672,6 +673,42 @@ namespace EPPlusTest.Drawing
             var ws = p.Workbook.Worksheets[0];
             ws.Drawings.Remove(1);
             SaveAndCleanup(p);
+        }
+
+        [TestMethod]
+        public void OleAbsoluteAnchor()
+        {
+            using (ExcelPackage pck = OpenPackage("OLEAbsoluteAnchor.xlsx", true))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets.Add("AnchorWs");
+
+                var oleObj = ws.Drawings.AddOleObject("SomeObject", Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp"));
+
+                oleObj.ChangeCellAnchor(eEditAs.Absolute);
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void OleSetPosition()
+        {
+            using (ExcelPackage pck = OpenPackage("OLESetPosition.xlsx", true))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets.Add("AnchorWs");
+                var wsImage = wb.Worksheets.Add("ImageWs");
+
+                var oleObj = ws.Drawings.AddOleObject("SomeObject", Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp"));
+                var pic = wsImage.Drawings.AddPicture("SomePicture", GetResourceFile("EPPlus.png").FullName);
+
+                pic.SetPosition(100, 100);
+                oleObj.SetPosition(100, 100);
+
+                //See resulting file for the differences in position and scaling
+                SaveAndCleanup(pck);
+            }
         }
     }
 }
