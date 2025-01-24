@@ -4,9 +4,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.OleObject.Structures;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using static System.Net.WebRequestMethods;
 
 namespace EPPlusTest.Drawing
 {
