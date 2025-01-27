@@ -351,16 +351,17 @@ namespace OfficeOpenXml.Drawing.OleObject
             //Update data
             _oleObject.From.Column = From.Column;
             _oleObject.From.ColumnOff = From.ColumnOff;
+            _oleObject.From.Row = From.Row;
             _oleObject.From.RowOff = From.RowOff;
-            _oleObject.From._rowOff = From._rowOff;
-            _oleObject.To.Column = To.Column;
-            _oleObject.To.ColumnOff = To.ColumnOff;
-            _oleObject.To.Row = To.Row;
-            _oleObject.To.RowOff = To.RowOff;
-
-            //Update xml
             _oleObject.From.UpdateXml();
-            _oleObject.To.UpdateXml();
+            if (CellAnchor == eEditAs.TwoCell)
+            {
+                _oleObject.To.Column = To.Column;
+                _oleObject.To.ColumnOff = To.ColumnOff;
+                _oleObject.To.Row = To.Row;
+                _oleObject.To.RowOff = To.RowOff;
+                _oleObject.To.UpdateXml();
+            }
         }
 
         private string CreateOleObjectDrawingNode(string name)

@@ -987,6 +987,12 @@ namespace OfficeOpenXml.Drawing
             SetPixelWidth(_width);
             SetPixelHeight(_height);
             _doNotAdjust = false;
+
+            if(this is ExcelOleObject ole)
+            {
+                ole.UpdateXml();
+            }
+
         }
         /// <summary>
         /// How the drawing is anchored to the cells.
