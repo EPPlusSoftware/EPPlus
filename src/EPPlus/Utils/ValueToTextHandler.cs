@@ -92,7 +92,7 @@ namespace OfficeOpenXml.Utils
                             return string.Format(overrideCultureInfo ?? nf.Culture, f.NetFormat, d);
                         }
                         else
-                        {
+                          {
                             return FormatNumber(d, format, overrideCultureInfo ?? nf.Culture);
                         }
                     }

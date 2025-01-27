@@ -556,6 +556,32 @@ namespace EPPlusTest.Export.HtmlExport
             exporter.Settings.HeaderRows = headerRows;
             File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", exporter.GetSinglePage());
         }
+
+        [TestMethod]
+        public void NumberFormatColorShouldCreateCssColor()
+        {
+            using (var package = OpenPackage("numfRed.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var aNewWs = wb.Worksheets.Add("NewWs");
+
+                var range = aNewWs.Cells["A1:A5"];
+                range.Formula = "ROW()";
+                range.Style.Numberformat.Format = "[Red]-#";
+
+
+                wb.Calculate();
+
+                var exporter = range.CreateHtmlExporter();
+                var page = exporter.GetSinglePage();
+
+                var path = GetOutputFile("", "numfRed.html").FullName;
+
+                File.WriteAllText(path, page);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
     

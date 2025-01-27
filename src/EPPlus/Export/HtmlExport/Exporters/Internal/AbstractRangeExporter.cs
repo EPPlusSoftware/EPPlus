@@ -11,6 +11,7 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
@@ -87,6 +88,11 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             }
             else
             {
+                //if(cell.nu)
+                //return cell.Text;
+                //new NumberFormatToTextArgs(cell.Worksheet, cell._fromRow, cell._fromCol, cell.Value, cell.StyleID);
+                ////var aText = cell.Text;
+                ////var aValue = cell.Value;
                 return ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture);
             }
         }

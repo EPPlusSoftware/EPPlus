@@ -175,5 +175,51 @@ namespace EPPlusTest
             }
         }
 
+        [TestMethod]
+        public void ExcelRangeBaseShouldReturnCorrectText()
+        {
+            using (var package = OpenPackage("numfRed.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var aNewWs = wb.Worksheets.Add("NewWs");
+
+                var cell = aNewWs.Cells["A1"];
+                cell.Value = -5;
+                cell.Style.Numberformat.Format = "[Red]-#";
+
+                var value = aNewWs.Cells["A1"].Value;
+                var aText = aNewWs.Cells["A1"].Text;
+
+                Assert.AreEqual(value.ToString(), aText);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void ExcelRangeBaseShouldReturnCorrectNumberFormatText()
+        {
+            using (var package = OpenPackage("numfRedStandard.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var aNewWs = wb.Worksheets.Add("NewWs");
+
+                var cell = aNewWs.Cells["A1"];
+                cell.Value = -5;
+                cell.Style.Numberformat.Format = "#,##0_);[Red](#,##0)";
+
+                var value = aNewWs.Cells["A1"].Value;
+
+                //Should return "(5)" since that's what excel returns on this format
+                var aText = aNewWs.Cells["A1"].Text;
+
+                var numberFormat = cell.Style.Numberformat;
+
+                Assert.AreEqual("(5)", aText);
+
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }

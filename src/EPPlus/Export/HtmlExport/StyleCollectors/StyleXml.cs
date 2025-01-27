@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
                    _style.VerticalAlignment != ExcelVerticalAlignment.Bottom ||
                    _style.TextRotation != 0 ||
                    _style.Indent > 0 ||
-                   _style.WrapText;
+                   _style.WrapText || _style.NumberFormatId > 0;
             }
         }
 
