@@ -11,6 +11,8 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
 
         internal bool HasStyle { get; }
 
+        internal bool CheckBox { get; }
+
         /// <summary>
         /// Fill
         /// </summary>

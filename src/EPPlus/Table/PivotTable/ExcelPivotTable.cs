@@ -172,6 +172,9 @@ namespace OfficeOpenXml.Table.PivotTable
                     DataFields.AddInternal(dataField);
                 }
             }
+            DeleteNode("d:rowItems");
+            DeleteNode("d:colItems");
+            Styles = new ExcelPivotTableAreaStyleCollection(this);
             ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
         }
 
@@ -287,15 +290,15 @@ namespace OfficeOpenXml.Table.PivotTable
             string xml = string.Format("<pivotTableDefinition xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" name=\"{0}\" dataOnRows=\"1\" applyNumberFormats=\"0\" applyBorderFormats=\"0\" applyFontFormats=\"0\" applyPatternFormats=\"0\" applyAlignmentFormats=\"0\" applyWidthHeightFormats=\"1\" dataCaption=\"Data\"  createdVersion=\"6\" updatedVersion=\"6\" showMemberPropertyTips=\"0\" useAutoFormatting=\"1\" itemPrintTitles=\"1\" indent=\"0\" compact=\"0\" compactData=\"0\" gridDropZones=\"1\">",
                 ConvertUtil.ExcelEscapeString(name));
 
-            xml += string.Format("<location ref=\"{0}\" firstHeaderRow=\"1\" firstDataRow=\"1\" firstDataCol=\"1\" /> ", address.FirstAddress);
+            xml += string.Format("<location ref=\"{0}\" firstHeaderRow=\"1\" firstDataRow=\"1\" firstDataCol=\"1\"/> ", address.FirstAddress);
             xml += string.Format("<pivotFields count=\"{0}\">", fields);
             for (int col = 0; col < fields; col++)
             {
-                xml += "<pivotField showAll=\"0\" />"; //compact=\"0\" outline=\"0\" subtotalTop=\"0\" includeNewItemsInFilter=\"1\"     
+                xml += "<pivotField showAll=\"0\"/>"; //compact=\"0\" outline=\"0\" subtotalTop=\"0\" includeNewItemsInFilter=\"1\"     
             }
 
             xml += "</pivotFields>";
-            xml += "<pivotTableStyleInfo name=\"PivotStyleMedium9\" showRowHeaders=\"1\" showColHeaders=\"1\" showRowStripes=\"0\" showColStripes=\"0\" showLastColumn=\"1\" />";
+            xml += "<pivotTableStyleInfo name=\"PivotStyleMedium9\" showRowHeaders=\"1\" showColHeaders=\"1\" showRowStripes=\"0\" showColStripes=\"0\" showLastColumn=\"1\"/>";
             xml += $"<extLst><ext xmlns:xpdl=\"http://schemas.microsoft.com/office/spreadsheetml/2016/pivotdefaultlayout\" uri=\"{ExtLstUris.PivotTableDefinition16Uri}\"><xpdl:pivotTableDefinition16/></ext></extLst>";
             xml += "</pivotTableDefinition>";
             return xml;
@@ -485,7 +488,21 @@ namespace OfficeOpenXml.Table.PivotTable
                             }
                             else
                             {
-                                return ErrorValues.RefError;
+                                if(v != null && bool.TryParse(v.ToString(), out bool b))
+                                {
+                                    if(cache.ContainsKey(b))
+                                    {
+                                        key[i] = cache[b];
+                                    }
+                                    else
+                                    {
+                                        return ErrorValues.RefError;
+                                    }
+                                }
+                                else
+                                {
+                                    return ErrorValues.RefError;
+                                }
                             }
                         }
                         break;
@@ -1753,7 +1770,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         name = df.Function.ToString() + " of " + df.Field.Name; //Name must be set or Excel will crash on rename.
                     }
 
-                    //Make sure name is unique
+
                     var newName = name;
                     var i = 2;
                     while (DataFields.ExistsDfName(newName, df))

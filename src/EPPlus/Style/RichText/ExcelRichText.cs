@@ -92,7 +92,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                if (_size < 1) return _collection._cells.Style.Font.Size;
+                if (_size < 1 && _collection?._cells!=null) return _collection._cells.Style.Font.Size;
                 return _size;
             }
             set
@@ -109,7 +109,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                if (string.IsNullOrEmpty(_fontName)) return _collection._cells.Style.Font.Name;
+                if (string.IsNullOrEmpty(_fontName) && _collection?._cells != null) return _collection._cells.Style.Font.Name;
                 return _fontName;
             }
             set
@@ -174,7 +174,7 @@ namespace OfficeOpenXml.Style
         {
             get
             {
-                if (_family == 0) return _collection._cells.Style.Font.Family;
+                if (_family == 0 && _collection?._cells != null) return _collection._cells.Style.Font.Family;
                 return _family;
             }
             set

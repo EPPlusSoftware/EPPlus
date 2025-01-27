@@ -10,6 +10,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Linq;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -535,6 +536,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     /// <summary>
     /// Represents a range address
     /// </summary>
+    [DebuggerDisplay("Address: {ToString()}")]
     public class FormulaRangeAddress : FormulaAddressBase, IAddressInfo, IComparable<FormulaRangeAddress>
     {
         internal ParsingContext _context;

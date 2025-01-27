@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OfficeOpenXml;
 using System.IO;
 using System.Globalization;
+using OfficeOpenXml.Style;
 namespace EPPlusTest
 {
 	[TestClass]
@@ -254,6 +255,62 @@ namespace EPPlusTest
                 SaveAndCleanup(p);
             }
         }
+
+
+        [TestMethod]
+        public void sc771()
+        {
+            ExcelColor color1;
+            ExcelColor color2;
+            ExcelColor color3;
+            ExcelColor color4;
+            ExcelColor color5;
+
+            using (var package = OpenTemplatePackage("ColorException.xlsx"))
+            {
+                var workbook = package.Workbook;
+                var workSheet = workbook.Worksheets["FormatName"];
+                color1 = workSheet.Cells["B2"].Style.Fill.BackgroundColor;
+                color2 = workSheet.Cells["B2"].Style.Border.Bottom.Color;
+                color3 = workSheet.Cells["A1"].Style.Fill.BackgroundColor;
+                color4 = workSheet.Cells["A1"].Style.Font.Color;
+                color5 = workSheet.Cells["J11"].Style.Fill.BackgroundColor;
+                var colorCode1 = color1.LookupColor();
+                Assert.AreEqual(string.Empty, colorCode1);
+                var colorCode2 = color2.LookupColor();
+                Assert.AreEqual("#FF64BEE6", colorCode2);
+                var colorCode3 = color3.LookupColor();
+                Assert.AreEqual(string.Empty, colorCode3);
+                var colorCode4 = color4.LookupColor();
+                Assert.AreEqual("#FF000000", colorCode4);
+                var colorCode5 = color5.LookupColor();
+                Assert.AreEqual("#FFF2F2F2", colorCode5);
+            }
+        }
+
+
+        [TestMethod]
+        public void s769()
+        {
+            using (ExcelPackage p = OpenTemplatePackage("s769.xlsx"))
+            {
+                var wb = p.Workbook;
+                var decimalList = new List<decimal>();
+                decimalList = Enumerable.Range(1, 10).Select(i => (decimal)new Random().NextDouble() * 100000).ToList();
+                var sht = wb.Worksheets["Test"];
+                var row = 6;
+                foreach (var n in decimalList)
+                {
+                    sht.Cells[row, 8].Value = n;
+                    sht.Cells[row, 9].Value = n;
+                    sht.Cells[row, 10].Value = n;
+                    row++;
+                }
+                p.Save();
+            }
+            Console.WriteLine("Saved");
+        }
+
         public string TextHandler(NumberFormatToTextArgs options)
         {
             switch(options.NumberFormat.NumFmtId)
@@ -263,5 +320,39 @@ namespace EPPlusTest
             }
             return options.Text;
         }
+
+        [TestMethod]
+        public void I1792()
+        {
+            using var p = OpenTemplatePackage("i1792.xlsx");
+            ExcelWorksheet ws = p.Workbook.Worksheets["Sheet1"];
+
+            List<TestData> tData = new List<TestData>();
+            tData.Add(new TestData() { Id = 1, Fname = "Bob", Lname = "Smith" });
+            Assert.IsTrue(ws.Cells["A1"].Style.Locked);
+            Assert.IsFalse(ws.Cells["A2"].Style.Locked);
+            ws.Cells[1, 1].LoadFromCollection(tData, true);
+
+            Assert.IsTrue(ws.Cells["A1"].Style.Locked);
+            Assert.IsFalse(ws.Cells["A2"].Style.Locked);
+
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void I1815()
+        {
+            using var p = OpenTemplatePackage("i1815.xlsx");
+            ExcelWorksheet ws = p.Workbook.Worksheets["Sheet1"];
+            Assert.AreEqual(1, p.Workbook.Styles.Fonts.Count);
+            SaveAndCleanup(p);
+        }
+
+        public class TestData
+        {
+            public int Id { get; set; }
+            public string Fname { get; set; }
+            public string Lname { get; set; }
+        }
+
     }
 }

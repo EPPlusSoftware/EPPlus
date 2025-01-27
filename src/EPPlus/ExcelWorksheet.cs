@@ -10,42 +10,45 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.ConditionalFormatting;
+using OfficeOpenXml.Constants;
+using OfficeOpenXml.Core;
+using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.Core.RichValues;
+using OfficeOpenXml.Core.Worksheet;
+using OfficeOpenXml.Core.Worksheet.XmlWriter;
+using OfficeOpenXml.DataValidation;
+using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Chart;
+using OfficeOpenXml.Drawing.Controls;
+using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Drawing.OleObject;
+using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.Drawing.Vml;
+using OfficeOpenXml.Filter;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.RichData;
+using OfficeOpenXml.Sorting;
+using OfficeOpenXml.Sparkline;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.XmlAccess;
+using OfficeOpenXml.Table;
+using OfficeOpenXml.Table.PivotTable;
+using OfficeOpenXml.ThreadedComments;
+using OfficeOpenXml.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
-using System.Linq;
-using OfficeOpenXml.ConditionalFormatting;
-using OfficeOpenXml.DataValidation;
-using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Vml;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Packaging.Ionic.Zip;
-using OfficeOpenXml.Style.XmlAccess;
-using OfficeOpenXml.Table;
-using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Sparkline;
-using OfficeOpenXml.Filter;
-using OfficeOpenXml.Core;
-using OfficeOpenXml.Core.CellStore;
-using OfficeOpenXml.Core.Worksheet;
-using OfficeOpenXml.Drawing.Slicer;
-using OfficeOpenXml.ThreadedComments;
-using OfficeOpenXml.Drawing.Controls;
-using OfficeOpenXml.Sorting;
-using OfficeOpenXml.Constants;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Core.Worksheet.XmlWriter;
-using OfficeOpenXml.FormulaParsing;
-using System.Collections;
-using OfficeOpenXml.Drawing.OleObject;
 
 namespace OfficeOpenXml
 {
@@ -71,8 +74,8 @@ namespace OfficeOpenXml
         /// </summary>
         internal struct MetaDataReference
         {
-            internal int cm;
-            internal int vm;
+            internal uint cm;
+            internal uint vm;
             internal bool aca;
             internal bool ca;
         }
@@ -296,7 +299,9 @@ namespace OfficeOpenXml
         internal CellStore<int> _commentsStore;
         internal CellStore<int> _threadedCommentsStore;
         internal CellStore<int?> _dataValidationsStore;
-        internal CellStore<MetaDataReference> _metadataStore;
+        internal MetadataCellStore _metadataStore;
+        internal RichDataStore _richDataStore;
+        internal RichValueErrorManager _richValueErrorManager;
 
         internal Dictionary<int, SharedFormula> _sharedFormulas = new Dictionary<int, SharedFormula>();
         internal RangeSorter _rangeSorter;
@@ -349,9 +354,11 @@ namespace OfficeOpenXml
             _formulas = new CellStore<object>();
             _formulaTokens = new CellStore<IList<Token>>();
             _flags = new FlagCellStore();
-            _metadataStore = new CellStore<MetaDataReference>();
+            _metadataStore = new MetadataCellStore(this);
+            _richDataStore = new RichDataStore(this);
             _commentsStore = new CellStore<int>();
             _threadedCommentsStore = new CellStore<int>();
+            _richValueErrorManager = new RichValueErrorManager(_package, this);
             _dataValidationsStore = new CellStore<int?>();
             _hyperLinks = new CellStore<Uri>();
             _nextControlId = (PositionId + 1) * 1024 + 1;
@@ -376,6 +383,7 @@ namespace OfficeOpenXml
         }
 
         #endregion
+
         /// <summary>
         /// The Uri to the worksheet within the package
         /// </summary>
@@ -392,6 +400,37 @@ namespace OfficeOpenXml
         /// The unique identifier for the worksheet.
         /// </summary>
         internal int SheetId { get { return (_sheetID); } set { _sheetID = value; } }
+
+        /// <summary>
+        /// A <see cref="Guid" /> used by Office 365. It is not mandatory and used when muliple users are working on the same worksheet simultaniously.
+        /// EPPlus primarily needs to deal with this attribute when creating copies of existing worksheets.
+        /// </summary>
+        internal Guid? SheetUid
+        {
+            get
+            {
+                var val = GetXmlNodeString("@xr:uid");
+                if(!string.IsNullOrEmpty(val))
+                {
+                    val = val.Trim('{').Trim('}');
+                    try
+                    {
+                        return new Guid(val);
+                    }
+                    catch { }
+                }
+                return default;
+            }
+            set
+            {
+                var sVal = value?.ToString();
+                if(!string.IsNullOrEmpty(sVal))
+                {
+                    sVal = "{" + sVal.ToUpperInvariant() + "}";
+                }
+                SetXmlNodeString("@xr:uid", sVal, true);
+            }
+        }
         internal bool IsChartSheet { get; set; } = false;
         internal static bool NameNeedsApostrophes(string ws)
         {
@@ -1021,6 +1060,17 @@ namespace OfficeOpenXml
                 return _vmlDrawings;
             }
         }
+        /// <summary>
+        /// Collection of signatureLines
+        /// </summary>
+        public SignatureLineCollection SignatureLines
+        {
+            get
+            {
+                return VmlDrawings._signatureLines;
+            }
+        }
+
         internal ExcelCommentCollection _comments = null;
         /// <summary>
         /// Collection of comments
@@ -1488,7 +1538,8 @@ namespace OfficeOpenXml
             int style = 0;
             int row = 0;
             int col = 0;
-            int currentCm=0, currentVm = 0;
+            uint currentCm = 0;
+            uint currentVm = 0;
             xr.Read();
 
             while (!xr.EOF)
@@ -1543,7 +1594,6 @@ namespace OfficeOpenXml
                     if (xr.GetAttribute("t") != null)
                     {
                         type = xr.GetAttribute("t");
-                        //_types.SetValue(address._fromRow, address._fromCol, type); 
                     }
                     else
                     {
@@ -1554,7 +1604,6 @@ namespace OfficeOpenXml
                     {
                         style = int.Parse(xr.GetAttribute("s"));
                         SetStyleInner(address._fromRow, address._fromCol, style < 0 ? 0 : style);
-                        //SetValueInner(address._fromRow, address._fromCol, null); //TODO:Better Performance ??
                     }
                     else
                     {
@@ -1566,15 +1615,30 @@ namespace OfficeOpenXml
                     var vm = xr.GetAttribute("vm");
                     if (cm != null || vm != null)
                     {
-                        currentCm = string.IsNullOrEmpty(cm) ? 0 : int.Parse(cm);
-                        currentVm = string.IsNullOrEmpty(vm) ? 0 : int.Parse(vm);
+                        if (!this.Workbook.RichDataInitialized)
+                        {
+                            Workbook.InitializeRichData();
+                        }
+                        currentCm = string.IsNullOrEmpty(cm) ? 0 : uint.Parse(cm);
+                        currentVm = string.IsNullOrEmpty(vm) ? 0 : uint.Parse(vm);
+                        uint cmId = 0u;
+                        uint vmId = 0u;
+                        if (currentCm > 0)
+                        {
+                            cmId = Workbook.Metadata.Db.CellMetadata.GetIdByIndex((int)currentCm - 1);
+                        }
+                        if (currentVm > 0)
+                        {
+                            vmId = Workbook.Metadata.Db.ValueMetadata.GetIdByIndex((int)currentVm - 1);
+                        }
+                        _package.OnWorksheetValueMetadataRead(Index, address._fromRow, address._fromCol, currentVm);
                         _metadataStore.SetValue(
                             address._fromRow,
                             address._fromCol,
                             new MetaDataReference()
                             {
-                                cm = currentCm,
-                                vm = currentVm
+                                cm = cmId,
+                                vm = vmId
                             });
                     }
                     else
@@ -1587,8 +1651,51 @@ namespace OfficeOpenXml
                 }
                 else if (xr.LocalName == "v")
                 {
-                    SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
-
+                    if (currentVm > 0)
+                    {
+                        var rd = _richDataStore.GetRichValueByOneBasedIndex(Convert.ToInt32(currentVm));
+                        rd.SetStructure(_package.Workbook.RichData.Db);
+                        if (rd != null && rd.Structure.StructureType == RichDataStructureTypes.LocalImage)
+                        {
+                            var rdLi = rd.As.LocalImage;
+                            var pic = new ExcelCellPicture(currentVm, rdLi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.LocalImage)
+                            {
+                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
+                                AltText = rdLi.Text,
+                                CalcOrigin = rdLi.CalcOrigin ?? CalcOrigins.None
+                            };
+                            Workbook._package.PictureStore.AddImage(pic.GetImageBytes(), rdLi.ImageUri, null);
+                            SetValueInner(row, col, pic);
+                            while (!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
+                            {
+                                xr.Read();
+                            }
+                        }
+                        else if (rd != null && rd.Structure.StructureType == RichDataStructureTypes.WebImage)
+                        {
+                            var rdWi = rd.As.WebImage;
+                            var pic = new ExcelCellPicture(currentVm, rdWi.ImageUri, Workbook._package.PictureStore, ExcelCellPictureTypes.WebImage)
+                            {
+                                CellAddress = new ExcelAddress(this.Name, row, col, row, col),
+                                AltText = rdWi.Text,
+                                CalcOrigin = rdWi.CalcOrigin ?? CalcOrigins.None
+                            };
+                            Workbook._package.PictureStore.AddImage(pic.GetImageBytes(), rdWi.ImageUri, null);
+                            SetValueInner(row, col, pic);
+                            while(!(xr.NodeType == XmlNodeType.EndElement && xr.LocalName == "c"))
+                            {
+                                xr.Read();
+                            }
+                        }
+                        else
+                        {
+                            SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
+                        }
+                    }
+                    else
+                    {
+                        SetValueFromXml(xr, type, style, address._fromRow, address._fromCol);
+                    }
                     xr.Read();
                 }
                 else if (xr.LocalName == "f")
@@ -1623,7 +1730,7 @@ namespace OfficeOpenXml
                             _formulas.SetValue(address._fromRow, address._fromCol, sfIndex);
                             SetValueInner(address._fromRow, address._fromCol, null);
                             string fAddress = xr.GetAttribute("ref");
-                            string formula = ConvertUtil.ExcelDecodeString(xr.ReadElementContentAsString());
+                            string formula =xr.ReadElementContentAsString();
                             if (formula != "")
                             {
                                 _sharedFormulas.Add(sfIndex, new SharedFormula(this, row, col, fAddress, formula) { Index = sfIndex, FormulaType=FormulaType.Shared });
@@ -1643,11 +1750,11 @@ namespace OfficeOpenXml
                         {
                             WriteArrayFormulaRange(refAddress, afIndex, CellFlags.ArrayFormula);
                         }
-                        if(currentCm>0 && Workbook.Metadata.IsDynamicArray(currentCm-1))
+                        if (currentCm > 0 && Workbook.Metadata.IsDynamicIdByIndex((int)currentCm - 1))
                         {
                             _flags.SetFlagValue(row, col, true, CellFlags.CanBeDynamicArray);
                         }
-                        _sharedFormulas.Add(afIndex, new SharedFormula(this, row, col, refAddress, formula) { Index = afIndex, FormulaType = FormulaType.Array });                        
+                        _sharedFormulas.Add(afIndex, new SharedFormula(this, row, col, refAddress, formula) { Index = afIndex, FormulaType = FormulaType.Array });
                     }
                     else if (t=="dataTable") 
                     {
@@ -1791,7 +1898,7 @@ namespace OfficeOpenXml
             var v = ConvertUtil.GetValueFromType(xr, type, styleID, Workbook);
             if (type == "s" && v is int ix)
             {
-                SetValueInner(row, col, _package.Workbook.GetSharedString(ix, out bool isRichText));
+                _values.SetValue(row, col, _package.Workbook.GetSharedString(ix, out bool isRichText), styleID); // Style is set later on from the s attribute                
                 if (isRichText)
                 {
                     _flags.SetFlagValue(row, col, true, CellFlags.RichText);
@@ -1801,56 +1908,10 @@ namespace OfficeOpenXml
             {
                 if(type=="e")
                 {
-                    var md = _metadataStore.GetValue(row, col);
-                    if(md.vm > 0)
-                    {
-                        v = GetErrorFromMetaData(md, v);
-                    }
+                    v = _richValueErrorManager.GetErrorFromMetaData(row, col, v);
                 }
-                SetValueInner(row, col, v);
+                _values.SetValue(row, col, v, styleID); // Style is set later on from the s attribute
             }
-        }
-
-        private object GetErrorFromMetaData(MetaDataReference md, object v)
-        {
-            var metaData = Workbook.Metadata;
-            var valueMetaData = metaData.ValueMetadata[md.vm - 1];
-            var valueRecord = valueMetaData.Records[0];
-            var type = metaData.MetadataTypes[valueRecord.RecordTypeIndex - 1];
-            if (type.Name.Equals("XLRICHVALUE"))
-            {
-                var fmd = metaData.FutureMetadata[type.Name];
-                var ix = fmd.Types[valueRecord.ValueTypeIndex].AsRichData.Index;
-
-                var rdValue = Workbook.RichData.Values.Items[ix];
-
-                var errorTypeIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("errorType"));
-                if (errorTypeIndex>=0)
-                {
-                    switch(int.Parse(rdValue.Values[errorTypeIndex]))
-                    {
-                        case 4:
-                            return ErrorValues.NameError;
-                        case 8:
-                            var rowOffsetIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("rwOffset"));
-                            var colOffsetIndex = rdValue.Structure.Keys.FindIndex(x => x.Name.Equals("colOffset"));
-                            if (rowOffsetIndex > -1 && colOffsetIndex > 0)
-                            {
-                                return new ExcelRichDataErrorValue(int.Parse(rdValue.Values[rowOffsetIndex]), int.Parse(rdValue.Values[colOffsetIndex]));
-                            }
-                            else
-                            {
-                                return new ExcelRichDataErrorValue(0, 0);
-                            }
-                        case 13:
-                            return ErrorValues.CalcError;
-                        default:    //We can implement other error types here later, See MS-XLSX 2.3.6.1.3
-                            return v;
-
-                    }
-                }
-            }
-            return v;
         }
 
         //private string GetSharedString(int stringID)
@@ -2389,32 +2450,32 @@ namespace OfficeOpenXml
           if (string.IsNullOrEmpty(oldName) || string.IsNullOrEmpty(newName))
             throw new ArgumentNullException("Sheet name can't be empty");
 
-          lock (this)
-          {
-            foreach (var sf in _sharedFormulas.Values)
+            lock (this)
             {
-              sf.Formula = ExcelCellBase.UpdateSheetNameInFormula(sf.Formula, oldName, newName);
-            }
-            using (var cse = new CellStoreEnumerator<object>(_formulas))
-            {
-                while (cse.Next())
+                foreach (var sf in _sharedFormulas.Values)
                 {
-              if (cse.Value is string v) //Non shared Formulas 
+                    sf.Formula = ExcelCellBase.UpdateSheetNameInFormula(sf.Formula, oldName, newName);
+                }
+                using (var cse = new CellStoreEnumerator<object>(_formulas))
+                {
+                    while (cse.Next())
                     {
-                cse.Value = ExcelCellBase.UpdateSheetNameInFormula(v, oldName, newName);
+                        if (cse.Value is string v) //Non shared Formulas 
+                        {
+                            cse.Value = ExcelCellBase.UpdateSheetNameInFormula(v, oldName, newName);
+                        }
                     }
                 }
             }
-          }
         }
 #region Worksheet Save
-        internal void Save()
+        internal void Save(bool hasLoadedPivotTables)
         {
             DeletePrinterSettings();
 
             if (_worksheetXml != null)
             {
-                SaveDrawings();
+                SaveDrawings(hasLoadedPivotTables);
                 if (!(this is ExcelChartsheet))
                 {
                     // save the header & footer (if defined)
@@ -2443,7 +2504,7 @@ namespace OfficeOpenXml
                     SaveThreadedComments();
                     HeaderFooter.SaveHeaderFooterImages();
                     SaveTables();
-                    if(HasLoadedPivotTables) SavePivotTables();
+                    if(hasLoadedPivotTables) SavePivotTables();
                     SaveSlicers();
 
                     //Meta data and rich data is currently used for #spill! and #calc! errors.
@@ -2456,7 +2517,7 @@ namespace OfficeOpenXml
             }
         }
 
-        private void SaveDrawings()
+        private void SaveDrawings(bool hasLoadedPivotTables)
         {
             if (Drawings.UriDrawing != null)
             {
@@ -2472,43 +2533,41 @@ namespace OfficeOpenXml
                     {
                         d.AdjustPositionAndSize();
                         d.UpdatePositionAndSizeXml();
-                        HandleSaveForIndividualDrawings(d);
+                        HandleSaveForIndividualDrawings(d, hasLoadedPivotTables);
                     }
                     Packaging.ZipPackagePart partPack = Drawings.Part;
-                    var stream = partPack.GetStream(FileMode.Create, FileAccess.Write);
-                    var xr = new XmlTextWriter(stream, Encoding.UTF8);
-                    xr.Formatting = Formatting.None;
-
-                    Drawings.DrawingXml.Save(xr);
+                    var partStream = partPack.GetStream(FileMode.Create, FileAccess.Write);
+                    Drawings.DrawingXml.Save(partStream);
                 }
             }
         }
 
-        private static void HandleSaveForIndividualDrawings(ExcelDrawing d)
+        private static void HandleSaveForIndividualDrawings(ExcelDrawing d, bool hasLoadedPivotTables)
         {
             if (d is ExcelChart c)
             {
-                var xr = new XmlTextWriter(c.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
-                xr.Formatting = Formatting.None;
-                c.ChartXml.Save(xr);
-
-                var xrd = new XmlTextWriter(c.ChartDrawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
-                xrd.Formatting = Formatting.None;
-                c.ChartDrawings.DrawingXml.Save(xrd);
+                var chartStream = c.Part.GetStream(FileMode.Create, FileAccess.Write);
+                c.ChartXml.PreserveWhitespace = true;
+                c.ChartXml.Save(chartStream);
             }
             else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
             {
+                s.Cache.SlicerCacheXml.PreserveWhitespace = true;
                 s.Cache.SlicerCacheXml.Save(s.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
             }
             else if (d is ExcelSlicer<ExcelPivotTableSlicerCache> p)
             {
                 if (p.Cache == null) return;
-                p.Cache.UpdateItemsXml();
+                if(hasLoadedPivotTables)
+                {
+                    p.Cache.UpdateItemsXml();
+                }
                 p.Cache.SlicerCacheXml.Save(p.Cache.Part.GetStream(FileMode.Create, FileAccess.Write));
             }
             else if (d is ExcelControl ctrl)
             {
                 ctrl.ControlPropertiesXml.Save(ctrl.ControlPropertiesPart.GetStream(FileMode.Create, FileAccess.Write));
+                ctrl.ControlPropertiesXml.PreserveWhitespace = true;
                 ctrl.UpdateXml();
             }
             else if(d is ExcelOleObject o)
@@ -2516,11 +2575,11 @@ namespace OfficeOpenXml
                 if(o._oleObjectPart != null && o._linkedOleObjectXml != null)
                     o._linkedOleObjectXml.Save(o._oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
             }
-            if (d is ExcelGroupShape grp)
+            else if (d is ExcelGroupShape grp)
             {
                 foreach (var sd in grp.Drawings)
                 {
-                    HandleSaveForIndividualDrawings(sd);
+                    HandleSaveForIndividualDrawings(sd, hasLoadedPivotTables);
                 }
             }
         }
@@ -3026,9 +3085,9 @@ namespace OfficeOpenXml
                 var toCol = Dimension._toCol;
                 if (_values.GetValue(toRow, toCol)._value == null)
                 {
-                    while (_values.PrevCell(ref toRow, ref toCol))
+                    while (_values.PrevCell(ref toRow, ref toCol) && toRow > 0)
                     {
-                        if (_values.GetValue(toRow, toCol)._value != null)
+                        if (toCol > 0 && _values.GetValue(toRow, toCol)._value != null)
                         {
                             return Cells[toRow, toCol];
                         }
@@ -3622,7 +3681,14 @@ namespace OfficeOpenXml
             {
                 if (!ExistsStyleInner(row, 0, ref s))
                 {
-                    s = GetStyleInner(0, col);
+                    if (!ExistsStyleInner(0, col, ref s) && col > 1)
+                    {
+                        var c=GetColumn(col);
+                        if(c!= null)
+                        {
+                            return c.StyleID;
+                        }
+                    }                        
                 }
             }
             return s;
@@ -3986,6 +4052,7 @@ namespace OfficeOpenXml
         {
             return Workbook.Styles.RoundValueFromNumberFormat(c);
         }
+
         #endregion
     }  // END class Worksheet
 }

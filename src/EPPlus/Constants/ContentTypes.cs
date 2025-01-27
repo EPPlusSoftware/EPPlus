@@ -50,11 +50,22 @@ namespace OfficeOpenXml.Constants
         internal const string contentTypeRichDataValue = "application/vnd.ms-excel.rdrichvalue+xml";
         internal const string contentTypeRichDataValueStructure = "application/vnd.ms-excel.rdrichvaluestructure+xml";
         internal const string contentTypeRichDataValueType = "application/vnd.ms-excel.rdrichvaluetypes+xml";
+        internal const string contentTypeRichDataValueRel = "application/vnd.ms-excel.richvaluerel+xml";
+        internal const string contentTypeRichDataArray = "application/vnd.ms-excel.rdarray+xml";
+        internal const string contentTypeRichDataWebImage = "application/vnd.ms-excel.rdrichvaluewebimage+xml";
 
         //Ole Object
         internal const string contentTypeOleObject = "application/vnd.openxmlformats-officedocument.oleObject";
+
+        //Digital Signature
+        internal const string signatureOrigin = "application/vnd.openxmlformats-package.digital-signature-origin";
+        internal const string xmlSignatures = "application/vnd.openxmlformats-package.digital-signature-xmlsignature+xml";
+        
         internal const string contentTypeOleDocx = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
         internal const string contentTypeOlePptx = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
         internal const string contentTypeOleXlsx = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+        //Feature property bag (in-cell checkboxes)
+        internal const string contentTypeFeaturePropertyBag = "application/vnd.ms-excel.featurepropertybag+xml";
     }
 }

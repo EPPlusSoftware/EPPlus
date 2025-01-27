@@ -41,7 +41,11 @@ namespace OfficeOpenXml.Core.Worksheet
             {
 				ws.Drawings.ReadPositionsAndSize();
 
-				InsertCellStores(ws, rowFrom, 0, rows, 0);
+                var range = ws.Cells[rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns];
+                var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Down);
+                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, affectedAddress, true);
+
+                InsertCellStores(ws, rowFrom, 0, rows, 0);
 
                 FixFormulasInsertRow(ws, rowFrom, rows);
 
@@ -55,8 +59,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 InsertRowTable(ws, rowFrom, rows);
                 InsertRowPivotTable(ws, rowFrom, rows);
 
-                var range = ws.Cells[rowFrom, 1, rowFrom + rows - 1, ExcelPackage.MaxColumns];
-                var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Down);
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Down);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
                 InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
@@ -173,14 +175,14 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             ValidateInsert(range, shift);
 
-            var effectedAddress = GetAffectedRange(range, shift);
-            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, effectedAddress, GetAffectedRange(range, shift, 1), true);
+            var affectedAddress = GetAffectedRange(range, shift);
+            WorksheetRangeHelper.ValidateIfInsertDeleteIsPossible(range, affectedAddress, GetAffectedRange(range, shift, 1), true);
 
             var ws = range.Worksheet;
             lock (ws)
             {
                 var styleList = GetStylesForRange(range, shift);
-                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, effectedAddress);
+                WorksheetRangeHelper.ConvertEffectedSharedFormulasToCellFormulas(ws, affectedAddress, true);
 
                 if (shift == eShiftTypeInsert.Down)
                 {
@@ -190,8 +192,8 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     InsertCellStoreShiftRight(range._worksheet, range);
                 }
-                AdjustFormulasInsert(range, effectedAddress, shift);
-                InsertFilterAddress(range, effectedAddress, shift);
+                AdjustFormulasInsert(range, affectedAddress, shift);
+                InsertFilterAddress(range, affectedAddress, shift);
                 WorksheetRangeHelper.FixMergedCells(ws, range, shift);
 
                 if (styleCopy)
@@ -199,13 +201,13 @@ namespace OfficeOpenXml.Core.Worksheet
                     SetStylesForRange(range, shift, styleList);
                 }
 
-                InsertTableAddress(ws, range, shift, effectedAddress);
-                InsertPivottableAddress(ws, range, shift, effectedAddress);
+                InsertTableAddress(ws, range, shift, affectedAddress);
+                InsertPivottableAddress(ws, range, shift, affectedAddress);
 
-                InsertDataValidation(range, shift, effectedAddress, ws, isTable);
-                InsertConditionalFormatting(range, shift, effectedAddress, ws, isTable);
+                InsertDataValidation(range, shift, affectedAddress, ws, isTable);
+                InsertConditionalFormatting(range, shift, affectedAddress, ws, isTable);
 
-                InsertSparkLinesAddress(range, shift, effectedAddress);
+                InsertSparkLinesAddress(range, shift, affectedAddress);
 
                 if (shift == eShiftTypeInsert.Down)
                 {
@@ -238,16 +240,17 @@ namespace OfficeOpenXml.Core.Worksheet
                         string addressList = "";
                         for (int i = 0; i < newAddress.Addresses.Count(); i++)
                         {
-                            if ((newAddress.Addresses[i]._toRow + 1 == range._fromRow) && shift != eShiftTypeInsert.Right)
+                            var address = newAddress.Addresses[i];
+                            if ((address._toRow + 1 == range._fromRow) && shift != eShiftTypeInsert.Right)
                             {
-                                newAddress.Addresses[i] = newAddress.Addresses[i].AddRow(range._fromRow, range.Rows, true, true, true);
+                                newAddress.Addresses[i] = address.AddRow(range._fromRow, range.Rows, true, true, true);
                             }
 
-                            if(newAddress.Addresses[i]._toCol + 1 == range._fromCol && shift != eShiftTypeInsert.Down)
+                            if(address._toCol + 1 == range._fromCol && address._fromRow >= range._fromRow && address._toRow <=range._toRow && shift != eShiftTypeInsert.Down)
                             {
                                 if(range.IsFullColumn)
                                 {
-                                    newAddress.Addresses[i] = newAddress.Addresses[i].AddColumn(range._fromCol, range.Columns, true, true, true);
+                                    newAddress.Addresses[i] = address.AddColumn(range._fromCol, range.Columns, true, true, true);
                                 }
                                 else if(newAddress.Addresses.Contains(range) == false)
                                 {
@@ -255,7 +258,7 @@ namespace OfficeOpenXml.Core.Worksheet
                                 }
                             }
 
-                            addressList += newAddress.Addresses[i].Address;
+                            addressList += newAddress.Addresses[i];
 
                             if (i < (newAddress.Addresses.Count()-1))
                             {
@@ -838,16 +841,7 @@ namespace OfficeOpenXml.Core.Worksheet
                         {
                             IList<Token> tokens;
 
-                            try
-                            {
-                                tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
-                            }
-                            catch (Exception e) 
-                            {
-                                var text = e.Message;
-                            }
                             tokens = GetTokens(wsToUpdate, cse.Row, cse.Column, v);
-
                             cse.Value = ExcelCellBase.UpdateFormulaReferences(v, rows, 0, rowFrom, 0, wsToUpdate.Name, ws.Name, false, false, tokens);
                         }
                         else if (v.Contains(ws.Name))

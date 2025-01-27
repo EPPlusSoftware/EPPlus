@@ -65,8 +65,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["numbervalue"] = new NumberValue();
             Functions["dollar"] = new Dollar();
             Functions["textsplit"] = new TextSplit();
-            Functions["textbefore"] = new TextBefore();
-            Functions["textafter"] = new TextAfter();
+            Functions["textbefore"] = new TextBefore(DelimiterFunction.TextBefore);
+            Functions["textafter"] = new TextAfter(DelimiterFunction.TextAfter);
+            Functions["arraytotext"] = new ArrayToText();
             // Numbers
             Functions["int"] = new IntFunction();
             // Math
@@ -355,6 +356,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["vstack"] = new Vstack();
             Functions["hstack"] = new Hstack();
             Functions["getpivotdata"] = new GetPivotData();
+            Functions["image"] = new ImageFunction();
             // Date
             Functions["date"] = new Date();
             Functions["datedif"] = new DateDif();

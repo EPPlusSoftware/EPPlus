@@ -146,7 +146,7 @@ namespace OfficeOpenXml.Export.ToDataTable
 
         /// <summary>
         /// If true, EPPlus will prepend duplicate column names from the exported worksheet with a number (2,3,4,..n).
-        /// If false, EPPlus will throw an <see cref="InvalidOperationException"> when processing a duplicate column name. Default value is false.
+        /// If false, EPPlus will throw an <see cref="InvalidOperationException" /> when processing a duplicate column name. Default value is false.
         /// </summary>
         public bool AllowDuplicateColumnNames { get; set; }
 

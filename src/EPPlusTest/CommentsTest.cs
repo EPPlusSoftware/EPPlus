@@ -318,6 +318,105 @@ namespace EPPlusTest
                     Assert.IsTrue(ws2.Cells["A1"].Comment.RichText[1].Italic);
                 }
             }
+
+        }
+        [TestMethod]
+        public void s793()
+        {
+            using (var package = OpenTemplatePackage("s793.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets.First();
+
+                sheet.DeleteRow(row: 2);
+
+                // Act
+                sheet.Cells.Sort(column: 0);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ShouldThrowOnAddingCommentsToSameCellTwoDifferentWays()
+        {
+            using (var package = OpenPackage("twoCommentsExpectedException.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("CommentsThrow");
+                sheet.Cells[3, 5].AddComment("A Comment","Some guy");
+
+                var comment2 = sheet.Comments.Add(sheet.Cells[3,5], "Jan Källman:", "JK");
+            }
+        }
+
+        [TestMethod]
+        public void ShouldSortCommentsAfterDeleteRow()
+        {
+            using (var package = OpenPackage("commentsDeleteRowSort.xlsx", true))
+            {
+                var sheet = package.Workbook.Worksheets.Add("Comments");
+
+                sheet.Cells["A1:A7"].Formula = "ROW()";
+                sheet.Cells["B1"].Formula = "TEXTJOIN(\"\", TRUE, \"EPP-\", TEXT(ROW(), \"0\"))";
+                sheet.Cells["B3:B6"].Formula = "TEXTJOIN(\"\", TRUE, \"EPP-\", TEXT(ROW(), \"0\"))";
+                sheet.Cells["C1:C7"].Formula = "ISTEXT(B1)";
+
+                sheet.Cells.Calculate();
+
+                sheet.Cells.ClearFormulas();
+
+                for (int i = 1; i<= 4; i++)
+                {
+                    sheet.Cells[i, 1].AddComment(i.ToString(), "Some Guy:");
+                }
+
+                var range = sheet.Cells["A6"].AddComment("6", "Some other Guy");
+
+                for (int i = 1; i <= 6; i++)
+                {
+                    sheet.Cells[i, 2].AddComment("EPP-" + i.ToString(), "Some Other Guy");
+                }
+
+                sheet.DeleteRow(row: 2);
+                sheet.Cells.Sort(column: 0);
+
+                var someAuthor = sheet.Cells[1, 1].Comment.Author;
+
+                for (int i = 1; i <= 3; i++)
+                {
+                    Assert.AreEqual(sheet.Cells[i, 1].Value.ToString(), sheet.Cells[i, 1].Comment.Text);
+                }
+
+                Assert.AreEqual(sheet.Cells["A5"].Value.ToString(), "6");
+
+                for (int i = 1; i <= 5; i++)
+                {
+                    Assert.AreEqual(sheet.Cells[i, 2].Value.ToString(), sheet.Cells[i, 2].Comment.Text);
+                }
+
+                var comment2 = sheet.Comments.Add(sheet.Cells["D1"], "Jan Källman:", "JK");
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void Addcomment()
+        {
+            using (var package = OpenPackage("addComment.xlsx", true))
+            {
+                var worksheet = package.Workbook.Worksheets.Add("aws");
+
+                var aComment = worksheet.Comments.Add(worksheet.Cells["B3"], "Jan Källman:", "JK");
+                aComment.Font.Bold = true;
+
+                var rt = aComment.RichText.Add("\r\nSomeRichText");
+                rt.Bold = false;
+
+                worksheet.Cells["A7"].AddComment("AText:", "AnAuthor");
+
+                SaveAndCleanup(package);
+            }
         }
     }
 }

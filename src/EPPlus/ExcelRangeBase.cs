@@ -25,6 +25,7 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.ThreadedComments;
+using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
@@ -47,12 +48,14 @@ namespace OfficeOpenXml
         private int _styleID;
         private static SourceCodeTokenizer _tokenizer=new SourceCodeTokenizer(null, null, false, true);
         private FunctionRepository _functions;
+        private readonly ExcelRangePicture _rangePicture;
         #region Constructors
         internal ExcelRangeBase(ExcelWorksheet xlWorksheet)
         {
             Init(xlWorksheet);
             _ws = _worksheet.Name;
             _workbook = _worksheet.Workbook;
+            _rangePicture = new ExcelRangePicture(this);
             SetDelegate();
             _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;            
         }
@@ -62,6 +65,7 @@ namespace OfficeOpenXml
         {
             Init(xlWorksheet);
             _workbook = _worksheet.Workbook;
+            _rangePicture = new ExcelRangePicture(this);
             base.SetRCFromTable(_worksheet._package, null);
             if (string.IsNullOrEmpty(_ws)) _ws = _worksheet == null ? "" : _worksheet.Name;
             SetDelegate();
@@ -73,6 +77,10 @@ namespace OfficeOpenXml
             Init(xlWorksheet);
             SetRCFromTable(wb._package, null);
             _workbook = wb;
+            if(_worksheet != null)
+            {
+                _rangePicture = new ExcelRangePicture(this);
+            }
             if (string.IsNullOrEmpty(_ws)) _ws = (xlWorksheet == null ? null : xlWorksheet.Name);
             SetDelegate();
             _functions = _workbook.FormulaParser.ParsingContext.Configuration.FunctionRepository;
@@ -286,7 +294,7 @@ namespace OfficeOpenXml
             f.FormulaType = IsArray ? FormulaType.Array : FormulaType.Shared;
             var ws = range._worksheet;
             ws._sharedFormulas.Add(f.Index, f);
-            ws.Workbook.Metadata.GetDynamicArrayIndex(out int diIx);
+            ws.Workbook.Metadata.GetDynamicArrayId(out uint diId);
             for (int col = address.Start.Column; col <= address.End.Column; col++)
             {
                 for (int row = address.Start.Row; row <= address.End.Row; row++)
@@ -302,7 +310,7 @@ namespace OfficeOpenXml
                     if(isDynamic)
                     {
                         var md=ws._metadataStore.GetValue(row, col);
-                        md.cm = diIx;
+                        md.cm = diId;
                         ws._metadataStore.SetValue(row, col, md);
                     }
                 }
@@ -370,7 +378,7 @@ namespace OfficeOpenXml
             Exists_ThreadedComment(range, value, row, col);
             if (range._worksheet._commentsStore.Exists(row, col))
             {
-                throw (new InvalidOperationException(string.Format("Cell {0} already contain a comment.", new ExcelCellAddress(row, col).Address)));
+                throw (new InvalidOperationException(string.Format("Cell {0} already contains a comment.", new ExcelCellAddress(row, col).Address)));
             }
 
         }
@@ -821,6 +829,12 @@ namespace OfficeOpenXml
                 }
             }
         }
+
+        /// <summary>
+        /// Used to add/remove cell pictures in the range
+        /// </summary>
+        public ExcelRangePicture Picture => _rangePicture;
+
         /// <summary>
         /// Set the column width from the content of the range. Columns outside of the worksheets dimension are ignored.
         /// The minimum width is the value of the ExcelWorksheet.defaultColumnWidth property.

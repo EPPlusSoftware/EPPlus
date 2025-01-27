@@ -63,7 +63,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Determinator
             var key = Style.StyleKey;
             if (bottomStyleId > -1) key += bottomStyleId + "|" + rightStyleId;
 
-            return Cache.IsAdded(key, out _id);
+            return Cache.GetOrCreateId(key, out _id);
         }
 
         internal bool BorderStyleCheck(int borderIdBottom, int borderIdRight)

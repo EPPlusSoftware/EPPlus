@@ -6,6 +6,21 @@
 * Override borders in Adjacent cells in BorderAround method.
 
 # Features / Fixed issues - EPPlus 7
+## Version 7.5.2
+* Pivot tables with blanks could cause the pivot table to become corrupt.
+* Fixed error handling in the TEXTJOIN, TEXTSPLIT and CONCAT functions.
+* EPPlus throw an Exception when trying to delete the last column in a worksheet.
+* ExcelColor.LookupColor() returned an unexpected color code for empty colors. LookupColor()  will now returns an empty string for empty colors. 
+* DimensionByValue throw an System.ArgumentException: 'Column out of range' in some cases.
+* When having a column style on a column that spans multiple columns only the first is considered when reading a package.
+* XLOOKUP now returns emtpy string instead of #N/A when the third argument is an empty string.
+* ToDataTable did no return rich text cells correctly
+* ExcelWorksheets.MoveToStart did not always work correctly if IsWorksheets1Based was set.
+* Reading boolean properties of data validations saved in LibreOffice was not correctly read.
+* Adding a pivot table page field could crash in some cases.
+* Linked images crashed on read if the link attribute was empty.
+* Fixed "Worksheet position out of range" exception when calculating a formula having IsWorksheets1Based set.
+
 ## Version 7.5.1
 * Style set on column/row level did not save on cells with a value and styleId is 0.
 * Fix for inserting rows after array formulas when referring to worksheets with '#' as part of the worksheet name.

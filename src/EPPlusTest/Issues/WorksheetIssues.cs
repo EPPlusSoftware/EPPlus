@@ -1,16 +1,17 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing;
-using System.Globalization;
-using System.Threading;
-using System.IO;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+
 namespace EPPlusTest.Issues
 {
-	[TestClass]
+    [TestClass]
 	public class WorksheetIssues : TestBase
 	{
 		[ClassInitialize]
@@ -32,7 +33,7 @@ namespace EPPlusTest.Issues
 			{
 				ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Invoice");
 
-				//var namedStyle = package.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
+				//var namedStyle = p.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
 				//namedStyle.Style.Font.Name = "Arial";
 				//namedStyle.Style.Font.Size = 7;
 				var namedStyle = package.Workbook.Styles.NamedStyles[0]; // Create a default style
@@ -231,7 +232,7 @@ namespace EPPlusTest.Issues
 				package.Workbook.Names.AddValue("ValueName5", "String Value with \"");
 
 				package.Save();
-				//SaveWorkbook("i1317.xlsx",package);
+				//SaveWorkbook("i1317.xlsx",p);
 				using(var p2=new  ExcelPackage(package.Stream)) 
 				{
 					var ws = p2.Workbook.Worksheets[0];
@@ -241,7 +242,7 @@ namespace EPPlusTest.Issues
 		[TestMethod]
 		public void s618()
 		{
-			ExcelPackage.LicenseContext = LicenseContext.Commercial;
+			ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.Commercial;
 
 			using (var package = OpenPackage("s618.xlsx", true))
 			{
@@ -508,6 +509,163 @@ namespace EPPlusTest.Issues
 				var ws = p.Workbook.Worksheets[0];
                 SaveAndCleanup(p);
             }
+        }
+        [TestMethod]
+        public void I1728()
+        {
+            using var p = OpenTemplatePackage("Issue1728.xlsm");
+            var nWs = p.Workbook.Worksheets.Count;
+            var i = 0;
+            foreach (var ws in p.Workbook.Worksheets)
+            {
+                i++;
+                var dimensionRows = ws.Dimension.Rows;
+                var dimensionByValueRows = ws.DimensionByValue.Rows;
+            }
+        }
+
+		[TestMethod]
+		public void i1742()
+		{
+			// before this fix we couldn't delete the very last coloumn on the sheet...
+			using var package = new ExcelPackage();
+			var sheet = package.Workbook.Worksheets.Add("Sheet1");
+			var maxCol = ExcelPackage.MaxColumns;
+			sheet.DeleteColumn(maxCol);
+		}
+		[TestMethod]
+		public void i1709()
+		{
+			using (var p = OpenTemplatePackage("i1709.xlsx"))
+			{
+				var ws = p.Workbook.Worksheets[0];
+				SaveAndCleanup(p);
+			}
+		}
+		[TestMethod]
+		public void i1709_2()
+		{
+            using (var p = OpenPackage("i1709-2.xlsx",true))
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+				ws.Cells["A1"].Value = "row 1_x000d__x000d_col 1";
+                ws.Cells["A2"].Value = "row 2\r\rcol 1";
+                ws.Cells["A3"].Value = "row 3\r\n\r\ncol 1";
+                ws.Cells["A4"].Value = "row 4\n\ncol 1";
+                ws.Cells["A5"].Value = "row 5_x000d_\ncol 1";
+                ws.Cells["A6"].Value = "row 6_x000d__x000a_col 1";
+
+                ws.Cells["A1:A6"].Style.WrapText = true;
+				ws.Cells["B1:B6"].Formula = "=CODE(MID(A1,5,1))";
+                ws.Cells["C1:C6"].Formula = "=CODE(MID(A1,6,1))";
+                ws.Cells["D1:D6"].Formula = "=CODE(MID(A1,7,1))";
+                ws.Cells["E1:E6"].Formula = "=CODE(MID(A1,8,1))";
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s775()
+        {
+            string sheetName = "披露附注";
+
+            List<int> add = new List<int>()
+            {
+				4,9,15
+            };
+            using (ExcelPackage package = OpenTemplatePackage("s775.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets[sheetName];
+                ExcelNamedRange namedRange = worksheet.Names["_jds1165020120230"];
+                int startRow = namedRange.Start.Row;
+
+                var cell = worksheet.Cells["D2059"];
+                var cell2 = worksheet.Cells["D2060"];
+
+                worksheet.InsertRow(2059, 1, 2059 - 1);
+
+                package.Save();
+            }
+        }
+        private class I1782DataItem
+		{
+            public int Id { get; set; }
+            [DisplayName("Project Number")]
+            public ExcelHyperLink ProjectNumberUrl
+            {
+				get;
+				set;
+            }
+        }
+		[TestMethod]
+		public void i1782()
+		{
+			var list = new List<I1782DataItem>();
+			var hl = new ExcelHyperLink("https://epplussoftare.com", "epplussoftare.com");
+			list.Add(new I1782DataItem { Id = 1, ProjectNumberUrl = hl});
+
+			using var p = OpenPackage("i1782.xlsx",true);
+			var ws = p.Workbook.Worksheets.Add("sheet1");
+			ws.Cells["A1"].LoadFromCollection(list, true, OfficeOpenXml.Table.TableStyles.None, BindingFlags.Instance | BindingFlags.Public, new[] { typeof(I1782DataItem).GetProperty("Id"), typeof(I1782DataItem).GetProperty("ProjectNumberUrl") }   );
+
+			Assert.IsNotNull(ws.Cells["B2"].Hyperlink);
+
+            SaveAndCleanup(p);
+		}
+		[TestMethod]
+		public void s787()
+		{
+            using var p = OpenPackage("s787.xlsx", true);
+
+            var renamedWorksheet = p.Workbook.Worksheets.Add("RenamedWorksheet");
+            renamedWorksheet.Cells[1, 1].Value = "Value";
+
+            var referencingWorksheet = p.Workbook.Worksheets.Add("ReferencingWorksheet");
+            referencingWorksheet.Cells[1, 1].Formula = "=RenamedWorksheet!A1";
+
+            renamedWorksheet.Name = "Renamed Worksheet";
+			SaveAndCleanup(p);
+		}
+
+		[TestMethod]
+		public void Issue1794_1()
+		{
+			// This tests creates a workbook without errors. When this workbook is opened in Excel
+			// and then closed without changing anything, Excel still shows a "Save changes" dialog.
+			// this seems to be related to that Excel renames the worksheet xml files.
+			// EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
+			// this bug was fixed in Github Issue 1794 /MA
+
+			using var p = OpenTemplatePackage("Issue1794.xltx");
+            var wsTemplate = p.Workbook.Worksheets[0];
+
+            for (int i = 0; i < 2; i++)
+            {
+                var ws = p.Workbook.Worksheets.Add(i.ToString(), wsTemplate);
+                ws.View.SetTabSelected();      // avoids grouping
+            }
+            p.Workbook.Worksheets.Delete(wsTemplate);
+            SaveWorkbook("Issue1794_1_Output.xlsx", p);
+        }
+
+        [TestMethod]
+        public void Issue1794_2()
+        {
+            // This tests creates a workbook without errors. When this workbook is opened in Excel
+            // and then closed without changing anything, Excel still shows a "Save changes" dialog.
+            // this seems to be related to that Excel renames the worksheet xml files.
+            // EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
+            // this bug was fixed in Github Issue 1794 /MA
+            using var p = OpenTemplatePackage("Issue1794.xlsx");
+            var wsTemplate = p.Workbook.Worksheets[0];
+
+            for (int i = 0; i < 2; i++)
+            {
+                var ws = p.Workbook.Worksheets.Add(i.ToString(), wsTemplate);
+                ws.View.SetTabSelected();      // avoids grouping
+            }
+			wsTemplate.View.SetTabSelected(false);
+            p.Workbook.Worksheets.Delete(wsTemplate);
+			SaveWorkbook("Issue1794_2_Output.xlsx", p);
         }
     }
 }

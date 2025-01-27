@@ -244,6 +244,8 @@ namespace OfficeOpenXml.Style
             }
             else
             {
+                var s = theColor.GetSource();
+                if (!s.Exists) return string.Empty;
                 var c = ((int)(Math.Round((theColor.Tint+1) * 128))).ToString("X");
                 return "#FF" + c + c + c;
             }

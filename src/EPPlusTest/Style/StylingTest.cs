@@ -33,6 +33,7 @@ using OfficeOpenXml.Style;
 using OfficeOpenXml.SystemDrawing.Text;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Threading;
 
 namespace EPPlusTest.Style
@@ -50,7 +51,14 @@ namespace EPPlusTest.Style
         [ClassCleanup]
         public static void Cleanup()
         {
+            var dirName = _pck.File.DirectoryName;
+            var fileName = _pck.File.FullName;
             SaveAndCleanup(_pck);
+            if (File.Exists(fileName))
+            {
+                File.Copy(fileName, dirName + "\\StyleRead.xlsx", true);
+            }
+
         }
         [TestMethod]
         public void VerifyColumnStyle()
@@ -260,6 +268,139 @@ namespace EPPlusTest.Style
                 CultureInfo.CurrentCulture = ci;
             }
         }
+
+        [TestMethod]
+        public void VerifyHourMinuteFormat()
+        {
+            var ci = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            try
+            {
+                using (var pck = OpenPackage("VerifyHourMinuteFormat.xlsx"))
+                {
+                    var ws = pck.Workbook.Worksheets.Add("time");
+                    var timeCell = ws.Cells["A1"];
+                    timeCell.Value = 0.63194444444444442;
+
+                    timeCell.Style.Numberformat.Format = "[h]:mm";
+
+                    Assert.AreEqual("15:10", timeCell.Text);
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = ci;
+            }
+        }
+
+        [TestMethod]
+        public void NumberFormatMinutes()
+        {
+            using (var pck = OpenTemplatePackage("i1801.xlsx"))
+            {
+                var ws = pck.Workbook.Worksheets[0];
+                var aText = ws.Cells["A1"].Text;
+
+                Assert.AreEqual("15:10", aText);
+            }
+        }
+
+        [TestMethod]
+        public void VerifyHourMinuteFormatOther()
+        {
+            var ci = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            try
+            {
+                using (var pck = OpenPackage("VerifyHourMinuteFormat.xlsx"))
+                {
+                    var ws = pck.Workbook.Worksheets.Add("time");
+                    var timeCell = ws.Cells["A1"];
+                    timeCell.Value = 0.63194444444444442;
+
+                    timeCell.Style.Numberformat.Format = "h:mm";
+
+                    Assert.AreEqual("15:10", timeCell.Text);
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = ci;
+            }
+        }
+
+        [TestMethod]
+        public void VerifyHourMinuteFormatAMPM()
+        {
+            var ci = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            try
+            {
+                using (var pck = OpenPackage("VerifyHourMinuteFormat.xlsx"))
+                {
+                    var ws = pck.Workbook.Worksheets.Add("time");
+                    var timeCell = ws.Cells["A1"];
+                    timeCell.Value = 0.63194444444444442;
+
+                    timeCell.Style.Numberformat.Format = "h:mm AM/PM";
+
+                    Assert.AreEqual("3:10 PM", timeCell.Text);
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = ci;
+            }
+        }
+
+        [TestMethod]
+        public void ElapsedTimeMinutesSeconds()
+        {
+            var ci = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            try
+            {
+                using (var pck = OpenPackage("VerifyHourMinuteFormat.xlsx"))
+                {
+                    var ws = pck.Workbook.Worksheets.Add("time");
+                    var timeCell = ws.Cells["A1"];
+                    timeCell.Value = 0.63194444444444442;
+
+                    timeCell.Style.Numberformat.Format = "[mm]:ss";
+
+                    Assert.AreEqual("910:00", timeCell.Text);
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = ci;
+            }
+        }
+
+        [TestMethod]
+        public void ElapsedTimeSecondsHundreths()
+        {
+            var ci = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            try
+            {
+                using (var pck = OpenPackage("VerifyHourMinuteFormat.xlsx"))
+                {
+                    var ws = pck.Workbook.Worksheets.Add("time");
+                    var timeCell = ws.Cells["A1"];
+                    timeCell.Value = 0.63194444444444442;
+
+                    timeCell.Style.Numberformat.Format = "[ss].00";
+
+                    Assert.AreEqual("54600.00", timeCell.Text);
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = ci;
+            }
+        }
+
         [TestMethod]
         public void VerifyStyleXfsCount()
         {
@@ -270,11 +411,28 @@ namespace EPPlusTest.Style
 
                 ws.Cells["A1:A3"].Style.Fill.PatternType = ExcelFillStyle.Solid;
                 ws.Cells["A1:A3"].Style.Fill.BackgroundColor.SetColor(Color.Red);
-                ws.Cells["A1:A5"].Style.Border.BorderAround(ExcelBorderStyle.Dotted);
+                ws.Cells["A1:A5"].Style.Border.BorderAround(ExcelBorderStyle.Dotted, false);
                 ws.Cells["B1:B5"].Style.Font.Name = "Arial";
                 wb.Styles.UpdateXml();
                 var count = wb.StylesXml.SelectSingleNode("//d:styleSheet/d:cellXfs/@count", wb.NameSpaceManager).Value;
                 Assert.AreEqual("6", count);
+            }
+        }
+        [TestMethod]
+        public void VerifyStyleXfsCount2()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("Sheet1");
+
+                ws.Cells["B2:B4"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+                ws.Cells["B2:B4"].Style.Fill.BackgroundColor.SetColor(Color.Red);
+                ws.Cells["B2:B6"].Style.Border.BorderAround(ExcelBorderStyle.Dotted);
+                ws.Cells["C2:C6"].Style.Font.Name = "Arial";
+                wb.Styles.UpdateXml();
+                var count = wb.StylesXml.SelectSingleNode("//d:styleSheet/d:cellXfs/@count", wb.NameSpaceManager).Value;
+                Assert.AreEqual("7", count);
             }
         }
         [TestMethod]
@@ -353,6 +511,89 @@ namespace EPPlusTest.Style
             ws.Cells["A11:B14"].Style.Border.BorderAround(ExcelBorderStyle.Dotted, true);
 
             //p.SaveAs(@"C:\epplusTest\Testoutput\BordersOverriderTest.xlsx");
+        }
+        [TestMethod]
+        public void CheckboxStyleTest()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("Checkboxes");
+            ws.Cells["A1"].Value = true;
+            ws.Cells["A2"].Value = false;
+            ws.Cells["A3"].Value = "true";
+            ws.Cells["A4"].Value = "false";
+            ws.Cells["A5"].Value = 1D;
+            ws.Cells["A6"].Value = 0D;
+            ws.Cells["A7"].Value = 1;
+            ws.Cells["A8"].Value = 0;
+            ws.Cells["A9"].Value = -1;
+            ws.Cells["A1:A11"].Style.Checkbox = true;
+            ws.Cells["A1:A11"].Style.Font.Color.SetColor(Color.Red);
+            ws.Cells["A11"].Style.Checkbox = false;
+        }
+        [TestMethod]
+        public void CheckboxStyleInDxfTest()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("CheckboxesTable");
+            ws.Cells["A1"].Value = "A";
+            ws.Cells["A2"].Value = "B";
+            ws.Cells["A2:B2"].Value = true;
+            ws.Cells["A3:B3"].Value = false;
+            ws.Cells["A4:B4"].Value = "true";
+            ws.Cells["A5:B5"].Value = "false";
+
+            var tbl = ws.Tables.Add(ws.Cells["A1:B5"], "Table1");
+            tbl.Columns[1].DataStyle.Checkbox = true;
+        }
+
+        [TestMethod]
+        public void ReadCheckboxStyleTest()
+        {
+            using (var p = OpenPackage("StyleRead.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Checkboxes"];
+                Assert.IsTrue(ws.Cells["A1"].Style.Checkbox);
+                Assert.IsTrue((bool)ws.Cells["A1"].Value);
+                Assert.IsTrue(ws.Cells["A2"].Style.Checkbox);
+                Assert.IsFalse((bool)ws.Cells["A2"].Value);
+                Assert.IsTrue(ws.Cells["A10"].Style.Checkbox);
+                Assert.IsFalse(ws.Cells["A11"].Style.Checkbox);
+            }
+        }
+
+        [TestMethod]
+        public void ReadExportCheckboxesToHtml()
+        {
+            using (var p = OpenPackage("StyleRead.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Checkboxes"];
+                var exporter = ws.Cells["A1:A10"].CreateHtmlExporter();
+                var singlePage = exporter.GetSinglePage();
+
+                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;pointer-events:none;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
+                Assert.AreEqual(origString, singlePage);
+
+                var outputFile = GetOutputFile("", "CheckboxesColoured.html");
+                File.WriteAllText(outputFile.FullName, singlePage);
+            }
+        }
+
+        [TestMethod]
+        public void ReadExportCheckboxesToHtmlActivated()
+        {
+            using (var p = OpenPackage("StyleRead.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets["Checkboxes"];
+                var exporter = ws.Cells["A1:A10"].CreateHtmlExporter();
+
+                exporter.Settings.CheckboxesEnabled = true;
+
+                var singlePage = exporter.GetSinglePage();
+
+                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
+                Assert.AreEqual(origString, singlePage);
+
+                var outputFile = GetOutputFile("", "CheckboxesColouredActive.html");
+                File.WriteAllText(outputFile.FullName, singlePage);
+            }
         }
     }
 }

@@ -24,6 +24,11 @@ namespace EPPlusTest.Table.PivotTable
             ws = _pck.Workbook.Worksheets.Add("Data2");
             r = LoadItemData(ws);
             ws.Tables.Add(r, "Table2");
+
+            ws = _pck.Workbook.Worksheets.Add("DataWithBlank");
+            r = LoadItemData(ws);
+            var table = ws.Tables.Add(r, "TableBlank");
+            table.AddRow(1);
         }
         [ClassCleanup]
         public static void Cleanup()
@@ -198,6 +203,40 @@ namespace EPPlusTest.Table.PivotTable
             var df = pt.DataFields.Add(pt.Fields[3]);
 
             pt.Fields[4].Filters.AddTop10Filter(ePivotTableTop10FilterType.Sum, df, 25, false);            
+        }
+
+        [TestMethod]
+        public void BlankFilter()
+        {
+            var ws = _pck.Workbook.Worksheets.GetByName("DataWithBlank");
+
+            var wsPtBlank = _pck.Workbook.Worksheets.Add("pivotTableWithBlank");
+            var blankPt = wsPtBlank.PivotTables.Add(wsPtBlank.Cells["A1"], ws.Tables[0], "blankPivot");
+
+            blankPt.RowFields.Add(blankPt.Fields["Item"]);
+            blankPt.Calculate();
+
+            var rowField = blankPt.RowFields[0];
+            var blankfield = rowField.Items.GetByValue(ExcelPivotTable.PivotNullValue);
+
+            blankfield.Hidden = true;
+        }
+
+        [TestMethod]
+        public void BlankFilterGetByNull()
+        {
+            var ws = _pck.Workbook.Worksheets.GetByName("DataWithBlank");
+
+            var wsPtBlank = _pck.Workbook.Worksheets.Add("pivotTableWithBlankByNull");
+            var blankPt = wsPtBlank.PivotTables.Add(wsPtBlank.Cells["A1"], ws.Tables[0], "blankPivot");
+
+            blankPt.RowFields.Add(blankPt.Fields["Item"]);
+            blankPt.Calculate();
+
+            var rowField = blankPt.RowFields[0];
+            var blankfield = rowField.Items.GetByValue(null);
+
+            blankfield.Hidden = true;
         }
     }
 }

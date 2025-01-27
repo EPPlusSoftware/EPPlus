@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -8,6 +9,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
     /// <summary>
     /// Represents the size of a range
     /// </summary>
+    [DebuggerDisplay("Rows: {NumberOfRows}, Cols: {NumberOfCols}")]
     public struct RangeDefinition
     {
         /// <summary>

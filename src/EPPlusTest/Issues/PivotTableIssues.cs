@@ -208,5 +208,112 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void i1713()
+        {
+            using (var package = OpenTemplatePackage("i1713.xlsx"))
+            {
+                var dataSheet = package.Workbook.Worksheets["ReportData"];
+                var pivotSheet = package.Workbook.Worksheets["Pivot"];
+                dataSheet.Calculate();
+                //create pivot table
+                var pivotDataRange = dataSheet.Cells[3, 1, 28, 20];
+                var pivotTable = pivotSheet.PivotTables.Add(pivotSheet.Cells["C3"], pivotDataRange, "TestPivotTable");
+
+                pivotTable.Compact = false;
+                (from pf in pivotTable.Fields
+                 select pf).ToList().ForEach(f =>
+                 {
+                     f.Compact = false;
+                     f.Outline = false;
+                     f.SubtotalTop = false;
+                     f.SubTotalFunctions = eSubTotalFunctions.None;
+                 });
+
+                //add row fields to pivot table
+                var rowField1 = pivotTable.Fields["Group1"];
+                pivotTable.RowFields.Add(rowField1);
+
+                var dataField2 = pivotTable.Fields["ID2"];
+                var f2 = pivotTable.DataFields.Add(dataField2);
+                f2.Name = "Count";
+                f2.Function = DataFieldFunctions.Count;
+
+                pivotTable.DataOnRows = false;
+
+                //page field will crush pivot table
+                var field = pivotTable.Fields["Data_Missing"];
+                var pagef = pivotTable.PageFields.Add(field);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s744()
+        {
+            using (var p = OpenTemplatePackage("s744.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s744_2()
+        {
+            using (var p = OpenTemplatePackage("s744-2.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                SaveAndCleanup(p); 
+            }
+        }
+        [TestMethod]
+        public void s744_3()
+        {
+            using (var p = OpenTemplatePackage("FilterClearingExample.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                p.Workbook.Worksheets[0].PivotTables[0].Calculate();
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s789()
+        {
+            using (var package = OpenTemplatePackage("s789.xlsx"))
+            {
+                var wb = package.Workbook;
+                foreach (var ws in package.Workbook.Worksheets)
+                {
+                    foreach (var pTable in ws.PivotTables)
+                    {
+                        foreach (var field in pTable.Fields)
+                        {
+                        }
+                    }
+                }
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void SlicerPivot()
+        {
+            using (var package = OpenTemplatePackage("Slicer_Empty.xlsx"))
+            {
+                var wb = package.Workbook;
+                foreach (var ws in package.Workbook.Worksheets)
+                {
+                    foreach (var pTable in ws.PivotTables)
+                    {
+                        foreach (var field in pTable.Fields)
+                        {
+
+                        }
+                    }
+                }
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

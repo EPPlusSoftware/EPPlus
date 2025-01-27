@@ -19,6 +19,7 @@ using System.Drawing;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Constants;
 
 namespace OfficeOpenXml.Style.XmlAccess
 {
@@ -60,6 +61,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             ApplyFont = GetXmlNodeBoolNullable("@applyFont");
             ApplyNumberFormat = GetXmlNodeBoolNullable("@applyNumberFormat");
             ApplyProtection = GetXmlNodeBoolNullable("@applyProtection");
+            Checkbox = ExistsNode($"d:extLst/d:ext[@uri='{ExtLstUris.FeaturePropertyBag}']/xfpb:xfComplement");
         }
 
         private ExcelReadingOrder GetReadingOrder(string value)
@@ -319,18 +321,18 @@ namespace OfficeOpenXml.Style.XmlAccess
                 _indent=value;
             }
         }
+        const string _checkboxPath = "";
+        /// <summary>
+        /// If the cell is a checkbox, representing a boolean value.
+        /// </summary>
+        public bool Checkbox { get; set; }
         #endregion
-        internal void RegisterEvent(ExcelXfs xf)
-        {
-            //                RegisterEvent(xf, xf.Xf_ChangedEvent);
-        }
         internal override string Id
         {
 
             get
             {
-                return XfId + "|" + NumberFormatId.ToString() + "|" + FontId.ToString() + "|" + FillId.ToString() + "|" + BorderId.ToString() + VerticalAlignment.ToString() + "|" + HorizontalAlignment.ToString() + "|" + WrapText.ToString() + "|" + ReadingOrder.ToString() + "|" + isBuildIn.ToString() + TextRotation.ToString() + Locked.ToString() + Hidden.ToString() + ShrinkToFit.ToString() + Indent.ToString() + QuotePrefix.ToString() + JustifyLastLine.ToString(); 
-                //return Numberformat.Id + "|" + Font.Id + "|" + Fill.Id + "|" + Border.Id + VerticalAlignment.ToString() + "|" + HorizontalAlignment.ToString() + "|" + WrapText.ToString() + "|" + ReadingOrder.ToString(); 
+                return XfId + "|" + NumberFormatId.ToString() + "|" + FontId.ToString() + "|" + FillId.ToString() + "|" + BorderId.ToString() + VerticalAlignment.ToString() + "|" + HorizontalAlignment.ToString() + "|" + WrapText.ToString() + "|" + ReadingOrder.ToString() + "|" + (Checkbox ? "1" : "0") + "|" + isBuildIn.ToString() + TextRotation.ToString() + Locked.ToString() + Hidden.ToString() + ShrinkToFit.ToString() + Indent.ToString() + QuotePrefix.ToString() + JustifyLastLine.ToString() + (ApplyProtection??false ? "1" : "0") + (ApplyAlignment ?? false ? "1" : "0"); 
             }
         }
         internal ExcelXfs Copy()
@@ -361,7 +363,8 @@ namespace OfficeOpenXml.Style.XmlAccess
             newXF.ApplyFill = ApplyFill;
             newXF.ApplyFont = ApplyFont;
             newXF.ApplyNumberFormat= ApplyNumberFormat;
-            newXF.ApplyProtection = ApplyProtection;            
+            newXF.ApplyProtection = ApplyProtection;
+            newXF.Checkbox = Checkbox;
             return newXF;
         }
 
@@ -439,6 +442,9 @@ namespace OfficeOpenXml.Style.XmlAccess
                             break;
                         case eStyleProperty.JustifyLastLine:
                             newXfs.JustifyLastLine = (bool)value;
+                            break;
+                        case eStyleProperty.Checkbox:
+                            newXfs.Checkbox = (bool)value;
                             break;
                         default:
                             throw (new Exception("Invalid property for class style."));
@@ -847,11 +853,19 @@ namespace OfficeOpenXml.Style.XmlAccess
                 SetXmlNodeBool("@applyProtection", ApplyProtection??true);
             }
 
-            if (HorizontalAlignment != ExcelHorizontalAlignment.General || VerticalAlignment != ExcelVerticalAlignment.Bottom || ApplyProtection.HasValue)
+            if (HorizontalAlignment != ExcelHorizontalAlignment.General || VerticalAlignment != ExcelVerticalAlignment.Bottom || ApplyAlignment.HasValue)
             {
-                SetXmlNodeBool("@applyAlignment", ApplyProtection??true);
+                SetXmlNodeBool("@applyAlignment", ApplyAlignment??true);
             }
-
+            
+            if(Checkbox)
+            {
+                var cmplNode = (XmlElement)CreateNode("d:extLst/d:ext/xfpb:xfComplement");
+                var extNode = (XmlElement)cmplNode.ParentNode;  
+                extNode.SetAttribute("xmlns:xfpb", Schemas.schemaFeaturePropertyBag);
+                extNode.SetAttribute("uri", ExtLstUris.FeaturePropertyBag);
+                cmplNode.SetAttribute("i", "0");
+            }
             return TopNode;
         }
 

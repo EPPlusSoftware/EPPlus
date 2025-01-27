@@ -27,6 +27,8 @@ using OfficeOpenXml.Packaging;
 using System.Diagnostics;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Configuration;
+using OfficeOpenXml.EventArguments;
+
 #if (Core)
 using Microsoft.Extensions.Configuration;
 #endif
@@ -158,6 +160,7 @@ namespace OfficeOpenXml
         /// Relationship schema name
         /// </summary>
         internal const string schemaRelationships = @"http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+        internal const string packageSchemaRelationships = @"http://schemas.openxmlformats.org/package/2006/relationships";
 
         internal const string schemaDrawings = @"http://schemas.openxmlformats.org/drawingml/2006/main";
         internal const string schemaSheetDrawings = @"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing";
@@ -433,6 +436,16 @@ namespace OfficeOpenXml
             Load(templateStream, newStream, Password);
         }
         #endregion
+        #region Events
+        internal EventHandler<WorksheetValueMetadataReadEventArgs> WorksheetValueMetadataRead;
+        #endregion
+
+        internal void OnWorksheetValueMetadataRead(int worksheetIndex, int row, int col, uint vm)
+        {
+            var e = new WorksheetValueMetadataReadEventArgs(worksheetIndex, row, col, vm);
+            WorksheetValueMetadataRead?.Invoke(this, e);
+        }
+
         /// <summary>
         /// Init values here
         /// </summary>
@@ -655,7 +668,7 @@ namespace OfficeOpenXml
                     v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
                     if(string.IsNullOrEmpty(v))
                     {
-                        v = v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.LicenseContext", _configuration, initErrors);
+                        v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.LicenseContext", _configuration, initErrors);
                     }
 #endif
                     inEnvironment = false;
@@ -782,6 +795,7 @@ namespace OfficeOpenXml
             ns.AddNamespace("a14", schemaDrawings2010);
             ns.AddNamespace("xdr", schemaSheetDrawings);
             ns.AddNamespace("xda", schemaDynamicArrays);
+            ns.AddNamespace("xfpb", Schemas.schemaFeaturePropertyBag);
             return ns;
         }
 
@@ -795,10 +809,7 @@ namespace OfficeOpenXml
         {
             Packaging.ZipPackagePart part = _zipPackage.GetPart(uri);
             var stream = part.GetStream(FileMode.Create, FileAccess.Write);
-            var xr = new XmlTextWriter(stream, Encoding.UTF8);
-            xr.Formatting = Formatting.None;
-
-            xmlDoc.Save(xr);
+            xmlDoc.Save(stream);
         }
         /// <summary>
 		/// Saves the XmlDocument into the package at the specified Uri.
@@ -830,10 +841,7 @@ namespace OfficeOpenXml
                 }
             }
             var stream = part.GetStream(FileMode.Create, FileAccess.Write);
-            var xr = new XmlTextWriter(stream, Encoding.UTF8);
-            xr.Formatting = Formatting.None;
-
-            xmlDoc.Save(xr);
+            xmlDoc.Save(stream);
         }
 
         #endregion

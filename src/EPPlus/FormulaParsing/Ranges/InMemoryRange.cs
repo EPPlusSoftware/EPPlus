@@ -41,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             if (address?._context != null)
             {
-                _ws = address._context.Package.Workbook.Worksheets[address._context.CurrentCell.WorksheetIx];
+                _ws = address._context.Package.Workbook.GetWorksheetByIndexInList(address._context.CurrentCell.WorksheetIx);
             }
             _address = address;
             _cells = new ICellInfo[rangeDef.NumberOfRows, rangeDef.NumberOfCols];

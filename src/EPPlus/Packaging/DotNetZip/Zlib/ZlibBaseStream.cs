@@ -139,8 +139,8 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
             else if (_streamMode != StreamMode.Writer)
                 throw new ZlibException("Cannot Write after Reading.");
 
-            if (count == 0)
-                return;
+            //if (count == 0)
+            //    return;
 
             // first reference of z property will initialize the private var _z
             z.InputBuffer = buffer;

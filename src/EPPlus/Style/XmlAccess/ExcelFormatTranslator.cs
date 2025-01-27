@@ -360,6 +360,11 @@ namespace OfficeOpenXml.Style.XmlAccess
                             }
                             else if (clc == 'm')
                             {
+                                if (bracketText == "h")
+                                {
+                                    useMinute = true;
+                                }
+
                                 if (useMinute || NextCharIsTimeOperator(ExcelFormat, pos)) //Excel uses m for both month and minutes, so we need to check if the previous operator is 
                                 {
                                     sb.Append('m');
@@ -678,7 +683,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         internal object GetPivotTableValue(object value)
         {
             var tc = Type.GetTypeCode(value?.GetType());
-            if(tc == TypeCode.Double || tc == TypeCode.Single || tc ==TypeCode.Decimal && DataType==eFormatType.DateTime)
+            if((tc == TypeCode.Double || tc == TypeCode.Single || tc ==TypeCode.Decimal) && DataType==eFormatType.DateTime)
             {
                 var d = Convert.ToDouble(value);
                 return DateTime.FromOADate(d);

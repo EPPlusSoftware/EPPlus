@@ -1087,7 +1087,14 @@ namespace OfficeOpenXml
 
                         if (address == null || (!address.IsValidRowCol() && address.IsName==false))
                         {
-                            f += "#REF!";
+                            if(i > 0 && t.TokenType==TokenType.Operator && t.Value==":" && GetPrevToken(tokens,i).TokenType==TokenType.ClosingParenthesis) //Previous token is a function, add the colon.
+                            {
+                                f += t.Value;
+                            }
+                            else
+                            {
+                                f += "#REF!";
+                            }
                         }
                         else
                         {                            
@@ -1114,6 +1121,12 @@ namespace OfficeOpenXml
             {
                 return formula;
             }
+        }
+
+        private static Token GetPrevToken(IList<Token> tokens, int i)
+        {
+            while (i > 0 && tokens[--i].TokenType == TokenType.WhiteSpace);
+            return tokens[i];
         }
 
         private static ExcelAddressBase GetFullAddressFromToken(IList<Token> tokens, ref int i)
@@ -1327,43 +1340,44 @@ namespace OfficeOpenXml
             try
             {
                 var sct = new SourceCodeTokenizer(FunctionNameProvider.Empty, NameValueProvider.Empty);
-                var retFormula = "";
-                foreach (var token in sct.Tokenize(formula))
+                var retFormula = new StringBuilder();
+                var tokens = sct.Tokenize(formula);
+                for (int i=0;i<tokens.Count;i++)
                 {
+                    var token = tokens[i];
                     if(token.TokenTypeIsSet(TokenType.WorksheetNameContent))
                     {
-                        if(token.Value.Equals(oldName, StringComparison.OrdinalIgnoreCase))
+                        string wsName;
+                        if (token.Value.Equals(oldName, StringComparison.CurrentCultureIgnoreCase))
                         {
-                            retFormula += newName;
+                            wsName = newName;
                         }
                         else
                         {
-                            retFormula += token.Value;
+                            wsName = token.Value;
                         }
+                        if (ExcelWorksheet.NameNeedsApostrophes(wsName))
+                        {
+                            retFormula.Append('\'');
+                            retFormula.Append(wsName);
+                            retFormula.Append('\'');
+                        }
+                        else
+                        {
+                            retFormula.Append(wsName);
+                        }                        
                     }
                     else
                     {
-                        retFormula += token.Value;
+                        if(!(token.TokenType==TokenType.SingleQuote &&
+                            ((i > 0 && tokens[i - 1].TokenType == TokenType.WorksheetNameContent) ||
+                            (i < tokens.Count - 1 && tokens[i + 1].TokenType == TokenType.WorksheetNameContent))))
+                        {
+                            retFormula.Append(token.Value);
+                        }
                     }
-                    //if (token.TokenTypeIsAddress) //Address
-                    //{
-                    //    var address = new ExcelAddressBase(token.Value);
-                    //    if (address == null || !address.IsValidRowCol())
-                    //    {
-                    //        retFormula += "#REF!";
-                    //    }
-                    //    else
-                    //    {
-                    //        address.ChangeWorksheet(oldName, newName);
-                    //        retFormula += address.Address;
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    retFormula += token.Value;
-                    //}
                 }
-                return retFormula;
+                return retFormula.ToString();
             }
             catch //if we have an exception, return the original formula.
             {
