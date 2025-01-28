@@ -1105,7 +1105,7 @@ namespace OfficeOpenXml.Drawing
                     drawNode = CreateDrawingXml(eEditAs.OneCell);
                     break;
             }
-            var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType.Value);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, pictureType.Value, PictureLocation.Embed, drawingsCollectionType);
             pic.LoadImage(pictureStream, pictureType.Value);
             AddPicture(Name, pic);
             return pic;
