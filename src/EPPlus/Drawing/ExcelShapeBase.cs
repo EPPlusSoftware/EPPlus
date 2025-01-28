@@ -16,6 +16,7 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Style;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Xml;
@@ -46,8 +47,11 @@ namespace OfficeOpenXml.Drawing
         private string _textVerticalPath = "{0}{1}:txBody/a:bodyPr/@vert";
         private string _fontPath = "{0}{1}:txBody/a:p/a:pPr/a:defRPr";
         private string _textBodyPath = "{0}{1}:txBody/a:bodyPr";
+        private string _presetGeometryPath = "{0}{1}:spPr/a:prstGeom/a:avLst";
 
-		internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
+        private Dictionary<string, ShapeGuidePoint> _adjustmentPoints = null;
+
+        internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
             base(drawings, node, topPath, nvPrPath, parent, DrawingsType)
         {
             Init(string.IsNullOrEmpty(_topPath) ? "" : _topPath + "/");
@@ -73,6 +77,7 @@ namespace OfficeOpenXml.Drawing
             _textVerticalPath     = string.Format(_textVerticalPath,     topPath, NamespacePrefixes[prefixIndex]);
             _fontPath             = string.Format(_fontPath,             topPath, NamespacePrefixes[prefixIndex]);
             _textBodyPath         = string.Format(_textBodyPath,         topPath, NamespacePrefixes[prefixIndex]);
+            _presetGeometryPath   = string.Format(_presetGeometryPath,   topPath, NamespacePrefixes[prefixIndex]);
             AddSchemaNodeOrder(SchemaNodeOrder, new string[] { "nvSpPr", "spPr", "txSp", "style", "txBody", "hlinkClick", "hlinkHover", "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "blipFill", "gradFill", "pattFill", "grpFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d", "pPr", "r", "br", "fld", "endParaRPr", "lnRef", "fillRef", "effectRef", "fontRef" });
         }
         /// <summary>

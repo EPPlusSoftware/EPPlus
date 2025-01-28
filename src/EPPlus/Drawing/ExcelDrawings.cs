@@ -28,6 +28,10 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
 using System.Drawing;
 using System.Security.Cryptography;
+using System.Globalization;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+
+
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif

@@ -34,8 +34,9 @@ namespace EPPlusTest.Drawing.Chart
             chartPic.SetPosition(0, 5000);
             chartPic.SetSize(200);
 
-            //var chartPic2 = chart.AddPicture("MyPic2", @"C:\epplusTest\epplusobject.png");
-            //chartPic2.SetPosition(0, 5000);
+            var chartPic2 = chart.AddPicture("MyPic2", @"C:\epplusTest\epplusobject.png");
+            chartPic2.SetPosition(0, 5000);
+            chartPic2.SetSize(200);
 
             var shp1 = chart.AddShape("level1", eShapeStyle.Star10);
             var shp2 = chart.AddShape("level2", eShapeStyle.UpDownArrow);

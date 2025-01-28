@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Vml;
+using System.Globalization;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -22,51 +23,17 @@ namespace OfficeOpenXml.Drawing
     {
         SetWidthCallback _setWidthCallback;
         internal ExcelPosition(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback, int DrawingsType = 0) :
-            base(ns, node)
+            base(ns, node, setWidthCallback)
         {
             _setWidthCallback = setWidthCallback;
             this.excelDrawingsType = DrawingsType;
             Load();
         }
+
         const string colPath = "xdr:col";
-        int _column, _row, _columnOff, _rowOff;
-        /// <summary>
-        /// The column
-        /// </summary>
-        public int Column
-        {
-            get
-            {
-                return _column;
-            }
-            set
-            {
-                _column = value;
-                _setWidthCallback?.Invoke();
-            }
-        }
         const string rowPath = "xdr:row";
         const string colOffPath = "xdr:colOff";
         const string rowOffPath = "xdr:rowOff";
-        /// <summary>
-        /// Row Offset in EMU
-        /// 
-        /// EMU units   1cm         =   1/360000 
-        ///             1US inch    =   1/914400
-        ///             1pixel      =   1/9525
-        /// </summary>
-        public int RowOff
-        {
-            get
-            {
-                return _rowOff;
-            }
-            set
-            {
-                _rowOff = value;
-                _setWidthCallback?.Invoke();
-            }
-        }
 
         int excelDrawingsType = 0;
         double _x, _y;
@@ -97,7 +64,7 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// Load xml data
         /// </summary>
-        public void Load()
+        public override void Load()
         {
             if (excelDrawingsType == 0)
             {
