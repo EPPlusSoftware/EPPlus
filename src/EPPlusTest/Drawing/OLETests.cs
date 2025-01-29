@@ -684,7 +684,6 @@ namespace EPPlusTest.Drawing
                 var ws = wb.Worksheets.Add("AnchorWs");
 
                 var oleObj = ws.Drawings.AddOleObject("SomeObject", Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp"));
-
                 oleObj.ChangeCellAnchor(eEditAs.Absolute);
 
                 SaveAndCleanup(pck);
@@ -707,6 +706,41 @@ namespace EPPlusTest.Drawing
                 oleObj.SetPosition(100, 100);
 
                 //See resulting file for the differences in position and scaling
+                SaveAndCleanup(pck);
+            }
+        }
+
+
+        [TestMethod]
+        public void OleAbsoluteAnchorAndSetPosition()
+        {
+            using (ExcelPackage pck = OpenPackage("OleAbsoluteAnchorAndSetPosition.xlsx", true))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets.Add("AnchorWs");
+                var wsImage = wb.Worksheets.Add("ImageWs");
+
+                var oleObj = ws.Drawings.AddOleObject("SomeObject", Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp"));
+                var pic = wsImage.Drawings.AddPicture("SomePicture", GetResourceFile("EPPlus.png").FullName);
+
+                pic.ChangeCellAnchor(eEditAs.Absolute);
+                //Changing cell-anchor to absolute does not actually change the type of anchor within worksheet
+                oleObj.ChangeCellAnchor(eEditAs.Absolute);
+
+                pic.SetPosition(100, 100);
+                oleObj.SetPosition(100, 100);
+
+                oleObj.UpdateXml();
+
+
+                //For Ole object From and Two appear to remain both in objects created by Excel and Epplus
+                //Seems we may need to update From and Two when SetPosition on OLE objects. Yet Picture doesn't have to...
+                Assert.AreEqual(pic.Position.X, oleObj.Position.X);
+                Assert.AreEqual(pic.Position.Y, oleObj.Position.Y);
+
+                Assert.AreEqual(pic.From.Row, oleObj.From.Row);
+                Assert.AreEqual(pic.From.Column, oleObj.From.Column);
+
                 SaveAndCleanup(pck);
             }
         }
