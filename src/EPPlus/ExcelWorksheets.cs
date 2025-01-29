@@ -482,8 +482,22 @@ namespace OfficeOpenXml
                 _pck.Workbook.VbaProject.Modules.Remove(worksheet.CodeModule);
             }
 
-            _worksheets.RemoveAndShift(Index - _pck._worksheetAdd);
-            ReindexWorksheetDictionary();
+            var index = 0;
+            var worksheets = new ChangeableDictionary<ExcelWorksheet>();
+            foreach (var entry in _worksheets)
+            {
+                if (entry != worksheet)
+                {
+                    entry.PositionId = index + _pck._worksheetAdd;
+                    worksheets.Add(index++, entry);
+                }
+            }
+            _worksheets = worksheets;
+
+            //_worksheets.RemoveAndShift(Index - _pck._worksheetAdd);
+            //ReindexWorksheetDictionary();
+
+
             //If the active sheet is deleted, set the next visible sheet as active.
             //If none are visible start going backwards until one isn't.
             if (_pck.Workbook.Worksheets.Count > 0)

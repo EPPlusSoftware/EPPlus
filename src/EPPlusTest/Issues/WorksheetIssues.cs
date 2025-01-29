@@ -663,5 +663,61 @@ namespace EPPlusTest.Issues
             p.Workbook.Worksheets.Delete(wsTemplate);
 			SaveWorkbook("Issue1794_2_Output.xlsx", p);
         }
+
+        [TestMethod]
+        public void Sc808()
+        {
+            using var p = OpenTemplatePackage("s808.xlsx");
+            var sheets = p.Workbook.Worksheets.Where(s => s.Name.StartsWith("data ", StringComparison.OrdinalIgnoreCase));
+            var c0 = p.Workbook.Worksheets.Count();
+            var c1 = sheets.Count();
+            var names = sheets.Select(s => s.Name).ToArray();
+            var ns = string.Join(",", names);
+
+            //p.Compatibility.IsWorksheets1Based = true;
+
+            foreach (var sheet in sheets)
+            {
+                Console.WriteLine("Deleting sheet: " + sheet.Name);
+                p.Workbook.Worksheets.Delete(sheet);
+                Console.WriteLine("# sheets left: " + p.Workbook.Worksheets.Count());
+            }
+            var c2 = p.Workbook.Worksheets.Count();
+        }
+
+        [TestMethod]
+        public void DeletingWorksheetsWithParameters()
+        {
+            using (var p = OpenPackage("DeletingGroupOfWorksheets.xlsx"))
+            {
+                var wb = p.Workbook;
+                var worksheets = wb.Worksheets;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    worksheets.Add($"Data {i}");
+                }
+
+                for (int i = 0; i < 5; i++)
+                {
+                    worksheets.Add($"SomeWorksheet{i}");
+                }
+
+                //Deleting worksheets with foreach
+                //Skips over index[1]
+                //Should probably throw as the enumerator changes while in it
+                foreach (var ws in p.Workbook.Worksheets)
+                {
+                    if (ws.Name.StartsWith("Data ", StringComparison.OrdinalIgnoreCase))
+                    {
+                        p.Workbook.Worksheets.Delete(ws);
+                    }
+                }
+
+                var countWs = p.Workbook.Worksheets.Count();
+
+                Assert.AreEqual(countWs, 5);
+            }
+        }
     }
 }

@@ -3224,7 +3224,7 @@ namespace EPPlusTest
                 SaveWorkbook("SlicerIssueOpenClose.xlsx", p);
             }
         }
-                [TestMethod]
+        [TestMethod]
         public void i620()
         {
             using (var p = OpenTemplatePackage("i621.xlsx"))
@@ -6288,7 +6288,7 @@ namespace EPPlusTest
 
                 var ws = package.Workbook.Worksheets.Add("newWs");
                 SaveWorkbook("789_issue_only_ws.xlsx", package);
-               //SaveAndCleanup(package);
+                //SaveAndCleanup(package);
             }
         }
     }
