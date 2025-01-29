@@ -28,6 +28,7 @@
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace EPPlusTest
 {
@@ -191,6 +192,39 @@ namespace EPPlusTest
                 var aText = aNewWs.Cells["A1"].Text;
 
                 Assert.AreEqual(value.ToString(), aText);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+
+        [TestMethod]
+        public void ExcelRangeBaseShouldReturnCorrectTextAdvanced()
+        {
+            using (var package = OpenPackage("numfAdvancedCyan.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewWs");
+
+                var cell = ws.Cells["A1"];
+                cell.Value = -5;
+                cell.Style.Numberformat.Format = "[Cyan]-#";
+
+                var cell2 = ws.Cells["A2"];
+                //Should be same color as cell1
+                //Indicies for Color1,Color2 etc. are 1-based in the string
+                cell2.Style.Numberformat.Format = $"[Color{(int)ExcelIndexedColorNamedNumFt.Cyan + 1}]-#";
+
+                var cell3 = ws.Cells["A3"];
+                //Should become red
+                cell3.Style.Numberformat.Format = $"[Color3]-#";
+
+                ws.Cells["B1:B2"].Value = "Should be same color (Cyan)";
+                ws.Cells["B3"].Value = "Should be Red";
+
+                ws.Cells["A2:A3"].Formula = "ROW()";
+
+                ws.Calculate();
 
                 SaveAndCleanup(package);
             }

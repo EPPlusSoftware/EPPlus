@@ -761,7 +761,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             if (textToCheck.StartsWith("Color") && text.Count() <= 7)
             {
                 var ConvertedNumber = Convert.ToInt32(textToCheck.Remove(0,5));
-                if(ConvertedNumber < 57)
+                if (ConvertedNumber < 57)
                 {
                     indexColor = (ExcelIndexedColor)ConvertedNumber;
                     isColor = true;

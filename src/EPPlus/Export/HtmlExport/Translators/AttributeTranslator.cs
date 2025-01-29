@@ -15,7 +15,9 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -174,6 +176,14 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                         }
                     }
                 }
+            }
+
+            if(cell.Style.Numberformat.IsNumberFormat)
+            {
+                var numberFormat = cell.Style.Numberformat;
+                ExcelFormatTranslator nf = GetNumberFormat(styleId, styles).FormatTranslator;
+                //NumberFormatToTextArgs
+                //var id = cell.Style.Numberformat.NumFmtID;
             }
 
             if (extras != "")

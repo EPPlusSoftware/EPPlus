@@ -563,12 +563,11 @@ namespace EPPlusTest.Export.HtmlExport
             using (var package = OpenPackage("numfRed.xlsx", true))
             {
                 var wb = package.Workbook;
-                var aNewWs = wb.Worksheets.Add("NewWs");
+                var aNewWs = wb.Worksheets.Add("NewWs"); 
 
                 var range = aNewWs.Cells["A1:A5"];
                 range.Formula = "ROW()";
                 range.Style.Numberformat.Format = "[Red]-#";
-
 
                 wb.Calculate();
 
