@@ -744,5 +744,28 @@ namespace EPPlusTest.Drawing
                 SaveAndCleanup(pck);
             }
         }
+
+        [TestMethod]
+        public void RemoveMultipleObjectsWithSameFile()
+        {
+            using (var p = OpenPackage("EpplusOleObject_Linked_AndDeleteAll.xlsx", true))
+            {
+                using var ws = p.Workbook.Worksheets.Add("Sheet 1");
+                var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
+                var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+                FileInfo fileInfo1 = new FileInfo(myFile);
+                FileInfo fileInfo2 = new FileInfo(myIcon);
+                var ole1 = ws.Drawings.AddOleObject("MyTextFile", fileInfo1, o => o.LinkToFile = true);
+                var ole2 = ws.Drawings.AddOleObject("MyIconFile", fileInfo2, o => o.LinkToFile = true);
+                var ole3 = ws.Drawings.AddOleObject("MyIconFile2", fileInfo2, o => o.LinkToFile = true);
+                var ole4 = ws.Drawings.AddOleObject("MyIconFile3", fileInfo2, o => o.LinkToFile = true);
+
+                ws.Drawings.Remove(ole2);
+                ws.Drawings.Remove(ole3);
+                ws.Drawings.Remove(ole4);
+
+                SaveAndCleanup(p);
+            }
+        }
     }
 }
