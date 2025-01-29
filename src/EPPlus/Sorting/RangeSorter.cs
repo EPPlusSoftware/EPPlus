@@ -121,6 +121,11 @@ namespace OfficeOpenXml.Sorting
         {
             //Sort the values and styles.
             var nColumnsInRange = range._toCol - range._fromCol + 1;
+            var dim = range.Worksheet.Dimension;
+            if(dim != null && nColumnsInRange > dim.End.Column)
+            {
+                nColumnsInRange = dim.End.Column;
+            }
             _worksheet._values.Clear(range._fromRow, range._fromCol, range._toRow - range._fromRow + 1, nColumnsInRange);
             for (var r = 0; r < sortItems.Count; r++)
             {
@@ -235,11 +240,12 @@ namespace OfficeOpenXml.Sorting
                     if (startAddr._fromRow > row)
                     {
                         f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
-                        f.Address = ExcelCellBase.GetAddress(row, startAddr._fromCol, startAddr._toRow, startAddr._toCol);
+                        f.Address = ExcelCellBase.GetAddress(row, startAddr._fromCol, startAddr._toRow - (startAddr._toRow - row), startAddr._toCol);
                     }
                     else if (startAddr._toRow < row)
                     {
-                        f.Address = ExcelCellBase.GetAddress(startAddr._fromRow, startAddr._fromCol, row, startAddr._toCol);
+                        f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
+                        f.Address = ExcelCellBase.GetAddress(startAddr._fromRow + (row - startAddr._fromRow), startAddr._fromCol, row, startAddr._toCol);
                     }
                 }
             }

@@ -606,5 +606,15 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(area, 35D);
             Assert.AreEqual(area, area2);
         }
+
+		[TestMethod]
+		public void Sc809()
+		{
+			var p = OpenTemplatePackage("Sc809.xlsx");
+            var sheet = p.Workbook.Worksheets.First();
+            sheet.Cells.Sort(column: 0);
+            sheet.Calculate();
+			SaveWorkbook("Sc809_Output_NotSorted.xlsx", p);
+        }
     }
 }
