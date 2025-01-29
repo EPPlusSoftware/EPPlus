@@ -610,11 +610,26 @@ namespace EPPlusTest.Issues
 		[TestMethod]
 		public void Sc809()
 		{
-			var p = OpenTemplatePackage("Sc809.xlsx");
-            var sheet = p.Workbook.Worksheets.First();
+			using var p = new ExcelPackage();
+			var sheet = p.Workbook.Worksheets.Add("Sheet1");
+			sheet.Cells["A1"].Value = 3;
+            sheet.Cells["A2"].Value = 2;
+            sheet.Cells["A3"].Value = 1;
+			sheet.Cells["B1"].Value = "All Motor";
+            sheet.Cells["B2"].Value = "All Rail";
+            sheet.Cells["B3"].Value = "All Rail";
+            sheet.Cells["C1"].Formula = "IFS(B1=\"All Rail\",\"Rail\",B1=\"All Motor\",\"Road\",B1=\"All Barge\",\"Barge\")";
+            sheet.Cells["C2"].Formula = "IFS(B2=\"All Rail\",\"Rail\",B2=\"All Motor\",\"Road\",B2=\"All Barge\",\"Barge\")";
+            sheet.Cells["C3"].Formula = "IFS(B3=\"All Rail\",\"Rail\",B3=\"All Motor\",\"Road\",B3=\"All Barge\",\"Barge\")";
             sheet.Cells.Sort(column: 0);
             sheet.Calculate();
-			SaveWorkbook("Sc809_Output_NotSorted.xlsx", p);
+			Assert.AreEqual(1, sheet.Cells["A1"].Value);
+            Assert.AreEqual(2, sheet.Cells["A2"].Value);
+            Assert.AreEqual(3, sheet.Cells["A3"].Value);
+			Assert.AreEqual("Rail", sheet.Cells["C1"].Value);
+            Assert.AreEqual("Rail", sheet.Cells["C2"].Value);
+            Assert.AreEqual("Road", sheet.Cells["C3"].Value);
+            SaveWorkbook("Sc809_Output_NotSorted.xlsx", p);
         }
     }
 }
