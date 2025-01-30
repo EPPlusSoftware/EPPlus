@@ -11,6 +11,7 @@ using System.IO;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Diagnostics;
+using OfficeOpenXml.Sorting;
 
 namespace EPPlusTest.Issues
 {
@@ -607,9 +608,89 @@ namespace EPPlusTest.Issues
             Assert.AreEqual(area, area2);
         }
 
-		[TestMethod]
-		public void Sc809()
+        [TestMethod]
+        public void RedYellowGreenShouldNotCreateCorruptWorkbook()
+        {
+            using (var p = OpenTemplatePackage("RedYellowGreen.xlsx"))
+            {
+                var sheet = p.Workbook.Worksheets.First();
+
+                var firstRange = sheet.Cells["D27:F30"];
+
+                var options = RangeSortOptions.Create();
+                options.SortLeftToRightBy.Row(0);
+                firstRange.Sort(options);
+
+                sheet.Calculate();
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void RedYellowGreen()
+        {
+            using (var p = OpenPackage("RedYellowGreen.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("NewWs");
+
+                sheet.Cells["D27"].Value = 1;
+                sheet.Cells["D28"].Value = 0;
+                sheet.Cells["D29"].Value = -1;
+
+                sheet.Cells["E27"].Value = "GreenLight";
+                sheet.Cells["E28"].Value = "YellowLight";
+                sheet.Cells["E29"].Value = "RedLight";
+
+                sheet.Cells["F27:F29"].Formula = "IFS(E27=\"RedLight\",\"Red\",E27=\"YellowLight\",\"Yellow\",E27=\"GreenLight\",\"Green\")";
+
+                var firstRange = sheet.Cells["D20:F30"];
+
+                firstRange.Sort(column: 0);
+
+                sheet.Calculate();
+
+                SaveAndCleanup(p);
+            }
+        }
+
+    //    [TestMethod]
+    //    public void RedYellowGreen()
+    //    {
+    //        using (var p = OpenTemplatePackage("RedYellowGreen.xlsx"))
+    //        {
+    //            var sheet = p.Workbook.Worksheets.First();
+
+				//var firstRange = sheet.Cells["D20:F30"];
+
+				//sheet.Cells["F27:F29"].Formula = "IFS(E27=\"RedL\",\"RED\",E27=\"YellowL\",\"Yellow\",E27=\"GreenL\",\"Green\")";
+
+				//firstRange.Sort(column: 0);
+
+    //            sheet.Calculate();
+
+    //            SaveAndCleanup(p);
+    //        }
+    //    }
+
+
+        [TestMethod]
+        public void S809()
 		{
+			using(var p = OpenTemplatePackage("s809.xlsx"))
+			{
+                var sheet = p.Workbook.Worksheets.First();
+
+                sheet.Cells.Sort(column: 0);
+                sheet.Calculate();
+
+				SaveAndCleanup(p);
+            }
+		}
+
+        [TestMethod]
+        public void Sc809()
+        {
 			using var p = new ExcelPackage();
 			var sheet = p.Workbook.Worksheets.Add("Sheet1");
 			sheet.Cells["A1"].Value = 3;
@@ -618,9 +699,9 @@ namespace EPPlusTest.Issues
 			sheet.Cells["B1"].Value = "All Motor";
             sheet.Cells["B2"].Value = "All Rail";
             sheet.Cells["B3"].Value = "All Rail";
-            sheet.Cells["C1"].Formula = "IFS(B1=\"All Rail\",\"Rail\",B1=\"All Motor\",\"Road\",B1=\"All Barge\",\"Barge\")";
-            sheet.Cells["C2"].Formula = "IFS(B2=\"All Rail\",\"Rail\",B2=\"All Motor\",\"Road\",B2=\"All Barge\",\"Barge\")";
-            sheet.Cells["C3"].Formula = "IFS(B3=\"All Rail\",\"Rail\",B3=\"All Motor\",\"Road\",B3=\"All Barge\",\"Barge\")";
+
+            sheet.Cells["C1:C3"].Formula = "IFS(B1=\"All Rail\",\"Rail\",B1=\"All Motor\",\"Road\",B1=\"All Barge\",\"Barge\")";
+
             sheet.Cells.Sort(column: 0);
             sheet.Calculate();
 			Assert.AreEqual(1, sheet.Cells["A1"].Value);
