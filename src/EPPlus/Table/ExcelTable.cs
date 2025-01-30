@@ -649,6 +649,23 @@ namespace OfficeOpenXml.Table
                 return _cols;
             }
         }
+
+        internal ExcelTableRowCollection _rows = null;
+        /// <summary>
+        /// Collection of the tables's data rows (header- and total row not included)
+        /// </summary>
+        public ExcelTableRowCollection DataRows
+        {
+            get
+            {
+                if(_rows == null)
+                {
+                    _rows = new ExcelTableRowCollection(this);
+                }
+                return _rows;
+            }
+        }
+
         TableStyles _tableStyle = TableStyles.Medium6;
         /// <summary>
         /// The table style. If this property is custom, the style from the StyleName propery is used.
@@ -1240,6 +1257,7 @@ namespace OfficeOpenXml.Table
             var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
             var range = new ExcelRangeBase(WorkSheet, address);
             range.Delete(eShiftTypeDelete.Up);
+
             return range;
         }
         /// <summary>
