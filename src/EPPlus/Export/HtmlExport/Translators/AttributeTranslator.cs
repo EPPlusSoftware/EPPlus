@@ -15,12 +15,14 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.Export.HtmlExport.StyleCollectors;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 
 namespace OfficeOpenXml.Export.HtmlExport.Parsers
@@ -181,9 +183,16 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
             if(cell.Style.Numberformat.IsNumberFormat)
             {
                 var numberFormat = cell.Style.Numberformat;
-                ExcelFormatTranslator nf = GetNumberFormat(styleId, styles).FormatTranslator;
-                //NumberFormatToTextArgs
-                //var id = cell.Style.Numberformat.NumFmtID;
+                ExcelFormatTranslator nf = ValueToTextHandler.GetNumberFormat(cell.StyleID, numberFormat._styles).FormatTranslator;
+
+                if(nf.NumFtColor != null)
+                {
+                    var color = cell.Worksheet.Workbook.ThemeManager.GetOrCreateTheme()._wb.Styles.GetIndexedColor((int)nf.NumFtColor.Value);
+                    var htmlColor = "#" + color.ToArgb().ToString("x8").Substring(2);
+                    //inlineStyles += $"color={StyleColorShared.GetColor(new StyleColorNormal(cell.Style.Font.Color), cell.Worksheet.Workbook.ThemeManager.CurrentTheme)};";
+                    inlineStyles += $"color={htmlColor};";
+
+                }
             }
 
             if (extras != "")
