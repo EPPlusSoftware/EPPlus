@@ -209,6 +209,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 double nWidth = bWidth / aspect;
                 x1 = cX - nWidth / 2;
                 x2 = cX + nWidth / 2;
+                if(x1 > 0)
+                {
+                    x2 -= x1;
+                    x1 -= x1;
+                }
             }
             else if (aspect < 1)
             {
@@ -217,6 +222,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 double nHeight = bHeight * aspect;
                 y1 = cY - nHeight / 2;
                 y2 = cY + nHeight / 2;
+                if (y1 > 0)
+                {
+                    y2 -= y1;
+                    y1 -= y1;
+                }
             }
         }
     }

@@ -394,52 +394,92 @@ namespace OfficeOpenXml.Drawing
         }
         internal void SetPositionAndSizeFromChildren()
         {
-            var pd = Drawings[0];
-            pd.GetPositionSize();
-            double t = pd._top, l = pd._left, b = pd._top + pd._height, r = pd._left + pd._width;
-
-            if (prefixIndex == 1)
+            if (prefixIndex == 0)
             {
+                var pd = Drawings[0];
+                pd.GetPositionSize();
+                double t = pd._top, l = pd._left, b = pd._top + pd._height, r = pd._left + pd._width;
+                for (int i = 1; i < Drawings.Count; i++)
+                {
+                    var d = Drawings[i];
+                    d.GetPositionSize();
+                    if (t > d._top)
+                    {
+                        t = d._top;
+                    }
+                    if (l > d._left)
+                    {
+                        l = d._left;
+                    }
+                    if (r < d._left + d._width)
+                    {
+                        r = d._left + d._width;
+                    }
+                    if (b < d._top + d._height)
+                    {
+                        b = d._top + d._height;
+                    }
+                }
+                SetPosition((int)t, (int)l, false);
+                SetSize((int)(r - l), (int)(b - t));
+            }
+            else if (prefixIndex == 1)
+            {
+                long l = Drawings[0].Position.X, t = Drawings[0].Position.Y, r = Drawings[0].Position.X + Drawings[0].Size.Width, b = Drawings[0].Position.Y + Drawings[0].Size.Height;
+                for (int i = 1; i < Drawings.Count; i++)
+                {
+                    var d = Drawings[i];
+
+                    if (d.Position.X < l)
+                    {
+                        l = d.Position.X;
+                    }
+                    if (d.Position.Y < t)
+                    {
+                        t = d.Position.Y;
+                    }
+                    if (d.Position.X + d.Size.Width > r)
+                    {
+                        r = d.Position.X + d.Size.Width;
+                    }
+                    if (d.Position.Y + d.Size.Height > b)
+                    {
+                        b = d.Position.Y + d.Size.Height;
+                    }
+                }
+                Size.Width = r;
+                Size.Height = b;
+                Position.X = (int)l;
+                Position.Y = (int)t;
+                xFrmPosition.X = (int)l;
+                xFrmPosition.Y = (int)t;
+                xFrmSize.Width = r;
+                xFrmSize.Height = b;
+                xFrmChildPosition.X = (int)l;
+                xFrmChildPosition.Y = (int)t;
+                xFrmChildSize.Width = r;
+                xFrmChildSize.Height = b;
+                var off = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:off", NameSpaceManager);
+                off.Attributes["x"].Value = l.ToString();
+                off.Attributes["y"].Value = t.ToString();
+                var ext = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:ext", NameSpaceManager);
+                ext.Attributes["cx"].Value = r.ToString();
+                ext.Attributes["cy"].Value = b.ToString();
                 var chOff = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:chOff", NameSpaceManager);
-                chOff.Attributes["x"].Value = pd._left.ToString();
-                chOff.Attributes["y"].Value = pd._top.ToString();
+                chOff.Attributes["x"].Value = l.ToString();
+                chOff.Attributes["y"].Value = t.ToString();
                 var chExt = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:chExt", NameSpaceManager);
-                chExt.Attributes["cx"].Value = pd._width.ToString();
-                chExt.Attributes["cy"].Value = pd._height.ToString();
+                chExt.Attributes["cx"].Value = r.ToString();
+                chExt.Attributes["cy"].Value = b.ToString();
+
+                From.X = l / _drawings.screenWidth / EMU_PER_PIXEL;
+                From.Y = t / _drawings.screenHeight / EMU_PER_PIXEL;
+                To.X = r / _drawings.screenWidth / EMU_PER_PIXEL;
+                To.Y = b / _drawings.screenHeight / EMU_PER_PIXEL;
+                From.UpdateXml();
+                To.UpdateXml();
             }
 
-            for (int i = 1; i < Drawings.Count; i++)
-            {
-                var d = Drawings[i];
-                d.GetPositionSize();
-                if (t > d._top)
-                {
-                    t = d._top;
-                }
-                if (l > d._left)
-                {
-                    l = d._left;
-                }
-                if (r < d._left + d._width)
-                {
-                    r = d._left + d._width;
-                }
-                if (b < d._top + d._height)
-                {
-                    b = d._top + d._height;
-                }
-            }
-            if (prefixIndex == 1)
-            {
-                t = t / EMU_PER_PIXEL;
-                l = l / EMU_PER_PIXEL;
-                r = r / EMU_PER_PIXEL;
-                b = b / EMU_PER_PIXEL;
-            }
-            SetPosition((int)t, (int)l, false);
-            SetSize((int)(r - l), (int)(b - t));
-
-            SetxFrmPosition();
         }
         internal void AdjustChildrenForResizeRow(double prevTop)
         {
@@ -466,19 +506,6 @@ namespace OfficeOpenXml.Drawing
                     Drawings[i].Position.UpdateXml();
                 }
             }
-        }
-
-        private void SetxFrmPosition()
-        {
-            xFrmPosition.X = (int)(_left * EMU_PER_PIXEL);
-            xFrmPosition.Y = (int)(_top * EMU_PER_PIXEL);
-            xFrmSize.Width = (long)(_width * EMU_PER_PIXEL);
-            xFrmSize.Height = (long)(_height * EMU_PER_PIXEL);
-
-            xFrmChildPosition.X = (int)(_left * EMU_PER_PIXEL);
-            xFrmChildPosition.Y = (int)(_top * EMU_PER_PIXEL);
-            xFrmChildSize.Width = (long)(_width * EMU_PER_PIXEL);
-            xFrmChildSize.Height = (long)(_height * EMU_PER_PIXEL);
         }
 
         ExcelDrawingCoordinate _xFrmPosition = null;

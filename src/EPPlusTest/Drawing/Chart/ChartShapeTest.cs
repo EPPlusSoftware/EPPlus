@@ -46,8 +46,16 @@ namespace EPPlusTest.Drawing.Chart
 
             var shp1 = chart.AddShape("level1", eShapeStyle.Star10);
             var shp2 = chart.AddShape("level2", eShapeStyle.UpDownArrow);
+            shp2.SetPosition(0, 50);
             var shp3 = chart.AddShape("level3", eShapeStyle.Teardrop);
+            shp3.SetPosition(50, 0);
             var group = shp1.Group(shp2);
+            group.Group(shp3);
+            group.SetPosition(50, 50);
+            //var shap1 = ws.Drawings.AddShape("shap1", eShapeStyle.Gear6);
+            //var shap2 = ws.Drawings.AddShape("shap2", eShapeStyle.LeftArrow);
+            //shap1.Group(shap2);
+
 
             p.SaveAs(@"c:\epplustest\testoutput\shapeInChartTest.xlsx");
         }
@@ -56,7 +64,6 @@ namespace EPPlusTest.Drawing.Chart
 
     /*TODO
      * Vi skapar ej en connection shape i epplus?
-     * resize och position grouped shape
      * Copy
      * -Copy whole drawings xml, set new name of drawings xml, create rel Id, done
      */
