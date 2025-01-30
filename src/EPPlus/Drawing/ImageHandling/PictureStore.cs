@@ -14,14 +14,11 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.Packaging;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs;
 namespace OfficeOpenXml.Drawing
 {
     internal class ImageInfo

@@ -382,6 +382,10 @@ namespace OfficeOpenXml.Drawing
                     {
                         return ((ExcelControl)this).GetCellAnchorFromWorksheetXml();
                     }
+                    if (_parent != null && DrawingType == eDrawingType.OleObject)
+                    {
+                        return ((ExcelOleObject)this).GetCellAnchorFromWorksheetXml();
+                    }
                     if (CellAnchor == eEditAs.TwoCell)
                     {
                         string s = GetXmlNodeString("@editAs");
@@ -411,6 +415,10 @@ namespace OfficeOpenXml.Drawing
                     if(DrawingType==eDrawingType.Control)
                     {
                         ((ExcelControl)this).SetCellAnchor(value);
+                    }
+                    else if(DrawingType==eDrawingType.OleObject)
+                    {
+                        ((ExcelOleObject)this).SetCellAnchor(value);
                     }
                     else
                     {
@@ -1024,9 +1032,13 @@ namespace OfficeOpenXml.Drawing
         /// <param name="type">The cell anchor type to change to</param>
         public void ChangeCellAnchor(eEditAs type)
         {
-            if(DrawingType==eDrawingType.Control)
+            if (DrawingType == eDrawingType.Control)
             {
                 throw new InvalidOperationException("Controls can't change CellAnchor. Must be TwoCell anchor. Please use EditAs property instead.");
+            }
+            else if (DrawingType == eDrawingType.OleObject)
+            {
+                throw new InvalidOperationException("Ole Objects can't change CellAnchor. Must be TwoCell anchor. Please use EditAs property instead.");
             }
 
             GetPositionSize();

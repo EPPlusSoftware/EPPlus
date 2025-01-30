@@ -348,19 +348,49 @@ namespace OfficeOpenXml.Drawing.OleObject
         
         internal void UpdateXml()
         {
-            //Update data
             _oleObject.From.Column = From.Column;
             _oleObject.From.ColumnOff = From.ColumnOff;
             _oleObject.From.Row = From.Row;
             _oleObject.From.RowOff = From.RowOff;
             _oleObject.From.UpdateXml();
-            if (CellAnchor == eEditAs.TwoCell)
+            _oleObject.To.Column = To.Column;
+            _oleObject.To.ColumnOff = To.ColumnOff;
+            _oleObject.To.Row = To.Row;
+            _oleObject.To.RowOff = To.RowOff;
+            _oleObject.To.UpdateXml();
+        }
+
+        internal eEditAs GetCellAnchorFromWorksheetXml()
+        {
+            if (_oleObject.MoveWithCells && _oleObject.SizeWithCells)
             {
-                _oleObject.To.Column = To.Column;
-                _oleObject.To.ColumnOff = To.ColumnOff;
-                _oleObject.To.Row = To.Row;
-                _oleObject.To.RowOff = To.RowOff;
-                _oleObject.To.UpdateXml();
+                return eEditAs.TwoCell;
+            }
+            else if (_oleObject.MoveWithCells)
+            {
+                return eEditAs.OneCell;
+            }
+            else
+            {
+                return eEditAs.Absolute;
+            }
+        }
+        internal void SetCellAnchor(eEditAs value)
+        {
+            switch (value)
+            {
+                case eEditAs.Absolute:
+                    _oleObject.MoveWithCells = false;
+                    _oleObject.SizeWithCells = false;
+                    break;
+                case eEditAs.OneCell:
+                    _oleObject.MoveWithCells = true;
+                    _oleObject.SizeWithCells = false;
+                    break;
+                default:
+                    _oleObject.MoveWithCells = true;
+                    _oleObject.SizeWithCells = true;
+                    break;
             }
         }
 
@@ -685,7 +715,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             //Delete worksheet & Internal Representation
             _oleObject.DeleteMe();
             //delete media
-            _worksheet._package.ZipPackage.DeletePart(_mediaImage.Uri);
+            _worksheet._package.PictureStore.RemoveReference(_mediaImage.Uri);
             //Delete drawing
             base.DeleteMe();
         }
