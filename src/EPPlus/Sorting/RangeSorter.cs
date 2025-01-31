@@ -66,6 +66,15 @@ namespace OfficeOpenXml.Sorting
             return descending;
         }
 
+        private ExcelRangeBase GetSortRange(ExcelRangeBase range, ExcelWorksheet ws)
+        {
+            if (ws.Dimension == null) return null;
+            var dimension = ws.Dimension;
+            var fromRow = range._fromRow < dimension.Start.Row ? dimension.Start.Row : range._fromRow;
+            var toRow = range._toRow > dimension.End.Row ? dimension.End.Row : range._toRow;
+            return ws.Cells[fromRow, range._fromCol, toRow, range._toCol];
+        }
+
         public void Sort(
             ExcelRangeBase range, 
             int[] columns, 
@@ -83,12 +92,15 @@ namespace OfficeOpenXml.Sorting
             {
                 descending = CreateDefaultDescendingArray(columns);
             }
-            var sortItems = SortItemFactory.Create(range);
+            var ws = range.Worksheet;
+            var r = GetSortRange(range, ws);
+            if (r == null) return;
+            var sortItems = SortItemFactory.Create(r);
             var comp = new EPPlusSortComparer(columns, descending, customLists, culture ?? CultureInfo.CurrentCulture, compareOptions);
             sortItems.Sort(comp);
-            var wsd = new RangeWorksheetData(range);
+            var wsd = new RangeWorksheetData(r);
 
-            ApplySortedRange(range, sortItems, wsd);
+            ApplySortedRange(r, sortItems, wsd);
         }
 
         public void SortLeftToRight(

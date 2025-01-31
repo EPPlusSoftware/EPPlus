@@ -648,30 +648,23 @@ namespace EPPlusTest.Issues
 
                 firstRange.Sort(column: 0);
 
+				Assert.AreEqual(-1, sheet.Cells["D27"].Value, "D27 wasn't -1 as expected");
+                Assert.AreEqual(0, sheet.Cells["D28"].Value, "D28 wasn't 0 as expected");
+                Assert.AreEqual(1, sheet.Cells["D29"].Value);
+
+                Assert.AreEqual("RedLight", sheet.Cells["E27"].Value);
+                Assert.AreEqual("YellowLight", sheet.Cells["E28"].Value);
+                Assert.AreEqual("GreenLight", sheet.Cells["E29"].Value);
+
                 sheet.Calculate();
+
+				Assert.AreEqual("Red", sheet.Cells["F27"].Value);
+                Assert.AreEqual("Yellow", sheet.Cells["F28"].Value);
+                Assert.AreEqual("Green", sheet.Cells["F29"].Value);
 
                 SaveAndCleanup(p);
             }
         }
-
-    //    [TestMethod]
-    //    public void RedYellowGreen()
-    //    {
-    //        using (var p = OpenTemplatePackage("RedYellowGreen.xlsx"))
-    //        {
-    //            var sheet = p.Workbook.Worksheets.First();
-
-				//var firstRange = sheet.Cells["D20:F30"];
-
-				//sheet.Cells["F27:F29"].Formula = "IFS(E27=\"RedL\",\"RED\",E27=\"YellowL\",\"Yellow\",E27=\"GreenL\",\"Green\")";
-
-				//firstRange.Sort(column: 0);
-
-    //            sheet.Calculate();
-
-    //            SaveAndCleanup(p);
-    //        }
-    //    }
 
 
         [TestMethod]
