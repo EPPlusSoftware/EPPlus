@@ -628,9 +628,9 @@ namespace EPPlusTest.Issues
         }
 
         [TestMethod]
-        public void RedYellowGreen()
+        public void RedYellowGreen_NoPrevDimension()
         {
-            using (var p = OpenPackage("RedYellowGreen.xlsx", true))
+            using (var p = OpenPackage("RedYellowGreen_NoDim.xlsx", true))
             {
                 var sheet = p.Workbook.Worksheets.Add("NewWs");
 
@@ -659,8 +659,61 @@ namespace EPPlusTest.Issues
                 sheet.Calculate();
 
 				Assert.AreEqual("Red", sheet.Cells["F27"].Value);
-                Assert.AreEqual("Yellow", sheet.Cells["F28"].Value);
-                Assert.AreEqual("Green", sheet.Cells["F29"].Value);
+				Assert.AreEqual("Yellow", sheet.Cells["F28"].Value);
+				Assert.AreEqual("Green", sheet.Cells["F29"].Value);
+
+				SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void RedYellowGreen_PrevDimension()
+        {
+            using (var p = OpenPackage("RedYellowGreen_Dim.xlsx", true))
+            {
+                var sheet = p.Workbook.Worksheets.Add("NewWs");
+
+				// add a random value above the sorted range
+				sheet.Cells["D14"].Value = 3;
+
+                sheet.Cells["D27"].Value = 1;
+                sheet.Cells["D28"].Value = 0;
+                sheet.Cells["D29"].Value = -1;
+
+                sheet.Cells["E27"].Value = "GreenLight";
+                sheet.Cells["E28"].Value = "YellowLight";
+                sheet.Cells["E29"].Value = "RedLight";
+
+                sheet.Cells["F27:F29"].Formula = "IFS(E27=\"RedLight\",\"Red\",E27=\"YellowLight\",\"Yellow\",E27=\"GreenLight\",\"Green\")";
+
+                var firstRange = sheet.Cells["D20:F30"];
+
+                firstRange.Sort(column: 0);
+
+                Assert.AreEqual(-1, sheet.Cells["D20"].Value, "D27 wasn't -1 as expected");
+                Assert.AreEqual(0, sheet.Cells["D21"].Value, "D28 wasn't 0 as expected");
+                Assert.AreEqual(1, sheet.Cells["D22"].Value);
+
+                Assert.AreEqual("RedLight", sheet.Cells["E20"].Value);
+                Assert.AreEqual("YellowLight", sheet.Cells["E21"].Value);
+                Assert.AreEqual("GreenLight", sheet.Cells["E22"].Value);
+
+                sheet.Calculate();
+
+				Assert.AreNotEqual("", sheet.Cells["F20"].Formula, "Formula in F20 was empty");
+                Assert.AreEqual("Red", sheet.Cells["F20"].Value);
+                Assert.AreEqual("Yellow", sheet.Cells["F21"].Value);
+                Assert.AreEqual("Green", sheet.Cells["F22"].Value);
+
+				Assert.IsNull(sheet.Cells["D27"].Value);
+                Assert.IsNull(sheet.Cells["D28"].Value);
+                Assert.IsNull(sheet.Cells["D29"].Value);
+                Assert.IsNull(sheet.Cells["E27"].Value);
+                Assert.IsNull(sheet.Cells["E28"].Value);
+                Assert.IsNull(sheet.Cells["E29"].Value);
+				Assert.AreEqual("", sheet.Cells["F27"].Formula, "Formula still set in F27");
+                Assert.AreEqual("", sheet.Cells["F28"].Formula, "Formula still set in F28");
+                Assert.AreEqual("", sheet.Cells["F29"].Formula, "Formula still set in F29");
 
                 SaveAndCleanup(p);
             }

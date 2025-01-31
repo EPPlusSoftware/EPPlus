@@ -75,6 +75,17 @@ namespace OfficeOpenXml.Sorting
             return ws.Cells[fromRow, range._fromCol, toRow, range._toCol];
         }
 
+        private void ClearRowsAfter(ExcelRangeBase range, int nRows)
+        {
+            var startCol = range._fromCol;
+            var endCol = range._toCol;
+            var ws = range.Worksheet;
+            for(var row = range.Start.Row + nRows; row <= range.End.Row; row++)
+            {
+                ws.Cells[row, startCol, row, endCol].Clear();
+            }
+        }
+
         public void Sort(
             ExcelRangeBase range, 
             int[] columns, 
@@ -101,6 +112,7 @@ namespace OfficeOpenXml.Sorting
             var wsd = new RangeWorksheetData(r);
 
             ApplySortedRange(r, sortItems, wsd);
+            ClearRowsAfter(r, sortItems.Count);
         }
 
         public void SortLeftToRight(
@@ -243,6 +255,7 @@ namespace OfficeOpenXml.Sorting
                         AddressUtility.ShiftAddressRowsInFormula(string.Empty, formula, initialRow, row - initialRow) :
                         AddressUtility.ShiftAddressColumnsInFormula(string.Empty, formula, initialCol, col - initialCol);
                     _worksheet._formulas.SetValue(row, col, newFormula);
+                    //_worksheet._formulas.Clear(initialRow, initialCol, 1, 1);
                 }
                 else if (wsd.Formulas[addr] is int)
                 {
@@ -251,14 +264,17 @@ namespace OfficeOpenXml.Sorting
                     var f = _worksheet._sharedFormulas[sfIx];
                     if (startAddr._fromRow > row)
                     {
+                        var shiftedToRow = row + startAddr._toRow - startAddr._fromRow;
                         f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
-                        f.Address = ExcelCellBase.GetAddress(row, startAddr._fromCol, startAddr._toRow - (startAddr._toRow - row), startAddr._toCol);
+                        f.Address = ExcelCellBase.GetAddress(row, startAddr._fromCol, shiftedToRow, startAddr._toCol);
                     }
                     else if (startAddr._toRow < row)
                     {
                         f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
-                        f.Address = ExcelCellBase.GetAddress(startAddr._fromRow + (row - startAddr._fromRow), startAddr._fromCol, row, startAddr._toCol);
+                        //f.Address = ExcelCellBase.GetAddress(startAddr._fromRow + (row - startAddr._fromRow), startAddr._fromCol, row, startAddr._toCol);
                     }
+                    _worksheet._formulas.SetValue(row, col, sfIx);
+                    //_worksheet._formulas.Clear(initialRow, initialCol, 1, 1);
                 }
             }
         }
