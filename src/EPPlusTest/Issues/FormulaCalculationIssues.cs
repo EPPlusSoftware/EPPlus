@@ -609,6 +609,56 @@ namespace EPPlusTest.Issues
         }
 
         [TestMethod]
+        public void RedYellowGreenShouldNotCreateCorruptWorkbookReproduce()
+        {
+            using (var p = OpenPackage("RedYellowGreenUncorrupt.xlsx", true))
+            {
+				var sheet = p.Workbook.Worksheets.Add("sheet1");
+
+                sheet.Cells["D27"].Value = -1;
+                sheet.Cells["D28"].Value = 0;
+                sheet.Cells["D29"].Value = 1;
+
+                sheet.Cells["E27"].Value = "RedL";
+                sheet.Cells["E28"].Value = "YellowL";
+                sheet.Cells["E29"].Value = "GreenL";
+
+
+                sheet.Cells["F27"].Value = "RED";
+                sheet.Cells["F28"].Value = "Yellow";
+                sheet.Cells["F29"].Value = "Green";
+
+                sheet.Cells["F27:F29"].Formula = "IFS(E27=\"RedL\",\"RED\",E27=\"YellowL\",\"Yellow\",E27=\"GreenL\",\"Green\")";
+
+
+                var firstRange = sheet.Cells["D27:F30"];
+
+                var options = RangeSortOptions.Create();
+                options.SortLeftToRightBy.Row(0);
+                firstRange.Sort(options);
+
+                sheet.Calculate();
+
+                SaveAndCleanup(p);
+            }
+            using (var p = OpenPackage("RedYellowGreenUncorrupt.xlsx"))
+			{
+                var sheet = p.Workbook.Worksheets.First();
+
+                var firstRange = sheet.Cells["D27:F30"];
+
+                var options = RangeSortOptions.Create();
+                options.SortLeftToRightBy.Row(0);
+                firstRange.Sort(options);
+
+                sheet.Calculate();
+
+				var outFile = GetOutputFile("", "RedYellowGreenCorrupt.xlsx");
+				p.SaveAs(outFile.FullName);
+            }
+        }
+
+        [TestMethod]
         public void RedYellowGreenShouldNotCreateCorruptWorkbook()
         {
             using (var p = OpenTemplatePackage("RedYellowGreen.xlsx"))
@@ -665,7 +715,6 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(p);
             }
         }
-
         [TestMethod]
         public void RedYellowGreen_PrevDimension()
         {
@@ -758,5 +807,7 @@ namespace EPPlusTest.Issues
             Assert.AreEqual("Road", sheet.Cells["C3"].Value);
             SaveWorkbook("Sc809_Output_NotSorted.xlsx", p);
         }
+
+
     }
 }
