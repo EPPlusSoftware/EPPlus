@@ -1172,6 +1172,131 @@ namespace EPPlusTest.Table.PivotTable
         }
 
         [TestMethod]
+        public void Issue1833()
+        {
+            var sampleData = @"Column1  ,Column2  ,Column3  ,Column4  ,Column5,Column6,Column7  ,Column8  ,Column9,Column10   ,Column11  ,Column12,Column13
+                                     Col1Cell1,Col2Cell1,Col3Cell1,Col4Cell1,       ,       ,Col7Cell1,Col8Cell1,       ,Col10Cell1 ,Col11Cell1,0       ,0
+                                     Col1Cell1,Col2Cell1,Col3Cell2,Col4Cell2,       ,       ,         ,Col8Cell2,       ,ShouldMerge,Col11Cell2,50      ,0
+                                     Col1Cell1,Col2Cell1,Col3Cell3,         ,       ,       ,         ,Col8Cell3,       ,ShouldMerge,Col11Cell3,0       ,0"
+                .Replace(" ", string.Empty);
+
+            var options = new ExcelPivotOptions(
+                pivotName: "DataPivot",
+                pivotStartCell: "A1",
+                rowGroupingFields:
+                [
+                    "Column2",
+                    "Column8",
+                    "Column10",
+                    "Column3"
+                ],
+                rowDataFields:
+                [
+                    "Column12",
+                    "Column13"
+                ]
+            );
+            var file = new FileInfo("PivotTableMergeRow.xlsx");
+            if(file.Exists) file.Delete();
+            using var package = new ExcelPackage(newFile: file);
+            var dataSheet = package.Workbook.Worksheets.Add("Data");
+            var pivotSheet = package.Workbook.Worksheets.Add("Pivot");
+
+            dataSheet.Cells["A1"].LoadFromText(
+                sampleData, 
+                new ExcelTextFormat(), 
+                TableStyles.Medium7, 
+                FirstRowIsHeader: true
+            );
+            dataSheet.Tables[0].Name = "Data";
+            
+            InjectPivotTable(pivotSheet, dataSheet.Tables["Data"], options);
+
+            var pivotTable = pivotSheet.PivotTables[options.PivotName];
+            
+
+            Assert.IsNotNull(pivotTable);
+
+            /*
+             * I am not sure how to do this assertion
+             * Cells C4:C5 of the pivot table should
+             * be merged
+             */
+            //Assert.IsTrue(pivotSheet.PivotTables);
+            Assert.Fail("Look Here");
+
+            //package.Save();
+        }
+
+        public class ExcelPivotOptions
+        {
+            public ExcelPivotOptions(
+                string pivotName, 
+                string[] rowGroupingFields,
+                string[] rowDataFields,
+                string pivotStartCell = "A1",
+                int firstHeaderRow = 1,
+                bool collapseDataRowsIntoTree = false
+            )
+            {
+                PivotName = pivotName;
+                RowGroupingFields = rowGroupingFields;
+                RowDataFields = rowDataFields;
+                PivotStartCell = pivotStartCell;
+                FirstHeaderRow = firstHeaderRow;
+                CollapseDataRowsIntoTree = collapseDataRowsIntoTree;
+            }
+
+            public string PivotName { get; }
+       
+            public string[] RowGroupingFields { get; }
+
+            public string[] RowDataFields { get; }
+        
+            public string PivotStartCell { get; }
+
+            public int FirstHeaderRow { get; }
+
+            public bool CollapseDataRowsIntoTree { get; }
+
+            public string HeaderCell => "A1";
+
+        }
+
+        public static void InjectPivotTable(ExcelWorksheet pivotWorksheet, ExcelTable dataWorksheetTable,
+            ExcelPivotOptions pivotOptions)
+        {
+            var pivotTable = pivotWorksheet.PivotTables.Add(
+                Range: pivotWorksheet.Cells[pivotOptions.PivotStartCell],
+                Source: dataWorksheetTable.Range,
+                Name: pivotOptions.PivotName
+            );
+
+            pivotTable.FirstHeaderRow = pivotOptions.FirstHeaderRow;
+            
+            for (var i = 0; i < pivotOptions.RowGroupingFields.Length; i++)
+            {
+                var field = pivotOptions.RowGroupingFields[i];
+                var rowField = pivotTable.RowFields.Add(pivotTable.Fields[field]);
+                rowField.Format = "@"; //Layout.OutputFormats.Text;
+                rowField.Outline = false;
+               
+                
+                if(i == 0) continue;//leaves first set to automatic
+                rowField.SubTotalFunctions = eSubTotalFunctions.None;
+            }
+
+            foreach (var field in pivotOptions.RowDataFields)
+            {
+                var dataField = pivotTable.DataFields.Add(pivotTable.Fields[field]);
+                dataField.Format = "#,##0;(#,##0)"; //Layout.OutputFormats.NumericAmount.WholeNumber;
+            }
+
+            pivotTable.PivotTableStyle = PivotTableStyles.Medium13;
+            pivotTable.DataOnRows = pivotOptions.CollapseDataRowsIntoTree;
+        }
+
+        [TestMethod]
         public void FillDownTest()
         {
             using var p = new ExcelPackage();
