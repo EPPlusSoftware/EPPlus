@@ -273,7 +273,7 @@ namespace OfficeOpenXml.Sorting
                         f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
                         //f.Address = ExcelCellBase.GetAddress(startAddr._fromRow + (row - startAddr._fromRow), startAddr._fromCol, row, startAddr._toCol);
                     }
-                    _worksheet._formulas.SetValue(row, col, sfIx);
+                    //_worksheet._formulas.SetValue(row, col, sfIx);
                     //_worksheet._formulas.Clear(initialRow, initialCol, 1, 1);
                 }
             }

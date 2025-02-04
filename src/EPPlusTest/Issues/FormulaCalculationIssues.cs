@@ -808,6 +808,16 @@ namespace EPPlusTest.Issues
             SaveWorkbook("Sc809_Output_NotSorted.xlsx", p);
         }
 
+		[TestMethod]
+		public void Issue1828()
+		{
+			using var p = OpenTemplatePackage("Issue1828.xlsx");
+            var sheet = p.Workbook.Worksheets.First();
 
+            sheet.Cells.Sort(column: 0);
+            sheet.Calculate();
+
+			SaveAndCleanup(p);
+        }
     }
 }
