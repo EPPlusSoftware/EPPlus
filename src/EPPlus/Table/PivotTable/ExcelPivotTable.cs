@@ -1165,6 +1165,20 @@ namespace OfficeOpenXml.Table.PivotTable
             }
         }
         /// <summary>
+        /// Merge and center pivot table cells with labels.
+        /// </summary>
+        public bool MergeItem
+        {
+            get
+            {
+                return GetXmlNodeBool("@mergeItem");
+            }
+            set
+            {
+                SetXmlNodeBool("@mergeItem", value);
+            }
+        }
+        /// <summary>
         /// A boolean that indicates whether data fields in the PivotTable should be displayed in outline form
         /// </summary>
         public bool OutlineData
