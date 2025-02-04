@@ -116,7 +116,8 @@ namespace OfficeOpenXml.Drawing
             }
             else if(d._drawings.DrawingsType == DrawingsCollectionType.chart)
             {
-                d.RemoveFromToNodes();
+                if(d is not ExcelGroupShape)
+                    d.RemoveFromToNodes();
             }
 
             node.ParentNode.RemoveChild(node);
@@ -315,7 +316,7 @@ namespace OfficeOpenXml.Drawing
             var grpNode = CreateNode(_topPath);
             if (grpNode.InnerXml == "")
             {
-                grpNode.InnerXml = "<" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":cNvPr name=\"\" id=\"3\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></" + NamespacePrefixes[prefixIndex] + ":cNvPr><" + NamespacePrefixes[prefixIndex] + ":cNvGrpSpPr/></" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":grpSpPr><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/><a:chOff y=\"0\" x=\"0\"/><a:chExt cy=\"0\" cx=\"0\"/></a:xfrm></" + NamespacePrefixes[prefixIndex] + ":grpSpPr>";
+                grpNode.InnerXml = "<" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":cNvPr name=\"\" id=\"3\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></" + NamespacePrefixes[prefixIndex] + ":cNvPr><" + NamespacePrefixes[prefixIndex] + ":cNvGrpSpPr/></" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":grpSpPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/><a:chOff x=\"0\" y=\"0\"/><a:chExt cx=\"0\" cy=\"0\"/></a:xfrm></" + NamespacePrefixes[prefixIndex] + ":grpSpPr>";
             }
 
             switch (DrawingsType)
@@ -334,11 +335,11 @@ namespace OfficeOpenXml.Drawing
                         CreateNode(xFrmNode, "a:chExt");
                     }
                     var offNode = (XmlElement)xFrmNode.SelectSingleNode("a:off", NameSpaceManager);
-                    offNode.SetAttribute("y", y.ToString());
                     offNode.SetAttribute("x", x.ToString());
+                    offNode.SetAttribute("y", y.ToString());
                     var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext", NameSpaceManager);
-                    extNode.SetAttribute("cy", cy.ToString());
                     extNode.SetAttribute("cx", cx.ToString());
+                    extNode.SetAttribute("cy", cy.ToString());
                     Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
                     Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
                     var chOffNode = (XmlElement)xFrmNode.SelectSingleNode("a:chOff", NameSpaceManager);
@@ -426,56 +427,44 @@ namespace OfficeOpenXml.Drawing
             else if (prefixIndex == 1)
             {
                 long l = Drawings[0].Position.X, t = Drawings[0].Position.Y, r = Drawings[0].Position.X + Drawings[0].Size.Width, b = Drawings[0].Position.Y + Drawings[0].Size.Height;
-                for (int i = 1; i < Drawings.Count; i++)
+                foreach(var d in Drawings)
                 {
-                    var d = Drawings[i];
-
-                    if (d.Position.X < l)
-                    {
-                        l = d.Position.X;
-                    }
-                    if (d.Position.Y < t)
-                    {
-                        t = d.Position.Y;
-                    }
-                    if (d.Position.X + d.Size.Width > r)
-                    {
-                        r = d.Position.X + d.Size.Width;
-                    }
-                    if (d.Position.Y + d.Size.Height > b)
-                    {
-                        b = d.Position.Y + d.Size.Height;
-                    }
+                    l = Math.Min(l, d.Position.X);
+                    t = Math.Min(t, d.Position.Y);
+                    r = Math.Max(r, d.Position.X + d.Size.Width);
+                    b = Math.Max(b, d.Position.Y + d.Size.Height);
                 }
-                Size.Width = r;
-                Size.Height = b;
+                long w = r - l;
+                long h = b - t;
+                Size.Width = w;
+                Size.Height = h;
                 Position.X = (int)l;
                 Position.Y = (int)t;
                 xFrmPosition.X = (int)l;
                 xFrmPosition.Y = (int)t;
-                xFrmSize.Width = r;
-                xFrmSize.Height = b;
+                xFrmSize.Width = w;
+                xFrmSize.Height = h;
                 xFrmChildPosition.X = (int)l;
                 xFrmChildPosition.Y = (int)t;
-                xFrmChildSize.Width = r;
-                xFrmChildSize.Height = b;
+                xFrmChildSize.Width = w;
+                xFrmChildSize.Height = h;
                 var off = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:off", NameSpaceManager);
                 off.Attributes["x"].Value = l.ToString();
                 off.Attributes["y"].Value = t.ToString();
                 var ext = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:ext", NameSpaceManager);
-                ext.Attributes["cx"].Value = r.ToString();
-                ext.Attributes["cy"].Value = b.ToString();
+                ext.Attributes["cx"].Value = w.ToString();
+                ext.Attributes["cy"].Value = h.ToString();
                 var chOff = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:chOff", NameSpaceManager);
                 chOff.Attributes["x"].Value = l.ToString();
                 chOff.Attributes["y"].Value = t.ToString();
                 var chExt = TopNode.SelectSingleNode("cdr:grpSp/cdr:grpSpPr/a:xfrm/a:chExt", NameSpaceManager);
-                chExt.Attributes["cx"].Value = r.ToString();
-                chExt.Attributes["cy"].Value = b.ToString();
+                chExt.Attributes["cx"].Value = w.ToString();
+                chExt.Attributes["cy"].Value = h.ToString();
 
-                From.X = l / _drawings.screenWidth / EMU_PER_PIXEL;
-                From.Y = t / _drawings.screenHeight / EMU_PER_PIXEL;
-                To.X = r / _drawings.screenWidth / EMU_PER_PIXEL;
-                To.Y = b / _drawings.screenHeight / EMU_PER_PIXEL;
+                From.X = l / (_drawings.screenWidth * EMU_PER_PIXEL);
+                From.Y = t / (_drawings.screenHeight * EMU_PER_PIXEL);
+                To.X = r / (_drawings.screenWidth * EMU_PER_PIXEL);
+                To.Y = b / (_drawings.screenHeight * EMU_PER_PIXEL);
                 From.UpdateXml();
                 To.UpdateXml();
             }

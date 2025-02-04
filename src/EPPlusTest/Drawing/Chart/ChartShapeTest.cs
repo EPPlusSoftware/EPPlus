@@ -15,10 +15,10 @@ namespace EPPlusTest.Drawing.Chart
             using var p = OpenTemplatePackage("ShapeInChart.xlsx");
             var ws = p.Workbook.Worksheets[0];
             var chart = ws.Drawings[0] as ExcelChart;
-            //var cdr = chart.ChartDrawings[1];
-            //cdr.SetSize(200);
-            //var cdr2 = chart.ChartDrawings[4];
-            //cdr2.SetSize(200);
+            var cdr = chart.Drawings[1];
+            cdr.SetSize(200);
+            var cdr2 = chart.Drawings[4];
+            cdr2.SetSize(200);
 
             var chartShape = chart.AddShape("MyShape", eShapeStyle.Diamond);
             chartShape.Fill.Color = Color.LightSeaGreen;
@@ -45,17 +45,16 @@ namespace EPPlusTest.Drawing.Chart
             }
 
             var shp1 = chart.AddShape("level1", eShapeStyle.Star10);
+            shp1.SetPosition(150, 250);
             var shp2 = chart.AddShape("level2", eShapeStyle.UpDownArrow);
-            shp2.SetPosition(0, 50);
+            shp2.SetPosition(200, 200);
             var shp3 = chart.AddShape("level3", eShapeStyle.Teardrop);
-            shp3.SetPosition(50, 0);
-            var group = shp1.Group(shp2);
-            group.Group(shp3);
-            group.SetPosition(50, 50);
-            //var shap1 = ws.Drawings.AddShape("shap1", eShapeStyle.Gear6);
-            //var shap2 = ws.Drawings.AddShape("shap2", eShapeStyle.LeftArrow);
-            //shap1.Group(shap2);
-
+            shp3.SetPosition(100, 50);
+            var shp4 = chart.AddShape("level4", eShapeStyle.MathEqual);
+            shp4.SetPosition(10, 60);
+            var group1 = shp1.Group(shp2, shp3);
+            var group2 = group1.Group(shp4);
+            group2.SetPosition(0,0);
 
             p.SaveAs(@"c:\epplustest\testoutput\shapeInChartTest.xlsx");
         }
@@ -63,6 +62,14 @@ namespace EPPlusTest.Drawing.Chart
 
 
     /*TODO
+     * vid group behövs ext och offset beräkning ses över samt att dessa håller ratio med from to.
+     * 
+     * 
+     * justera from x,y to x,y
+     * justera grpSpPr xfrm off x,y
+     * 
+     * 
+     * 
      * Vi skapar ej en connection shape i epplus?
      * Copy
      * -Copy whole drawings xml, set new name of drawings xml, create rel Id, done

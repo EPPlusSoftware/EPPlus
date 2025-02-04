@@ -1126,7 +1126,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Collection of drawing-objects like shapes, images and charts
         /// </summary>
-        public ExcelDrawings ChartDrawings
+        public ExcelDrawings Drawings
         {
             get
             {
@@ -1145,7 +1145,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
         public ExcelShape AddShape(string Name, eShapeStyle Style)
         {
-            return ChartDrawings.AddShape(Name, Style, DrawingsCollectionType.chart, this);
+            return Drawings.AddShape(Name, Style, DrawingsCollectionType.chart, this);
         }
 
         //String
@@ -1167,7 +1167,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         public ExcelPicture AddPicture(string Name, FileInfo ImagePath, Uri HyperLink)
         {
-            return ChartDrawings.AddPicture(Name, ImagePath, DrawingsCollectionType.chart, HyperLink, PictureLocation.Embed, this);
+            return Drawings.AddPicture(Name, ImagePath, DrawingsCollectionType.chart, HyperLink, PictureLocation.Embed, this);
         }
 
         //Stream
@@ -1178,7 +1178,7 @@ namespace OfficeOpenXml.Drawing.Chart
         }
         public ExcelPicture AddPicture(string Name, Stream ImagePath, Uri HyperLink)
         {
-            return ChartDrawings.AddPicture(Name, ImagePath, HyperLink, DrawingsCollectionType.chart, this);
+            return Drawings.AddPicture(Name, ImagePath, HyperLink, DrawingsCollectionType.chart, this);
         }
     }
 }

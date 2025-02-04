@@ -70,11 +70,11 @@ namespace OfficeOpenXml.Drawing
                         CreateNode(xFrmNode, "a:ext");
                     }
                     var offNode = (XmlElement)xFrmNode.SelectSingleNode("a:off", NameSpaceManager);
-                    offNode.SetAttribute("y", y.ToString());
                     offNode.SetAttribute("x", x.ToString());
+                    offNode.SetAttribute("y", y.ToString());
                     var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext", NameSpaceManager);
-                    extNode.SetAttribute("cy", cy.ToString());
                     extNode.SetAttribute("cx", cx.ToString());
+                    extNode.SetAttribute("cy", cy.ToString());
                     Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
                     Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
                     break;

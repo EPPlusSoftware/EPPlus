@@ -786,7 +786,7 @@ namespace OfficeOpenXml.Drawing
                     ext = (XmlElement)TopNode.SelectSingleNode("cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
                 if (ext != null)
                 {
-                    var cx = ((XmlElement)ext).GetAttribute("cy");
+                    var cx = ((XmlElement)ext).GetAttribute("cx");
                     pix = (int)double.Parse(cx);
                 }
                 return pix;
