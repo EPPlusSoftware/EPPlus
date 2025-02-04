@@ -222,6 +222,10 @@ namespace OfficeOpenXml.Sorting
             {
                 _worksheet._metadataStore.SetValue(row, col, wsd.Metadata[addr]);
             }
+            else
+            {
+                _worksheet._metadataStore.Clear(row, col, 1, 1);
+            }
         }
 
         private void HandleFlags(RangeWorksheetData wsd, int row, int col, string addr)
@@ -229,6 +233,10 @@ namespace OfficeOpenXml.Sorting
             if (wsd.Flags.ContainsKey(addr))
             {
                 _worksheet._flags.SetValue(row, col, wsd.Flags[addr]);
+            }
+            else
+            {
+                _worksheet._flags.Clear(row, col, 1, 1);
             }
         }
 
@@ -241,6 +249,10 @@ namespace OfficeOpenXml.Sorting
                 var comment = _worksheet._comments._list[i];
                 comment.Reference = ExcelCellBase.GetAddress(row, col);
             }
+            else
+            {
+                _worksheet._commentsStore.Clear(row, col, 1, 1);
+            }
         }
 
         private void HandleFormula(RangeWorksheetData wsd, int row, int col, string addr, int initialRow, int initialCol)
@@ -252,30 +264,32 @@ namespace OfficeOpenXml.Sorting
                 {
                     var formula = wsd.Formulas[addr].ToString();
                     var newFormula = initialRow != row ?
-                        AddressUtility.ShiftAddressRowsInFormula(string.Empty, formula, initialRow, row - initialRow) :
-                        AddressUtility.ShiftAddressColumnsInFormula(string.Empty, formula, initialCol, col - initialCol);
+                        AddressUtility.ShiftAddressRowsInFormula(string.Empty, formula, 1, row - initialRow) :
+                        AddressUtility.ShiftAddressColumnsInFormula(string.Empty, formula, 1, col - initialCol);
                     _worksheet._formulas.SetValue(row, col, newFormula);
-                    //_worksheet._formulas.Clear(initialRow, initialCol, 1, 1);
                 }
                 else if (wsd.Formulas[addr] is int)
                 {
                     int sfIx = (int)wsd.Formulas[addr];
                     var startAddr = new ExcelAddress(_worksheet._sharedFormulas[sfIx].Address);
                     var f = _worksheet._sharedFormulas[sfIx];
-                    if (startAddr._fromRow > row)
+
+                    if (f.StartRow > row || f.StartCol > col)
                     {
                         var shiftedToRow = row + startAddr._toRow - startAddr._fromRow;
                         f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
                         f.Address = ExcelCellBase.GetAddress(row, startAddr._fromCol, shiftedToRow, startAddr._toCol);
                     }
-                    else if (startAddr._toRow < row)
+                    else if (startAddr._toRow < row || startAddr._toCol < col)
                     {
                         f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
-                        //f.Address = ExcelCellBase.GetAddress(startAddr._fromRow + (row - startAddr._fromRow), startAddr._fromCol, row, startAddr._toCol);
+                        f.Address = ExcelCellBase.GetAddress(startAddr._fromRow + (row - startAddr._fromRow), startAddr._fromCol, row, startAddr._toCol);
                     }
-                    //_worksheet._formulas.SetValue(row, col, sfIx);
-                    //_worksheet._formulas.Clear(initialRow, initialCol, 1, 1);
                 }
+            }
+            else
+            {
+                _worksheet._formulas.Clear(row, col, 1, 1);
             }
         }
 

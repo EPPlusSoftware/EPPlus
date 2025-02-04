@@ -204,6 +204,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
         }
 
+        public bool IsSingleCell 
+        { 
+            get
+            {
+                return StartRow==EndRow && StartCol==EndCol;
+            }
+        }
+
         internal SharedFormula Clone()
         {
             var sh = new SharedFormula(_ws, StartRow, StartCol, EndRow, EndCol, Formula);
