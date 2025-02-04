@@ -10,14 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Drawing.Chart;
-using OfficeOpenXml.Drawing.Interfaces;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -166,6 +163,18 @@ namespace OfficeOpenXml.Drawing
             d.AdjustXPathsForGrouping(false);
             d.TopNode = drawingNode;
             d.SetCellAnchorFromNode();
+            if (d._drawings.DrawingsType == DrawingsCollectionType.chart)
+            {
+                double x1 = 0, y1 = 0, x2 = 0.1, y2 = 0.1;
+                MathHelper.AdjustAspectRatio(d._drawings.screenWidth, d._drawings.screenHeight, ref x1, ref y1, ref x2, ref y2);
+                double fromX = left / (d._drawings.screenWidth * ExcelDrawing.EMU_PER_PIXEL);
+                double fromY = top / (d._drawings.screenHeight * ExcelDrawing.EMU_PER_PIXEL);
+                left = (int)(fromX * d._drawings.screenWidth);
+                top = (int)(fromY * d._drawings.screenHeight);
+
+                width = (x2-x1) * d._drawings.screenWidth;
+                height = (y2-y1) * d._drawings.screenHeight;
+            }
             d.SetPosition(top, left);
             d.SetSize((int)width, (int)height);
         }
@@ -395,7 +404,7 @@ namespace OfficeOpenXml.Drawing
         }
         internal void SetPositionAndSizeFromChildren()
         {
-            if (prefixIndex == 0)
+            if (drawingsCollectionType == DrawingsCollectionType.excel)
             {
                 var pd = Drawings[0];
                 pd.GetPositionSize();
@@ -424,7 +433,7 @@ namespace OfficeOpenXml.Drawing
                 SetPosition((int)t, (int)l, false);
                 SetSize((int)(r - l), (int)(b - t));
             }
-            else if (prefixIndex == 1)
+            else if (drawingsCollectionType == DrawingsCollectionType.chart)
             {
                 long l = Drawings[0].Position.X, t = Drawings[0].Position.Y, r = Drawings[0].Position.X + Drawings[0].Size.Width, b = Drawings[0].Position.Y + Drawings[0].Size.Height;
                 foreach(var d in Drawings)

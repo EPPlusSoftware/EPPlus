@@ -24,7 +24,7 @@ namespace EPPlusTest.Drawing.Chart
             chartShape.Fill.Color = Color.LightSeaGreen;
             chartShape.Effect.SetPresetShadow(ePresetExcelShadowType.OuterRight);
             chartShape.SetPosition(144, 240);
-            chartShape.SetSize(240, 144);
+            //chartShape.SetSize(240, 144);
             var chartShape2 = chart.AddShape("MyShape2", eShapeStyle.Diamond);
             chartShape2.Fill.Color = Color.Orange;
             chartShape2.Effect.SetPresetShadow(ePresetExcelShadowType.OuterRight);
@@ -54,7 +54,19 @@ namespace EPPlusTest.Drawing.Chart
             shp4.SetPosition(10, 60);
             var group1 = shp1.Group(shp2, shp3);
             var group2 = group1.Group(shp4);
-            group2.SetPosition(0,0);
+            //group2.SetPosition(0, 0);
+            shp4.UnGroup();
+
+
+            //var d1 = ws.Drawings.AddShape("shape1", eShapeStyle.Rect);
+            //var d2 = ws.Drawings.AddShape("shape2", eShapeStyle.QuadArrow);
+            //var d3 = ws.Drawings.AddShape("shape3", eShapeStyle.Plus);
+            //var f1 = d1.Group(d2);
+            //var f2 = f1.Group(d3);
+            //d3.UnGroup();
+
+
+
 
             p.SaveAs(@"c:\epplustest\testoutput\shapeInChartTest.xlsx");
         }
@@ -62,16 +74,10 @@ namespace EPPlusTest.Drawing.Chart
 
 
     /*TODO
-     * vid group behövs ext och offset beräkning ses över samt att dessa håller ratio med from to.
-     * 
-     * 
-     * justera from x,y to x,y
-     * justera grpSpPr xfrm off x,y
-     * 
-     * 
-     * 
-     * Vi skapar ej en connection shape i epplus?
+     * ungroup
      * Copy
      * -Copy whole drawings xml, set new name of drawings xml, create rel Id, done
+     * -Copy inside chart
+     * Remove
      */
 }

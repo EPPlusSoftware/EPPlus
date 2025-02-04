@@ -73,6 +73,7 @@ namespace OfficeOpenXml.Drawing
 
         internal static string[] NamespacePrefixes = {"xdr", "cdr"};
         internal readonly int prefixIndex = 0;
+        internal readonly DrawingsCollectionType drawingsCollectionType;
 
         internal ExcelDrawing(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
             base(drawings.NameSpaceManager, node)
@@ -80,6 +81,7 @@ namespace OfficeOpenXml.Drawing
             _drawings = drawings;
             _parent = parent;
             prefixIndex = (int)DrawingsType;
+            drawingsCollectionType = DrawingsType;
             if (node != null)   //No drawing, chart xml only. This currently happends when created from a chart template
             {
                 TopNode = node;
@@ -707,7 +709,7 @@ namespace OfficeOpenXml.Drawing
         internal int GetPixelLeft()
         {
             int pix = 0;
-            if (prefixIndex == 1)
+            if (drawingsCollectionType == DrawingsCollectionType.chart)
             {
                 var off = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:off", NameSpaceManager);
                 if (off == null)
@@ -741,7 +743,7 @@ namespace OfficeOpenXml.Drawing
         internal int GetPixelTop()
         {
             int pix = 0;
-            if(prefixIndex == 1)
+            if(drawingsCollectionType == DrawingsCollectionType.chart)
             {
                 var off = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:off", NameSpaceManager);
                 if (off == null)
@@ -779,7 +781,7 @@ namespace OfficeOpenXml.Drawing
         internal double GetPixelWidth()
         {
             double pix=0;
-            if (prefixIndex == 1)
+            if (drawingsCollectionType == DrawingsCollectionType.chart)
             {
                 var ext = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
                 if (ext == null)
@@ -814,7 +816,7 @@ namespace OfficeOpenXml.Drawing
         internal double GetPixelHeight()
         {
             double pix=0;
-            if (prefixIndex == 1)
+            if (drawingsCollectionType == DrawingsCollectionType.chart)
             {
                 var ext = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
                 if (ext == null)
@@ -1284,7 +1286,7 @@ namespace OfficeOpenXml.Drawing
         public void SetPosition(int Row, int RowOffsetPixels, int Column, int ColumnOffsetPixels)
         {
             //Throw exception if shape in chart
-            if(prefixIndex == 1)
+            if(drawingsCollectionType == DrawingsCollectionType.chart)
             {
                 throw new InvalidOperationException("Shapes in chart does not contain row or column attributes. Use SetPosition(int PixelTop, int PixelLeft) instead.");
             }
@@ -1468,7 +1470,7 @@ namespace OfficeOpenXml.Drawing
             else
             {
                 _parent.Drawings.Clear();
-            }           
+            }
         }
         /// <summary>
         /// If the drawing is grouped this property contains the Group drawing containing the group.

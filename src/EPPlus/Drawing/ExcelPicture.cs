@@ -319,7 +319,7 @@ namespace OfficeOpenXml.Drawing
                 var width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
                 var height = Image.Bounds.Height / (Image.Bounds.VerticalResolution / STANDARD_DPI);
                 SetPosDefaults((float)width, (float)height);
-                if (prefixIndex == 1)
+                if (drawingsCollectionType == DrawingsCollectionType.chart)
                 {
                     SetSize((int)width, (int)height);
                 }
