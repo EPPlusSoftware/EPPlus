@@ -482,8 +482,8 @@ namespace OfficeOpenXml
                 _pck.Workbook.VbaProject.Modules.Remove(worksheet.CodeModule);
             }
 
-            _worksheets.RemoveAndShift(Index - _pck._worksheetAdd);
-            ReindexWorksheetDictionary();
+            _worksheets.RemoveAndShift(Index - _pck._worksheetAdd); 
+            ReindexWorksheetPosition(Index);
             //If the active sheet is deleted, set the next visible sheet as active.
             //If none are visible start going backwards until one isn't.
             if (_pck.Workbook.Worksheets.Count > 0)
@@ -570,6 +570,13 @@ namespace OfficeOpenXml
                 worksheets.Add(index++, entry);
             }
             _worksheets = worksheets;
+        }
+        internal void ReindexWorksheetPosition(int wsIndex)
+        {
+            for(int i= wsIndex; i<_worksheets.Count;i++)
+            {
+                _worksheets[i].PositionId = i + _pck._worksheetAdd;
+            }
         }
 
 #if Core
