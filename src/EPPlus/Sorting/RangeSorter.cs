@@ -274,17 +274,8 @@ namespace OfficeOpenXml.Sorting
                     var startAddr = new ExcelAddress(_worksheet._sharedFormulas[sfIx].Address);
                     var f = _worksheet._sharedFormulas[sfIx];
 
-                    if (f.StartRow > row || f.StartCol > col)
-                    {
-                        var shiftedToRow = row + startAddr._toRow - startAddr._fromRow;
-                        f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
-                        f.Address = ExcelCellBase.GetAddress(row, startAddr._fromCol, shiftedToRow, startAddr._toCol);
-                    }
-                    else if (startAddr._toRow < row || startAddr._toCol < col)
-                    {
-                        f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
-                        f.Address = ExcelCellBase.GetAddress(startAddr._fromRow + (row - startAddr._fromRow), startAddr._fromCol, row, startAddr._toCol);
-                    }
+                    f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, col);
+                    f.Address = ExcelCellBase.GetAddress(row, col, row, col);
                 }
             }
             else
