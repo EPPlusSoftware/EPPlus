@@ -40,6 +40,8 @@ using System.Diagnostics;
 using System.Reflection;
 using OfficeOpenXml.Drawing.Theme;
 using System.Linq;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace EPPlusTest
 {

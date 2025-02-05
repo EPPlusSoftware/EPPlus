@@ -1715,12 +1715,13 @@ namespace OfficeOpenXml.Drawing
                 }
                 if (relNode != null && _drawings.Part.RelationshipExists(relNode.Value))
                 {
-                    var rel = _drawings.Part.GetRelationship(relNode.Value);
+                    var srcsRel = _drawings.Part.GetRelationship(relNode.Value);
                     ZipPackageRelationship newRel = null;
+                    bool imageExists = false;
                     //Copy image file to new workbook if target worksheet is in a different workbook.
                     if (targetWorkbook != _drawings.Worksheet.Workbook)
                     {
-                        var uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                        var uri = UriHelper.ResolvePartUri(srcsRel.SourceUri, srcsRel.TargetUri);
                         var imagePart = _drawings.Worksheet.Workbook._package.ZipPackage.GetPart(uri);
 
                         var imageStream = (MemoryStream)imagePart.GetStream(FileMode.Open, FileAccess.Read);
@@ -1733,29 +1734,31 @@ namespace OfficeOpenXml.Drawing
 
                         if (imageInfo == null)
                         {
-                            newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(rel);
+                            newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
                             var info = new FileInfo(uri.OriginalString);
-                            Uri aUri = GetNewUri(targetPackage.ZipPackage, "/xl/media/image{0}" + info.Extension);
+                            Uri absUri = GetNewUri(targetPackage.ZipPackage, "/xl/media/image{0}" + info.Extension);
 
-                            newRel.TargetUri = aUri;
+                            var relativeUri = UriHelper.GetRelativeUri(newRel.SourceUri, absUri);
+                            newRel.TargetUri = relativeUri;
 
-                            var copyPart = targetPackage.ZipPackage.CreatePart(aUri, imagePart.ContentType);
+                            var copyPart = targetPackage.ZipPackage.CreatePart(absUri, imagePart.ContentType);
                             var copyStream = (MemoryStream)copyPart.GetStream(FileMode.Create, FileAccess.Write);
                             copyStream.Write(image, 0, image.Length);
                         }
                         else
                         {
-                            rel.TargetUri = imageInfo.Uri;
+                            srcsRel.TargetUri = imageInfo.Uri;
+                            //imageExists = true;
                         }
                     }
                     //Check if relationship exists.
-                    var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(rel.RelationshipType).Where(x => x.Target == rel.Target).FirstOrDefault();
+                    var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.Target == srcsRel.Target).FirstOrDefault();
                     //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the exsisting relationship Id
                     if (exisistingRel == null || targetWorksheet != _drawings.Worksheet)
                     {
                         if(newRel == null)
                         {
-                            newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(rel);
+                            newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
                         }
                         relNode.Value = newRel.Id;
                     }
