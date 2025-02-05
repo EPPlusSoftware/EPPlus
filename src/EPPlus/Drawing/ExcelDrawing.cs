@@ -1713,11 +1713,13 @@ namespace OfficeOpenXml.Drawing
                 {
                     relNode = drawNode.SelectSingleNode("xdr:blipFill/a:blip/@r:embed", NameSpaceManager);
                 }
+
                 if (relNode != null && _drawings.Part.RelationshipExists(relNode.Value))
                 {
                     var srcsRel = _drawings.Part.GetRelationship(relNode.Value);
                     ZipPackageRelationship newRel = null;
                     bool imageExists = false;
+
                     //Copy image file to new workbook if target worksheet is in a different workbook.
                     if (targetWorkbook != _drawings.Worksheet.Workbook)
                     {
@@ -1734,9 +1736,10 @@ namespace OfficeOpenXml.Drawing
 
                         if (imageInfo == null)
                         {
-                            newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
                             var info = new FileInfo(uri.OriginalString);
                             Uri absUri = GetNewUri(targetPackage.ZipPackage, "/xl/media/image{0}" + info.Extension);
+
+                            newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
 
                             var relativeUri = UriHelper.GetRelativeUri(newRel.SourceUri, absUri);
                             newRel.TargetUri = relativeUri;
@@ -1744,27 +1747,30 @@ namespace OfficeOpenXml.Drawing
                             var copyPart = targetPackage.ZipPackage.CreatePart(absUri, imagePart.ContentType);
                             var copyStream = (MemoryStream)copyPart.GetStream(FileMode.Create, FileAccess.Write);
                             copyStream.Write(image, 0, image.Length);
+
+                            relNode.Value = newRel.Id;
                         }
                         else
                         {
-                            srcsRel.TargetUri = imageInfo.Uri;
-                            //imageExists = true;
+                            var relativeUri = UriHelper.GetRelativeUri(srcsRel.SourceUri, imageInfo.Uri);
+                            var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.TargetUri == relativeUri).FirstOrDefault();
+                            relNode.Value = exisistingRel.Id;
                         }
-                    }
-                    //Check if relationship exists.
-                    var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.Target == srcsRel.Target).FirstOrDefault();
-                    //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the exsisting relationship Id
-                    if (exisistingRel == null || targetWorksheet != _drawings.Worksheet)
-                    {
-                        if(newRel == null)
-                        {
-                            newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
-                        }
-                        relNode.Value = newRel.Id;
                     }
                     else
                     {
-                        relNode.Value = exisistingRel.Id;
+                        //Check if relationship exists.
+                        var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.TargetUri == srcsRel.TargetUri).FirstOrDefault();
+                        //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the existing relationship Id
+                        if (exisistingRel == null || targetWorksheet != _drawings.Worksheet)
+                        {
+                            newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
+                            relNode.Value = newRel.Id;
+                        }
+                        else
+                        {
+                            relNode.Value = exisistingRel.Id;
+                        }
                     }
                 }
             }

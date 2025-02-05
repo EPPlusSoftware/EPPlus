@@ -1227,6 +1227,10 @@ namespace EPPlusTest
                     Assert.AreEqual("epplusPicture", wsSecond.Drawings[1].Name);
                     Assert.AreEqual("screenshotPicture", wsFirst.Drawings[1].Name);
 
+                    //Check that we don't create new rels as image already exists in target
+                    Assert.AreEqual(2, wsFirst.Drawings.Part._rels.Count);
+                    Assert.AreEqual(2, wsSecond.Drawings.Part._rels.Count);
+
                     SaveAndCleanup(target);
                 }
                 SaveAndCleanup(src);
@@ -1259,14 +1263,36 @@ namespace EPPlusTest
                     wsSecond.Names.AddName(rangeName, wsSecond.Cells[rangeAddress]);
 
                     CopyImagesBetweenWorkbooks(src, target, sheetName, rangeName);
+
+                    //ensure "normal" copying works
+                    Assert.AreEqual(2, wsSecond.Drawings.Count);
+                    Assert.AreEqual("screenshotPicture", wsSecond.Drawings[0].Name);
+                    Assert.AreEqual("epplusPicture", wsSecond.Drawings[1].Name);
+
                     CopyImagesBetweenWorkbooks(target, src, sheetName, rangeName);
 
+                    //Ensure nothing's changed in the workbook we are copying FROM when copying back
                     Assert.AreEqual(2, wsSecond.Drawings.Count);
+                    Assert.AreEqual("screenshotPicture", wsSecond.Drawings[0].Name);
+                    Assert.AreEqual("epplusPicture", wsSecond.Drawings[1].Name);
+
                     //Copies the copy therefore 3
                     Assert.AreEqual(3, wsFirst.Drawings.Count);
-
-                    Assert.AreEqual("epplusPicture", wsSecond.Drawings[1].Name);
+                    Assert.AreEqual("epplusPicture", wsFirst.Drawings[0].Name);
                     Assert.AreEqual("screenshotPicture", wsFirst.Drawings[1].Name);
+                    Assert.AreEqual("epplusPicture1", wsFirst.Drawings[2].Name);
+
+                    //Check that we don't create new rels as image already exists in target
+                    Assert.AreEqual(2, wsFirst.Drawings.Part._rels.Count);
+                    Assert.AreEqual(2, wsSecond.Drawings.Part._rels.Count);
+
+                    //Ensure no missmatch of ids
+                    var relIdOriginal = wsFirst.Drawings[0].As.Picture.GetRelId();
+                    var relIdCopiedBack = wsFirst.Drawings[2].As.Picture.GetRelId();
+
+                    Assert.AreEqual(relIdOriginal, relIdCopiedBack);
+                    Assert.AreEqual("rId1", relIdOriginal);
+                    Assert.AreEqual("rId2", wsFirst.Drawings[1].As.Picture.GetRelId());
 
                     SaveAndCleanup(target);
                 }
@@ -1351,9 +1377,11 @@ namespace EPPlusTest
 
                     CopyNamedRangeToTargetSheetWB(src, target, "sheet1", "SomeName");
 
-                    SaveAndCleanup(target);
+                    var outputName = GetOutputFile("", "alt_" + target.File.Name).FullName;
+                    target.SaveAs(outputName);
                 }
-                SaveAndCleanup(src);
+                var outputName2 = GetOutputFile("", "alt_" + src.File.Name).FullName;
+                src.SaveAs(outputName2);
             }
         }
 
