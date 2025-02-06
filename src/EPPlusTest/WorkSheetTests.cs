@@ -345,7 +345,7 @@ namespace EPPlusTest
                     Assert.AreEqual(r1.Bold, true);
 
                     ws = TryGetWorksheet(pck, "Pic URL");
-                    Assert.AreEqual(((ExcelPicture)ws.Drawings["Pic URI"]).Hyperlink, "http://epplus.codeplex.com");
+                    Assert.AreEqual(((ExcelPicture)ws.Drawings["Pic URI"]).Hyperlink.OriginalString, "http://epplus.codeplex.com");
 
                     Assert.AreEqual(pck.Workbook.Worksheets["Address"].GetValue<string>(40, 1), "\b\t");
 

@@ -46,7 +46,7 @@ namespace EPPlusTest.ConditionalFormatting
             var cf = ws.ConditionalFormatting.AddDatabar(ws.Cells["A1:A5"], Color.BlueViolet);
             cf.Address = new ExcelAddress("C3");
 
-            Assert.AreEqual(cf.Address, "C3");
+            Assert.AreEqual(cf.Address.Address, "C3");
         }
 
         [TestMethod]

@@ -22,7 +22,7 @@ namespace EPPlusTest.Issues
                 excelCalculationOption.AllowCircularReferences = true;
                 worksheet.Calculate(excelCalculationOption);
 
-                Assert.AreNotEqual(0, worksheet.Cells["A1"].Text);
+                Assert.AreNotEqual("0", worksheet.Cells["A1"].Text);
 
                 package.Save();
             }
