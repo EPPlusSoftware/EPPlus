@@ -16,6 +16,7 @@ using System.Text;
 using System.Xml;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.Table
@@ -246,7 +247,7 @@ namespace OfficeOpenXml.Table
         const string CALCULATEDCOLUMNFORMULA_PATH = "d:calculatedColumnFormula";
         /// <summary>
         /// Sets a calculated column Formula.
-        /// Be carefull with this property since it is not validated. 
+        /// Be careful with this property since it is not validated. 
         /// <example>
         /// tbl.Columns[9].CalculatedColumnFormula = string.Format("SUM(MyDataTable[[#This Row],[{0}]])",tbl.Columns[9].Name);  //Reference within the current row
         /// tbl.Columns[9].CalculatedColumnFormula = string.Format("MyDataTable[[#Headers],[{0}]]",tbl.Columns[9].Name);  //Reference to a column header
@@ -296,6 +297,18 @@ namespace OfficeOpenXml.Table
                         throw new InvalidOperationException($"IsCalculatedFormulaArray: No formula set on column {Name}");
                     }
                     SetXmlNodeBool(CALCULATEDCOLUMNFORMULA_ARRAY_PATH, value.Value);
+
+                    if (value.Value)
+                    {
+                        int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;
+                        int toRow = _tbl.ShowTotal ? _tbl.Address._toRow - 1 : _tbl.Address._toRow;
+                        var colNum = _tbl.Address._fromCol + Position;
+
+                        string r1c1Formula = ExcelCellBase.TranslateToR1C1(CalculatedColumnFormula, _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow, colNum);
+                        _tbl.WorkSheet.Cells[fromRow, colNum, toRow, colNum].CreateArrayFormula(r1c1Formula, true);
+                        //CreateArrayFormula
+                        //SetTableFormulaFlagArray();
+                    }
                 }
                 else
                 {
@@ -347,6 +360,19 @@ namespace OfficeOpenXml.Table
             else
             {
                 SetFormulaCells(fromRow, toRow, colNum);
+            }
+        }
+
+        internal void SetTableFormulaFlagArray()
+        {
+            int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;
+            int toRow = _tbl.ShowTotal ? _tbl.Address._toRow - 1 : _tbl.Address._toRow;
+            var colNum = _tbl.Address._fromCol + Position;
+            var ws = _tbl.WorkSheet;
+
+            for (int row = fromRow; row <= toRow; row++)
+            {
+                ws._flags.SetFlagValue(row, colNum, true, CellFlags.ArrayFormula);
             }
         }
 
