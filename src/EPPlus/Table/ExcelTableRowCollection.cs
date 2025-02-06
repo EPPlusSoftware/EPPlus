@@ -19,6 +19,13 @@ namespace OfficeOpenXml.Table
 
         private readonly ExcelTable _table;
 
+        internal event EventHandler<RowsDeletedEventArgs> RowsDeleted;
+
+        private void OnRowsDeleted(int nRows, int position)
+        {
+            RowsDeleted?.Invoke(this, new RowsDeletedEventArgs(nRows, position));
+        }
+
         /// <summary>
         /// Returns a table row
         /// </summary>
@@ -28,8 +35,7 @@ namespace OfficeOpenXml.Table
         {
             get
             {
-                var rowNo = _table.DataRange._fromRow + ix;
-                return new ExcelTableRow(_table, rowNo);
+                return new ExcelTableRow(_table, ix);
             }
         }
 
@@ -40,8 +46,26 @@ namespace OfficeOpenXml.Table
         /// <returns></returns>
         public ExcelTableRow AddNewRow(bool copyStyles = true)
         {
-            _table.InsertRow(this.Count(), 1, copyStyles);
-            return new ExcelTableRow(_table, _table.DataRange._toRow);
+            var r = _table.InsertRow(this.Count(), 1, copyStyles);
+            return new ExcelTableRow(_table, r.Start.Row - _table.DataRange.Start.Row);
+        }
+
+        /// <summary>
+        /// Add a new empty row at the bottom the table.
+        /// </summary>
+        /// <param name="nRows">Number of rows to add</param>
+        /// <param name="copyStyles"></param>
+        /// <returns></returns>
+        public IEnumerable<ExcelTableRow> AddNewRows(int nRows, bool copyStyles = true)
+        {
+            var rowIx = this.Count();
+            _table.InsertRow(rowIx, nRows, copyStyles);
+            var result = new List<ExcelTableRow>();
+            for (var r = rowIx; r < rowIx + nRows; r++)
+            {
+                result.Add(new ExcelTableRow(_table, r));
+            }
+            return result;
         }
 
         /// <summary>
@@ -52,8 +76,27 @@ namespace OfficeOpenXml.Table
         /// <returns></returns>
         public ExcelTableRow InsertNewRow(int position, bool copyStyles = true)
         {
-            _table.InsertRow(position, 1, copyStyles);
-            return new ExcelTableRow(_table, _table.DataRange._fromRow + position);
+            var r = _table.InsertRow(position, 1, copyStyles);
+            return new ExcelTableRow(_table, r.Start.Row - _table.DataRange._fromRow);
+        }
+
+        /// <summary>
+        /// Inserts one or more new empty rows at the specified position.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="nRows">Number of new rows to insert</param>
+        /// <param name="copyStyles"></param>
+        /// <returns></returns>
+        public IEnumerable<ExcelTableRow> InsertNewRows(int position, int nRows = 1, bool copyStyles = true)
+        {
+            var insertedRange = _table.InsertRow(position, nRows, copyStyles);
+            var result = new List<ExcelTableRow>();
+            var startRow = insertedRange._fromRow;
+            for(var r = startRow; r < startRow + nRows; r++)
+            {
+                result.Add(new ExcelTableRow(_table, r - _table.DataRange._fromRow));
+            }
+            return result;
         }
 
         /// <summary>
@@ -64,6 +107,7 @@ namespace OfficeOpenXml.Table
         public void DeleteRows(int position, int numberOfRows = 1)
         {
             _table.DeleteRow(position, numberOfRows);
+            OnRowsDeleted(numberOfRows, position);
         }
 
         /// <summary>
@@ -74,13 +118,22 @@ namespace OfficeOpenXml.Table
         {
             for (int rowNo = _table.DataRange._fromRow; rowNo <= _table.DataRange._toRow; rowNo++)
             {
-                yield return new ExcelTableRow(_table, rowNo);
+                yield return new ExcelTableRow(_table, rowNo - _table.DataRange._fromRow);
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        /// <summary>
+        /// Clears/deletes all data in the table's rows.
+        /// </summary>
+        public void Clear()
+        {
+            _table.DeleteRow(0, this.Count() - 1);
+            _table.DataRows[0].Clear();
         }
     }
 }
