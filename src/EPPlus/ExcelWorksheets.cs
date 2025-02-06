@@ -573,7 +573,7 @@ namespace OfficeOpenXml
         }
         internal void ReindexWorksheetPosition(int wsIndex)
         {
-            for(int i= wsIndex; i<_worksheets.Count;i++)
+            for(int i= 0; i<_worksheets.Count;i++)
             {
                 _worksheets[i].PositionId = i + _pck._worksheetAdd;
             }
