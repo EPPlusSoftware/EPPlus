@@ -51,7 +51,7 @@ namespace OfficeOpenXml.Table
         }
 
         /// <summary>
-        /// Add a new empty row at the bottom the table.
+        /// Add a number of new empty rows at the bottom the table.
         /// </summary>
         /// <param name="nRows">Number of rows to add</param>
         /// <param name="copyStyles"></param>
