@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingExpression.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingExpression
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingExpression.cs

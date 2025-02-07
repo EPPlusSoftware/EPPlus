@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidationDateTime.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelDataValidationDateTime
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidationDateTime.cs

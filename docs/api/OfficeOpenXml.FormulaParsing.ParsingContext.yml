@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParsingContext
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
@@ -66,7 +66,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parser
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NameValueProvider
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Configuration
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
@@ -177,7 +177,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Debug
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
@@ -214,7 +214,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
@@ -255,7 +255,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
@@ -292,7 +292,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurrentCell
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ParsingContext.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CurrentWorksheet
     path: ../src/EPPlus/FormulaParsing/ParsingContext.cs

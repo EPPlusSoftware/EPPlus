@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelWaterfallChartSerie.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWaterfallChartSerie
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelWaterfallChartSerie.cs
@@ -82,7 +82,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelWaterfallChartSerie.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowConnectorLines
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelWaterfallChartSerie.cs

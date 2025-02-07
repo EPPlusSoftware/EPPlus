@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyleCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelNamedStyleCollection
     path: ../src/EPPlus/ExcelStyleCollection.cs
@@ -77,7 +77,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyleCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelStyleCollection.cs

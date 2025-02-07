@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/XirrImpl.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XirrImpl
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/XirrImpl.cs
@@ -60,7 +60,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/XirrImpl.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetXirr
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/XirrImpl.cs

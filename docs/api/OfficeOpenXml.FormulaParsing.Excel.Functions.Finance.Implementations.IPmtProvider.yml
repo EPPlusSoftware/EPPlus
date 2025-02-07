@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPmtProvider.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IPmtProvider
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPmtProvider.cs
@@ -49,7 +49,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPmtProvider.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetPmt
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IPmtProvider.cs

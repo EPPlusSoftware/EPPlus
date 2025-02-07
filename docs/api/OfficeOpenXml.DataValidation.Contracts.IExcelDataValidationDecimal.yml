@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidationDecimal.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelDataValidationDecimal
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidationDecimal.cs

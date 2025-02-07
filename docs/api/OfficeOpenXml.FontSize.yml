@@ -21,11 +21,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontSize
     path: ../src/EPPlus/FontSize.cs
-    startLine: 26
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -64,11 +64,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultFont
     path: ../src/EPPlus/FontSize.cs
-    startLine: 31
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -99,11 +99,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NonExistingFont
     path: ../src/EPPlus/FontSize.cs
-    startLine: 35
+    startLine: 36
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -134,11 +134,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontWidths
     path: ../src/EPPlus/FontSize.cs
-    startLine: 43
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -169,11 +169,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontHeights
     path: ../src/EPPlus/FontSize.cs
-    startLine: 75
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -204,11 +204,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAllFontsFromResource
     path: ../src/EPPlus/FontSize.cs
-    startLine: 178
+    startLine: 183
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -238,11 +238,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FontSize.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFontsFromResource
     path: ../src/EPPlus/FontSize.cs
-    startLine: 192
+    startLine: 197
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

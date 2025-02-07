@@ -1,0 +1,196 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.PictureLocation
+  commentId: T:OfficeOpenXml.Drawing.PictureLocation
+  id: PictureLocation
+  parent: OfficeOpenXml.Drawing
+  children:
+  - OfficeOpenXml.Drawing.PictureLocation.Embed
+  - OfficeOpenXml.Drawing.PictureLocation.Link
+  - OfficeOpenXml.Drawing.PictureLocation.LinkAndEmbed
+  - OfficeOpenXml.Drawing.PictureLocation.None
+  langs:
+  - csharp
+  - vb
+  name: PictureLocation
+  nameWithType: PictureLocation
+  fullName: OfficeOpenXml.Drawing.PictureLocation
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/PictureLocation.cs
+      branch: release/epplus7.6.0
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PictureLocation
+    path: ../src/EPPlus/Drawing/Enums/PictureLocation.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nOptions for how to link a picture\n"
+  example: []
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum PictureLocation
+    content.vb: >-
+      <Flags>
+
+      Public Enum PictureLocation
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.Drawing.PictureLocation.None
+  commentId: F:OfficeOpenXml.Drawing.PictureLocation.None
+  id: None
+  parent: OfficeOpenXml.Drawing.PictureLocation
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: PictureLocation.None
+  fullName: OfficeOpenXml.Drawing.PictureLocation.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/PictureLocation.cs
+      branch: release/epplus7.6.0
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/Drawing/Enums/PictureLocation.cs
+    startLine: 13
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.Drawing.PictureLocation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.PictureLocation.Embed
+  commentId: F:OfficeOpenXml.Drawing.PictureLocation.Embed
+  id: Embed
+  parent: OfficeOpenXml.Drawing.PictureLocation
+  langs:
+  - csharp
+  - vb
+  name: Embed
+  nameWithType: PictureLocation.Embed
+  fullName: OfficeOpenXml.Drawing.PictureLocation.Embed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/PictureLocation.cs
+      branch: release/epplus7.6.0
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Embed
+    path: ../src/EPPlus/Drawing/Enums/PictureLocation.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCopy and Embed the image within the workbook\n"
+  example: []
+  syntax:
+    content: Embed = 1
+    return:
+      type: OfficeOpenXml.Drawing.PictureLocation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.PictureLocation.Link
+  commentId: F:OfficeOpenXml.Drawing.PictureLocation.Link
+  id: Link
+  parent: OfficeOpenXml.Drawing.PictureLocation
+  langs:
+  - csharp
+  - vb
+  name: Link
+  nameWithType: PictureLocation.Link
+  fullName: OfficeOpenXml.Drawing.PictureLocation.Link
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/PictureLocation.cs
+      branch: release/epplus7.6.0
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Link
+    path: ../src/EPPlus/Drawing/Enums/PictureLocation.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCollect the image from the link\n"
+  example: []
+  syntax:
+    content: Link = 2
+    return:
+      type: OfficeOpenXml.Drawing.PictureLocation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.PictureLocation.LinkAndEmbed
+  commentId: F:OfficeOpenXml.Drawing.PictureLocation.LinkAndEmbed
+  id: LinkAndEmbed
+  parent: OfficeOpenXml.Drawing.PictureLocation
+  langs:
+  - csharp
+  - vb
+  name: LinkAndEmbed
+  nameWithType: PictureLocation.LinkAndEmbed
+  fullName: OfficeOpenXml.Drawing.PictureLocation.LinkAndEmbed
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/PictureLocation.cs
+      branch: release/epplus7.6.0
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LinkAndEmbed
+    path: ../src/EPPlus/Drawing/Enums/PictureLocation.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nCopy and Embed the image and add a link\n"
+  example: []
+  syntax:
+    content: LinkAndEmbed = 3
+    return:
+      type: OfficeOpenXml.Drawing.PictureLocation
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
+- uid: OfficeOpenXml.Drawing.PictureLocation
+  commentId: T:OfficeOpenXml.Drawing.PictureLocation
+  parent: OfficeOpenXml.Drawing
+  name: PictureLocation
+  nameWithType: PictureLocation
+  fullName: OfficeOpenXml.Drawing.PictureLocation

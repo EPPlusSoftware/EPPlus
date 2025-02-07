@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelHyperLink
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -35,17 +35,18 @@ items:
   summary: "\nHyperlinkClass\n"
   example: []
   syntax:
-    content: 'public class ExcelHyperLink : Uri, ISpanFormattable, IFormattable, ISerializable'
+    content: 'public class ExcelHyperLink : Uri, ISpanFormattable, IFormattable, IEquatable<Uri>, ISerializable'
     content.vb: >-
       Public Class ExcelHyperLink
           Inherits Uri
-          Implements ISpanFormattable, IFormattable, ISerializable
+          Implements ISpanFormattable, IFormattable, IEquatable(Of Uri), ISerializable
   inheritance:
   - System.Object
   - System.Uri
   implements:
   - System.ISpanFormattable
   - System.IFormattable
+  - System.IEquatable{System.Uri}
   - System.Runtime.Serialization.ISerializable
   inheritedMembers:
   - System.Uri.SchemeDelimiter
@@ -71,8 +72,11 @@ items:
   - System.Uri.CheckSecurity
   - System.Uri.Compare(System.Uri,System.Uri,System.UriComponents,System.UriFormat,System.StringComparison)
   - System.Uri.Equals(System.Object)
+  - System.Uri.Equals(System.Uri)
   - System.Uri.Escape
   - System.Uri.EscapeDataString(System.String)
+  - System.Uri.EscapeDataString(System.ReadOnlySpan{System.Char})
+  - System.Uri.TryEscapeDataString(System.ReadOnlySpan{System.Char},System.Span{System.Char},System.Int32@)
   - System.Uri.EscapeString(System.String)
   - System.Uri.EscapeUriString(System.String)
   - System.Uri.FromHex(System.Char)
@@ -93,17 +97,19 @@ items:
   - System.Uri.MakeRelative(System.Uri)
   - System.Uri.MakeRelativeUri(System.Uri)
   - System.Uri.Parse
+  - System.Uri.System#IFormattable#ToString(System.String,System.IFormatProvider)
+  - System.Uri.System#ISpanFormattable#TryFormat(System.Span{System.Char},System.Int32@,System.ReadOnlySpan{System.Char},System.IFormatProvider)
   - System.Uri.System#Runtime#Serialization#ISerializable#GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   - System.Uri.ToString
-  - System.Uri.System#IFormattable#ToString(System.String,System.IFormatProvider)
   - System.Uri.TryCreate(System.String,System.UriCreationOptions@,System.Uri@)
   - System.Uri.TryCreate(System.String,System.UriKind,System.Uri@)
   - System.Uri.TryCreate(System.Uri,System.String,System.Uri@)
   - System.Uri.TryCreate(System.Uri,System.Uri,System.Uri@)
   - System.Uri.TryFormat(System.Span{System.Char},System.Int32@)
-  - System.Uri.System#ISpanFormattable#TryFormat(System.Span{System.Char},System.Int32@,System.ReadOnlySpan{System.Char},System.IFormatProvider)
   - System.Uri.Unescape(System.String)
   - System.Uri.UnescapeDataString(System.String)
+  - System.Uri.UnescapeDataString(System.ReadOnlySpan{System.Char})
+  - System.Uri.TryUnescapeDataString(System.ReadOnlySpan{System.Char},System.Span{System.Char},System.Int32@)
   - System.Uri.AbsolutePath
   - System.Uri.AbsoluteUri
   - System.Uri.Authority
@@ -150,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -186,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -225,7 +231,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -264,7 +270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReferenceAddress
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -301,7 +307,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Display
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -338,7 +344,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToolTip
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -375,7 +381,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColSpan
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -412,7 +418,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowSpan
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -449,7 +455,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OriginalUri
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -506,6 +512,50 @@ references:
   name: IFormattable
   nameWithType: IFormattable
   fullName: System.IFormattable
+- uid: System.IEquatable{System.Uri}
+  commentId: T:System.IEquatable{System.Uri}
+  parent: System
+  definition: System.IEquatable`1
+  name: IEquatable<Uri>
+  nameWithType: IEquatable<Uri>
+  fullName: System.IEquatable<System.Uri>
+  nameWithType.vb: IEquatable(Of Uri)
+  fullName.vb: System.IEquatable(Of System.Uri)
+  name.vb: IEquatable(Of Uri)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    nameWithType: IEquatable
+    fullName: System.IEquatable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Uri
+    name: Uri
+    nameWithType: Uri
+    fullName: System.Uri
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    nameWithType: IEquatable
+    fullName: System.IEquatable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Uri
+    name: Uri
+    nameWithType: Uri
+    fullName: System.Uri
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.Runtime.Serialization.ISerializable
   commentId: T:System.Runtime.Serialization.ISerializable
   parent: System.Runtime.Serialization
@@ -922,6 +972,47 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Uri.Equals(System.Uri)
+  commentId: M:System.Uri.Equals(System.Uri)
+  parent: System.Uri
+  isExternal: true
+  name: Equals(Uri)
+  nameWithType: Uri.Equals(Uri)
+  fullName: System.Uri.Equals(System.Uri)
+  spec.csharp:
+  - uid: System.Uri.Equals(System.Uri)
+    name: Equals
+    nameWithType: Uri.Equals
+    fullName: System.Uri.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Uri
+    name: Uri
+    nameWithType: Uri
+    fullName: System.Uri
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Uri.Equals(System.Uri)
+    name: Equals
+    nameWithType: Uri.Equals
+    fullName: System.Uri.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Uri
+    name: Uri
+    nameWithType: Uri
+    fullName: System.Uri
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.Uri.Escape
   commentId: M:System.Uri.Escape
   parent: System.Uri
@@ -990,6 +1081,192 @@ references:
     name: String
     nameWithType: String
     fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Uri.EscapeDataString(System.ReadOnlySpan{System.Char})
+  commentId: M:System.Uri.EscapeDataString(System.ReadOnlySpan{System.Char})
+  parent: System.Uri
+  isExternal: true
+  name: EscapeDataString(ReadOnlySpan<Char>)
+  nameWithType: Uri.EscapeDataString(ReadOnlySpan<Char>)
+  fullName: System.Uri.EscapeDataString(System.ReadOnlySpan<System.Char>)
+  nameWithType.vb: Uri.EscapeDataString(ReadOnlySpan(Of Char))
+  fullName.vb: System.Uri.EscapeDataString(System.ReadOnlySpan(Of System.Char))
+  name.vb: EscapeDataString(ReadOnlySpan(Of Char))
+  spec.csharp:
+  - uid: System.Uri.EscapeDataString(System.ReadOnlySpan{System.Char})
+    name: EscapeDataString
+    nameWithType: Uri.EscapeDataString
+    fullName: System.Uri.EscapeDataString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    nameWithType: ReadOnlySpan
+    fullName: System.ReadOnlySpan
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Uri.EscapeDataString(System.ReadOnlySpan{System.Char})
+    name: EscapeDataString
+    nameWithType: Uri.EscapeDataString
+    fullName: System.Uri.EscapeDataString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    nameWithType: ReadOnlySpan
+    fullName: System.ReadOnlySpan
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Uri.TryEscapeDataString(System.ReadOnlySpan{System.Char},System.Span{System.Char},System.Int32@)
+  commentId: M:System.Uri.TryEscapeDataString(System.ReadOnlySpan{System.Char},System.Span{System.Char},System.Int32@)
+  parent: System.Uri
+  isExternal: true
+  name: TryEscapeDataString(ReadOnlySpan<Char>, Span<Char>, Int32)
+  nameWithType: Uri.TryEscapeDataString(ReadOnlySpan<Char>, Span<Char>, Int32)
+  fullName: System.Uri.TryEscapeDataString(System.ReadOnlySpan<System.Char>, System.Span<System.Char>, System.Int32)
+  nameWithType.vb: Uri.TryEscapeDataString(ReadOnlySpan(Of Char), Span(Of Char), Int32)
+  fullName.vb: System.Uri.TryEscapeDataString(System.ReadOnlySpan(Of System.Char), System.Span(Of System.Char), System.Int32)
+  name.vb: TryEscapeDataString(ReadOnlySpan(Of Char), Span(Of Char), Int32)
+  spec.csharp:
+  - uid: System.Uri.TryEscapeDataString(System.ReadOnlySpan{System.Char},System.Span{System.Char},System.Int32@)
+    name: TryEscapeDataString
+    nameWithType: Uri.TryEscapeDataString
+    fullName: System.Uri.TryEscapeDataString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    nameWithType: ReadOnlySpan
+    fullName: System.ReadOnlySpan
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Span`1
+    name: Span
+    nameWithType: Span
+    fullName: System.Span
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Uri.TryEscapeDataString(System.ReadOnlySpan{System.Char},System.Span{System.Char},System.Int32@)
+    name: TryEscapeDataString
+    nameWithType: Uri.TryEscapeDataString
+    fullName: System.Uri.TryEscapeDataString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    nameWithType: ReadOnlySpan
+    fullName: System.ReadOnlySpan
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Span`1
+    name: Span
+    nameWithType: Span
+    fullName: System.Span
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
     isExternal: true
   - name: )
     nameWithType: )
@@ -1864,6 +2141,201 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Uri.System#IFormattable#ToString(System.String,System.IFormatProvider)
+  commentId: M:System.Uri.System#IFormattable#ToString(System.String,System.IFormatProvider)
+  parent: System.Uri
+  isExternal: true
+  name: IFormattable.ToString(String, IFormatProvider)
+  nameWithType: Uri.IFormattable.ToString(String, IFormatProvider)
+  fullName: System.Uri.System.IFormattable.ToString(System.String, System.IFormatProvider)
+  nameWithType.vb: Uri.System.IFormattable.ToString(String, IFormatProvider)
+  name.vb: System.IFormattable.ToString(String, IFormatProvider)
+  spec.csharp:
+  - uid: System.Uri.System#IFormattable#ToString(System.String,System.IFormatProvider)
+    name: IFormattable.ToString
+    nameWithType: Uri.IFormattable.ToString
+    fullName: System.Uri.System.IFormattable.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.IFormatProvider
+    name: IFormatProvider
+    nameWithType: IFormatProvider
+    fullName: System.IFormatProvider
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Uri.System#IFormattable#ToString(System.String,System.IFormatProvider)
+    name: System.IFormattable.ToString
+    nameWithType: Uri.System.IFormattable.ToString
+    fullName: System.Uri.System.IFormattable.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.IFormatProvider
+    name: IFormatProvider
+    nameWithType: IFormatProvider
+    fullName: System.IFormatProvider
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Uri.System#ISpanFormattable#TryFormat(System.Span{System.Char},System.Int32@,System.ReadOnlySpan{System.Char},System.IFormatProvider)
+  commentId: M:System.Uri.System#ISpanFormattable#TryFormat(System.Span{System.Char},System.Int32@,System.ReadOnlySpan{System.Char},System.IFormatProvider)
+  parent: System.Uri
+  isExternal: true
+  name: ISpanFormattable.TryFormat(Span<Char>, Int32, ReadOnlySpan<Char>, IFormatProvider)
+  nameWithType: Uri.ISpanFormattable.TryFormat(Span<Char>, Int32, ReadOnlySpan<Char>, IFormatProvider)
+  fullName: System.Uri.System.ISpanFormattable.TryFormat(System.Span<System.Char>, System.Int32, System.ReadOnlySpan<System.Char>, System.IFormatProvider)
+  nameWithType.vb: Uri.System.ISpanFormattable.TryFormat(Span(Of Char), Int32, ReadOnlySpan(Of Char), IFormatProvider)
+  fullName.vb: System.Uri.System.ISpanFormattable.TryFormat(System.Span(Of System.Char), System.Int32, System.ReadOnlySpan(Of System.Char), System.IFormatProvider)
+  name.vb: System.ISpanFormattable.TryFormat(Span(Of Char), Int32, ReadOnlySpan(Of Char), IFormatProvider)
+  spec.csharp:
+  - uid: System.Uri.System#ISpanFormattable#TryFormat(System.Span{System.Char},System.Int32@,System.ReadOnlySpan{System.Char},System.IFormatProvider)
+    name: ISpanFormattable.TryFormat
+    nameWithType: Uri.ISpanFormattable.TryFormat
+    fullName: System.Uri.System.ISpanFormattable.TryFormat
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Span`1
+    name: Span
+    nameWithType: Span
+    fullName: System.Span
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    nameWithType: ReadOnlySpan
+    fullName: System.ReadOnlySpan
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.IFormatProvider
+    name: IFormatProvider
+    nameWithType: IFormatProvider
+    fullName: System.IFormatProvider
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Uri.System#ISpanFormattable#TryFormat(System.Span{System.Char},System.Int32@,System.ReadOnlySpan{System.Char},System.IFormatProvider)
+    name: System.ISpanFormattable.TryFormat
+    nameWithType: Uri.System.ISpanFormattable.TryFormat
+    fullName: System.Uri.System.ISpanFormattable.TryFormat
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Span`1
+    name: Span
+    nameWithType: Span
+    fullName: System.Span
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    nameWithType: ReadOnlySpan
+    fullName: System.ReadOnlySpan
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.IFormatProvider
+    name: IFormatProvider
+    nameWithType: IFormatProvider
+    fullName: System.IFormatProvider
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.Uri.System#Runtime#Serialization#ISerializable#GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   commentId: M:System.Uri.System#Runtime#Serialization#ISerializable#GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
   parent: System.Uri
@@ -1951,65 +2423,6 @@ references:
   - name: (
     nameWithType: (
     fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Uri.System#IFormattable#ToString(System.String,System.IFormatProvider)
-  commentId: M:System.Uri.System#IFormattable#ToString(System.String,System.IFormatProvider)
-  parent: System.Uri
-  isExternal: true
-  name: IFormattable.ToString(String, IFormatProvider)
-  nameWithType: Uri.IFormattable.ToString(String, IFormatProvider)
-  fullName: System.Uri.System.IFormattable.ToString(System.String, System.IFormatProvider)
-  nameWithType.vb: Uri.System.IFormattable.ToString(String, IFormatProvider)
-  name.vb: System.IFormattable.ToString(String, IFormatProvider)
-  spec.csharp:
-  - uid: System.Uri.System#IFormattable#ToString(System.String,System.IFormatProvider)
-    name: IFormattable.ToString
-    nameWithType: Uri.IFormattable.ToString
-    fullName: System.Uri.System.IFormattable.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.IFormatProvider
-    name: IFormatProvider
-    nameWithType: IFormatProvider
-    fullName: System.IFormatProvider
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Uri.System#IFormattable#ToString(System.String,System.IFormatProvider)
-    name: System.IFormattable.ToString
-    nameWithType: Uri.System.IFormattable.ToString
-    fullName: System.Uri.System.IFormattable.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.IFormatProvider
-    name: IFormatProvider
-    nameWithType: IFormatProvider
-    fullName: System.IFormatProvider
-    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -2387,142 +2800,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Uri.System#ISpanFormattable#TryFormat(System.Span{System.Char},System.Int32@,System.ReadOnlySpan{System.Char},System.IFormatProvider)
-  commentId: M:System.Uri.System#ISpanFormattable#TryFormat(System.Span{System.Char},System.Int32@,System.ReadOnlySpan{System.Char},System.IFormatProvider)
-  parent: System.Uri
-  isExternal: true
-  name: ISpanFormattable.TryFormat(Span<Char>, Int32, ReadOnlySpan<Char>, IFormatProvider)
-  nameWithType: Uri.ISpanFormattable.TryFormat(Span<Char>, Int32, ReadOnlySpan<Char>, IFormatProvider)
-  fullName: System.Uri.System.ISpanFormattable.TryFormat(System.Span<System.Char>, System.Int32, System.ReadOnlySpan<System.Char>, System.IFormatProvider)
-  nameWithType.vb: Uri.System.ISpanFormattable.TryFormat(Span(Of Char), Int32, ReadOnlySpan(Of Char), IFormatProvider)
-  fullName.vb: System.Uri.System.ISpanFormattable.TryFormat(System.Span(Of System.Char), System.Int32, System.ReadOnlySpan(Of System.Char), System.IFormatProvider)
-  name.vb: System.ISpanFormattable.TryFormat(Span(Of Char), Int32, ReadOnlySpan(Of Char), IFormatProvider)
-  spec.csharp:
-  - uid: System.Uri.System#ISpanFormattable#TryFormat(System.Span{System.Char},System.Int32@,System.ReadOnlySpan{System.Char},System.IFormatProvider)
-    name: ISpanFormattable.TryFormat
-    nameWithType: Uri.ISpanFormattable.TryFormat
-    fullName: System.Uri.System.ISpanFormattable.TryFormat
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Span`1
-    name: Span
-    nameWithType: Span
-    fullName: System.Span
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.Char
-    name: Char
-    nameWithType: Char
-    fullName: System.Char
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.ReadOnlySpan`1
-    name: ReadOnlySpan
-    nameWithType: ReadOnlySpan
-    fullName: System.ReadOnlySpan
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.Char
-    name: Char
-    nameWithType: Char
-    fullName: System.Char
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.IFormatProvider
-    name: IFormatProvider
-    nameWithType: IFormatProvider
-    fullName: System.IFormatProvider
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Uri.System#ISpanFormattable#TryFormat(System.Span{System.Char},System.Int32@,System.ReadOnlySpan{System.Char},System.IFormatProvider)
-    name: System.ISpanFormattable.TryFormat
-    nameWithType: Uri.System.ISpanFormattable.TryFormat
-    fullName: System.Uri.System.ISpanFormattable.TryFormat
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Span`1
-    name: Span
-    nameWithType: Span
-    fullName: System.Span
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.Char
-    name: Char
-    nameWithType: Char
-    fullName: System.Char
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.ReadOnlySpan`1
-    name: ReadOnlySpan
-    nameWithType: ReadOnlySpan
-    fullName: System.ReadOnlySpan
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.Char
-    name: Char
-    nameWithType: Char
-    fullName: System.Char
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.IFormatProvider
-    name: IFormatProvider
-    nameWithType: IFormatProvider
-    fullName: System.IFormatProvider
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Uri.Unescape(System.String)
   commentId: M:System.Uri.Unescape(System.String)
   parent: System.Uri
@@ -2601,6 +2878,192 @@ references:
     name: String
     nameWithType: String
     fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Uri.UnescapeDataString(System.ReadOnlySpan{System.Char})
+  commentId: M:System.Uri.UnescapeDataString(System.ReadOnlySpan{System.Char})
+  parent: System.Uri
+  isExternal: true
+  name: UnescapeDataString(ReadOnlySpan<Char>)
+  nameWithType: Uri.UnescapeDataString(ReadOnlySpan<Char>)
+  fullName: System.Uri.UnescapeDataString(System.ReadOnlySpan<System.Char>)
+  nameWithType.vb: Uri.UnescapeDataString(ReadOnlySpan(Of Char))
+  fullName.vb: System.Uri.UnescapeDataString(System.ReadOnlySpan(Of System.Char))
+  name.vb: UnescapeDataString(ReadOnlySpan(Of Char))
+  spec.csharp:
+  - uid: System.Uri.UnescapeDataString(System.ReadOnlySpan{System.Char})
+    name: UnescapeDataString
+    nameWithType: Uri.UnescapeDataString
+    fullName: System.Uri.UnescapeDataString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    nameWithType: ReadOnlySpan
+    fullName: System.ReadOnlySpan
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Uri.UnescapeDataString(System.ReadOnlySpan{System.Char})
+    name: UnescapeDataString
+    nameWithType: Uri.UnescapeDataString
+    fullName: System.Uri.UnescapeDataString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    nameWithType: ReadOnlySpan
+    fullName: System.ReadOnlySpan
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Uri.TryUnescapeDataString(System.ReadOnlySpan{System.Char},System.Span{System.Char},System.Int32@)
+  commentId: M:System.Uri.TryUnescapeDataString(System.ReadOnlySpan{System.Char},System.Span{System.Char},System.Int32@)
+  parent: System.Uri
+  isExternal: true
+  name: TryUnescapeDataString(ReadOnlySpan<Char>, Span<Char>, Int32)
+  nameWithType: Uri.TryUnescapeDataString(ReadOnlySpan<Char>, Span<Char>, Int32)
+  fullName: System.Uri.TryUnescapeDataString(System.ReadOnlySpan<System.Char>, System.Span<System.Char>, System.Int32)
+  nameWithType.vb: Uri.TryUnescapeDataString(ReadOnlySpan(Of Char), Span(Of Char), Int32)
+  fullName.vb: System.Uri.TryUnescapeDataString(System.ReadOnlySpan(Of System.Char), System.Span(Of System.Char), System.Int32)
+  name.vb: TryUnescapeDataString(ReadOnlySpan(Of Char), Span(Of Char), Int32)
+  spec.csharp:
+  - uid: System.Uri.TryUnescapeDataString(System.ReadOnlySpan{System.Char},System.Span{System.Char},System.Int32@)
+    name: TryUnescapeDataString
+    nameWithType: Uri.TryUnescapeDataString
+    fullName: System.Uri.TryUnescapeDataString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    nameWithType: ReadOnlySpan
+    fullName: System.ReadOnlySpan
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Span`1
+    name: Span
+    nameWithType: Span
+    fullName: System.Span
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Uri.TryUnescapeDataString(System.ReadOnlySpan{System.Char},System.Span{System.Char},System.Int32@)
+    name: TryUnescapeDataString
+    nameWithType: Uri.TryUnescapeDataString
+    fullName: System.Uri.TryUnescapeDataString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.ReadOnlySpan`1
+    name: ReadOnlySpan
+    nameWithType: ReadOnlySpan
+    fullName: System.ReadOnlySpan
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Span`1
+    name: Span
+    nameWithType: Span
+    fullName: System.Span
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Char
+    name: Char
+    nameWithType: Char
+    fullName: System.Char
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
     isExternal: true
   - name: )
     nameWithType: )
@@ -2941,6 +3404,45 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: System.IEquatable`1
+  commentId: T:System.IEquatable`1
+  isExternal: true
+  name: IEquatable<T>
+  nameWithType: IEquatable<T>
+  fullName: System.IEquatable<T>
+  nameWithType.vb: IEquatable(Of T)
+  fullName.vb: System.IEquatable(Of T)
+  name.vb: IEquatable(Of T)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    nameWithType: IEquatable
+    fullName: System.IEquatable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    nameWithType: IEquatable
+    fullName: System.IEquatable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.Runtime.Serialization
   commentId: N:System.Runtime.Serialization
   isExternal: true

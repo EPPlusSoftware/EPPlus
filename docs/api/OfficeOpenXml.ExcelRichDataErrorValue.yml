@@ -15,11 +15,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.6.0
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRichDataErrorValue
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 79
+    startLine: 80
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
