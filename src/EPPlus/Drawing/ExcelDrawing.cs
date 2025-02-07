@@ -1574,7 +1574,7 @@ namespace OfficeOpenXml.Drawing
                         drawNode = CopyPicture(targetChart);
                         break;
                     case eDrawingType.GroupShape:
-                        //CopyGroupShape(chart);
+                        drawNode = CopyGroupShape(targetChart);
                         break;
                 }
                 var copy = GetDrawing(targetChart.Drawings, drawNode, DrawingsCollectionType.chart);
@@ -1582,7 +1582,7 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                throw new ArgumentException("Can only copy Shapes, Pictures and groupshapes into a chart.");
+                throw new NotSupportedException("Charts only supports shapes, pictures and group shapes containing only shapes or pictures.");
             }
         }
 
@@ -1658,6 +1658,39 @@ namespace OfficeOpenXml.Drawing
             copy.SetPixelWidth(width);
             copy.SetPixelHeight(height);
             copy.GetPositionSize();
+        }
+
+        private XmlNode CopyGroupShape(ExcelChart targetChart)
+        {
+            var drawNode = targetChart.Drawings.CreateDocumentAndTopNodeChartDrawings(targetChart);
+            drawNode.InnerXml = TopNode.InnerXml;
+            CopyGroupShape(targetChart, this, drawNode.ChildNodes[2]); //fix 2 to proper child node index
+            return drawNode;
+        }
+
+        private void CopyGroupShape(ExcelChart targetChart,ExcelDrawing sourceDrawing, XmlNode targetDrawNode, ExcelGroupShape parent = null)
+        {
+            if (sourceDrawing is ExcelPicture picture)
+            {
+                sourceDrawing.CopyPicture(targetChart, true, targetDrawNode);
+            }
+            else if (sourceDrawing is ExcelShape shape)
+            {
+                sourceDrawing.CopyPicture(targetChart, true, targetDrawNode);
+            }
+            else if (sourceDrawing is ExcelGroupShape groupShape)
+            {
+                int nodeIndex = 2;
+                for (int j = 0; j < groupShape.Drawings.Count; j++)
+                {
+                    //Start at index 2 but child nodes must be incremented by 1 each loop so that we check the next node.
+                    CopyGroupShape(targetChart, groupShape.Drawings[j], targetDrawNode.ChildNodes[nodeIndex++], groupShape);
+                }
+            }
+            else
+            {
+                throw new NotSupportedException("Charts only supports shapes, pictures and group shapes containing only shapes or pictures.");
+            }
         }
 
         private XmlNode CopyGroupShape(ExcelWorksheet worksheet)
@@ -2022,6 +2055,8 @@ namespace OfficeOpenXml.Drawing
             XmlNode drawNode = null;
             if (isGroupShape && groupDrawNode != null)
             {
+                drawNode = groupDrawNode;
+                groupDrawNode.SelectSingleNode("cdr:nvPicPr/cdr:cNvPr", targetChart._drawings.NameSpaceManager).Attributes["id"].Value = (++targetChart.WorkSheet.Workbook._nextDrawingId).ToString();
             }
             else
             {
@@ -2151,6 +2186,9 @@ namespace OfficeOpenXml.Drawing
             XmlNode drawNode = null;
             if (isGroupShape && groupDrawNode != null)
             {
+                drawNode = groupDrawNode;
+                groupDrawNode.SelectSingleNode("xdr:nvSpPr/xdr:cNvPr", targetChart._drawings.NameSpaceManager).Attributes["id"].Value = (++targetChart.WorkSheet.Workbook._nextDrawingId).ToString();
+                groupDrawNode.SelectSingleNode("xdr:nvSpPr/xdr:cNvPr", targetChart._drawings.NameSpaceManager).Attributes["name"].Value = targetChart._drawings.GetUniqueDrawingName(this.Name);
             }
             else
             {

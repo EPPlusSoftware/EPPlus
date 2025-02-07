@@ -65,6 +65,8 @@ namespace EPPlusTest.Drawing.Chart
             shp4.Copy(chart2);
             chartPic.Copy(chart);
             chartPic.Copy(chart2);
+            group2.Copy(chart);
+            group2.Copy(chart2);
 
             //var d1 = ws.Drawings.AddShape("shape1", eShapeStyle.Rect);
             //var d2 = ws.Drawings.AddShape("shape2", eShapeStyle.QuadArrow);
@@ -80,14 +82,8 @@ namespace EPPlusTest.Drawing.Chart
 
     /*TODO
      * Resize bounding box for grouped objects.
-     * ungroup
      * Copy
      * -Copy whole drawings xml, set new name of drawings xml, create rel Id, done
-     * -Copy inside chart
-     * -Testa köra med bara en chart som skapar i epplus
-     * -copy image
-     * -copy groupshape
-     * -validera groupshape
      * Remove
      */
 }
