@@ -2550,9 +2550,12 @@ namespace OfficeOpenXml
                 c.ChartXml.PreserveWhitespace = true;
                 c.ChartXml.Save(chartStream);
 
-                var xrd = new XmlTextWriter(c.Drawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
-                xrd.Formatting = Formatting.None;
-                c.Drawings.DrawingXml.Save(xrd);
+                if (c.Drawings.Part != null)
+                {
+                    var xrd = new XmlTextWriter(c.Drawings.Part.GetStream(FileMode.Create, FileAccess.Write), Encoding.UTF8);
+                    xrd.Formatting = Formatting.None;
+                    c.Drawings.DrawingXml.Save(xrd);
+                }
             }
             else if (d is ExcelSlicer<ExcelTableSlicerCache> s)
             {

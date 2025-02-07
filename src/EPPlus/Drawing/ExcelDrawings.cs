@@ -1825,7 +1825,7 @@ namespace OfficeOpenXml.Drawing
             _drawingNames.Add(oleObj.Name, _drawingsList.Count - 1);
             return oleObj;
         }
-        private XmlElement CreateDrawingXmlChartDrawings(ExcelChart container)
+        internal XmlElement CreateDrawingXmlChartDrawings(ExcelChart container)
         {
             XmlElement drawNode = CreateDocumentAndTopNodeChartDrawings(container);
 
@@ -1901,7 +1901,7 @@ namespace OfficeOpenXml.Drawing
         {
             if (DrawingXml.DocumentElement == null)
             {
-                DrawingXml.LoadXml(string.Format("<c:userShapes xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\">"));
+                DrawingXml.LoadXml(string.Format("<c:userShapes xmlns:c=\"http://schemas.openxmlformats.org/drawingml/2006/chart\"/>"));
                 Packaging.ZipPackage package = Worksheet._package.ZipPackage;
                 //Check for existing part, issue #100
                 var id = Worksheet.SheetId;
@@ -1910,14 +1910,14 @@ namespace OfficeOpenXml.Drawing
                     _uriDrawing = new Uri(string.Format("/xl/drawings/drawing{0}.xml", id++), UriKind.Relative);
                 }
                 while (package.PartExists(_uriDrawing));
-                _part = package.CreatePart(_uriDrawing, "application/vnd.openxmlformats-officedocument.drawing+xml", _package.Compression);
+                _part = package.CreatePart(_uriDrawing, "application/vnd.openxmlformats-officedocument.drawingml.chartshapes+xml", _package.Compression);
                 StreamWriter streamChart = new StreamWriter(_part.GetStream(FileMode.Create, FileAccess.Write));
                 DrawingXml.Save(streamChart);
                 streamChart.Close();
                 package.Flush();
                 
                 _drawingRelation = ContainerChart.Part.CreateRelationship(UriHelper.GetRelativeUri(ContainerChart.UriChart, _uriDrawing), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chartUserShapes");
-                XmlElement e = (XmlElement)ContainerChart.ChartXml.CreateElement("c:userShapes");
+                XmlElement e = (XmlElement)ContainerChart.ChartXml.CreateElement("c", "userShapes", @"http://schemas.openxmlformats.org/drawingml/2006/chart");
                 e.SetAttribute("id", ExcelPackage.schemaRelationships, _drawingRelation.Id);
                 ContainerChart.ChartXml.ChildNodes[1].AppendChild(e);
                 package.Flush();

@@ -1560,6 +1560,33 @@ namespace OfficeOpenXml.Drawing
             return clientDataNode;
         }
 
+        public void Copy(ExcelChart targetChart)
+        {
+            if(this is ExcelShape || this is ExcelPicture || this is ExcelGroupShape)
+            {
+                XmlNode drawNode = null;
+                switch (DrawingType)
+                {
+                    case eDrawingType.Shape:
+                        drawNode = CopyShape(targetChart);
+                        break;
+                    case eDrawingType.Picture:
+                        drawNode = CopyPicture(targetChart);
+                        break;
+                    case eDrawingType.GroupShape:
+                        //CopyGroupShape(chart);
+                        break;
+                }
+                var copy = GetDrawing(targetChart.Drawings, drawNode, DrawingsCollectionType.chart);
+                targetChart.Drawings.AddDrawingInternal(copy);
+            }
+            else
+            {
+                throw new ArgumentException("Can only copy Shapes, Pictures and groupshapes into a chart.");
+            }
+        }
+
+
         /// <summary>
         /// Copies the drawing to the supplied worksheets. The copy will be positioned using the <paramref name="row"/> and <paramref name="col"/> parameters
         /// </summary>
@@ -1989,6 +2016,37 @@ namespace OfficeOpenXml.Drawing
             return drawNode;
         }
 
+        private XmlNode CopyPicture(ExcelChart targetChart, bool isGroupShape = false, XmlNode groupDrawNode = null)
+        {
+            XmlNode drawNode = null;
+            if (isGroupShape && groupDrawNode != null)
+            {
+            }
+            else
+            {
+                drawNode = targetChart.Drawings.CreateDrawingXmlChartDrawings(targetChart);
+                drawNode.InnerXml = TopNode.InnerXml;
+            }
+            if(targetChart.Drawings != _drawings)
+            {
+                var relNode = drawNode.SelectSingleNode("cdr:pic/cdr:blipFill/a:blip/@r:embed", NameSpaceManager);
+                if (relNode != null && _drawings.Part.RelationshipExists(relNode.Value))
+                {
+                    var rel = _drawings.Part.GetRelationship(relNode.Value);
+                    //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the exsisting relationship Id
+                    var newRel = targetChart.Drawings.Part.CreateRelationshipFromCopy(rel);
+                    relNode.Value = newRel.Id;
+                }
+            }
+            if (!isGroupShape)
+            {
+                var targetPic = GetDrawing(targetChart.Drawings, drawNode, DrawingsCollectionType.chart) as ExcelPicture;
+                targetPic._id = ++targetChart.WorkSheet.Workbook._nextDrawingId;
+                targetPic.Name = targetChart._drawings.GetUniqueDrawingName(this.Name);
+            }
+            return drawNode;
+        }
+
         private XmlNode CopyPicture(ExcelWorksheet worksheet, bool isGroupShape = false, XmlNode groupDrawNode = null)
         {
             XmlNode drawNode = null;
@@ -2056,6 +2114,23 @@ namespace OfficeOpenXml.Drawing
                 var pic = GetDrawing(worksheet._drawings, drawNode) as ExcelPicture;
                 pic.SetNewId(++worksheet.Workbook._nextDrawingId);
                 pic.Name = worksheet._drawings.GetUniqueDrawingName(this.Name);
+            }
+            return drawNode;
+        }
+
+        private XmlNode CopyShape(ExcelChart targetChart, bool isGroupShape = false, XmlNode groupDrawNode = null)
+        {
+            XmlNode drawNode = null;
+            if (isGroupShape && groupDrawNode != null)
+            {
+            }
+            else
+            {
+                drawNode = targetChart.Drawings.CreateDrawingXmlChartDrawings(targetChart);
+                drawNode.InnerXml = TopNode.InnerXml;
+                var targetShape = GetDrawing(targetChart.Drawings, drawNode, DrawingsCollectionType.chart) as ExcelShape;
+                targetShape._id = ++targetChart.WorkSheet.Workbook._nextDrawingId;
+                targetShape.Name = targetChart.Drawings.GetUniqueDrawingName(this.Name);
             }
             return drawNode;
         }

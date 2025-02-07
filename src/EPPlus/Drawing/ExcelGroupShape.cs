@@ -352,11 +352,11 @@ namespace OfficeOpenXml.Drawing
                     Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
                     Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
                     var chOffNode = (XmlElement)xFrmNode.SelectSingleNode("a:chOff", NameSpaceManager);
-                    chOffNode.SetAttribute("y", y.ToString());
                     chOffNode.SetAttribute("x", x.ToString());
+                    chOffNode.SetAttribute("y", y.ToString());
                     var chExtNode = (XmlElement)xFrmNode.SelectSingleNode("a:chExt", NameSpaceManager);
-                    chExtNode.SetAttribute("cy", cy.ToString());
                     chExtNode.SetAttribute("cx", cx.ToString());
+                    chExtNode.SetAttribute("cy", cy.ToString());
                     break;
                 case DrawingsCollectionType.excel:
                 default:

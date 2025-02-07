@@ -1121,7 +1121,7 @@ namespace OfficeOpenXml.Drawing.Chart
 
 
 
-        ExcelDrawings _chartDrawings;
+        ExcelDrawings _chartDrawings = null;
 
         /// <summary>
         /// Collection of drawing-objects like shapes, images and charts

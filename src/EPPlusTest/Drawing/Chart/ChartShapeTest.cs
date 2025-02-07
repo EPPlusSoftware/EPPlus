@@ -54,9 +54,17 @@ namespace EPPlusTest.Drawing.Chart
             shp4.SetPosition(10, 60);
             var group1 = shp1.Group(shp2, shp3);
             var group2 = group1.Group(shp4);
-            //group2.SetPosition(0, 0);
+            group2.SetPosition(0, 0);
             shp4.UnGroup();
+            shp4.Copy(chart);
 
+            var chart2 = ws.Drawings.AddChart("Chart 3", eChartType.Line);
+            chart2.Series.Add(ws.Cells["B2:B6"], ws.Cells["C2:C6"]);
+            chart2.SetSize(480, 288);
+            chart2.AddShape("hsp", eShapeStyle.Can);
+            shp4.Copy(chart2);
+            chartPic.Copy(chart);
+            chartPic.Copy(chart2);
 
             //var d1 = ws.Drawings.AddShape("shape1", eShapeStyle.Rect);
             //var d2 = ws.Drawings.AddShape("shape2", eShapeStyle.QuadArrow);
@@ -65,19 +73,21 @@ namespace EPPlusTest.Drawing.Chart
             //var f2 = f1.Group(d3);
             //d3.UnGroup();
 
-
-
-
             p.SaveAs(@"c:\epplustest\testoutput\shapeInChartTest.xlsx");
         }
     }
 
 
     /*TODO
+     * Resize bounding box for grouped objects.
      * ungroup
      * Copy
      * -Copy whole drawings xml, set new name of drawings xml, create rel Id, done
      * -Copy inside chart
+     * -Testa köra med bara en chart som skapar i epplus
+     * -copy image
+     * -copy groupshape
+     * -validera groupshape
      * Remove
      */
 }
