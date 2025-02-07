@@ -23,11 +23,21 @@ namespace OfficeOpenXml.Sorting.Internal
         internal static List<SortItem<ExcelValue>> Create(ExcelRangeBase range)
         {
             var e = new CellStoreEnumerator<ExcelValue>(range.Worksheet._values, range._fromRow, range._fromCol, range._toRow, range._toCol);
+            var dim = range.Worksheet.Dimension;
             var sortItems = new List<SortItem<ExcelValue>>();
             SortItem<ExcelValue> item = new SortItem<ExcelValue>();
             var cols = range._toCol - range._fromCol + 1;
+            if(dim != null && cols > dim.End.Column)
+            {
+                cols = dim.End.Column;
+            }
             while (e.Next())
             {
+                if(dim != null)
+                {
+                    if (e.Row > dim.End.Row) continue;
+                    if (e.Column > dim.End.Column) continue;
+                }
                 if (sortItems.Count == 0 || sortItems[sortItems.Count - 1].Row != e.Row)
                 {
                     item = new SortItem<ExcelValue>() { Row = e.Row, Items = new ExcelValue[cols] };
