@@ -652,7 +652,9 @@ namespace OfficeOpenXml.Table
 
         internal ExcelTableRowCollection _rows = null;
         /// <summary>
-        /// Collection of the tables's data rows (header- and total row not included)
+        /// Collection of the tables's data rows (header- and total row not included). This property can be used for easier access to the tables data.
+        /// <seealso cref="ExcelTableRowCollection"/>
+        /// <seealso cref="ExcelTableRow"/>
         /// </summary>
         public ExcelTableRowCollection DataRows
         {

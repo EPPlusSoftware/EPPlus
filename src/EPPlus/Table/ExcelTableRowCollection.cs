@@ -8,7 +8,7 @@ using System.Text;
 namespace OfficeOpenXml.Table
 {
     /// <summary>
-    /// A collection of table rows
+    /// A collection of <see cref="ExcelTableRow">s.
     /// </summary>
     public class ExcelTableRowCollection : IEnumerable<ExcelTableRow>
     {
@@ -29,8 +29,8 @@ namespace OfficeOpenXml.Table
         /// <summary>
         /// Returns a table row
         /// </summary>
-        /// <param name="ix"></param>
-        /// <returns></returns>
+        /// <param name="ix">0-based index</param>
+        /// <returns>The <see cref="ExcelTableRow"/> that corresponds to the <paramref name="ix"/></returns>
         public ExcelTableRow this[int ix]
         {
             get
@@ -42,8 +42,8 @@ namespace OfficeOpenXml.Table
         /// <summary>
         /// Add a new empty row at the bottom the table.
         /// </summary>
-        /// <param name="copyStyles"></param>
-        /// <returns></returns>
+        /// <param name="copyStyles">Indicates whether styles should be copied to the new row. Default is true.</param>
+        /// <returns>The added <see cref="ExcelTableRow"/></returns>
         public ExcelTableRow AddNewRow(bool copyStyles = true)
         {
             var r = _table.InsertRow(this.Count(), 1, copyStyles);
@@ -54,8 +54,8 @@ namespace OfficeOpenXml.Table
         /// Add a number of new empty rows at the bottom the table.
         /// </summary>
         /// <param name="nRows">Number of rows to add</param>
-        /// <param name="copyStyles"></param>
-        /// <returns></returns>
+        /// <param name="copyStyles">Indicates whether styles should be copied to the new row. Default is true.</param>
+        /// <returns>The added rows</returns>
         public IEnumerable<ExcelTableRow> AddNewRows(int nRows, bool copyStyles = true)
         {
             var rowIx = this.Count();
@@ -71,8 +71,8 @@ namespace OfficeOpenXml.Table
         /// <summary>
         /// Inserts a new empty row at the specified position.
         /// </summary>
-        /// <param name="position"></param>
-        /// <param name="copyStyles"></param>
+        /// <param name="position">0-based position where the new row should be added</param>
+        /// <param name="copyStyles">Indicates whether styles should be copied to the new row. Default is true.</param>
         /// <returns></returns>
         public ExcelTableRow InsertNewRow(int position, bool copyStyles = true)
         {
@@ -83,9 +83,9 @@ namespace OfficeOpenXml.Table
         /// <summary>
         /// Inserts one or more new empty rows at the specified position.
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">0-based position where the new rows should be added</param>
         /// <param name="nRows">Number of new rows to insert</param>
-        /// <param name="copyStyles"></param>
+        /// <param name="copyStyles">Indicates whether styles should be copied to the new row. Default is true.</param>
         /// <returns></returns>
         public IEnumerable<ExcelTableRow> InsertNewRows(int position, int nRows = 1, bool copyStyles = true)
         {

@@ -8,14 +8,14 @@ using System.Text;
 namespace OfficeOpenXml.Table
 {
     /// <summary>
-    /// Represents a
+    /// Represents a row in an <see cref="ExcelTable"/>
     /// </summary>
     public class ExcelTableRow
     {
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="table"></param>
+        /// <param name="table">The <see cref="ExcelTable"/> that the row belongs to</param>
         /// <param name="rowIx">0 based index of the table row</param>
         internal ExcelTableRow(ExcelTable table, int rowIx)
         {
