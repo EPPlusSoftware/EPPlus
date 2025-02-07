@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/AccessibilitySettings.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AccessibilitySettings
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/AccessibilitySettings.cs
@@ -59,7 +59,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Accessibility/AccessibilitySettings.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableSettings
     path: ../src/EPPlus/Export/HtmlExport/Accessibility/AccessibilitySettings.cs

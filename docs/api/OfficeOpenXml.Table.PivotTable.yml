@@ -247,12 +247,6 @@ references:
   name: ExcelPivotTableFieldCollection
   nameWithType: ExcelPivotTableFieldCollection
   fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollection
-- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItemsCollection
-  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItemsCollection
-  parent: OfficeOpenXml.Table.PivotTable
-  name: ExcelPivotTableFieldItemsCollection
-  nameWithType: ExcelPivotTableFieldItemsCollection
-  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItemsCollection
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1
   commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldCollectionBase`1
   name: ExcelPivotTableFieldCollectionBase<T>
@@ -306,6 +300,12 @@ references:
   name: ExcelPivotTableFieldItem
   nameWithType: ExcelPivotTableFieldItem
   fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItem
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItemsCollection
+  commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItemsCollection
+  parent: OfficeOpenXml.Table.PivotTable
+  name: ExcelPivotTableFieldItemsCollection
+  nameWithType: ExcelPivotTableFieldItemsCollection
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldItemsCollection
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldNumericGroup
   commentId: T:OfficeOpenXml.Table.PivotTable.ExcelPivotTableFieldNumericGroup
   name: ExcelPivotTableFieldNumericGroup

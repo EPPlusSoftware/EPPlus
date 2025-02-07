@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableCollection
     path: ../src/EPPlus/Table/ExcelTableCollection.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/ExcelTableCollection.cs
@@ -115,7 +115,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/ExcelTableCollection.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/ExcelTableCollection.cs
@@ -193,7 +193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/ExcelTableCollection.cs
@@ -232,11 +232,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Table/ExcelTableCollection.cs
-    startLine: 195
+    startLine: 194
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -269,11 +269,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFromRange
     path: ../src/EPPlus/Table/ExcelTableCollection.cs
-    startLine: 207
+    startLine: 206
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -308,11 +308,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/ExcelTableCollection.cs
-    startLine: 223
+    startLine: 222
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -352,11 +352,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Table/ExcelTableCollection.cs
-    startLine: 239
+    startLine: 238
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -396,11 +396,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Table/ExcelTableCollection.cs
-    startLine: 257
+    startLine: 256
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -434,11 +434,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Table/ExcelTableCollection.cs
-    startLine: 262
+    startLine: 261
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table

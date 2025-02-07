@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SourceCodeTokenizer
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
@@ -69,11 +69,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 69
+    startLine: 70
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -108,11 +108,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: R1C1
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 77
+    startLine: 78
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -147,11 +147,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Default_KeepWhiteSpaces
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 84
+    startLine: 85
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -186,11 +186,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotFormula
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 91
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -225,11 +225,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 100
+    startLine: 101
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -272,11 +272,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 112
+    startLine: 113
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis
@@ -313,11 +313,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokenize
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/SourceCodeTokenizer.cs
-    startLine: 142
+    startLine: 143
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.LexicalAnalysis

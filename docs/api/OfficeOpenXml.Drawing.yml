@@ -78,6 +78,7 @@ items:
   - OfficeOpenXml.Drawing.ExcelTextRun
   - OfficeOpenXml.Drawing.ExcelView3D
   - OfficeOpenXml.Drawing.GenericImageHandler
+  - OfficeOpenXml.Drawing.PictureLocation
   langs:
   - csharp
   - vb
@@ -364,6 +365,12 @@ references:
   name: eTileFlipMode
   nameWithType: eTileFlipMode
   fullName: OfficeOpenXml.Drawing.eTileFlipMode
+- uid: OfficeOpenXml.Drawing.PictureLocation
+  commentId: T:OfficeOpenXml.Drawing.PictureLocation
+  parent: OfficeOpenXml.Drawing
+  name: PictureLocation
+  nameWithType: PictureLocation
+  fullName: OfficeOpenXml.Drawing.PictureLocation
 - uid: OfficeOpenXml.Drawing.ExcelChartAsType
   commentId: T:OfficeOpenXml.Drawing.ExcelChartAsType
   parent: OfficeOpenXml.Drawing

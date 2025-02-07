@@ -19,6 +19,7 @@ items:
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.Grouping
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.IncludeNewItemsInFilter
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.Index
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.InsertBlankRow
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.IsColumnField
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.IsDataField
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.IsPageField
@@ -29,6 +30,7 @@ items:
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.Outline
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.PageFieldSettings
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.RemoveAutoSort
+  - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.RepeatItemLabels
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.SetAutoSort(OfficeOpenXml.Table.PivotTable.ExcelPivotTableDataField,OfficeOpenXml.Table.PivotTable.eSortType)
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.ShowAll
   - OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.ShowAsCaption
@@ -50,11 +52,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 35
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -96,11 +98,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Index
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 62
+    startLine: 59
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -133,11 +135,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 78
+    startLine: 75
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -170,11 +172,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compact
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 100
+    startLine: 97
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -207,11 +209,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Outline
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 114
+    startLine: 111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -224,6 +226,80 @@ items:
       type: System.Boolean
     content.vb: Public Property Outline As Boolean
   overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.Outline*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.InsertBlankRow
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.InsertBlankRow
+  id: InsertBlankRow
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  langs:
+  - csharp
+  - vb
+  name: InsertBlankRow
+  nameWithType: ExcelPivotTableField.InsertBlankRow
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.InsertBlankRow
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
+      branch: release/epplus7.5.3
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertBlankRow
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
+    startLine: 125
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA boolean that indicates whether a blank row should be inserted after each item.\n"
+  example: []
+  syntax:
+    content: public bool InsertBlankRow { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property InsertBlankRow As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.InsertBlankRow*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.RepeatItemLabels
+  commentId: P:OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.RepeatItemLabels
+  id: RepeatItemLabels
+  parent: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField
+  langs:
+  - csharp
+  - vb
+  name: RepeatItemLabels
+  nameWithType: ExcelPivotTableField.RepeatItemLabels
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.RepeatItemLabels
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
+      branch: release/epplus7.5.3
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RepeatItemLabels
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
+    startLine: 139
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table.PivotTable
+  summary: "\nA boolean that indicates whether the item labels should repeat or not.\n"
+  example: []
+  syntax:
+    content: public bool RepeatItemLabels { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property RepeatItemLabels As Boolean
+  overload: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.RepeatItemLabels*
   modifiers.csharp:
   - public
   - get
@@ -244,11 +320,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SubtotalTop
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 128
+    startLine: 154
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -281,11 +357,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MultipleItemSelectionAllowed
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 142
+    startLine: 168
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -318,11 +394,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowAll
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 161
+    startLine: 187
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -355,11 +431,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDropDowns
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 175
+    startLine: 201
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -392,11 +468,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowInFieldList
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 189
+    startLine: 215
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -429,11 +505,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowAsCaption
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 203
+    startLine: 229
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -466,11 +542,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowMemberPropertyInCell
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 217
+    startLine: 243
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -503,11 +579,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowMemberPropertyToolTip
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 231
+    startLine: 257
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -540,11 +616,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 246
+    startLine: 272
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -577,11 +653,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetAutoSort
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 271
+    startLine: 297
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -616,11 +692,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAutoSort
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 295
+    startLine: 321
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -648,11 +724,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoSort
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 309
+    startLine: 335
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -685,11 +761,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncludeNewItemsInFilter
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 317
+    startLine: 343
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -722,11 +798,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SubTotalFunctions
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 332
+    startLine: 358
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -759,11 +835,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Axis
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 354
+    startLine: 380
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -796,11 +872,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRowField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 397
+    startLine: 423
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -833,11 +909,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsColumnField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 440
+    startLine: 466
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -870,11 +946,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsDataField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 480
+    startLine: 506
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -907,11 +983,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsPageField
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 494
+    startLine: 520
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -944,11 +1020,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageFieldSettings
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 531
+    startLine: 557
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -981,11 +1057,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Grouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 552
+    startLine: 578
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1018,11 +1094,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Format
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 562
+    startLine: 588
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1055,11 +1131,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Items
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 591
+    startLine: 617
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1092,11 +1168,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Cache
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 688
+    startLine: 722
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1129,11 +1205,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddNumericGrouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 709
+    startLine: 743
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1171,11 +1247,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSlicer
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 720
+    startLine: 754
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1206,11 +1282,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Slicer
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 731
+    startLine: 765
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1243,11 +1319,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDateGrouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 760
+    startLine: 794
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1279,11 +1355,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDateGrouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 770
+    startLine: 804
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1321,11 +1397,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDateGrouping
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 780
+    startLine: 814
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1363,11 +1439,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Filters
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableField.cs
-    startLine: 1179
+    startLine: 1213
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -1736,6 +1812,16 @@ references:
   name: Outline
   nameWithType: ExcelPivotTableField.Outline
   fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.Outline
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.InsertBlankRow*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.InsertBlankRow
+  name: InsertBlankRow
+  nameWithType: ExcelPivotTableField.InsertBlankRow
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.InsertBlankRow
+- uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.RepeatItemLabels*
+  commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.RepeatItemLabels
+  name: RepeatItemLabels
+  nameWithType: ExcelPivotTableField.RepeatItemLabels
+  fullName: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.RepeatItemLabels
 - uid: OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.SubtotalTop*
   commentId: Overload:OfficeOpenXml.Table.PivotTable.ExcelPivotTableField.SubtotalTop
   name: SubtotalTop

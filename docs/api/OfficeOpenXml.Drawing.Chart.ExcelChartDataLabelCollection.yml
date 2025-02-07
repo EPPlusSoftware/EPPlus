@@ -20,11 +20,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartDataLabelCollection
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -70,11 +70,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-    startLine: 41
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -109,11 +109,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-    startLine: 106
+    startLine: 119
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -153,11 +153,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-    startLine: 116
+    startLine: 129
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -190,11 +190,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-    startLine: 127
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -228,11 +228,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Drawing/Chart/ExcelChartDataLabelCollection.cs
-    startLine: 132
+    startLine: 145
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart

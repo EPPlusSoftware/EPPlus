@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Attributes/EpplusTableColumnAttribute.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EpplusTableColumnAttribute
     path: ../src/EPPlus/Attributes/EpplusTableColumnAttribute.cs

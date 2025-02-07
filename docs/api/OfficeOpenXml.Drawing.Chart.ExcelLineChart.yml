@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelLineChart.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelLineChart
     path: ../src/EPPlus/Drawing/Chart/ExcelLineChart.cs

@@ -5,6 +5,7 @@ items:
   id: ToDataTableOptions
   parent: OfficeOpenXml.Export.ToDataTable
   children:
+  - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AllowDuplicateColumnNames
   - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AlwaysAllowNull
   - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNameParsingStrategy
   - OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.ColumnNamePrefix
@@ -32,7 +33,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTableOptions
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -75,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -115,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -159,7 +160,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstRowIsColumnNames
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -196,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnNameParsingStrategy
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -233,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SkipNumberOfRowsStart
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -270,7 +271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SkipNumberOfRowsEnd
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -307,7 +308,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelErrorParsingStrategy
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -344,7 +345,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EmptyRowStrategy
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -381,7 +382,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Mappings
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -421,7 +422,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PredefinedMappingsOnly
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -458,7 +459,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnNamePrefix
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -495,7 +496,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataTableName
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -532,7 +533,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataTableNamespace
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -569,7 +570,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AlwaysAllowNull
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -606,7 +607,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataIsTransposed
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -629,6 +630,43 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AllowDuplicateColumnNames
+  commentId: P:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AllowDuplicateColumnNames
+  id: AllowDuplicateColumnNames
+  parent: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions
+  langs:
+  - csharp
+  - vb
+  name: AllowDuplicateColumnNames
+  nameWithType: ToDataTableOptions.AllowDuplicateColumnNames
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AllowDuplicateColumnNames
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+      branch: release/epplus7.5.3
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AllowDuplicateColumnNames
+    path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
+    startLine: 150
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.ToDataTable
+  summary: "\nIf true, EPPlus will prepend duplicate column names from the exported worksheet with a number (2,3,4,..n).\nIf false, EPPlus will throw an <xref href=\"System.InvalidOperationException\" data-throw-if-not-resolved=\"false\"></xref> when processing a duplicate column name. Default value is false.\n"
+  example: []
+  syntax:
+    content: public bool AllowDuplicateColumnNames { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AllowDuplicateColumnNames As Boolean
+  overload: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AllowDuplicateColumnNames*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.String[])
   commentId: M:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey(System.String[])
   id: SetPrimaryKey(System.String[])
@@ -643,11 +681,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPrimaryKey
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-    startLine: 150
+    startLine: 156
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.ToDataTable
@@ -682,11 +720,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: fix/comments-and-warings
+      branch: release/epplus7.5.3
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPrimaryKey
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-    startLine: 161
+    startLine: 167
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.ToDataTable
@@ -1251,6 +1289,18 @@ references:
   name: DataIsTransposed
   nameWithType: ToDataTableOptions.DataIsTransposed
   fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.DataIsTransposed
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  parent: System
+  isExternal: true
+  name: InvalidOperationException
+  nameWithType: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AllowDuplicateColumnNames*
+  commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AllowDuplicateColumnNames
+  name: AllowDuplicateColumnNames
+  nameWithType: ToDataTableOptions.AllowDuplicateColumnNames
+  fullName: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.AllowDuplicateColumnNames
 - uid: OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey*
   commentId: Overload:OfficeOpenXml.Export.ToDataTable.ToDataTableOptions.SetPrimaryKey
   name: SetPrimaryKey
