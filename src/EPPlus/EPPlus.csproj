@@ -25,17 +25,32 @@
 			EPPlus will still have the source available, but for non Polyform NC compliant projects, EPPlus will provide a commercial license.
 			Commercial licenses can be purchased from https://epplussoftware.com
 			This applies to EPPlus version 5 and later. Earlier versions are still licensed LGPL.
-			
-			## Version 8.0.0
-			* Support for OLE objects in drawings.
-			* Support for digital signing workbooks and signature lines.
 
-			## Version 7.5.3
+			## Version 8.0.0
+			* EPPlus 8  will require a license key for commercial licenses.
+			* Support for OLE objects (Linked or Embedded files).
+			* Support for digital signing workbooks and signature lines.
+			* In-cell pictures / support for the IMAGE function.
+
+			Minor features:
+			* Autofit columns optimaiztion.
+			* Range Copy now supports fill.
+			* EPPlus now rounds decimal numbers more true to Excels precision.
+			* Added ExcelRange.IsEmpty method.
+			* Shape adjustments points support.
+			* ExcelRangeBase.BorderAround now override borders for adjacent cells.
+			* InsertRange now returnes the new inserted range.
+			* In-cell checkboxes now renders in the HTML export.
+
+			## Version 7.6.0
+			* Added target framework .NET 9. Removed out of support versions, .NET 6 and .NET 7.
 			* Minor features and bug fixes. See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
 
+			## Version 7.5.3
+			* Minor features and bug fixes.
 
 			## Version 7.5.2
-			* Pivot tables could crash 
+			* Pivot tables could crash
 			* Reading linked images was failed if a relation attribute existed but did not have a value.
 			* Support for in-cell checkboxes.
 			* Interfaces to integrate EPPlus with the MIP API to handle sensibility labels.
@@ -455,6 +470,7 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
+			7.6.0			20250206 Updated target frameworks. Minor features and bug fixes.
 			7.5.3			20250116 Minor features and bug fixes.
 			7.5.2			20241209 Minor features and bug fixes.
 			7.5.1			20241121 Minor features and bug fixes.
@@ -615,6 +631,7 @@
 		<Reference Include="System.Threading.Tasks" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
+		<PackageReference Include="System.Security.Cryptography.Xml" />	
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462'">
@@ -623,6 +640,7 @@
 		<PackageReference Include="System.Security.Cryptography.Pkcs" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
 		<PackageReference Include="System.Text.Encoding.CodePages" />
+		<PackageReference Include="System.Security.Cryptography.Xml" />	
 	</ItemGroup>
 
 	<ItemGroup>
@@ -678,36 +696,5 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="FormulaParsing\FormulaExpressions\Variables\" />
-	</ItemGroup>
-	<!-- Direct dependencies to System.Formats.Asn1 and System.Text.Json to remove versions with vulnerabilities that were referenced via transient dependencies via Microsoft.Extensions.Configuration.Json and System.Security.Cryptography.Pkcs-->
-	<ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-	  <PackageReference Include="System.Formats.Asn1" />
-	  <PackageReference Include="System.Security.Cryptography.Xml" />
-	  <PackageReference Include="System.Text.Json" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-	  <PackageReference Include="System.Formats.Asn1" />
-	  <PackageReference Include="System.Security.Cryptography.Xml" />
-	  <PackageReference Include="System.Text.Json" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-	  <PackageReference Include="System.Formats.Asn1" />
-	  <PackageReference Include="System.Security.Cryptography.Xml" />
-	  <PackageReference Include="System.Text.Json" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1'">
-	  <PackageReference Include="System.Formats.Asn1" />
-	  <PackageReference Include="System.Security.Cryptography.Xml" />
-	  <PackageReference Include="System.Text.Json" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-	  <PackageReference Include="System.Formats.Asn1" />
-	  <PackageReference Include="System.Security.Cryptography.Xml" />
-	  <PackageReference Include="System.Text.Json" />
-	</ItemGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-	  <PackageReference Include="System.Formats.Asn1" />
-	  <PackageReference Include="System.Security.Cryptography.Xml" />
-	  <PackageReference Include="System.Text.Json" />
 	</ItemGroup>
 </Project>

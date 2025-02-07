@@ -143,7 +143,16 @@ Misspelled property `ExcelIgnoreError.CalculatedColumm` has been renamed `Calcul
 ### Breaking change from EPPlus 7.5.2
 Renaming worksheet's will now change the formula correctly to include single quotes for the worksheet name if necessary.
 
+### Breaking changes from EPPlus 7.6.0
+* Altering the worksheets collection when iterating it using IEnumerable, now throws an InvalidOperationException.
+
 ### Breaking changes from EPPlus 8.0
 * Set ExcelPackageSettings.ApplyFiltersOnSave default value to false.
 * RichText now returns font name, size and font family from cell style if not set.
 * Fixed spelling error in ExcelDrawingGradientFillLinearSettings. `public double Angel` is now `public double Angle`
+* Removed reference to EPPlus.System.Drawing for primary image and text handlers. The generic handler is now used for all target frameworks.
+  You can still use these handlers by referencing the EPPlus.System.Drawing handlers nuget package and use the 'SystemDrawingTextMeasurer' or 'SystemDrawingImageHandler' classes as primary handler.
+  Also see https://github.com/EPPlusSoftware/EPPlus/wiki/Autofit-columns
+#### Removed Methods & Properties
+* ExcelVbaReferenceControl.LibIdExternal, please use LibIdExtended instead.
+
