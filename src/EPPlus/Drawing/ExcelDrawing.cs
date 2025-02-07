@@ -71,7 +71,7 @@ namespace OfficeOpenXml.Drawing
 
         internal bool _doNotAdjust = false;
 
-        internal static string[] NamespacePrefixes = {"xdr", "cdr"};
+        internal static string[] NamespacePrefixes = { "xdr", "cdr" };
         internal readonly int prefixIndex = 0;
         internal readonly DrawingsCollectionType drawingsCollectionType;
 
@@ -86,7 +86,7 @@ namespace OfficeOpenXml.Drawing
             {
                 TopNode = node;
 
-                if(DrawingType==eDrawingType.Control || DrawingType==eDrawingType.OleObject || drawings.Worksheet.Workbook._nextDrawingId >= 1025)
+                if (DrawingType == eDrawingType.Control || DrawingType == eDrawingType.OleObject || drawings.Worksheet.Workbook._nextDrawingId >= 1025)
                 {
                     _id = drawings.Worksheet._nextControlId++;
                 }
@@ -94,7 +94,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     _id = drawings.Worksheet.Workbook._nextDrawingId++;
                 }
-                AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ","grpSp", "nvSpPr", "nvCxnSpPr", "nvGraphicFramePr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
+                AddSchemaNodeOrder(new string[] { "from", "pos", "to", "ext", "pic", "graphicFrame", "sp", "cxnSp ", "grpSp", "nvSpPr", "nvCxnSpPr", "nvGraphicFramePr", "spPr", "style", "AlternateContent", "clientData" }, _schemaNodeOrderSpPr);
                 _topPathUngrouped = topPath;
                 _nvPrPathUngrouped = nvPrPath;
                 if (_parent == null)
@@ -103,12 +103,12 @@ namespace OfficeOpenXml.Drawing
                     CellAnchor = GetAnchorFromName(node.LocalName);
                     SetPositionProperties(drawings, node);
                     GetPositionSize();          //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
-                    
+
                     string relID = GetXmlNodeString(_hyperLinkPath + "/@r:id");
                     if (!string.IsNullOrEmpty(relID))
                     {
                         HypRel = drawings.Part.GetRelationship(relID);
-                        
+
                         if (HypRel.TargetUri == null)
                         {
                             if (!string.IsNullOrEmpty(HypRel.Target))
@@ -139,15 +139,15 @@ namespace OfficeOpenXml.Drawing
                     SetPositionProperties(drawings, node);
                     GetPositionSize();                                  //Get the drawing position and size, so we can adjust it upon save, if the normal font is changed 
                 }
-            }   
+            }
         }
 
         internal virtual void AdjustXPathsForGrouping(bool group)
         {
-            if(group)
+            if (group)
             {
-                _topPath = _topPathUngrouped.IndexOf('/') > 0 ? _topPathUngrouped.Substring(_topPathUngrouped.IndexOf('/')+1) : "";
-                if(_topPath=="")
+                _topPath = _topPathUngrouped.IndexOf('/') > 0 ? _topPathUngrouped.Substring(_topPathUngrouped.IndexOf('/') + 1) : "";
+                if (_topPath == "")
                 {
                     _nvPrPath = _nvPrPathUngrouped;
                 }
@@ -207,7 +207,7 @@ namespace OfficeOpenXml.Drawing
 
         private void SetPositionPropertiesTopDrawing(ExcelDrawings drawings, XmlNode node)
         {
-            XmlNode posNode = node.SelectSingleNode(NamespacePrefixes[prefixIndex]+":from", drawings.NameSpaceManager);
+            XmlNode posNode = node.SelectSingleNode(NamespacePrefixes[prefixIndex] + ":from", drawings.NameSpaceManager);
             if (posNode != null)
             {
                 From = new ExcelPosition(drawings.NameSpaceManager, posNode, GetPositionSize, prefixIndex);
@@ -238,7 +238,7 @@ namespace OfficeOpenXml.Drawing
 
         private XmlNode GetXFrameNode(XmlNode node, string child)
         {
-            if(node.LocalName == "AlternateContent")
+            if (node.LocalName == "AlternateContent")
             {
                 node = node.GetChildAtPosition(0).GetChildAtPosition(0);
             }
@@ -315,18 +315,18 @@ namespace OfficeOpenXml.Drawing
         /// <summary>
         /// The name of the drawing object
         /// </summary>
-        public virtual string Name 
+        public virtual string Name
         {
             get
             {
                 try
                 {
                     if (_nvPrPath == "") return "";
-                    return GetXmlNodeString(_nvPrPath+"/@name");
+                    return GetXmlNodeString(_nvPrPath + "/@name");
                 }
                 catch
                 {
-                    return ""; 
+                    return "";
                 }
             }
             set
@@ -393,7 +393,7 @@ namespace OfficeOpenXml.Drawing
             {
                 try
                 {
-                    if (_parent!=null && DrawingType == eDrawingType.Control)
+                    if (_parent != null && DrawingType == eDrawingType.Control)
                     {
                         return ((ExcelControl)this).GetCellAnchorFromWorksheetXml();
                     }
@@ -421,9 +421,9 @@ namespace OfficeOpenXml.Drawing
             }
             set
             {
-                if(_parent!=null)
+                if (_parent != null)
                 {
-                    if(DrawingType==eDrawingType.Control)
+                    if (DrawingType == eDrawingType.Control)
                     {
                         ((ExcelControl)this).SetCellAnchor(value);
                     }
@@ -437,14 +437,14 @@ namespace OfficeOpenXml.Drawing
                     string s = value.ToString();
                     SetXmlNodeString("@editAs", s.Substring(0, 1).ToLower(CultureInfo.InvariantCulture) + s.Substring(1, s.Length - 1));
                 }
-                else if(CellAnchor!=value)
+                else if (CellAnchor != value)
                 {
                     throw (new InvalidOperationException("EditAs can only be set when CellAnchor is set to TwoCellAnchor"));
                 }
             }
         }
 
-        const string lockedPath="xdr:clientData/@fLocksWithSheet";
+        const string lockedPath = "xdr:clientData/@fLocksWithSheet";
         /// <summary>
         /// Lock drawing
         /// </summary>
@@ -504,7 +504,7 @@ namespace OfficeOpenXml.Drawing
         /// Bottom right position
         /// </summary>
         public ExcelPosition To { get; private set; } = null;
-        Uri _hyperLink=null;
+        Uri _hyperLink = null;
         /// <summary>
         /// Hyperlink
         /// </summary>
@@ -527,8 +527,8 @@ namespace OfficeOpenXml.Drawing
 
                 if (value != null)
                 {
-                    if(value is ExcelHyperLink el && !string.IsNullOrEmpty(el.ReferenceAddress))
-                    {                        
+                    if (value is ExcelHyperLink el && !string.IsNullOrEmpty(el.ReferenceAddress))
+                    {
                         HypRel = _drawings.Part.CreateRelationship("#" + new ExcelAddress(el.ReferenceAddress).FullAddress, Packaging.TargetMode.Internal, ExcelPackage.schemaHyperlink);
                     }
                     else
@@ -573,7 +573,7 @@ namespace OfficeOpenXml.Drawing
             return GetDrawingFromNode(drawings, node, drawNode, null, DrawingsType);
         }
 
-        internal static ExcelDrawing GetDrawingFromNode(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent=null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel)
+        internal static ExcelDrawing GetDrawingFromNode(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel)
         {
             switch (drawNode.LocalName)
             {
@@ -620,10 +620,10 @@ namespace OfficeOpenXml.Drawing
                                     {
                                         return GetShapeOrControl(drawings, node, (XmlElement)choice.FirstChild, parent);
                                     }
-                                    else if(choice.FirstChild.LocalName == "grpSp")
+                                    else if (choice.FirstChild.LocalName == "grpSp")
                                     {
-										return new ExcelGroupShape(drawings, choice.FirstChild, parent);
-									}
+                                        return new ExcelGroupShape(drawings, choice.FirstChild, parent);
+                                    }
                                 }
                                 break;
 
@@ -632,7 +632,7 @@ namespace OfficeOpenXml.Drawing
                     break;
             }
             return new ExcelDrawing(drawings, node, "", "");
-       }
+        }
 
         private static ExcelDrawing GetShapeOrControl(ExcelDrawings drawings, XmlNode node, XmlElement drawNode, ExcelGroupShape parent, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel)
         {
@@ -643,7 +643,7 @@ namespace OfficeOpenXml.Drawing
             {
                 return ControlFactory.GetControl(drawings, drawNode, control, parent);
             }
-            else if(oleObject != null)
+            else if (oleObject != null)
             {
                 return OleObjectFactory.GetOleObject(drawings, drawNode, oleObject, parent);
             }
@@ -652,11 +652,11 @@ namespace OfficeOpenXml.Drawing
                 return new ExcelShape(drawings, node, parent, DrawingsType);
             }
         }
-            
+
         private static int GetControlShapeId(XmlElement drawNode, XmlNamespaceManager nameSpaceManager, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel)
         {
-            var idNode = drawNode.SelectSingleNode(NamespacePrefixes[(int)DrawingsType] + ":nvSpPr/"+ NamespacePrefixes[(int)DrawingsType] + ":cNvPr/@id", nameSpaceManager);
-            if(idNode!=null)
+            var idNode = drawNode.SelectSingleNode(NamespacePrefixes[(int)DrawingsType] + ":nvSpPr/" + NamespacePrefixes[(int)DrawingsType] + ":cNvPr/@id", nameSpaceManager);
+            if (idNode != null)
             {
                 return int.Parse(idNode.Value);
             }
@@ -743,7 +743,7 @@ namespace OfficeOpenXml.Drawing
         internal int GetPixelTop()
         {
             int pix = 0;
-            if(drawingsCollectionType == DrawingsCollectionType.chart)
+            if (drawingsCollectionType == DrawingsCollectionType.chart)
             {
                 var off = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:off", NameSpaceManager);
                 if (off == null)
@@ -780,7 +780,7 @@ namespace OfficeOpenXml.Drawing
         }
         internal double GetPixelWidth()
         {
-            double pix=0;
+            double pix = 0;
             if (drawingsCollectionType == DrawingsCollectionType.chart)
             {
                 var ext = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
@@ -815,7 +815,7 @@ namespace OfficeOpenXml.Drawing
         }
         internal double GetPixelHeight()
         {
-            double pix=0;
+            double pix = 0;
             if (drawingsCollectionType == DrawingsCollectionType.chart)
             {
                 var ext = (XmlElement)TopNode.SelectSingleNode("(cdr:sp|cdr:pic|cdr:cxnSp)/cdr:spPr/a:xfrm/a:ext", NameSpaceManager);
@@ -936,7 +936,7 @@ namespace OfficeOpenXml.Drawing
             if (CellAnchor == eEditAs.TwoCell)
             {
                 _doNotAdjust = true;
-                GetToRowFromPixels(pixels,  out int toRow, out int pixOff);
+                GetToRowFromPixels(pixels, out int toRow, out int pixOff);
                 To.Row = toRow;
                 To.RowOff = pixOff;
                 _doNotAdjust = false;
@@ -947,9 +947,9 @@ namespace OfficeOpenXml.Drawing
             }
         }
 
-        internal void GetToRowFromPixels(double pixels, out int toRow, out int rowOff, int fromRow=-1, int fromRowOff=-1)
+        internal void GetToRowFromPixels(double pixels, out int toRow, out int rowOff, int fromRow = -1, int fromRowOff = -1)
         {
-            if(fromRow<0)
+            if (fromRow < 0)
             {
                 fromRow = From.Row;
                 fromRowOff = From.RowOff;
@@ -996,7 +996,7 @@ namespace OfficeOpenXml.Drawing
         {
             ExcelWorksheet ws = _drawings.Worksheet;
             decimal mdw = ws.Workbook.MaxFontWidth;
-            if(fromColumn<0)
+            if (fromColumn < 0)
             {
                 fromColumn = From.Column;
                 fromColumnOff = From.ColumnOff;
@@ -1038,15 +1038,15 @@ namespace OfficeOpenXml.Drawing
                 _width = GetPixelWidth();
                 _height = GetPixelHeight();
             }
-            if(adjustChildren && DrawingType == eDrawingType.GroupShape)
+            if (adjustChildren && DrawingType == eDrawingType.GroupShape)
             {
-                if(_left== int.MinValue)
+                if (_left == int.MinValue)
                 {
                     _left = GetPixelLeft();
                     _top = GetPixelTop();
                 }
                 var grp = (ExcelGroupShape)this;
-                foreach(var d in grp.Drawings)
+                foreach (var d in grp.Drawings)
                 {
                     d.SetPosition((int)(d._top + (PixelTop - _top)), (int)(d._left + (PixelLeft - _left)));
                 }
@@ -1195,7 +1195,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="type">The cell anchor type to change to</param>
         public void ChangeCellAnchor(eEditAs type)
         {
-            if(DrawingType==eDrawingType.Control)
+            if (DrawingType == eDrawingType.Control)
             {
                 throw new InvalidOperationException("Controls can't change CellAnchor. Must be TwoCell anchor. Please use EditAs property instead.");
             }
@@ -1230,7 +1230,7 @@ namespace OfficeOpenXml.Drawing
         }
         internal void SetCellAnchorFromNode()
         {
-            if(TopNode.LocalName== "twoCellAnchor")
+            if (TopNode.LocalName == "twoCellAnchor")
             {
                 EditAs = CellAnchor = eEditAs.TwoCell;
             }
@@ -1246,12 +1246,12 @@ namespace OfficeOpenXml.Drawing
         }
         internal virtual void CellAnchorChanged()
         {
-            
+
         }
 
         private void CleanupPositionXml()
         {
-            switch(CellAnchor)
+            switch (CellAnchor)
             {
                 case eEditAs.OneCell:
                     DeleteNode("xdr:to");
@@ -1261,7 +1261,7 @@ namespace OfficeOpenXml.Drawing
                     break;
                 case eEditAs.Absolute:
                     DeleteNode("xdr:to");
-                    DeleteNode("xdr:from"); 
+                    DeleteNode("xdr:from");
                     CreateNode("xdr:pos");
                     CreateNode("xdr:ext");
                     break;
@@ -1286,7 +1286,7 @@ namespace OfficeOpenXml.Drawing
         public void SetPosition(int Row, int RowOffsetPixels, int Column, int ColumnOffsetPixels)
         {
             //Throw exception if shape in chart
-            if(drawingsCollectionType == DrawingsCollectionType.chart)
+            if (drawingsCollectionType == DrawingsCollectionType.chart)
             {
                 throw new InvalidOperationException("Shapes in chart does not contain row or column attributes. Use SetPosition(int PixelTop, int PixelLeft) instead.");
             }
@@ -1407,7 +1407,7 @@ namespace OfficeOpenXml.Drawing
         public ExcelGroupShape Group(params ExcelDrawing[] drawing)
         {
             ExcelGroupShape grp = _parent;
-            foreach(var d in drawing)
+            foreach (var d in drawing)
             {
                 ExcelGroupShape.Validate(d, _drawings, grp);
                 if (d._parent != null) grp = d._parent;
@@ -1416,7 +1416,7 @@ namespace OfficeOpenXml.Drawing
             {
                 grp = _drawings.AddGroupDrawing(_drawings.DrawingsType);
             }
-            
+
             grp.Drawings.AddDrawing(this);
 
             foreach (var d in drawing)
@@ -1429,21 +1429,21 @@ namespace OfficeOpenXml.Drawing
         }
         internal XmlElement GetXfrmNode(XmlNode node)
         {
-            if(node == null) return null;
-            if(node.LocalName == "AlternateContent")
+            if (node == null) return null;
+            if (node.LocalName == "AlternateContent")
             {
                 node = node.FirstChild.FirstChild;
             }
 
-            if(node.LocalName == "sp" || node.LocalName == "pic" || node.LocalName == "cxnSp")
+            if (node.LocalName == "sp" || node.LocalName == "pic" || node.LocalName == "cxnSp")
             {
                 return (XmlElement)CreateNode(node, NamespacePrefixes[prefixIndex] + ":spPr/a:xfrm");
             }
-            else if(node.LocalName == "grpSp")
+            else if (node.LocalName == "grpSp")
             {
                 return (XmlElement)CreateNode(node, NamespacePrefixes[prefixIndex] + ":grpSpPr/a:xfrm");
             }
-            else if(node.LocalName == "graphicFrame")
+            else if (node.LocalName == "graphicFrame")
             {
                 return (XmlElement)CreateNode(node, NamespacePrefixes[prefixIndex] + ":xfrm");
             }
@@ -1457,13 +1457,13 @@ namespace OfficeOpenXml.Drawing
         /// <param name="ungroupThisItemOnly">If true this drawing will be removed from the group. 
         /// If it is false, the whole group will be disbanded. If true only this drawing will be removed.
         /// </param>
-        public void UnGroup(bool ungroupThisItemOnly=true)
+        public void UnGroup(bool ungroupThisItemOnly = true)
         {
-            if(_parent==null)
+            if (_parent == null)
             {
                 throw new InvalidOperationException("Cannot ungroup this drawing. This drawing is not part of a group");
             }
-            if(ungroupThisItemOnly)
+            if (ungroupThisItemOnly)
             {
                 _parent.Drawings.Remove(this);
             }
@@ -1477,7 +1477,7 @@ namespace OfficeOpenXml.Drawing
         /// Otherwise this property is null
         /// </summary>
         public ExcelGroupShape ParentGroup
-        { 
+        {
             get
             {
                 return _parent;
@@ -1511,17 +1511,17 @@ namespace OfficeOpenXml.Drawing
         {
             if (_drawings.Worksheet.Workbook._package.DoAdjustDrawings == false) return;
             _drawings.Worksheet.Workbook._package.DoAdjustDrawings = false;
-            if (EditAs==eEditAs.Absolute)
+            if (EditAs == eEditAs.Absolute)
             {
                 SetPixelLeft(_left);
                 SetPixelTop(_top);
             }
-            if(EditAs == eEditAs.Absolute || EditAs == eEditAs.OneCell)
+            if (EditAs == eEditAs.Absolute || EditAs == eEditAs.OneCell)
             {
                 SetPixelHeight(_height);
                 SetPixelWidth(_width);
             }
-            
+
             _drawings.Worksheet.Workbook._package.DoAdjustDrawings = true;
         }
         internal void UpdatePositionAndSizeXml()
@@ -1562,7 +1562,7 @@ namespace OfficeOpenXml.Drawing
 
         public void Copy(ExcelChart targetChart)
         {
-            if(this is ExcelShape || this is ExcelPicture || this is ExcelGroupShape)
+            if (this is ExcelShape || this is ExcelPicture || this is ExcelGroupShape)
             {
                 XmlNode drawNode = null;
                 switch (DrawingType)
@@ -1600,7 +1600,7 @@ namespace OfficeOpenXml.Drawing
             XmlNode drawNode = null;
             if (From == null)
             {
-                if(rowOffset==int.MinValue || colOffset==int.MinValue)
+                if (rowOffset == int.MinValue || colOffset == int.MinValue)
                 {
                     GetFromBounds(out _, out int ro, out _, out int co);
                     if (rowOffset == int.MinValue)
@@ -1687,7 +1687,7 @@ namespace OfficeOpenXml.Drawing
             {
                 sourceDrawing.CopyShape(targetWorksheet, true, targetDrawNode);
             }
-            else if(sourceDrawing is ExcelTableSlicer tSlicer)
+            else if (sourceDrawing is ExcelTableSlicer tSlicer)
             {
                 sourceDrawing.CopySlicer(targetWorksheet, true, targetDrawNode);
             }
@@ -1695,7 +1695,7 @@ namespace OfficeOpenXml.Drawing
             {
                 sourceDrawing.CopySlicer(targetWorksheet, true, targetDrawNode);
             }
-            else if( sourceDrawing is ExcelOleObject ole)
+            else if (sourceDrawing is ExcelOleObject ole)
             {
                 sourceDrawing.CopyOleObject(targetWorksheet, 0, 0, 0, 0, true, targetDrawNode, parent);
             }
@@ -1720,7 +1720,7 @@ namespace OfficeOpenXml.Drawing
 
             //Create node in drawing.xml
             XmlNode drawNode = null;
-            if(isGroupShape)
+            if (isGroupShape)
             {
                 drawNode = groupDrawNode;
             }
@@ -1744,7 +1744,7 @@ namespace OfficeOpenXml.Drawing
 
             ////Set Name in drawingXML
             var drawNodeName = drawNode.SelectSingleNode("mc:AlternateContent/mc:Choice/xdr:graphicFrame/xdr:nvGraphicFramePr/xdr:cNvPr", worksheet._drawings.NameSpaceManager);
-            if(drawNodeName == null && isGroupShape)
+            if (drawNodeName == null && isGroupShape)
             {
                 drawNodeName = drawNode.SelectSingleNode("mc:Choice/xdr:graphicFrame/xdr:nvGraphicFramePr/xdr:cNvPr", worksheet._drawings.NameSpaceManager);
             }
@@ -1762,7 +1762,8 @@ namespace OfficeOpenXml.Drawing
             ZipPackagePart part = null;
             ZipPackageRelationship relationship = null;
             bool isNewPart = false;
-            if (wsSlicerNode == null) {
+            if (wsSlicerNode == null)
+            {
                 var id = worksheet.SheetId;
                 uri = XmlHelper.GetNewUri(worksheet.Part.Package, "/xl/slicers/slicer{0}.xml", ref id);
                 part = worksheet.Part.Package.CreatePart(uri, "application/vnd.ms-excel.slicer+xml", worksheet.Part.Package.Compression);
@@ -1782,7 +1783,7 @@ namespace OfficeOpenXml.Drawing
                 xmlSource = _drawings.Worksheet.SlicerXmlSources._list.Find(x => x == ets._xmlSource);
                 name = ets.Name;
             }
-            else if(this is ExcelPivotTableSlicer epts)
+            else if (this is ExcelPivotTableSlicer epts)
             {
                 xmlSource = _drawings.Worksheet.SlicerXmlSources._list.Find(x => x == epts._xmlSource);
                 name = epts.Name;
@@ -1796,7 +1797,7 @@ namespace OfficeOpenXml.Drawing
                 }
                 else
                 {
-                    xmlTarget = worksheet.SlicerXmlSources._list.Find(x => x.Type == eSlicerSourceType.Table).XmlDocument; //håller en kopi, need to skriv ref...
+                    xmlTarget = worksheet.SlicerXmlSources._list.Find(x => x.Type == eSlicerSourceType.Table).XmlDocument; //hï¿½ller en kopi, need to skriv ref...
                 }
             }
             else
@@ -1899,7 +1900,7 @@ namespace OfficeOpenXml.Drawing
                 vmlPosition.InnerXml = copy.From.Column + ", " + copy.From.ColumnOff + ", " + copy.From.Row + ", " + copy.From.RowOff + ", " +
                                         copy.To.Column + ", " + copy.To.ColumnOff + ", " + copy.To.Row + ", " + copy.To.RowOff;
             }
-           return drawNode;
+            return drawNode;
         }
 
         private XmlNode CopyOleObject(ExcelWorksheet worksheet, int row, int col, int rowOffset, int colOffset, bool isGroupShape = false, XmlNode groupDrawNode = null, ExcelGroupShape parent = null)
@@ -1989,8 +1990,8 @@ namespace OfficeOpenXml.Drawing
                 drawNode.InnerXml = TopNode.InnerXml;
             }
             //get relationship node in drawing.xml
-            var relNode =  drawNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", NameSpaceManager);
-            if(relNode == null)
+            var relNode = drawNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", NameSpaceManager);
+            if (relNode == null)
             {
                 relNode = drawNode.SelectSingleNode("a:graphic/a:graphicData/c:chart/@r:id", NameSpaceManager);
             }
@@ -1999,7 +2000,7 @@ namespace OfficeOpenXml.Drawing
                 var origialChart = this as ExcelChart;
                 WorksheetCopyHelper.CopyChartRelations(origialChart, worksheet, worksheet._drawings.Part, worksheet._drawings.DrawingXml, _drawings.Worksheet);
                 //Update the copied charts id and name
-                if(isGroupShape)
+                if (isGroupShape)
                 {
                     var chartAttr = groupDrawNode.SelectSingleNode("xdr:nvGraphicFramePr/xdr:cNvPr", worksheet._drawings.NameSpaceManager);
                     chartAttr.Attributes["name"].Value = worksheet._drawings.GetUniqueDrawingName(origialChart.Name);
@@ -2027,7 +2028,7 @@ namespace OfficeOpenXml.Drawing
                 drawNode = targetChart.Drawings.CreateDrawingXmlChartDrawings(targetChart);
                 drawNode.InnerXml = TopNode.InnerXml;
             }
-            if(targetChart.Drawings != _drawings)
+            if (targetChart.Drawings != _drawings)
             {
                 var relNode = drawNode.SelectSingleNode("cdr:pic/cdr:blipFill/a:blip/@r:embed", NameSpaceManager);
                 if (relNode != null && _drawings.Part.RelationshipExists(relNode.Value))
@@ -2047,73 +2048,100 @@ namespace OfficeOpenXml.Drawing
             return drawNode;
         }
 
-        private XmlNode CopyPicture(ExcelWorksheet worksheet, bool isGroupShape = false, XmlNode groupDrawNode = null)
+        private XmlNode CopyPicture(ExcelWorksheet targetWorksheet, bool isGroupShape = false, XmlNode groupDrawNode = null)
         {
             XmlNode drawNode = null;
+
+            var targetWorkbook = targetWorksheet.Workbook;
+            var targetPackage = targetWorkbook._package;
+
             if (isGroupShape && groupDrawNode != null)
             {
                 drawNode = groupDrawNode;
-                groupDrawNode.SelectSingleNode("xdr:nvPicPr/xdr:cNvPr", worksheet._drawings.NameSpaceManager).Attributes["id"].Value = (++worksheet.Workbook._nextDrawingId).ToString();
+                groupDrawNode.SelectSingleNode("xdr:nvPicPr/xdr:cNvPr", targetWorksheet._drawings.NameSpaceManager).Attributes["id"].Value = (++targetWorkbook._nextDrawingId).ToString();
             }
             else
             {
                 //Create node in drawing.xml
-                drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
+                drawNode = targetWorksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
                 drawNode.InnerXml = TopNode.InnerXml;
             }
             //If same drawings object, we are done.
-            if (worksheet._drawings != _drawings)
+            if (targetWorksheet._drawings != _drawings)
             {
                 //Get the relation node
                 var relNode = drawNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager);
-                if(relNode == null)
+                if (relNode == null)
                 {
                     relNode = drawNode.SelectSingleNode("xdr:blipFill/a:blip/@r:embed", NameSpaceManager);
                 }
+
                 if (relNode != null && _drawings.Part.RelationshipExists(relNode.Value))
                 {
-                    var rel = _drawings.Part.GetRelationship(relNode.Value);
+                    var srcsRel = _drawings.Part.GetRelationship(relNode.Value);
+                    ZipPackageRelationship newRel = null;
+                    bool imageExists = false;
+
                     //Copy image file to new workbook if target worksheet is in a different workbook.
-                    if (worksheet.Workbook != _drawings.Worksheet.Workbook)
+                    if (targetWorkbook != _drawings.Worksheet.Workbook)
                     {
-                        var uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                        var uri = UriHelper.ResolvePartUri(srcsRel.SourceUri, srcsRel.TargetUri);
                         var imagePart = _drawings.Worksheet.Workbook._package.ZipPackage.GetPart(uri);
+
                         var imageStream = (MemoryStream)imagePart.GetStream(FileMode.Open, FileAccess.Read);
                         var image = new byte[imageStream.Length];
+
                         imageStream.Seek(0, SeekOrigin.Begin);
                         imageStream.Read(image, 0, (int)imageStream.Length);
-                        var imageInfo = worksheet.Workbook._package.PictureStore.GetImageInfo(image);
+
+                        var imageInfo = targetPackage.PictureStore.GetImageInfo(image);
+
                         if (imageInfo == null)
                         {
-                            var copyPart = worksheet.Workbook._package.ZipPackage.CreatePart(uri, imagePart.ContentType);
+                            var info = new FileInfo(uri.OriginalString);
+                            Uri absUri = GetNewUri(targetPackage.ZipPackage, "/xl/media/image{0}" + info.Extension);
+
+                            newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
+
+                            var relativeUri = UriHelper.GetRelativeUri(newRel.SourceUri, absUri);
+                            newRel.TargetUri = relativeUri;
+
+                            var copyPart = targetPackage.ZipPackage.CreatePart(absUri, imagePart.ContentType);
                             var copyStream = (MemoryStream)copyPart.GetStream(FileMode.Create, FileAccess.Write);
                             copyStream.Write(image, 0, image.Length);
+
+                            relNode.Value = newRel.Id;
                         }
                         else
                         {
-                            rel.TargetUri = imageInfo.Uri;
+                            var relativeUri = UriHelper.GetRelativeUri(srcsRel.SourceUri, imageInfo.Uri);
+                            var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.TargetUri == relativeUri).FirstOrDefault();
+                            relNode.Value = exisistingRel.Id;
                         }
-                    }
-                    //Check if relationship exists.
-                    var exisistingRel = worksheet._drawings.Part.GetRelationshipsByType(rel.RelationshipType).Where(x => x.Target == rel.Target).FirstOrDefault();
-                    //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the exsisting relationship Id
-                    if (exisistingRel == null || worksheet != _drawings.Worksheet)
-                    {
-                        var newRel = worksheet._drawings.Part.CreateRelationshipFromCopy(rel);
-                        relNode.Value = newRel.Id;
                     }
                     else
                     {
-                        relNode.Value = exisistingRel.Id;
+                        //Check if relationship exists.
+                        var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.TargetUri == srcsRel.TargetUri).FirstOrDefault();
+                        //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the existing relationship Id
+                        if (exisistingRel == null || targetWorksheet != _drawings.Worksheet)
+                        {
+                            newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
+                            relNode.Value = newRel.Id;
+                        }
+                        else
+                        {
+                            relNode.Value = exisistingRel.Id;
+                        }
                     }
                 }
             }
             if (!isGroupShape)
             {
                 //Set New id on copied picture.
-                var pic = GetDrawing(worksheet._drawings, drawNode) as ExcelPicture;
-                pic.SetNewId(++worksheet.Workbook._nextDrawingId);
-                pic.Name = worksheet._drawings.GetUniqueDrawingName(this.Name);
+                var pic = GetDrawing(targetWorksheet._drawings, drawNode) as ExcelPicture;
+                pic.SetNewId(++targetWorkbook._nextDrawingId);
+                pic.Name = targetWorksheet._drawings.GetUniqueDrawingName(this.Name);
             }
             return drawNode;
         }

@@ -23,6 +23,8 @@ using System.Globalization;
 
 #if NETFULL
 using System.Drawing.Imaging;
+using System.Xml.Linq;
+
 #endif
 #if !NET35 && !NET40
 using System.Threading.Tasks;
@@ -164,6 +166,13 @@ namespace OfficeOpenXml.Drawing
 			_horizontalFlipPath = string.Format(_horizontalFlipPath, _topPath, NamespacePrefixes[prefixIndex]);
 			_verticalFlipPath = string.Format(_verticalFlipPath, _topPath, NamespacePrefixes[prefixIndex]);
 		}
+
+        internal string GetRelId()
+        {
+            XmlElement blip = (XmlElement)TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip", NameSpaceManager);
+
+            return blip.GetAttribute("embed", ExcelPackage.schemaRelationships);
+        }
 
 		internal void SetRelId(XmlNode node, ePictureType type, string relID, string attribute = "embed")
         {

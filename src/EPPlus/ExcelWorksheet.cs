@@ -3717,6 +3717,7 @@ namespace OfficeOpenXml
             {
                 var v = GetCoreValueInner(row, col);
                 v._value = Workbook.Styles.RoundValueFromNumberFormat(v._value, styleId);
+                v._styleId = styleId;
                 _values.SetValue(row, col, v);
             }
         }
