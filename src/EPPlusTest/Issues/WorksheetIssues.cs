@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Core;
 using OfficeOpenXml.FormulaParsing;
 using System;
 using System.Collections.Generic;
@@ -666,6 +667,100 @@ namespace EPPlusTest.Issues
 			wsTemplate.View.SetTabSelected(false);
             p.Workbook.Worksheets.Delete(wsTemplate);
 			SaveWorkbook("Issue1794_2_Output.xlsx", p);
+        }
+        [TestMethod]
+        public void DeletingWorksheetsWithParameters()
+        {
+            using (var p = OpenPackage("DeletingGroupOfWorksheets.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var worksheets = wb.Worksheets;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    worksheets.Add($"Data {i}");
+                }
+
+                for (int i = 0; i < 5; i++)
+                {
+                    worksheets.Add($"SomeWorksheet{i}");
+                }
+
+				for (int i=0;i<p.Workbook.Worksheets.Count;i++)
+                {
+					var ws = p.Workbook.Worksheets[i];
+                    if (ws.Name.StartsWith("Data ", StringComparison.OrdinalIgnoreCase))
+                    {
+                        p.Workbook.Worksheets.Delete(ws);
+						i--;
+                    }
+                }
+                var countWs = p.Workbook.Worksheets.Count;
+
+                Assert.AreEqual(countWs, 5);
+
+                worksheets.Delete($"SomeWorksheet2");
+
+                Assert.AreEqual(p.Workbook.Worksheets.Count, 4);
+				Assert.AreEqual("SomeWorksheet0", p.Workbook.Worksheets[0].Name);
+                Assert.AreEqual("SomeWorksheet1", p.Workbook.Worksheets[1].Name);
+                Assert.AreEqual("SomeWorksheet3", p.Workbook.Worksheets[2].Name);
+                Assert.AreEqual("SomeWorksheet4", p.Workbook.Worksheets[3].Name);
+
+                Assert.AreEqual("SomeWorksheet0", p.Workbook.Worksheets["SomeWorksheet0"].Name);
+                Assert.AreEqual("SomeWorksheet1", p.Workbook.Worksheets["SomeWorksheet1"].Name);
+                Assert.AreEqual("SomeWorksheet3", p.Workbook.Worksheets["SomeWorksheet3"].Name);
+                Assert.AreEqual("SomeWorksheet4", p.Workbook.Worksheets["SomeWorksheet4"].Name);
+
+            }
+        }
+        [TestMethod]
+        public void DeletingWorksheetsWithParameters_1Base()
+        {
+            using (var p = OpenPackage("DeletingGroupOfWorksheets.xlsx", true))
+            {
+
+                p.Compatibility.IsWorksheets1Based = true;
+                var wb = p.Workbook;
+                var worksheets = wb.Worksheets;
+
+                for (int i = 1; i <= 5; i++)
+                {
+                    worksheets.Add($"Data {i}");
+                }
+
+                for (int i = 1; i <= 5; i++)
+                {
+                    worksheets.Add($"SomeWorksheet{i}");
+                }
+
+                for (int i = 1; i <= p.Workbook.Worksheets.Count; i++)
+                {
+                    var ws = p.Workbook.Worksheets[i];
+                    if (ws.Name.StartsWith("Data ", StringComparison.OrdinalIgnoreCase))
+                    {
+                        p.Workbook.Worksheets.Delete(ws);
+                        i--;
+                    }
+                }
+                var countWs = p.Workbook.Worksheets.Count;
+
+                Assert.AreEqual(countWs, 5);
+
+                worksheets.Delete($"SomeWorksheet2");
+
+                Assert.AreEqual(p.Workbook.Worksheets.Count, 4);
+                Assert.AreEqual("SomeWorksheet1", p.Workbook.Worksheets[1].Name);
+                Assert.AreEqual("SomeWorksheet3", p.Workbook.Worksheets[2].Name);
+                Assert.AreEqual("SomeWorksheet4", p.Workbook.Worksheets[3].Name);
+                Assert.AreEqual("SomeWorksheet5", p.Workbook.Worksheets[4].Name);
+
+                Assert.AreEqual("SomeWorksheet1", p.Workbook.Worksheets["SomeWorksheet1"].Name);
+                Assert.AreEqual("SomeWorksheet3", p.Workbook.Worksheets["SomeWorksheet3"].Name);
+                Assert.AreEqual("SomeWorksheet4", p.Workbook.Worksheets["SomeWorksheet4"].Name);
+                Assert.AreEqual("SomeWorksheet5", p.Workbook.Worksheets["SomeWorksheet5"].Name);
+
+            }
         }
     }
 }

@@ -49,6 +49,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml
 {
@@ -2574,6 +2575,7 @@ namespace OfficeOpenXml
             {
                 if(o._oleObjectPart != null && o._linkedOleObjectXml != null)
                     o._linkedOleObjectXml.Save(o._oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+                o.UpdateXml();
             }
             else if (d is ExcelGroupShape grp)
             {
@@ -3710,6 +3712,7 @@ namespace OfficeOpenXml
             {
                 var v = GetCoreValueInner(row, col);
                 v._value = Workbook.Styles.RoundValueFromNumberFormat(v._value, styleId);
+                v._styleId = styleId;
                 _values.SetValue(row, col, v);
             }
         }

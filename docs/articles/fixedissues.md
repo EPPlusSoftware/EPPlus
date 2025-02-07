@@ -6,6 +6,39 @@
 * Override borders in Adjacent cells in BorderAround method.
 
 # Features / Fixed issues - EPPlus 7
+## Version 7.6.0
+* Added target framework .NET 9. 
+* Removed out of support frameworks, .NET 6 and .NET 7.
+* Fixed an issue handling formulas when sorting a range.
+* Insert row in table caused corrupt workbook.
+* A workbook could lose styles if the ExcelPackage.FullPrecision property was set.
+* When copying a worksheet, drawings would be resized after inserting rows. This was caused by drawings being copied before styles and therefore drawings would not be aware of any styles.
+* Set Active Tab did not work correctly, if 'CompatibilitySettings.IsWorksheet1Based' was set to true.
+* Fixed "Part already exist" error when copying images between workbooks that already have images.
+* Fixed another issue when copying ExcelPicture’s between workbooks.
+* Iteration of worksheets indexed incorrectly in rare cases. EPPlus now throws an InvalidOperationException, if the collection has been altered under an enumerable operation.
+
+## Version 7.5.3
+* Improved COUNTIF performance, if full column addresses was used.
+* If having a workbook with no reference to a font in the styles.xml, caused an corrupt workbook.
+* ZipEntry's containing the zip data descriptor header could result in a BadReadException.
+* Added null as valid GetByValue for pivot table field items.
+* Added support for [h]:mm number format.
+* Improved sorting for pivot table slicer cache.
+* Fixed comment indices when sorting cells after deleting a row.
+* Fixed bug where adding a comment via ExcelWorksheet.Cells.AddComment and then adding a comment to the same cell via  ExcelWorksheet.Comments.Add would generate corrupt workbook.
+* Added Drawings.AddTextBox for easier creation of textboxes
+* Sheet protection style properties was not set correctly in some cases.
+* Renaming a worksheet could causes formulas to become corrupt, if the name contained spaces or other reserved characters.
+* Inserting into a cell range, shifting right, could cause conditional formatting to move incorrectly.
+* The LoadFromCollection method did not load ExcelHyperLink types as hyperlinks, if the 'members' argument was used.
+* Formula did not calculate when using named ranges to access a spreadsheet.
+* Fixed incorrect handling of multi-char delimiters and escape characters in TEXTBEFORE and TEXTAFTER
+* The VLOOKUP and HLOOKUP function did not return #REF! if the lookup address was out of bounds.
+* Inserting a row in a shared formula sometimes updated the addresses incorrectly.
+* Fixed an issue with the Save dialog in Excel showing when closing an unchanged workbook.
+* When inserting rows/columns, EPPlus incorrectly set a #REF! value if a function was used with a colon to create an address.
+
 ## Version 7.5.2
 * Pivot tables with blanks could cause the pivot table to become corrupt.
 * Fixed error handling in the TEXTJOIN, TEXTSPLIT and CONCAT functions.

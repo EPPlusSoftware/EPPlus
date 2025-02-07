@@ -1180,7 +1180,7 @@ namespace OfficeOpenXml.Table
 
             if (_address._fromRow > firstRow)
             {
-                _address = new ExcelAddressBase(firstRow, _address._fromCol, _address._toRow, _address._toCol, _address._fromRowFixed, _address._fromColFixed, _address._toRowFixed, _address._toColFixed, _address.WorkSheetName, null);
+                Address = new ExcelAddressBase(firstRow, _address._fromCol, _address._toRow, _address._toCol, _address._fromRowFixed, _address._fromColFixed, _address._toRowFixed, _address._toColFixed, _address.WorkSheetName, null);
             }
 
             return range;
