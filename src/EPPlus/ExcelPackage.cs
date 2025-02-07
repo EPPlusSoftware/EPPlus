@@ -619,6 +619,8 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
+        /// This property is obsolete in EPPlus 8, and will be removed in coming versions. 
+        /// Please use the <see cref="License"/> property to configure the license.
         /// to use the epplus library in debug mode a licensetype must be specified.
         /// use licensecontext.noncommercial if you use epplus in an non commercial context.
         /// use licensecontext.commercial if you have purchased an license to use epplus
@@ -643,74 +645,7 @@ namespace OfficeOpenXml
         /// <see cref="EPPlusLicense.SetNonCommercialOrganization(string)"/>
         /// <see cref="EPPlusLicense.SetNonCommercialPersonal(string)"/>
         /// </summary>
-        public static EPPlusLicense License { get; } = new EPPlusLicense();
-            
-//        internal static bool IsLicenseSet(List<ExcelInitializationError> initErrors)
-//        {
-//            if (_licenseSet == true)
-//            {
-//                return true;
-//            }
-//            else
-//            {
-//                if (Debugger.IsAttached == false)   //This check is only performed if a debugger is attached. 
-//                {
-//                    _licenseSet = true;
-//                    return true;
-//                }
-//                var v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.User, _configuration, initErrors);
-//                if (string.IsNullOrEmpty(v))
-//                {
-//                    v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.Process, _configuration, initErrors);
-//                }
-//                bool inEnvironment;
-//                if (string.IsNullOrEmpty(v))
-//                {
-//#if (Core)
-//                    v = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
-
-//#else
-//                    v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
-//                    if(string.IsNullOrEmpty(v))
-//                    {
-//                        v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.LicenseContext", _configuration, initErrors);
-//                    }
-//#endif
-//                    inEnvironment = false;
-//                }
-//                else
-//                {
-//                    inEnvironment = true;
-//                }
-
-//                if (string.IsNullOrEmpty(v))
-//                {
-//                    inEnvironment = false;
-//                    return false;
-//                }
-//                else
-//                {
-//                    v = v.Trim();
-//                    if (v.Equals("commercial", StringComparison.OrdinalIgnoreCase))
-//                    {
-//                        LicenseContext = OfficeOpenXml.LicenseContext.Commercial;
-//                        _licenseSet = true;
-//                        return _licenseSet;
-//                    }
-//                    else if (v.Equals("noncommercial", StringComparison.OrdinalIgnoreCase))
-//                    {
-//                        LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-//                        _licenseSet = true;
-//                        return _licenseSet;
-//                    }
-//                }
-
-//                if (inEnvironment)
-//                    throw new LicenseException("LicenseContext is set to an invalid value in the environment variable 'EPPlusLicenseContext'. Please use Commercial or Noncommercial");
-//                else
-//                    throw new LicenseException("LicenseContext is set to an invalid value in the configuration file, Key: ExcelPackage.LicenseContext. Please use Commercial or Noncommercial");
-//            }
-//        }
+        public static EPPlusLicense License { get; } = new EPPlusLicense();            
         /// <summary>
         /// Returns a reference to the workbook component within the package.
         /// All worksheets and cells can be accessed through the workbook.
