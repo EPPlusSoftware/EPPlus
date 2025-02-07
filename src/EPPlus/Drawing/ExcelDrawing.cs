@@ -1780,22 +1780,26 @@ namespace OfficeOpenXml.Drawing
             return drawNode;
         }
 
-        private XmlNode CopyPicture(ExcelWorksheet worksheet, bool isGroupShape = false, XmlNode groupDrawNode = null)
+        private XmlNode CopyPicture(ExcelWorksheet targetWorksheet, bool isGroupShape = false, XmlNode groupDrawNode = null)
         {
             XmlNode drawNode = null;
+
+            var targetWorkbook = targetWorksheet.Workbook;
+            var targetPackage = targetWorkbook._package;
+
             if (isGroupShape && groupDrawNode != null)
             {
                 drawNode = groupDrawNode;
-                groupDrawNode.SelectSingleNode("xdr:nvPicPr/xdr:cNvPr", worksheet._drawings.NameSpaceManager).Attributes["id"].Value = (++worksheet.Workbook._nextDrawingId).ToString();
+                groupDrawNode.SelectSingleNode("xdr:nvPicPr/xdr:cNvPr", targetWorksheet._drawings.NameSpaceManager).Attributes["id"].Value = (++targetWorkbook._nextDrawingId).ToString();
             }
             else
             {
                 //Create node in drawing.xml
-                drawNode = worksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
+                drawNode = targetWorksheet.Drawings.CreateDocumentAndTopNode(CellAnchor, false);
                 drawNode.InnerXml = TopNode.InnerXml;
             }
             //If same drawings object, we are done.
-            if (worksheet._drawings != _drawings)
+            if (targetWorksheet._drawings != _drawings)
             {
                 //Get the relation node
                 var relNode = drawNode.SelectSingleNode("xdr:pic/xdr:blipFill/a:blip/@r:embed", NameSpaceManager);
@@ -1803,50 +1807,73 @@ namespace OfficeOpenXml.Drawing
                 {
                     relNode = drawNode.SelectSingleNode("xdr:blipFill/a:blip/@r:embed", NameSpaceManager);
                 }
+
                 if (relNode != null && _drawings.Part.RelationshipExists(relNode.Value))
                 {
-                    var rel = _drawings.Part.GetRelationship(relNode.Value);
+                    var srcsRel = _drawings.Part.GetRelationship(relNode.Value);
+                    ZipPackageRelationship newRel = null;
+                    bool imageExists = false;
+
                     //Copy image file to new workbook if target worksheet is in a different workbook.
-                    if (worksheet.Workbook != _drawings.Worksheet.Workbook)
+                    if (targetWorkbook != _drawings.Worksheet.Workbook)
                     {
-                        var uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
+                        var uri = UriHelper.ResolvePartUri(srcsRel.SourceUri, srcsRel.TargetUri);
                         var imagePart = _drawings.Worksheet.Workbook._package.ZipPackage.GetPart(uri);
+
                         var imageStream = (MemoryStream)imagePart.GetStream(FileMode.Open, FileAccess.Read);
                         var image = new byte[imageStream.Length];
+
                         imageStream.Seek(0, SeekOrigin.Begin);
                         imageStream.Read(image, 0, (int)imageStream.Length);
-                        var imageInfo = worksheet.Workbook._package.PictureStore.GetImageInfo(image);
+
+                        var imageInfo = targetPackage.PictureStore.GetImageInfo(image);
+
                         if (imageInfo == null)
                         {
-                            var copyPart = worksheet.Workbook._package.ZipPackage.CreatePart(uri, imagePart.ContentType);
+                            var info = new FileInfo(uri.OriginalString);
+                            Uri absUri = GetNewUri(targetPackage.ZipPackage, "/xl/media/image{0}" + info.Extension);
+
+                            newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
+
+                            var relativeUri = UriHelper.GetRelativeUri(newRel.SourceUri, absUri);
+                            newRel.TargetUri = relativeUri;
+
+                            var copyPart = targetPackage.ZipPackage.CreatePart(absUri, imagePart.ContentType);
                             var copyStream = (MemoryStream)copyPart.GetStream(FileMode.Create, FileAccess.Write);
                             copyStream.Write(image, 0, image.Length);
+
+                            relNode.Value = newRel.Id;
                         }
                         else
                         {
-                            rel.TargetUri = imageInfo.Uri;
+                            var relativeUri = UriHelper.GetRelativeUri(srcsRel.SourceUri, imageInfo.Uri);
+                            var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.TargetUri == relativeUri).FirstOrDefault();
+                            relNode.Value = exisistingRel.Id;
                         }
-                    }
-                    //Check if relationship exists.
-                    var exisistingRel = worksheet._drawings.Part.GetRelationshipsByType(rel.RelationshipType).Where(x => x.Target == rel.Target).FirstOrDefault();
-                    //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the exsisting relationship Id
-                    if (exisistingRel == null || worksheet != _drawings.Worksheet)
-                    {
-                        var newRel = worksheet._drawings.Part.CreateRelationshipFromCopy(rel);
-                        relNode.Value = newRel.Id;
                     }
                     else
                     {
-                        relNode.Value = exisistingRel.Id;
+                        //Check if relationship exists.
+                        var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.TargetUri == srcsRel.TargetUri).FirstOrDefault();
+                        //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the existing relationship Id
+                        if (exisistingRel == null || targetWorksheet != _drawings.Worksheet)
+                        {
+                            newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
+                            relNode.Value = newRel.Id;
+                        }
+                        else
+                        {
+                            relNode.Value = exisistingRel.Id;
+                        }
                     }
                 }
             }
             if (!isGroupShape)
             {
                 //Set New id on copied picture.
-                var pic = GetDrawing(worksheet._drawings, drawNode) as ExcelPicture;
-                pic.SetNewId(++worksheet.Workbook._nextDrawingId);
-                pic.Name = worksheet._drawings.GetUniqueDrawingName(this.Name);
+                var pic = GetDrawing(targetWorksheet._drawings, drawNode) as ExcelPicture;
+                pic.SetNewId(++targetWorkbook._nextDrawingId);
+                pic.Name = targetWorksheet._drawings.GetUniqueDrawingName(this.Name);
             }
             return drawNode;
         }

@@ -1470,7 +1470,7 @@ namespace OfficeOpenXml
         {
             if (n != null)
             {
-                if (ConvertUtil.TryParseNumericString(n.Attributes["val"].Value, out double num))
+                if (ConvertUtil.TryParseNumericString(n.Attributes["val"].Value, out double num, CultureInfo.InvariantCulture))
                 {
                    return Convert.ToSingle(num);
                 }

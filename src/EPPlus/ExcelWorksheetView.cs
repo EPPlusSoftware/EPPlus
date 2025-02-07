@@ -516,7 +516,7 @@ namespace OfficeOpenXml
                 XmlElement bookView = _worksheet.Workbook.WorkbookXml.SelectSingleNode("//d:workbookView", _worksheet.NameSpaceManager) as XmlElement;
                 if (bookView != null)
                 {
-                    bookView.SetAttribute("activeTab", (_worksheet.PositionId).ToString());
+                    bookView.SetAttribute("activeTab", (_worksheet.IndexInList).ToString());
                 }
             }
             else

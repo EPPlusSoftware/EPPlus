@@ -37,6 +37,9 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Theme;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace EPPlusTest
 {

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net8.0;net7.0;net9.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
+		<TargetFrameworks>net8.0;net9.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
 		<AssemblyVersion>8.0.0.0</AssemblyVersion>
 		<FileVersion>8.0.0.0</FileVersion>
 		<Version>8.0.0-beta</Version>
@@ -30,6 +30,10 @@
 			* Support for OLE objects in drawings.
 			* Support for digital signing workbooks and signature lines.
 
+			## Version 7.5.3
+			* Minor features and bug fixes. See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+
+
 			## Version 7.5.2
 			* Pivot tables could crash 
 			* Reading linked images was failed if a relation attribute existed but did not have a value.
@@ -37,7 +41,6 @@
 			* Interfaces to integrate EPPlus with the MIP API to handle sensibility labels.
 			* Minor features and bug fixes.
 
-			* Minor features and bug fixes. See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
 
 			## Version 7.5.1
 			* Minor features and bug fixes.
@@ -452,6 +455,8 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
+			7.5.3			20250116 Minor features and bug fixes.
+			7.5.2			20241209 Minor features and bug fixes.
 			7.5.1			20241121 Minor features and bug fixes.
 			7.5.0			20241115 Signed dll's and nuget package. Minor features and bug fixes.
 			7.4.2			20241028 Minor features and bug fixes.

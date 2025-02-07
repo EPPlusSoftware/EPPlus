@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Utils;
 using System;
+using System.Globalization;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
@@ -14,17 +15,17 @@ namespace OfficeOpenXml.Drawing.Vml
             }
             if (v.EndsWith("f", StringComparison.OrdinalIgnoreCase))
             {
-                ConvertUtil.TryParseNumericString(v.Substring(0, v.Length - 1), out double d);
+                ConvertUtil.TryParseNumericString(v.Substring(0, v.Length - 1), out double d, CultureInfo.InvariantCulture);
                 return (d / 0x10000) * 100;
             }
             else if (v.EndsWith("%"))
             {
-                ConvertUtil.TryParseNumericString(v.Substring(0, v.Length - 1), out double d);
+                ConvertUtil.TryParseNumericString(v.Substring(0, v.Length - 1), out double d, CultureInfo.InvariantCulture);
                 return d;
             }
             else
             {
-                ConvertUtil.TryParseNumericString(v.Substring(0, v.Length - 1), out double d);
+                ConvertUtil.TryParseNumericString(v.Substring(0, v.Length - 1), out double d, CultureInfo.InvariantCulture);
                 return d * 100;
             }
         }

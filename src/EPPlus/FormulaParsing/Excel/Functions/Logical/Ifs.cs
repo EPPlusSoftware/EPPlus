@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     internal class Ifs : ExcelFunction
     {
         public override string NamespacePrefix => "_xlfn.";
-        public override int ArgumentMinLength => 2;
+        public override int ArgumentMinLength => 2;        
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var maxArgs = arguments.Count < 254 ? arguments.Count : 254; 
@@ -44,11 +44,11 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
                     var arg = arguments.ElementAt(x + 1);
                     if(arg.DataType==DataType.ExcelRange)
                     {
-                        return CompileResultFactory.Create(arg, arg.ValueAsRangeInfo.Address);
+                        return CompileResultFactory.CreateDynamicArray(arg, arg.ValueAsRangeInfo.Address);
                     }
                     else
                     {
-                        return CompileResultFactory.Create(arg.Value);
+                        return CompileResultFactory.CreateDynamicArray(arg.Value);
                     }
                 }
             }
