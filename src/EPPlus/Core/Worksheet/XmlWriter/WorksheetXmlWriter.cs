@@ -512,9 +512,35 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     }
                     else if (formula != null && formula.ToString() != "")
                     {
-                        var f= SharedFormula.UpdateFormulaNamespaces(formula.ToString(), nsf);
-                        cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>");
-                        cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                        //Set calc attributes for array formula. We preserve them from load only at this point.
+                        if (hasFlags)
+                        {
+                            mdAttrForFTag = "";
+                            if (_ws._flags.Exists(cse.Row, cse.Column))
+                            {
+                                if (_ws._flags.GetFlagValue(cse.Row, cse.Column, CellFlags.CellFlagAlwaysCalculateArray))
+                                {
+                                    mdAttrForFTag = $" aca=\"1\"";
+                                }
+                                if (_ws._flags.GetFlagValue(cse.Row, cse.Column, CellFlags.CellFlagCalculateCell))
+                                {
+                                    mdAttrForFTag += $" ca=\"1\"";
+                                }
+                            }
+                        }
+
+                        // We can also have a single cell array formula
+                        if (_ws._flags.GetFlagValue(_ws.Cells[cse.CellAddress]._fromRow, _ws.Cells[cse.CellAddress]._fromCol, CellFlags.ArrayFormula))
+                        {
+                            cache.Append($"<{cTag} r=\"{cse.CellAddress
+                                }\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{string.Format("{0}:{1}", _ws.Cells[cse.CellAddress], _ws.Cells[cse.CellAddress])}\" t=\"array\"{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(formula.ToString(), false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                        }
+                        else
+                        {
+                            var f = SharedFormula.UpdateFormulaNamespaces(formula.ToString(), nsf);
+                            cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>");
+                            cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                        }
                     }
                     else
                     {

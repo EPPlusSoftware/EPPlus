@@ -18,6 +18,7 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils;
+using static OfficeOpenXml.ExcelWorksheet;
 
 namespace OfficeOpenXml.Table
 {
@@ -300,14 +301,7 @@ namespace OfficeOpenXml.Table
 
                     if (value.Value)
                     {
-                        int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;
-                        int toRow = _tbl.ShowTotal ? _tbl.Address._toRow - 1 : _tbl.Address._toRow;
-                        var colNum = _tbl.Address._fromCol + Position;
-
-                        string r1c1Formula = ExcelCellBase.TranslateToR1C1(CalculatedColumnFormula, _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow, colNum);
-                        _tbl.WorkSheet.Cells[fromRow, colNum, toRow, colNum].CreateArrayFormula(r1c1Formula, true);
-                        //CreateArrayFormula
-                        //SetTableFormulaFlagArray();
+                        SetTableArrayFormula();
                     }
                 }
                 else
@@ -363,19 +357,15 @@ namespace OfficeOpenXml.Table
             }
         }
 
-        internal void SetTableFormulaFlagArray()
+        internal void SetTableArrayFormula()
         {
             int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;
             int toRow = _tbl.ShowTotal ? _tbl.Address._toRow - 1 : _tbl.Address._toRow;
             var colNum = _tbl.Address._fromCol + Position;
-            var ws = _tbl.WorkSheet;
 
-            for (int row = fromRow; row <= toRow; row++)
-            {
-                ws._flags.SetFlagValue(row, colNum, true, CellFlags.ArrayFormula);
-            }
+            string r1c1Formula = ExcelCellBase.TranslateToR1C1(CalculatedColumnFormula, _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow, colNum);
+            _tbl.WorkSheet.Cells[fromRow, colNum, toRow, colNum].CreateArrayFormula(r1c1Formula, true);
         }
-
         internal void SetFormulaCells(int fromRow, int toRow, int colNum)
         {
             string r1c1Formula = ExcelCellBase.TranslateToR1C1(CalculatedColumnFormula, _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow, colNum);
@@ -384,15 +374,55 @@ namespace OfficeOpenXml.Table
             var ws = _tbl.WorkSheet;
             for (int row = fromRow; row <= toRow; row++)
             {
-                if(needsTranslation)
+                if (needsTranslation)
                 {
                     var f = ExcelCellBase.TranslateFromR1C1(r1c1Formula, row, colNum);
                     ws.SetFormula(row, colNum, f);
                 }
-                else if(ws._formulas.Exists(row, colNum)==false)
+                else if (ws._formulas.Exists(row, colNum) == false)
                 {
                     ws.SetFormula(row, colNum, CalculatedColumnFormula);
                 }
+
+                if(row > _tbl.Address._fromRow)
+                {
+                    if(ws._flags.GetFlagValue(row - 1, colNum, CellFlags.ArrayFormula))
+                    {
+                        var flag = CellFlags.ArrayFormula;
+                        ws._flags.SetFlagValue(row, colNum, true, flag);
+                    }
+                    if (ws._metadataStore.Exists(row - 1, colNum))
+                    {
+                        MetaDataReference md = ws._metadataStore.GetValue(row - 1, colNum);
+                        ws._metadataStore.SetValue(row, colNum, md);
+                    }
+                        //ws._flags.GetFlagValue(row - 1, colNum, CellFlags.met);
+
+                }
+                //if(needsTranslation)
+                //{
+
+                //    var f = ExcelCellBase.TranslateFromR1C1(r1c1Formula, row, colNum);
+                //    if(IsCalculatedFormulaArray.HasValue && IsCalculatedFormulaArray.Value)
+                //    {
+                //        ws.SetFormulaIsArray(row, colNum, f);
+                //    }
+                //    else
+                //    {
+                //        ws.SetFormula(row, colNum, f);
+                //    }
+                //}
+                //else if(ws._formulas.Exists(row, colNum)==false)
+                //{
+                //    if (IsCalculatedFormulaArray.HasValue && IsCalculatedFormulaArray.Value)
+                //    {
+                //        ws.SetFormulaIsArray(row, colNum, CalculatedColumnFormula);
+                //    }
+                //    else
+                //    {
+                //        ws.SetFormula(row, colNum, CalculatedColumnFormula);
+                //    }
+                //}
             }
         }
 		internal static string DecodeTableColumnName(string name)

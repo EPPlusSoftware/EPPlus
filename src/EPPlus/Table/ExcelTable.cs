@@ -29,7 +29,6 @@ using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using System.Linq;
 
-
 #if !NET35 && !NET40
 using System.Threading.Tasks;
 #endif
@@ -1171,7 +1170,7 @@ namespace OfficeOpenXml.Table
         {
             foreach(var c in Columns)
             {
-                if(!string.IsNullOrEmpty(c.CalculatedColumnFormula))
+                if (!string.IsNullOrEmpty(c.CalculatedColumnFormula))
                 {
                     c.SetFormulaCells(range._fromRow, range._toRow, range._fromCol + c.Position);
                 }

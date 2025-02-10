@@ -1834,7 +1834,7 @@ namespace OfficeOpenXml
             _conditionalFormatting.ReadRegularConditionalFormattings(xr);
         }
 
-        internal void WriteArrayFormulaRange(string address, int index, CellFlags type)
+        private void WriteArrayFormulaRange(string address, int index, CellFlags type)
         {
             var refAddress = new ExcelAddressBase(address);
             for (int r = refAddress._fromRow; r <= refAddress._toRow; r++)

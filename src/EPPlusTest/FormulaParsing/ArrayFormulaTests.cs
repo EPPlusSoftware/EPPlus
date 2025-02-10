@@ -110,5 +110,112 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual("", ws.Cells["B2"].Value);
             }
         }
+        [TestMethod]
+        public void DynamicArrayFormulaWithTwoCellsInTableGenerateCorruptWorkbook()
+        {
+            using (var package = OpenPackage("DynamicArrayTableNew.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sheet = wb.Worksheets.Add("newWorksheet");
+
+                var excelTable = sheet.Tables.Add(sheet.Cells["A1:D4"], "TableTest");
+
+                sheet.Cells["D2:D3"].CreateArrayFormula("SUM(A2:B2 * 1)", false);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void DynamicArrayFormulaWithTwoCellsInTableGenerateCorruptWorkbook2()
+        {
+            using (var package = OpenPackage("DynamicArrayTableNew.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sheet = wb.Worksheets.Add("newWorksheet");
+
+                var excelTable = sheet.Tables.Add(sheet.Cells["A1:D4"], "TableTest");
+                sheet.Cells["C2:D3"].CreateArrayFormula("SUM(A2:B2 * 1)", true);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+
+        [TestMethod]
+        public void FormulaNotConsideredArrayFormula()
+        {
+            using (var package = OpenPackage("FaultyNonArrayFormula.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sheet = wb.Worksheets.Add("newWorksheet");
+
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["B2"].Value = 6;
+
+                //sheet.Cells["D2"].CreateArrayFormula("SUM(A2:B2 * 1)", true);
+                sheet.Cells["D2"].Formula = "SUM(A2:B2 * 1)";
+
+                wb.Calculate();
+
+                Assert.AreEqual(8, Convert.ToInt32(sheet.Cells["D2"].Value));
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void InsertArrayFormulaWithoutCalculate()
+        {
+            using (var package = OpenPackage("ArrayTable_InsertNoCalculate.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sheet = wb.Worksheets.Add("newWorksheet");
+
+                var excelTable = sheet.Tables.Add(sheet.Cells["A1:D2"], "TableTest");
+
+                excelTable.Columns[3].CalculatedColumnFormula = "SUM((TableTest[[#This Row],[Column1]:[Column2]]<>0)*1)>0";
+                excelTable.Columns[3].IsCalculatedFormulaArray = true;
+
+                var cell1 = _ws.Cells["D2"];
+                var isArray1 = _ws._flags.GetFlagValue(cell1._fromRow, cell1._fromCol, CellFlags.ArrayFormula);
+
+                excelTable.InsertRow(1);
+
+                //var cell = _ws.Cells["D3"];
+                //isArray1 = _ws._flags.GetFlagValue(cell1._fromRow, cell1._fromCol, CellFlags.ArrayFormula);
+                //var isArray = _ws._flags.GetFlagValue(cell._fromRow, cell._fromCol, CellFlags.ArrayFormula);
+
+                var formula = _ws.Cells["D3"].Formula;
+
+                Assert.IsTrue(excelTable.Columns[3].IsCalculatedFormulaArray);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void InsertArrayFormulaWithCalculate()
+        {
+            using (var package = OpenPackage("DynamicArrayTable.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sheet = wb.Worksheets.Add("newWorksheet");
+
+                var excelTable = sheet.Tables.Add(sheet.Cells["A1:D2"], "TableTest");
+
+                excelTable.Columns[3].CalculatedColumnFormula = "SUM((TableTest[[#This Row],[Column1]:[Column2]]<>0)*1)>0";
+                excelTable.Columns[3].IsCalculatedFormulaArray = true;
+
+                wb.Calculate();
+
+                excelTable.InsertRow(1);
+
+                var cell = _ws.Cells["D3"];
+                Assert.IsTrue(_ws._flags.GetFlagValue(cell._fromRow, cell._fromCol, CellFlags.ArrayFormula));
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
