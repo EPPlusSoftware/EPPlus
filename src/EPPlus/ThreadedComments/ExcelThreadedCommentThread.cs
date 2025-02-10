@@ -258,5 +258,15 @@ namespace OfficeOpenXml.ThreadedComments
         {
             return "Count = " + Comments.Count;
         }
+
+        internal void SetAddress(string address)
+        {
+            CellAddress.Address = address;
+            foreach(var c in Comments)
+            {
+                c.Ref = address;
+                c.CellAddress.Address = address;
+            }
+        }
     }
 }
