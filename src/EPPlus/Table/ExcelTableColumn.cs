@@ -396,33 +396,7 @@ namespace OfficeOpenXml.Table
                         MetaDataReference md = ws._metadataStore.GetValue(row - 1, colNum);
                         ws._metadataStore.SetValue(row, colNum, md);
                     }
-                        //ws._flags.GetFlagValue(row - 1, colNum, CellFlags.met);
-
                 }
-                //if(needsTranslation)
-                //{
-
-                //    var f = ExcelCellBase.TranslateFromR1C1(r1c1Formula, row, colNum);
-                //    if(IsCalculatedFormulaArray.HasValue && IsCalculatedFormulaArray.Value)
-                //    {
-                //        ws.SetFormulaIsArray(row, colNum, f);
-                //    }
-                //    else
-                //    {
-                //        ws.SetFormula(row, colNum, f);
-                //    }
-                //}
-                //else if(ws._formulas.Exists(row, colNum)==false)
-                //{
-                //    if (IsCalculatedFormulaArray.HasValue && IsCalculatedFormulaArray.Value)
-                //    {
-                //        ws.SetFormulaIsArray(row, colNum, CalculatedColumnFormula);
-                //    }
-                //    else
-                //    {
-                //        ws.SetFormula(row, colNum, CalculatedColumnFormula);
-                //    }
-                //}
             }
         }
 		internal static string DecodeTableColumnName(string name)
