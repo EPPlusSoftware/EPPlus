@@ -15,12 +15,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultBase.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompileResultBase
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 54
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultBase.cs
+    startLine: 17
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -62,12 +62,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultBase.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 59
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultBase.cs
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions

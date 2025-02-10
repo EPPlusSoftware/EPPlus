@@ -1,0 +1,874 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  commentId: T:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  id: ExcelDigitalSignatureCollection
+  parent: OfficeOpenXml.DigitalSignatures
+  children:
+  - OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Add(System.Security.Cryptography.X509Certificates.X509Certificate2)
+  - OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Item(System.Int32)
+  - OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Remove(OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature)
+  - OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#DigitalSignatures#ExcelDigitalSignature}#GetEnumerator
+  - OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelDigitalSignatureCollection
+  nameWithType: ExcelDigitalSignatureCollection
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelDigitalSignatureCollection
+    path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
+    startLine: 12
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nCollection of digital signatures\n"
+  example: []
+  syntax:
+    content: 'public class ExcelDigitalSignatureCollection : IEnumerable<ExcelDigitalSignature>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelDigitalSignatureCollection
+          Implements IEnumerable(Of ExcelDigitalSignature), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#DigitalSignatures#ExcelDigitalSignature}#GetEnumerator
+  commentId: M:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#DigitalSignatures#ExcelDigitalSignature}#GetEnumerator
+  id: System#Collections#Generic#IEnumerable{OfficeOpenXml#DigitalSignatures#ExcelDigitalSignature}#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable<ExcelDigitalSignature>.GetEnumerator()
+  nameWithType: ExcelDigitalSignatureCollection.IEnumerable<ExcelDigitalSignature>.GetEnumerator()
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>.GetEnumerator
+    path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  syntax:
+    content: IEnumerator<ExcelDigitalSignature> IEnumerable<ExcelDigitalSignature>.GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature}
+    content.vb: Function System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>.GetEnumerator As IEnumerator(Of ExcelDigitalSignature) Implements IEnumerable(Of ExcelDigitalSignature).GetEnumerator
+  overload: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#DigitalSignatures#ExcelDigitalSignature}#GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature}.GetEnumerator
+  nameWithType.vb: ExcelDigitalSignatureCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>.GetEnumerator()
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelDigitalSignatureCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
+    startLine: 47
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelDigitalSignatureCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelDigitalSignatureCollection.Item[Int32]
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
+    startLine: 52
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  syntax:
+    content: public ExcelDigitalSignature this[int index] { get; set; }
+    parameters:
+    - id: index
+      type: System.Int32
+    return:
+      type: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+    content.vb: Public Property Item(index As Integer) As ExcelDigitalSignature
+  overload: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Item*
+  nameWithType.vb: ExcelDigitalSignatureCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Add(System.Security.Cryptography.X509Certificates.X509Certificate2)
+  commentId: M:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Add(System.Security.Cryptography.X509Certificates.X509Certificate2)
+  id: Add(System.Security.Cryptography.X509Certificates.X509Certificate2)
+  parent: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  langs:
+  - csharp
+  - vb
+  name: Add(X509Certificate2)
+  nameWithType: ExcelDigitalSignatureCollection.Add(X509Certificate2)
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Add(System.Security.Cryptography.X509Certificates.X509Certificate2)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Add
+    path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nAdd digital signature\nRequires a valid X509Certificate2 with a private key.\n"
+  example: []
+  syntax:
+    content: public ExcelDigitalSignature Add(X509Certificate2 certificate)
+    parameters:
+    - id: certificate
+      type: System.Security.Cryptography.X509Certificates.X509Certificate2
+      description: ''
+    return:
+      type: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+      description: ''
+    content.vb: Public Function Add(certificate As X509Certificate2) As ExcelDigitalSignature
+  overload: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Add*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Remove(OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature)
+  commentId: M:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Remove(OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature)
+  id: Remove(OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature)
+  parent: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  langs:
+  - csharp
+  - vb
+  name: Remove(ExcelDigitalSignature)
+  nameWithType: ExcelDigitalSignatureCollection.Remove(ExcelDigitalSignature)
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Remove(OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
+    startLine: 101
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nRemove digital signature\n"
+  example: []
+  syntax:
+    content: public void Remove(ExcelDigitalSignature signature)
+    parameters:
+    - id: signature
+      type: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+      description: ''
+    content.vb: Public Sub Remove(signature As ExcelDigitalSignature)
+  overload: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.DigitalSignatures
+  commentId: N:OfficeOpenXml.DigitalSignatures
+  name: OfficeOpenXml.DigitalSignatures
+  nameWithType: OfficeOpenXml.DigitalSignatures
+  fullName: OfficeOpenXml.DigitalSignatures
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelDigitalSignature>
+  nameWithType: IEnumerable<ExcelDigitalSignature>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>
+  nameWithType.vb: IEnumerable(Of ExcelDigitalSignature)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature)
+  name.vb: IEnumerable(Of ExcelDigitalSignature)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+    name: ExcelDigitalSignature
+    nameWithType: ExcelDigitalSignature
+    fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+    name: ExcelDigitalSignature
+    nameWithType: ExcelDigitalSignature
+    fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#DigitalSignatures#ExcelDigitalSignature}#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System#Collections#Generic#IEnumerable{OfficeOpenXml#DigitalSignatures#ExcelDigitalSignature}#GetEnumerator
+  name: IEnumerable<ExcelDigitalSignature>.GetEnumerator
+  nameWithType: ExcelDigitalSignatureCollection.IEnumerable<ExcelDigitalSignature>.GetEnumerator
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>.GetEnumerator
+  nameWithType.vb: ExcelDigitalSignatureCollection.System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>.GetEnumerator
+  name.vb: System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelDigitalSignature>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelDigitalSignature).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelDigitalSignature>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelDigitalSignature).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelDigitalSignature>
+  nameWithType: IEnumerator<ExcelDigitalSignature>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>
+  nameWithType.vb: IEnumerator(Of ExcelDigitalSignature)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature)
+  name.vb: IEnumerator(Of ExcelDigitalSignature)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+    name: ExcelDigitalSignature
+    nameWithType: ExcelDigitalSignature
+    fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+    name: ExcelDigitalSignature
+    nameWithType: ExcelDigitalSignature
+    fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelDigitalSignatureCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelDigitalSignatureCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Item*
+  commentId: Overload:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Item
+  name: Item
+  nameWithType: ExcelDigitalSignatureCollection.Item
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Item
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+  commentId: T:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+  parent: OfficeOpenXml.DigitalSignatures
+  name: ExcelDigitalSignature
+  nameWithType: ExcelDigitalSignature
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Add*
+  commentId: Overload:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Add
+  name: Add
+  nameWithType: ExcelDigitalSignatureCollection.Add
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Add
+- uid: System.Security.Cryptography.X509Certificates.X509Certificate2
+  commentId: T:System.Security.Cryptography.X509Certificates.X509Certificate2
+  parent: System.Security.Cryptography.X509Certificates
+  isExternal: true
+  name: X509Certificate2
+  nameWithType: X509Certificate2
+  fullName: System.Security.Cryptography.X509Certificates.X509Certificate2
+- uid: System.Security.Cryptography.X509Certificates
+  commentId: N:System.Security.Cryptography.X509Certificates
+  isExternal: true
+  name: System.Security.Cryptography.X509Certificates
+  nameWithType: System.Security.Cryptography.X509Certificates
+  fullName: System.Security.Cryptography.X509Certificates
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Remove*
+  commentId: Overload:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Remove
+  name: Remove
+  nameWithType: ExcelDigitalSignatureCollection.Remove
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Remove

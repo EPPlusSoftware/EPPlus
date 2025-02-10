@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelChartsheet.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartsheet
     path: ../src/EPPlus/ExcelChartsheet.cs
@@ -60,6 +60,7 @@ items:
   - OfficeOpenXml.ExcelWorksheet.TabColor
   - OfficeOpenXml.ExcelWorksheet.CodeModule
   - OfficeOpenXml.ExcelWorksheet.WorksheetXml
+  - OfficeOpenXml.ExcelWorksheet.SignatureLines
   - OfficeOpenXml.ExcelWorksheet.Comments
   - OfficeOpenXml.ExcelWorksheet.ThreadedComments
   - OfficeOpenXml.ExcelWorksheet.HeaderFooter
@@ -142,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelChartsheet.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Chart
     path: ../src/EPPlus/ExcelChartsheet.cs
@@ -403,6 +404,12 @@ references:
   name: WorksheetXml
   nameWithType: ExcelWorksheet.WorksheetXml
   fullName: OfficeOpenXml.ExcelWorksheet.WorksheetXml
+- uid: OfficeOpenXml.ExcelWorksheet.SignatureLines
+  commentId: P:OfficeOpenXml.ExcelWorksheet.SignatureLines
+  parent: OfficeOpenXml.ExcelWorksheet
+  name: SignatureLines
+  nameWithType: ExcelWorksheet.SignatureLines
+  fullName: OfficeOpenXml.ExcelWorksheet.SignatureLines
 - uid: OfficeOpenXml.ExcelWorksheet.Comments
   commentId: P:OfficeOpenXml.ExcelWorksheet.Comments
   parent: OfficeOpenXml.ExcelWorksheet

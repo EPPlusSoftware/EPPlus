@@ -1,0 +1,75 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DigitalSignatures
+  commentId: N:OfficeOpenXml.DigitalSignatures
+  id: OfficeOpenXml.DigitalSignatures
+  children:
+  - OfficeOpenXml.DigitalSignatures.AdditionalSignatureInfo
+  - OfficeOpenXml.DigitalSignatures.CommitmentType
+  - OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  - OfficeOpenXml.DigitalSignatures.DigitalSignatureType
+  - OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+  - OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  - OfficeOpenXml.DigitalSignatures.SignatureProperty
+  - OfficeOpenXml.DigitalSignatures.SignatureTime
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.DigitalSignatures
+  nameWithType: OfficeOpenXml.DigitalSignatures
+  fullName: OfficeOpenXml.DigitalSignatures
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.DigitalSignatures.AdditionalSignatureInfo
+  commentId: T:OfficeOpenXml.DigitalSignatures.AdditionalSignatureInfo
+  parent: OfficeOpenXml.DigitalSignatures
+  name: AdditionalSignatureInfo
+  nameWithType: AdditionalSignatureInfo
+  fullName: OfficeOpenXml.DigitalSignatures.AdditionalSignatureInfo
+- uid: OfficeOpenXml.DigitalSignatures.CommitmentType
+  commentId: T:OfficeOpenXml.DigitalSignatures.CommitmentType
+  parent: OfficeOpenXml.DigitalSignatures
+  name: CommitmentType
+  nameWithType: CommitmentType
+  fullName: OfficeOpenXml.DigitalSignatures.CommitmentType
+- uid: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  commentId: T:OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  parent: OfficeOpenXml.DigitalSignatures
+  name: DigitalSignatureHashAlgorithm
+  nameWithType: DigitalSignatureHashAlgorithm
+  fullName: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+- uid: OfficeOpenXml.DigitalSignatures.DigitalSignatureType
+  commentId: T:OfficeOpenXml.DigitalSignatures.DigitalSignatureType
+  parent: OfficeOpenXml.DigitalSignatures
+  name: DigitalSignatureType
+  nameWithType: DigitalSignatureType
+  fullName: OfficeOpenXml.DigitalSignatures.DigitalSignatureType
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+  commentId: T:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+  parent: OfficeOpenXml.DigitalSignatures
+  name: ExcelDigitalSignature
+  nameWithType: ExcelDigitalSignature
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  commentId: T:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  parent: OfficeOpenXml.DigitalSignatures
+  name: ExcelDigitalSignatureCollection
+  nameWithType: ExcelDigitalSignatureCollection
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+- uid: OfficeOpenXml.DigitalSignatures.SignatureProperty
+  commentId: T:OfficeOpenXml.DigitalSignatures.SignatureProperty
+  name: SignatureProperty
+  nameWithType: SignatureProperty
+  fullName: OfficeOpenXml.DigitalSignatures.SignatureProperty
+- uid: OfficeOpenXml.DigitalSignatures.SignatureTime
+  commentId: T:OfficeOpenXml.DigitalSignatures.SignatureTime
+  name: SignatureTime
+  nameWithType: SignatureTime
+  fullName: OfficeOpenXml.DigitalSignatures.SignatureTime
+- uid: OfficeOpenXml.DigitalSignatures
+  commentId: N:OfficeOpenXml.DigitalSignatures
+  name: OfficeOpenXml.DigitalSignatures
+  nameWithType: OfficeOpenXml.DigitalSignatures
+  fullName: OfficeOpenXml.DigitalSignatures

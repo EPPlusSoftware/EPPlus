@@ -154,5 +154,5 @@ Renaming worksheet's will now change the formula correctly to include single quo
   You can still use these handlers by referencing the EPPlus.System.Drawing handlers nuget package and use the 'SystemDrawingTextMeasurer' or 'SystemDrawingImageHandler' classes as primary handler.
   Also see https://github.com/EPPlusSoftware/EPPlus/wiki/Autofit-columns
 #### Removed Methods & Properties
-* ExcelVbaReferenceControl.LibIdExternal, please use LibIdExtended instead.
-
+* Obsolete property ExcelVbaReferenceControl.LibIdExternal, please use LibIdExtended instead.
+* Obsolete property ExcelDataValidation.IsStale has been removed.

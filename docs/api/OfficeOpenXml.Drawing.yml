@@ -38,6 +38,7 @@ items:
   - OfficeOpenXml.Drawing.eShadePath
   - OfficeOpenXml.Drawing.eShapeConnectorStyle
   - OfficeOpenXml.Drawing.eShapeStyle
+  - OfficeOpenXml.Drawing.eSignatureLineType
   - OfficeOpenXml.Drawing.eStyleEntryModifier
   - OfficeOpenXml.Drawing.eSystemColor
   - OfficeOpenXml.Drawing.eTextAlignment
@@ -69,15 +70,20 @@ items:
   - OfficeOpenXml.Drawing.ExcelGroupShape
   - OfficeOpenXml.Drawing.ExcelImage
   - OfficeOpenXml.Drawing.ExcelImageInfo
+  - OfficeOpenXml.Drawing.ExcelOleObjectAsType
   - OfficeOpenXml.Drawing.ExcelPicture
   - OfficeOpenXml.Drawing.ExcelPosition
   - OfficeOpenXml.Drawing.ExcelShape
   - OfficeOpenXml.Drawing.ExcelShapeBase
+  - OfficeOpenXml.Drawing.ExcelSignatureLine
+  - OfficeOpenXml.Drawing.ExcelSignatureLineStamp
   - OfficeOpenXml.Drawing.ExcelSlicerAsType
   - OfficeOpenXml.Drawing.ExcelTextBody
   - OfficeOpenXml.Drawing.ExcelTextRun
   - OfficeOpenXml.Drawing.ExcelView3D
   - OfficeOpenXml.Drawing.GenericImageHandler
+  - OfficeOpenXml.Drawing.PictureLocation
+  - OfficeOpenXml.Drawing.SignatureLineCollection
   langs:
   - csharp
   - vb
@@ -364,6 +370,12 @@ references:
   name: eTileFlipMode
   nameWithType: eTileFlipMode
   fullName: OfficeOpenXml.Drawing.eTileFlipMode
+- uid: OfficeOpenXml.Drawing.PictureLocation
+  commentId: T:OfficeOpenXml.Drawing.PictureLocation
+  parent: OfficeOpenXml.Drawing
+  name: PictureLocation
+  nameWithType: PictureLocation
+  fullName: OfficeOpenXml.Drawing.PictureLocation
 - uid: OfficeOpenXml.Drawing.ExcelChartAsType
   commentId: T:OfficeOpenXml.Drawing.ExcelChartAsType
   parent: OfficeOpenXml.Drawing
@@ -477,6 +489,12 @@ references:
   name: ExcelImageInfo
   nameWithType: ExcelImageInfo
   fullName: OfficeOpenXml.Drawing.ExcelImageInfo
+- uid: OfficeOpenXml.Drawing.ExcelOleObjectAsType
+  commentId: T:OfficeOpenXml.Drawing.ExcelOleObjectAsType
+  parent: OfficeOpenXml.Drawing
+  name: ExcelOleObjectAsType
+  nameWithType: ExcelOleObjectAsType
+  fullName: OfficeOpenXml.Drawing.ExcelOleObjectAsType
 - uid: OfficeOpenXml.Drawing.ExcelPicture
   commentId: T:OfficeOpenXml.Drawing.ExcelPicture
   parent: OfficeOpenXml.Drawing
@@ -518,6 +536,30 @@ references:
   name: GenericImageHandler
   nameWithType: GenericImageHandler
   fullName: OfficeOpenXml.Drawing.GenericImageHandler
+- uid: OfficeOpenXml.Drawing.eSignatureLineType
+  commentId: T:OfficeOpenXml.Drawing.eSignatureLineType
+  parent: OfficeOpenXml.Drawing
+  name: eSignatureLineType
+  nameWithType: eSignatureLineType
+  fullName: OfficeOpenXml.Drawing.eSignatureLineType
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLine
+  commentId: T:OfficeOpenXml.Drawing.ExcelSignatureLine
+  parent: OfficeOpenXml.Drawing
+  name: ExcelSignatureLine
+  nameWithType: ExcelSignatureLine
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLine
+- uid: OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+  commentId: T:OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+  parent: OfficeOpenXml.Drawing
+  name: ExcelSignatureLineStamp
+  nameWithType: ExcelSignatureLineStamp
+  fullName: OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+- uid: OfficeOpenXml.Drawing.SignatureLineCollection
+  commentId: T:OfficeOpenXml.Drawing.SignatureLineCollection
+  parent: OfficeOpenXml.Drawing
+  name: SignatureLineCollection
+  nameWithType: SignatureLineCollection
+  fullName: OfficeOpenXml.Drawing.SignatureLineCollection
 - uid: OfficeOpenXml.Drawing.ExcelTextBody
   commentId: T:OfficeOpenXml.Drawing.ExcelTextBody
   parent: OfficeOpenXml.Drawing

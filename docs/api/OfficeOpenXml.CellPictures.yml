@@ -1,0 +1,42 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.CellPictures
+  commentId: N:OfficeOpenXml.CellPictures
+  id: OfficeOpenXml.CellPictures
+  children:
+  - OfficeOpenXml.CellPictures.ExcelCellPicture
+  - OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+  - OfficeOpenXml.CellPictures.ExcelRangePicture
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.CellPictures
+  nameWithType: OfficeOpenXml.CellPictures
+  fullName: OfficeOpenXml.CellPictures
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.CellPictures.ExcelCellPicture
+  commentId: T:OfficeOpenXml.CellPictures.ExcelCellPicture
+  parent: OfficeOpenXml.CellPictures
+  name: ExcelCellPicture
+  nameWithType: ExcelCellPicture
+  fullName: OfficeOpenXml.CellPictures.ExcelCellPicture
+- uid: OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+  commentId: T:OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+  parent: OfficeOpenXml.CellPictures
+  name: ExcelCellPictureTypes
+  nameWithType: ExcelCellPictureTypes
+  fullName: OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture
+  commentId: T:OfficeOpenXml.CellPictures.ExcelRangePicture
+  parent: OfficeOpenXml.CellPictures
+  name: ExcelRangePicture
+  nameWithType: ExcelRangePicture
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture
+- uid: OfficeOpenXml.CellPictures
+  commentId: N:OfficeOpenXml.CellPictures
+  name: OfficeOpenXml.CellPictures
+  nameWithType: OfficeOpenXml.CellPictures
+  fullName: OfficeOpenXml.CellPictures

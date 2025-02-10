@@ -1,0 +1,41 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.RichData
+  commentId: N:OfficeOpenXml.RichData
+  id: OfficeOpenXml.RichData
+  children:
+  - OfficeOpenXml.RichData.RichDataReference
+  - OfficeOpenXml.RichData.RichDataReferenceTypes
+  - OfficeOpenXml.RichData.RichDataReferenceValueError
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.RichData
+  nameWithType: OfficeOpenXml.RichData
+  fullName: OfficeOpenXml.RichData
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.RichData.RichDataReference
+  commentId: T:OfficeOpenXml.RichData.RichDataReference
+  name: RichDataReference
+  nameWithType: RichDataReference
+  fullName: OfficeOpenXml.RichData.RichDataReference
+- uid: OfficeOpenXml.RichData.RichDataReferenceTypes
+  commentId: T:OfficeOpenXml.RichData.RichDataReferenceTypes
+  parent: OfficeOpenXml.RichData
+  name: RichDataReferenceTypes
+  nameWithType: RichDataReferenceTypes
+  fullName: OfficeOpenXml.RichData.RichDataReferenceTypes
+- uid: OfficeOpenXml.RichData.RichDataReferenceValueError
+  commentId: T:OfficeOpenXml.RichData.RichDataReferenceValueError
+  parent: OfficeOpenXml.RichData
+  name: RichDataReferenceValueError
+  nameWithType: RichDataReferenceValueError
+  fullName: OfficeOpenXml.RichData.RichDataReferenceValueError
+- uid: OfficeOpenXml.RichData
+  commentId: N:OfficeOpenXml.RichData
+  name: OfficeOpenXml.RichData
+  nameWithType: OfficeOpenXml.RichData
+  fullName: OfficeOpenXml.RichData

@@ -19,11 +19,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRange
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 24
+    startLine: 19
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -56,6 +56,7 @@ items:
   - OfficeOpenXml.ExcelRangeBase.Value
   - OfficeOpenXml.ExcelRangeBase.SetErrorValue(OfficeOpenXml.eErrorType)
   - OfficeOpenXml.ExcelRangeBase.Text
+  - OfficeOpenXml.ExcelRangeBase.Picture
   - OfficeOpenXml.ExcelRangeBase.AutoFitColumns
   - OfficeOpenXml.ExcelRangeBase.AutoFitColumns(System.Double)
   - OfficeOpenXml.ExcelRangeBase.AutoFitColumns(System.Double,System.Double)
@@ -69,6 +70,7 @@ items:
   - OfficeOpenXml.ExcelRangeBase.SetHyperlink(OfficeOpenXml.ExcelRange)
   - OfficeOpenXml.ExcelRangeBase.Merge
   - OfficeOpenXml.ExcelRangeBase.AutoFilter
+  - OfficeOpenXml.ExcelRangeBase.IsEmpty(System.Boolean,System.Boolean,System.Boolean)
   - OfficeOpenXml.ExcelRangeBase.IsRichText
   - OfficeOpenXml.ExcelRangeBase.IsTable
   - OfficeOpenXml.ExcelRangeBase.GetTable
@@ -94,6 +96,10 @@ items:
   - OfficeOpenXml.ExcelRangeBase.Copy(OfficeOpenXml.ExcelRangeBase)
   - OfficeOpenXml.ExcelRangeBase.Copy(OfficeOpenXml.ExcelRangeBase,System.Nullable{OfficeOpenXml.ExcelRangeCopyOptionFlags})
   - OfficeOpenXml.ExcelRangeBase.Copy(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
+  - OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase)
+  - OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
+  - OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase)
+  - OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
   - OfficeOpenXml.ExcelRangeBase.CopyStyles(OfficeOpenXml.ExcelRangeBase)
   - OfficeOpenXml.ExcelRangeBase.Clear
   - OfficeOpenXml.ExcelRangeBase.CreateArrayFormula(System.String,System.Boolean)
@@ -274,11 +280,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 47
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -318,11 +324,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 107
+    startLine: 102
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -365,11 +371,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 136
+    startLine: 131
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -418,11 +424,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetFormula
     path: ../src/EPPlus/ExcelRange.cs
-    startLine: 176
+    startLine: 171
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -685,6 +691,12 @@ references:
   name: Text
   nameWithType: ExcelRangeBase.Text
   fullName: OfficeOpenXml.ExcelRangeBase.Text
+- uid: OfficeOpenXml.ExcelRangeBase.Picture
+  commentId: P:OfficeOpenXml.ExcelRangeBase.Picture
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: Picture
+  nameWithType: ExcelRangeBase.Picture
+  fullName: OfficeOpenXml.ExcelRangeBase.Picture
 - uid: OfficeOpenXml.ExcelRangeBase.AutoFitColumns
   commentId: M:OfficeOpenXml.ExcelRangeBase.AutoFitColumns
   parent: OfficeOpenXml.ExcelRangeBase
@@ -1029,6 +1041,77 @@ references:
   name: AutoFilter
   nameWithType: ExcelRangeBase.AutoFilter
   fullName: OfficeOpenXml.ExcelRangeBase.AutoFilter
+- uid: OfficeOpenXml.ExcelRangeBase.IsEmpty(System.Boolean,System.Boolean,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.IsEmpty(System.Boolean,System.Boolean,System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeBase
+  isExternal: true
+  name: IsEmpty(Boolean, Boolean, Boolean)
+  nameWithType: ExcelRangeBase.IsEmpty(Boolean, Boolean, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeBase.IsEmpty(System.Boolean, System.Boolean, System.Boolean)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.IsEmpty(System.Boolean,System.Boolean,System.Boolean)
+    name: IsEmpty
+    nameWithType: ExcelRangeBase.IsEmpty
+    fullName: OfficeOpenXml.ExcelRangeBase.IsEmpty
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.IsEmpty(System.Boolean,System.Boolean,System.Boolean)
+    name: IsEmpty
+    nameWithType: ExcelRangeBase.IsEmpty
+    fullName: OfficeOpenXml.ExcelRangeBase.IsEmpty
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ExcelRangeBase.IsRichText
   commentId: P:OfficeOpenXml.ExcelRangeBase.IsRichText
   parent: OfficeOpenXml.ExcelRangeBase
@@ -1664,6 +1747,196 @@ references:
     name: Copy
     nameWithType: ExcelRangeBase.Copy
     fullName: OfficeOpenXml.ExcelRangeBase.Copy
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelRangeCopyOptionFlags
+    name: ExcelRangeCopyOptionFlags
+    nameWithType: ExcelRangeCopyOptionFlags
+    fullName: OfficeOpenXml.ExcelRangeCopyOptionFlags
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase)
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: CopyFill(ExcelRangeBase)
+  nameWithType: ExcelRangeBase.CopyFill(ExcelRangeBase)
+  fullName: OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase)
+    name: CopyFill
+    nameWithType: ExcelRangeBase.CopyFill
+    fullName: OfficeOpenXml.ExcelRangeBase.CopyFill
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase)
+    name: CopyFill
+    nameWithType: ExcelRangeBase.CopyFill
+    fullName: OfficeOpenXml.ExcelRangeBase.CopyFill
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
+  commentId: M:OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: CopyFill(ExcelRangeBase, ExcelRangeCopyOptionFlags[])
+  nameWithType: ExcelRangeBase.CopyFill(ExcelRangeBase, ExcelRangeCopyOptionFlags[])
+  fullName: OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeCopyOptionFlags[])
+  nameWithType.vb: ExcelRangeBase.CopyFill(ExcelRangeBase, ExcelRangeCopyOptionFlags())
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeCopyOptionFlags())
+  name.vb: CopyFill(ExcelRangeBase, ExcelRangeCopyOptionFlags())
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
+    name: CopyFill
+    nameWithType: ExcelRangeBase.CopyFill
+    fullName: OfficeOpenXml.ExcelRangeBase.CopyFill
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelRangeCopyOptionFlags
+    name: ExcelRangeCopyOptionFlags
+    nameWithType: ExcelRangeCopyOptionFlags
+    fullName: OfficeOpenXml.ExcelRangeCopyOptionFlags
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.CopyFill(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
+    name: CopyFill
+    nameWithType: ExcelRangeBase.CopyFill
+    fullName: OfficeOpenXml.ExcelRangeBase.CopyFill
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelRangeCopyOptionFlags
+    name: ExcelRangeCopyOptionFlags
+    nameWithType: ExcelRangeCopyOptionFlags
+    fullName: OfficeOpenXml.ExcelRangeCopyOptionFlags
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase)
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: CopyTranspose(ExcelRangeBase)
+  nameWithType: ExcelRangeBase.CopyTranspose(ExcelRangeBase)
+  fullName: OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase)
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase)
+    name: CopyTranspose
+    nameWithType: ExcelRangeBase.CopyTranspose
+    fullName: OfficeOpenXml.ExcelRangeBase.CopyTranspose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase)
+    name: CopyTranspose
+    nameWithType: ExcelRangeBase.CopyTranspose
+    fullName: OfficeOpenXml.ExcelRangeBase.CopyTranspose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
+  commentId: M:OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
+  parent: OfficeOpenXml.ExcelRangeBase
+  name: CopyTranspose(ExcelRangeBase, ExcelRangeCopyOptionFlags[])
+  nameWithType: ExcelRangeBase.CopyTranspose(ExcelRangeBase, ExcelRangeCopyOptionFlags[])
+  fullName: OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeCopyOptionFlags[])
+  nameWithType.vb: ExcelRangeBase.CopyTranspose(ExcelRangeBase, ExcelRangeCopyOptionFlags())
+  fullName.vb: OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase, OfficeOpenXml.ExcelRangeCopyOptionFlags())
+  name.vb: CopyTranspose(ExcelRangeBase, ExcelRangeCopyOptionFlags())
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
+    name: CopyTranspose
+    nameWithType: ExcelRangeBase.CopyTranspose
+    fullName: OfficeOpenXml.ExcelRangeBase.CopyTranspose
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelRangeBase
+    name: ExcelRangeBase
+    nameWithType: ExcelRangeBase
+    fullName: OfficeOpenXml.ExcelRangeBase
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: OfficeOpenXml.ExcelRangeCopyOptionFlags
+    name: ExcelRangeCopyOptionFlags
+    nameWithType: ExcelRangeCopyOptionFlags
+    fullName: OfficeOpenXml.ExcelRangeCopyOptionFlags
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeBase.CopyTranspose(OfficeOpenXml.ExcelRangeBase,OfficeOpenXml.ExcelRangeCopyOptionFlags[])
+    name: CopyTranspose
+    nameWithType: ExcelRangeBase.CopyTranspose
+    fullName: OfficeOpenXml.ExcelRangeBase.CopyTranspose
   - name: (
     nameWithType: (
     fullName: (
