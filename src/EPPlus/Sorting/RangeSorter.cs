@@ -267,8 +267,8 @@ namespace OfficeOpenXml.Sorting
             {
                 var i = wsd.ThreadedComments[addr];
                 _worksheet._threadedCommentsStore.SetValue(row, col, i);
-                var comment = _worksheet._threadedComments._threads[i];
-                comment.SetAddress(ExcelCellBase.GetAddress(row, col));
+                var threadedComment = _worksheet._threadedComments._threads[i];
+                threadedComment.SetAddress(ExcelCellBase.GetAddress(row, col));
             }
         }
 

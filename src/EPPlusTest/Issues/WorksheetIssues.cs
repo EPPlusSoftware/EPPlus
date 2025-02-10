@@ -759,7 +759,7 @@ namespace EPPlusTest.Issues
             }
         }
         [TestMethod]
-        public void s815()
+        public void s816()
         {
             using var excelPackage = OpenTemplatePackage("s816.xlsx");
             var sheet = excelPackage.Workbook.Worksheets.First();
