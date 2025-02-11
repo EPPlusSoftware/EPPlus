@@ -1,0 +1,198 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DigitalSignatures.CommitmentType
+  commentId: T:OfficeOpenXml.DigitalSignatures.CommitmentType
+  id: CommitmentType
+  parent: OfficeOpenXml.DigitalSignatures
+  children:
+  - OfficeOpenXml.DigitalSignatures.CommitmentType.Approved
+  - OfficeOpenXml.DigitalSignatures.CommitmentType.Created
+  - OfficeOpenXml.DigitalSignatures.CommitmentType.CreatedAndApproved
+  - OfficeOpenXml.DigitalSignatures.CommitmentType.None
+  langs:
+  - csharp
+  - vb
+  name: CommitmentType
+  nameWithType: CommitmentType
+  fullName: OfficeOpenXml.DigitalSignatures.CommitmentType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/CommitmentType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CommitmentType
+    path: ../src/EPPlus/DigitalSignatures/CommitmentType.cs
+    startLine: 7
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nCommitment types for signatures\n"
+  example: []
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum CommitmentType
+    content.vb: >-
+      <Flags>
+
+      Public Enum CommitmentType
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.DigitalSignatures.CommitmentType.None
+  commentId: F:OfficeOpenXml.DigitalSignatures.CommitmentType.None
+  id: None
+  parent: OfficeOpenXml.DigitalSignatures.CommitmentType
+  langs:
+  - csharp
+  - vb
+  name: None
+  nameWithType: CommitmentType.None
+  fullName: OfficeOpenXml.DigitalSignatures.CommitmentType.None
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/CommitmentType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: None
+    path: ../src/EPPlus/DigitalSignatures/CommitmentType.cs
+    startLine: 13
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nNone\n"
+  example: []
+  syntax:
+    content: None = 0
+    return:
+      type: OfficeOpenXml.DigitalSignatures.CommitmentType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DigitalSignatures.CommitmentType.Approved
+  commentId: F:OfficeOpenXml.DigitalSignatures.CommitmentType.Approved
+  id: Approved
+  parent: OfficeOpenXml.DigitalSignatures.CommitmentType
+  langs:
+  - csharp
+  - vb
+  name: Approved
+  nameWithType: CommitmentType.Approved
+  fullName: OfficeOpenXml.DigitalSignatures.CommitmentType.Approved
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/CommitmentType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Approved
+    path: ../src/EPPlus/DigitalSignatures/CommitmentType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nApproved this document\n"
+  example: []
+  syntax:
+    content: Approved = 1
+    return:
+      type: OfficeOpenXml.DigitalSignatures.CommitmentType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DigitalSignatures.CommitmentType.Created
+  commentId: F:OfficeOpenXml.DigitalSignatures.CommitmentType.Created
+  id: Created
+  parent: OfficeOpenXml.DigitalSignatures.CommitmentType
+  langs:
+  - csharp
+  - vb
+  name: Created
+  nameWithType: CommitmentType.Created
+  fullName: OfficeOpenXml.DigitalSignatures.CommitmentType.Created
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/CommitmentType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Created
+    path: ../src/EPPlus/DigitalSignatures/CommitmentType.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nCreated this document\n"
+  example: []
+  syntax:
+    content: Created = 2
+    return:
+      type: OfficeOpenXml.DigitalSignatures.CommitmentType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DigitalSignatures.CommitmentType.CreatedAndApproved
+  commentId: F:OfficeOpenXml.DigitalSignatures.CommitmentType.CreatedAndApproved
+  id: CreatedAndApproved
+  parent: OfficeOpenXml.DigitalSignatures.CommitmentType
+  langs:
+  - csharp
+  - vb
+  name: CreatedAndApproved
+  nameWithType: CommitmentType.CreatedAndApproved
+  fullName: OfficeOpenXml.DigitalSignatures.CommitmentType.CreatedAndApproved
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/CommitmentType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreatedAndApproved
+    path: ../src/EPPlus/DigitalSignatures/CommitmentType.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nCreated and approved this document\n"
+  example: []
+  syntax:
+    content: CreatedAndApproved = 3
+    return:
+      type: OfficeOpenXml.DigitalSignatures.CommitmentType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.DigitalSignatures
+  commentId: N:OfficeOpenXml.DigitalSignatures
+  name: OfficeOpenXml.DigitalSignatures
+  nameWithType: OfficeOpenXml.DigitalSignatures
+  fullName: OfficeOpenXml.DigitalSignatures
+- uid: OfficeOpenXml.DigitalSignatures.CommitmentType
+  commentId: T:OfficeOpenXml.DigitalSignatures.CommitmentType
+  parent: OfficeOpenXml.DigitalSignatures
+  name: CommitmentType
+  nameWithType: CommitmentType
+  fullName: OfficeOpenXml.DigitalSignatures.CommitmentType

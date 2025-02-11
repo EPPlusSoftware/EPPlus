@@ -41,6 +41,7 @@
 			* ExcelRangeBase.BorderAround now override borders for adjacent cells.
 			* InsertRange now returnes the new inserted range.
 			* In-cell checkboxes now renders in the HTML export.
+			* Improved API for Tables to access data via column names.
 
 			## Version 7.6.0
 			* Added target framework .NET 9. Removed out of support versions, .NET 6 and .NET 7.

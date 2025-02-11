@@ -5,6 +5,7 @@ items:
   id: eErrorType
   parent: OfficeOpenXml
   children:
+  - OfficeOpenXml.eErrorType.Busy
   - OfficeOpenXml.eErrorType.Calc
   - OfficeOpenXml.eErrorType.Div0
   - OfficeOpenXml.eErrorType.NA
@@ -23,12 +24,12 @@ items:
   type: Enum
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eErrorType
-    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 24
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+    startLine: 17
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -56,12 +57,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Div0
-    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 29
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -90,12 +91,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NA
-    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 33
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -124,12 +125,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
-    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 37
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -158,12 +159,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: "Null"
-    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 41
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -192,12 +193,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Num
-    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 45
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -226,12 +227,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ref
-    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 49
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -260,12 +261,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
-    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 53
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -294,12 +295,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calc
-    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 57
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+    startLine: 50
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -328,12 +329,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Spill
-    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 61
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+    startLine: 54
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -341,6 +342,40 @@ items:
   example: []
   syntax:
     content: Spill = 8
+    return:
+      type: OfficeOpenXml.eErrorType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.eErrorType.Busy
+  commentId: F:OfficeOpenXml.eErrorType.Busy
+  id: Busy
+  parent: OfficeOpenXml.eErrorType
+  langs:
+  - csharp
+  - vb
+  name: Busy
+  nameWithType: eErrorType.Busy
+  fullName: OfficeOpenXml.eErrorType.Busy
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Busy
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/eErrorType.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nBusy error, waiting for a remote call\n"
+  example: []
+  syntax:
+    content: Busy = 9
     return:
       type: OfficeOpenXml.eErrorType
   modifiers.csharp:

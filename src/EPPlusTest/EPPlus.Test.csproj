@@ -255,6 +255,9 @@
 		<None Update="Workbooks\SubtotalFilters.xlsx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Workbooks\TableRowsAutofilter.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Workbooks\Template.xltx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

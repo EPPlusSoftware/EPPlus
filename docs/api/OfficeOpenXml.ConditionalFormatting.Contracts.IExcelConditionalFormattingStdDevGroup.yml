@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingStdDevGroup.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingStdDevGroup
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingStdDevGroup.cs
