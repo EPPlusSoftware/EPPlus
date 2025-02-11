@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 
 namespace OfficeOpenXml
 {
@@ -71,6 +72,10 @@ namespace OfficeOpenXml
         /// <param name="fullName">Your name. This name will go into the Office Properties</param>
         public void SetNonCommercialPersonal(string fullName)
         {
+            if (ValidateName(fullName, out string msg) == false)
+            {
+                throw new LicenseInformationException(msg);
+            }
             LegalName = fullName;
             LicenseType = EPPlusLicenseType.NonCommercialPersonal;
             Source = EPPlusLicenseSource.Code;
@@ -86,6 +91,10 @@ namespace OfficeOpenXml
         /// <param name="organizationName">The noncommercial organziations name</param>
         public void SetNonCommercialOrganization(string organizationName)
         {
+            if (ValidateName(organizationName, out string msg) == false)
+            {
+                throw new LicenseInformationException(msg);
+            }
             LegalName = organizationName;
             LicenseType = EPPlusLicenseType.NonCommercialOrganization;
             Source = EPPlusLicenseSource.Code;
@@ -93,6 +102,28 @@ namespace OfficeOpenXml
             LicenseInfo = null;
             _licenseSet = true;
         }
+
+        private bool ValidateName(string name, out string msg)
+        {
+            if(name.Length < 3)
+            {
+                msg = "The license holder name must be at least 3 characters.";
+                return false;
+            }
+            if (name.Any(c => c=='/' || c=='\\' || c=='*' || char.IsControl(c) || c=='\t'))
+            {
+                msg = "The license holder name contains invalid characters";
+                return false;
+            }
+            if(name.Count(x=>char.IsLetter(x)) < 2)
+            {
+                msg = "The license holder name contains to few letters.";
+                return false;
+            }
+            msg = "";
+            return true;
+        }
+
         /// <summary>
         /// If you use EPPlus within a commercial organization or for commercial purposes.
         /// This requires a license for EPPlus that can be purchased at https://epplussoftware.com
@@ -139,7 +170,7 @@ namespace OfficeOpenXml
                 {
                     if (s.Length == 1)
                     {
-                        throw new LicenseException("Please specify a name for the noncommercial organization in the app config file. Format noncommercialorganization:[name of your organization]");
+                        throw new LicenseInformationException("Please specify a name for the noncommercial organization in the app config file. Format noncommercialorganization:[name of your organization]");
                     }
                     v = v.Substring(v.IndexOfAny([':', ',']) + 1);
                     SetNonCommercialOrganization(v.Trim());
@@ -151,7 +182,7 @@ namespace OfficeOpenXml
                 {
                     if (s.Length == 1)
                     {
-                        throw new LicenseException("Please specify your name to be used with the license in the app config file. Format noncommercialpersonal:[your name]");
+                        throw new LicenseInformationException("Please specify your name to be used with the license in the app config file. Format noncommercialpersonal:[your name]");
                     }
                     v = v.Substring(v.IndexOfAny([':', ',']) + 1);
                     SetNonCommercialPersonal(v.Trim());

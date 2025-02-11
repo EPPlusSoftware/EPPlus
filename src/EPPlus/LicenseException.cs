@@ -17,11 +17,12 @@ using System.Text;
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// An exception thrown when the license context of EPPlus hasn't been set.
+    /// An exception thrown when the <see cref="ExcelPackage.License"/> hasn't been set.
+    /// To set the license, use <seealso cref="EPPlusLicense.SetCommercial(string)"/>, <seealso cref="EPPlusLicense.SetNonCommercialOrganization(string)"/> or <seealso cref="EPPlusLicense.SetNonCommercialPersonal(string)"/>
     /// </summary>
-    public class LicenseException : Exception
+    public class LicenseNotSetException : Exception
     {
-        internal LicenseException(string message) : base(message)
+        internal LicenseNotSetException(string message) : base(message)
         {
 
         }
@@ -42,6 +43,16 @@ namespace OfficeOpenXml
     public class LicenseNotValidException : Exception
     {
         internal LicenseNotValidException(string message) : base(message)
+        {
+
+        }
+    }
+    /// <summary>
+    /// An exception thrown when the license has expired for the version used.
+    /// </summary>
+    public class LicenseInformationException : Exception
+    {
+        internal LicenseInformationException(string message) : base(message)
         {
 
         }

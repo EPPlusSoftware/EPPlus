@@ -659,7 +659,7 @@ namespace OfficeOpenXml
                 {
                     if (License.IsLicenseSet(_initErrors) == false)
                     {
-                        throw (new LicenseException("Please set the license using one of the methods on the static property ExcelPackage.License. See https://epplussoftware.com/developers/licenseexception for more information"));
+                        throw (new LicenseNotSetException("Please set the license using one of the methods on the static property ExcelPackage.License. See https://epplussoftware.com/developers/licensenotsetexception for more information"));
                     }
                     var nsm = CreateDefaultNSM();
 
