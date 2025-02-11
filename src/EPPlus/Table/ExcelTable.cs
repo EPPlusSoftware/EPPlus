@@ -1112,8 +1112,8 @@ namespace OfficeOpenXml.Table
                 throw new ArgumentException("position", "rows can't be negative");
             }
             var firstRow = _address._fromRow;
-            var isFirstRow = position == 0;
             var subtract = ShowTotal ? 2 : 1;
+            subtract -= ShowHeader ? 0 : 1;
             if (position>=ExcelPackage.MaxRows || position > _address._fromRow + position + rows - subtract)
             {
                 position = _address.Rows - subtract;
@@ -1122,7 +1122,8 @@ namespace OfficeOpenXml.Table
             {
                 throw new InvalidOperationException("Insert will exceed the maximum number of rows in the worksheet");
             }
-            if(ShowHeader) position++;
+            var isFirstRow = position == 0;
+            if (ShowHeader) position++;
             var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
             var range = new ExcelRangeBase(WorkSheet, address);
 
