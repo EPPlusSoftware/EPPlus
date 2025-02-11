@@ -374,7 +374,7 @@ namespace OfficeOpenXml.Drawing
             StringBuilder xml = new StringBuilder();
 
             xml.AppendFormat("<{0}:nvPicPr>", NamespacePrefixes[prefixIndex]);
-            xml.AppendFormat("<{1}:cNvPr id=\"{0}\" descr=\"\" />", _id, NamespacePrefixes[prefixIndex]);
+            xml.AppendFormat("<{1}:cNvPr id=\"{0}\" descr=\"\" />", Id, NamespacePrefixes[prefixIndex]);
             xml.AppendFormat("<{0}:cNvPicPr><a:picLocks noChangeAspect=\"1\" /></{0}:cNvPicPr></{0}:nvPicPr><{0}:blipFill>", NamespacePrefixes[prefixIndex]);
             if(type==ePictureType.Svg)
             {
@@ -428,10 +428,6 @@ namespace OfficeOpenXml.Drawing
         }
         internal Packaging.ZipPackagePart Part;
 
-        internal new string Id
-        {
-            get { return Name; }
-        }
         ExcelDrawingFill _fill = null;
         /// <summary>
         /// Access to Fill properties

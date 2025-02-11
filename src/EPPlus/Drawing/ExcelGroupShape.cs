@@ -325,7 +325,8 @@ namespace OfficeOpenXml.Drawing
             var grpNode = CreateNode(_topPath);
             if (grpNode.InnerXml == "")
             {
-                grpNode.InnerXml = "<" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":cNvPr name=\"\" id=\"3\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></" + NamespacePrefixes[prefixIndex] + ":cNvPr><" + NamespacePrefixes[prefixIndex] + ":cNvGrpSpPr/></" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":grpSpPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/><a:chOff x=\"0\" y=\"0\"/><a:chExt cx=\"0\" cy=\"0\"/></a:xfrm></" + NamespacePrefixes[prefixIndex] + ":grpSpPr>";
+                Id = drawings._nextDrawingId++;
+                grpNode.InnerXml = "<" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":cNvPr name=\"\" id=\""+Id+"\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></" + NamespacePrefixes[prefixIndex] + ":cNvPr><" + NamespacePrefixes[prefixIndex] + ":cNvGrpSpPr/></" + NamespacePrefixes[prefixIndex] + ":nvGrpSpPr><" + NamespacePrefixes[prefixIndex] + ":grpSpPr><a:xfrm><a:off x=\"0\" y=\"0\"/><a:ext cx=\"0\" cy=\"0\"/><a:chOff x=\"0\" y=\"0\"/><a:chExt cx=\"0\" cy=\"0\"/></a:xfrm></" + NamespacePrefixes[prefixIndex] + ":grpSpPr>";
             }
 
             switch (DrawingsType)

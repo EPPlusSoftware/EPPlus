@@ -27,7 +27,6 @@ using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
 using System.Drawing;
-using System.Security.Cryptography;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
@@ -55,6 +54,7 @@ namespace OfficeOpenXml.Drawing
         internal Dictionary<string, int> _drawingNames;
         internal List<ExcelDrawing> _drawingsList;
         Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
+        internal int _nextDrawingId = 2;
 
         internal class ImageCompare
         {
@@ -194,6 +194,9 @@ namespace OfficeOpenXml.Drawing
             _drawingsList.Add(dr);
             if (!_drawingNames.ContainsKey(dr.Name))
             {
+                int val = dr.Id;
+                if(val > _nextDrawingId)
+                    _nextDrawingId = val;
                 _drawingNames.Add(dr.Name, _drawingsList.Count - 1);
             }
         }
@@ -382,6 +385,7 @@ namespace OfficeOpenXml.Drawing
 
             var chart = ExcelChart.GetNewChart(this, drawNode, ChartType, null, PivotTableSource);
             chart.Name = Name;
+            chart.Id = _nextDrawingId++;
             _drawingsList.Add(chart);
             _drawingNames.Add(Name, _drawingsList.Count - 1);
             return chart;
@@ -1262,6 +1266,7 @@ namespace OfficeOpenXml.Drawing
         private void AddPicture(string Name, ExcelPicture pic)
         {
             pic.Name = Name;
+            pic.Id = _nextDrawingId++;
             _drawingsList.Add(pic);
             _drawingNames.Add(Name, _drawingsList.Count - 1);
         }
@@ -1472,6 +1477,7 @@ namespace OfficeOpenXml.Drawing
 
             ExcelShape shape = new ExcelShape(this, drawNode, Style, DrawingsType);
             shape.Name = Name;
+            shape.Id = _nextDrawingId++;
             _drawingsList.Add(shape);
             _drawingNames.Add(Name, _drawingsList.Count - 1);
             return shape;
@@ -1585,6 +1591,7 @@ namespace OfficeOpenXml.Drawing
 
             ExcelShape shape = new ExcelShape(this, drawNode);
             shape.Name = Name;
+            shape.Id = _nextDrawingId++;
             shape.Style = Source.Style;
             _drawingsList.Add(shape);
             _drawingNames.Add(Name, _drawingsList.Count - 1);
