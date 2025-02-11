@@ -65,5 +65,18 @@ namespace EPPlusTest.Issues
                 }
             }
         }
+        [TestMethod]
+        public void s782()
+        {
+            using (var package = OpenTemplatePackage("s782.xlsx"))
+            {
+                ExcelWorksheet worksheet = package.Workbook.Worksheets["披露附注"];
+
+                string areaStr = "E247:E256";
+                worksheet.Cells[areaStr].Insert(eShiftTypeInsert.Right);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

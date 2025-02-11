@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using OfficeOpenXml.Utils;
+using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.DigitalSignatures
@@ -7,12 +8,12 @@ namespace OfficeOpenXml.DigitalSignatures
     {
         AdditionalSignatureInfo _signatureInfo;
 
-        public SignatureInfoV2(AdditionalSignatureInfo signatureInfo)
+        internal SignatureInfoV2(AdditionalSignatureInfo signatureInfo)
         {
             _signatureInfo = signatureInfo;
         }
 
-        public SignatureInfoV2(XmlElement SignatureInfoV2Node, AdditionalSignatureInfo signatureInfo)
+        internal SignatureInfoV2(XmlElement SignatureInfoV2Node, AdditionalSignatureInfo signatureInfo)
         {
             var nodes = SignatureInfoV2Node.ChildNodes;
 
@@ -21,13 +22,13 @@ namespace OfficeOpenXml.DigitalSignatures
             var address1Lst = SignatureInfoV2Node.GetElementsByTagName("Address1");
             if (address1Lst.Count != 0)
             {
-                _signatureInfo.Address1 = address1Lst[0].InnerText;
+                _signatureInfo.Address1 = ConvertUtil.ExcelDecodeString(address1Lst[0].InnerText);
             }
 
             var address2Lst = SignatureInfoV2Node.GetElementsByTagName("Address2");
             if (address2Lst.Count != 0)
             {
-                _signatureInfo.Address2 = address2Lst[0].InnerText;
+                _signatureInfo.Address2 = ConvertUtil.ExcelDecodeString(address2Lst[0].InnerText);
             }
         }
 
@@ -38,11 +39,11 @@ namespace OfficeOpenXml.DigitalSignatures
             sb.Append($"<SignatureInfoV2 xmlns=\"http://schemas.microsoft.com/office/2006/digsig\">");
             if(_signatureInfo.Address1 != null) 
             {
-                sb.Append($"<Address1>{_signatureInfo.Address1}</Address1>");
+                sb.Append($"<Address1>{ConvertUtil.ExcelEscapeAndEncodeString(_signatureInfo.Address1)}</Address1>");
             }
             if (_signatureInfo.Address2 != null)
             {
-                sb.Append($"<Address2>{_signatureInfo.Address2}</Address2>");
+                sb.Append($"<Address2>{ConvertUtil.ExcelEscapeAndEncodeString(_signatureInfo.Address2)}</Address2>");
             }
             sb.Append($"</SignatureInfoV2>");
 

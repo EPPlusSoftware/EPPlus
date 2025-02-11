@@ -320,5 +320,61 @@ namespace EPPlusTest
             }
             return options.Text;
         }
+
+        [TestMethod]
+        public void I1792()
+        {
+            using var p = OpenTemplatePackage("i1792.xlsx");
+            ExcelWorksheet ws = p.Workbook.Worksheets["Sheet1"];
+
+            List<TestData> tData = new List<TestData>();
+            tData.Add(new TestData() { Id = 1, Fname = "Bob", Lname = "Smith" });
+            Assert.IsTrue(ws.Cells["A1"].Style.Locked);
+            Assert.IsFalse(ws.Cells["A2"].Style.Locked);
+            ws.Cells[1, 1].LoadFromCollection(tData, true);
+
+            Assert.IsTrue(ws.Cells["A1"].Style.Locked);
+            Assert.IsFalse(ws.Cells["A2"].Style.Locked);
+
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void I1815()
+        {
+            using var p = OpenTemplatePackage("i1815.xlsx");
+            ExcelWorksheet ws = p.Workbook.Worksheets["Sheet1"];
+            Assert.AreEqual(1, p.Workbook.Styles.Fonts.Count);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void s1808()
+        {
+            using var p = OpenTemplatePackage("s802-2.xlsx");
+            ExcelWorksheet ws = p.Workbook.Worksheets["StyleSheet"];
+            //p.Workbook.Worksheets.Add("Copied Sheet", ws);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void s1808_2()
+        {
+            using var p = OpenTemplatePackage("wordwrap_style.xlsx");
+            ExcelWorksheet ws = p.Workbook.Worksheets["StyleSheet"];
+            //p.Workbook.Worksheets.Add("Copied Sheet", ws);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void i1839()
+        {
+            using var p = OpenTemplatePackage("i1839.xlsx");
+            Assert.AreEqual(288, p.Workbook.Worksheets[0].Cells["E31"].StyleID);
+            SaveWorkbook("i1839-saved.xlsx", p);
+        }
+        public class TestData
+        {
+            public int Id { get; set; }
+            public string Fname { get; set; }
+            public string Lname { get; set; }
+        }
+
     }
 }

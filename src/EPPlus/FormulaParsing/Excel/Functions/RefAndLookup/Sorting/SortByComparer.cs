@@ -11,6 +11,7 @@
   22/3/2023         EPPlus Software AB           EPPlus v7
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting
             {
                 return -1;
             }
-            return CompareObjects(x, y) * sortOrder;
+            return ComparerUtil.CompareObjects(x, y) * sortOrder;
         }
     }
 }

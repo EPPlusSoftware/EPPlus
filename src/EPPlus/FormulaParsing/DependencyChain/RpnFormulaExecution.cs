@@ -238,6 +238,7 @@ namespace OfficeOpenXml.FormulaParsing
         private static void ExecuteName(RpnOptimizedDependencyChain depChain, ExcelNamedRange name, ExcelCalculationOption options, bool writeToCell)
         {
             var ws = name._worksheet;
+            if (ws!=null && ws.IsDisposed) return;
             var wsIx = ws == null ? -1 : ws.IndexInList;
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(wsIx, name.Index, 0);
             var id = ExcelCellBase.GetCellId(wsIx, name.Index, 0);
@@ -247,6 +248,18 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     var f = GetNameFormula(depChain, ws, depChain._parsingContext.ExcelDataProvider.GetName(name), 1, 1);
                     AddChainForFormula(depChain, f, options, writeToCell);
+                }
+                else if(ws!=null && name.IsValidRowCol())
+                {
+                    ExecuteChain(depChain, name, options, writeToCell);
+                }
+                else if(name.NameValue!=null) 
+                {
+                    name.Value = name.NameValue;
+                }
+                else
+                {
+                    name.Value = ErrorValues.RefError;
                 }
             }
         }
@@ -966,7 +979,6 @@ namespace OfficeOpenXml.FormulaParsing
                             
                             if (f._tokenIndex > 0 && f._tokens[f._tokenIndex - 1].TokenType == TokenType.Comma) //Empty function argument.
                             {
-                                //if(fexp._function.HasNormalArguments) fexp._arguments.Add(f._tokenIndex);
                                 f._expressionStack.Push(new EmptyExpression());                                
                             }
                             var pi = fexp._function.ParametersInfo.GetParameterInfo(fexp._argPos++);

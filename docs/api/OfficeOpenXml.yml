@@ -742,11 +742,6 @@ references:
   name: eErrorType
   nameWithType: eErrorType
   fullName: OfficeOpenXml.eErrorType
-- uid: OfficeOpenXml.ExcelRichDataErrorValue
-  commentId: T:OfficeOpenXml.ExcelRichDataErrorValue
-  name: ExcelRichDataErrorValue
-  nameWithType: ExcelRichDataErrorValue
-  fullName: OfficeOpenXml.ExcelRichDataErrorValue
 - uid: OfficeOpenXml.ExcelErrorValue
   commentId: T:OfficeOpenXml.ExcelErrorValue
   parent: OfficeOpenXml
@@ -758,6 +753,11 @@ references:
   name: ExcelErrorValue.Values
   nameWithType: ExcelErrorValue.Values
   fullName: OfficeOpenXml.ExcelErrorValue.Values
+- uid: OfficeOpenXml.ExcelRichDataErrorValue
+  commentId: T:OfficeOpenXml.ExcelRichDataErrorValue
+  name: ExcelRichDataErrorValue
+  nameWithType: ExcelRichDataErrorValue
+  fullName: OfficeOpenXml.ExcelRichDataErrorValue
 - uid: OfficeOpenXml.LicenseException
   commentId: T:OfficeOpenXml.LicenseException
   name: LicenseException

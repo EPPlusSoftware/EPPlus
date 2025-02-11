@@ -37,6 +37,9 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Theme;
+using System.Linq;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace EPPlusTest
 {
@@ -1178,7 +1181,6 @@ namespace EPPlusTest
             pic = ws.Drawings.AddPicture("shape3", Resources.Test1);
             pic.HorizontalFlip = true;
             pic.SetPosition(30, 0, 10, 0);
-
         }
 
         [TestMethod]
@@ -1202,5 +1204,18 @@ namespace EPPlusTest
 
             //p.SaveAs(@"C:\epplustest\testoutput\ShapeGuideTest.xlsx");
         }
+        [TestMethod]
+        public void AddTextBox()
+        {
+            using (var package = OpenPackage("TextBoxPackage.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewWs");
+
+                ws.Drawings.AddTextbox("TextboxName", "TextBoxContent");
+
+                SaveAndCleanup(package);
+            }
+        }        
     }
 }

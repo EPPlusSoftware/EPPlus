@@ -110,5 +110,23 @@ namespace OfficeOpenXml.Drawing
                 return _controlAsType;
             }
         }
+
+        ExcelOleObjectAsType _oleObjectAsType;
+
+        /// <summary>
+        /// Helps to cast drawings to controls. Use the properties of this class to cast to the various specific control types.
+        /// </summary>
+        /// <returns></returns>
+        public ExcelOleObjectAsType OleObject
+        {
+            get
+            {
+                if (_oleObjectAsType == null)
+                {
+                    _oleObjectAsType = new ExcelOleObjectAsType(_drawing);
+                }
+                return _oleObjectAsType;
+            }
+        }
     }
 }

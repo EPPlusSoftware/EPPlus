@@ -33,7 +33,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRichText
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PreserveSpace
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bold
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Italic
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -187,7 +187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Strike
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLine
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalAlign
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
@@ -298,11 +298,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 89
+    startLine: 90
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -335,11 +335,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FontName
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 94
+    startLine: 107
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -372,11 +372,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Color
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 100
+    startLine: 124
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -409,11 +409,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorSettings
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 137
+    startLine: 161
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -446,11 +446,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Charset
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 142
+    startLine: 166
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -483,11 +483,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Family
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 147
+    startLine: 172
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -520,11 +520,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnderLineType
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 152
+    startLine: 188
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -557,11 +557,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 186
+    startLine: 222
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -594,11 +594,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetUnderlineType
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 250
+    startLine: 286
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -635,11 +635,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetUVerticalAlignmentFont
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 274
+    startLine: 310
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -676,11 +676,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HtmlText
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 304
+    startLine: 340
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -713,11 +713,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/RichText/ExcelRichText.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDefaultValue
     path: ../src/EPPlus/Style/RichText/ExcelRichText.cs
-    startLine: 535
+    startLine: 571
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style

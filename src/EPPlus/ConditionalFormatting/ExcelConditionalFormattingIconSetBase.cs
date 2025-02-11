@@ -148,7 +148,7 @@ namespace OfficeOpenXml.ConditionalFormatting
             {
                 var iconValue = xr.GetAttribute("val");
 
-                if(ConvertUtil.TryParseNumericString(iconValue, out double numValue))
+                if(ConvertUtil.TryParseNumericString(iconValue, out double numValue, CultureInfo.InvariantCulture))
                 {
                     icon.Value = numValue;
                 }

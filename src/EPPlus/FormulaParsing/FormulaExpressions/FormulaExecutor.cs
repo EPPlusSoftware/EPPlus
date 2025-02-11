@@ -209,6 +209,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.NameValue:                        
                         expressions.Add(i, new NamedValueExpression(t.Value, parsingContext, extRefIx, wsIx));
+                        wsIx = int.MinValue;
                         break;
                     case TokenType.ExternalReference:
                         if (t.Value.All(c => c >= '0' && c <= '9'))
@@ -264,10 +265,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         if(i <= tokens.Count && tokens[i+1].TokenType != TokenType.Function) // Check that the function has any argument
                         {
                             func.AddArgument(i);
-                            if(func.HandlesVariables)
-                            {
-                                //VariableParameterHelper.ProcessVariableArguments(tokens, i, func);
-                            }
                         }
                         stack.Push(func);
                         break;
@@ -283,6 +280,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.InvalidReference:
                         expressions.Add(i, ErrorExpression.RefError);
+                        wsIx = int.MinValue;
                         break;
                 }
             }

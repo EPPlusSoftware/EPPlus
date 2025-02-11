@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
@@ -85,10 +86,45 @@ namespace OfficeOpenXml.RichData.Structures.Constants
 
         private static void RegisterKeys(string structureName, List<ExcelRichValueStructureKey> keys)
         {
-            _dataTypes[structureName] = new Dictionary<string, RichValueDataType>();
+            if(!_dataTypes.ContainsKey(structureName))
+            {
+                _dataTypes[structureName] = new Dictionary<string, RichValueDataType>();
+            }
             foreach(var key in keys)
             {
-                _dataTypes[structureName][key.Name] = key.DataType;
+                if (!_dataTypes[structureName].ContainsKey(key.Name))
+                {
+                    _dataTypes[structureName][key.Name] = key.DataType;
+                }
+            }
+        }
+
+        internal static void SortKeyNames(RichDataStructureTypes st, ref List<string> keyNames)
+        {
+            if((st & RichDataStructureTypes.Error) == RichDataStructureTypes.Error)
+            {
+                var ck = default(List<ExcelRichValueStructureKey>);
+                if((st & RichDataStructureTypes.ErrorSpill) == RichDataStructureTypes.ErrorSpill)
+                {
+                    ck = Errors.Spill;
+                }
+                else if((st & RichDataStructureTypes.ErrorPropagated) == RichDataStructureTypes.ErrorPropagated)
+                {
+                    ck = Errors.Propagated;
+                }
+                else if((st & RichDataStructureTypes.ErrorWithSubType) == RichDataStructureTypes.ErrorWithSubType)
+                {
+                    ck = Errors.WithSubType;
+                }
+                else if((st & RichDataStructureTypes.ErrorField) == RichDataStructureTypes.ErrorField)
+                {
+                    ck = Errors.Field;
+                }
+                if(ck != null)
+                {
+                    var sortedKeys = ck.Select(x => x.Name).ToList();
+                    keyNames.Sort((a, b) => sortedKeys.IndexOf(a).CompareTo(sortedKeys.IndexOf(b)));
+                }
             }
         }
 
@@ -112,26 +148,28 @@ namespace OfficeOpenXml.RichData.Structures.Constants
 
         internal static List<ExcelRichValueStructureKey> GetDefaultKeysByType(RichDataStructureTypes structureType)
         {
+            if((structureType & RichDataStructureTypes.Error) == RichDataStructureTypes.Error)
+            {
+                if((structureType & RichDataStructureTypes.ErrorSpill) == RichDataStructureTypes.ErrorSpill)
+                {
+                    return Errors.Spill;
+                }
+                else if ((structureType & RichDataStructureTypes.ErrorPropagated) == RichDataStructureTypes.ErrorPropagated)
+                {
+                    return Errors.Propagated;
+                }
+                else if((structureType & RichDataStructureTypes.ErrorField) == RichDataStructureTypes.ErrorField)
+                {
+                    return Errors.Field;
+                }
+                else if ((structureType & RichDataStructureTypes.ErrorWithSubType) == RichDataStructureTypes.ErrorWithSubType)
+                {
+                    return Errors.WithSubType;
+                }
+                return null;
+            }
             switch (structureType)
             {
-                case RichDataStructureTypes.Error:
-                    if((structureType & RichDataStructureTypes.ErrorSpill) != 0)
-                    {
-                        return Errors.Spill;
-                    }
-                    else if((structureType & RichDataStructureTypes.ErrorPropagated) != 0)
-                    {
-                        return Errors.Propagated;
-                    }
-                    else if((structureType & RichDataStructureTypes.ErrorWithSubType) != 0)
-                    {
-                        return Errors.WithSubType;
-                    }
-                    else if((structureType & RichDataStructureTypes.ErrorField) != 0)
-                    {
-                        return Errors.Field;
-                    }
-                    break;
                 case RichDataStructureTypes.LocalImage:
                     return LocalImage.Image;
                 case RichDataStructureTypes.WebImage:

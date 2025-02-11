@@ -217,8 +217,6 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                         i += 8;
                         ze._UncompressedSize = BitConverter.ToInt64(block, i);
                         i += 8;
-
-                        ze._LengthOfTrailer += 24;  // bytes including sig, CRC, Comp and Uncomp sizes
                     }
                     else
                     {
@@ -235,9 +233,6 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                         ze._Crc32 = (Int32)(block[i++] + block[i++] * 256 + block[i++] * 256 * 256 + block[i++] * 256 * 256 * 256);
                         ze._CompressedSize = (uint)(block[i++] + block[i++] * 256 + block[i++] * 256 * 256 + block[i++] * 256 * 256 * 256);
                         ze._UncompressedSize = (uint)(block[i++] + block[i++] * 256 + block[i++] * 256 * 256 + block[i++] * 256 * 256 * 256);
-
-                        ze._LengthOfTrailer += 16;  // bytes including sig, CRC, Comp and Uncomp sizes
-
                     }
 
                     wantMore = (SizeOfDataRead != ze._CompressedSize);
@@ -260,6 +255,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                 // seek back to previous position, to prepare to read file data
                 // workitem 8098: ok (restore)
                 ze.ArchiveStream.Seek(posn, SeekOrigin.Begin);
+                ze._LengthOfTrailer += ze._InputUsesZip64 ? 24 : 16;  // bytes including sig, CRC, Comp and Uncomp sizes
                 // workitem 10178
                 Ionic.Zip.SharedUtilities.Workaround_Ladybug318918(ze.ArchiveStream);
             }

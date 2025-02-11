@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.Utils;
+using System;
 using System.Text;
 using System.Xml;
 
@@ -7,130 +8,130 @@ namespace OfficeOpenXml.DigitalSignatures
     /// <summary>
     /// Information about the signature including OSversion and office version
     /// </summary>
-    public class SignatureInfoV1
+    internal class SignatureInfoV1
     {
         internal SignatureInfoV1(bool eastAsianProvider = false) 
         {
             string defaultSignatureProvider = "{00000000-0000-0000-0000-000000000000}";
-            SignatureProviderID = defaultSignatureProvider;
-            WindowsVersion = Environment.OSVersion.Version.ToString();
+            _signatureProviderID = defaultSignatureProvider;
+            _windowsVersion = Environment.OSVersion.Version.ToString();
 
             if (eastAsianProvider)
             {
-                SignatureProviderID = "{000CD6A4-0000-0000-C000-000000000046}";
+                _signatureProviderID = "{000CD6A4-0000-0000-C000-000000000046}";
             }
         }
 
-        internal SignatureInfoV1(XmlElement SignatureInfo1Node)
+        internal SignatureInfoV1(XmlElement signatureInfo1Node)
         {
-            var nodes = SignatureInfo1Node.ChildNodes;
+            var nodes = signatureInfo1Node.ChildNodes;
 
-            SetUpId = nodes[0].InnerText ?? "";
-            SignatureText = nodes[1].InnerText ?? "";
-            SignatureImage = nodes[2].InnerText ?? "";
-            SignatureComments = nodes[3].InnerText ?? "";
-            WindowsVersion = nodes[4].InnerText ?? "";
-            OfficeVersion = nodes[5].InnerText ?? "";
-            ApplicationVersion = nodes[6].InnerText ?? "";
-            Monitors = uint.Parse(nodes[7].InnerText ?? "");
-            HorizontalResolution = uint.Parse(nodes[8].InnerText ?? "");
-            VerticalResolution = uint.Parse(nodes[9].InnerText ?? "");
-            ColorDepth = uint.Parse(nodes[10].InnerText ?? "");
-            SignatureProviderID = nodes[11].InnerText ?? "";
-            SignatureProviderUrl = nodes[12].InnerText ?? "";
-            SignatureProviderDetails = int.Parse(nodes[13].InnerText ?? "-1");
-            SignatureType = nodes[14].InnerText == "1" ? DigitalSignatureType.Invisible : DigitalSignatureType.SignatureLine;
+            _setUpId = nodes[0].InnerText ?? "";
+            _signatureText = nodes[1].InnerText ?? "";
+            _signatureImage = nodes[2].InnerText ?? "";
+            _signatureComments = nodes[3].InnerText ?? "";
+            _windowsVersion = nodes[4].InnerText ?? "";
+            _officeVersion = nodes[5].InnerText ?? "";
+            _applicationVersion = nodes[6].InnerText ?? "";
+            _monitors = uint.Parse(nodes[7].InnerText ?? "");
+            _horizontalResolution = uint.Parse(nodes[8].InnerText ?? "");
+            _verticalResolution = uint.Parse(nodes[9].InnerText ?? "");
+            _colorDepth = uint.Parse(nodes[10].InnerText ?? "");
+            _signatureProviderID = nodes[11].InnerText ?? "";
+            _signatureProviderUrl = nodes[12].InnerText ?? "";
+            _signatureProviderDetails = int.Parse(nodes[13].InnerText ?? "-1");
+            _signatureType = nodes[14].InnerText == "1" ? DigitalSignatureType.Invisible : DigitalSignatureType.SignatureLine;
 
-            var delegateList1 = SignatureInfo1Node.GetElementsByTagName("DelegateSuggestedSigner");
+            var delegateList1 = signatureInfo1Node.GetElementsByTagName("DelegateSuggestedSigner");
             if (delegateList1.Count != 0)
             {
-                DelegateSuggestedSigner = delegateList1[0].InnerText;
+                _delegateSuggestedSigner = ConvertUtil.ExcelDecodeString(delegateList1[0].InnerText);
             }
 
-            var delegateList2 = SignatureInfo1Node.GetElementsByTagName("DelegateSuggestedSigner2");
+            var delegateList2 = signatureInfo1Node.GetElementsByTagName("DelegateSuggestedSigner2");
             if (delegateList2.Count != 0)
             {
-                DelegateSuggestedSigner = delegateList2[0].InnerText;
+                _delegateSuggestedSigner = ConvertUtil.ExcelDecodeString(delegateList2[0].InnerText);
             }
 
-            var DelegateSuggestedSignerEmailLst = SignatureInfo1Node.GetElementsByTagName("DelegateSuggestedSignerEmail");
-            if (DelegateSuggestedSignerEmailLst.Count != 0)
+            var delegateSuggestedSignerEmailLst = signatureInfo1Node.GetElementsByTagName("DelegateSuggestedSignerEmail");
+            if (delegateSuggestedSignerEmailLst.Count != 0)
             {
-                DelegateSuggestedSigner = DelegateSuggestedSignerEmailLst[0].InnerText;
+                _delegateSuggestedSigner = ConvertUtil.ExcelDecodeString(delegateSuggestedSignerEmailLst[0].InnerText);
             }
 
-            var testNullVar = SignatureInfo1Node.GetElementsByTagName("ManifestHashAlgorithm")[0];
+            var testNullVar = signatureInfo1Node.GetElementsByTagName("ManifestHashAlgorithm")[0];
 
-            var ManifestHashAlgorithmLst = SignatureInfo1Node.GetElementsByTagName("ManifestHashAlgorithm");
-            if (ManifestHashAlgorithmLst.Count != 0)
+            var manifestHashAlgorithmLst = signatureInfo1Node.GetElementsByTagName("ManifestHashAlgorithm");
+            if (manifestHashAlgorithmLst.Count != 0)
             {
-                string hashString = ManifestHashAlgorithmLst[0].InnerText;
-                ManifestHashAlgorithm = new Uri(hashString);
+                string hashString = manifestHashAlgorithmLst[0].InnerText;
+                _manifestHashAlgorithm = new Uri(hashString);
             }
         }
 
         //Required children
-        public string SetUpId = "";
-        public string SignatureText = "";
+        internal string _setUpId = "";
+        internal string _signatureText = "";
         //Base64 binary image string
-        public string SignatureImage;
-        public string SignatureComments;
-        public string WindowsVersion;
-        public string OfficeVersion;
-        public string ApplicationVersion;
-        public uint Monitors;
-        public uint HorizontalResolution;
-        public uint VerticalResolution;
-        public uint ColorDepth;
-        public string SignatureProviderID;
-        public string SignatureProviderUrl;
-        public int SignatureProviderDetails;
-        public DigitalSignatureType SignatureType;
+        internal string _signatureImage;
+        internal string _signatureComments;
+        internal string _windowsVersion;
+        internal string _officeVersion;
+        internal string _applicationVersion;
+        internal uint _monitors;
+        internal uint _horizontalResolution;
+        internal uint _verticalResolution;
+        internal uint _colorDepth;
+        internal string _signatureProviderID;
+        internal string _signatureProviderUrl;
+        internal int _signatureProviderDetails;
+        internal DigitalSignatureType _signatureType;
         //Optional children
-        public string DelegateSuggestedSigner = null;
-        public string DelegateSuggestedSigner2 = null;
-        public string DelegateSuggestedSignerEmail = null;
-        public Uri ManifestHashAlgorithm = null;
+        internal string _delegateSuggestedSigner = null;
+        internal string _delegateSuggestedSigner2 = null;
+        internal string _delegateSuggestedSignerEmail = null;
+        internal Uri _manifestHashAlgorithm = null;
 
         internal string GetXml()
         {
             StringBuilder sb = new StringBuilder();
 
             sb.Append($"<SignatureInfoV1 xmlns=\"http://schemas.microsoft.com/office/2006/digsig\">");
-            sb.Append($"<SetupID>{SetUpId}</SetupID>");
-            sb.Append($"<SignatureText>{SignatureText}</SignatureText>");
-            sb.Append($"<SignatureImage>{SignatureImage}</SignatureImage>");
-            sb.Append($"<SignatureComments>{SignatureComments}</SignatureComments>");
-            sb.Append($"<WindowsVersion>{WindowsVersion}</WindowsVersion>");
-            sb.Append($"<OfficeVersion>{OfficeVersion}</OfficeVersion>");
-            sb.Append($"<ApplicationVersion>{ApplicationVersion}</ApplicationVersion>");
-            sb.Append($"<Monitors>{Monitors}</Monitors>");
-            sb.Append($"<HorizontalResolution>{HorizontalResolution}</HorizontalResolution>");
-            sb.Append($"<VerticalResolution>{VerticalResolution}</VerticalResolution>");
-            sb.Append($"<ColorDepth>{ColorDepth}</ColorDepth>");
-            sb.Append($"<SignatureProviderId>{SignatureProviderID}</SignatureProviderId>");
-            sb.Append($"<SignatureProviderUrl>{SignatureProviderUrl}</SignatureProviderUrl>");
-            sb.Append($"<SignatureProviderDetails>{SignatureProviderDetails}</SignatureProviderDetails>");
-            sb.Append($"<SignatureType>{(int)SignatureType}</SignatureType>");
+            sb.Append($"<SetupID>{_setUpId}</SetupID>");
+            sb.Append($"<SignatureText>{ConvertUtil.ExcelEscapeAndEncodeString(_signatureText)}</SignatureText>");
+            sb.Append($"<SignatureImage>{_signatureImage}</SignatureImage>");
+            sb.Append($"<SignatureComments>{ConvertUtil.ExcelEscapeAndEncodeString(_signatureComments)}</SignatureComments>");
+            sb.Append($"<WindowsVersion>{_windowsVersion}</WindowsVersion>");
+            sb.Append($"<OfficeVersion>{_officeVersion}</OfficeVersion>");
+            sb.Append($"<ApplicationVersion>{_applicationVersion}</ApplicationVersion>");
+            sb.Append($"<Monitors>{_monitors}</Monitors>");
+            sb.Append($"<HorizontalResolution>{_horizontalResolution}</HorizontalResolution>");
+            sb.Append($"<VerticalResolution>{_verticalResolution}</VerticalResolution>");
+            sb.Append($"<ColorDepth>{_colorDepth}</ColorDepth>");
+            sb.Append($"<SignatureProviderId>{_signatureProviderID}</SignatureProviderId>");
+            sb.Append($"<SignatureProviderUrl>{_signatureProviderUrl}</SignatureProviderUrl>");
+            sb.Append($"<SignatureProviderDetails>{_signatureProviderDetails}</SignatureProviderDetails>");
+            sb.Append($"<SignatureType>{(int)_signatureType}</SignatureType>");
 
-            if (DelegateSuggestedSigner != null)
+            if (_delegateSuggestedSigner != null)
             {
-                sb.Append($"<DelegateSuggestedSigner>{DelegateSuggestedSigner}</DelegateSuggestedSigner>");
+                sb.Append($"<DelegateSuggestedSigner>{ConvertUtil.ExcelEscapeAndEncodeString(_delegateSuggestedSigner)}</DelegateSuggestedSigner>");
             }
 
-            if(DelegateSuggestedSigner2 != null)
+            if(_delegateSuggestedSigner2 != null)
             {
-                sb.Append($"<DelegateSuggestedSigner2>{DelegateSuggestedSigner2}</DelegateSuggestedSigner2>");
+                sb.Append($"<DelegateSuggestedSigner2>{ConvertUtil.ExcelEscapeAndEncodeString(_delegateSuggestedSigner2)}</DelegateSuggestedSigner2>");
             }
 
-            if (DelegateSuggestedSignerEmail != null)
+            if (_delegateSuggestedSignerEmail != null)
             {
-                sb.Append($"<DelegateSuggestedSignerEmail>{DelegateSuggestedSignerEmail}</DelegateSuggestedSignerEmail>");
+                sb.Append($"<DelegateSuggestedSignerEmail>{ConvertUtil.ExcelEscapeAndEncodeString(_delegateSuggestedSignerEmail)}</DelegateSuggestedSignerEmail>");
             }
 
-            if(ManifestHashAlgorithm != null)
+            if(_manifestHashAlgorithm != null)
             {
-                sb.Append($"<ManifestHashAlgorithm>{ManifestHashAlgorithm.AbsoluteUri}</ManifestHashAlgorithm>");
+                sb.Append($"<ManifestHashAlgorithm>{_manifestHashAlgorithm.AbsoluteUri}</ManifestHashAlgorithm>");
             }
 
             sb.Append($"</SignatureInfoV1>");

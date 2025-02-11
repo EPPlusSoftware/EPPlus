@@ -268,6 +268,139 @@ namespace EPPlusTest.Style
                 CultureInfo.CurrentCulture = ci;
             }
         }
+
+        [TestMethod]
+        public void VerifyHourMinuteFormat()
+        {
+            var ci = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            try
+            {
+                using (var pck = OpenPackage("VerifyHourMinuteFormat.xlsx"))
+                {
+                    var ws = pck.Workbook.Worksheets.Add("time");
+                    var timeCell = ws.Cells["A1"];
+                    timeCell.Value = 0.63194444444444442;
+
+                    timeCell.Style.Numberformat.Format = "[h]:mm";
+
+                    Assert.AreEqual("15:10", timeCell.Text);
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = ci;
+            }
+        }
+
+        [TestMethod]
+        public void NumberFormatMinutes()
+        {
+            using (var pck = OpenTemplatePackage("i1801.xlsx"))
+            {
+                var ws = pck.Workbook.Worksheets[0];
+                var aText = ws.Cells["A1"].Text;
+
+                Assert.AreEqual("15:10", aText);
+            }
+        }
+
+        [TestMethod]
+        public void VerifyHourMinuteFormatOther()
+        {
+            var ci = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            try
+            {
+                using (var pck = OpenPackage("VerifyHourMinuteFormat.xlsx"))
+                {
+                    var ws = pck.Workbook.Worksheets.Add("time");
+                    var timeCell = ws.Cells["A1"];
+                    timeCell.Value = 0.63194444444444442;
+
+                    timeCell.Style.Numberformat.Format = "h:mm";
+
+                    Assert.AreEqual("15:10", timeCell.Text);
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = ci;
+            }
+        }
+
+        [TestMethod]
+        public void VerifyHourMinuteFormatAMPM()
+        {
+            var ci = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            try
+            {
+                using (var pck = OpenPackage("VerifyHourMinuteFormat.xlsx"))
+                {
+                    var ws = pck.Workbook.Worksheets.Add("time");
+                    var timeCell = ws.Cells["A1"];
+                    timeCell.Value = 0.63194444444444442;
+
+                    timeCell.Style.Numberformat.Format = "h:mm AM/PM";
+
+                    Assert.AreEqual("3:10 PM", timeCell.Text);
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = ci;
+            }
+        }
+
+        [TestMethod]
+        public void ElapsedTimeMinutesSeconds()
+        {
+            var ci = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            try
+            {
+                using (var pck = OpenPackage("VerifyHourMinuteFormat.xlsx"))
+                {
+                    var ws = pck.Workbook.Worksheets.Add("time");
+                    var timeCell = ws.Cells["A1"];
+                    timeCell.Value = 0.63194444444444442;
+
+                    timeCell.Style.Numberformat.Format = "[mm]:ss";
+
+                    Assert.AreEqual("910:00", timeCell.Text);
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = ci;
+            }
+        }
+
+        [TestMethod]
+        public void ElapsedTimeSecondsHundreths()
+        {
+            var ci = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture = new CultureInfo("en-US");
+            try
+            {
+                using (var pck = OpenPackage("VerifyHourMinuteFormat.xlsx"))
+                {
+                    var ws = pck.Workbook.Worksheets.Add("time");
+                    var timeCell = ws.Cells["A1"];
+                    timeCell.Value = 0.63194444444444442;
+
+                    timeCell.Style.Numberformat.Format = "[ss].00";
+
+                    Assert.AreEqual("54600.00", timeCell.Text);
+                }
+            }
+            finally
+            {
+                CultureInfo.CurrentCulture = ci;
+            }
+        }
+
         [TestMethod]
         public void VerifyStyleXfsCount()
         {

@@ -345,7 +345,7 @@ namespace EPPlusTest
                     Assert.AreEqual(r1.Bold, true);
 
                     ws = TryGetWorksheet(pck, "Pic URL");
-                    Assert.AreEqual(((ExcelPicture)ws.Drawings["Pic URI"]).Hyperlink, "http://epplus.codeplex.com");
+                    Assert.AreEqual(((ExcelPicture)ws.Drawings["Pic URI"]).Hyperlink.OriginalString, "http://epplus.codeplex.com");
 
                     Assert.AreEqual(pck.Workbook.Worksheets["Address"].GetValue<string>(40, 1), "\b\t");
 
@@ -2257,6 +2257,37 @@ namespace EPPlusTest
 
                 SaveAndCleanup(package);
             }
+        }
+        [TestMethod]
+        public void RenameWorksheetThatNeedQuotes()
+        {
+            using var p = new ExcelPackage();
+
+            var renamedWorksheet = p.Workbook.Worksheets.Add("RenamedWorksheet");
+            renamedWorksheet.Cells[1, 1].Value = "Value";
+
+            var referencingWorksheet = p.Workbook.Worksheets.Add("ReferencingWorksheet");
+            referencingWorksheet.Cells[1, 1].Formula = "RenamedWorksheet!A1";
+
+            renamedWorksheet.Name = "Renamed Worksheet";
+            Assert.AreEqual(referencingWorksheet.Cells[1, 1].Formula, "'Renamed Worksheet'!A1");
+        }
+        [TestMethod]
+        public void RenameWorksheetThatDoesNoNeedQuotes()
+        {
+            using var p = new ExcelPackage();
+
+            var renamedWorksheet = p.Workbook.Worksheets.Add("Renamed Worksheet");
+            renamedWorksheet.Cells[1, 1].Value = "Value";
+
+            var referencingWorksheet = p.Workbook.Worksheets.Add("Referencing Worksheet");
+            referencingWorksheet.Cells[1, 1].Formula = "'Renamed Worksheet'!A1";
+
+            renamedWorksheet.Name = "Renamed New Worksheet";
+            Assert.AreEqual(referencingWorksheet.Cells[1, 1].Formula, "'Renamed New Worksheet'!A1");
+
+            renamedWorksheet.Name = "RenamedWorksheet";
+            Assert.AreEqual(referencingWorksheet.Cells[1, 1].Formula, "RenamedWorksheet!A1");
         }
         //Code from github issue
         internal ExcelRangeBase GenerateRowsFromTemplate(ExcelWorksheet wks, ExcelRangeBase templateRow, int insertCount)

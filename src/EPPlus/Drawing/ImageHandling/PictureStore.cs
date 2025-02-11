@@ -14,13 +14,11 @@ using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.Packaging;
 using System.Linq;
-using System.Runtime.CompilerServices;
 namespace OfficeOpenXml.Drawing
 {
     internal class ImageInfo
@@ -125,7 +123,10 @@ namespace OfficeOpenXml.Drawing
                     {
                         var extension = GetExtension(uri);
                         contentType = GetContentType(extension);
-                        pictureType = GetPictureType(extension);
+                        if (pictureType.HasValue == false)
+                        {
+                            pictureType = GetPictureType(extension);
+                        }
                         if (_pck.ZipPackage.PartExists(uri))
                         {
                             if(_images.Values.Any(x=>x.Uri.OriginalString==uri.OriginalString))

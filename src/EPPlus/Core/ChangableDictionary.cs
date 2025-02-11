@@ -59,10 +59,14 @@ namespace OfficeOpenXml.Core
             {
                 _index[0][i] += add;
             }
+            Version++;
         }
-        
-        internal int Count { get { return _count; } }
 
+        internal int Count { get { return _count; } }
+        /// <summary>
+        /// To keep track of if the collection has changed. Must be increased on each change operation.
+        /// </summary>
+        internal int Version { get; private set; }
         public void Add(int key, T value)
         {
             var pos = Array.BinarySearch(_index[0], 0, _count, key);
@@ -85,6 +89,7 @@ namespace OfficeOpenXml.Core
             _index[0][pos] = key;
             _index[1][pos] = _items.Count;
             _items.Add(value);
+            Version++;
         }
 
         internal void Move(int fromPosition, int toPosition, bool before)
@@ -106,6 +111,7 @@ namespace OfficeOpenXml.Core
             }
             _index[0][insertPos] = insertPos;
             _index[1][insertPos] = listItem;
+            Version++;
         }
 
         public void Clear()
@@ -114,6 +120,7 @@ namespace OfficeOpenXml.Core
             _index[0] = new int[_defaultSize];
             _index[1] = new int[_defaultSize];
             _items = new List<T>();
+            Version=0;
         }
 
         public bool ContainsKey(int key)
@@ -130,7 +137,6 @@ namespace OfficeOpenXml.Core
         {
             return RemoveAndShift(key, true);
         }
-
         private bool RemoveAndShift(int key, bool dispose)
         {
             var pos = Array.BinarySearch(_index[0], 0, _count, key);
@@ -152,6 +158,7 @@ namespace OfficeOpenXml.Core
                 {
                     _index[0][i]--;
                 }
+                Version++;
                 return true;
             }
             return false;
@@ -179,15 +186,21 @@ namespace OfficeOpenXml.Core
     internal class ChangeableDictionaryEnumerator<T> : IEnumerator<T>
     {
         int _index=-1;
+        int _initVersion;
         ChangeableDictionary<T> _ts;
         public ChangeableDictionaryEnumerator(ChangeableDictionary<T> ts)
         {
             _ts = ts;
+            _initVersion = ts.Version;
         }
         public T Current
         {
             get
             {
+                if (_ts.Version != _initVersion)
+                {
+                    throw new InvalidOperationException("Collection was modified; enumeration operation can not execute.");
+                }
                 if (_index >= _ts._count)
                 {
                     return default(T);

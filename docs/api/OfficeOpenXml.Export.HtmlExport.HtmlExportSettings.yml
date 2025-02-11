@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Accessibility
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.AdditionalTableClassNames
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CellStyleClassName
+  - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CheckboxesEnabled
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.ConditionalFormattingClassName
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.Culture
   - OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.DatabarPrefix
@@ -39,7 +40,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HtmlExportSettings
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -87,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableId
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -124,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Minify
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -161,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HiddenRows
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -198,7 +199,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalAlignmentWhenGeneral
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -235,7 +236,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Accessibility
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -272,7 +273,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdditionalTableClassNames
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -311,7 +312,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataValueAttributeName
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -348,7 +349,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Culture
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -385,7 +386,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Encoding
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -422,7 +423,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColumnWidth
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -459,7 +460,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetRowHeight
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -496,7 +497,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleClassPrefix
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -533,7 +534,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellStyleClassName
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -570,7 +571,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DxfStyleClassName
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -607,7 +608,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConditionalFormattingClassName
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -644,7 +645,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DatabarPrefix
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -681,7 +682,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IconPrefix
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -718,7 +719,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Pictures
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -755,7 +756,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IncludeCssClassNames
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -792,7 +793,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HyperlinkTarget
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -829,7 +830,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -866,7 +867,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RenderDataAttributes
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -903,7 +904,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RenderDataTypes
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -940,7 +941,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RenderConditionalFormattings
     path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
@@ -957,6 +958,43 @@ items:
       type: System.Boolean
     content.vb: Public Property RenderConditionalFormattings As Boolean
   overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderConditionalFormattings*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CheckboxesEnabled
+  commentId: P:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CheckboxesEnabled
+  id: CheckboxesEnabled
+  parent: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings
+  langs:
+  - csharp
+  - vb
+  name: CheckboxesEnabled
+  nameWithType: HtmlExportSettings.CheckboxesEnabled
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CheckboxesEnabled
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CheckboxesEnabled
+    path: ../src/EPPlus/Export/HtmlExport/Settings/HtmlExportSettings.cs
+    startLine: 175
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Export.HtmlExport
+  summary: "\nIf true checkboxes are enabled\n"
+  example: []
+  syntax:
+    content: public bool CheckboxesEnabled { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CheckboxesEnabled As Boolean
+  overload: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CheckboxesEnabled*
   modifiers.csharp:
   - public
   - get
@@ -1583,3 +1621,8 @@ references:
   name: RenderConditionalFormattings
   nameWithType: HtmlExportSettings.RenderConditionalFormattings
   fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.RenderConditionalFormattings
+- uid: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CheckboxesEnabled*
+  commentId: Overload:OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CheckboxesEnabled
+  name: CheckboxesEnabled
+  nameWithType: HtmlExportSettings.CheckboxesEnabled
+  fullName: OfficeOpenXml.Export.HtmlExport.HtmlExportSettings.CheckboxesEnabled

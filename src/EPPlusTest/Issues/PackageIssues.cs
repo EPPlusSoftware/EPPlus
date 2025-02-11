@@ -108,5 +108,15 @@ namespace EPPlusTest.Issues
 
             SaveWorkbook("s699-resaved.xlsx", p);
         }
+        [TestMethod]
+        public void i1808()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("i1808-image.xlsx"))
+            {
+                var ws = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+        }
+
     }
- }
+}

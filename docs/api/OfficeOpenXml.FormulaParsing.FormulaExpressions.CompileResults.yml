@@ -1,0 +1,28 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults
+  commentId: N:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults
+  id: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults
+  children:
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults.LocalImageCompileResult
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults.WebImageCompileResult
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults
+  nameWithType: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults.LocalImageCompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults.LocalImageCompileResult
+  name: LocalImageCompileResult
+  nameWithType: LocalImageCompileResult
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults.LocalImageCompileResult
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults.WebImageCompileResult
+  commentId: T:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults.WebImageCompileResult
+  name: WebImageCompileResult
+  nameWithType: WebImageCompileResult
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults.WebImageCompileResult

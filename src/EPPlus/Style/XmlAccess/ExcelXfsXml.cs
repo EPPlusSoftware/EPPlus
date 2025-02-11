@@ -327,16 +327,12 @@ namespace OfficeOpenXml.Style.XmlAccess
         /// </summary>
         public bool Checkbox { get; set; }
         #endregion
-        internal void RegisterEvent(ExcelXfs xf)
-        {
-            //                RegisterEvent(xf, xf.Xf_ChangedEvent);
-        }
         internal override string Id
         {
 
             get
             {
-                return XfId + "|" + NumberFormatId.ToString() + "|" + FontId.ToString() + "|" + FillId.ToString() + "|" + BorderId.ToString() + VerticalAlignment.ToString() + "|" + HorizontalAlignment.ToString() + "|" + (WrapText ? "1" : "0") + "|" + ReadingOrder.ToString()+ "|" + Indent.ToString() + "|" + (isBuildIn ? "1" : "0") + TextRotation.ToString() + (Locked ? "1" : "0") + (Hidden ? "1" : "0") + (ShrinkToFit ? "1" : "0") + (QuotePrefix ? "1" : "0") + (JustifyLastLine ? "1" : "0") + "|" + (Checkbox ? "1" : "0"); 
+                return XfId + "|" + NumberFormatId.ToString() + "|" + FontId.ToString() + "|" + FillId.ToString() + "|" + BorderId.ToString() + VerticalAlignment.ToString() + "|" + HorizontalAlignment.ToString() + "|" + WrapText.ToString() + "|" + ReadingOrder.ToString() + "|" + (Checkbox ? "1" : "0") + "|" + isBuildIn.ToString() + TextRotation.ToString() + Locked.ToString() + Hidden.ToString() + ShrinkToFit.ToString() + Indent.ToString() + QuotePrefix.ToString() + JustifyLastLine.ToString() + (ApplyProtection??false ? "1" : "0") + (ApplyAlignment ?? false ? "1" : "0"); 
             }
         }
         internal ExcelXfs Copy()
@@ -857,7 +853,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                 SetXmlNodeBool("@applyProtection", ApplyProtection??true);
             }
 
-            if (HorizontalAlignment != ExcelHorizontalAlignment.General || VerticalAlignment != ExcelVerticalAlignment.Bottom || ApplyAlignment.HasValue)
+            if (HorizontalAlignment != ExcelHorizontalAlignment.General || VerticalAlignment != ExcelVerticalAlignment.Bottom || ApplyAlignment.HasValue || WrapText || JustifyLastLine || TextRotation!=0 || ShrinkToFit || ReadingOrder!=ExcelReadingOrder.ContextDependent)
             {
                 SetXmlNodeBool("@applyAlignment", ApplyAlignment??true);
             }

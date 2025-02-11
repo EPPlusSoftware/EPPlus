@@ -16,11 +16,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/Require.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Require
     path: ../src/EPPlus/Utils/Require.cs
-    startLine: 23
+    startLine: 18
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Utils
@@ -60,11 +60,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/Require.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Argument
     path: ../src/EPPlus/Utils/Require.cs
-    startLine: 31
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Utils

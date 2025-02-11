@@ -156,7 +156,7 @@ namespace OfficeOpenXml.Drawing
         }
         string _lineWidth = "{0}/@w";
         /// <summary>
-        /// Width in pixels
+        /// Width in points
         /// </summary>
         public double Width
         {

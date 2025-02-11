@@ -3,6 +3,7 @@ using OfficeOpenXml.Metadata;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.RichValues;
 using OfficeOpenXml.RichData.RichValues.Errors;
+using OfficeOpenXml.RichData.Structures;
 using OfficeOpenXml.RichData.Structures.Constants;
 using System;
 using System.Collections.Generic;
@@ -44,9 +45,8 @@ namespace OfficeOpenXml.Core.RichValues
         internal object GetErrorFromMetaData(MetaDataReference md, object v)
         {
             var rdValue = _richDataStore.GetRichValue(md.vm);
-
-            var error = rdValue.As.Type<ErrorRichValueBase>();
-            if(error != null)
+            var error = RichValueErrorFactory.CreateRichValueErrorFromRichData(rdValue, _package.Workbook.IndexStore, _package.Workbook.RichData.Db);
+            if (error != null)
             {
                 switch(error.ErrorType)
                 {
@@ -99,7 +99,10 @@ namespace OfficeOpenXml.Core.RichValues
             }
             if(newRv != null)
             {
-                _richDataStore.AddRichData(cse.Row, cse.Column, newRv);
+                _richDataStore.AddRichData(cse.Row, cse.Column, newRv, out uint vmId);
+                var metadataRef = _ws._metadataStore.GetValue(cse.Row, cse.Column);
+                metadataRef.vm = vmId;
+                _ws._metadataStore.SetValue(cse.Row, cse.Column, metadataRef);
             }
         }
 
@@ -108,14 +111,14 @@ namespace OfficeOpenXml.Core.RichValues
             if(richValue == null) return false;
             if (richValue.Structure.Type == StructureTypes.Error)
             {
-                var rdErrorBase = richValue.As.Type<ErrorRichValueBase>();
+                var rdErrorBase = RichValueErrorFactory.CreateRichValueErrorFromRichData(richValue, _package.Workbook.IndexStore, _package.Workbook.RichData.Db);
                 switch (error.Type)
                 {
                     case eErrorType.Calc:
                         return rdErrorBase.ErrorType == 13;
                     case eErrorType.Spill:
                         var rdError = (ExcelRichDataErrorValue)error;
-                        var spillError = richValue.As.ErrorSpill;
+                        var spillError = rdErrorBase.As.ErrorSpill;
                         if(spillError != null)
                         {
                             return spillError.AreEqual(8, rdError.SpillColOffset, rdError.SpillRowOffset);
@@ -145,6 +148,7 @@ namespace OfficeOpenXml.Core.RichValues
                     break;
 
             }
+            item.SetStructure(_ws.Workbook.RichData.Db);
             return item;
         }
 
@@ -164,6 +168,7 @@ namespace OfficeOpenXml.Core.RichValues
                     break;
 
             }
+            item.SetStructure(_ws.Workbook.RichData.Db);
             return item;
         }
 
@@ -176,6 +181,7 @@ namespace OfficeOpenXml.Core.RichValues
                 SubType = 1,
                 ErrorType = RichDataErrorType.Spill
             };
+            item.SetStructure(_ws.Workbook.RichData.Db);
             return item;
         }
     }

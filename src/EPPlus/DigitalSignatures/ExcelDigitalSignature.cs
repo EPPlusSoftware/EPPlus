@@ -8,6 +8,7 @@ using System.Xml;
 using OfficeOpenXml.DigitalSignatures.XAdES;
 using System.Collections.Generic;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Encryption;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
@@ -38,9 +39,7 @@ namespace OfficeOpenXml.DigitalSignatures
             }
         }
 
-        const string _originPartUri = @"/_xmlsignatures/origin.sigs";
         const string relType = "http://schemas.openxmlformats.org/package/2006/relationships/digital-signature/signature";
-        const string relTypeOrigin = "http://schemas.openxmlformats.org/package/2006/relationships/digital-signature/origin";
         private const string PartUriBase = @"/_xmlsignatures/sig{0}.xml";
         internal string PartUri = "";
 
@@ -158,23 +157,23 @@ namespace OfficeOpenXml.DigitalSignatures
             if(officeObj != null)
             {
                 signatureProperty = new SignatureProperty((XmlElement)officeObj, Details);
-                PurposeForSigning = signatureProperty.sigInfo1.SignatureComments;
+                PurposeForSigning = signatureProperty.sigInfo1._signatureComments;
 
-                if (string.IsNullOrEmpty(signatureProperty.sigInfo1.SetUpId) == false)
+                if (string.IsNullOrEmpty(signatureProperty.sigInfo1._setUpId) == false)
                 {
                     ValidSigLnImage = _doc.SelectSingleNode("//*[@Id='idValidSigLnImg']").InnerText;
                     InvalidSigLnImg = _doc.SelectSingleNode("//*[@Id='idInvalidSigLnImg']").InnerText;
 
-                    SigLnImage = signatureProperty.sigInfo1.SignatureImage;
-                    SignatureText = signatureProperty.sigInfo1.SignatureText;
+                    SigLnImage = signatureProperty.sigInfo1._signatureImage;
+                    SignatureText = signatureProperty.sigInfo1._signatureText;
 
-                    //Could be made more effective if we only find the  id string via part instead.
+                    //Could be made more effective if we only find the id string via part instead.
                     //Must load drawings to find SetupID in one of the shapes in one of the files.
                     //Worksheets must exist to load drawings.
                     var worksheets = _wb.Worksheets;
                     _wb.LoadAllVmlDrawings("");
 
-                    SetupId = new Guid(signatureProperty.sigInfo1.SetUpId);
+                    SetupId = new Guid(signatureProperty.sigInfo1._setUpId);
                     _signatureLine = _wb.GetSignatureLineStamp(SetupId);
 
                     _signatureLine.ValidSigLnImage = ValidSigLnImage;
@@ -217,7 +216,10 @@ namespace OfficeOpenXml.DigitalSignatures
             _part = wb._package.ZipPackage.CreatePart(new Uri(PartUri, UriKind.Relative), ContentTypes.xmlSignatures);
             _originPart = wb._package.ZipPackage.GetPart(wb.SignatureOriginUri);
             _originPart.CreateRelationship(string.Format("sig{0}.xml", num), TargetMode.Internal, relType);
-            SetDigestMethod(DigitalSignatureHashAlgorithm.SHA1);
+
+            var alg = _wb._package.ZipPackage.hashAlgorithm;
+            _digestMethod = DigestMethods.GetDigestMethod(alg);
+            _signatureMethod = DigestMethods.GetSignatureMethod(alg);
         }
 
         internal void Save()
@@ -226,7 +228,11 @@ namespace OfficeOpenXml.DigitalSignatures
             {
                 //if there is no read manifest then the manifest has changed
                 bool manifestChanged = true;
-  
+
+                var alg = _wb._package.ZipPackage.hashAlgorithm;
+                _digestMethod = DigestMethods.GetDigestMethod(alg);
+                _signatureMethod = DigestMethods.GetSignatureMethod(alg);
+
                 _manifest = new DigSigManifest(_wb._package.ZipPackage.XmlManifest, _wb._package.ZipPackage.hashAlgorithm);
 
                 if (readManifest != null)
@@ -379,21 +385,21 @@ namespace OfficeOpenXml.DigitalSignatures
 
             if(SignatureLine != null)
             {
-                props.sigInfo1.SetUpId = $"{{{SignatureLine.SetupID.ToString().ToUpper()}}}";
-                props.sigInfo1.SignatureProviderID = SignatureLine.ProvID;
+                props.sigInfo1._setUpId = $"{{{SignatureLine.SetupID.ToString().ToUpper()}}}";
+                props.sigInfo1._signatureProviderID = SignatureLine.ProvID;
 
                 if(SignatureLine is ExcelSignatureLine)
                 {
                     var sigLine = SignatureLine as ExcelSignatureLine;
                     if (sigLine.SignatureText != null)
                     {
-                        props.sigInfo1.SignatureText = sigLine.SignatureText;
+                        props.sigInfo1._signatureText = sigLine.SignatureText;
                     }
                 }
 
                 if (SignatureLine.SignatureImage != null && SignatureLine.SignatureImage.ImageBytes.Length > 0)
                 {
-                    props.sigInfo1.SignatureImage = SignatureLine.SigLnImage;
+                    props.sigInfo1._signatureImage = SignatureLine.SigLnImage;
                 }
             }
 

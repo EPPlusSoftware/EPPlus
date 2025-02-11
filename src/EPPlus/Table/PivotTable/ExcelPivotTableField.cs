@@ -23,12 +23,14 @@ using OfficeOpenXml.Core;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Table.PivotTable.Filter;
 using OfficeOpenXml.Utils.Extensions;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.Table.PivotTable
 {
     /// <summary>
     /// A pivot table field.
-    /// </summary>
+    /// </summary>    
+    [DebuggerDisplay("{Name}")]
     public class ExcelPivotTableField : XmlHelper
     {     
         internal ExcelPivotTableField(XmlNamespaceManager ns, XmlNode topNode, ExcelPivotTable table, int index, int baseIndex) :
@@ -654,14 +656,26 @@ namespace OfficeOpenXml.Table.PivotTable
 
         private void Load_SubTotalFunction()
         {
-            eSubTotalFunctions ret = 0;
+            eSubTotalFunctions ret = eSubTotalFunctions.Default;
             foreach (XmlAttribute item in TopNode.Attributes)
             {
                 try
                 {
-                    if (item.Name.EndsWith("Subtotal") && item.Value != "0" && item.Value != "false")
+                    if (item.Name.EndsWith("Subtotal"))
                     {
-                        ret |= (eSubTotalFunctions)Enum.Parse(typeof(eSubTotalFunctions), item.Name.Substring(0, item.Name.Length - 8), true);
+                        var ev = (eSubTotalFunctions)Enum.Parse(typeof(eSubTotalFunctions), item.Name.Substring(0, item.Name.Length - 8), true);
+                        if(ret==eSubTotalFunctions.Default && ev != eSubTotalFunctions.Default)
+                        {
+                            ret = 0;
+                        }
+                        if (item.Value != "0" && item.Value != "false")
+                        {
+                            ret |= ev;
+                        }
+                        else
+                        {
+                            ret &= ~ev;
+                        }
                     }
                 }
                 catch (ArgumentException ex)
@@ -670,11 +684,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
             }
             SubTotalFunctions = 
-                (ret == 0 ?
-                GetXmlNodeBool("@defaultSubtotal", true)
-                ?
-                    eSubTotalFunctions.Default :
-                    eSubTotalFunctions.None :
+                (ret == 0 ? eSubTotalFunctions.None :
                 ret);
         }
         private void Update_SubTotalFunctions()
@@ -735,8 +745,8 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             ValidateGrouping();
             Cache.SetNumericGroup(BaseIndex, Start, End, Interval);
-            UpdateGroupItems(Cache, true);
-            UpdatePivotTableGroupItems(this, PivotTable.CacheDefinition._cacheReference, true);
+            UpdateGroupItems(Cache);
+            UpdatePivotTableGroupItems(this, PivotTable.CacheDefinition._cacheReference);
         }
         /// <summary>
         /// Will add a slicer to the pivot table field
@@ -844,7 +854,7 @@ namespace OfficeOpenXml.Table.PivotTable
 
                 var cacheRef = PivotTable.CacheDefinition._cacheReference;
                 field.Cache= cacheRef.AddDateGroupField(field, groupBy, startDate, endDate, interval);
-                UpdatePivotTableGroupItems(field, cacheRef, false);
+                UpdatePivotTableGroupItems(field, cacheRef);
 
                 if (IsRowField)
                 {
@@ -862,11 +872,11 @@ namespace OfficeOpenXml.Table.PivotTable
                 firstField = false;
                 Compact = false;
                 Cache.SetDateGroup(this, groupBy, startDate, endDate, interval, true);
-                UpdatePivotTableGroupItems(this, PivotTable.CacheDefinition._cacheReference, true);
+                UpdatePivotTableGroupItems(this, PivotTable.CacheDefinition._cacheReference);
                 return this;
             }
         }
-        private static void UpdatePivotTableGroupItems(ExcelPivotTableField field, PivotTableCacheInternal cacheRef, bool addTypeDefault)
+        private static void UpdatePivotTableGroupItems(ExcelPivotTableField field, PivotTableCacheInternal cacheRef)
         {
             foreach (var pt in cacheRef._pivotTables)
             {
@@ -879,18 +889,18 @@ namespace OfficeOpenXml.Table.PivotTable
                         newField.Cache = f;
                     }
 
-                    pt.Fields[field.Index].UpdateGroupItems(f, addTypeDefault);
+                    pt.Fields[field.Index].UpdateGroupItems(f);
                 }
                 else
                 { 
-                    pt.Fields[field.Index].UpdateGroupItems(f, addTypeDefault);
+                    pt.Fields[field.Index].UpdateGroupItems(f);
                 }
             }
         }
-        internal void UpdateGroupItems(ExcelPivotTableCacheField cacheField, bool addTypeDefault)
+        internal void UpdateGroupItems(ExcelPivotTableCacheField cacheField)
         {
             XmlElement itemsNode = CreateNode("d:items") as XmlElement;
-
+            bool addTypeDefault = EnumUtil.HasFlag(SubTotalFunctions, eSubTotalFunctions.Default);
             var existingHs = GetItemsDictionary();
 
             _items = new ExcelPivotTableFieldItemsCollection(this);

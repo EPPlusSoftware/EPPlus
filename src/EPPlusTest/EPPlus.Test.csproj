@@ -44,7 +44,6 @@
 		<PackageReference Include="MSTest.TestAdapter" />
 		<PackageReference Include="MSTest.TestFramework" />
 		<PackageReference Include="Newtonsoft.Json" />
-		<PackageReference Include="System.Security.Cryptography.Xml" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -56,6 +55,9 @@
 		<Service Include="{82a7f48d-3b50-4b1e-b82e-3ada8210c358}" />
 	</ItemGroup>
 	<ItemGroup>
+		<Compile Update="Core\RichDataTests.cs">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Compile>
 		<Compile Update="Filter\ValueFilterTest.cs" />
 		<Compile Update="Filter\DynamicFilterTest.cs" />
 		<Compile Update="Filter\AutoFilterReadWriteTest.cs" />
@@ -214,6 +216,15 @@
 		<None Update="Workbooks\FormulaTest.xlsx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Workbooks\Issue1794.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Workbooks\Issue1794.xltx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Workbooks\Issue1828.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Workbooks\LinestTest.xlsx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -229,6 +240,9 @@
     <None Update="Workbooks\PivotTableCF.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Workbooks\RichData.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Workbooks\RichDataPreserve.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -240,6 +254,9 @@
 		</None>
 		<None Update="Workbooks\SubtotalFilters.xlsx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Workbooks\TableRowsAutofilter.xlsx">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Workbooks\Template.xltx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

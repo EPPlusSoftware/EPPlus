@@ -12,10 +12,12 @@ items:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.ExcelError
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.ExcelRange
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Integer
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.LocalImage
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.String
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Time
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Unknown
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.Variable
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.WebImage
   langs:
   - csharp
   - vb
@@ -26,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -59,7 +61,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Integer
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -93,7 +95,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Decimal
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -127,7 +129,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: String
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -161,7 +163,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Boolean
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -195,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Date
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -229,7 +231,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Time
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -263,7 +265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRange
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -297,7 +299,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelError
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -331,7 +333,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Empty
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -365,7 +367,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Unknown
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -399,7 +401,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Variable
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
@@ -411,6 +413,74 @@ items:
   example: []
   syntax:
     content: Variable = 14
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.LocalImage
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.LocalImage
+  id: LocalImage
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: LocalImage
+  nameWithType: DataType.LocalImage
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.LocalImage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LocalImage
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 87
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nLocal image data type\n"
+  example: []
+  syntax:
+    content: LocalImage = 15
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.WebImage
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.WebImage
+  id: WebImage
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
+  langs:
+  - csharp
+  - vb
+  name: WebImage
+  nameWithType: DataType.WebImage
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType.WebImage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WebImage
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/DataType.cs
+    startLine: 91
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nWeb image data type\n"
+  example: []
+  syntax:
+    content: WebImage = 16
     return:
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.DataType
   modifiers.csharp:

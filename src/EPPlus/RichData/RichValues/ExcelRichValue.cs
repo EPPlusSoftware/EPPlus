@@ -37,6 +37,12 @@ namespace OfficeOpenXml.RichData.RichValues
             As = new ExcelRichValueAsType(this);
         }
 
+        public ExcelRichValue(RichDataDatabase richDatadb, IndexedSubsetCollection<ExcelRichValueValue> values, RichDataStructureTypes structureType)
+            : this(richDatadb, structureType)
+        {
+            Values = values;
+        }
+
 
         private readonly RichDataDatabase _richDataDb;
         private readonly RichDataIndexStore _indexStore;
@@ -109,41 +115,45 @@ namespace OfficeOpenXml.RichData.RichValues
                 sw.Write(FallbackValue);
                 sw.Write("</fb>");
             }
-            foreach(var val in Values)
+            foreach(var key in Structure.Keys)
             {
-                if(_relations.ContainsKey(val.Key.Name))
+                var val = Values.FirstOrDefault(x => x.Key.Name == key.Name);
+                if(val != null)
                 {
-                    var relation = _relations[val.Key.Name];
-                    if(relation.To.EntityType == RichDataEntities.RichValueRel)
+                    if (_relations.ContainsKey(val.Key.Name))
                     {
-                        var relIx = _richDataDb.RichValueRels.GetIndexById(relation.To.Id);
-                        sw.Write($"<v>{relIx}</v>");
-                    }
-                    else
-                    {
-                        var relIx = _richDataDb.Values.GetIndexById(relation.To.Id);
-                        sw.Write($"<v>{relIx}</v>");
+                        var relation = _relations[val.Key.Name];
+                        if (relation.To.EntityType == RichDataEntities.RichValueRel)
+                        {
+                            var relIx = _richDataDb.RichValueRels.GetIndexById(relation.To.Id);
+                            sw.Write($"<v>{relIx}</v>");
+                        }
+                        else
+                        {
+                            var relIx = _richDataDb.Values.GetIndexById(relation.To.Id);
+                            sw.Write($"<v>{relIx}</v>");
 
+                        }
                     }
-                }
-                else if(val.Key.DataType == RichValueDataType.RichValue)
-                {
-                    var rvId = val.ValueUint;
-                    if(rvId.HasValue)
+                    else if (val.Key.DataType == RichValueDataType.RichValue)
                     {
-                        var rvIx = _richDataDb.Values.GetIndexById(rvId.Value);
-                        sw.Write($"<v>{rvIx}</v>");
+                        var rvId = val.ValueUint;
+                        if (rvId.HasValue)
+                        {
+                            var rvIx = _richDataDb.Values.GetIndexById(rvId.Value);
+                            sw.Write($"<v>{rvIx}</v>");
 
+                        }
                     }
-                }
-                else if(val.Key.Name == StructureKeyNames.WebImage.WebImageIdentifier)
-                {
-                    var imageIx = _richDataDb.WebImages.GetIndexById(val.ValueUint.Value);
-                    sw.Write($"<v>{imageIx}</v>");
-                }
-                else if(!string.IsNullOrEmpty(val.Value))
-                {
-                    sw.Write($"<v>{ConvertUtil.ExcelEscapeString(val.Value)}</v>");
+                    else if (val.Key.Name == StructureKeyNames.WebImage.WebImageIdentifier)
+                    {
+                        var imageIx = _richDataDb.WebImages.GetIndexById(val.ValueUint.Value);
+                        sw.Write($"<v>{imageIx}</v>");
+                    }
+                    else if (!string.IsNullOrEmpty(val.Value))
+                    {
+                        sw.Write($"<v>{ConvertUtil.ExcelEscapeString(val.Value)}</v>");
+                    }
                 }
             }
             sw.Write("</rv>");

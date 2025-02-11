@@ -67,6 +67,42 @@ namespace OfficeOpenXml.RichData.Structures
             }
         }
 
+        internal static RichDataStructureTypes GetFlag(string type, List<ExcelRichValueStructureKey> keys)
+        {
+            if (type == StructureTypes.Error)
+            {
+                if (AllKeysAreEqual(keys, StructureKeys.Errors.Spill))
+                {
+                    return RichDataStructureTypes.Error | RichDataStructureTypes.ErrorSpill;
+                }
+                else if (AllKeysAreEqual(keys, StructureKeys.Errors.Propagated))
+                {
+                    return RichDataStructureTypes.Error | RichDataStructureTypes.ErrorPropagated;
+                }
+                else if (AllKeysAreEqual(keys, StructureKeys.Errors.WithSubType))
+                {
+                    return RichDataStructureTypes.Error | RichDataStructureTypes.ErrorWithSubType;
+                }
+                else if (AllKeysAreEqual(keys, StructureKeys.Errors.Field))
+                {
+                    return RichDataStructureTypes.Error | RichDataStructureTypes.ErrorField;
+                }
+                else
+                {
+                    return RichDataStructureTypes.Preserve;
+                }
+            }
+            else if (type == StructureTypes.LocalImage)
+            {
+                return RichDataStructureTypes.LocalImage;
+            }
+            else if (type == StructureTypes.WebImage)
+            {
+                return RichDataStructureTypes.WebImage;
+            }
+            return RichDataStructureTypes.Preserve;
+        }
+
         private static RichDataStructureTypes? GetFlag(string type, out bool preserveType, List<ExcelRichValueStructureKey> keys = null)
         {
             preserveType = false;
@@ -77,38 +113,7 @@ namespace OfficeOpenXml.RichData.Structures
                 preserveType = true;
                 return pType.Value;
             }
-            if (type == StructureTypes.Error)
-            {
-                if (AllKeysAreEqual(keys, StructureKeys.Errors.Spill))
-                {
-                    return RichDataStructureTypes.Error | RichDataStructureTypes.ErrorSpill;
-                }    
-                else if (AllKeysAreEqual(keys, StructureKeys.Errors.Propagated))
-                {
-                    return RichDataStructureTypes.Error | RichDataStructureTypes.ErrorPropagated;
-                }
-                else if (AllKeysAreEqual(keys, StructureKeys.Errors.WithSubType))
-                {
-                    return RichDataStructureTypes.Error | RichDataStructureTypes.ErrorWithSubType;
-                }
-                else if(AllKeysAreEqual(keys, StructureKeys.Errors.Field))
-                {
-                    return RichDataStructureTypes.Error | RichDataStructureTypes.ErrorField;
-                }
-                else
-                {
-                    return RichDataStructureTypes.Preserve;
-                }
-            }
-            else if(type == StructureTypes.LocalImage)
-            {
-                return RichDataStructureTypes.LocalImage;
-            }
-            else if(type == StructureTypes.WebImage)
-            {
-                return RichDataStructureTypes.WebImage;
-            }
-            return RichDataStructureTypes.Preserve;
+            return GetFlag(type, keys);
         }
 
         public static ExcelRichValueStructure Create(string type, List<ExcelRichValueStructureKey> keys, RichDataIndexStore store)

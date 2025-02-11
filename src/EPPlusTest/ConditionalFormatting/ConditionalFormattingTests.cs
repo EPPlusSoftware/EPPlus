@@ -2238,7 +2238,7 @@ namespace EPPlusTest.ConditionalFormatting
                     var sheet = p2.Workbook.Worksheets[0];
                     SaveWorkbook("cf_severalCFReadSave2.xlsx", p2);
 
-                    using(var p3 = new ExcelPackage(p2.Stream))
+                    using (var p3 = new ExcelPackage(p2.Stream))
                     {
                         var sheet2 = p3.Workbook.Worksheets[0];
                         Assert.AreEqual(2, sheet2.ConditionalFormatting.Count);
@@ -2258,6 +2258,63 @@ namespace EPPlusTest.ConditionalFormatting
             if (disposePackage)
             {
                 pck.Dispose();
+            }
+        }
+
+        [TestMethod]
+        public void CopyingDxfs()
+        {
+            using (var p = OpenPackage("CF_DxfStyleCopying.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("SomeWorksheet");
+
+                ws.Cells["A1:A5"].Formula = "ROW()+5";
+
+                var cf = ws.Cells["A1:A5"].ConditionalFormatting.AddBetween();
+                cf.Formula = "8";
+                cf.Formula2 = "11";
+
+                cf.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                cf.Style.Fill.BackgroundColor.Color = Color.RoyalBlue;
+
+                cf.Style.Fill.BackgroundColor.Color = Color.RoyalBlue;
+                using (var p2 = OpenPackage("CF_DxfStyleCopyingWithCopies.xlsx", true))
+                {
+                    p2.Workbook.Worksheets.Add("Sheet1", ws);
+                    SaveAndCleanup(p2);
+                }
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void CopyingDxfsSaveBetween()
+        {
+            using (var p = OpenPackage("CF_DxfStyleCopying_SaveBetween.xlsx", true))
+            {
+                var ws = p.Workbook.Worksheets.Add("SomeWorksheet");
+
+                ws.Cells["A1:A5"].Formula = "ROW()+5";
+
+                var cf = ws.Cells["A1:A5"].ConditionalFormatting.AddBetween();
+                cf.Formula = "8";
+                cf.Formula2 = "11";
+
+                cf.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                cf.Style.Fill.BackgroundColor.Color = Color.RoyalBlue;
+                SaveAndCleanup(p);
+            }
+
+
+            using (var p2 = OpenPackage("CF_DxfStyleCopyingWithCopies_SaveBetween.xlsx", true))
+            {
+                using (var p = OpenPackage("CF_DxfStyleCopying_SaveBetween.xlsx", false))
+                {
+                    var ws = p.Workbook.Worksheets[0];
+                    p2.Workbook.Worksheets.Add("Sheet1", ws);
+                }
+
+                SaveAndCleanup(p2);
             }
         }
     }

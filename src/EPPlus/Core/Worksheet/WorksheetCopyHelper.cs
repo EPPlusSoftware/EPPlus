@@ -73,6 +73,14 @@ namespace OfficeOpenXml.Core.Worksheet
 
             ExcelWorksheet targetWorksheet = new ExcelWorksheet(nsm, pck, relID, uriWorksheet, name, sheetID, targetWorksheets.Count + pck._worksheetAdd, eWorkSheetHidden.Visible);
 
+            if(sourceWorksheet.SheetUid.HasValue)
+            {
+                targetWorksheet.SheetUid = Guid.NewGuid();
+            }
+
+            //Copy all cells and styles if the worksheet is from another workbook.
+            CloneCellsAndStyles(sourceWorksheet, targetWorksheet);
+
             //Copy comments
             if (sourceWorksheet.ThreadedComments.Count > 0)
             {
@@ -110,6 +118,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 CopyPivotTable(sourceWorksheet, targetWorksheet);
             }
+
             if (sourceWorksheet.Names.Count > 0)
             {
                 CopySheetNames(sourceWorksheet, targetWorksheet);
@@ -129,8 +138,11 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
 
-            //Copy all cells and styles if the worksheet is from another workbook.
-            CloneCellsAndStyles(sourceWorksheet, targetWorksheet);
+            //Copy dfx styles used in conditional formatting.
+            if (!(sourceWorksheet.Workbook == targetWorksheet.Workbook))
+            {
+                CopyDxfStyles(sourceWorksheet, targetWorksheet);
+            }
 
             //Copy the VBA code
 
@@ -259,12 +271,6 @@ namespace OfficeOpenXml.Core.Worksheet
                         added.SetStyleInner(row, col, s);
                     }
                 }
-            }
-
-            //Copy dfx styles used in conditional formatting.
-            if (!sameWorkbook)
-            {                
-                CopyDxfStyles(Copy, added);
             }
 
             added._package.DoAdjustDrawings = doAdjust;

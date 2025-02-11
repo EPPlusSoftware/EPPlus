@@ -30,13 +30,15 @@ namespace OfficeOpenXml.Drawing.Vml
         internal CellStore<int> _drawingsCellStore;
         internal Dictionary<string, int> _drawingsDict = new Dictionary<string, int>();
         internal List<ExcelVmlDrawingBase> _drawings = new List<ExcelVmlDrawingBase>();
-        public SignatureLineCollection SignatureLines = new SignatureLineCollection();
+        internal SignatureLineCollection _signatureLines;
         Dictionary<string, HashInfo> _hashes = new Dictionary<string, HashInfo>();
 
         internal ExcelVmlDrawingCollection(ExcelWorksheet ws, Uri uri) :
             base(ws, uri, "d:legacyDrawing/@r:id")
         {
             _drawingsCellStore = new CellStore<int>();
+            _signatureLines = new SignatureLineCollection(ws);
+
             if (uri == null)
             {
                 VmlDrawingXml.LoadXml(CreateVmlDrawings());
@@ -91,7 +93,7 @@ namespace OfficeOpenXml.Drawing.Vml
 
                             //TODO: Possibly change so vmldrawings only holds/lookups ids to the wb?
                             //So that the objects themselves are ensured to only be in one place.
-                            SignatureLines.Add(sigLine);
+                            _signatureLines.Add(sigLine);
                             ws.Workbook._signatureLinesWorkbook.Add(sigLine.SetupID, sigLine);
 
                             vmlDrawing = sigLine;
@@ -247,7 +249,7 @@ namespace OfficeOpenXml.Drawing.Vml
             var rel = Part.CreateRelationship(UriHelper.GetRelativeUri(Uri, uri), TargetMode.Internal, ExcelPackage.schemaImage);
             sLine.RelId = rel.Id;
 
-            SignatureLines.Add(sLine);
+            _signatureLines.Add(sLine);
             _drawings.Add(sLine);
         }
 
@@ -670,12 +672,20 @@ namespace OfficeOpenXml.Drawing.Vml
 
         internal override void CreateVmlPart(bool save)
         {
+            if (save)
+            {
+                foreach (var sLine in _signatureLines)
+                {
+                    sLine.UpdateXml();
+                }
+            }
+
             base.CreateVmlPart(save);
             //Signature Line emf picture is created based on the vmlpart
             //TODO: Avoid saving if no change made?
             if (save)
             {
-                foreach (var sLine in SignatureLines)
+                foreach (var sLine in _signatureLines)
                 {
                     var rel = Part.GetRelationship(sLine.RelId);
                     var partUri = UriHelper.ResolvePartUri(Uri, rel.TargetUri);

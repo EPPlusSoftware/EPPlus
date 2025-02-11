@@ -8,6 +8,7 @@ using OfficeOpenXml.Drawing;
 using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.DigitalSignatures;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
@@ -26,6 +27,14 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
             return newCert;
         }
+
+        //Alternate method for if you have a valid cert locally already
+        //X509Certificate2 GetSelfCert()
+        //{
+        //    X509Store store = new X509Store(StoreLocation.CurrentUser);
+        //    store.Open(OpenFlags.ReadOnly);
+        //    return store.Certificates[1];
+        //}
 
         [ClassInitialize]
         public static void Init(TestContext context)
@@ -48,7 +57,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
 
-                var sline = ws.AddSignatureLine();
+                var sline = ws.SignatureLines.Add();
 
                 SaveAndCleanup(package);
             }
@@ -81,7 +90,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
 
-                var slineStamp = ws.AddSignatureLineStamp();
+                var slineStamp = ws.SignatureLines.AddStamp();
                 SaveAndCleanup(package);
             }
 
@@ -120,12 +129,12 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
 
-                var sline = ws.AddSignatureLineStamp();
+                var sline = ws.SignatureLines.AddStamp();
 
-                var sLine2 = ws.AddSignatureLineStamp();
-                var sLine3 = ws.AddSignatureLine();
-                var sLine4 = ws.AddSignatureLineStamp();
-                var sLine5 = ws.AddSignatureLine();
+                var sLine2 = ws.SignatureLines.AddStamp();
+                var sLine3 = ws.SignatureLines.Add();
+                var sLine4 = ws.SignatureLines.AddStamp();
+                var sLine5 = ws.SignatureLines.Add();
 
                 sLine2.From.Column = 3;
                 sLine2.To.Column = 5;
@@ -214,7 +223,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var wb = package.Workbook;
                 var ws = wb.Worksheets.Add(wsName);
-                ws.AddSignatureLine();
+                ws.SignatureLines.Add();
 
                 var copiedWs = wb.Worksheets.Copy(wsName, "CopiedSheet");
 
@@ -240,8 +249,8 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var cert = GetSelfCert();
 
-                var sLine = sSline.AddSignatureLine();
-                sLine.Sign(cert, signatureImage);
+                var sLine = sSline.SignatureLines.Add();
+                sLine.SignWithImage(cert, signatureImage);
 
                 SaveAndCleanup(package);
             }
@@ -257,10 +266,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var sSline = package.Workbook.Worksheets.Add("SignedSignatureLine");
 
-                var sLine = sSline.AddSignatureLine();
+                var sLine = sSline.SignatureLines.Add();
 
                 var cert = GetSelfCert();
-                sLine.Sign(cert, signatureImage);
+                sLine.SignWithImage(cert, signatureImage);
 
                 SaveAndCleanup(package);
             }
@@ -413,7 +422,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = pck.Workbook;
                 var ws = wb.Worksheets.Add("sLineWs");
 
-                var sLine = ws.AddSignatureLine();
+                var sLine = ws.SignatureLines.Add();
                 sLine.SigningInstructions = "These are Instructions";
                 sLine.Signer = "ASigner";
                 sLine.Title = "SomeDeveloper";
@@ -422,7 +431,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 sLine.ShowSignDate = true;
 
                 var cert = GetSelfCert();
-                sLine.Sign(cert, signatureImage);
+                sLine.SignWithImage(cert, signatureImage);
 
                 SaveAndCleanup(pck);
             }
@@ -440,7 +449,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var invalidImg = GetOutputFile(SubFolder, $"{sharedName}Invalid.emf");
 
                 DecodeAndSaveEmf(sLine.SigLnImage, imageOnly.FullName);
-                var emptyTemplatePart = pck.Workbook._package.ZipPackage.GetPart(new Uri("xl\\media\\image1.emf",UriKind.Relative));
+                var emptyTemplatePart = pck.Workbook._package.ZipPackage.GetPart(new Uri("xl\\media\\image1.emf", UriKind.Relative));
                 var imageStream = (MemoryStream)emptyTemplatePart.GetStream(FileMode.Open, FileAccess.Read);
                 var bytes = imageStream.ToArray();
                 File.WriteAllBytes(noSigOnlyTemplate.FullName, bytes);
@@ -476,7 +485,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
                 var cert = GetSelfCert();
 
-                var sLine = sSline.AddSignatureLine();
+                var sLine = sSline.SignatureLines.Add();
                 sLine.SigningInstructions = "These are Instructions";
                 sLine.Signer = "ASigner";
                 sLine.Title = "SomeDeveloper";
@@ -484,7 +493,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 sLine.AllowComments = true;
                 sLine.ShowSignDate = true;
 
-                sLine.Sign(cert, signatureImage);
+                sLine.SignWithImage(cert, signatureImage);
 
                 var digSig = sLine.DigitalSignature;
 
@@ -493,7 +502,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 info.SignerRoleTitle = "A Title";
                 info.Address1 = "Some";
                 info.Address2 = "Where";
-                info.ZIPorPostalCode = "Over";
+                info.ZipOrPostalCode = "Over";
                 info.City = "The";
                 info.CountryOrRegion = "Rainbow";
                 info.StateOrProvince = "WayUpHigh";
@@ -519,7 +528,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 Assert.AreEqual("A Title", info.SignerRoleTitle);
                 Assert.AreEqual("Some", info.Address1);
                 Assert.AreEqual("Where", info.Address2);
-                Assert.AreEqual("Over", info.ZIPorPostalCode);
+                Assert.AreEqual("Over", info.ZipOrPostalCode);
                 Assert.AreEqual("The", info.City);
                 Assert.AreEqual("Rainbow", info.CountryOrRegion);
                 Assert.AreEqual("WayUpHigh", info.StateOrProvince);
@@ -581,7 +590,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
 
-                var sLine = ws.AddSignatureLine();
+                var sLine = ws.SignatureLines.Add();
                 sLine.Signer = "Ossian Edström åäö";
                 sLine.Title = "#Maker \"Quotation`¨'m!";
                 sLine.Email = "Example@Site.com";
@@ -633,9 +642,9 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             {
                 var ws = package.Workbook.Worksheets.Add("New ws");
 
-                var stamp = ws.AddSignatureLineStamp();
+                var stamp = ws.SignatureLines.AddStamp();
                 var cert = GetSelfCert();
-                stamp.Sign(cert, signatureImage);
+                stamp.SignWithImage(cert, signatureImage);
 
                 //Arguably if there is a way to throw here we should.
                 signatureImage.SetImage(GetResourceFile("EPPlus.png"));
@@ -706,6 +715,168 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
             inValidTemplate.SuggestedTitle = testText;
             Assert.AreEqual(inValidTemplate.suggestedTitleObject.Text, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKL...");
+        }
+
+        [TestMethod]
+        public void SignatureLinePixels()
+        {
+            var fileName = $"{SubFolder}SizingSigLine.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("SomeWs");
+
+                var sLine = ws.SignatureLines.Add();
+                var sLineOther = ws.SignatureLines.Add();
+
+                var origPixHeight = sLine.GetPixelHeight();
+                var origPixWidth = sLine.GetPixelWidth();
+
+                var origCol = sLine.To.Column;
+                var origColOff = sLine.To.ColumnOffset;
+                var origRow = sLine.To.Row;
+                var origRowOff = sLine.To.RowOffset;
+
+                sLine.SetPixelWidth(origPixWidth);
+                sLine.SetPixelHeight(origPixHeight);
+
+                Assert.AreEqual(origPixHeight, sLine.GetPixelHeight());
+                Assert.AreEqual(origPixWidth, sLine.GetPixelWidth());
+
+                Assert.AreEqual(origCol, sLine.To.Column);
+                Assert.AreEqual(origColOff, sLine.To.ColumnOffset);
+                Assert.AreEqual(origRow, sLine.To.Row);
+                Assert.AreEqual(origRowOff, sLine.To.RowOffset);
+
+                sLine.SetPixelWidth(origPixWidth * 2);
+                sLine.SetPixelHeight(origPixHeight * 2);
+
+                Assert.AreEqual(origPixHeight * 2, sLine.GetPixelHeight());
+                Assert.AreEqual(origPixWidth * 2, sLine.GetPixelWidth());
+
+                Assert.AreEqual(origCol * 2, sLine.To.Column);
+                Assert.AreEqual(origColOff * 2, sLine.To.ColumnOffset);
+                Assert.AreEqual(origRow * 2, sLine.To.Row);
+                Assert.AreEqual(origRowOff * 2, sLine.To.RowOffset);
+
+                sLineOther.SetSize(200);
+
+                //Ensure 200% is equal
+                Assert.AreEqual(sLine.GetPixelHeight(), sLineOther.GetPixelHeight());
+                Assert.AreEqual(sLine.GetPixelWidth(), sLineOther.GetPixelWidth());
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void SignatureLinesShouldBeRead()
+        {
+            var fileName = $"{SubFolder}readSizingSigLine.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var ws = package.Workbook.Worksheets.Add("aWs");
+
+                var sLine = ws.SignatureLines.Add();
+
+                sLine.From.Row = 9;
+                sLine.From.Column = 5;
+
+                sLine.To.Row = 9 + 6;
+                sLine.To.Column = 5 + 4;
+
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage(fileName))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                var sLine = ws.SignatureLines[0].AsSignatureLine;
+
+                Assert.AreEqual(9, sLine.From.Row);
+                Assert.AreEqual(9 + 6, sLine.To.Row);
+                Assert.AreEqual(5, sLine.From.Column);
+                Assert.AreEqual(9, sLine.To.Column);
+            }
+        }
+
+        [TestMethod]
+        public void SignatureLinesShouldBeReadCorrectlyAfterSettingPixelSize()
+        {
+            var fileName = $"{SubFolder}SetPixelSizeSignatureLine.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var ws = package.Workbook.Worksheets.Add("SetPixelSize");
+
+                var sLine = ws.SignatureLines.Add();
+
+                sLine.From.Row = 9;
+                sLine.From.Column = 5;
+
+                sLine.SetSize(100, 100);
+
+                SaveAndCleanup(package);
+            }
+
+            using (ExcelPackage package = OpenPackage(fileName))
+            {
+                var ws = package.Workbook.Worksheets[0];
+
+                var sLine = ws.SignatureLines[0].AsSignatureLine;
+
+                Assert.AreEqual(100, sLine.GetPixelWidth());
+                Assert.AreEqual(100, sLine.GetPixelHeight());
+            }
+        }
+
+        [TestMethod]
+        public void DeleteSignatureLine()
+        {
+            var fileName = $"{SubFolder}SignatureLineDelete.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var ws = package.Workbook.Worksheets.Add("SetPixelSize");
+
+                var sLine = ws.SignatureLines.Add();
+
+                sLine.From.Row = 9;
+                sLine.From.Column = 5;
+
+                sLine.SetSize(100, 100);
+
+                ws.SignatureLines.Remove(sLine);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void DeleteSignatureLineAndAddAgain()
+        {
+            var fileName = $"{SubFolder}SignatureLineDeleteReAdd.xlsx";
+
+            using (ExcelPackage package = OpenPackage(fileName, true))
+            {
+                var ws = package.Workbook.Worksheets.Add("SetPixelSize");
+
+                var sLine = ws.SignatureLines.Add();
+
+                sLine.From.Row = 9;
+                sLine.From.Column = 5;
+
+                sLine.SetSize(100, 100);
+
+                ws.SignatureLines.Remove(sLine);
+
+                var sLineNew = ws.SignatureLines.Add();
+
+                SaveAndCleanup(package);
+            }
         }
     }
 }

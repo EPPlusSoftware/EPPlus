@@ -1,10 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.OleObject.Structures;
 using System.Collections.Generic;
 using System.IO;
-using static System.Net.WebRequestMethods;
+using System.Linq;
 
 namespace EPPlusTest.Drawing
 {
@@ -116,7 +117,7 @@ namespace EPPlusTest.Drawing
             Assert.IsTrue(isExcelOleObject);
             linkedOle = docxOle as ExcelOleObject;
             Assert.IsTrue(linkedOle.IsExternalLink);
-            
+
             //Read PPTX Object
             var pptxOlePackage = OpenTemplatePackage("OleObjectTest_Link_PPTX.xlsx");
             var pptxOleWs = pptxOlePackage.Workbook.Worksheets[0];
@@ -255,7 +256,7 @@ namespace EPPlusTest.Drawing
             using var genericOlePackage = OpenPackage("EpplusOleObject_Link_Generic.xlsx", true);
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
             var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
-            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", myFile, true);
+            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", myFile, o => o.LinkToFile = true);
             Assert.IsNotNull(genericOle._externalLink);
             Assert.IsTrue(genericOle.IsExternalLink);
             SaveAndCleanup(genericOlePackage);
@@ -264,7 +265,7 @@ namespace EPPlusTest.Drawing
             using var pdfOlePackage = OpenPackage("EpplusOleObject_Link_PDF.xlsx", true);
             var pdfWs = pdfOlePackage.Workbook.Worksheets.Add("Sheet 1");
             myFile = Properties.Resources.GetOLEObjectFullFileName("MyPDF.pdf");
-            var pdfOle = pdfWs.Drawings.AddOleObject("MyPDFFile", myFile, true);
+            var pdfOle = pdfWs.Drawings.AddOleObject("MyPDFFile", myFile, o => o.LinkToFile = true);
             Assert.IsNotNull(pdfOle._externalLink);
             Assert.IsTrue(pdfOle.IsExternalLink);
             SaveAndCleanup(pdfOlePackage);
@@ -273,7 +274,7 @@ namespace EPPlusTest.Drawing
             using var docxOlePackage = OpenPackage("EpplusOleObject_Link_DOCX.xlsx", true);
             var docxWs = docxOlePackage.Workbook.Worksheets.Add("Sheet 1");
             myFile = Properties.Resources.GetOLEObjectFullFileName("MyWord.docx");
-            var docxOle = docxWs.Drawings.AddOleObject("MyWordFile", myFile, true);
+            var docxOle = docxWs.Drawings.AddOleObject("MyWordFile", myFile, o => o.LinkToFile = true);
             Assert.IsNotNull(docxOle._externalLink);
             Assert.IsTrue(docxOle.IsExternalLink);
             SaveAndCleanup(docxOlePackage);
@@ -282,7 +283,7 @@ namespace EPPlusTest.Drawing
             using var pptxOlePackage = OpenPackage("EpplusOleObject_Link_PPTX.xlsx", true);
             var pptxWs = pptxOlePackage.Workbook.Worksheets.Add("Sheet 1");
             myFile = Properties.Resources.GetOLEObjectFullFileName("MyPresent.pptx");
-            var pptxOle = pptxWs.Drawings.AddOleObject("MyPPFile", myFile, true);
+            var pptxOle = pptxWs.Drawings.AddOleObject("MyPPFile", myFile, o => o.LinkToFile = true);
             Assert.IsNotNull(pptxOle._externalLink);
             Assert.IsTrue(pptxOle.IsExternalLink);
             SaveAndCleanup(pptxOlePackage);
@@ -291,7 +292,7 @@ namespace EPPlusTest.Drawing
             using var xlsxOlePackage = OpenPackage("EpplusOleObject_Link_XLSX.xlsx", true);
             var xlsxWs = xlsxOlePackage.Workbook.Worksheets.Add("Sheet 1");
             myFile = Properties.Resources.GetOLEObjectFullFileName("MySheet.xlsx");
-            var xlsxOle = xlsxWs.Drawings.AddOleObject("MyExcelFile", myFile, true);
+            var xlsxOle = xlsxWs.Drawings.AddOleObject("MyExcelFile", myFile, o => o.LinkToFile = true);
             Assert.IsNotNull(xlsxOle._externalLink);
             Assert.IsTrue(xlsxOle.IsExternalLink);
             SaveAndCleanup(xlsxOlePackage);
@@ -300,7 +301,7 @@ namespace EPPlusTest.Drawing
             using var odsOlePackage = OpenPackage("EpplusOleObject_Link_ODS.xlsx", true);
             var odsWs = odsOlePackage.Workbook.Worksheets.Add("Sheet 1");
             myFile = Properties.Resources.GetOLEObjectFullFileName("MySheets.ods");
-            var odsOle = odsWs.Drawings.AddOleObject("MySpreadsheetFile", myFile, true);
+            var odsOle = odsWs.Drawings.AddOleObject("MySpreadsheetFile", myFile, o => o.LinkToFile = true);
             Assert.IsNotNull(odsOle._externalLink);
             Assert.IsTrue(odsOle.IsExternalLink);
             SaveAndCleanup(odsOlePackage);
@@ -309,7 +310,7 @@ namespace EPPlusTest.Drawing
             using var odtOlePackage = OpenPackage("EpplusOleObject_Link_ODT.xlsx", true);
             var odtWs = odtOlePackage.Workbook.Worksheets.Add("Sheet 1");
             myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDoc.odt");
-            var odtOle = odtWs.Drawings.AddOleObject("MyDocFile", myFile, true);
+            var odtOle = odtWs.Drawings.AddOleObject("MyDocFile", myFile, o => o.LinkToFile = true);
             Assert.IsNotNull(odtOle._externalLink);
             Assert.IsTrue(odtOle.IsExternalLink);
             SaveAndCleanup(odtOlePackage);
@@ -318,7 +319,7 @@ namespace EPPlusTest.Drawing
             using var odpOlePackage = OpenPackage("EpplusOleObject_Link_ODP.xlsx", true);
             var odpWs = odpOlePackage.Workbook.Worksheets.Add("Sheet 1");
             myFile = Properties.Resources.GetOLEObjectFullFileName("MyPresents.odp");
-            var odpOle = odpWs.Drawings.AddOleObject("MyPresentFile", myFile, true);
+            var odpOle = odpWs.Drawings.AddOleObject("MyPresentFile", myFile, o => o.LinkToFile = true);
             Assert.IsNotNull(odpOle._externalLink);
             Assert.IsTrue(odpOle.IsExternalLink);
             SaveAndCleanup(odpOlePackage);
@@ -383,7 +384,11 @@ namespace EPPlusTest.Drawing
             using var genericOlePackage = OpenPackage("EpplusOleObject_Link_Icon_Generic.xlsx", true);
             var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var genericOle = generiWs.Drawings.AddOleObject("MyIcon", myFile, true, true);
+            var genericOle = generiWs.Drawings.AddOleObject("MyIcon", myFile, o =>
+            {
+                o.DisplayAsIcon = true;
+                o.LinkToFile = true;
+            });
             Assert.IsTrue(genericOle.DisplayAsIcon);
         }
         [TestMethod]
@@ -393,7 +398,13 @@ namespace EPPlusTest.Drawing
             var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
             var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
-            var genericOle = generiWs.Drawings.AddOleObject("MyCustomPicture", myFile, true, true, myIcon);
+            var genericOle = generiWs.Drawings.AddOleObject("MyCustomPicture", myFile, o =>
+            {
+                o.DisplayAsIcon = true;
+                o.LinkToFile = true;
+                o.Icon = new ExcelImage(myIcon);
+            });
+            SaveAndCleanup(genericOlePackage);
             //Nothing To Assert just check the excel file and see if it has a different picture.
         }
 
@@ -405,6 +416,16 @@ namespace EPPlusTest.Drawing
             var ole = ws.Drawings[0] as ExcelOleObject;
             Assert.AreEqual(1, ws.Drawings.Count);
             ws.Drawings.Remove(ole);
+            Assert.AreEqual(0, ws.Drawings.Count);
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void DeleteEmbeddedOleObjectTest2()
+        {
+            var p = OpenTemplatePackage("OleObjectTest_Embed_DeleteMe.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            Assert.AreEqual(1, ws.Drawings.Count);
+            ws.Drawings.Remove("Object 1");
             Assert.AreEqual(0, ws.Drawings.Count);
             SaveAndCleanup(p);
         }
@@ -504,15 +525,15 @@ namespace EPPlusTest.Drawing
             var p = OpenTemplatePackage("OleObjects.xlsx");
             var ws = p.Workbook.Worksheets[0];
             List<ExcelOleObject> oleObjects = new List<ExcelOleObject>();
-            foreach(var ole in ws.Drawings)
+            foreach (var ole in ws.Drawings)
             {
-                if(ole is ExcelOleObject)
+                if (ole is ExcelOleObject)
                 {
                     oleObjects.Add(ole as ExcelOleObject);
                 }
             }
             //Copy to same worksheet
-            foreach(var ole in oleObjects)
+            foreach (var ole in oleObjects)
             {
                 ole.Copy(ws, ole.From.Row, ole.From.Column + 10);
             }
@@ -544,7 +565,7 @@ namespace EPPlusTest.Drawing
             var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
             var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
             FileInfo fileInfo = new FileInfo(myFile);
-            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileInfo, new ExcelOleObjectParameters() {LinkToFile = true });
+            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileInfo, o => o.LinkToFile = true);
             Assert.IsTrue(genericOle.IsExternalLink);
             SaveAndCleanup(genericOlePackage);
         }
@@ -571,11 +592,166 @@ namespace EPPlusTest.Drawing
             var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
             using (FileStream fileStream = new FileStream(myFile, FileMode.Open, FileAccess.Read))
             {
-                var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileStream, "MyTextFile.txt", ".txt");
+                var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileStream, "MyTextFile.txt");
                 Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME));
                 Assert.IsTrue(genericOle._document.Storage.DataStreams.ContainsKey(CompObj.COMPOBJ_STREAM_NAME));
                 Assert.IsFalse(genericOle.IsExternalLink);
                 SaveAndCleanup(genericOlePackage);
+            }
+        }
+
+        [TestMethod]
+        public void SetPosition()
+        {
+            using (ExcelPackage pck = OpenPackage("OLETest.xlsx", true))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets.Add("OleSheet");
+                var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+                var oleImage = ws.Drawings.AddOleObject("ObjectImage", myIcon);
+                oleImage.From.Column = 5;
+                oleImage.To.Column = 20;
+                oleImage.SetSize(175);
+                oleImage.UpdateXml();
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void TestingOLEObjectCopy()
+        {
+            using (ExcelPackage pck = OpenPackage("OLETest.xlsx", true))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets.Add("OleSheet");
+
+                var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+
+                var oleImage = ws.Drawings.AddOleObject("ObjectImage", myIcon);
+
+                var ws2 = wb.Worksheets.Add("OleSheetOther");
+
+                oleImage.Copy(ws2, 1, 5);
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void NewAdd()
+        {
+            //Write Generic Object
+            using var genericOlePackage = OpenPackage("EpplusOleObject_Embed_Generic.xlsx", true);
+            var generiWs = genericOlePackage.Workbook.Worksheets.Add("Sheet 1");
+            var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
+            var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+            FileInfo fileInfo = new FileInfo(myFile);
+            var genericOle = generiWs.Drawings.AddOleObject("MyTextFile", fileInfo, new ExcelOleObjectParameters { Icon = new ExcelImage(myIcon) });
+            SaveAndCleanup(genericOlePackage);
+        }
+
+        [TestMethod]
+        public void DeleteTest()
+        {
+            using var p = OpenPackage("EpplusOleObject_Linked_Deleted1.xlsx", true);
+            using var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
+            var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+            FileInfo fileInfo1 = new FileInfo(myFile);
+            FileInfo fileInfo2 = new FileInfo(myIcon);
+            var ole1 = ws.Drawings.AddOleObject("MyTextFile", fileInfo1, o => o.LinkToFile = true);
+            var ole2 = ws.Drawings.AddOleObject("MyIconFile", fileInfo2, o => o.LinkToFile = true);
+            ws.Drawings.Remove(ole1);
+            SaveAndCleanup(p);
+        }
+
+
+        [TestMethod]
+        public void DeleteExternalIndexingFixTest()
+        {
+            using var p = OpenTemplatePackage("ExternalOleLinks.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            ws.Drawings.Remove(1);
+            SaveAndCleanup(p);
+        }
+
+        [TestMethod]
+        public void OleAbsoluteAnchor()
+        {
+            using (ExcelPackage pck = OpenPackage("OLEAbsoluteAnchor.xlsx", true))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets.Add("AnchorWs");
+
+                var oleObj = ws.Drawings.AddOleObject("SomeObject", Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp"));
+                oleObj.EditAs = eEditAs.Absolute;
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void OleSetPosition()
+        {
+            using (ExcelPackage pck = OpenPackage("OLESetPosition.xlsx", true))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets.Add("AnchorWs");
+                var wsImage = wb.Worksheets.Add("ImageWs");
+
+                var oleObj = ws.Drawings.AddOleObject("SomeObject", Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp"));
+                var pic = wsImage.Drawings.AddPicture("SomePicture", GetResourceFile("EPPlus.png").FullName);
+
+                pic.SetPosition(100, 100);
+                oleObj.SetPosition(100, 100);
+
+                //See resulting file for the differences in position and scaling
+                SaveAndCleanup(pck);
+            }
+        }
+
+
+        [TestMethod]
+        public void OleAbsoluteAnchorAndSetPosition()
+        {
+            using (ExcelPackage pck = OpenPackage("OleAbsoluteAnchorAndSetPosition.xlsx", true))
+            {
+                var wb = pck.Workbook;
+                var ws = wb.Worksheets.Add("AnchorWs");
+                var wsImage = wb.Worksheets.Add("ImageWs");
+
+                var oleObj = ws.Drawings.AddOleObject("SomeObject", Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp"));
+                var pic = wsImage.Drawings.AddPicture("SomePicture", GetResourceFile("EPPlus.png").FullName);
+
+                pic.ChangeCellAnchor(eEditAs.Absolute);
+                oleObj.EditAs = eEditAs.Absolute;
+                pic.SetPosition(100, 100);
+                oleObj.SetPosition(100, 100);
+
+                SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void RemoveMultipleObjectsWithSameFile()
+        {
+            using (var p = OpenPackage("EpplusOleObject_Linked_AndDeleteAll.xlsx", true))
+            {
+                using var ws = p.Workbook.Worksheets.Add("Sheet 1");
+                var myFile = Properties.Resources.GetOLEObjectFullFileName("MyTextDocument.txt");
+                var myIcon = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+                FileInfo fileInfo1 = new FileInfo(myFile);
+                FileInfo fileInfo2 = new FileInfo(myIcon);
+                var ole1 = ws.Drawings.AddOleObject("MyTextFile", fileInfo1, o => o.LinkToFile = true);
+                var ole2 = ws.Drawings.AddOleObject("MyIconFile", fileInfo2, o => o.LinkToFile = true);
+                var ole3 = ws.Drawings.AddOleObject("MyIconFile2", fileInfo2, o => o.LinkToFile = true);
+                var ole4 = ws.Drawings.AddOleObject("MyIconFile3", fileInfo2, o => o.LinkToFile = true);
+
+                ws.Drawings.Remove(ole2);
+                ws.Drawings.Remove(ole3);
+                ws.Drawings.Remove(ole4);
+
+                SaveAndCleanup(p);
             }
         }
     }

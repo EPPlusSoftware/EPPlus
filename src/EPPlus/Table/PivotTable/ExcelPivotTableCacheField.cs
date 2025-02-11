@@ -607,7 +607,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 else if (c.LocalName == "n")
                 {
-                    if (ConvertUtil.TryParseNumericString(c.Attributes["v"].Value, out double num))
+                    if (ConvertUtil.TryParseNumericString(c.Attributes["v"].Value, out double num, CultureInfo.InvariantCulture))
                     {
                         items.Add(num);
                     }
@@ -891,7 +891,7 @@ namespace OfficeOpenXml.Table.PivotTable
                      fld.IsColumnField ||
                      fld.IsPageField || fld.Cache.HasSlicer) )
                 {
-                    fld.UpdateGroupItems(this, true);
+                    fld.UpdateGroupItems(this);
                     fld.Items.MatchValueToIndex();
 				}
                 else

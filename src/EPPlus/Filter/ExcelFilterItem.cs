@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Filter
         {
             Value = value;
             Utils.ConvertUtil.TryParseNumericString(value, out _valueDouble, CultureInfo.InvariantCulture);
-            }
+        }
         /// <summary>
         /// A value to be filtered.
         /// </summary>
