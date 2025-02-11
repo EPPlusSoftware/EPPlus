@@ -761,5 +761,25 @@ namespace EPPlusTest.Issues
 
             }
         }
+        [TestMethod]
+        public void s816()
+        {
+            using var excelPackage = OpenTemplatePackage("s816.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
+
+            // Act
+            sheet.Cells.Sort(column: 0);
+
+            var commentText = sheet.Cells["A3"].Comment.Text;
+            Assert.AreEqual("6", commentText);
+
+			excelPackage.Save();
+
+			using var loadedExcelPackage = new ExcelPackage(excelPackage.Stream);
+			var loadedSheet = loadedExcelPackage.Workbook.Worksheets.First();
+
+			var loadedCommentText = loadedSheet.Cells["A3"].Comment.Text;
+			Assert.AreEqual("6", loadedCommentText);
+		}
     }
 }

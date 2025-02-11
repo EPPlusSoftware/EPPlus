@@ -35,6 +35,7 @@ namespace OfficeOpenXml.Sorting.Internal
             Formulas = GetItems(range, worksheet._formulas);
             Hyperlinks = GetItems(range, worksheet._hyperLinks);
             Comments = GetItems(range, worksheet._commentsStore);
+            ThreadedComments = GetItems(range, worksheet._threadedCommentsStore);
             Metadata = GetItems(range, worksheet._metadataStore);
         }
 
@@ -72,6 +73,7 @@ namespace OfficeOpenXml.Sorting.Internal
 
         public Dictionary<string, int> Comments { get; private set; }
 
+        public Dictionary<string, int> ThreadedComments { get; private set; }
         public Dictionary<string, ExcelWorksheet.MetaDataReference> Metadata { get; private set; }
 
         private static Dictionary<string, T> GetItems<T>(ExcelRangeBase r, CellStore<T> store)
