@@ -364,7 +364,18 @@ namespace OfficeOpenXml.Table
             var colNum = _tbl.Address._fromCol + Position;
 
             string r1c1Formula = ExcelCellBase.TranslateToR1C1(CalculatedColumnFormula, _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow, colNum);
-            _tbl.WorkSheet.Cells[fromRow, colNum, toRow, colNum].CreateArrayFormula(r1c1Formula, true);
+
+            var md = _tbl.WorkSheet.Workbook.Metadata;
+
+            for (int i = 0; i< _tbl.Address.Rows; i++)
+            {
+                _tbl.WorkSheet._flags.SetFlagValue(fromRow + i, colNum, true, CellFlags.ArrayFormula);
+
+                md.GetDynamicArrayId(out uint cm);
+                var metaData =_tbl.WorkSheet._metadataStore.GetValue(fromRow + i, colNum);
+                metaData.cm = cm;
+                _tbl.WorkSheet._metadataStore.SetValue(fromRow + i, colNum, metaData);
+            }
         }
         internal void SetFormulaCells(int fromRow, int toRow, int colNum)
         {

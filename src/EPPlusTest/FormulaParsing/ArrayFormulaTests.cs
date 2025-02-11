@@ -232,8 +232,6 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual(colFormula, cellFormula1);
 
                 SaveAndCleanup(package);
-
-                SaveAndCleanup(package);
             }
         }
     }
