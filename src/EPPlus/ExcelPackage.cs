@@ -1372,19 +1372,19 @@ namespace OfficeOpenXml
             _isDisposed = false;
         }
 #if (!NET35)
-        ExcelSensibilityLabels _sensibilityLabels = null;
+        ExcelSensibilityLabelCollection _sensibilityLabels = null;
         /// <summary>
         /// Sensibility labels meta data.
         /// <seealso cref="SensibilityLabelHandler"/>
         /// </summary>
-        public ExcelSensibilityLabels SensibilityLabels
+        public ExcelSensibilityLabelCollection SensibilityLabels
         {
             get
             {
 
                 if (_sensibilityLabels == null)
                 {
-                    _sensibilityLabels = new ExcelSensibilityLabels(this);
+                    _sensibilityLabels = new ExcelSensibilityLabelCollection(this);
                 }
                 return _sensibilityLabels;
             }

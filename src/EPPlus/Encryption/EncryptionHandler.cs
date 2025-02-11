@@ -532,7 +532,7 @@ namespace OfficeOpenXml.Encryption
             {
                 var handler = ExcelPackage.SensibilityLabelHandler;
                 var si = DataSpacesEncryption.ReadDataSpaceEnrcyptionInfo(doc);
-                _pck.SensibilityLabels = new ExcelSensibilityLabels(_pck, si);
+                _pck.SensibilityLabels = new ExcelSensibilityLabelCollection(_pck, si);
                 if(handler == null)
                 {
                     throw new MissingSensibilityHandlerException($"Can not decrypt package protected by sensitivity label with id : {_pck.SensibilityLabels.Labels.FirstOrDefault(x=>x.Enabled)?.Id}. Please attach a Sensibility Label handler using the ExcelSensibilityLabels.SensibilityLabelHandler property.");
@@ -1138,22 +1138,6 @@ namespace OfficeOpenXml.Encryption
             hash ^= (ushort)Password.Length;
 
             return hash;
-        }
-    }
-
-    [Serializable]
-    internal class MissingSensibilityHandlerException : Exception
-    {
-        public MissingSensibilityHandlerException()
-        {
-        }
-
-        public MissingSensibilityHandlerException(string message) : base(message)
-        {
-        }
-
-        public MissingSensibilityHandlerException(string message, Exception innerException) : base(message, innerException)
-        {
         }
     }
 }

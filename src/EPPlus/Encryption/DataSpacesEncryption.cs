@@ -198,23 +198,6 @@ namespace OfficeOpenXml.Encryption
             size = Array.FindIndex(bytes, x => x == 0);
             return encoding.GetString(bytes, 0, size);
         }
-
-        /*
-TransformInfoHeader (variable)
-...
-ExtensibilityHeader
-XrMLLicense (variable)         
-         */
-        internal class TransformInfoHeader
-        {
-            public int TransformType { get; set; }
-            public string TransformId { get; set; }
-            public string TransformName { get; set; }
-            public string ReaderVersion { get; set; }
-            public string UpdaterVersion { get; set; }
-            public string WriterVersion { get; set; }
-            public string LicenseXrML { get; set; }
-        }
         private static TransformInfoHeader ReadTransformReferences(CompoundDocument.StoragePart dsStorage)
         {
             var streamBytes = dsStorage.DataStreams["\u0006Primary"];
@@ -320,16 +303,5 @@ XrMLLicense (variable)
             }
             return l;
         }
-    }
-
-    internal class DataSpaceReference
-    {
-        internal enum eReferenceType
-        {
-            Stream=0,
-            Storage=1
-        }
-        public eReferenceType ReferenceType { get; set; }
-        public string Name { get; set; }
     }
 }

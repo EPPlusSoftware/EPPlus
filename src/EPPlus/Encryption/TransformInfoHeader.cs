@@ -10,18 +10,16 @@
  *************************************************************************************************
   08/29/2024         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System.Collections.Generic;
-
 namespace OfficeOpenXml.Encryption
 {
-    internal class SensibilityLabelInfo
+    internal class TransformInfoHeader
     {
-        public string Version { get; internal set; }
-        public List<DataSpaceReference> DataSpaceMap { get; internal set; }
-        public List<string> DataSpaceInfo { get; internal set; }
-        public TransformInfoHeader Transformation { get; internal set; }
-        public string LabelXml { get; internal set; }
-        public List<object> SummaryInfoProperties { get; internal set; }
-        public List<object> SummaryDocumentInfoProperties { get; internal set; }
+        public int TransformType { get; set; }
+        public string TransformId { get; set; }
+        public string TransformName { get; set; }
+        public string ReaderVersion { get; set; }
+        public string UpdaterVersion { get; set; }
+        public string WriterVersion { get; set; }
+        public string LicenseXrML { get; set; }
     }
 }
