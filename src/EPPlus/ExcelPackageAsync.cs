@@ -445,7 +445,7 @@ namespace OfficeOpenXml
             {
                 if (value != null && value != _sensibilityLabelHandler)
                 {
-                    value.InitAsync();
+                    value.InitAsync().GetAwaiter().GetResult();
                 }
                 _sensibilityLabelHandler = value;
             }
