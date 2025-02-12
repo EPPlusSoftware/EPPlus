@@ -396,7 +396,6 @@ namespace OfficeOpenXml
 						}
 					}
 				}
-
 			}
 		}
 

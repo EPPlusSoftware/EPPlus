@@ -30,6 +30,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using System;
+using System.Collections.Generic;
 namespace EPPlusTest.Table
 {
     [TestClass]
@@ -462,6 +463,40 @@ namespace EPPlusTest.Table
                 Assert.AreEqual("Table1[[#This Row],[Column1]]", ws.Cells["B2"].Formula);
                 Assert.AreEqual("", ws.Cells["B9"].Formula);
                 SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void TableAddRowsToTableWith1Row()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var range = ws.Cells["A1"].LoadFromArrays(new List<object[]>
+                {
+                  new[] { "a", "b", "c", "d", "e" } 
+		        });
+
+                var table = ws.Tables.Add(range, "TestTable");
+                table.AddRow(5); 
+                Assert.AreEqual("a", ws.Cells["A1"].Value);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void TableInsertTopTableWith1Row()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                var range = ws.Cells["A1"].LoadFromArrays(new List<object[]>
+                {
+                  new[] { "a", "b", "c", "d", "e" }
+                });
+
+                var table = ws.Tables.Add(range, "TestTable");
+                table.InsertRow(0, 5); 
+                Assert.AreEqual("a", ws.Cells["A6"].Value);
             }
         }
     }

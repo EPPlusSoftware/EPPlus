@@ -173,6 +173,9 @@ namespace OfficeOpenXml.Sorting
 
                     //Move comments
                     HandleComment(wsd, row, col, addr);
+
+                    //Move threaded comments
+                    HandleThreadedComment(wsd, row, col, addr);
                 }
             }
         }
@@ -204,6 +207,9 @@ namespace OfficeOpenXml.Sorting
 
                     //Move comments
                     HandleComment(wsd, row, col, addr);
+
+                    //Move threaded comments
+                    HandleThreadedComment(wsd, row, col, addr);
                 }
             }
         }
@@ -252,6 +258,17 @@ namespace OfficeOpenXml.Sorting
             else
             {
                 _worksheet._commentsStore.Clear(row, col, 1, 1);
+            }
+        }
+
+        private void HandleThreadedComment(RangeWorksheetData wsd, int row, int col, string addr)
+        {
+            if (wsd.ThreadedComments.ContainsKey(addr))
+            {
+                var i = wsd.ThreadedComments[addr];
+                _worksheet._threadedCommentsStore.SetValue(row, col, i);
+                var threadedComment = _worksheet._threadedComments._threads[i];
+                threadedComment.SetAddress(ExcelCellBase.GetAddress(row, col));
             }
         }
 
