@@ -614,7 +614,7 @@ namespace OfficeOpenXml.Core.Worksheet
             return oleShapeId;
         }
 
-        internal static void CopyChartRelations(ExcelChart chart, ExcelWorksheet target, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet source)
+        internal static void CopyChartRelations(ExcelChart chart, ExcelWorksheet target, ZipPackagePart partDraw, XmlDocument drawXml, ExcelWorksheet source, XmlNode drawNode = null)
         {
             var xml = chart.ChartXml.InnerXml;
             Uri uriChart;
@@ -652,8 +652,20 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
                 string prevRelID = relNode?.Value;
                 var rel = partDraw.CreateRelationship(UriHelper.GetRelativeUri(partDraw.Uri, uriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chart");
-                XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//c:chart/@r:id[.='{0}']", prevRelID), source.Drawings.NameSpaceManager) as XmlAttribute;
-                relAtt.Value = rel.Id;
+                if (drawNode == null)
+                {
+                    XmlAttribute relAtt = drawXml.SelectSingleNode(string.Format("//c:chart/@r:id[.='{0}']", prevRelID), source.Drawings.NameSpaceManager) as XmlAttribute;
+                    relAtt.Value = rel.Id;
+                }
+                else
+                {
+                    var drawNodeRel = drawNode.SelectSingleNode("xdr:graphicFrame/a:graphic/a:graphicData/c:chart/@r:id", source.Drawings.NameSpaceManager);
+                    if (drawNodeRel == null)
+                    {
+                        drawNodeRel = drawNode.SelectSingleNode("a:graphic/a:graphicData/c:chart/@r:id", source.Drawings.NameSpaceManager);
+                    }
+                    drawNodeRel.Value = rel.Id;
+                }
             }
             CopyChartRelations(source, target, chart, chartPart);
         }
@@ -705,6 +717,12 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         uri = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/charts/colors{0}.xml");
                         chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartColorStyle, chart.StyleManager.ColorsXml.OuterXml);
+                    } 
+                    else if( relCopy.RelationshipType == ExcelPackage.packageSchemaRelationships + "/chartUserShapes")
+                    {
+                        //create new drawing
+                        //update rel in chart xml
+                        //create relations for pictures in chart drawing
                     }
                     else if(added.Workbook != copy.Workbook)
                     {

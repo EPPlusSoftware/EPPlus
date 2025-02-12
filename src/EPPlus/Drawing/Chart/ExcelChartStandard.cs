@@ -202,7 +202,6 @@ namespace OfficeOpenXml.Drawing.Chart
 
                 StreamWriter streamChart = new StreamWriter(Part.GetStream(FileMode.Create, FileAccess.Write));
                 ChartXml.Save(streamChart);
-                streamChart.Close();
                 package.Flush();
 
                 var chartRelation = drawings.Part.CreateRelationship(UriHelper.GetRelativeUri(drawings.UriDrawing, UriChart), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chart");

@@ -87,7 +87,7 @@ namespace EPPlusTest.Drawing.Chart
     /*TODO
      * Resize bounding box for grouped objects.
      * Copy
-     * -Copy whole drawings xml, set new name of drawings xml, create rel Id, done
+     * -new workbook
      * Remove
      */
 }
