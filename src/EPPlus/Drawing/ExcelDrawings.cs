@@ -1991,7 +1991,7 @@ namespace OfficeOpenXml.Drawing
         {
             if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
             {
-                throw new InvalidOperationException("Can' remove charts from chart worksheets");
+                throw new InvalidOperationException("Can't remove charts from chart worksheets");
             }
             RemoveDrawing(Index);
         }

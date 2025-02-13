@@ -69,6 +69,7 @@ namespace EPPlusTest.Drawing.Chart
             //group2.Copy(chart2);
 
             chart.Copy(ws, 20, 0);
+            chart.Drawings.Remove(shp4);
 
 
 
@@ -84,10 +85,28 @@ namespace EPPlusTest.Drawing.Chart
     }
 
 
+
+
+
     /*TODO
      * Resize bounding box for grouped objects.
-     * Copy
-     * -new workbook
-     * Remove
+     * 
+     * 
+     * TEST CASES:
+     * Add Shape
+     * Add Picutre
+     * Create groupshape with shapes
+     * Create groupshape with groupshapes
+     * Create groupshape with pictures
+     * Create groupshape with a mix
+     * Copy shape in chart
+     * Copy shape to other chart
+     * Copy shape to other workbook
+     * Copy picture in chart
+     * Copy picture to other chart
+     * Copy picture to other workbook
+     * remove shape
+     * remove picture
+     * remove groupshape
      */
 }

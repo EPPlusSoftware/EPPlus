@@ -27,14 +27,16 @@ namespace OfficeOpenXml.Drawing
         private ExcelGroupShape _parent;
         internal Dictionary<string, int> _drawingNames;
         private List<ExcelDrawing> _groupDrawings;
+        internal DrawingsCollectionType _drawingsCollectionType;
         XmlNamespaceManager _nsm;
         XmlNode _topNode;
-        internal ExcelDrawingsGroup(ExcelGroupShape parent, XmlNamespaceManager nsm, XmlNode topNode)
+        internal ExcelDrawingsGroup(ExcelGroupShape parent, XmlNamespaceManager nsm, XmlNode topNode, DrawingsCollectionType drawingsCollectionType = DrawingsCollectionType.excel)
         {
             _parent = parent;
             _nsm = nsm;
             _topNode = topNode;
             _drawingNames = new Dictionary<string, int>();
+            _drawingsCollectionType = drawingsCollectionType;
             AddDrawings();
         }
         private void AddDrawings()
@@ -45,7 +47,7 @@ namespace OfficeOpenXml.Drawing
                 
                 if (node.LocalName != "nvGrpSpPr" && node.LocalName != "grpSpPr")
                 {
-                    var grpDraw = ExcelDrawing.GetDrawingFromNode(_parent._drawings, node, (XmlElement)node, _parent);
+                    var grpDraw = ExcelDrawing.GetDrawingFromNode(_parent._drawings, node, (XmlElement)node, _parent, _drawingsCollectionType);
                     _groupDrawings.Add(grpDraw);
                     if (_drawingNames.ContainsKey(grpDraw.Name) == false)
                     {
@@ -381,7 +383,14 @@ namespace OfficeOpenXml.Drawing
                     }
                     else
                     {
-                        _groupDrawings = new ExcelDrawingsGroup(this, NameSpaceManager, GetNode(_topPath));
+                        if (drawingsCollectionType == DrawingsCollectionType.chart)
+                        {
+                            _groupDrawings = new ExcelDrawingsGroup(this, NameSpaceManager, GetNode(_topPath), drawingsCollectionType);
+                        }
+                        else
+                        {
+                            _groupDrawings = new ExcelDrawingsGroup(this, NameSpaceManager, GetNode(_topPath));
+                        }
                     }
                 }
                 return _groupDrawings;

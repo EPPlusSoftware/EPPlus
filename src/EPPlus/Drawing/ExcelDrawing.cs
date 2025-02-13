@@ -2084,37 +2084,6 @@ namespace OfficeOpenXml.Drawing
                     targetChart.Id = _drawings._nextDrawingId++;
                 }
             }
-            targetChart = ExcelChart.GetChart(worksheet.Drawings, drawNode);
-            var chartDrawRelNode = origialChart.ChartXml.SelectSingleNode("//c:userShapes/@r:id", origialChart.NameSpaceManager);
-            if (targetChart != null && chartDrawRelNode != null)
-            {
-                Uri uriDraw;
-                var id = targetChart.WorkSheet.SheetId;
-                do
-                {
-                    uriDraw = new Uri(string.Format("/xl/drawings/drawing{0}.xml", id++), UriKind.Relative);
-                }
-                while (targetChart.WorkSheet._package.ZipPackage.PartExists(uriDraw));
-                var partDraw = targetChart.WorkSheet._package.ZipPackage.CreatePart(uriDraw, "application/vnd.openxmlformats-officedocument.drawingml.chartshapes+xml", targetChart.WorkSheet._package.Compression);
-                StreamWriter streamDraw = new StreamWriter(partDraw.GetStream(FileMode.Create, FileAccess.Write));
-                streamDraw.Write(origialChart.Drawings.DrawingXml.OuterXml);
-                streamDraw.Flush();
-                //update picture relations or copy rels file
-
-                //update rel in chart xml
-                var targetChartDrawRelNode = targetChart.ChartXml.SelectSingleNode("//c:userShapes", targetChart.NameSpaceManager);
-                var targetChartDrawingRel = targetChart.Part.CreateRelationship(UriHelper.GetRelativeUri(targetChart.UriChart, uriDraw), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/chartUserShapes");
-                if (targetChartDrawRelNode == null)
-                {
-                    XmlElement e = (XmlElement)targetChart.ChartXml.CreateElement("c", "userShapes", @"http://schemas.openxmlformats.org/drawingml/2006/chart");
-                    e.SetAttribute("id", ExcelPackage.schemaRelationships, targetChartDrawingRel.Id);
-                    targetChart.ChartXml.ChildNodes[1].AppendChild(e);
-                }
-                else
-                {
-                    targetChartDrawRelNode.Attributes["r:id"].Value = targetChartDrawingRel.Id;
-                }
-            }
             return drawNode;
         }
 

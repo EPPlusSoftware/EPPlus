@@ -710,27 +710,36 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     if (relCopy.RelationshipType == ExcelPackage.schemaChartStyleRelationships)
                     {
-                        uri=XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/charts/style{0}.xml");
+                        uri = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/charts/style{0}.xml");
                         chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartStyle, chart.StyleManager.StyleXml.OuterXml);
                     }
                     else if (relCopy.RelationshipType == ExcelPackage.schemaChartColorStyleRelationships)
                     {
                         uri = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/charts/colors{0}.xml");
                         chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartColorStyle, chart.StyleManager.ColorsXml.OuterXml);
-                    } 
-                    else if( relCopy.RelationshipType == ExcelPackage.packageSchemaRelationships + "/chartUserShapes")
+                    }
+                    else if (relCopy.RelationshipType == ExcelPackage.schemaRelationships + "/chartUserShapes")
                     {
-                        //create new drawing
+                        uri = XmlHelper.GetNewUri(added._package.ZipPackage, "/xl/drawings/drawing{0}.xml");
+                        var part = chartPart.Package.CreatePart(uri, ContentTypes.contentTypeChartDrawing, chart.Drawings.DrawingXml.OuterXml);
                         //update rel in chart xml
                         //create relations for pictures in chart drawing
+                        string xml = chart.Drawings.DrawingXml.OuterXml;
+                        XmlDocument drawXml = new XmlDocument();
+                        drawXml.LoadXml(xml);
+                        for (int i = 0; i < chart.Drawings.Count; i++)
+                        {
+                            var draw = chart.Drawings[i];
+                            CopyDrawingRels(draw, added._package, added, part, ref drawXml);
+                        }
                     }
-                    else if(added.Workbook != copy.Workbook)
+                    else if (added.Workbook != copy.Workbook)
                     {
                         if (relCopy.RelationshipType == ExcelPackage.schemaRelationships + "/image")
                         {
-                            if (added._package.ZipPackage.PartExists(uri)==false)
+                            if (added._package.ZipPackage.PartExists(uri) == false)
                             {
-                                var destImgUri=copy._package.ZipPackage.GetPart(uri);
+                                var destImgUri = copy._package.ZipPackage.GetPart(uri);
                                 var v = added._package.ZipPackage.CreatePart(uri, destImgUri);
                             }
                         }
