@@ -1160,9 +1160,9 @@ namespace OfficeOpenXml
 						Packaging.ZipPackagePart part = _package.ZipPackage.CreatePart(StylesUri, @"application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml", _package.Compression);
 						// create the style sheet
 
-						StringBuilder xml = new StringBuilder("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">");
+                        StringBuilder xml = new StringBuilder("<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">");
 						xml.Append("<numFmts />");
-						xml.Append("<fonts count=\"1\"><font><sz val=\"11\" /><name val=\"Calibri\" /></font></fonts>");
+						xml.Append($"<fonts count=\"1\"><font><sz val=\"11\" /><name val=\"{DefaultFontName}\" /></font></fonts>");
 						xml.Append("<fills><fill><patternFill patternType=\"none\" /></fill><fill><patternFill patternType=\"gray125\" /></fill></fills>");
 						xml.Append("<borders><border><left /><right /><top /><bottom /><diagonal /></border></borders>");
 						xml.Append("<cellStyleXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\" /></cellStyleXfs>");
@@ -2207,5 +2207,12 @@ namespace OfficeOpenXml
 		/// This can be used to handle localized number formats or formats where EPPlus differs from the spread sheet application.
 		/// </summary>
 		public Func<NumberFormatToTextArgs, string> NumberFormatToTextHandler { get; set; }
+        internal string DefaultFontName 
+		{ 
+			get
+            {
+                return DefaultThemeVersion == 166925 ? "Calibri" : "Aptos Narrow";
+            }
+        }
     }
 }

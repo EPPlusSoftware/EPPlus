@@ -535,17 +535,17 @@ namespace OfficeOpenXml
             if (File != null) File.Refresh();
             if (File != null && File.Exists && File.Length > 0)
             {
-                var ms = RecyclableMemory.GetStream();
-                if(CompoundDocument.IsCompoundDocument(ms))
+                MemoryStream ms;
+                if(CompoundDocument.IsCompoundDocument(File))
                 {
                     var encrHandler = new EncryptedPackageHandler(this);
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password??"";
-                    ms.Dispose();
                     ms = encrHandler.DecryptPackage(File, Encryption);
                 }
                 else
                 {
+                    ms = RecyclableMemory.GetStream();
                     WriteFileToStream(File.FullName, ms);
                 }
                 try

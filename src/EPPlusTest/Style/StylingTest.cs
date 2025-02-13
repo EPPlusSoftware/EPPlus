@@ -30,7 +30,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.SystemDrawing.Text;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -195,15 +194,16 @@ namespace EPPlusTest.Style
         {
             using (var p = new ExcelPackage())
             {
-                var CustomFont = new Font("Calibri", 11);
-                p.Settings.TextSettings.PrimaryTextMeasurer = new SystemDrawingTextMeasurer();
+                var customFontName = "Calibri";
+                var customFontSize = 11;
+                //p.Settings.TextSettings.PrimaryTextMeasurer = new SystemDrawingTextMeasurer();
                 p.Workbook.ThemeManager.CreateDefaultTheme();
                 var defaultTheme = p.Workbook.ThemeManager.CurrentTheme;
-                defaultTheme.FontScheme.MajorFont.SetLatinFont(CustomFont.Name);
-                defaultTheme.FontScheme.MinorFont.SetLatinFont(CustomFont.Name);
+                defaultTheme.FontScheme.MajorFont.SetLatinFont(customFontName);
+                defaultTheme.FontScheme.MinorFont.SetLatinFont(customFontName);
                 ExcelStyle normal = p.Workbook.Styles.NamedStyles[0].Style;
-                normal.Font.Name = CustomFont.Name;
-                normal.Font.Size = CustomFont.Size;
+                normal.Font.Name = customFontName;
+                normal.Font.Size = customFontSize;
                 ExcelWorkbook workbook = p.Workbook;
                 ExcelWorksheet ws = p.Workbook.Worksheets.Add("sheet");
                 ExcelStyle style = workbook.Styles.CreateNamedStyle("style").Style;
@@ -221,25 +221,26 @@ namespace EPPlusTest.Style
         {
             using (var p = OpenPackage("DefaultFont.xlsx", true))
             {
-                var DefaultFont = new Font("Corbel", 10);
+                var defaultFontName = "Corbel";
+                var defaultFontSize = 10;
                 p.Workbook.ThemeManager.CreateDefaultTheme();
                 var defaultTheme = p.Workbook.ThemeManager.CurrentTheme;
-                defaultTheme.FontScheme.MajorFont.SetLatinFont(DefaultFont.Name);
-                defaultTheme.FontScheme.MinorFont.SetLatinFont(DefaultFont.Name);
+                defaultTheme.FontScheme.MajorFont.SetLatinFont(defaultFontName);
+                defaultTheme.FontScheme.MinorFont.SetLatinFont(defaultFontName);
                 ExcelStyle normal = p.Workbook.Styles.NamedStyles[0].Style;
-                normal.Font.Name = DefaultFont.Name;
-                normal.Font.Size = DefaultFont.Size;
+                normal.Font.Name = defaultFontName;
+                normal.Font.Size = defaultFontSize;
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells[1, 1].Value = 1000;
 
-                Assert.AreEqual("Corbel", ws.Cells[1, 1].Style.Font.Name);
-                Assert.AreEqual(10, ws.Cells[1, 1].Style.Font.Size);
+                Assert.AreEqual(defaultFontName, ws.Cells[1, 1].Style.Font.Name);
+                Assert.AreEqual(defaultFontSize, ws.Cells[1, 1].Style.Font.Size);
 
                 ws.Cells[1, 1].Style.Numberformat.Format = "#,##0";
                 ws.Cells[1, 1].Style.Border.BorderAround(ExcelBorderStyle.Hair);
 
-                Assert.AreEqual("Corbel", ws.Cells[1, 1].Style.Font.Name);
-                Assert.AreEqual(10, ws.Cells[1, 1].Style.Font.Size);
+                Assert.AreEqual(defaultFontName, ws.Cells[1, 1].Style.Font.Name);
+                Assert.AreEqual(defaultFontSize, ws.Cells[1, 1].Style.Font.Size);
 
                 SaveAndCleanup(p);
             }

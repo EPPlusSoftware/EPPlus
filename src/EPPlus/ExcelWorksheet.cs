@@ -864,7 +864,7 @@ namespace OfficeOpenXml
             if (ix >= 0)
             {
                 var f = Workbook.Styles.NamedStyles[ix].Style.Font;
-                if (f.Name.Equals("Calibri", StringComparison.OrdinalIgnoreCase) && f.Size == 11) //Default normal font
+                if (f.Name.Equals(_package.Workbook.DefaultFontName, StringComparison.OrdinalIgnoreCase) && f.Size == 11) //Default normal font
                 {
                     return 15;
                 }

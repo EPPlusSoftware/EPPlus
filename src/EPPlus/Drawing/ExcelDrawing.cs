@@ -1357,7 +1357,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="col">The left column where the drawing will be placed.</param>
         /// <param name="rowOffset">Row offset in pixels from the row start positions. int.MinValue </param>
         /// <param name="colOffset">Column offset in pixels fromp the column start position</param>
-        public void Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = int.MinValue, int colOffset = int.MinValue)
+        public ExcelDrawing Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = int.MinValue, int colOffset = int.MinValue)
         {
             XmlNode drawNode = null;
             if (From == null)
@@ -1409,7 +1409,7 @@ namespace OfficeOpenXml.Drawing
                     break;
                 case eDrawingType.OleObject:
                     drawNode = CopyOleObject(worksheet, row, col, rowOffset, colOffset);
-                    return;
+                    return GetDrawing(worksheet._drawings, drawNode); 
             }
             //Set position of the drawing copy.
             var copy = GetDrawing(worksheet._drawings, drawNode);
@@ -1420,6 +1420,7 @@ namespace OfficeOpenXml.Drawing
             copy.SetPixelWidth(width);
             copy.SetPixelHeight(height);
             copy.GetPositionSize();
+            return copy;
         }
 
         private XmlNode CopyGroupShape(ExcelWorksheet worksheet)
