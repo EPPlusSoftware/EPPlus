@@ -1,8 +1,10 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using EPPlusTest.FormulaParsing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
-using System.Drawing;
 using System.IO;
+using System.Reflection;
 
 namespace EPPlusTest.Drawing.Chart
 {
@@ -57,7 +59,6 @@ namespace EPPlusTest.Drawing.Chart
             group2.SetPosition(0, 0);
             shp4.UnGroup();
             shp4.Copy(chart);
-
             var chart2 = ws.Drawings.AddChart("Chart 3", eChartType.Line);
             //chart2.Series.Add(ws.Cells["B2:B6"], ws.Cells["C2:C6"]);
             //chart2.SetSize(480, 288);
@@ -82,31 +83,159 @@ namespace EPPlusTest.Drawing.Chart
 
             p.SaveAs(@"c:\epplustest\testoutput\shapeInChartTest.xlsx");
         }
+
+        private void CreateChartData(ExcelWorksheet ws)
+        {
+            ws.Cells["A1"].Value = "Cat1";
+            ws.Cells["B1"].Value = "Cat2";
+            ws.Cells["C1"].Value = "Cat3";
+            ws.Cells["D1"].Value = "Cat4";
+
+            ws.Cells["A2"].Value = 10;
+            ws.Cells["B2"].Value = 20;
+            ws.Cells["C2"].Value = 30;
+            ws.Cells["D2"].Value = 40;
+
+            ws.Cells["A3"].Value = 100;
+            ws.Cells["B3"].Value = 200;
+            ws.Cells["C3"].Value = 300;
+            ws.Cells["D3"].Value = 400;
+        }
+
+        private void AddDataToChart(ExcelWorksheet ws, ExcelChart chart)
+        {
+            chart.Series.Add(ws.Cells["A1:A3"]);
+            chart.Series.Add(ws.Cells["B1:B3"]);
+            chart.Series.Add(ws.Cells["C1:C3"]);
+            chart.Series.Add(ws.Cells["D1:D3"]);
+        }
+
+        [TestMethod]
+        public void AddShape()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            CreateChartData(ws);
+            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            chart.SetPosition(0, 0, 5, 0);
+            AddDataToChart(ws, chart);
+
+            Assert.IsTrue(chart.Drawings.Count == 0);
+            chart.AddShape("Shape 2", eShapeStyle.DownArrow);
+            Assert.IsTrue(chart.Drawings.Count == 1);
+        }
+        [TestMethod]
+        public void AddPicture()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            CreateChartData(ws);
+            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            chart.SetPosition(0, 0, 5, 0);
+            AddDataToChart(ws, chart);
+            var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+            Assert.IsTrue(chart.Drawings.Count == 0);
+            chart.AddPicture("Picture 2", pic);
+            Assert.IsTrue(chart.Drawings.Count == 1);
+            FileInfo picInfo = new FileInfo(pic);
+            chart.AddPicture("Picture 3", picInfo);
+            Assert.IsTrue(chart.Drawings.Count == 2);
+            //stream
+            chart.AddPicture("Picture 4", picInfo);
+            Assert.IsTrue(chart.Drawings.Count == 3);
+        }
+
+        [TestMethod]
+        public void GroupShapesWithShapes()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            CreateChartData(ws);
+            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            chart.SetPosition(0, 0, 5, 0);
+            AddDataToChart(ws, chart);
+
+            var arrow = chart.AddShape("Arrow", eShapeStyle.UpArrow);
+            var equal = chart.AddShape("Equal", eShapeStyle.MathEqual);
+            var roundRect = chart.AddShape("RoundRect", eShapeStyle.Round1Rect);
+            var triangle = chart.AddShape("Triangle", eShapeStyle.Triangle);
+
+            Assert.IsTrue(chart.Drawings.Count == 4);
+            var group = arrow.Group(equal, roundRect, triangle);
+            Assert.IsTrue(chart.Drawings.Count == 1);
+        }
+        [TestMethod]
+        public void GroupShapesWithPictures()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            CreateChartData(ws);
+            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            chart.SetPosition(0, 0, 5, 0);
+            AddDataToChart(ws, chart);
+
+            var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+            var pic1 = chart.AddPicture("Pic 1", pic);
+            pic1.SetPosition(10, 10);
+            var pic2 = chart.AddPicture("Pic 2", pic);
+            pic1.SetPosition(20, 20);
+            var pic3 = chart.AddPicture("Pic 3", pic);
+            pic1.SetPosition(30, 30);
+            var pic4 = chart.AddPicture("Pic 4", pic);
+            pic1.SetPosition(40, 40);
+            var pic5 = chart.AddPicture("Pic 5", pic);
+            pic1.SetPosition(50, 50);
+
+            Assert.IsTrue(chart.Drawings.Count == 5);
+            var group = pic1.Group(pic2, pic3, pic4, pic5);
+            Assert.IsTrue(chart.Drawings.Count == 1);
+        }
+        [TestMethod]
+        public void GroupShapesWithGroupShapes()
+        {
+        }
+        [TestMethod]
+        public void GroupShapesMixed()
+        {
+        }
+
+        [TestMethod]
+        public void CopyShape()
+        {
+            //Copy Same chart
+            //Copy other chart in worksheet
+            //Copy other chart in different worksheet
+            //Copy other chart in different workbook
+        }
+        [TestMethod]
+        public void CopyPicture()
+        {
+        }
+        [TestMethod]
+        public void CopyGroupShape()
+        {
+        }
+        [TestMethod]
+        public void CopyWorksheet()
+        {
+        }
+        [TestMethod]
+        public void DeleteShape()
+        {
+        }
+        [TestMethod]
+        public void DeletePicture()
+        {
+        }
+        [TestMethod]
+        public void DeleteGroupShape()
+        {
+        }
     }
-
-
-
 
 
     /*TODO
      * Resize bounding box for grouped objects.
-     * 
-     * 
-     * TEST CASES:
-     * Add Shape
-     * Add Picutre
-     * Create groupshape with shapes
-     * Create groupshape with groupshapes
-     * Create groupshape with pictures
-     * Create groupshape with a mix
-     * Copy shape in chart
-     * Copy shape to other chart
-     * Copy shape to other workbook
-     * Copy picture in chart
-     * Copy picture to other chart
-     * Copy picture to other workbook
-     * remove shape
-     * remove picture
-     * remove groupshape
+     * chart.drawings.add does not work
      */
 }

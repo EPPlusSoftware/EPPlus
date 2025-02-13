@@ -1451,7 +1451,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The shape object</returns>
         public ExcelShape AddShape(string Name, eShapeStyle Style)
         {
-            return AddShape(Name, Style, DrawingsCollectionType.excel);
+            return AddShape(Name, Style, DrawingsType);
         }
         internal ExcelShape AddShape(string Name, eShapeStyle Style, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel, object container = null)
         {
