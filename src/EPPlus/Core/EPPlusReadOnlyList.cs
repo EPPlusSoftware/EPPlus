@@ -78,10 +78,5 @@ namespace OfficeOpenXml.Core
         {
             _list.Add(item);
         }
-
-        internal void Add(object value)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
