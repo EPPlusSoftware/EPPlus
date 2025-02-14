@@ -874,7 +874,7 @@ namespace OfficeOpenXml
         /// These dictionaries should have the same set of keys.
         /// </summary>
         /// <param name="items">A list of dictionaries/></param>
-        /// <param name="printHeaders">If true the _key names from the first instance will be used as headers</param>
+        /// <param name="printHeaders">If true the key names from the first instance will be used as headers</param>
         /// <returns>The filled range</returns>
         /// <example>
         /// <code>
@@ -908,7 +908,7 @@ namespace OfficeOpenXml
         /// These dictionaries should have the same set of keys.
         /// </summary>
         /// <param name="items">A list of dictionaries/></param>
-        /// <param name="printHeaders">If true the _key names from the first instance will be used as headers</param>
+        /// <param name="printHeaders">If true the key names from the first instance will be used as headers</param>
         /// <param name="tableStyle">Will create a table with this style. If set to TableStyles.None no table will be created</param>
         /// <returns>The filled range</returns>
         /// <example>
@@ -943,7 +943,7 @@ namespace OfficeOpenXml
         /// These dictionaries should have the same set of keys.
         /// </summary>
         /// <param name="items">A list of dictionaries</param>
-        /// <param name="printHeaders">If true the _key names from the first instance will be used as headers</param>
+        /// <param name="printHeaders">If true the key names from the first instance will be used as headers</param>
         /// <param name="tableStyle">Will create a table with this style. If set to TableStyles.None no table will be created</param>
         /// <param name="keys">Keys that should be used, keys omitted will not be included</param>
         /// <returns>The filled range</returns>
@@ -989,7 +989,7 @@ namespace OfficeOpenXml
         /// These dictionaries should have the same set of keys.
         /// </summary>
         /// <param name="items">A list of dictionaries</param>
-        /// <param name="printHeaders">If true the _key names from the first instance will be used as headers</param>
+        /// <param name="printHeaders">If true the key names from the first instance will be used as headers</param>
         /// <param name="tableStyle">Will create a table with this style. If set to TableStyles.None no table will be created</param>
         /// <param name="keys">Keys that should be used, keys omitted will not be included</param>
         /// <returns>The filled range</returns>

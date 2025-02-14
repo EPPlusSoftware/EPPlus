@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Compatibility
         /// <code>
         ///   <appSettings>
         ///    <!--Set worksheets collection to start from one.Default is 0. Set to true for backward compatibility reasons only!-->  
-        ///    <add _key = "EPPlus:ExcelPackage.Compatibility.IsWorksheets1Based" value="true" />
+        ///    <add key = "EPPlus:ExcelPackage.Compatibility.IsWorksheets1Based" value="true" />
         ///   </appSettings>
         /// </code>
         /// </summary>

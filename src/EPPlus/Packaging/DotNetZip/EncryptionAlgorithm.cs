@@ -74,7 +74,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
     /// <para>
     ///   In case you care: According to <see
     ///   href="http://www.winzip.com/aes_info.htm">the WinZip specification</see>, the
-    ///   actual AES _key used is derived from the <see cref="ZipEntry.Password"/> via an
+    ///   actual AES key used is derived from the <see cref="ZipEntry.Password"/> via an
     ///   algorithm that complies with <see
     ///   href="http://www.ietf.org/rfc/rfc2898.txt">RFC 2898</see>, using an iteration
     ///   count of 1000.  The algorithm is sometimes referred to as PBKDF2, which stands

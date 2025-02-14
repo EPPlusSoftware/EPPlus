@@ -225,10 +225,10 @@ namespace OfficeOpenXml
             }
         }
         /// <summary>
-        /// Checks collection for the presence of a _key
+        /// Checks collection for the presence of a key
         /// </summary>
-        /// <param name="key">_key to search for</param>
-        /// <returns>true if the _key is in the collection</returns>
+        /// <param name="key">key to search for</param>
+        /// <returns>true if the key is in the collection</returns>
         public bool ContainsKey(string key)
         {
             return _dic.ContainsKey(key);
@@ -246,10 +246,10 @@ namespace OfficeOpenXml
         /// <summary>
         /// Name indexer
         /// </summary>
-        /// <param name="Name">The name (_key) for a Named range</param>
+        /// <param name="Name">The name (key) for a Named range</param>
         /// <returns>a reference to the range</returns>
         /// <remarks>
-        /// Throws a KeyNotFoundException if the _key is not in the collection.
+        /// Throws a KeyNotFoundException if the key is not in the collection.
         /// </remarks>
         public ExcelNamedRange this[string Name]
         {

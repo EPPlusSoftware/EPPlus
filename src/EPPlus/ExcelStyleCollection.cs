@@ -118,9 +118,9 @@ namespace OfficeOpenXml
             return _list.Count-1;
         }
         /// <summary>
-        /// Finds the _key 
+        /// Finds the key 
         /// </summary>
-        /// <param name="key">the _key to be found</param>
+        /// <param name="key">the key to be found</param>
         /// <param name="obj">The found object.</param>
         /// <returns>True if found</returns>
         internal bool FindById(string key, ref T obj)

@@ -69,7 +69,7 @@ namespace OfficeOpenXml.VBA
             {
                 //Join Password and Key
                 byte[] data;
-                //Set the _key
+                //Set the key
                 PasswordKey = new byte[4];
                 RandomNumberGenerator r = RandomNumberGenerator.Create();
                 r.GetBytes(PasswordKey);

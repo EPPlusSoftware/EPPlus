@@ -141,7 +141,7 @@ namespace OfficeOpenXml.Encryption
             encr.KeyValue = new byte[encr.KeyBits / 8];
             rnd.GetBytes(encr.KeyValue);
 
-            //Get the password _key.
+            //Get the password key.
             var hashProvider = GetHashProvider(encryptionInfo.KeyEncryptors[0]);
             var baseHash = GetPasswordHashSpinPrepending(hashProvider, encr.SaltValue, encryption.Password, encr.SpinCount, encr.HashSize);
             var hashFinal = GetFinalHash(hashProvider,  BlockKey_KeyValue, baseHash);
@@ -430,7 +430,7 @@ namespace OfficeOpenXml.Encryption
         /// </summary>
         /// <param name="password">The password</param>
         /// <param name="algID"></param>
-        /// <param name="key">The Encryption _key</param>
+        /// <param name="key">The Encryption key</param>
         /// <returns></returns>
         private EncryptionInfoBinary CreateEncryptionInfo(string password, AlgorithmID algID, out byte[] key)
         {
@@ -594,7 +594,7 @@ namespace OfficeOpenXml.Encryption
 
                 var baseHash = GetPasswordHashSpinPrepending(hashProvider, encr.SaltValue, password, encr.SpinCount, encr.HashSize);
 
-                //Get the keys for the verifiers and the _key value
+                //Get the keys for the verifiers and the key value
                 var valInputKey = GetFinalHash(hashProvider, BlockKey_HashInput, baseHash);
                 var valHashKey = GetFinalHash(hashProvider, BlockKey_HashValue, baseHash);
                 var valKeySizeKey = GetFinalHash(hashProvider, BlockKey_KeyValue, baseHash);
@@ -745,7 +745,7 @@ namespace OfficeOpenXml.Encryption
         /// <summary>
         /// Validate the password
         /// </summary>
-        /// <param name="key">The encryption _key</param>
+        /// <param name="key">The encryption key</param>
         /// <param name="encryptionInfo">The encryption info extracted from the ENCRYPTIOINFO stream inside the OLE document</param>
         /// <returns></returns>
         private bool IsPasswordValid(byte[] key, EncryptionInfoBinary encryptionInfo)
@@ -984,7 +984,7 @@ namespace OfficeOpenXml.Encryption
                 Array.Copy(System.BitConverter.GetBytes(0), 0, tempHash, hash.Length, 4);
                 hash = hashProvider.ComputeHash(tempHash);
 
-                /***** Now use the derived _key algorithm *****/
+                /***** Now use the derived key algorithm *****/
                 byte[] derivedKey = new byte[64];
                 int keySizeBytes = encryptionInfo.Header.KeySize / 8;
 
@@ -995,7 +995,7 @@ namespace OfficeOpenXml.Encryption
 
                 byte[] X1 = hashProvider.ComputeHash(derivedKey);
 
-                //if verifier size is bigger than the _key size we can return X1
+                //if verifier size is bigger than the key size we can return X1
                 if ((int)encryptionInfo.Verifier.VerifierHashSize > keySizeBytes)
                     return FixHashSize(X1, keySizeBytes);
 
@@ -1026,7 +1026,7 @@ namespace OfficeOpenXml.Encryption
         /// </summary>
         /// <param name="password">The password</param>
         /// <param name="encr">The encryption info extracted from the ENCRYPTIOINFO stream inside the OLE document</param>
-        /// <param name="blockKey">The block _key appended to the hash to obtain the final hash</param>
+        /// <param name="blockKey">The block key appended to the hash to obtain the final hash</param>
         /// <returns>The hash to encrypt the document</returns>
         private byte[] GetPasswordHashAgile(string password, EncryptionInfoAgile.EncryptionKeyEncryptor encr, byte[] blockKey)
         {
