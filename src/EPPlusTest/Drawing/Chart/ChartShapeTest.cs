@@ -193,6 +193,22 @@ namespace EPPlusTest.Drawing.Chart
         [TestMethod]
         public void GroupShapesWithGroupShapes()
         {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            CreateChartData(ws);
+            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            chart.SetPosition(0, 0, 5, 0);
+            AddDataToChart(ws, chart);
+
+            var arrow = chart.AddShape("Arrow", eShapeStyle.UpArrow);
+            var equal = chart.AddShape("Equal", eShapeStyle.MathEqual);
+            var roundRect = chart.AddShape("RoundRect", eShapeStyle.Round1Rect);
+            var triangle = chart.AddShape("Triangle", eShapeStyle.Triangle);
+
+            Assert.IsTrue(chart.Drawings.Count == 4);
+            var group1 = arrow.Group(equal);
+            var group2 = group1.Group(roundRect, triangle);
+            Assert.IsTrue(chart.Drawings.Count == 1);
         }
         [TestMethod]
         public void GroupShapesMixed()
