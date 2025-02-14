@@ -24,39 +24,7 @@ namespace OfficeOpenXml
     {
         internal ExcelTextSettings()
         {
-            if(Environment.OSVersion.Platform==PlatformID.Unix ||
-               Environment.OSVersion.Platform==PlatformID.MacOSX)
-            {
-                PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
-                //try
-                //{
-                //    FallbackTextMeasurer = new SystemDrawingTextMeasurer();
-                //}
-                //catch
-                //{
-                //    FallbackTextMeasurer = null;
-                //}
-            }
-            else
-            {
-                try
-                {
-                    //var m = new SystemDrawingTextMeasurer();
-                    //if (m.ValidForEnvironment())
-                    //{
-                    //    PrimaryTextMeasurer = m;
-                    //    FallbackTextMeasurer = new GenericFontMetricsTextMeasurer();
-                    //}
-                    //else
-                    //{
-                        PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
-                    //}
-                }
-                catch
-                {
-                    PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
-                }
-            }
+            PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
             AutofitScaleFactor = 1f;
         }
 

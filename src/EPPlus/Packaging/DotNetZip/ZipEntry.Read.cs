@@ -316,7 +316,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             // Each PKZIP-encrypted file has an extra 12 bytes stored at the start of the data
             // area defining the encryption header for that file.  The encryption header is
             // originally set to random values, and then itself encrypted, using three, 32-bit
-            // keys.  The _key values are initialized using the supplied encryption password.
+            // keys.  The key values are initialized using the supplied encryption password.
             // After each byte is encrypted, the keys are then updated using pseudo-random
             // number generation techniques in combination with the same CRC-32 algorithm used
             // in PKZIP and implemented in the CRC32.cs module in this project.
@@ -556,7 +556,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             //           TSize     2 bytes  Size of data that follows
             //           Format    2 bytes  Format definition for this record
             //           AlgID     2 bytes  Encryption algorithm identifier
-            //           Bitlen    2 bytes  Bit length of encryption _key
+            //           Bitlen    2 bytes  Bit length of encryption key
             //           Flags     2 bytes  Processing flags
             //           CertData  TSize-8  Certificate decryption extra field data
             //                              (refer to the explanation for CertData

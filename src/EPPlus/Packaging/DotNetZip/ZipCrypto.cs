@@ -269,10 +269,10 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// Where update_keys() is defined as:
         ///
         /// update_keys(char):
-        ///   Key(0) := crc32(_key(0),char)
+        ///   Key(0) := crc32(key(0),char)
         ///   Key(1) := Key(1) + (Key(0) bitwiseAND 000000ffH)
         ///   Key(1) := Key(1) * 134775813 + 1
-        ///   Key(2) := crc32(_key(2),_key(1) rightshift 24)
+        ///   Key(2) := crc32(key(2),key(1) rightshift 24)
         /// end update_keys
         ///
         /// Where crc32(old_crc,char) is a routine that given a CRC value and a

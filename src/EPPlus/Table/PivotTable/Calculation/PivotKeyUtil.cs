@@ -31,7 +31,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
 		/// 
 		/// </summary>
 		/// <param name="key"></param>
-		/// <param name="colFieldsStart">Where row fields end and colfields start in the _key</param>
+		/// <param name="colFieldsStart">Where row fields end and colfields start in the key</param>
 		/// <returns></returns>
 		internal static int[] GetColumnTotalKey(int[] key, int colFieldsStart)
 		{
@@ -46,7 +46,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
 		/// 
 		/// </summary>
 		/// <param name="key"></param>
-		/// <param name="colFieldsStart">Where row fields end and colfields start in the _key</param>
+		/// <param name="colFieldsStart">Where row fields end and colfields start in the key</param>
 		/// <returns></returns>
 		internal static int[] GetRowTotalKey(int[] key, int colFieldsStart)
 		{

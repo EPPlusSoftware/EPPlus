@@ -239,7 +239,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
 
         // Number of bits by which ins_h must be shifted at each input
         // step. It must be such that after MIN_MATCH steps, the oldest
-        // byte no longer takes part in the hash _key, that is:
+        // byte no longer takes part in the hash key, that is:
         // hash_shift * MIN_MATCH >= hash_bits
         internal int hash_shift;
 

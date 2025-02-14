@@ -30,7 +30,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs
             var biType = df.BaseItem == (int)ePrevNextPivotItem.Previous ? -1 : (df.BaseItem == (int)ePrevNextPivotItem.Next ? 1 : 0);
             var maxCol = pt.Fields[df.BaseField].Items.Count - 2;
             var existingEmptyKeys = new HashSet<int[]>(ArrayComparer.Instance);
-            var isLowestGroupLevel = (keyCol == colStartIx - 1 || keyCol == fieldIndex.Count - 1); //If not lowest group _key set value to 1 or 0 only.;
+            var isLowestGroupLevel = (keyCol == colStartIx - 1 || keyCol == fieldIndex.Count - 1); //If not lowest group key set value to 1 or 0 only.;
 
             var lastIx = fieldIndex.Count - 1;
             var lastItemIx = pt.Fields[fieldIndex[lastIx]].Items.Count - 1;

@@ -14,14 +14,9 @@ namespace OfficeOpenXml
     /// </summary>
     public class EPPlusLicense
     {
-        //ExcelPackage _pck;
         private static ExcelPackageConfiguration _configuration = new ExcelPackageConfiguration();
         static bool _licenseSet = false;
-        //internal EPPlusLicense(ExcelPackage pck)
-        //{
-        //    _pck = pck;
-        //}
-        internal const string _versionDate = "2024-10-01";
+        internal const string _versionDate = "2025-02-14";
         /// <summary>
         /// The license key used for a commercial license.
         /// </summary>

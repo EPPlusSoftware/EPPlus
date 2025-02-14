@@ -1932,7 +1932,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                     // It's expensive to create a ParallelDeflateOutputStream, because
                     // of the large memory buffers.  But the class is unlike most Stream
                     // classes in that it can be re-used, so the caller can compress
-                    // multiple files with it, one file at a time.  The _key is to call
+                    // multiple files with it, one file at a time.  The key is to call
                     // Reset() on it, in between uses.
                     //
                     // The ParallelDeflateOutputStream is attached to the container

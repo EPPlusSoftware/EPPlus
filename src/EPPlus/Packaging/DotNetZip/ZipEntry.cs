@@ -273,7 +273,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   times of a particular file. These metadata are not actually specific
         ///   to NTFS or Unix. They are tracked for each file by NTFS and by various
         ///   Unix filesystems, but they are also tracked by other filesystems, too.
-        ///   The _key point is that the times are <em>formatted in the zip file</em>
+        ///   The key point is that the times are <em>formatted in the zip file</em>
         ///   in the same way that NTFS formats the time (ticks since win32 epoch),
         ///   or in the same way that Unix formats the time (seconds since Unix
         ///   epoch). As with the DOS time, any tool or library running on any
@@ -1049,7 +1049,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///
         /// <item>
         /// <term>61</term>
-        /// <description> File is encrypted using non-OAEP _key wrapping***</description>
+        /// <description> File is encrypted using non-OAEP key wrapping***</description>
         /// </item>
         ///
         /// <item>
@@ -1644,7 +1644,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         ///   by PKWare</see>, but this encryption is considered weak and
         ///   breakable. This library currently supports the Zip 2.0 "weak" encryption,
         ///   and also a stronger WinZip-compatible AES encryption, using either 128-bit
-        ///   or 256-bit _key strength. If you want DotNetZip to support an algorithm
+        ///   or 256-bit key strength. If you want DotNetZip to support an algorithm
         ///   that is not currently supported, call the author of this library and maybe
         ///   we can talk business.
         /// </para>

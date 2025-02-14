@@ -57,6 +57,7 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        [ExpectedException(typeof(LicenseNotValidException))]
         public void CommercialTemporaryKey()
         {
             var lk = "R+WEJREh+kZCPuQDxJDNB96heFdV0hZLG6xvWYAeEfAZjBU5JXFoT2/+or9Uxwf5aDyJxGi+VgDw92x+Cr6sMgEGQjZCQjM15wfJAAADQQIA";

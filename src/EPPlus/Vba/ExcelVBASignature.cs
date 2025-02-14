@@ -46,7 +46,7 @@ namespace OfficeOpenXml.VBA
         /// <summary>
         /// The certificate to sign the VBA project.
         /// <remarks>
-        /// This certificate must have a private _key.
+        /// This certificate must have a private key.
         /// There is no validation that the certificate is valid for codesigning, so make sure it's valid to sign Excel files (Excel 2010 is more strict that prior versions).
         /// </remarks>
         /// </summary>

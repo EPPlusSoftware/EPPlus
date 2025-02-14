@@ -62,7 +62,7 @@ namespace OfficeOpenXml.Table.PivotTable.Calculation
 
         public int CompareTo(CacheIndexItem other)
         {
-            if (Key.Length != other.Key.Length) return Key.Length > other.Key.Length ? 1 : -1; //Key length should always be equal, but add handling for different _key lengths as well.
+            if (Key.Length != other.Key.Length) return Key.Length > other.Key.Length ? 1 : -1; //Key length should always be equal, but add handling for different key lengths as well.
             for (int i = 0; i < Key.Length; i++)
             {                    
                 if (Key[i] != other.Key[i])
