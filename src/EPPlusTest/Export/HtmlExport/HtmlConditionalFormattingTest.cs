@@ -87,6 +87,7 @@ namespace EPPlusTest.Export.HtmlExport
         {
             using (var p = OpenPackage("AdvancedCFsWithThemeColor.xlsx", true))
             {
+                p.Workbook.DefaultThemeVersion = 166925;
                 var sheet = p.Workbook.Worksheets.Add("ConditionalFormattingSheet");
 
                 var range = sheet.Cells["A1:A30"];

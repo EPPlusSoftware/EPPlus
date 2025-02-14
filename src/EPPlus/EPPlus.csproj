@@ -586,10 +586,6 @@
 		<PackageIconUrl />
 	</PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
-	</ItemGroup>
-
 	<PropertyGroup Condition="'$(Platform)'=='AnyCPU'">
 		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\EPPlus.xml</DocumentationFile>
 	</PropertyGroup>
@@ -638,7 +634,6 @@
 	<ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462'">
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
-		<PackageReference Include="System.Security.Cryptography.Pkcs" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
 		<PackageReference Include="System.Text.Encoding.CodePages" />
 		<PackageReference Include="System.Security.Cryptography.Xml" />	

@@ -627,12 +627,9 @@ namespace OfficeOpenXml
         /// <summary>
         /// This property is obsolete in EPPlus 8, and will be removed in coming versions. 
         /// Please use the <see cref="License"/> property to configure the license.
-        /// to use the epplus library in debug mode a licensetype must be specified.
-        /// use licensecontext.noncommercial if you use epplus in an non commercial context.
-        /// use licensecontext.commercial if you have purchased an license to use epplus
-        /// see https://epplussoftware.com/developers/licenseexception
+        /// see https://epplussoftware.com/developers/licensenotsetexception
         /// </summary>
-        [Obsolete("Please set the license using the License property from EPPlus 8 and later. For more info see http://epplussoftware.com/developers/licenseexception")]
+        [Obsolete("Please set the license using the License property from EPPlus 8 and later. For more info see http://epplussoftware.com/developers/licensenotsetexception")]
         public static LicenseContext? LicenseContext
         {
             get
@@ -641,7 +638,7 @@ namespace OfficeOpenXml
             }
             set
             {
-                throw new NotImplementedException("Please use the License Property to set the license from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licenseexception");
+                throw new NotImplementedException("Please use the License Property to set the license from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licensenotsetexception");
             }
         }
 
