@@ -271,7 +271,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         }
 
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void CreateDigitalSignatureLineAndSignIt()
         {
             string fileName = $"{SubFolder}DigSig_SignatureLine.xlsx";

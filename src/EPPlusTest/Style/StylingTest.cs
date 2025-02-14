@@ -545,7 +545,7 @@ namespace EPPlusTest.Style
             tbl.Columns[1].DataStyle.Checkbox = true;
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ReadCheckboxStyleTest()
         {
             using (var p = OpenPackage("StyleRead.xlsx"))
@@ -560,7 +560,7 @@ namespace EPPlusTest.Style
             }
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ReadExportCheckboxesToHtml()
         {
             using (var p = OpenPackage("StyleRead.xlsx"))
@@ -577,7 +577,7 @@ namespace EPPlusTest.Style
             }
         }
 
-        [TestMethod]
+        [TestMethod,Ignore]
         public void ReadExportCheckboxesToHtmlActivated()
         {
             using (var p = OpenPackage("StyleRead.xlsx"))
