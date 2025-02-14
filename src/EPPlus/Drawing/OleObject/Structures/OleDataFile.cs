@@ -10,7 +10,9 @@
  *************************************************************************************************
   01/01/2025         EPPlus Software AB           Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.CompundDocument;
+using System.IO;
 
 namespace OfficeOpenXml.Drawing.OleObject.Structures
 {
@@ -27,6 +29,16 @@ namespace OfficeOpenXml.Drawing.OleObject.Structures
         internal static void CreateDataFileObject(OleObjectDataStructures _oleDataStructures, byte[] fileData)
         {
             _oleDataStructures.DataFile = fileData;
+        }
+
+        internal static int ReadDataFileObject(OleObjectDataStructures _oleObjectDataStructures, byte[] fileData)
+        {
+            using (var ms = RecyclableMemory.GetStream(fileData))
+            {
+                BinaryReader br = new BinaryReader(ms);
+                _oleObjectDataStructures.DataFile = new byte[br.BaseStream.Length];
+                return br.Read(_oleObjectDataStructures.DataFile, 0, (int)br.BaseStream.Length - 1);
+            }
         }
     }
 }

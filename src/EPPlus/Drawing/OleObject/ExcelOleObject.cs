@@ -696,7 +696,48 @@ namespace OfficeOpenXml.Drawing.OleObject
             {
                 throw new Exception("Invalid file format for Icon. Supported formats are .EMF, .BMP");
             }
-        } 
+        }
+
+        /// <summary>
+        /// Get the byte array of the embedded OLE object.
+        /// </summary>
+        /// <returns>The byte array of embedded OLE object.</returns>
+        public byte[] GetEmbeddedObjectBytes()
+        {
+            if (IsExternalLink)
+            {
+                return null;
+            }
+            if (_oleDataStructures == null)
+            {
+                _oleDataStructures = new OleObjectDataStructures();
+            }
+            if (_document != null)
+            { 
+                if (_document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME))
+                {
+                    _oleDataStructures.OleNative = new OleObjectDataStructures.OleNativeStream();
+                    Ole10Native.ReadOle10Native(_oleDataStructures, _document.Storage.DataStreams[Ole10Native.OLE10NATIVE_STREAM_NAME].Stream);
+                    return _oleDataStructures.OleNative.NativeData;
+                }
+                else if (_document.Storage.DataStreams.ContainsKey(OleDataFile.CONTENTS_STREAM_NAME))
+                {
+                    OleDataFile.ReadDataFileObject(_oleDataStructures, _document.Storage.DataStreams[OleDataFile.CONTENTS_STREAM_NAME].Stream);
+                }
+                else if(_document.Storage.DataStreams.ContainsKey(OleDataFile.EMBEDDEDODF_STREAM_NAME))
+                {
+                     OleDataFile.ReadDataFileObject(_oleDataStructures, _document.Storage.DataStreams[OleDataFile.EMBEDDEDODF_STREAM_NAME].Stream);
+                }
+                return _oleDataStructures.DataFile;
+            }
+            else
+            {
+                MemoryStream ms = (MemoryStream)_oleObjectPart.GetStream(FileMode.Open, FileAccess.Read);
+                byte[] oleBytes = new byte[ms.Length];
+                ms.Read(oleBytes, 0, (int)ms.Length - 1);
+                return oleBytes;
+            }
+        }
 
         internal override void DeleteMe()
         {

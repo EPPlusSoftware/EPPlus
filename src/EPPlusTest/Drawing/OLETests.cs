@@ -754,5 +754,45 @@ namespace EPPlusTest.Drawing
                 SaveAndCleanup(p);
             }
         }
+
+        [TestMethod]
+        public void ExtractDataFromOleObjectTest()
+        {
+            //Read generic ole bytes.
+            var genericOlePackage = OpenTemplatePackage("OleObjectTest_Embed_GENERIC.xlsx");
+            var genericOleWs = genericOlePackage.Workbook.Worksheets[0];
+            var genericOle = genericOleWs.Drawings["MyTextFile"] as ExcelOleObject;
+            var genericOleBytes = genericOle.GetEmbeddedObjectBytes();
+            Assert.IsNotNull(genericOleBytes);
+
+            //Read PDF bytes
+            var pdfOlePackage = OpenTemplatePackage("OleObjectTest_Embed_PDF.xlsx");
+            var pdfOleWs = pdfOlePackage.Workbook.Worksheets[0];
+            var pdfOle = pdfOleWs.Drawings[0] as ExcelOleObject;
+            var pdfOleBytes = pdfOle.GetEmbeddedObjectBytes();
+            Assert.IsNotNull(pdfOleBytes);
+
+            //Read ODT bytes
+            var odtOlePackage = OpenTemplatePackage("OleObjectTest_Embed_ODT.xlsx");
+            var odtOleWs = odtOlePackage.Workbook.Worksheets[0];
+            var odtOle = odtOleWs.Drawings[0] as ExcelOleObject;
+            var odtOleBytes = odtOle.GetEmbeddedObjectBytes();
+            Assert.IsNotNull(odtOleBytes);
+
+            //Read DOCX bytes
+            var docxOlePackage = OpenTemplatePackage("OleObjectTest_Embed_DOCX.xlsx");
+            var docxOleWs = docxOlePackage.Workbook.Worksheets[0];
+            var docxOle = docxOleWs.Drawings[0] as ExcelOleObject;
+            var docxOleBytes = docxOle.GetEmbeddedObjectBytes();
+            Assert.IsNotNull(docxOleBytes);
+
+            //Read generic linked ole object.
+            var linkOlePackage = OpenTemplatePackage("OleObjectTest_Link_GENERIC.xlsx");
+            var linkOleWs = linkOlePackage.Workbook.Worksheets[0];
+            var linkOle = linkOleWs.Drawings[0] as ExcelOleObject;
+            var linkOleBytes = linkOle.GetEmbeddedObjectBytes();
+            Assert.IsNull(linkOleBytes);
+        }
+
     }
 }
