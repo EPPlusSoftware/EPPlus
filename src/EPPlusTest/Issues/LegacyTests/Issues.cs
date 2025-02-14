@@ -3042,13 +3042,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void CheckEnvironment()
-        {
-#pragma warning disable CA1416 // Validate platform compatibility
-            System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
-#pragma warning restore CA1416 // Validate platform compatibility
-        }
-        [TestMethod]
         public void Issue592()
         {
             using (var p = OpenTemplatePackage("I592.xlsx"))
@@ -6069,7 +6062,6 @@ namespace EPPlusTest
         {
             var sheetName = "披露表(国资)";
 
-            ExcelPackage.LicenseContext = LicenseContext.Commercial;
             using (var p = OpenTemplatePackage("s569source.xlsx"))
             {
                 var SourceWB = p.Workbook;

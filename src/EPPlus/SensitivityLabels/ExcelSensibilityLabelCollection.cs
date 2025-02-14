@@ -79,7 +79,7 @@ namespace OfficeOpenXml.SensitivityLabels
                 Labels.Add(ExcelSensibilityLabel.CreateFromElement(_nsm, element));
             }
 
-            ExcelPackage.SensibilityLabelHandler.UpdateLabelList(Labels, _pck.Id);
+            ExcelPackage.SensibilityLabelHandler?.UpdateLabelList(Labels, _pck.Id);
         }
         /// <summary>
         /// Changes the active sensibility label. This will overwrite the active sensibility label and any settings derived from it, if the <see cref="ExcelPackage.SensibilityLabelHandler"/> is used.

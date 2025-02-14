@@ -535,17 +535,17 @@ namespace OfficeOpenXml
             if (File != null) File.Refresh();
             if (File != null && File.Exists && File.Length > 0)
             {
-                var ms = RecyclableMemory.GetStream();
-                if(CompoundDocument.IsCompoundDocument(ms))
+                MemoryStream ms;
+                if(CompoundDocument.IsCompoundDocument(File))
                 {
                     var encrHandler = new EncryptedPackageHandler(this);
                     Encryption.IsEncrypted = true;
                     Encryption.Password = password??"";
-                    ms.Dispose();
                     ms = encrHandler.DecryptPackage(File, Encryption);
                 }
                 else
                 {
+                    ms = RecyclableMemory.GetStream();
                     WriteFileToStream(File.FullName, ms);
                 }
                 try
@@ -624,92 +624,31 @@ namespace OfficeOpenXml
                 return _encryption;
             }
         }
-        private static LicenseContext? _licenseType = null;
-        internal static bool _licenseSet = false;
         /// <summary>
-        /// To use the EPPlus library in debug mode a Licensetype must be specified.
-        /// Use LicenseContext.NonCommercial if you use EPPlus in an non commercial context.
-        /// Use LicenseContext.Commercial if you have purchased an license to use EPPlus
-        /// See https://epplussoftware.com/developers/licenseexception
+        /// This property is obsolete in EPPlus 8, and will be removed in coming versions. 
+        /// Please use the <see cref="License"/> property to configure the license.
+        /// see https://epplussoftware.com/developers/licensenotsetexception
         /// </summary>
+        [Obsolete("Please set the license using the License property from EPPlus 8 and later. For more info see http://epplussoftware.com/developers/licensenotsetexception")]
         public static LicenseContext? LicenseContext
         {
             get
             {
-                return _licenseType;
+                return null;
             }
             set
             {
-                _licenseType = value;
-                _licenseSet = _licenseType != null;
+                throw new NotImplementedException("Please use the License Property to set the license from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licensenotsetexception");
             }
         }
-        internal static bool IsLicenseSet(List<ExcelInitializationError> initErrors)
-        {
-            if (_licenseSet == true)
-            {
-                return true;
-            }
-            else
-            {
-                if (Debugger.IsAttached == false)   //This check is only performed if a debugger is attached. 
-                {
-                    _licenseSet = true;
-                    return true;
-                }
-                var v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.User, _configuration, initErrors);
-                if (string.IsNullOrEmpty(v))
-                {
-                    v = ExcelConfigurationReader.GetEnvironmentVariable("EPPlusLicenseContext", EnvironmentVariableTarget.Process, _configuration, initErrors);
-                }
-                bool inEnvironment;
-                if (string.IsNullOrEmpty(v))
-                {
-#if (Core)
-                    v = ExcelConfigurationReader.GetJsonConfigValue("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
 
-#else
-                    v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage:LicenseContext", _configuration, initErrors);
-                    if(string.IsNullOrEmpty(v))
-                    {
-                        v = ExcelConfigurationReader.GetValueFromAppSettings("EPPlus:ExcelPackage.LicenseContext", _configuration, initErrors);
-                    }
-#endif
-                    inEnvironment = false;
-                }
-                else
-                {
-                    inEnvironment = true;
-                }
-
-                if (string.IsNullOrEmpty(v))
-                {
-                    inEnvironment = false;
-                    return false;
-                }
-                else
-                {
-                    v = v.Trim();
-                    if (v.Equals("commercial", StringComparison.OrdinalIgnoreCase))
-                    {
-                        LicenseContext = OfficeOpenXml.LicenseContext.Commercial;
-                        _licenseSet = true;
-                        return _licenseSet;
-                    }
-                    else if (v.Equals("noncommercial", StringComparison.OrdinalIgnoreCase))
-                    {
-                        LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
-                        _licenseSet = true;
-                        return _licenseSet;
-                    }
-                }
-
-                if (inEnvironment)
-                    throw new LicenseException("LicenseContext is set to an invalid value in the environment variable 'EPPlusLicenseContext'. Please use Commercial or Noncommercial");
-                else
-                    throw new LicenseException("LicenseContext is set to an invalid value in the configuration file, Key: ExcelPackage.LicenseContext. Please use Commercial or Noncommercial");
-            }
-        }
+        /// <summary>
+        /// Used to set the license EPPlus uses.
+        /// <see cref="EPPlusLicense.SetCommercial(string)"/>
+        /// <see cref="EPPlusLicense.SetNonCommercialOrganization(string)"/>
+        /// <see cref="EPPlusLicense.SetNonCommercialPersonal(string)"/>
+        /// </summary>
+        public static EPPlusLicense License { get; } = new EPPlusLicense();            
         /// <summary>
         /// Returns a reference to the workbook component within the package.
         /// All worksheets and cells can be accessed through the workbook.
@@ -721,9 +660,9 @@ namespace OfficeOpenXml
                 CheckNotDisposed();
                 if (_workbook == null)
                 {
-                    if (IsLicenseSet(_initErrors) == false)
+                    if (License.IsLicenseSet(_initErrors) == false)
                     {
-                        throw (new LicenseException("Please set the ExcelPackage.LicenseContext property. See https://epplussoftware.com/developers/licenseexception"));
+                        throw (new LicenseNotSetException("Please set the license using one of the methods on the static property ExcelPackage.License. See https://epplussoftware.com/developers/licensenotsetexception for more information"));
                     }
                     var nsm = CreateDefaultNSM();
 
@@ -801,7 +740,6 @@ namespace OfficeOpenXml
             ns.AddNamespace("xfpb", Schemas.schemaFeaturePropertyBag);
             return ns;
         }
-
         #region SavePart
         /// <summary>
         /// Saves the XmlDocument into the package at the specified Uri.
@@ -898,7 +836,7 @@ namespace OfficeOpenXml
             {
                 if (_stream is MemoryStream && _stream.Length > 0)
                 {
-                    //Close any open memorystream and "renew" then. This can occure if the package is saved twice. 
+                    //Close any open memory stream and "renew" them. This can occure if the package is saved twice. 
                     //The stream is left open on save to enable the user to read the stream-property.
                     //Non-memorystream streams will leave the closing to the user before saving a second time.
                     CloseStream();

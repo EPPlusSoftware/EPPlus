@@ -517,7 +517,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     if (GetMatchingCount(uniqueItems, key, dataField.Field.PivotTable.RowFields.Count, out int[] newKey) == 1)
                     {
-                        //key = PivotTableCalculation.GetKeyWithParentLevel(key, newKey, dataField.Field.PivotTable.RowFields.Count);
                         key = newKey;
                     }
                     else
@@ -532,7 +531,6 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         if (GetMatchingCount(uniqueItems, key, RowFields.Count, out int[] newKey) == 1)
                         {
-                            //key = PivotTableCalculation.GetKeyWithParentLevel(key, newKey, dataField.Field.PivotTable.RowFields.Count);
                             key = newKey;
                         }
                         else

@@ -243,8 +243,6 @@ namespace EPPlusTest.Issues
 		[TestMethod]
 		public void s618()
 		{
-			ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.Commercial;
-
 			using (var package = OpenPackage("s618.xlsx", true))
 			{
 				var worksheet = package.Workbook.Worksheets.Add("Sheet 1");

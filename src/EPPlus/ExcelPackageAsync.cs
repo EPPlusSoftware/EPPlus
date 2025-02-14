@@ -450,7 +450,6 @@ namespace OfficeOpenXml
                 _sensibilityLabelHandler = value;
             }
         }
-
         internal async Task<byte[]> GetAsByteArrayAsync(bool save, CancellationToken cancellationToken)
         {
             CheckNotDisposed();

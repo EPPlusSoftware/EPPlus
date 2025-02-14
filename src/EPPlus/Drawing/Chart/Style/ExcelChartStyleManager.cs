@@ -156,7 +156,7 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                         if (entry.IsDirectory || !entry.FileName.EndsWith(".xml") || entry.UncompressedSize <= 0) continue;
 
                         var name = new FileInfo(entry.FileName).Name;
-                        int id;
+                        int id=0;
                         try
                         {
                             if (name.StartsWith("colors", StringComparison.InvariantCultureIgnoreCase))
@@ -177,7 +177,10 @@ namespace OfficeOpenXml.Drawing.Chart.Style
                             }
                             else
                             {
-                                throw (new InvalidDataException($"{filename} contains a the file {entry.FileName}, with an invalid filename. Please make sure files in the library are named Colors[id].xml or style[id].xml, where [id] is replaced by the id to access the style in the library"));
+                                if (name.StartsWith("defaulttheme", StringComparison.InvariantCultureIgnoreCase)==false)
+                                {
+                                    throw (new InvalidDataException($"{filename} contains a the file {entry.FileName}, with an invalid filename. Please make sure files in the library are named Colors[id].xml or style[id].xml, where [id] is replaced by the id to access the style in the library"));
+                                }
                             }
                         }
                         catch
