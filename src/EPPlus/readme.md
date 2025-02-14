@@ -60,10 +60,13 @@ using(var package = new ExcelPackage(new FileInfo("MyWorkbook.xlsx")))
 ### 4. Set the environment variable 'EPPlusLicenseContext'
 This might be the easiest way of configuring this. Just as above, set the variable EPPlusLicense.
 
-
-
 ## New features in EPPlus 8
-
+* Support for OLE objects (Linked or Embedded files).
+* Support for digital signing workbooks and signature lines.
+* In-cell pictures / support for the IMAGE function.
+* Sensitivity Label API to integrate with MIP (Microsoft Information Protection SDK).
+* Many minor features and bug fixes.
+* 
 ## Breaking Changes
 See https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-8
 

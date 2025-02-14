@@ -1,4 +1,4 @@
-# Contributing to EPPlus 5 
+# Contributing to EPPlus 8 
 
 ## Got a Question or Problem?
 If you have questions about how to use EPPlus 5 and use the community license, please direct these to Stack Overflow.
