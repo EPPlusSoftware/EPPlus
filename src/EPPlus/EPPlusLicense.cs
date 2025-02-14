@@ -123,7 +123,7 @@ namespace OfficeOpenXml
         /// If you use EPPlus within a commercial organization or for commercial purposes.
         /// This requires a license for EPPlus that can be purchased at https://epplussoftware.com
         /// </summary>
-        /// <param name="licenseKey">The licens _key you recieved with your license</param>
+        /// <param name="licenseKey">The licens key you recieved with your license</param>
         public void SetCommercial(string licenseKey)
         {
             _licenseSet = LicenseHandler.ValidateLicenseKey(licenseKey, ExtendUnderRenewal, out EPPlusLicenseInfo licenseInfo, out string msg);

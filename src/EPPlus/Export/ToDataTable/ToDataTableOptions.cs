@@ -163,9 +163,9 @@ namespace OfficeOpenXml.Export.ToDataTable
         }
 
         /// <summary>
-        /// Sets the primary _key of the data table. 
+        /// Sets the primary key of the data table. 
         /// </summary>
-        /// <param name="zeroBasedRangeIndexes">The index or indexes of one or more column in the range that builds up the primary _key of the <see cref="System.Data.DataTable"/></param>
+        /// <param name="zeroBasedRangeIndexes">The index or indexes of one or more column in the range that builds up the primary key of the <see cref="System.Data.DataTable"/></param>
         public void SetPrimaryKey(params int[] zeroBasedRangeIndexes)
         {
             _primaryKeyIndexes.Clear();

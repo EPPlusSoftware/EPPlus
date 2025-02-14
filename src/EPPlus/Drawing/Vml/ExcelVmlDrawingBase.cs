@@ -86,7 +86,7 @@ namespace OfficeOpenXml.Drawing.Vml
         /// Gets a style from the semi-colo separated list with the specific key
         /// </summary>
         /// <param name="style">The list</param>
-        /// <param name="key">The _key to search for</param>
+        /// <param name="key">The key to search for</param>
         /// <param name="value">The value to return</param>
         /// <returns>True if found</returns>
         protected bool GetStyle(string style, string key, out string value)
@@ -116,7 +116,7 @@ namespace OfficeOpenXml.Drawing.Vml
         /// Sets the style in a semicolon separated list
         /// </summary>
         /// <param name="style">The list</param>
-        /// <param name="key">The _key</param>
+        /// <param name="key">The key</param>
         /// <param name="value">The value</param>
         /// <returns>The new list</returns>
         internal protected string SetStyle(string style, string key, string value)

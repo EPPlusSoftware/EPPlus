@@ -29,7 +29,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Reads an environment variable from the o/s. If an error occors it will rethrow the <see cref="Exception"/> unless SuppressInitializationExceptions of the <paramref name="config"/> is set to true.
         /// </summary>
-        /// <param name="key">The _key of the requested variable</param>
+        /// <param name="key">The key of the requested variable</param>
         /// <param name="target">The <see cref="EnvironmentVariableTarget"/></param>
         /// <param name="config">Configuration of the package</param>
         /// <param name="initErrors">A list of logged <see cref="ExcelInitializationError"/> objects.</param>

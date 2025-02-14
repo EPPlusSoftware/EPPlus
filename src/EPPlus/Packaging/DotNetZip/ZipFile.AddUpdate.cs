@@ -1461,7 +1461,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         /// This example uses a named delegate in VB to write data for the given
         /// ZipEntry (VB9 does not have anonymous delegates). The example here is a bit
         /// contrived - a simpler way to add the contents of a file to a ZipEntry is to
-        /// simply use the appropriate <c>AddFile()</c> method.  The _key scenario for
+        /// simply use the appropriate <c>AddFile()</c> method.  The key scenario for
         /// which the <c>WriteDelegate</c> makes sense is saving a DataSet, in XML
         /// format, to the zip file. The DataSet can write XML to a stream, and the
         /// WriteDelegate is the perfect place to write into the zip file.  There may be
@@ -1628,7 +1628,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             ze.Encryption = this.Encryption;
             ze.EmitTimesInWindowsFormatWhenSaving = this._emitNtfsTimes;
             ze.EmitTimesInUnixFormatWhenSaving = this._emitUnixTimes;
-            //string _key = DictionaryKeyForEntry(ze);
+            //string key = DictionaryKeyForEntry(ze);
             InternalAddEntry(ze.FileName,ze);
             AfterAddEntry(ze);
             return ze;
@@ -2059,7 +2059,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             dir.EmitTimesInWindowsFormatWhenSaving = _emitNtfsTimes;
             dir.EmitTimesInUnixFormatWhenSaving = _emitUnixTimes;
             dir._Source = ZipEntrySource.Stream;
-            //string _key = DictionaryKeyForEntry(dir);
+            //string key = DictionaryKeyForEntry(dir);
             InternalAddEntry(dir.FileName,dir);
             AfterAddEntry(dir);
             return dir;

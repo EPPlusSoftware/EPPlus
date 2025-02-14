@@ -87,7 +87,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// <summary>
         /// Returns an enumeration of all implemented functions, including the implementing <see cref="ExcelFunction"/> instance.
         /// </summary>
-        /// <returns>An enumeration of <see cref="KeyValuePair{String,ExcelFunction}"/>, where the _key is the function name</returns>
+        /// <returns>An enumeration of <see cref="KeyValuePair{String,ExcelFunction}"/>, where the key is the function name</returns>
         public IEnumerable<KeyValuePair<string, ExcelFunction>> GetImplementedFunctions()
         {
             var functions = new List<KeyValuePair<string, ExcelFunction>>();
