@@ -33,6 +33,7 @@ using OfficeOpenXml.Style;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading;
 
 namespace EPPlusTest.Style
@@ -57,7 +58,6 @@ namespace EPPlusTest.Style
             {
                 File.Copy(fileName, dirName + "\\StyleRead.xlsx", true);
             }
-
         }
         [TestMethod]
         public void VerifyColumnStyle()
@@ -545,9 +545,38 @@ namespace EPPlusTest.Style
             tbl.Columns[1].DataStyle.Checkbox = true;
         }
 
-        [TestMethod, Ignore]
+        void CreateStyleReadIfItDoesNotExist()
+        {
+            var dirName = _pck.File.DirectoryName;
+            var fileName = _pck.File.FullName;
+            if (File.Exists(dirName + "\\StyleRead.xlsx") == false)
+            {
+                using (var p2 = OpenPackage("StyleRead.xlsx"))
+                {
+                    var ws = p2.Workbook.Worksheets.Add("Checkboxes");
+                    ws.Cells["A1"].Value = true;
+                    ws.Cells["A2"].Value = false;
+                    ws.Cells["A3"].Value = "true";
+                    ws.Cells["A4"].Value = "false";
+                    ws.Cells["A5"].Value = 1D;
+                    ws.Cells["A6"].Value = 0D;
+                    ws.Cells["A7"].Value = 1;
+                    ws.Cells["A8"].Value = 0;
+                    ws.Cells["A9"].Value = -1;
+                    ws.Cells["A1:A11"].Style.Checkbox = true;
+                    ws.Cells["A1:A11"].Style.Font.Color.SetColor(Color.Red);
+                    ws.Cells["A11"].Style.Checkbox = false;
+
+                    SaveAndCleanup(p2);
+                }
+            }
+        }
+
+        [TestMethod]
         public void ReadCheckboxStyleTest()
         {
+            CreateStyleReadIfItDoesNotExist();
+
             using (var p = OpenPackage("StyleRead.xlsx"))
             {
                 var ws = p.Workbook.Worksheets["Checkboxes"];
@@ -560,16 +589,19 @@ namespace EPPlusTest.Style
             }
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void ReadExportCheckboxesToHtml()
         {
+            CreateStyleReadIfItDoesNotExist();
+
             using (var p = OpenPackage("StyleRead.xlsx"))
             {
                 var ws = p.Workbook.Worksheets["Checkboxes"];
                 var exporter = ws.Cells["A1:A10"].CreateHtmlExporter();
                 var singlePage = exporter.GetSinglePage();
 
-                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:Aptos Narrow;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;pointer-events:none;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
+                var fontName = ws.Cells["A1"].Style.Font.Name;
+                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:"+ fontName + ";font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;pointer-events:none;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
                 Assert.AreEqual(origString, singlePage);
 
                 var outputFile = GetOutputFile("", "CheckboxesColoured.html");
@@ -577,9 +609,11 @@ namespace EPPlusTest.Style
             }
         }
 
-        [TestMethod,Ignore]
+        [TestMethod]
         public void ReadExportCheckboxesToHtmlActivated()
         {
+            CreateStyleReadIfItDoesNotExist();
+
             using (var p = OpenPackage("StyleRead.xlsx"))
             {
                 p.Workbook.DefaultThemeVersion = 166925;
@@ -590,7 +624,8 @@ namespace EPPlusTest.Style
 
                 var singlePage = exporter.GetSinglePage();
 
-                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:Aptos Narrow;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
+                var fontName = ws.Cells["A1"].Style.Font.Name;
+                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:" + fontName + ";font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
                 Assert.AreEqual(origString, singlePage);
 
                 var outputFile = GetOutputFile("", "CheckboxesColouredActive.html");
