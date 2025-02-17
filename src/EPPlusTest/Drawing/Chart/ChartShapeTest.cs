@@ -213,6 +213,25 @@ namespace EPPlusTest.Drawing.Chart
         [TestMethod]
         public void GroupShapesMixed()
         {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            CreateChartData(ws);
+            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            chart.SetPosition(0, 0, 5, 0);
+            AddDataToChart(ws, chart);
+
+            var arrow = chart.AddShape("Arrow", eShapeStyle.UpArrow);
+            var equal = chart.AddShape("Equal", eShapeStyle.MathEqual);
+
+            var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+            var pic1 = chart.AddPicture("Pic 1", pic);
+            pic1.SetPosition(10, 10);
+            var pic2 = chart.AddPicture("Pic 2", pic);
+            pic1.SetPosition(20, 20);
+            Assert.IsTrue(chart.Drawings.Count == 4);
+            var group1 = arrow.Group(pic1);
+            var group2 = group1.Group(pic2, equal);
+            Assert.IsTrue(chart.Drawings.Count == 1);
         }
 
         [TestMethod]
@@ -238,14 +257,54 @@ namespace EPPlusTest.Drawing.Chart
         [TestMethod]
         public void DeleteShape()
         {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            CreateChartData(ws);
+            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            chart.SetPosition(0, 0, 5, 0);
+            AddDataToChart(ws, chart);
+            var cshape = chart.AddShape("Shape 2", eShapeStyle.DownArrow);
+            Assert.IsTrue(chart.Drawings.Count == 1);
+            chart.Drawings.Remove(cshape);
+            Assert.IsTrue(chart.Drawings.Count == 0);
         }
         [TestMethod]
         public void DeletePicture()
         {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            CreateChartData(ws);
+            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            chart.SetPosition(0, 0, 5, 0);
+            AddDataToChart(ws, chart);
+            var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+            var cpic = chart.AddPicture("Picture 2", pic);
+            Assert.IsTrue(chart.Drawings.Count == 1);
+            chart.Drawings.Remove(cpic);
+            Assert.IsTrue(chart.Drawings.Count == 0);
         }
         [TestMethod]
         public void DeleteGroupShape()
         {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            CreateChartData(ws);
+            var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
+            chart.SetPosition(0, 0, 5, 0);
+            AddDataToChart(ws, chart);
+
+            var arrow = chart.AddShape("Arrow", eShapeStyle.UpArrow);
+            var equal = chart.AddShape("Equal", eShapeStyle.MathEqual);
+            var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+            var pic1 = chart.AddPicture("Pic 1", pic);
+            pic1.SetPosition(10, 10);
+            var pic2 = chart.AddPicture("Pic 2", pic);
+            pic1.SetPosition(20, 20);
+            var group1 = arrow.Group(pic1);
+            var group2 = group1.Group(pic2, equal);
+            Assert.IsTrue(chart.Drawings.Count == 1);
+            chart.Drawings.Remove(group2);
+            Assert.IsTrue(chart.Drawings.Count == 0);
         }
     }
 
