@@ -1967,7 +1967,6 @@ namespace OfficeOpenXml.Drawing
 
                 StreamWriter streamChart = new StreamWriter(_part.GetStream(FileMode.Create, FileAccess.Write));
                 DrawingXml.Save(streamChart);
-                streamChart.Close();
                 package.Flush();
 
                 _drawingRelation = Worksheet.Part.CreateRelationship(UriHelper.GetRelativeUri(Worksheet.WorksheetUri, _uriDrawing), Packaging.TargetMode.Internal, ExcelPackage.schemaRelationships + "/drawing");

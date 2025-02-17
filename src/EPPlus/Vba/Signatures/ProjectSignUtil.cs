@@ -29,7 +29,7 @@ namespace OfficeOpenXml.VBA.Signatures
             var certificate = signature.Certificate;
             if (!certificate.HasPrivateKey)
             {
-                //throw (new InvalidOperationException("The certificate doesn't have a private key"));
+                //throw (new InvalidOperationException("The certificate doesn't have a private ekey"));
                 signature.Certificate = null;
                 return null;
             }

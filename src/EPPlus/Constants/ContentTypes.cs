@@ -55,6 +55,9 @@ namespace OfficeOpenXml.Constants
         internal const string contentTypeRichDataArray = "application/vnd.ms-excel.rdarray+xml";
         internal const string contentTypeRichDataWebImage = "application/vnd.ms-excel.rdrichvaluewebimage+xml";
 
+        //Sensitivity Labels
+        internal const string contentTypeClassificationLabels = "application/vnd.ms-office.classificationlabels+xml";
+
         //Ole Object
         internal const string contentTypeOleObject = "application/vnd.openxmlformats-officedocument.oleObject";
 

@@ -14,16 +14,16 @@ items:
   type: Class
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/ErrorValues/ExcelRichDataErrorValue.cs
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRichDataErrorValue
-    path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 79
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/ExcelRichDataErrorValue.cs
+    startLine: 17
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nRepresents Excel Errors \n\n"
+  summary: "\nRepresents spill errors \n"
   example: []
   syntax:
     content: 'public class ExcelRichDataErrorValue : ExcelErrorValue'
@@ -39,9 +39,9 @@ items:
   - OfficeOpenXml.ExcelErrorValue.Parse(System.String)
   - OfficeOpenXml.ExcelErrorValue.Type
   - OfficeOpenXml.ExcelErrorValue.ToString
-  - OfficeOpenXml.ExcelErrorValue.GetHashCode
   - OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
@@ -185,34 +185,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
-  commentId: M:OfficeOpenXml.ExcelErrorValue.GetHashCode
-  parent: OfficeOpenXml.ExcelErrorValue
-  name: GetHashCode()
-  nameWithType: ExcelErrorValue.GetHashCode()
-  fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode()
-  spec.csharp:
-  - uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
-    name: GetHashCode
-    nameWithType: ExcelErrorValue.GetHashCode
-    fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
-    name: GetHashCode
-    nameWithType: ExcelErrorValue.GetHashCode
-    fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
   commentId: M:OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
   parent: OfficeOpenXml.ExcelErrorValue
@@ -306,6 +278,37 @@ references:
     nameWithType: Object
     fullName: System.Object
     isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )

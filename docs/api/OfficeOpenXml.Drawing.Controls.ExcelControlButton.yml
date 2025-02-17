@@ -22,11 +22,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelControlButton
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-    startLine: 21
+    startLine: 20
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -120,11 +120,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ControlType
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-    startLine: 38
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -160,11 +160,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Margin
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-    startLine: 43
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -197,11 +197,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LayoutFlow
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-    startLine: 57
+    startLine: 56
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -234,11 +234,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Orientation
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-    startLine: 65
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -271,11 +271,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReadingOrder
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-    startLine: 73
+    startLine: 72
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -308,11 +308,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutomaticSize
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-    startLine: 81
+    startLine: 80
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls
@@ -345,11 +345,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextAlignment
     path: ../src/EPPlus/Drawing/Controls/ExcelControlButton.cs
-    startLine: 104
+    startLine: 103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Controls

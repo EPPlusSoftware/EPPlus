@@ -649,6 +649,25 @@ namespace OfficeOpenXml.Table
                 return _cols;
             }
         }
+
+        internal ExcelTableRowCollection _rows = null;
+        /// <summary>
+        /// Collection of the tables's data rows (header- and total row not included). This property can be used for easier access to the tables data.
+        /// <seealso cref="ExcelTableRowCollection"/>
+        /// <seealso cref="ExcelTableRow"/>
+        /// </summary>
+        public ExcelTableRowCollection DataRows
+        {
+            get
+            {
+                if(_rows == null)
+                {
+                    _rows = new ExcelTableRowCollection(this);
+                }
+                return _rows;
+            }
+        }
+
         TableStyles _tableStyle = TableStyles.Medium6;
         /// <summary>
         /// The table style. If this property is custom, the style from the StyleName propery is used.
@@ -1131,8 +1150,8 @@ namespace OfficeOpenXml.Table
                 throw new ArgumentException("position", "rows can't be negative");
             }
             var firstRow = _address._fromRow;
-            var isFirstRow = position == 0;
             var subtract = ShowTotal ? 2 : 1;
+            subtract -= ShowHeader ? 0 : 1;
             if (position>=ExcelPackage.MaxRows || position > _address._fromRow + position + rows - subtract)
             {
                 position = _address.Rows - subtract;
@@ -1141,7 +1160,8 @@ namespace OfficeOpenXml.Table
             {
                 throw new InvalidOperationException("Insert will exceed the maximum number of rows in the worksheet");
             }
-            if(ShowHeader) position++;
+            var isFirstRow = position == 0;
+            if (ShowHeader) position++;
             var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
             var range = new ExcelRangeBase(WorkSheet, address);
 
@@ -1240,6 +1260,7 @@ namespace OfficeOpenXml.Table
             var address = ExcelCellBase.GetAddress(_address._fromRow + position, _address._fromCol, _address._fromRow + position + rows - 1, _address._toCol);
             var range = new ExcelRangeBase(WorkSheet, address);
             range.Delete(eShiftTypeDelete.Up);
+
             return range;
         }
         /// <summary>

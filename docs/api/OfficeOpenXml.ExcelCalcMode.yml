@@ -18,11 +18,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCalcMode
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 47
+    startLine: 51
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -51,11 +51,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Automatic
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 54
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -85,11 +85,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutomaticNoTable
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 58
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -119,11 +119,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Manual
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 62
+    startLine: 66
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

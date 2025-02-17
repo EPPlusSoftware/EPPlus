@@ -145,13 +145,16 @@ Renaming worksheet's will now change the formula correctly to include single quo
 
 ### Breaking changes from EPPlus 7.6.0
 * Altering the worksheets collection when iterating it using IEnumerable, now throws an InvalidOperationException.
+
 ### Breaking changes from EPPlus 8.0
 * Set ExcelPackageSettings.ApplyFiltersOnSave default value to false.
 * RichText now returns font name, size and font family from cell style if not set.
 * Fixed spelling error in ExcelDrawingGradientFillLinearSettings. `public double Angel` is now `public double Angle`
-* Removed reference to EPPlus.System.Drawing for primary image and text handlers. The generic handler is now used for all target frameworks.
+* Removed reference to EPPlus.System.Drawing for primary image and text handlers. The generic handler is now used for all target frameworks. 
+  The 'SystemDrawingTextMeasurer. can still be used referencing the EPPlus.System.Drawing nuget package and set the 'PrimaryTextMeasurer' or the 'PrimaryImageHandler'.
+* Switched default theme to the newest Excel theme (202300)
   You can still use these handlers by referencing the EPPlus.System.Drawing handlers nuget package and use the 'SystemDrawingTextMeasurer' or 'SystemDrawingImageHandler' classes as primary handler.
   Also see https://github.com/EPPlusSoftware/EPPlus/wiki/Autofit-columns
 #### Removed Methods & Properties
-* ExcelVbaReferenceControl.LibIdExternal, please use LibIdExtended instead.
-
+* Obsolete property ExcelVbaReferenceControl.LibIdExternal, please use LibIdExtended instead.
+* Obsolete property ExcelDataValidation.IsStale has been removed.

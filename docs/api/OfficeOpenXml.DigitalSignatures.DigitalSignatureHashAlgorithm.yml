@@ -1,0 +1,188 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  commentId: T:OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  id: DigitalSignatureHashAlgorithm
+  parent: OfficeOpenXml.DigitalSignatures
+  children:
+  - OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA1
+  - OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA256
+  - OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA384
+  - OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA512
+  langs:
+  - csharp
+  - vb
+  name: DigitalSignatureHashAlgorithm
+  nameWithType: DigitalSignatureHashAlgorithm
+  fullName: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DigitalSignatureHashAlgorithm
+    path: ../src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
+    startLine: 7
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nHash algorithm used for digital signatures.\n"
+  example: []
+  syntax:
+    content: public enum DigitalSignatureHashAlgorithm
+    content.vb: Public Enum DigitalSignatureHashAlgorithm
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA1
+  commentId: F:OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA1
+  id: SHA1
+  parent: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: SHA1
+  nameWithType: DigitalSignatureHashAlgorithm.SHA1
+  fullName: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA1
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SHA1
+    path: ../src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
+    startLine: 12
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nSpecifies that the SHA-1 algorithm, as defined by ISO/IEC 10118-3:2004 shall be used.\n"
+  example: []
+  syntax:
+    content: SHA1 = 1
+    return:
+      type: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA256
+  commentId: F:OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA256
+  id: SHA256
+  parent: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: SHA256
+  nameWithType: DigitalSignatureHashAlgorithm.SHA256
+  fullName: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA256
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SHA256
+    path: ../src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
+    startLine: 16
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nSpecifies that the SHA-256 algorithm, as defined by ISO/IEC10118-3:2004 shall be used.\n"
+  example: []
+  syntax:
+    content: SHA256 = 2
+    return:
+      type: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA384
+  commentId: F:OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA384
+  id: SHA384
+  parent: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: SHA384
+  nameWithType: DigitalSignatureHashAlgorithm.SHA384
+  fullName: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA384
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SHA384
+    path: ../src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
+    startLine: 20
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nSpecifies that the SHA-384 algorithm, as defined by ISO/IEC 10118-3:2004 shall be used.\n"
+  example: []
+  syntax:
+    content: SHA384 = 3
+    return:
+      type: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA512
+  commentId: F:OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA512
+  id: SHA512
+  parent: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  langs:
+  - csharp
+  - vb
+  name: SHA512
+  nameWithType: DigitalSignatureHashAlgorithm.SHA512
+  fullName: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm.SHA512
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SHA512
+    path: ../src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
+    startLine: 24
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nSpecifies that the SHA-512 algorithm, as defined by ISO/IEC10118-3:2004 shall be used.\n"
+  example: []
+  syntax:
+    content: SHA512 = 4
+    return:
+      type: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml.DigitalSignatures
+  commentId: N:OfficeOpenXml.DigitalSignatures
+  name: OfficeOpenXml.DigitalSignatures
+  nameWithType: OfficeOpenXml.DigitalSignatures
+  fullName: OfficeOpenXml.DigitalSignatures
+- uid: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  commentId: T:OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+  parent: OfficeOpenXml.DigitalSignatures
+  name: DigitalSignatureHashAlgorithm
+  nameWithType: DigitalSignatureHashAlgorithm
+  fullName: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm

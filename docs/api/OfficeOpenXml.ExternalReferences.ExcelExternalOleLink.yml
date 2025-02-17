@@ -18,11 +18,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalOleLink
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -67,11 +67,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalLinkType
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-    startLine: 77
+    startLine: 94
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -107,11 +107,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OleItems
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-    startLine: 92
+    startLine: 109
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -144,11 +144,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ProgId
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-    startLine: 99
+    startLine: 116
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences

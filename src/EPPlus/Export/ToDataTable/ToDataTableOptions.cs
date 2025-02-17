@@ -150,6 +150,7 @@ namespace OfficeOpenXml.Export.ToDataTable
         /// </summary>
         public bool AllowDuplicateColumnNames { get; set; }
 
+
         /// <summary>
         /// Sets the primary key of the data table. 
         /// </summary>

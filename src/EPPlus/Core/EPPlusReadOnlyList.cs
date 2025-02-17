@@ -78,6 +78,5 @@ namespace OfficeOpenXml.Core
         {
             _list.Add(item);
         }
-
     }
 }

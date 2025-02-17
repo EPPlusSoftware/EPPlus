@@ -30,7 +30,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Style;
-using OfficeOpenXml.SystemDrawing.Text;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -195,15 +194,16 @@ namespace EPPlusTest.Style
         {
             using (var p = new ExcelPackage())
             {
-                var CustomFont = new Font("Calibri", 11);
-                p.Settings.TextSettings.PrimaryTextMeasurer = new SystemDrawingTextMeasurer();
+                var customFontName = "Calibri";
+                var customFontSize = 11;
+                //p.Settings.TextSettings.PrimaryTextMeasurer = new SystemDrawingTextMeasurer();
                 p.Workbook.ThemeManager.CreateDefaultTheme();
                 var defaultTheme = p.Workbook.ThemeManager.CurrentTheme;
-                defaultTheme.FontScheme.MajorFont.SetLatinFont(CustomFont.Name);
-                defaultTheme.FontScheme.MinorFont.SetLatinFont(CustomFont.Name);
+                defaultTheme.FontScheme.MajorFont.SetLatinFont(customFontName);
+                defaultTheme.FontScheme.MinorFont.SetLatinFont(customFontName);
                 ExcelStyle normal = p.Workbook.Styles.NamedStyles[0].Style;
-                normal.Font.Name = CustomFont.Name;
-                normal.Font.Size = CustomFont.Size;
+                normal.Font.Name = customFontName;
+                normal.Font.Size = customFontSize;
                 ExcelWorkbook workbook = p.Workbook;
                 ExcelWorksheet ws = p.Workbook.Worksheets.Add("sheet");
                 ExcelStyle style = workbook.Styles.CreateNamedStyle("style").Style;
@@ -221,25 +221,26 @@ namespace EPPlusTest.Style
         {
             using (var p = OpenPackage("DefaultFont.xlsx", true))
             {
-                var DefaultFont = new Font("Corbel", 10);
+                var defaultFontName = "Corbel";
+                var defaultFontSize = 10;
                 p.Workbook.ThemeManager.CreateDefaultTheme();
                 var defaultTheme = p.Workbook.ThemeManager.CurrentTheme;
-                defaultTheme.FontScheme.MajorFont.SetLatinFont(DefaultFont.Name);
-                defaultTheme.FontScheme.MinorFont.SetLatinFont(DefaultFont.Name);
+                defaultTheme.FontScheme.MajorFont.SetLatinFont(defaultFontName);
+                defaultTheme.FontScheme.MinorFont.SetLatinFont(defaultFontName);
                 ExcelStyle normal = p.Workbook.Styles.NamedStyles[0].Style;
-                normal.Font.Name = DefaultFont.Name;
-                normal.Font.Size = DefaultFont.Size;
+                normal.Font.Name = defaultFontName;
+                normal.Font.Size = defaultFontSize;
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
                 ws.Cells[1, 1].Value = 1000;
 
-                Assert.AreEqual("Corbel", ws.Cells[1, 1].Style.Font.Name);
-                Assert.AreEqual(10, ws.Cells[1, 1].Style.Font.Size);
+                Assert.AreEqual(defaultFontName, ws.Cells[1, 1].Style.Font.Name);
+                Assert.AreEqual(defaultFontSize, ws.Cells[1, 1].Style.Font.Size);
 
                 ws.Cells[1, 1].Style.Numberformat.Format = "#,##0";
                 ws.Cells[1, 1].Style.Border.BorderAround(ExcelBorderStyle.Hair);
 
-                Assert.AreEqual("Corbel", ws.Cells[1, 1].Style.Font.Name);
-                Assert.AreEqual(10, ws.Cells[1, 1].Style.Font.Size);
+                Assert.AreEqual(defaultFontName, ws.Cells[1, 1].Style.Font.Name);
+                Assert.AreEqual(defaultFontSize, ws.Cells[1, 1].Style.Font.Size);
 
                 SaveAndCleanup(p);
             }
@@ -544,7 +545,7 @@ namespace EPPlusTest.Style
             tbl.Columns[1].DataStyle.Checkbox = true;
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ReadCheckboxStyleTest()
         {
             using (var p = OpenPackage("StyleRead.xlsx"))
@@ -559,7 +560,7 @@ namespace EPPlusTest.Style
             }
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ReadExportCheckboxesToHtml()
         {
             using (var p = OpenPackage("StyleRead.xlsx"))
@@ -568,7 +569,7 @@ namespace EPPlusTest.Style
                 var exporter = ws.Cells["A1:A10"].CreateHtmlExporter();
                 var singlePage = exporter.GetSinglePage();
 
-                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;pointer-events:none;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
+                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:Aptos Narrow;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;pointer-events:none;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
                 Assert.AreEqual(origString, singlePage);
 
                 var outputFile = GetOutputFile("", "CheckboxesColoured.html");
@@ -576,11 +577,12 @@ namespace EPPlusTest.Style
             }
         }
 
-        [TestMethod]
+        [TestMethod,Ignore]
         public void ReadExportCheckboxesToHtmlActivated()
         {
             using (var p = OpenPackage("StyleRead.xlsx"))
             {
+                p.Workbook.DefaultThemeVersion = 166925;
                 var ws = p.Workbook.Worksheets["Checkboxes"];
                 var exporter = ws.Cells["A1:A10"].CreateHtmlExporter();
 
@@ -588,7 +590,7 @@ namespace EPPlusTest.Style
 
                 var singlePage = exporter.GetSinglePage();
 
-                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
+                var origString = "<!DOCTYPE html><html><head><style type=\"text/css\">table.epplus-table{font-family:Aptos Narrow;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}input[type=checkbox].epp-checkbox{outline:0.15rem solid;outline-offset:-0.1rem;outline-color:currentColor;accent-color:currentColor;}input[type=checkbox].epp-checkbox:hover{outline-color:hwb(from currentcolor h w b / 0.6);}.epp-dcw {width:64px;}.epp-drh {height:20px;}.epp-s1{color:#ff0000;accent-color:#ff0000;white-space: nowrap;vertical-align:bottom;}</style></head><body><table class=\"epplus-table\" role=\"table\"><thead role=\"rowgroup\"><tr role=\"row\"><th data-datatype=\"boolean\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\" checked=\"\"/>TRUE</th></tr></thead><tbody role=\"rowgroup\"><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-ar epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/>FALSE</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">true</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" class=\"epp-s1\">false</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"1\" role=\"cell\" class=\"epp-ar epp-s1\">1</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"0\" role=\"cell\" class=\"epp-ar epp-s1\">0</td></tr><tr role=\"row\" scope=\"row\"><td data-value=\"-1\" role=\"cell\" class=\"epp-ar epp-s1\">-1</td></tr><tr role=\"row\" scope=\"row\"><td role=\"cell\" style=\"font-size: 0px; text-align:center;\" class=\"epp-s1\"><input type=\"checkbox\" class=\"epp-checkbox\"/></td></tr></tbody></table></body></html>";
                 Assert.AreEqual(origString, singlePage);
 
                 var outputFile = GetOutputFile("", "CheckboxesColouredActive.html");

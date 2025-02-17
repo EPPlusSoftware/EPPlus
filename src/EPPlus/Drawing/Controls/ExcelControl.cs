@@ -155,7 +155,7 @@ namespace OfficeOpenXml.Drawing.Controls
         {
             if (ControlType == eControlType.Button)
             {
-                return "Calibri";
+                return _drawings.Worksheet.Workbook.DefaultFontName;
             }
             else
             {

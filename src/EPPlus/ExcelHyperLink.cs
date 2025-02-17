@@ -54,7 +54,7 @@ namespace OfficeOpenXml
             OriginalUri = this;
         }
         /// <summary>
-        /// Sheet internal reference
+        /// Sheet internal reference.
         /// </summary>
         /// <param name="referenceAddress">The address or defined name</param>
         /// <param name="display">Displayed text</param>

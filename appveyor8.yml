@@ -1,0 +1,26 @@
+version: 8.0.0.{build}
+branches:
+  only:
+  - develop8
+configuration: release
+image: Visual Studio 2022
+init:
+- ps: >-
+    Update-AppveyorBuild -Version "8.0.0.$env:appveyor_build_number-$(Get-Date -format yyyyMMdd)-$env:appveyor_repo_branch"
+
+    Write-Host "8.0.0.$env:appveyor_build_number-$(Get-Date -format yyyyMMdd)-$env:appveyor_repo_branch"
+dotnet_csproj:
+  patch: true
+  file: '**\*.csproj'
+  version: '{version}'
+  assembly_version: 8.0.0.{build}
+  file_version: 8.0.0.{build}
+nuget:
+  project_feed: true
+before_build:
+- cmd: dotnet restore ./src/EPPlus.sln
+build:
+  verbosity: minimal
+artifacts:
+- path: '**\*.nupkg'
+  name: EPPlus Nuget Package

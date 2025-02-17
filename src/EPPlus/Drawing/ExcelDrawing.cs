@@ -388,6 +388,10 @@ namespace OfficeOpenXml.Drawing
                     {
                         return ((ExcelControl)this).GetCellAnchorFromWorksheetXml();
                     }
+                    if (_parent != null && DrawingType == eDrawingType.OleObject)
+                    {
+                        return ((ExcelOleObject)this).GetCellAnchorFromWorksheetXml();
+                    }
                     if (CellAnchor == eEditAs.TwoCell)
                     {
                         string s = GetXmlNodeString("@editAs");
@@ -417,6 +421,10 @@ namespace OfficeOpenXml.Drawing
                     if (DrawingType == eDrawingType.Control)
                     {
                         ((ExcelControl)this).SetCellAnchor(value);
+                    }
+                    else if(DrawingType==eDrawingType.OleObject)
+                    {
+                        ((ExcelOleObject)this).SetCellAnchor(value);
                     }
                     else
                     {
@@ -1094,6 +1102,12 @@ namespace OfficeOpenXml.Drawing
             SetPixelWidth(_width);
             SetPixelHeight(_height);
             _doNotAdjust = false;
+
+            if(this is ExcelOleObject ole)
+            {
+                ole.UpdateXml();
+            }
+
         }
 
 
@@ -1235,6 +1249,10 @@ namespace OfficeOpenXml.Drawing
             if (DrawingType == eDrawingType.Control)
             {
                 throw new InvalidOperationException("Controls can't change CellAnchor. Must be TwoCell anchor. Please use EditAs property instead.");
+            }
+            else if (DrawingType == eDrawingType.OleObject)
+            {
+                throw new InvalidOperationException("Ole Objects can't change CellAnchor. Must be TwoCell anchor. Please use EditAs property instead.");
             }
 
             GetPositionSize();
@@ -1637,7 +1655,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="col">The left column where the drawing will be placed.</param>
         /// <param name="rowOffset">Row offset in pixels from the row start positions. int.MinValue </param>
         /// <param name="colOffset">Column offset in pixels fromp the column start position</param>
-        public void Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = int.MinValue, int colOffset = int.MinValue)
+        public ExcelDrawing Copy(ExcelWorksheet worksheet, int row, int col, int rowOffset = int.MinValue, int colOffset = int.MinValue)
         {
             XmlNode drawNode = null;
             if (From == null)
@@ -1689,7 +1707,7 @@ namespace OfficeOpenXml.Drawing
                     break;
                 case eDrawingType.OleObject:
                     drawNode = CopyOleObject(worksheet, row, col, rowOffset, colOffset);
-                    return;
+                    return GetDrawing(worksheet._drawings, drawNode); 
             }
             //Set position of the drawing copy.
             var copy = GetDrawing(worksheet._drawings, drawNode);
@@ -1700,6 +1718,7 @@ namespace OfficeOpenXml.Drawing
             copy.SetPixelWidth(width);
             copy.SetPixelHeight(height);
             copy.GetPositionSize();
+            return copy;
         }
 
         private XmlNode CopyGroupShape(ExcelChart targetChart)
@@ -2040,6 +2059,8 @@ namespace OfficeOpenXml.Drawing
                 toColOff.InnerText = copy.To.ColumnOff.ToString();
                 toRow.InnerText = copy.To.Row.ToString();
                 toRowOff.InnerText = copy.To.RowOff.ToString();
+                copy.From.UpdateXml();
+                copy.To.UpdateXml();
             }
             var oleInternal = new OleObjectInternal(worksheet.NameSpaceManager, newNode.FirstChild.FirstChild);
             int shapeIdKey = int.Parse(shapeId);

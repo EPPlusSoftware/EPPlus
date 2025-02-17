@@ -229,6 +229,15 @@
     name: EpplusTableColumnAttributeBase
   - uid: OfficeOpenXml.Attributes.EPPlusTableColumnSortOrderAttribute
     name: EPPlusTableColumnSortOrderAttribute
+- uid: OfficeOpenXml.CellPictures
+  name: OfficeOpenXml.CellPictures
+  items:
+  - uid: OfficeOpenXml.CellPictures.ExcelCellPicture
+    name: ExcelCellPicture
+  - uid: OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+    name: ExcelCellPictureTypes
+  - uid: OfficeOpenXml.CellPictures.ExcelRangePicture
+    name: ExcelRangePicture
 - uid: OfficeOpenXml.Compatibility
   name: OfficeOpenXml.Compatibility
   items:
@@ -485,6 +494,25 @@
   - uid: OfficeOpenXml.DataValidation.Formulas.Contracts.IExcelDataValidationFormulaWithValue`1
     name: IExcelDataValidationFormulaWithValue<T>
     name.vb: IExcelDataValidationFormulaWithValue(Of T)
+- uid: OfficeOpenXml.DigitalSignatures
+  name: OfficeOpenXml.DigitalSignatures
+  items:
+  - uid: OfficeOpenXml.DigitalSignatures.AdditionalSignatureInfo
+    name: AdditionalSignatureInfo
+  - uid: OfficeOpenXml.DigitalSignatures.CommitmentType
+    name: CommitmentType
+  - uid: OfficeOpenXml.DigitalSignatures.DigitalSignatureHashAlgorithm
+    name: DigitalSignatureHashAlgorithm
+  - uid: OfficeOpenXml.DigitalSignatures.DigitalSignatureType
+    name: DigitalSignatureType
+  - uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+    name: ExcelDigitalSignature
+  - uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+    name: ExcelDigitalSignatureCollection
+  - uid: OfficeOpenXml.DigitalSignatures.SignatureProperty
+    name: SignatureProperty
+  - uid: OfficeOpenXml.DigitalSignatures.SignatureTime
+    name: SignatureTime
 - uid: OfficeOpenXml.Drawing
   name: OfficeOpenXml.Drawing
   items:
@@ -556,6 +584,8 @@
     name: eShapeConnectorStyle
   - uid: OfficeOpenXml.Drawing.eShapeStyle
     name: eShapeStyle
+  - uid: OfficeOpenXml.Drawing.eSignatureLineType
+    name: eSignatureLineType
   - uid: OfficeOpenXml.Drawing.eStyleEntryModifier
     name: eStyleEntryModifier
   - uid: OfficeOpenXml.Drawing.eSystemColor
@@ -618,6 +648,8 @@
     name: ExcelImage
   - uid: OfficeOpenXml.Drawing.ExcelImageInfo
     name: ExcelImageInfo
+  - uid: OfficeOpenXml.Drawing.ExcelOleObjectAsType
+    name: ExcelOleObjectAsType
   - uid: OfficeOpenXml.Drawing.ExcelPicture
     name: ExcelPicture
   - uid: OfficeOpenXml.Drawing.ExcelPosition
@@ -626,6 +658,10 @@
     name: ExcelShape
   - uid: OfficeOpenXml.Drawing.ExcelShapeBase
     name: ExcelShapeBase
+  - uid: OfficeOpenXml.Drawing.ExcelSignatureLine
+    name: ExcelSignatureLine
+  - uid: OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+    name: ExcelSignatureLineStamp
   - uid: OfficeOpenXml.Drawing.ExcelSlicerAsType
     name: ExcelSlicerAsType
   - uid: OfficeOpenXml.Drawing.ExcelTextBody
@@ -636,6 +672,10 @@
     name: ExcelView3D
   - uid: OfficeOpenXml.Drawing.GenericImageHandler
     name: GenericImageHandler
+  - uid: OfficeOpenXml.Drawing.PictureLocation
+    name: PictureLocation
+  - uid: OfficeOpenXml.Drawing.SignatureLineCollection
+    name: SignatureLineCollection
 - uid: OfficeOpenXml.Drawing.Chart
   name: OfficeOpenXml.Drawing.Chart
   items:
@@ -1016,6 +1056,13 @@
     name: IDrawingDataLabel
   - uid: OfficeOpenXml.Drawing.Interfaces.IDrawingSerieDataLabel
     name: IDrawingSerieDataLabel
+- uid: OfficeOpenXml.Drawing.OleObject
+  name: OfficeOpenXml.Drawing.OleObject
+  items:
+  - uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+    name: ExcelOleObject
+  - uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters
+    name: ExcelOleObjectParameters
 - uid: OfficeOpenXml.Drawing.Slicer
   name: OfficeOpenXml.Drawing.Slicer
   items:
@@ -1208,6 +1255,8 @@
     name: eVmlFillType
   - uid: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
     name: eVmlGradientMethod
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase
+    name: ExcelPositionBase
   - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
     name: ExcelVmlDrawingBase
   - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBaseCollection
@@ -1232,6 +1281,8 @@
     name: ExcelVmlDrawingPictureFill
   - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
     name: ExcelVmlDrawingPosition
+  - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+    name: ExcelVmlDrawingSignatureLine
   - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
     name: ExcelVmlMeasurementUnit
   - uid: OfficeOpenXml.Drawing.Vml.VmlGradiantColor
@@ -1604,6 +1655,13 @@
     name: DataType
   - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.DynamicArrayCompileResult
     name: DynamicArrayCompileResult
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults
+  name: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults
+  items:
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults.LocalImageCompileResult
+    name: LocalImageCompileResult
+  - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults.WebImageCompileResult
+    name: WebImageCompileResult
 - uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
   name: OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers
   items:
@@ -1745,6 +1803,15 @@
     name: ZlibException
   - uid: OfficeOpenXml.Packaging.Ionic.Zlib.ZlibStream
     name: ZlibStream
+- uid: OfficeOpenXml.RichData
+  name: OfficeOpenXml.RichData
+  items:
+  - uid: OfficeOpenXml.RichData.RichDataReference
+    name: RichDataReference
+  - uid: OfficeOpenXml.RichData.RichDataReferenceTypes
+    name: RichDataReferenceTypes
+  - uid: OfficeOpenXml.RichData.RichDataReferenceValueError
+    name: RichDataReferenceValueError
 - uid: OfficeOpenXml.Sorting
   name: OfficeOpenXml.Sorting
   items:

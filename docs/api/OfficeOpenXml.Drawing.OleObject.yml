@@ -1,0 +1,35 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Drawing.OleObject
+  commentId: N:OfficeOpenXml.Drawing.OleObject
+  id: OfficeOpenXml.Drawing.OleObject
+  children:
+  - OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+  - OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters
+  langs:
+  - csharp
+  - vb
+  name: OfficeOpenXml.Drawing.OleObject
+  nameWithType: OfficeOpenXml.Drawing.OleObject
+  fullName: OfficeOpenXml.Drawing.OleObject
+  type: Namespace
+  assemblies:
+  - EPPlus
+references:
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+  commentId: T:OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+  parent: OfficeOpenXml.Drawing.OleObject
+  name: ExcelOleObject
+  nameWithType: ExcelOleObject
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters
+  commentId: T:OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters
+  parent: OfficeOpenXml.Drawing.OleObject
+  name: ExcelOleObjectParameters
+  nameWithType: ExcelOleObjectParameters
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObjectParameters
+- uid: OfficeOpenXml.Drawing.OleObject
+  commentId: N:OfficeOpenXml.Drawing.OleObject
+  name: OfficeOpenXml.Drawing.OleObject
+  nameWithType: OfficeOpenXml.Drawing.OleObject
+  fullName: OfficeOpenXml.Drawing.OleObject

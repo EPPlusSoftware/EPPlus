@@ -853,7 +853,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                 SetXmlNodeBool("@applyProtection", ApplyProtection ?? true);
             }
 
-            if (HorizontalAlignment != ExcelHorizontalAlignment.General || VerticalAlignment != ExcelVerticalAlignment.Bottom || ApplyAlignment.HasValue)
+            if (HorizontalAlignment != ExcelHorizontalAlignment.General || VerticalAlignment != ExcelVerticalAlignment.Bottom || ApplyAlignment.HasValue || WrapText || JustifyLastLine || TextRotation != 0 || ShrinkToFit || ReadingOrder != ExcelReadingOrder.ContextDependent)
             {
                 SetXmlNodeBool("@applyAlignment", ApplyAlignment ?? true);
             }

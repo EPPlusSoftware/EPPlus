@@ -2,7 +2,6 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts;
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
-using OfficeOpenXml.SystemDrawing.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
