@@ -16,6 +16,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -298,6 +299,7 @@ namespace OfficeOpenXml.Drawing
             }
             _parent._drawings.ReIndexNames(ix, 1);
             drawing._parent = null;
+            _parent.SetPositionAndSizeFromChildren();
         }
         /// <summary>
         /// Removes all children drawings from the group.
@@ -334,32 +336,43 @@ namespace OfficeOpenXml.Drawing
             switch (DrawingsType)
             {
                 case DrawingsCollectionType.chart:
-                    int x = (int)(_drawings.screenWidth * EMU_PER_PIXEL * (From.X));
-                    int y = (int)(_drawings.screenHeight * EMU_PER_PIXEL * (From.Y));
-                    int cx = (int)(_drawings.screenWidth * EMU_PER_PIXEL * (To.X - From.X));
-                    int cy = (int)(_drawings.screenHeight * EMU_PER_PIXEL * (To.Y - From.Y));
-                    XmlElement xFrmNode = GetXfrmNode(grpNode);
-                    if (xFrmNode.ChildNodes.Count == 0)
+                    if (parent == null)
                     {
-                        CreateNode(xFrmNode, "a:off");
-                        CreateNode(xFrmNode, "a:ext");
-                        CreateNode(xFrmNode, "a:chOff");
-                        CreateNode(xFrmNode, "a:chExt");
+                        int x = (int)(_drawings.screenWidth * EMU_PER_PIXEL * (From.X));
+                        int y = (int)(_drawings.screenHeight * EMU_PER_PIXEL * (From.Y));
+                        int cx = (int)(_drawings.screenWidth * EMU_PER_PIXEL * (To.X - From.X));
+                        int cy = (int)(_drawings.screenHeight * EMU_PER_PIXEL * (To.Y - From.Y));
+                        XmlElement xFrmNode = GetXfrmNode(grpNode);
+                        if (xFrmNode.ChildNodes.Count == 0)
+                        {
+                            CreateNode(xFrmNode, "a:off");
+                            CreateNode(xFrmNode, "a:ext");
+                            CreateNode(xFrmNode, "a:chOff");
+                            CreateNode(xFrmNode, "a:chExt");
+                        }
+                        var offNode = (XmlElement)xFrmNode.SelectSingleNode("a:off", NameSpaceManager);
+                        offNode.SetAttribute("x", x.ToString());
+                        offNode.SetAttribute("y", y.ToString());
+                        var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext", NameSpaceManager);
+                        extNode.SetAttribute("cx", cx.ToString());
+                        extNode.SetAttribute("cy", cy.ToString());
+                        Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
+                        Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
+                        var chOffNode = (XmlElement)xFrmNode.SelectSingleNode("a:chOff", NameSpaceManager);
+                        chOffNode.SetAttribute("x", x.ToString());
+                        chOffNode.SetAttribute("y", y.ToString());
+                        var chExtNode = (XmlElement)xFrmNode.SelectSingleNode("a:chExt", NameSpaceManager);
+                        chExtNode.SetAttribute("cx", cx.ToString());
+                        chExtNode.SetAttribute("cy", cy.ToString());
                     }
-                    var offNode = (XmlElement)xFrmNode.SelectSingleNode("a:off", NameSpaceManager);
-                    offNode.SetAttribute("x", x.ToString());
-                    offNode.SetAttribute("y", y.ToString());
-                    var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext", NameSpaceManager);
-                    extNode.SetAttribute("cx", cx.ToString());
-                    extNode.SetAttribute("cy", cy.ToString());
-                    Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
-                    Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
-                    var chOffNode = (XmlElement)xFrmNode.SelectSingleNode("a:chOff", NameSpaceManager);
-                    chOffNode.SetAttribute("x", x.ToString());
-                    chOffNode.SetAttribute("y", y.ToString());
-                    var chExtNode = (XmlElement)xFrmNode.SelectSingleNode("a:chExt", NameSpaceManager);
-                    chExtNode.SetAttribute("cx", cx.ToString());
-                    chExtNode.SetAttribute("cy", cy.ToString());
+                    else
+                    {
+                        XmlElement xFrmNode = GetXfrmNode(grpNode);
+                        var offNode = (XmlElement)xFrmNode.SelectSingleNode("a:off", NameSpaceManager);
+                        var extNode = (XmlElement)xFrmNode.SelectSingleNode("a:ext", NameSpaceManager);
+                        Position = new ExcelDrawingCoordinate(drawings.NameSpaceManager, offNode, GetPositionSize);
+                        Size = new ExcelDrawingSize(drawings.NameSpaceManager, extNode, GetPositionSize);
+                    }
                     break;
                 case DrawingsCollectionType.excel:
                 default:
@@ -379,7 +392,7 @@ namespace OfficeOpenXml.Drawing
                 {
                     if (string.IsNullOrEmpty(_topPath))
                     {
-                        _groupDrawings = new ExcelDrawingsGroup(this, NameSpaceManager, TopNode);
+                        _groupDrawings = new ExcelDrawingsGroup(this, NameSpaceManager, TopNode, drawingsCollectionType);
                     }
                     else
                     {

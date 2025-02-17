@@ -381,6 +381,11 @@ namespace OfficeOpenXml.Drawing
                 throw new InvalidOperationException("Chart Worksheets can't have more than one chart");
             }
 
+            if(DrawingsType == DrawingsCollectionType.chart)
+            {
+                throw new InvalidOperationException("Chart cannot contain a chart.");
+            }
+
             XmlElement drawNode = CreateDrawingXml(DrawingType);
 
             var chart = ExcelChart.GetNewChart(this, drawNode, ChartType, null, PivotTableSource);
@@ -983,10 +988,10 @@ namespace OfficeOpenXml.Drawing
             return AddPicture(Name, ImageFile, null, Location);
         }
 
-        private ExcelPicture BaseAddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, DrawingsCollectionType drawingsCollectionType = DrawingsCollectionType.excel, object container = null)
+        private ExcelPicture BaseAddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, object container = null)
         {
             XmlElement drawNode;
-            switch (drawingsCollectionType)
+            switch (DrawingsType)
             {
                 case DrawingsCollectionType.chart:
                     drawNode = CreateDrawingXmlChartDrawings(container as ExcelChart);
@@ -1000,7 +1005,7 @@ namespace OfficeOpenXml.Drawing
 
             bool hasLink = (Location & PictureLocation.Link) == PictureLocation.Link;
 
-            var pic = new ExcelPicture(this, drawNode, Hyperlink, type, Location, drawingsCollectionType);
+            var pic = new ExcelPicture(this, drawNode, Hyperlink, type, Location, DrawingsType);
 
             if(hasLink)
             {
@@ -1017,14 +1022,14 @@ namespace OfficeOpenXml.Drawing
         /// <param name="Hyperlink">Picture Hyperlink</param>
         /// <param name="Location">Location to access the image from</param>
         /// <returns>A picture object</returns>
-        public ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
-        {
-            return AddPicture(Name, ImageFile, DrawingsCollectionType.excel, Hyperlink, Location,  null);
-        }
+        //public ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
+        //{
+        //    return AddPicture(Name, ImageFile, Hyperlink, Location,  null);
+        //}
 
-        internal ExcelPicture AddPicture(string Name, FileInfo ImageFile, DrawingsCollectionType drawingsCollectionType, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, object container = null)
+        internal ExcelPicture AddPicture(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed, object container = null)
         {
-            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, drawingsCollectionType, container);
+            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, container);
             if (Location != PictureLocation.Link)
             {
                 ValidatePictureFile(Name, ImageFile);
@@ -1081,9 +1086,9 @@ namespace OfficeOpenXml.Drawing
             return AddImageInternal(Name, pictureStream, pictureType, Hyperlink);
         }
 
-        internal ExcelPicture AddPicture(string Name, Stream pictureStream, Uri Hyperlink, DrawingsCollectionType drawingsCollectionType = DrawingsCollectionType.excel, object container = null)
+        internal ExcelPicture AddPicture(string Name, Stream pictureStream, Uri Hyperlink, object container = null)
         {
-            return AddImageInternal(Name, pictureStream, null, Hyperlink, drawingsCollectionType, container);
+            return AddImageInternal(Name, pictureStream, null, Hyperlink, DrawingsType, container);
         }
 
         private ExcelPicture AddImageInternal(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink, DrawingsCollectionType drawingsCollectionType = DrawingsCollectionType.excel, object container = null)
@@ -1157,7 +1162,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns>A picture object</returns>
         public async Task<ExcelPicture> AddPictureAsync(string Name, FileInfo ImageFile, Uri Hyperlink, PictureLocation Location = PictureLocation.Embed)
         {
-            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location, DrawingsCollectionType.excel);
+            var pic = BaseAddPicture(Name, ImageFile, Hyperlink, Location);
             if (Location != PictureLocation.Link)
             {
                 ValidatePictureFile(Name, ImageFile);
@@ -1451,9 +1456,9 @@ namespace OfficeOpenXml.Drawing
         /// <returns>The shape object</returns>
         public ExcelShape AddShape(string Name, eShapeStyle Style)
         {
-            return AddShape(Name, Style, DrawingsType);
+            return AddShape(Name, Style, null);
         }
-        internal ExcelShape AddShape(string Name, eShapeStyle Style, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel, object container = null)
+        internal ExcelShape AddShape(string Name, eShapeStyle Style, object container = null)
         {
             if (Worksheet is ExcelChartsheet && _drawingsList.Count > 0)
             {
@@ -1589,7 +1594,7 @@ namespace OfficeOpenXml.Drawing
             XmlElement drawNode = CreateDrawingXml();
             drawNode.InnerXml = Source.TopNode.InnerXml;
 
-            ExcelShape shape = new ExcelShape(this, drawNode);
+            ExcelShape shape = new ExcelShape(this, drawNode, null, DrawingsType);
             shape.Name = Name;
             shape.Id = _nextDrawingId++;
             shape.Style = Source.Style;
@@ -1615,6 +1620,10 @@ namespace OfficeOpenXml.Drawing
             if (_drawingNames.ContainsKey(Name))
             {
                 throw new ArgumentException("Name already exists in the drawings collection");
+            }
+            if (DrawingsType == DrawingsCollectionType.chart)
+            {
+                throw new InvalidOperationException("Chart cannot contain controlls.");
             }
 
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
@@ -1772,7 +1781,11 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new ArgumentException("Name already exists in the drawings collection", "name");
             }
-            if(optionalParameters == null) optionalParameters = new ExcelOleObjectParameters();
+            if (DrawingsType == DrawingsCollectionType.chart)
+            {
+                throw new InvalidOperationException("Chart cannot contain OLE objects.");
+            }
+            if (optionalParameters == null) optionalParameters = new ExcelOleObjectParameters();
             optionalParameters.OlePath = oleInfo.FullName;
             XmlElement drawNode = CreateDrawingXml(eEditAs.TwoCell, true);
             ExcelOleObject oleObj = OleObjectFactory.CreateOleObject(this, drawNode, name, oleInfo, optionalParameters);

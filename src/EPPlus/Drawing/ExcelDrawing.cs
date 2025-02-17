@@ -235,15 +235,15 @@ namespace OfficeOpenXml.Drawing
             }
             if (node.LocalName == "grpSp")
             {
-                return node.SelectSingleNode($"xdr:grpSpPr/a:xfrm/{child}", NameSpaceManager);
+                return node.SelectSingleNode($"{NamespacePrefixes[prefixIndex]}:grpSpPr/a:xfrm/{child}", NameSpaceManager);
             }
             else if (node.LocalName == "graphicFrame")
             {
-                return node.SelectSingleNode($"xdr:xfrm/{child}", NameSpaceManager);
+                return node.SelectSingleNode($"{NamespacePrefixes[prefixIndex]}:xfrm/{child}", NameSpaceManager);
             }
             else
             {
-                return node.SelectSingleNode($"xdr:spPr/a:xfrm/{child}", NameSpaceManager);
+                return node.SelectSingleNode($"{NamespacePrefixes[prefixIndex]}:spPr/a:xfrm/{child}", NameSpaceManager);
             }
         }
 
@@ -1597,11 +1597,12 @@ namespace OfficeOpenXml.Drawing
             return clientDataNode;
         }
 
-        public void Copy(ExcelChart targetChart)
+        public void Copy(ExcelChart targetChart, int PixelTop = -1, int PixelLeft = -1)
         {
             if (this is ExcelShape || this is ExcelPicture || this is ExcelGroupShape)
             {
                 XmlNode drawNode = null;
+                targetChart.LoadDrawings();
                 switch (DrawingType)
                 {
                     case eDrawingType.Shape:
@@ -1616,6 +1617,10 @@ namespace OfficeOpenXml.Drawing
                 }
                 var copy = GetDrawing(targetChart.Drawings, drawNode, DrawingsCollectionType.chart);
                 targetChart.Drawings.AddDrawingInternal(copy);
+                if (PixelTop > 0 || PixelLeft > 0)
+                {
+                    copy.SetPosition(PixelTop, PixelLeft);
+                }
             }
             else
             {
@@ -2093,7 +2098,7 @@ namespace OfficeOpenXml.Drawing
             if (isGroupShape && groupDrawNode != null)
             {
                 drawNode = groupDrawNode;
-                groupDrawNode.SelectSingleNode("cdr:nvPicPr/cdr:cNvPr", targetChart._drawings.NameSpaceManager).Attributes["id"].Value = (++targetChart.Drawings._nextDrawingId).ToString();
+                groupDrawNode.SelectSingleNode("cdr:nvPicPr/cdr:cNvPr", targetChart.Drawings.NameSpaceManager).Attributes["id"].Value = (++targetChart.Drawings._nextDrawingId).ToString();
             }
             else
             {
