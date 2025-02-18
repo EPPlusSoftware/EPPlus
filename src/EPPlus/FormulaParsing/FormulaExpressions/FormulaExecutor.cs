@@ -16,6 +16,7 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -34,21 +35,22 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             _parsingContext = parsingContext;
         }
 
-        internal static List<Token> CreateRPNTokens(IList<Token> tokens)
+        internal static RpnTokens CreateRPNTokens(IList<Token> tokens)
         {
             var bracketCount = 0;
             var lastOpeningParanthesesPos = -1;
             var lastCommaPos=-1;
             var operators = OperatorsDict.Instance;
             Stack<Token> operatorStack = new Stack<Token>();
-            var expressions = new List<Token>();
+            var rpnTokens = new List<Token>();
+            var hasLambda = false;
             for (int i = 0; i < tokens.Count; i++)
             {
                 Token token = tokens[i];
                 switch (token.TokenType)
                 {
                     case TokenType.OpeningParenthesis:
-                        lastOpeningParanthesesPos = expressions.Count;
+                        lastOpeningParanthesesPos = rpnTokens.Count;
                         operatorStack.Push(token);
                         break;
                     case TokenType.ClosingParenthesis:
@@ -58,7 +60,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             var noOperator = true;
                             while (o.TokenType != TokenType.OpeningParenthesis)
                             {
-                                expressions.Add(o);
+                                rpnTokens.Add(o);
                                 if (operatorStack.Count == 0) throw new InvalidOperationException("No closing parenthesis");
                                 o = operatorStack.Pop();
                                 noOperator = false;
@@ -66,19 +68,19 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
                             if (operatorStack.Count > 0 && operatorStack.Peek().TokenType == TokenType.Function)
                             {
-                                expressions.Add(operatorStack.Pop());
+                                rpnTokens.Add(operatorStack.Pop());
                                 noOperator = false;
                             }
 
-                            if (noOperator && lastOpeningParanthesesPos > -1 && lastCommaPos > -1 && expressions.Count - lastOpeningParanthesesPos > 1) // Handle comma separated addresses to become one expression. For Example SUM( (A1,A3) ,A5) where A1,A3 should become one argument to the SUM function.
+                            if (noOperator && lastOpeningParanthesesPos > -1 && lastCommaPos > -1 && rpnTokens.Count - lastOpeningParanthesesPos > 1) // Handle comma separated addresses to become one expression. For Example SUM( (A1,A3) ,A5) where A1,A3 should become one argument to the SUM function.
                             {
                                 var sb = new StringBuilder();
-                                while(expressions.Count > lastOpeningParanthesesPos)
+                                while(rpnTokens.Count > lastOpeningParanthesesPos)
                                 {
-                                    sb.Append(expressions[lastOpeningParanthesesPos].Value);
-                                    expressions.RemoveAt(lastOpeningParanthesesPos);
+                                    sb.Append(rpnTokens[lastOpeningParanthesesPos].Value);
+                                    rpnTokens.RemoveAt(lastOpeningParanthesesPos);
                                 }
-                                expressions.Add(new Token(sb.ToString(), TokenType.ExcelAddress));
+                                rpnTokens.Add(new Token(sb.ToString(), TokenType.ExcelAddress));
 
                             }
                             lastOpeningParanthesesPos = -1;
@@ -89,7 +91,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     case TokenType.Negator:
                         if(token.TokenType == TokenType.Operator && i > 0 && i < tokens.Count-2 && token.Value==":" && tokens[i-1].Value=="]" && tokens[i+1].Value=="[")
                         {
-                            expressions.Add(token);
+                            rpnTokens.Add(token);
                             break;
                         }
                         if (operatorStack.Count > 0)
@@ -103,7 +105,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 token.TokenType != TokenType.Negator && 
                                 operators[token.Value].Precedence > Operator.PrecedenceColon))
                             {
-                                expressions.Add(operatorStack.Pop());
+                                rpnTokens.Add(operatorStack.Pop());
                                 if (operatorStack.Count == 0) break;
                                 o2 = operatorStack.Peek();
                             }
@@ -112,33 +114,38 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
 
                     case TokenType.Function:
-                        expressions.Add(new Token(token.Value,TokenType.StartFunctionArguments));
+                        rpnTokens.Add(new Token(token.Value,TokenType.StartFunctionArguments));
                         operatorStack.Push(token);
                         break;
                     case TokenType.Comma:
+                    case TokenType.CommaLambda:
                         if(operatorStack.Count > 0 && bracketCount == 0) //If inside a table 
                         {
                             var op = operatorStack.Peek().TokenType;
                             while (op == TokenType.Operator || op == TokenType.Negator)
                             {
-                                expressions.Add(operatorStack.Pop());
+                                rpnTokens.Add(operatorStack.Pop());
                                 if(operatorStack.Count == 0) break;
                                 op = operatorStack.Peek().TokenType;
                             }
                         }
+                        if (token.TokenType == TokenType.CommaLambda)
+                        {
+                            hasLambda = true;
+                        }
                         lastCommaPos = i;
-                        expressions.Add(token);
+                        rpnTokens.Add(token);
                         break;
                     case TokenType.OpeningBracket:
                         bracketCount++;
-                        expressions.Add(token);
+                        rpnTokens.Add(token);
                         break;
                     case TokenType.ClosingBracket:
                         bracketCount--;
-                        expressions.Add(token);
+                        rpnTokens.Add(token);
                         break;
                     default:
-                        expressions.Add(token);
+                        rpnTokens.Add(token);
                         break;
                 }
 
@@ -146,50 +153,88 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
             while (operatorStack.Count > 0)
             {
-                expressions.Add(operatorStack.Pop());
+                rpnTokens.Add(operatorStack.Pop());
             }
-
-            return expressions;
+            var result = new RpnTokens
+            {
+                Tokens = rpnTokens
+            };
+            if (hasLambda)
+            {
+                ProcessLambda(result);
+            }
+            return result;
         }
-        public static Dictionary<int, Expression> CompileExpressions(ref IList<Token> tokens, ParsingContext parsingContext)
+
+        private static void ProcessLambda(RpnTokens rpnTokens)
+        {
+            var lambdaRefs = new Dictionary<int, int>();
+            Stack<int> lStack = new Stack<int>();
+            for (var i = 0; i < rpnTokens.Count; i++)
+            {
+                var token = rpnTokens[i];
+                if (token.IsLambdaFunction())
+                {
+                    if (token.TokenType == TokenType.StartFunctionArguments)
+                    {
+                        lStack.Push(i);
+                    }
+                    else
+                    {
+                        lambdaRefs[lStack.Pop()] = i + 1;
+                    }
+                }
+            }
+            rpnTokens.LambdaRefs = lambdaRefs;
+
+            // TODO: create a new list and loop through the existing tokens
+            // move tokens from the Lambda invoke parenthesis to after the corresponding
+            // variable and use the new Assign operator... /MA
+            var TokenList = new List<Token>();
+        }
+
+        public static Dictionary<int, Expression> CompileExpressions(ref RpnTokens rpnTokens, ParsingContext parsingContext)
         {
             short extRefIx = short.MinValue;
             int wsIx = int.MinValue;
             var stack = new Stack<FunctionExpression>();
             var expressions = new Dictionary<int, Expression>();
-            for (int i = 0; i < tokens.Count; i++)
+            var isInLambdaCalculation = false;
+            LambdaTokensExpression lambdaCalculationExpression = null;
+            var tokens = rpnTokens.Tokens;
+            for (int tokenIx = 0; tokenIx < tokens.Count; tokenIx++)
             {
-                var t = tokens[i];
+                var t = tokens[tokenIx];
                 switch (t.TokenType)
                 {
                     case TokenType.Boolean:
-                        expressions.Add(i, new BooleanExpression(t.Value, parsingContext));
+                        expressions.Add(tokenIx, new BooleanExpression(t.Value, parsingContext));
                         break;
                     case TokenType.Integer:
-                        expressions.Add(i, new IntegerExpression(t.Value, parsingContext));
+                        expressions.Add(tokenIx, new IntegerExpression(t.Value, parsingContext));
                         break;
                     case TokenType.Decimal:
-                        expressions.Add(i, new DecimalExpression(t.Value, parsingContext));
+                        expressions.Add(tokenIx, new DecimalExpression(t.Value, parsingContext));
                         break;
                     case TokenType.StringContent:
-                        expressions.Add(i, new StringExpression(t.Value, parsingContext));
+                        expressions.Add(tokenIx, new StringExpression(t.Value, parsingContext));
                         break;
                     case TokenType.CellAddress:
                     case TokenType.FullColumnAddress:
                     case TokenType.FullRowAddress:
-                        if (i > 1 && tokens[i - 1].TokenTypeIsAddress && tokens[i + 1].Value == ":" && tokens[i + 1].TokenType == TokenType.Operator)
+                        if (tokenIx > 1 && tokens[tokenIx - 1].TokenTypeIsAddress && tokens[tokenIx + 1].Value == ":" && tokens[tokenIx + 1].TokenType == TokenType.Operator)
                         {
                             //We have a two cell addresses with with a colon. Remove tokens and replace with full column address, for example A1:C2.
-                            var e = expressions[i - 1];
+                            var e = expressions[tokenIx - 1];
                             e.MergeAddress(t.Value);
-                            tokens.RemoveAt(i - 1);
-                            tokens.RemoveAt(i);
-                            i--;
-                            tokens[i] = new Token(e.GetAddress()[0].WorksheetAddress, TokenType.ExcelAddress);
+                            tokens.RemoveAt(tokenIx - 1);
+                            tokens.RemoveAt(tokenIx);
+                            tokenIx--;
+                            tokens[tokenIx] = new Token(e.GetAddress()[0].WorksheetAddress, TokenType.ExcelAddress);
                         }
                         else
                         {
-                            expressions.Add(i, new RangeExpression(t.Value, parsingContext, extRefIx, wsIx));
+                            expressions.Add(tokenIx, new RangeExpression(t.Value, parsingContext, extRefIx, wsIx));
                         }
                         extRefIx = short.MinValue;
                         wsIx = int.MinValue;
@@ -198,17 +243,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         var a = new ExcelAddressBase(t.Value);
                         if(a.Addresses?.Count>1)
                         {
-                            expressions.Add(i, new MultiRangeExpression(a, parsingContext));
+                            expressions.Add(tokenIx, new MultiRangeExpression(a, parsingContext));
                         }
                         else
                         {
-                            expressions.Add(i, new RangeExpression(a.AsFormulaRangeAddress(parsingContext)));
+                            expressions.Add(tokenIx, new RangeExpression(a.AsFormulaRangeAddress(parsingContext)));
                         }
                         extRefIx = short.MinValue;
                         wsIx = int.MinValue;
                         break;
                     case TokenType.NameValue:                        
-                        expressions.Add(i, new NamedValueExpression(t.Value, parsingContext, extRefIx, wsIx));
+                        expressions.Add(tokenIx, new NamedValueExpression(t.Value, parsingContext, extRefIx, wsIx));
                         wsIx = int.MinValue;
                         break;
                     case TokenType.ExternalReference:
@@ -233,16 +278,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         }
                         break;
                     case TokenType.TableName:                                               
-                        ExtractTableAddress(extRefIx, wsIx, tokens, i, out FormulaTableAddress tableAddress, parsingContext);                        
-                        expressions.Add(i, new TableAddressExpression(tableAddress, parsingContext));
+                        ExtractTableAddress(extRefIx, wsIx, tokens, tokenIx, out FormulaTableAddress tableAddress, parsingContext);                        
+                        expressions.Add(tokenIx, new TableAddressExpression(tableAddress, parsingContext));
                         break;
                     case TokenType.OpeningEnumerable:
-                        ExtractArray(tokens, i , out IRangeInfo rangInfo, parsingContext);
-                        expressions.Add(i, new EnumerableExpression(rangInfo, parsingContext));
+                        ExtractArray(tokens, tokenIx, out IRangeInfo rangInfo, parsingContext);
+                        expressions.Add(tokenIx, new EnumerableExpression(rangInfo, parsingContext));
                         break;
                     case TokenType.ParameterVariableDeclaration:
                         var variableFunction = stack.Peek() as VariableFunctionExpression;
-                        expressions.Add(i, new VariableExpression(t.Value, variableFunction, true));
+                        expressions.Add(tokenIx, new VariableExpression(t.Value, variableFunction, true));
                         break;
                     case TokenType.ParameterVariable:
                         foreach(var exp in stack)
@@ -251,7 +296,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             {
                                 if(vfeExp.VariableIsDeclared(t.Value))
                                 {
-                                    expressions.Add(i, new VariableExpression(t.Value, vfeExp, false));
+                                    expressions.Add(tokenIx, new VariableExpression(t.Value, vfeExp, false));
                                 }
                             }
                         }
@@ -259,27 +304,27 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     case TokenType.StartFunctionArguments:
                         var isLet = !string.IsNullOrEmpty(t.Value) && (string.Compare(t.Value, "_xlfn.LET", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(t.Value, "LET", StringComparison.OrdinalIgnoreCase) == 0);
                         var func = isLet ? 
-                            new LetFunctionExpression(t.Value, stack, parsingContext, i) :
-                            new FunctionExpression(t.Value, parsingContext, i);
-                        expressions.Add(i, func);
-                        if(i <= tokens.Count && tokens[i+1].TokenType != TokenType.Function) // Check that the function has any argument
+                            new LetFunctionExpression(t.Value, stack, parsingContext, tokenIx) :
+                            new FunctionExpression(t.Value, parsingContext, tokenIx);
+                        expressions.Add(tokenIx, func);
+                        if(tokenIx <= tokens.Count && tokens[tokenIx + 1].TokenType != TokenType.Function) // Check that the function has any argument
                         {
-                            func.AddArgument(i);
+                            func.AddArgument(tokenIx);
                         }
                         stack.Push(func);
                         break;
                     case TokenType.Comma:
                         if (stack.Count > 0)
                         {
-                            stack.Peek().AddArgument(i);
+                            stack.Peek().AddArgument(tokenIx);
                         }
                         break;
                     case TokenType.Function:
                         var f = stack.Pop();
-                        f._endPos= i;
+                        f._endPos= tokenIx;
                         break;
                     case TokenType.InvalidReference:
-                        expressions.Add(i, ErrorExpression.RefError);
+                        expressions.Add(tokenIx, ErrorExpression.RefError);
                         wsIx = int.MinValue;
                         break;
                 }

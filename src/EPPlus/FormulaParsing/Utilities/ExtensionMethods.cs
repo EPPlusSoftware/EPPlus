@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 namespace OfficeOpenXml.FormulaParsing.Utilities
 {
@@ -37,6 +38,23 @@ namespace OfficeOpenXml.FormulaParsing.Utilities
         {
             if (obj == null) return false;
             return (TypeCompat.IsPrimitive(obj) || obj is double || obj is decimal || obj is DateTime || obj is TimeSpan);
+        }
+
+        internal static bool IsLambdaFunction(this Token token)
+        {
+            return FunctionNameMatches(token, "lambda");
+        }
+
+        internal static bool IsLetFunction(this Token token)
+        {
+            return FunctionNameMatches(token, "let");
+        }
+
+        private static bool FunctionNameMatches(Token token, string functionName)
+        {
+            if ((token.TokenType != TokenType.StartFunctionArguments && token.TokenType != TokenType.Function) || string.IsNullOrEmpty(token.Value)) return false;
+            var funcName = token.Value.ToLower().Replace("xlfn.", string.Empty);
+            return string.Compare(funcName, functionName, StringComparison.OrdinalIgnoreCase) == 0;
         }
     }
 }

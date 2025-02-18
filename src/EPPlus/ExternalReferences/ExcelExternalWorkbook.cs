@@ -564,7 +564,7 @@ namespace OfficeOpenXml.ExternalReferences
         {
             var tokens = SourceCodeTokenizer.Default.Tokenize(formula);
 
-            IList<Token> rpnTokens = FormulaExecutor.CreateRPNTokens(tokens);
+            var rpnTokens = FormulaExecutor.CreateRPNTokens(tokens);
             var expressions = FormulaExecutor.CompileExpressions(ref rpnTokens, wb.FormulaParser.ParsingContext);
 
             foreach(var e in expressions.Values)
