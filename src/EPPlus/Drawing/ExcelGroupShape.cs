@@ -299,7 +299,10 @@ namespace OfficeOpenXml.Drawing
             }
             _parent._drawings.ReIndexNames(ix, 1);
             drawing._parent = null;
-            _parent.SetPositionAndSizeFromChildren();
+            if (_parent.drawingsCollectionType == DrawingsCollectionType.chart)
+            {
+                _parent.SetPositionAndSizeFromChildren();
+            }
         }
         /// <summary>
         /// Removes all children drawings from the group.
