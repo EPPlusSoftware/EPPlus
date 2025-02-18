@@ -20,7 +20,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         internal NumberFormatDxf(ExcelDxfNumberFormat format, int styleId)
         {
             NumberFormat = format;
-            FormatTranslator = ValueToTextHandler.GetNumberFormat(styleId, format._styles).FormatTranslator;
+            FormatTranslator = ValueToTextHandler.GetDxfNumberFormat(styleId, format._styles).FormatTranslator;
             StyleId = styleId;
         }
 
@@ -37,11 +37,5 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
                 return !string.IsNullOrEmpty(NumberFormat.Id);
             }
         }
-
-        //public ExcelFormatTranslator Translator => NumberFormat.t;
-
-        //public NumberFormatType Type => NumberFormat.;
-
-        // public NumberFormatInfo Info => NumberFormat.inf;
     }
 }

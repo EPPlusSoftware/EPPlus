@@ -52,7 +52,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             {
                 Border = new BorderDxf(style.Border);
             }
-            if (style.NumberFormat != null)
+            if (style.NumberFormat != null && style.NumberFormat.HasValue)
             {
                 NumberFormat = new NumberFormatDxf(style.NumberFormat, styleId);
             }

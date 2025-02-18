@@ -183,7 +183,8 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             }
             if (style.NumberFormat != null && style.NumberFormat.HasValue)
             {
-                //TODO: Ensure numberformat color wins over font color as in Excel
+                //TODO: possibly ensure to only apply one color attribute.
+                //Currently Numberformat AND Font can decide text color. Numberformat "wins" because written last.
                 translators.Add(new CssNumberFormatTranslator(style.NumberFormat));
             }
 

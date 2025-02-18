@@ -560,7 +560,7 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void NumberFormatColorShouldCreateCssColor()
         {
-            using (var package = OpenPackage("numfRed.xlsx", true))
+            using (var package = OpenPackage("html_numfRed_text.xlsx", true))
             {
                 var wb = package.Workbook;
                 var aNewWs = wb.Worksheets.Add("NewWs"); 
