@@ -269,6 +269,10 @@ namespace OfficeOpenXml.Packaging
                 throw (new InvalidOperationException("Part does not exist."));
             }
         }
+        internal ZipPackagePart GetPartByContentType(string contentType)
+        {
+            return Parts.FirstOrDefault(x => x.Value.ContentType==contentType).Value;
+        }
 
         internal string GetUriKey(string uri)
         {
@@ -507,12 +511,6 @@ namespace OfficeOpenXml.Packaging
             }
             _zip?.Dispose();
         }
-
-        internal ZipPackagePart GetPartByContentType(string contentTypeFeaturePropertyBag)
-        {
-            return Parts.Values.FirstOrDefault(x=>x.ContentType.Equals(contentTypeFeaturePropertyBag,StringComparison.OrdinalIgnoreCase));
-        }
-
         CompressionLevel _compression = CompressionLevel.Default;
         /// <summary>
         /// Compression level

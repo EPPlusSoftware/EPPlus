@@ -9,6 +9,8 @@ items:
   - OfficeOpenXml.Table.ExcelTable.AddRow(System.Int32)
   - OfficeOpenXml.Table.ExcelTable.AutoFilter
   - OfficeOpenXml.Table.ExcelTable.Columns
+  - OfficeOpenXml.Table.ExcelTable.Copy(OfficeOpenXml.ExcelRangeBase)
+  - OfficeOpenXml.Table.ExcelTable.Copy(OfficeOpenXml.ExcelRangeBase,System.String)
   - OfficeOpenXml.Table.ExcelTable.CreateHtmlExporter
   - OfficeOpenXml.Table.ExcelTable.DataCellStyleName
   - OfficeOpenXml.Table.ExcelTable.DeleteRow(System.Int32,System.Int32)
@@ -70,11 +72,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTable
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 39
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -123,11 +125,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableXml
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 155
+    startLine: 169
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -160,11 +162,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableUri
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 163
+    startLine: 177
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -197,11 +199,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 190
+    startLine: 204
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -234,11 +236,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorkSheet
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 231
+    startLine: 250
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -271,11 +273,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 241
+    startLine: 260
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -308,11 +310,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Range
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 260
+    startLine: 279
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -345,11 +347,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 285
+    startLine: 304
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -383,11 +385,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateHtmlExporter
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 293
+    startLine: 312
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -418,11 +420,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 304
+    startLine: 323
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -460,11 +462,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 315
+    startLine: 334
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -498,11 +500,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 325
+    startLine: 344
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -539,11 +541,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 337
+    startLine: 356
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -581,11 +583,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 348
+    startLine: 367
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -623,11 +625,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 359
+    startLine: 378
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -668,11 +670,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 370
+    startLine: 389
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -713,11 +715,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJsonAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 380
+    startLine: 399
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -753,11 +755,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJsonAsync
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 391
+    startLine: 410
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -799,11 +801,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 410
+    startLine: 429
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -837,11 +839,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToJson
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 418
+    startLine: 437
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -872,11 +874,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToJson
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 428
+    startLine: 447
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -914,11 +916,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJson
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 438
+    startLine: 457
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -950,11 +952,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJson
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 448
+    startLine: 467
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -992,11 +994,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 477
+    startLine: 496
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1033,11 +1035,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 487
+    startLine: 506
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1077,11 +1079,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 502
+    startLine: 521
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1118,11 +1120,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 519
+    startLine: 538
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1163,11 +1165,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 534
+    startLine: 553
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1208,11 +1210,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 564
+    startLine: 583
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1253,11 +1255,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 580
+    startLine: 599
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1301,11 +1303,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 598
+    startLine: 617
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1349,11 +1351,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Columns
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 621
+    startLine: 640
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1386,11 +1388,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 636
+    startLine: 655
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1423,11 +1425,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SyncColumnNames
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 663
+    startLine: 682
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1462,11 +1464,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowHeader
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 717
+    startLine: 736
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1499,11 +1501,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFilter
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 768
+    startLine: 787
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1536,11 +1538,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowFilter
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 813
+    startLine: 832
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1573,11 +1575,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowTotal
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 844
+    startLine: 863
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1610,11 +1612,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 888
+    startLine: 907
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1647,11 +1649,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowFirstColumn
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 935
+    startLine: 954
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1684,11 +1686,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowLastColumn
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 950
+    startLine: 969
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1721,11 +1723,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowRowStripes
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 965
+    startLine: 984
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1758,11 +1760,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowColumnStripes
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 980
+    startLine: 999
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1795,11 +1797,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowCellStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 996
+    startLine: 1015
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1832,11 +1834,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataCellStyleName
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1020
+    startLine: 1039
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1869,11 +1871,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRowCellStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1047
+    startLine: 1066
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1906,11 +1908,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1074
+    startLine: 1093
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1950,11 +1952,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetHashCode
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1083
+    startLine: 1102
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -1991,11 +1993,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRow
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1092
+    startLine: 1111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2030,11 +2032,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InsertRow
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1103
+    startLine: 1122
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2075,11 +2077,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteRow
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1200
+    startLine: 1219
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2117,11 +2119,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderRowBorderStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1318
+    startLine: 1337
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2154,11 +2156,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableBorderStyle
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1333
+    startLine: 1352
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2191,11 +2193,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SortState
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1345
+    startLine: 1364
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2228,11 +2230,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1396
+    startLine: 1415
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2265,11 +2267,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTable.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/Table/ExcelTable.cs
-    startLine: 1410
+    startLine: 1429
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -2291,6 +2293,89 @@ items:
   - Public
   fullName.vb: OfficeOpenXml.Table.ExcelTable.Sort(System.Action(Of OfficeOpenXml.Sorting.TableSortOptions))
   name.vb: Sort(Action(Of TableSortOptions))
+- uid: OfficeOpenXml.Table.ExcelTable.Copy(OfficeOpenXml.ExcelRangeBase,System.String)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.Copy(OfficeOpenXml.ExcelRangeBase,System.String)
+  id: Copy(OfficeOpenXml.ExcelRangeBase,System.String)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: Copy(ExcelRangeBase, String)
+  nameWithType: ExcelTable.Copy(ExcelRangeBase, String)
+  fullName: OfficeOpenXml.Table.ExcelTable.Copy(OfficeOpenXml.ExcelRangeBase, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Copy
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 1441
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nCopies the table to the top left cell of the provided range.\n"
+  example: []
+  syntax:
+    content: public ExcelTable Copy(ExcelRangeBase range, string newTableName)
+    parameters:
+    - id: range
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The range
+    - id: newTableName
+      type: System.String
+      description: The name new table name.
+    return:
+      type: OfficeOpenXml.Table.ExcelTable
+    content.vb: Public Function Copy(range As ExcelRangeBase, newTableName As String) As ExcelTable
+  overload: OfficeOpenXml.Table.ExcelTable.Copy*
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: If a table with the name already exists in the workbook.
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTable.Copy(OfficeOpenXml.ExcelRangeBase)
+  commentId: M:OfficeOpenXml.Table.ExcelTable.Copy(OfficeOpenXml.ExcelRangeBase)
+  id: Copy(OfficeOpenXml.ExcelRangeBase)
+  parent: OfficeOpenXml.Table.ExcelTable
+  langs:
+  - csharp
+  - vb
+  name: Copy(ExcelRangeBase)
+  nameWithType: ExcelTable.Copy(ExcelRangeBase)
+  fullName: OfficeOpenXml.Table.ExcelTable.Copy(OfficeOpenXml.ExcelRangeBase)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTable.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Copy
+    path: ../src/EPPlus/Table/ExcelTable.cs
+    startLine: 1461
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nCopies the table to the top left cell of the provided range.\n"
+  example: []
+  syntax:
+    content: public ExcelTable Copy(ExcelRangeBase range)
+    parameters:
+    - id: range
+      type: OfficeOpenXml.ExcelRangeBase
+      description: The range
+    return:
+      type: OfficeOpenXml.Table.ExcelTable
+    content.vb: Public Function Copy(range As ExcelRangeBase) As ExcelTable
+  overload: OfficeOpenXml.Table.ExcelTable.Copy*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml.Table
   commentId: N:OfficeOpenXml.Table
@@ -4171,3 +4256,11 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.ArgumentException
+  commentId: T:System.ArgumentException
+  isExternal: true
+- uid: OfficeOpenXml.Table.ExcelTable.Copy*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTable.Copy
+  name: Copy
+  nameWithType: ExcelTable.Copy
+  fullName: OfficeOpenXml.Table.ExcelTable.Copy

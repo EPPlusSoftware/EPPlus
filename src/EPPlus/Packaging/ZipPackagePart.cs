@@ -157,7 +157,10 @@ namespace OfficeOpenXml.Packaging
             {
                 try
                 {
-					_stream.Close();
+                    if (_stream.CanRead)
+                    {
+                        _stream.Close();
+                    }
 					_stream.Dispose();
 				}
                 catch { }

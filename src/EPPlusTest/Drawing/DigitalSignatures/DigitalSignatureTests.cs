@@ -281,14 +281,10 @@ namespace EPPlusTest.Drawing.DigitalSignatures
                 var wb = package.Workbook;
                 var ws = package.Workbook.Worksheets.Add("SignatureLineWs");
 
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-
                 var sLine = ws.SignatureLines.Add();
                 sLine.Signer = "ASigner";
 
-
-                var digSig = wb.DigitialSignatures.Add(store.Certificates[1]);
+                var digSig = wb.DigitialSignatures.Add(GetSelfCert());
                 digSig.CommitmentTyping = CommitmentType.CreatedAndApproved;
                 digSig.PurposeForSigning = "TestingSignatureLine";
 

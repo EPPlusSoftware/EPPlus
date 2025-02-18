@@ -257,9 +257,6 @@ namespace EPPlusTest.Issues
 		[TestMethod]
 		public void s694_2()
 		{
-			// Ensure ExcelPackage works with non-commercial license
-			ExcelPackage.LicenseContext = LicenseContext.Commercial;
-
 			// Create a new Excel package
 			using (ExcelPackage package = OpenPackage("s694_2.xlsx", true))
 			{
@@ -311,8 +308,6 @@ namespace EPPlusTest.Issues
         [TestMethod]
         public void s694_3()
         {
-            // Ensure ExcelPackage works with non-commercial license
-            ExcelPackage.LicenseContext = LicenseContext.Commercial;
 
             // Create a new Excel package
             using (ExcelPackage package = OpenPackage("s694_3.xlsx", true))

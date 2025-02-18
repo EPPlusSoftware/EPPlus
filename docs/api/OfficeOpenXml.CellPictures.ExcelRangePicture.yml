@@ -1,0 +1,712 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture
+  commentId: T:OfficeOpenXml.CellPictures.ExcelRangePicture
+  id: ExcelRangePicture
+  parent: OfficeOpenXml.CellPictures
+  children:
+  - OfficeOpenXml.CellPictures.ExcelRangePicture.Exists
+  - OfficeOpenXml.CellPictures.ExcelRangePicture.Get
+  - OfficeOpenXml.CellPictures.ExcelRangePicture.Remove
+  - OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.Byte[],System.String,System.Boolean)
+  - OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.IO.FileInfo,System.String,System.Boolean)
+  - OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.IO.Stream,System.String,System.Boolean)
+  - OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.String,System.String,System.Boolean)
+  langs:
+  - csharp
+  - vb
+  name: ExcelRangePicture
+  nameWithType: ExcelRangePicture
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/CellPictures/ExcelRangePicture.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelRangePicture
+    path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
+    startLine: 22
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.CellPictures
+  summary: "\nPictures in the cell/range\n"
+  example: []
+  syntax:
+    content: public class ExcelRangePicture
+    content.vb: Public Class ExcelRangePicture
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture.Exists
+  commentId: P:OfficeOpenXml.CellPictures.ExcelRangePicture.Exists
+  id: Exists
+  parent: OfficeOpenXml.CellPictures.ExcelRangePicture
+  langs:
+  - csharp
+  - vb
+  name: Exists
+  nameWithType: ExcelRangePicture.Exists
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture.Exists
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/CellPictures/ExcelRangePicture.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Exists
+    path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
+    startLine: 43
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.CellPictures
+  summary: "\nReturns true if the range has a picture, otherwise false\n"
+  example: []
+  syntax:
+    content: public bool Exists { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property Exists As Boolean
+  overload: OfficeOpenXml.CellPictures.ExcelRangePicture.Exists*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture.Get
+  commentId: M:OfficeOpenXml.CellPictures.ExcelRangePicture.Get
+  id: Get
+  parent: OfficeOpenXml.CellPictures.ExcelRangePicture
+  langs:
+  - csharp
+  - vb
+  name: Get()
+  nameWithType: ExcelRangePicture.Get()
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture.Get()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/CellPictures/ExcelRangePicture.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Get
+    path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
+    startLine: 55
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.CellPictures
+  summary: "\nReturns a picture of the top-left cell in the range.\n"
+  example: []
+  syntax:
+    content: public ExcelCellPicture Get()
+    return:
+      type: OfficeOpenXml.CellPictures.ExcelCellPicture
+      description: An <xref href="OfficeOpenXml.CellPictures.ExcelCellPicture" data-throw-if-not-resolved="false"></xref> or null if it doesn&apos;t exist
+    content.vb: Public Function Get As ExcelCellPicture
+  overload: OfficeOpenXml.CellPictures.ExcelRangePicture.Get*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.Byte[],System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.Byte[],System.String,System.Boolean)
+  id: Set(System.Byte[],System.String,System.Boolean)
+  parent: OfficeOpenXml.CellPictures.ExcelRangePicture
+  langs:
+  - csharp
+  - vb
+  name: Set(Byte[], String, Boolean)
+  nameWithType: ExcelRangePicture.Set(Byte[], String, Boolean)
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.Byte[], System.String, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/CellPictures/ExcelRangePicture.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Set
+    path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
+    startLine: 73
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.CellPictures
+  summary: "\nAdds (or replaces) a cell picture.\nEPPlus supports the following image types: Png, Jpg, Gif, Bmp, WebP, Tif, Ico\n"
+  example: []
+  syntax:
+    content: public void Set(byte[] imageBytes, string altText = null, bool isDecorative = false)
+    parameters:
+    - id: imageBytes
+      type: System.Byte[]
+      description: byte array of the image file
+    - id: altText
+      type: System.String
+      description: Alt text for the cell/range picture
+    - id: isDecorative
+      type: System.Boolean
+      description: Sets the decorative property (used by accessibility tools)
+    content.vb: Public Sub Set(imageBytes As Byte(), altText As String = Nothing, isDecorative As Boolean = False)
+  overload: OfficeOpenXml.CellPictures.ExcelRangePicture.Set*
+  nameWithType.vb: ExcelRangePicture.Set(Byte(), String, Boolean)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.Byte(), System.String, System.Boolean)
+  name.vb: Set(Byte(), String, Boolean)
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.IO.Stream,System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.IO.Stream,System.String,System.Boolean)
+  id: Set(System.IO.Stream,System.String,System.Boolean)
+  parent: OfficeOpenXml.CellPictures.ExcelRangePicture
+  langs:
+  - csharp
+  - vb
+  name: Set(Stream, String, Boolean)
+  nameWithType: ExcelRangePicture.Set(Stream, String, Boolean)
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.IO.Stream, System.String, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/CellPictures/ExcelRangePicture.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Set
+    path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.CellPictures
+  summary: "\nAdds (or replaces) a cell picture.\nEPPlus supports the following image types: Png, Jpg, Gif, Bmp, WebP, Tif, Ico\n"
+  example: []
+  syntax:
+    content: public void Set(Stream imageStream, string altText = null, bool isDecorative = false)
+    parameters:
+    - id: imageStream
+      type: System.IO.Stream
+      description: <xref href="System.IO.Stream" data-throw-if-not-resolved="false"></xref> containing the image bytes
+    - id: altText
+      type: System.String
+      description: Alt text for the cell/range picture
+    - id: isDecorative
+      type: System.Boolean
+      description: '>Sets the decorative property (used by accessibility tools)'
+    content.vb: Public Sub Set(imageStream As Stream, altText As String = Nothing, isDecorative As Boolean = False)
+  overload: OfficeOpenXml.CellPictures.ExcelRangePicture.Set*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.String,System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.String,System.String,System.Boolean)
+  id: Set(System.String,System.String,System.Boolean)
+  parent: OfficeOpenXml.CellPictures.ExcelRangePicture
+  langs:
+  - csharp
+  - vb
+  name: Set(String, String, Boolean)
+  nameWithType: ExcelRangePicture.Set(String, String, Boolean)
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.String, System.String, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/CellPictures/ExcelRangePicture.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Set
+    path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
+    startLine: 99
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.CellPictures
+  summary: "\nAdds (or replaces) a cell picture.\nEPPlus supports the following image types: Png, Jpg, Gif, Bmp, WebP, Tif, Ico\n"
+  example: []
+  syntax:
+    content: public void Set(string path, string altText = null, bool isDecorative = false)
+    parameters:
+    - id: path
+      type: System.String
+      description: File path to the image file
+    - id: altText
+      type: System.String
+      description: Alt text for the cell/range picture
+    - id: isDecorative
+      type: System.Boolean
+      description: '>Sets the decorative property (used by accessibility tools)'
+    content.vb: Public Sub Set(path As String, altText As String = Nothing, isDecorative As Boolean = False)
+  overload: OfficeOpenXml.CellPictures.ExcelRangePicture.Set*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.IO.FileInfo,System.String,System.Boolean)
+  commentId: M:OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.IO.FileInfo,System.String,System.Boolean)
+  id: Set(System.IO.FileInfo,System.String,System.Boolean)
+  parent: OfficeOpenXml.CellPictures.ExcelRangePicture
+  langs:
+  - csharp
+  - vb
+  name: Set(FileInfo, String, Boolean)
+  nameWithType: ExcelRangePicture.Set(FileInfo, String, Boolean)
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture.Set(System.IO.FileInfo, System.String, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/CellPictures/ExcelRangePicture.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Set
+    path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
+    startLine: 112
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.CellPictures
+  summary: "\nAdds (or replaces) a cell picture.\nEPPlus supports the following image types: Png, Jpg, Gif, Bmp, WebP, Tif, Ico\n"
+  example: []
+  syntax:
+    content: public void Set(FileInfo fileInfo, string altText = null, bool isDecorative = false)
+    parameters:
+    - id: fileInfo
+      type: System.IO.FileInfo
+      description: <xref href="System.IO.FileInfo" data-throw-if-not-resolved="false"></xref> representing the path to the image file
+    - id: altText
+      type: System.String
+      description: Alt text for the cell/range picture
+    - id: isDecorative
+      type: System.Boolean
+      description: '>Sets the decorative property (used by accessibility tools)'
+    content.vb: Public Sub Set(fileInfo As FileInfo, altText As String = Nothing, isDecorative As Boolean = False)
+  overload: OfficeOpenXml.CellPictures.ExcelRangePicture.Set*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture.Remove
+  commentId: M:OfficeOpenXml.CellPictures.ExcelRangePicture.Remove
+  id: Remove
+  parent: OfficeOpenXml.CellPictures.ExcelRangePicture
+  langs:
+  - csharp
+  - vb
+  name: Remove()
+  nameWithType: ExcelRangePicture.Remove()
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture.Remove()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/CellPictures/ExcelRangePicture.cs
+      branch: develop8
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Remove
+    path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
+    startLine: 121
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.CellPictures
+  summary: "\nRemove any cell picture in the entire range\n"
+  example: []
+  syntax:
+    content: public void Remove()
+    content.vb: Public Sub Remove
+  overload: OfficeOpenXml.CellPictures.ExcelRangePicture.Remove*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.CellPictures
+  commentId: N:OfficeOpenXml.CellPictures
+  name: OfficeOpenXml.CellPictures
+  nameWithType: OfficeOpenXml.CellPictures
+  fullName: OfficeOpenXml.CellPictures
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture.Exists*
+  commentId: Overload:OfficeOpenXml.CellPictures.ExcelRangePicture.Exists
+  name: Exists
+  nameWithType: ExcelRangePicture.Exists
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture.Exists
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.CellPictures.ExcelCellPicture
+  commentId: T:OfficeOpenXml.CellPictures.ExcelCellPicture
+  parent: OfficeOpenXml.CellPictures
+  name: ExcelCellPicture
+  nameWithType: ExcelCellPicture
+  fullName: OfficeOpenXml.CellPictures.ExcelCellPicture
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture.Get*
+  commentId: Overload:OfficeOpenXml.CellPictures.ExcelRangePicture.Get
+  name: Get
+  nameWithType: ExcelRangePicture.Get
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture.Get
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture.Set*
+  commentId: Overload:OfficeOpenXml.CellPictures.ExcelRangePicture.Set
+  name: Set
+  nameWithType: ExcelRangePicture.Set
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture.Set
+- uid: System.Byte[]
+  isExternal: true
+  name: Byte[]
+  nameWithType: Byte[]
+  fullName: System.Byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: System.Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.IO.Stream
+  commentId: T:System.IO.Stream
+  parent: System.IO
+  isExternal: true
+  name: Stream
+  nameWithType: Stream
+  fullName: System.IO.Stream
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: System.IO.FileInfo
+  commentId: T:System.IO.FileInfo
+  parent: System.IO
+  isExternal: true
+  name: FileInfo
+  nameWithType: FileInfo
+  fullName: System.IO.FileInfo
+- uid: OfficeOpenXml.CellPictures.ExcelRangePicture.Remove*
+  commentId: Overload:OfficeOpenXml.CellPictures.ExcelRangePicture.Remove
+  name: Remove
+  nameWithType: ExcelRangePicture.Remove
+  fullName: OfficeOpenXml.CellPictures.ExcelRangePicture.Remove

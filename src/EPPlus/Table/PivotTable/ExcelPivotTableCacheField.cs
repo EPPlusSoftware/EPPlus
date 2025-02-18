@@ -607,7 +607,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 else if (c.LocalName == "n")
                 {
-                    if (ConvertUtil.TryParseNumericString(c.Attributes["v"].Value, out double num))
+                    if (ConvertUtil.TryParseNumericString(c.Attributes["v"].Value, out double num, CultureInfo.InvariantCulture))
                     {
                         items.Add(num);
                     }
@@ -646,7 +646,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 var key = items[items.Count - 1];
                 if (cacheLookup.TryGetValue(key, out int index))
                 {
-                    //items._list.Remove(key);
                     _duplicateCacheItems.Add(items.Count - 1, index);
                 }
                 else

@@ -43,11 +43,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRangeColumn
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 93
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -96,11 +96,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartColumn
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 106
+    startLine: 105
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -133,11 +133,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndColumn
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 116
+    startLine: 115
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -170,11 +170,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Collapsed
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 126
+    startLine: 125
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -207,11 +207,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Group
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 140
+    startLine: 139
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -239,11 +239,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnGroup
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 148
+    startLine: 147
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -271,11 +271,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CollapseChildren
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 157
+    startLine: 156
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -306,11 +306,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExpandChildren
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 179
+    startLine: 178
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -341,11 +341,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetVisibleOutlineLevel
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 202
+    startLine: 201
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -380,11 +380,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineLevel
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 224
+    startLine: 223
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -417,11 +417,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Phonetic
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 238
+    startLine: 237
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -454,11 +454,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BestFit
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 253
+    startLine: 252
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -491,11 +491,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 268
+    startLine: 267
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -528,11 +528,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 282
+    startLine: 281
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -565,11 +565,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageBreak
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 304
+    startLine: 303
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -602,11 +602,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 320
+    startLine: 319
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -639,11 +639,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 333
+    startLine: 332
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -676,11 +676,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 348
+    startLine: 347
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -713,11 +713,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 362
+    startLine: 361
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -753,11 +753,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 372
+    startLine: 371
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -792,11 +792,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 389
+    startLine: 388
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -825,11 +825,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 403
+    startLine: 402
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -862,11 +862,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 418
+    startLine: 417
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -902,11 +902,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Range
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 544
+    startLine: 543
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -939,11 +939,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 555
+    startLine: 554
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -976,11 +976,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 563
+    startLine: 562
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1010,11 +1010,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 572
+    startLine: 571
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1047,11 +1047,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 612
+    startLine: 611
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1081,11 +1081,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 670
+    startLine: 669
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

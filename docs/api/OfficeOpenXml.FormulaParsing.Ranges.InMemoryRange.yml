@@ -45,11 +45,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InMemoryRange
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 25
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -98,11 +98,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 31
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -134,11 +134,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 42
+    startLine: 39
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -173,11 +173,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 56
+    startLine: 53
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -212,11 +212,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 74
+    startLine: 71
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -248,11 +248,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 93
+    startLine: 90
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -287,11 +287,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Empty
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 109
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -326,11 +326,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 117
+    startLine: 114
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -368,11 +368,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCell
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 129
+    startLine: 126
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -410,11 +410,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRef
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 136
+    startLine: 133
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -449,11 +449,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 140
+    startLine: 137
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -488,11 +488,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMulti
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 144
+    startLine: 141
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -527,11 +527,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsInMemoryRange
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 148
+    startLine: 145
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -566,11 +566,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 152
+    startLine: 149
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -605,11 +605,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 156
+    startLine: 153
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -644,11 +644,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 160
+    startLine: 157
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -683,11 +683,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dimension
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 164
+    startLine: 161
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -722,11 +722,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 174
+    startLine: 171
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -762,11 +762,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 182
+    startLine: 179
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -799,11 +799,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Addresses
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 192
+    startLine: 189
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -838,11 +838,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 197
+    startLine: 194
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -872,11 +872,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 205
+    startLine: 202
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -909,11 +909,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 216
+    startLine: 213
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -946,11 +946,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 226
+    startLine: 223
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -990,11 +990,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 244
+    startLine: 241
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1040,11 +1040,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 270
+    startLine: 267
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1084,11 +1084,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 280
+    startLine: 277
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1128,11 +1128,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCell
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 303
+    startLine: 300
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1170,11 +1170,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 313
+    startLine: 310
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1207,11 +1207,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 328
+    startLine: 325
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -1242,11 +1242,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/InMemoryRange.cs
-    startLine: 334
+    startLine: 331
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges

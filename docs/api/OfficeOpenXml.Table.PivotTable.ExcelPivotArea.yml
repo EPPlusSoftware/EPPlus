@@ -29,7 +29,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotArea
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -79,7 +79,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Conditions
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FieldIndex
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -153,7 +153,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FieldPosition
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValuesField
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -227,7 +227,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotAreaType
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -264,7 +264,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Axis
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -301,7 +301,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataOnly
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -338,7 +338,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LabelOnly
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -375,7 +375,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GrandRow
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -412,7 +412,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GrandColumn
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -449,7 +449,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheIndex
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -486,7 +486,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Outline
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -523,7 +523,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Offset
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
@@ -560,7 +560,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs
-      branch: fix/comments-and-warings
+      branch: develop8
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CollapsedLevelsAreSubtotals
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ExcelPivotArea.cs

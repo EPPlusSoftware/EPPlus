@@ -13,6 +13,7 @@
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
+using System.Drawing;
 using System.IO;
 using System.Xml;
 
@@ -23,6 +24,19 @@ namespace OfficeOpenXml.ExternalReferences
     /// </summary>
     public class ExcelExternalOleLink : ExcelExternalLink
     {
+        internal ExcelExternalOleLink(ExcelWorkbook wb, string relId, string progId, bool DisplayAsIcon, ZipPackagePart part, XmlElement workbookElement) : base(wb, null, part, workbookElement)
+        {
+            Relation = part.GetRelationship(relId);
+            ProgId = progId;
+            OleItems.Add(new ExcelExternalOleItem()
+            {
+                Name = "\'",
+                Advise = !DisplayAsIcon,
+                Icon = DisplayAsIcon,
+                PreferPicture =  true,
+            });
+        }
+
         internal ExcelExternalOleLink(ExcelWorkbook wb, XmlTextReader reader, ZipPackagePart part, XmlElement workbookElement) : base(wb, reader, part, workbookElement)
         {
             ExternalOleXml = new XmlDocument();

@@ -30,7 +30,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// Default font used in EPPlus
         /// </summary>
-        public const string DefaultFont = "Calibri";
+        public const string DefaultFont = "Aptos Narrow";
         /// <summary>
         /// Font used in EPPlus if the font name supplied cannot be found
         /// </summary>
@@ -174,7 +174,7 @@ namespace OfficeOpenXml
                         return fontColl[fontName];
                     }
                 }
-                return fontColl["Calibri"];
+                return fontColl[DefaultFont];
             }
         }
 

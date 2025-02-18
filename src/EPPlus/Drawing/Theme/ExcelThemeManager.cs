@@ -54,7 +54,7 @@ namespace OfficeOpenXml.Drawing.Theme
                 }
                 return _theme;
             }
-        }
+        }        
         /// <summary>
         /// Create the default theme.
         /// </summary>
@@ -67,7 +67,14 @@ namespace OfficeOpenXml.Drawing.Theme
 
             if(string.IsNullOrEmpty(_defaultTheme))
             {
-                _defaultTheme = StyleResourceManager.GetItem("DefaultTheme.Xml");
+                if (_wb.DefaultThemeVersion.HasValue == false || _wb.DefaultThemeVersion != 166925)
+                {
+                    _defaultTheme = StyleResourceManager.GetItem("defaulttheme.Xml");
+                }
+                else
+                {
+                    _defaultTheme = StyleResourceManager.GetItem("defaulttheme2022.Xml");
+                }
             }
             var themeXml = new XmlDocument();   
             themeXml.LoadXml(_defaultTheme);
