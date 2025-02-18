@@ -181,6 +181,11 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             {
                 translators.Add(new CssFontTranslator(style.Font, ns.Style.Font, style.CheckBox));
             }
+            if (style.NumberFormat != null && style.NumberFormat.HasValue)
+            {
+                //TODO: Ensure numberformat color wins over font color as in Excel
+                translators.Add(new CssNumberFormatTranslator(style.NumberFormat));
+            }
 
             if (styleList.Count > 1)
             {
