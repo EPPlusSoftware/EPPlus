@@ -61,11 +61,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 {
                     var tknIx = rpnTokens.LambdaRefs[tokenIx] + 1;
                     var list = new List<Token>();
-                    var tkn = rpnTokens[tknIx];
-                    while(tkn.TokenType != TokenType.LambdaInvokeArgsEnd)
+                    tknIx = tknIx <= rpnTokens.Count() - 1 ? tknIx : rpnTokens.Count() - 1;
+                    var sTkn = rpnTokens[tknIx - 1];
+                    if(sTkn.TokenType == TokenType.LambdaInvokeArgsStart)
                     {
-                        list.Add(tkn);
-                        tkn = rpnTokens[++tknIx];
+                        var tkn = rpnTokens[tknIx];
+                        while (tkn.TokenType != TokenType.LambdaInvokeArgsEnd)
+                        {
+                            list.Add(tkn);
+                            tkn = rpnTokens[++tknIx];
+                        }
                     }
                 }
                 var i = tokenIx;
