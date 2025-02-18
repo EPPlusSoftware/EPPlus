@@ -171,6 +171,21 @@ namespace EPPlusTest.InCellImages
             SaveAndCleanup(p);
         }
 
+        [TestMethod]
+        public void CellPictureIssue1()
+        {
+            var path = @"c:\Temp\CpIssue1.xlsx";
+            if(File.Exists(path)) File.Delete(path);
 
+            using var p = new ExcelPackage();
+            var sheet = p.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Picture.Set(Resources.Png3ByteArray);
+            sheet.Cells["B1"].Formula = "A1";
+            sheet.Cells["C1"].SetFormula("Image(\"https://samples.epplussoftware.com/img/EPPlus-logo-full.png\")");
+            sheet.Calculate();
+
+            sheet.Cells["A1:B1"].Picture.Remove();
+            p.SaveAs(path);
+        }
     }
 }
