@@ -569,6 +569,9 @@ namespace EPPlusTest.Export.HtmlExport
                 range.Formula = "ROW()";
                 range.Style.Numberformat.Format = "[Red]-#";
 
+                //Ensure numberformat color takes priority as in Excel
+                range.Style.Font.Color.SetColor(Color.Green);
+
                 wb.Calculate();
 
                 var exporter = range.CreateHtmlExporter();
