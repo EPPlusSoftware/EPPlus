@@ -22,6 +22,8 @@ using OfficeOpenXml.VBA;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using System.Runtime.CompilerServices;
 
 namespace OfficeOpenXml
 {
@@ -417,6 +419,30 @@ namespace OfficeOpenXml
         }
         #endregion
         #region Delete Worksheet
+
+        public void DeleteAll(Predicate<ExcelWorksheet> match)
+        {
+            if (match == null)
+            {
+                throw new ArgumentException ("Cannot delete worksheets with predicate 'null'");
+            }
+
+            int currentIndex = 0;
+
+            // Find the first item which needs to be removed.
+            while (currentIndex < Count && !match(_worksheets[currentIndex])) currentIndex++;
+            if (currentIndex >= Count) return;
+
+            while (currentIndex < _worksheets._items.Count())
+            {
+                if(match(_worksheets._items[currentIndex]))
+                {
+                    Delete(_worksheets._items[currentIndex].PositionId);
+                }
+                currentIndex++;
+            }
+        }
+
         /// <summary>
         /// Deletes a worksheet from the collection
         /// </summary>
