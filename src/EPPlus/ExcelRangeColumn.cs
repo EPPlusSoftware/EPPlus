@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
@@ -419,7 +420,7 @@ namespace OfficeOpenXml
         {
             _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, MaximumWidth);
         }
-        private ExcelColumn GetColumn(int col, bool ignoreFromCol = true)
+        protected internal ExcelColumn GetColumn(int col, bool ignoreFromCol = true)
         {
             var currentCol = _worksheet.GetValueInner(0, col) as ExcelColumn;
             if (currentCol == null)
@@ -574,9 +575,19 @@ namespace OfficeOpenXml
             if(_cs==null)
             {
                 Reset();
+                if(enumCol == 0)
+                {
+                    return false;
+                }
                 return enumCol <= _toCol;
             }
             enumCol++;
+
+            if(enumCol > _toCol)
+            {
+                return false;
+            }
+
             if (_currentCol?.ColumnMax>=enumCol)
             {
                 return true;
@@ -662,6 +673,49 @@ namespace OfficeOpenXml
                 maxCol = Math.Max(_worksheet.Dimension.End.Column, _worksheet._values.GetLastColumn());
             }
             return _toCol > maxCol + 1 ? maxCol + 1 : _toCol;   // +1 if the last column has outline level 1 then +1 is outline level 0.
+        }
+
+        public void DeleteAll(Predicate<ExcelColumn> match)
+        {
+            List<int> toDelete = new();
+            for(int i = EndColumn; i >= StartColumn; i--)
+            {
+                var col = _worksheet.GetValueInner(0, i) as ExcelColumn;
+                if (col != null)
+                {
+                    if (match(col))
+                    {
+                        _worksheet.DeleteColumn(i);
+                    }
+                }
+            }
+
+            //var csec = new CellStoreEnumerator<ExcelValue>(_worksheet._values, 0, StartColumn, ExcelPackage.MaxRows, EndColumn);
+            //var lst = new List<ExcelColumn>();
+
+            //var indexList = new List<int>();
+
+            //foreach (var val in csec)
+            //{
+            //    var col = val._value;
+            //    if (col is ExcelColumn)
+            //    {
+            //        var castColumn = (ExcelColumn)col;
+            //        if (match(castColumn))
+            //        {
+            //            indexList.Add(castColumn.ColumnMin);
+            //        }
+            //        lst.Add((ExcelColumn)col);
+            //    }
+            //}
+
+            //for (int i = indexList.Count - 1; i >= 0; i--)
+            //{
+            //    if (match(lst[i]))
+            //    {
+            //        _worksheet.DeleteColumn(indexList[i]);
+            //    }
+            //}
         }
 
         /// <summary>
