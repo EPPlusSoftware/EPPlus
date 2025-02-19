@@ -22,8 +22,6 @@ using OfficeOpenXml.VBA;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Core.Worksheet;
 using OfficeOpenXml.Core;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using System.Runtime.CompilerServices;
 
 namespace OfficeOpenXml
 {
@@ -420,6 +418,11 @@ namespace OfficeOpenXml
         #endregion
         #region Delete Worksheet
 
+        /// <summary>
+        /// Deletes all worksheets that matches the Predicate from the collection of worksheets
+        /// </summary>
+        /// <param name="match"></param>
+        /// <exception cref="ArgumentException"></exception>
         public void DeleteAll(Predicate<ExcelWorksheet> match)
         {
             if (match == null)
