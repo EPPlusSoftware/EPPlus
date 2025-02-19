@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reflection;
 
 namespace EPPlusTest.Issues
@@ -778,5 +779,34 @@ namespace EPPlusTest.Issues
 			var loadedCommentText = loadedSheet.Cells["A3"].Comment.Text;
 			Assert.AreEqual("6", loadedCommentText);
 		}
+		[TestMethod]
+        public void i1870()
+		{
+            using var savedExcelPackage = OpenTemplatePackage("i1870.xlsx");
+            var sheet = savedExcelPackage.Workbook.Worksheets.First();
+
+            // Act
+            sheet.Cells["2:3"].Clear();
+            sheet.Cells["6:6"].Clear();
+            sheet.Cells.Sort(column: 0);
+
+            // Assert 1
+            Assert.AreEqual("2", sheet.Cells["A1"].ThreadedComment.Comments.First().Text);
+            Assert.AreEqual("3", sheet.Cells["A2"].ThreadedComment.Comments.First().Text);
+            Assert.AreEqual("2", sheet.Cells["B1"].Comment.Text);
+            Assert.AreEqual("3", sheet.Cells["B2"].Comment.Text);
+
+            // Act 2
+            SaveWorkbook("i1870-save.xlsx", savedExcelPackage);
+
+            // Assert 2
+            using var loadedExcelPackage = OpenPackage("i1870-save.xlsx");
+            var loadedSheet = loadedExcelPackage.Workbook.Worksheets.First();
+
+            Assert.AreEqual("2", loadedSheet.Cells["A1"].ThreadedComment.Comments.First().Text);
+            Assert.AreEqual("3", loadedSheet.Cells["A2"].ThreadedComment.Comments.First().Text);
+            Assert.AreEqual("2", loadedSheet.Cells["B1"].Comment.Text);
+            Assert.AreEqual("3", loadedSheet.Cells["B2"].Comment.Text);
+        }
     }
 }

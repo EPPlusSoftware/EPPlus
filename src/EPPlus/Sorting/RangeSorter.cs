@@ -157,7 +157,6 @@ namespace OfficeOpenXml.Sorting
                 {
                     var row = range._fromRow + r;
                     var col = range._fromCol + c;
-                    //_worksheet._values.SetValueSpecial(row, col, SortSetValue, l[r].Items[c]);
                     _worksheet._values.SetValue(row, col, sortItems[r].Items[c]);
                     var addr = ExcelCellBase.GetAddress(sortItems[r].Row, range._fromCol + c);
                     //Move flags
@@ -178,12 +177,25 @@ namespace OfficeOpenXml.Sorting
                     HandleThreadedComment(wsd, row, col, addr);
                 }
             }
+            if(sortItems.Count < range.Rows)
+            {
+                var delFromRow = range._fromRow + sortItems.Count;
+                //Clear comments in the store, otherwise the clear of the range might delete comments that have been moved in the sort operation.
+                _worksheet._commentsStore.Delete(delFromRow, range._fromCol, range._toRow - delFromRow+1, nColumnsInRange, false);
+                _worksheet._threadedCommentsStore.Delete(delFromRow, range._fromCol, range._toRow - delFromRow + 1, nColumnsInRange, false);
+            }
         }
 
         private void ApplySortedRange(ExcelRangeBase range, List<SortItemLeftToRight<ExcelValue>> sortItems, RangeWorksheetData wsd)
         {
             //Sort the values and styles.
             var nRowsInRange = range._toRow - range._fromRow + 1;
+            var dim = range.Worksheet.Dimension;
+            if (dim != null && nRowsInRange > dim.End.Row)
+            {
+                nRowsInRange = dim.End.Row;
+            }
+
             _worksheet._values.Clear(range._fromRow, range._fromCol, range._toRow - range._fromRow + 1, range._toCol);
             for (var c = 0; c < sortItems.Count; c++)
             {
@@ -211,6 +223,13 @@ namespace OfficeOpenXml.Sorting
                     //Move threaded comments
                     HandleThreadedComment(wsd, row, col, addr);
                 }
+            }
+            if (sortItems.Count < range.Columns)
+            {
+                var delFromCol = range._fromCol + sortItems.Count;
+                //Clear comments in the store, otherwise the clear of the range might delete comments that have been moved in the sort operation.
+                _worksheet._commentsStore.Delete(range._fromRow, delFromCol, nRowsInRange, range._toCol - delFromCol + 1, false);
+                _worksheet._threadedCommentsStore.Delete(range._fromRow, delFromCol, nRowsInRange, range._toCol - delFromCol + 1, false);
             }
         }
 

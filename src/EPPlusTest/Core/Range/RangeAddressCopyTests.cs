@@ -474,8 +474,9 @@ namespace EPPlusTest.Core.Range
             using (var p = new ExcelPackage())
             {
                 ExcelWorksheet ws = SetupCopyRange(p);
+                var person1 = p.Workbook.ThreadedCommentPersons.Add("Person 1");
                 ws.Cells["A2"].AddThreadedComment();
-                ws.Cells["A2"].ThreadedComment.AddComment("1", "Threaded Comment");
+                ws.Cells["A2"].ThreadedComment.AddComment(person1.Id, "Threaded Comment");
                 ws.Cells["A1:A2"].Copy(ws.Cells["B5:B6"], ExcelRangeCopyOptionFlags.ExcludeValues, ExcelRangeCopyOptionFlags.ExcludeStyles);
 
                 Assert.AreEqual("Threaded Comment", ws.Cells["B6"].ThreadedComment.Comments[0].Text);
