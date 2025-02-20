@@ -1,6 +1,7 @@
 ﻿using EPPlusTest;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;
+using System.Linq;
 
 namespace OfficeOpenXml.Core.Worksheet
 {
@@ -159,6 +160,63 @@ namespace OfficeOpenXml.Core.Worksheet
             Assert.AreEqual(valueCell, columns.Range.GetCellValue<string>(0, 0));
             Assert.AreEqual(Style.ExcelFillStyle.LightTrellis, ws.Cells[50, 3].Style.Fill.PatternType);
             Assert.AreEqual(Color.Aqua.ToArgb().ToString("X"), ws.Cells[50, 3].Style.Fill.BackgroundColor.Rgb);
+        }
+        [TestMethod]
+        public void RowsIterateEmptyShouldSkip()
+        {
+            using (var p = OpenPackage("DeleteRows.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("rowSheet");
+
+                int iteratedRows = 0;
+
+                var rows = ws.Rows;
+                foreach (var row in rows)
+                {
+                    if (row.StartRow % 2 > 0)
+                    {
+                        ws.DeleteRow(row.StartRow);
+                    }
+                    iteratedRows++;
+                }
+
+                Assert.AreEqual(0, iteratedRows);
+            }
+        }
+
+        [TestMethod]
+        public void RowIteration()
+        {
+            using(var p = OpenPackage("DeleteRows.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("rowSheet");
+
+                var range = ws.Cells["A1:D10"];
+
+                range.Value = "";
+
+                for (int i = 1; i <= range.EntireRow.Count(); i++)
+                {
+                    Color theColor = i % 2 > 0 ? Color.DarkRed : Color.RoyalBlue;
+                    ws.Row(i).Style.Fill.SetBackground(theColor);
+                    ws.Row(i).Height = ws.Row(i).Height + 0.1;
+                }
+
+                var royalBlue = ws.Cells["A1"].Style.Fill.BackgroundColor.Rgb;
+
+                var subRange = ws.Cells["A3:D6"];
+
+                var subRows = subRange.EntireRow;
+
+                foreach(var row in subRows)
+                {
+                    row.Style.Fill.SetBackground(Color.Yellow);
+                }
+
+                SaveAndCleanup(p);
+            }
         }
     }
 }
