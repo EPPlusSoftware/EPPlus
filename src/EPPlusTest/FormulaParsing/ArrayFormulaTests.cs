@@ -179,6 +179,8 @@ namespace EPPlusTest.FormulaParsing
                 excelTable.Columns[3].CalculatedColumnFormula = colFormula;
                 excelTable.Columns[3].IsCalculatedFormulaArray = true;
 
+                _ws.Calculate();
+
                 excelTable.InsertRow(1);
 
                 var cell1 = sheet.Cells["D2"];
@@ -230,6 +232,8 @@ namespace EPPlusTest.FormulaParsing
 
                 Assert.IsTrue(isArray);
                 Assert.AreEqual(colFormula, cellFormula1);
+
+                _ws.Cells["D2"].Formula = "A1";
 
                 SaveAndCleanup(package);
             }
