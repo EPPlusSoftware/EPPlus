@@ -171,7 +171,7 @@ namespace EPPlusTest.InCellImages
             SaveAndCleanup(p);
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void CellPictureIssue1()
         {
             var path = @"c:\Temp\CpIssue1.xlsx";
