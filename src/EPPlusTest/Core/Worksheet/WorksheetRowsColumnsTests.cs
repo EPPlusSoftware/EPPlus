@@ -164,9 +164,9 @@ namespace OfficeOpenXml.Core.Worksheet
             Assert.AreEqual(Color.Aqua.ToArgb().ToString("X"), ws.Cells[50, 3].Style.Fill.BackgroundColor.Rgb);
         }
         [TestMethod]
-        public void ColumnDeletesSimple()
+        public void ColsDeleteAllWorks()
         {
-            using (var p = OpenPackage("ColumnPackage.xlsx", true))
+            using (var p = OpenPackage("Cols_DeleteAllWorks.xlsx", true))
             {
                 var wb = p.Workbook;
                 var ws = p.Workbook.Worksheets.Add("SomeWs");
@@ -195,7 +195,16 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 ws.Columns.DeleteAll(col => col.Hidden);
 
-                //p.SaveAs(GetOutputFile("", "ColPackageAfterDelete.xlsx").FullName);
+                table.SyncColumnNames(Table.ApplyDataFrom.ColumnNamesToCells);
+
+                Assert.AreEqual("Column3", ws.Cells["A1"].Value);
+                Assert.AreEqual("Column4", ws.Cells["B1"].Value);
+                Assert.AreEqual("OnceTold", ws.Cells["C1"].Value);
+                Assert.AreEqual("Me", ws.Cells["D1"].Value);
+                Assert.AreEqual("Column8", ws.Cells["E1"].Value);
+
+                Assert.AreEqual(8, table.Columns.Count());
+
                 SaveAndCleanup(p);
             }
         }
@@ -258,9 +267,9 @@ namespace OfficeOpenXml.Core.Worksheet
         }
 
         [TestMethod]
-        public void ColumnDeleteInMiddle()
+        public void ColsDeleteMiddle()
         {
-            using (var p = OpenPackage("ColMiddleDelete.xlsx", true))
+            using (var p = OpenPackage("Cols_DeleteMiddle.xlsx", true))
             {
                 var wb = p.Workbook;
                 var ws = p.Workbook.Worksheets.Add("SomeWs");
@@ -302,9 +311,9 @@ namespace OfficeOpenXml.Core.Worksheet
         }
 
         [TestMethod]
-        public void ColumnColorShouldNotBeSetWhenIterating()
+        public void ColsNotSetWhenIteratingEmptyCS()
         {
-            using (var p = OpenPackage("SetColumnColor.xlsx", true))
+            using (var p = OpenPackage("Cols_NotSetWhenIteratingEmptyCS.xlsx", true))
             {
                 var wb = p.Workbook;
                 var ws = p.Workbook.Worksheets.Add("SomeWs");
@@ -333,35 +342,9 @@ namespace OfficeOpenXml.Core.Worksheet
         }
 
         [TestMethod]
-        public void ColumnColorShouldBeSetEvenIfNoValueWhenNotIterating()
+        public void ColsSetColorOnRangeShouldWorkWhenEmptyCs()
         {
-            using (var p = OpenPackage("SetColumnColor.xlsx", true))
-            {
-                var wb = p.Workbook;
-                var ws = p.Workbook.Worksheets.Add("SomeWs");
-
-                var range = ws.Cells["N1:R5"];
-
-                var cols = ws.Columns[range.Start.Column, range.End.Column];
-
-                cols.Style.Fill.SetBackground(Color.Red);
-
-                var rgbColumn = ws.Columns[range.Start.Column].Style.Fill.BackgroundColor.Rgb;
-                var rgbCell = ws.Cells["N1"].Style.Fill.BackgroundColor.Rgb;
-
-                Assert.IsNotNull(rgbColumn);
-                Assert.IsNotNull(rgbCell);
-
-                Assert.AreEqual(rgbColumn, rgbCell);
-
-                SaveAndCleanup(p);
-            }
-        }
-
-        [TestMethod]
-        public void ColumnColorShouldBeSetEvenIfNoValueWhenNotIterating2()
-        {
-            using (var p = OpenPackage("SetColumnColor.xlsx", true))
+            using (var p = OpenPackage("Cols_SetColorOnRangeShouldWorkWhenEmptyCs.xlsx", true))
             {
                 var wb = p.Workbook;
                 var ws = p.Workbook.Worksheets.Add("SomeWs");
@@ -377,30 +360,6 @@ namespace OfficeOpenXml.Core.Worksheet
                 Assert.IsNotNull(rgbCell);
 
                 Assert.AreEqual(rgbColumn, rgbCell);
-
-                SaveAndCleanup(p);
-            }
-        }
-
-        [TestMethod]
-        public void SetEntireRange()
-        {
-            using (var p = OpenPackage("SetEntireRange.xlsx", true))
-            {
-                var wb = p.Workbook;
-                var ws = p.Workbook.Worksheets.Add("SomeWs");
-
-                var range = ws.Cells["N1:R5"];
-                range.Value = "";
-
-                var cols = ws.Columns[range.Start.Column, range.End.Column];
-
-                cols.Style.Fill.SetBackground(Color.Red);
-
-                var subRange = ws.Cells["O1:Q5"];
-                var subColRange = ws.Columns[subRange.Start.Column, subRange.End.Column];
-
-                subColRange.Style.Fill.SetBackground(Color.Blue);
 
                 SaveAndCleanup(p);
             }
