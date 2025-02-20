@@ -42,6 +42,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             var lastCommaPos=-1;
             var operators = OperatorsDict.Instance;
             Stack<Token> operatorStack = new Stack<Token>();
+            Stack<int> lambdas = new Stack<int>();
             var rpnTokens = new List<Token>();
             var hasLambda = false;
             for (int i = 0; i < tokens.Count; i++)
@@ -195,6 +196,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         public static Dictionary<int, Expression> CompileExpressions(ref RpnTokens rpnTokens, ParsingContext parsingContext)
         {
+            return CompileExpressions(null, ref rpnTokens, parsingContext);
+        }
+
+
+        public static Dictionary<int, Expression> CompileExpressions(RpnFormula rpnFormula, ref RpnTokens rpnTokens, ParsingContext parsingContext)
+        {
             short extRefIx = short.MinValue;
             int wsIx = int.MinValue;
             var stack = new Stack<FunctionExpression>();
@@ -205,6 +212,35 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             for (int tokenIx = 0; tokenIx < tokens.Count; tokenIx++)
             {
                 var t = tokens[tokenIx];
+                if (isInLambdaCalculation)
+                {
+                    if (!(t.TokenType == TokenType.Function && t.Value.ToString().ToLower().Contains("lambda")))
+                    {
+                        if (rpnFormula != null)
+                        {
+                            rpnFormula.AddLambdaToken(tokenIx);
+                        }
+                        lambdaCalculationExpression.AddLambdaToken(t);
+                        continue;
+                    }
+                }
+                if (rpnTokens.HasLambdaRefs && rpnTokens.LambdaRefs.ContainsKey(tokenIx))
+                {
+                    var tknIx = rpnTokens.LambdaRefs[tokenIx] + 1;
+                    var list = new List<Token>();
+                    tknIx = tknIx <= rpnTokens.Count() - 1 ? tknIx : rpnTokens.Count() - 1;
+                    var sTkn = rpnTokens[tknIx - 1];
+                    if (sTkn.TokenType == TokenType.LambdaInvokeArgsStart)
+                    {
+                        var tkn = rpnTokens[tknIx];
+                        while (tkn.TokenType != TokenType.LambdaInvokeArgsEnd)
+                        {
+                            list.Add(tkn);
+                            tkn = rpnTokens[++tknIx];
+                        }
+                    }
+
+                }
                 switch (t.TokenType)
                 {
                     case TokenType.Boolean:
@@ -302,10 +338,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         }
                         break;
                     case TokenType.StartFunctionArguments:
-                        var isLet = !string.IsNullOrEmpty(t.Value) && (string.Compare(t.Value, "_xlfn.LET", StringComparison.OrdinalIgnoreCase) == 0 || string.Compare(t.Value, "LET", StringComparison.OrdinalIgnoreCase) == 0);
-                        var func = isLet ? 
-                            new LetFunctionExpression(t.Value, stack, parsingContext, tokenIx) :
-                            new FunctionExpression(t.Value, parsingContext, tokenIx);
+                        var func = t.IsLetFunction() ?
+                             new LetFunctionExpression(t.Value, stack, parsingContext, tokenIx) :
+                                 t.IsLambdaFunction() ?
+                                     new LambdaFunctionExpression(t.Value, stack, parsingContext, tokenIx) :
+                                     new FunctionExpression(t.Value, parsingContext, tokenIx);
                         expressions.Add(tokenIx, func);
                         if(tokenIx <= tokens.Count && tokens[tokenIx + 1].TokenType != TokenType.Function) // Check that the function has any argument
                         {
@@ -319,9 +356,23 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                             stack.Peek().AddArgument(tokenIx);
                         }
                         break;
+                    case TokenType.CommaLambda:
+                        isInLambdaCalculation = true;
+                        lambdaCalculationExpression = new LambdaTokensExpression(parsingContext);
+                        expressions.Add(tokenIx, lambdaCalculationExpression);
+                        if (stack.Count > 0)
+                        {
+                            stack.Peek().AddArgument(tokenIx);
+                        }
+                        break;
                     case TokenType.Function:
                         var f = stack.Pop();
                         f._endPos= tokenIx;
+                        if (f.IsLambda && isInLambdaCalculation)
+                        {
+                            lambdaCalculationExpression = null;
+                            isInLambdaCalculation = false;
+                        }
                         break;
                     case TokenType.InvalidReference:
                         expressions.Add(tokenIx, ErrorExpression.RefError);

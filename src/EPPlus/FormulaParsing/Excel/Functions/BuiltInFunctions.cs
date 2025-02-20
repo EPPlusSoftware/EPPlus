@@ -322,6 +322,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["switch"] = new Switch();
             Functions["xor"] = new Xor();
             Functions["let"] = new LetFunction();
+            Functions["lambda"] = new Lambda();
+            Functions["makearray"] = new MakeArray();
             // Reference and lookup
             Functions["address"] = new Address();
             Functions["areas"] = new Areas();

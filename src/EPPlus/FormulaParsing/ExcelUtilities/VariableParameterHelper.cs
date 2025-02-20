@@ -82,10 +82,12 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         internal static bool IsVariableParameterFunction(string funcName)
         {
             if(string.IsNullOrEmpty(funcName)) return false;
-            switch(funcName.ToLower())
+            switch (funcName.ToLower())
             {
                 case "_xlfn.let":
                 case "let":
+                case "_xlfn.lambda":
+                case "lambda":
                     return true;
                 default:
                     return false;
@@ -100,6 +102,8 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             {
                 case "let":
                     return argIndex % 2 == 0 && argIndex < argCount - 1;
+                case "lambda":
+                    return argIndex < argCount;
                 default:
                     return false;
             }
@@ -180,6 +184,10 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             // 3. Process variable names in the last argument (the calculation)
             openParenthesis = 1;
             int lastArgIx;
+            if (string.Compare(func.Name, "lambda", StringComparison.OrdinalIgnoreCase) == 0)
+            {
+                _tokens[commaIndexes.Last()] = new Token(",", TokenType.CommaLambda);
+            }
             for (lastArgIx = commaIndexes.Last(); _tokens[lastArgIx].TokenType != TokenType.ClosingParenthesis && openParenthesis == 1; lastArgIx++)
             {
                 var candidate = _tokens[lastArgIx];

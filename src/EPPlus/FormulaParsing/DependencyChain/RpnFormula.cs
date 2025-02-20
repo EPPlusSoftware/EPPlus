@@ -4,6 +4,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Security.AccessControl;
+using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -25,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal int _row;
         internal int _column;
         internal string _formula;
-        internal IList<Token> _tokens;
+        internal RpnTokens _tokens;
         internal Dictionary<int, Expression> _expressions;
         internal int _enumeratorWorksheetIx;
         internal CellStoreEnumerator<object> _formulaEnumerator;
@@ -42,6 +43,15 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 return _ws._flags.GetFlagValue(_row, _column, CellFlags.CanBeDynamicArray);
             }
+        }
+
+        public HashSet<int> LambdaTokens { get; private set; }
+
+        public void AddLambdaToken(int tokenIx)
+        {
+            LambdaTokens ??= [];
+            if (LambdaTokens.Contains(tokenIx)) return;
+            LambdaTokens.Add(tokenIx);
         }
 
         internal RpnFormula(ExcelWorksheet ws, int row, int column)
@@ -76,7 +86,7 @@ namespace OfficeOpenXml.FormulaParsing
                     depChain._tokenizer.Tokenize(formula));
 
             _formula = formula;
-            _expressions = FormulaExecutor.CompileExpressions(ref _tokens, depChain._parsingContext);
+            _expressions = FormulaExecutor.CompileExpressions(this, ref _tokens, depChain._parsingContext);
         }
 		internal void SetFormula(IList<Token> tokens, RpnOptimizedDependencyChain depChain)
 		{
@@ -84,7 +94,19 @@ namespace OfficeOpenXml.FormulaParsing
 			_expressions = FormulaExecutor.CompileExpressions(ref _tokens, depChain._parsingContext);
 		}
 
-		public override string ToString()
+        internal void SetTokens(RpnTokens tokens, ParsingContext context)
+        {
+            _tokens = tokens;
+            var formula = new StringBuilder();
+            foreach (var token in tokens.Tokens)
+            {
+                formula.Append(token.Value);
+            }
+            _formula = formula.ToString();
+            _expressions = FormulaExecutor.CompileExpressions(this, ref _tokens, context);
+        }
+
+        public override string ToString()
         {
             if (_ws == null)
             {

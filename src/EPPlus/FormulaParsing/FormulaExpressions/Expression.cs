@@ -28,7 +28,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         IsAddress = 2,
         OnExpressionList = 4,
         FunctionArgument = 8,
-        IsCached = 0x10
+        IsCached = 0x10,
+        IsLambdaVariableDeclaration = 0x20,
     }
     internal class EmptyExpression : Expression
     {

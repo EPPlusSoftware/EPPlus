@@ -37,7 +37,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         internal const int PrecedenceAddSubtract = 12;
         internal const int PrecedenceConcat = 15;
         internal const int PrecedenceComparison = 25;
+        internal const int PrecedenceAssign = 50;
         internal const string IntersectIndicator = "isc";
+        internal const string AssignIndicator = "asg";
 
         private Operator() { }
 
@@ -525,6 +527,26 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                                 return RangeOperationsOperator.Apply(l, r, Operators.LessThanOrEqual, ctx);
                             }
                             return Compare(l, r, (compRes) => compRes <= 0); 
+                        }));
+            }
+        }
+
+        private static IOperator _assign;
+        public static IOperator Assign
+        {
+            get
+            {
+                return _assign ??
+                    (_assign =
+                        new Operator(Operators.Assign, PrecedenceAssign, (l, r, cts) =>
+                        {
+                            if (l.DataType != DataType.Variable)
+                            {
+                                return CompileResult.GetErrorResult(eErrorType.Value);
+                            }
+                            var variable = l.Result as VariableExpression;
+                            variable.SetValue(variable.Name, r);
+                            return new CompileResult(variable, DataType.Variable);
                         }));
             }
         }

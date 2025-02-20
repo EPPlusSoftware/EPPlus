@@ -381,6 +381,12 @@ namespace OfficeOpenXml.FormulaParsing
             }
             return f;
         }
+
+        internal static object ExecutePartialFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, bool writeToCell)
+        {
+            return AddChainForFormula(depChain, f, options, writeToCell);
+        }
+
         private static object AddChainForFormula(RpnOptimizedDependencyChain depChain, RpnFormula f, ExcelCalculationOption options, bool writeToCell)
         {
             FormulaRangeAddress[] addresses;
@@ -913,6 +919,11 @@ namespace OfficeOpenXml.FormulaParsing
             var s = f._expressionStack;
             while (f._tokenIndex < f._tokens.Count)
             {
+                if (f.LambdaTokens != null && f.LambdaTokens.Contains(f._tokenIndex))
+                {
+                    f._tokenIndex++;
+                    continue;
+                }
                 var t = f._tokens[f._tokenIndex];
                 switch (t.TokenType)
                 {
@@ -923,6 +934,7 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.Array:
                     case TokenType.ParameterVariableDeclaration:
                     case TokenType.ParameterVariable:
+                    case TokenType.CommaLambda:
                         s.Push(f._expressions[f._tokenIndex]);
                         break;
                     case TokenType.Negator:                        
@@ -1065,6 +1077,11 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         f._funcStack.Push(fe);
                         break;
+                    case TokenType.LambdaInvokeArgsEnd:
+                        CompileResult result = InvokeLambdaFunction(depChain, f);
+                        if (result != null)
+                            PushResult(depChain._parsingContext, f, result);
+                        break;
                     case TokenType.Operator:
                         ApplyOperator(depChain._parsingContext, t, f);
                         break;
@@ -1102,6 +1119,42 @@ namespace OfficeOpenXml.FormulaParsing
 				}
 			}
             return null;
+        }
+
+        // This method compiles the arguments for a Lambda function,
+        // invokes it and returns the result.
+        private static CompileResult InvokeLambdaFunction(RpnOptimizedDependencyChain depChain, RpnFormula f)
+        {
+            var lambdaArgs = new List<CompileResult>();
+            CompileResult result = default;
+            while (f._expressionStack.Count > 0)
+            {
+                var exp = f._expressionStack.Pop();
+
+                if (f._expressionStack.Count > 0)
+                {
+                    var arg = exp.Compile();
+                    lambdaArgs.Insert(0, arg);
+                }
+                else
+                {
+                    // The last expression on the stack should be a LambdaCalculationExpression
+                    if (exp is LambdaCalculationExpression lce)
+                    {
+                        var lie = new LambdaInvokeExpression(lce, depChain._parsingContext, f._tokenIndex);
+                        foreach (var arg in lambdaArgs)
+                        {
+                            lie.AddArgument(arg);
+                        }
+                        result = lie.Compile();
+                    }
+                    else
+                    {
+                        f._expressionStack.Push(new ErrorExpression(new CompileResult(eErrorType.Value), depChain._parsingContext));
+                    }
+                }
+            }
+            return result;
         }
 
         private static ExpressionCondition GetCondition(CompileResult v)
@@ -1314,6 +1367,9 @@ namespace OfficeOpenXml.FormulaParsing
                 case DataType.WebImage:
                     f._expressionStack.Push(new WebImageExpression(result, context));
                     break;
+                case DataType.LambdaCalculation:
+                    f._expressionStack.Push(new LambdaCalculationExpression(result, context));
+                    break;
                 default:
                     //throw new InvalidOperationException($"Unhandled compile result for data type {result.DataType}");
                     f._expressionStack.Push(ErrorExpression.ValueError);
@@ -1330,15 +1386,28 @@ namespace OfficeOpenXml.FormulaParsing
                 f._expressionStack.Push(new EmptyExpression());
             }
             var s = f._expressionStack;
-            for(int i=0;i < func.NumberOfArguments && s.Count > 0;i++)
+            if (func.IsLambda)
             {
-                var si = s.Pop();
-                if(si.ExpressionType!=ExpressionType.Empty)
+                for (int i = 0; i < func.NumberOfArguments; i++)
                 {
-                    si.Status |= ExpressionStatus.FunctionArgument;
+                    var exp = s.Pop();
+                    exp.Status |= ExpressionStatus.IsLambdaVariableDeclaration;
+                    list.Insert(0, exp.Compile());
                 }
-                list.Insert(0, si.Compile());
             }
+            else
+            {
+                for (int i = 0; i < func.NumberOfArguments && s.Count > 0; i++)
+                {
+                    var si = s.Pop();
+                    if (si.ExpressionType != ExpressionType.Empty)
+                    {
+                        si.Status |= ExpressionStatus.FunctionArgument;
+                    }
+                    list.Insert(0, si.Compile());
+                }
+            }
+
             return list;
         }
 
