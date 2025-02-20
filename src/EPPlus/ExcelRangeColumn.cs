@@ -1,6 +1,5 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Style;
 using System;
 using System.Collections;
@@ -675,6 +674,10 @@ namespace OfficeOpenXml
             return _toCol > maxCol + 1 ? maxCol + 1 : _toCol;   // +1 if the last column has outline level 1 then +1 is outline level 0.
         }
 
+        /// <summary>
+        /// Delete all columns that match the predicate
+        /// </summary>
+        /// <param name="match"></param>
         public void DeleteAll(Predicate<ExcelColumn> match)
         {
             List<int> toDelete = new();
@@ -689,33 +692,6 @@ namespace OfficeOpenXml
                     }
                 }
             }
-
-            //var csec = new CellStoreEnumerator<ExcelValue>(_worksheet._values, 0, StartColumn, ExcelPackage.MaxRows, EndColumn);
-            //var lst = new List<ExcelColumn>();
-
-            //var indexList = new List<int>();
-
-            //foreach (var val in csec)
-            //{
-            //    var col = val._value;
-            //    if (col is ExcelColumn)
-            //    {
-            //        var castColumn = (ExcelColumn)col;
-            //        if (match(castColumn))
-            //        {
-            //            indexList.Add(castColumn.ColumnMin);
-            //        }
-            //        lst.Add((ExcelColumn)col);
-            //    }
-            //}
-
-            //for (int i = indexList.Count - 1; i >= 0; i--)
-            //{
-            //    if (match(lst[i]))
-            //    {
-            //        _worksheet.DeleteColumn(indexList[i]);
-            //    }
-            //}
         }
 
         /// <summary>
