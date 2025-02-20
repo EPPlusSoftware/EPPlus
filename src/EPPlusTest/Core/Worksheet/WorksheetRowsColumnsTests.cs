@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Core.Worksheet
             ws.Cells["A1:A10"].FillNumber(1);
 
             int r = 2;
-            foreach(var row in ws.Rows[2,10])
+            foreach (var row in ws.Rows[2, 10])
             {
                 Assert.AreEqual(r++, row.StartRow);
             }
@@ -76,7 +76,7 @@ namespace OfficeOpenXml.Core.Worksheet
             var rows = 0;
             foreach (var row in ws.Rows)
             {
-                if(row.StartRow!=2 && row.StartRow!=11)
+                if (row.StartRow != 2 && row.StartRow != 11)
                 {
                     Assert.Fail("Unknown row in enumeration");
                 }
@@ -89,7 +89,7 @@ namespace OfficeOpenXml.Core.Worksheet
         {
             var ws = _pck.Workbook.Worksheets.Add("Columns");
 
-            ws.Cells["A1:K1"].FillNumber(x=>
+            ws.Cells["A1:K1"].FillNumber(x =>
             {
                 x.StartValue = 1;
                 x.StepValue = 1;
@@ -115,7 +115,7 @@ namespace OfficeOpenXml.Core.Worksheet
             int columns = 0;
             foreach (var column in ws.Columns[2, 10])
             {
-                if(column.StartColumn < 3 || column.StartColumn > 7)
+                if (column.StartColumn < 3 || column.StartColumn > 7)
                 {
                     Assert.Fail("Invalid columns detected in [Columns] collection");
                 }
@@ -141,7 +141,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 {
                     Assert.Fail("Invalid columns detected in [Columns] collection");
                 }
-                
+
                 columns++;
             }
             Assert.AreEqual(4, columns);
@@ -150,13 +150,13 @@ namespace OfficeOpenXml.Core.Worksheet
         public void ValidateColumnsRange()
         {
             var ws = _pck.Workbook.Worksheets.Add("ColumnsRangeProperties");
-            
+
             var valueCell = "First Cell";
             var columns = ws.Columns[2, 4];
             columns.Range.SetCellValue(0, 0, valueCell);
             columns.Range.Style.Fill.SetBackground(Color.Aqua, Style.ExcelFillStyle.LightTrellis);
 
-            Assert.AreEqual(valueCell, ws.Cells[1,2].Value);
+            Assert.AreEqual(valueCell, ws.Cells[1, 2].Value);
             Assert.AreEqual(valueCell, columns.Range.GetCellValue<string>(0, 0));
             Assert.AreEqual(Style.ExcelFillStyle.LightTrellis, ws.Cells[50, 3].Style.Fill.PatternType);
             Assert.AreEqual(Color.Aqua.ToArgb().ToString("X"), ws.Cells[50, 3].Style.Fill.BackgroundColor.Rgb);
@@ -186,9 +186,9 @@ namespace OfficeOpenXml.Core.Worksheet
         }
 
         [TestMethod]
-        public void RowIteration()
+        public void EnsureEntireRowWorks()
         {
-            using(var p = OpenPackage("DeleteRows.xlsx", true))
+            using (var p = OpenPackage("DeleteRows.xlsx", true))
             {
                 var wb = p.Workbook;
                 var ws = wb.Worksheets.Add("rowSheet");
@@ -197,23 +197,56 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 range.Value = "";
 
-                for (int i = 1; i <= range.EntireRow.Count(); i++)
-                {
-                    Color theColor = i % 2 > 0 ? Color.DarkRed : Color.RoyalBlue;
-                    ws.Row(i).Style.Fill.SetBackground(theColor);
-                    ws.Row(i).Height = ws.Row(i).Height + 0.1;
-                }
+                range.EntireRow.Style.Fill.SetBackground(Color.DarkRed);
 
                 var royalBlue = ws.Cells["A1"].Style.Fill.BackgroundColor.Rgb;
 
                 var subRange = ws.Cells["A3:D6"];
 
                 var subRows = subRange.EntireRow;
+                subRows.Style.Fill.SetBackground(Color.Yellow);
 
-                foreach(var row in subRows)
+                var yellowRgb = subRows.Style.Fill.BackgroundColor.Rgb;
+
+                foreach (var row in subRows)
                 {
-                    row.Style.Fill.SetBackground(Color.Yellow);
+                    Assert.AreEqual(yellowRgb, row.Style.Fill.BackgroundColor.Rgb);
                 }
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void DeleteAllWithPredicate()
+        {
+
+            using (var p = OpenPackage("DeleteRowsWithPredicate.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("rowSheet");
+
+                var range = ws.Cells["A1:D10"];
+
+                range.Value = "";
+
+                range.EntireRow.Style.Fill.SetBackground(Color.DarkRed);
+
+                var royalBlue = ws.Cells["A1"].Style.Fill.BackgroundColor.Rgb;
+
+                var subRange = ws.Cells["A3:D6"];
+
+                var subRows = subRange.EntireRow;
+                subRows.Style.Fill.SetBackground(Color.Yellow);
+
+                var yellowRgb = subRows.Style.Fill.BackgroundColor.Rgb;
+
+                range.EntireRow.DeleteAll(row => row.Style.Fill.BackgroundColor.Rgb == yellowRgb);
+
+                //foreach (var row in subRows)
+                //{
+                //    Assert.AreEqual(yellowRgb, row.Style.Fill.BackgroundColor.Rgb);
+                //}
 
                 SaveAndCleanup(p);
             }

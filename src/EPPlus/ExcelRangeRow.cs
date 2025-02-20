@@ -489,6 +489,26 @@ namespace OfficeOpenXml
             return _toRow > maxRow + 1 ? maxRow + 1 : _toRow; // +1 if the last row has outline level 1 then +1 is outline level 0.
         }
 
+        /// <summary>
+        /// Delete all rows that match the predicate
+        /// </summary>
+        /// <param name="match"></param>
+        public void DeleteAll(Predicate<ExcelRow> match)
+        {
+            List<int> toDelete = new();
+            for (int i = EndRow; i >= StartRow; i--)
+            {
+                var currentRow = _worksheet.Row(i);
+                if (currentRow != null)
+                {
+                    if (match(currentRow))
+                    {
+                        _worksheet.DeleteRow(i);
+                    }
+                }
+            }
+        }
+
         private RowInternal GetRow(int row)
         {
             if (row < 1 || row > ExcelPackage.MaxRows) return null;
