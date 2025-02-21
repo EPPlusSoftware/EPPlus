@@ -457,7 +457,22 @@ namespace OfficeOpenXml.FormulaParsing
                 }
                 else
                 {
-                    cr = f._expressionStack.Pop().Compile();
+                    if(f._expressionStack.Count > 1)
+                    {
+                        var exps = f._expressionStack.Reverse().ToList();
+                        if (exps[0] is LambdaCalculationExpression lce)
+                        {
+                            cr = InvokeLambdaFunction(depChain, f);
+                        }
+                        else
+                        {
+                            cr = f._expressionStack.Pop().Compile();
+                        }
+                    }
+                    else
+                    {
+                        cr = f._expressionStack.Pop().Compile();
+                    }
                 }
 
                 if (writeToCell || depChain._formulaStack.Count > 0)  // If calculating single cell via the FormulaParser.Parse method we should not write to the cells
@@ -917,6 +932,7 @@ namespace OfficeOpenXml.FormulaParsing
         {
             FormulaRangeAddress[] addresses;
             var s = f._expressionStack;
+            bool lastFuncWasLambda = false;
             while (f._tokenIndex < f._tokens.Count)
             {
                 if (f.LambdaTokens != null && f.LambdaTokens.Contains(f._tokenIndex))
@@ -974,7 +990,15 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         break;
                     case TokenType.Comma:
-                        if(f._funcStack.Count > 0)
+                        if(f.LastFuncWasLambda & s.Count == f.NumberOfLambdaArgs + 1)
+                        {
+                            CompileResult lambdaResult = InvokeLambdaFunction(depChain, f);
+                            if (lambdaResult != null)
+                                PushResult(depChain._parsingContext, f, lambdaResult);
+                            f.LastFuncWasLambda = false;
+                            f.NumberOfLambdaArgs = 0;
+                        }
+                        else if(f._funcStack.Count > 0)
                         {
                             var fexp = f._funcStack.Peek();
                             if(fexp.HandlesVariables && f._expressionStack.Count > 1 && !(f._expressionStack.Peek() is VariableExpression varExp && varExp.IsDeclaration))
@@ -1050,6 +1074,16 @@ namespace OfficeOpenXml.FormulaParsing
                             }
 
                             var r = ExecFunc(depChain, f, funcExp);
+                            if(funcExp.IsLambda)
+                            {
+                                f.LastFuncWasLambda = true;
+                                f.NumberOfLambdaArgs = ((LambdaCalculator)r.Result).NumberOfVariables;
+                            }
+                            else
+                            {
+                                f.LastFuncWasLambda = false;
+                                f.NumberOfLambdaArgs = 0;
+                            }
                             if (r.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
                             {
                                 f._flags |= FormulaFlags.IsAllwaysDynamic;

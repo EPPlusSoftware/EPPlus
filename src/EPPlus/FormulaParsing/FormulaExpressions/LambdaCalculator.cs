@@ -39,6 +39,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         private readonly List<Token> _originalTokens;
         private List<Token> _currentTokens;
 
+        public int NumberOfVariables => _variableIndexes.Count;
+
         public void BeginCalculation()
         {
             CloneTokens();

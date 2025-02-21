@@ -47,6 +47,10 @@ namespace OfficeOpenXml.FormulaParsing
 
         public HashSet<int> LambdaTokens { get; private set; }
 
+        internal bool LastFuncWasLambda { get; set; }
+
+        internal int NumberOfLambdaArgs { get; set; }
+
         public void AddLambdaToken(int tokenIx)
         {
             LambdaTokens ??= [];

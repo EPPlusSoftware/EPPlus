@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 {
+    /*
+     * Status 2025-02-21: The functionality in the tokenizer/RPN tokens that concatenated comma-separated
+     * Excel addresses is disabled. We need tests for this, see line 76 in FormulaExecutor.CreateRpnTokens.
+     */
     [TestClass]
     public class LambdaFunctionTests
     {
@@ -28,7 +32,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
         {
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
-            sheet.Cells["A1"].Formula = "IF(TRUE(),LAMBDA(r,c,r-c),1)(D6,D7)";
+            sheet.Cells["A1"].Formula = "IF(TRUE(),LAMBDA(r,c,r-c),A5:B7)(D6,D7)";
             sheet.Cells["D6"].Value = 7;
             sheet.Cells["D7"].Value = 2;
             sheet.Calculate();

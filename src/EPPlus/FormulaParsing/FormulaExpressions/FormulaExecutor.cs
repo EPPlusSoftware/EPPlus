@@ -73,17 +73,17 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                                 noOperator = false;
                             }
 
-                            if (noOperator && lastOpeningParanthesesPos > -1 && lastCommaPos > -1 && rpnTokens.Count - lastOpeningParanthesesPos > 1) // Handle comma separated addresses to become one expression. For Example SUM( (A1,A3) ,A5) where A1,A3 should become one argument to the SUM function.
-                            {
-                                var sb = new StringBuilder();
-                                while(rpnTokens.Count > lastOpeningParanthesesPos)
-                                {
-                                    sb.Append(rpnTokens[lastOpeningParanthesesPos].Value);
-                                    rpnTokens.RemoveAt(lastOpeningParanthesesPos);
-                                }
-                                rpnTokens.Add(new Token(sb.ToString(), TokenType.ExcelAddress));
+                            //if (noOperator && lastOpeningParanthesesPos > -1 && lastCommaPos > -1 && rpnTokens.Count - lastOpeningParanthesesPos > 1) // Handle comma separated addresses to become one expression. For Example SUM( (A1,A3) ,A5) where A1,A3 should become one argument to the SUM function.
+                            //{
+                            //    var sb = new StringBuilder();
+                            //    while(rpnTokens.Count > lastOpeningParanthesesPos)
+                            //    {
+                            //        sb.Append(rpnTokens[lastOpeningParanthesesPos].Value);
+                            //        rpnTokens.RemoveAt(lastOpeningParanthesesPos);
+                            //    }
+                            //    rpnTokens.Add(new Token(sb.ToString(), TokenType.ExcelAddress));
 
-                            }
+                            //}
                             lastOpeningParanthesesPos = -1;
                             lastCommaPos = -1;
                         }
