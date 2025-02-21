@@ -11,22 +11,29 @@
   22/11/2024         EPPlus Software AB           EPPlus v8
  *************************************************************************************************/
 using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.ImageUtils;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults;
 using OfficeOpenXml.RichData.RichValues.WebImages;
+using OfficeOpenXml.RichData.Structures.Constants;
 using OfficeOpenXml.Utils.RemoteCalls;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
+#if (!NET35)
+using System.Threading.Tasks;
+#endif
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 {
     [FunctionMetadata(
        Category = ExcelFunctionCategory.LookupAndReference,
        EPPlusVersion = "8",
        Description = "Inserts an image into cell via a https call")]
-    internal class ImageFunction : ExcelFunctionAsync
+    internal class ImageFunction : ExcelFunction
     {
         public ImageFunction()
         {
@@ -53,14 +60,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
 
         public override string NamespacePrefix => "_xlfn.";
         public override int ArgumentMinLength => 1;
-
-        public override CompileResult Complete(RemoteTask task)
-        {
-            var ctx = task.ParsingContext;
-            // execute the rest of the function here
-            return null;
-        }
-
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var url = ArgToString(arguments, 0);
@@ -106,19 +105,30 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 return CreateResult(eErrorType.Value);
             }
 
-            // Cache image url:s and internal image Uri (in the picture store) and make http-call only if the image
-            // is already present in the workbook.
             var cache = GetUrlCache(context.Package);
             byte[] imageBytes = null;
             var ii = cache.Get(url);
-            if(ii == null)
+
+            var cellPictureManager = new CellPicturesManager(context.CurrentWorksheet);
+            var cellPic = cellPictureManager.GetCellPicture(context.CurrentCell.Row, context.CurrentCell.Column, StructureTypes.WebImage);
+
+            // Cache image url:s and internal image Uri (in the picture store) and make http-call only if the image
+            // is already present in the workbook.
+            if (ii == null)
             {
-                var httpsService = context.CurrentWorksheet._package.Settings.ImageFunctionService;
-                if (httpsService == null)
+                if (cellPic == null || context.Configuration.AlwaysRefreshImageFunction)
                 {
-                    return CreateResult(eErrorType.Value);
+                    var httpsService = context.CurrentWorksheet._package.Settings.ImageFunctionService;
+                    if (httpsService == null)
+                    {
+                        return CreateResult(eErrorType.Value);
+                    }
+                    imageBytes = httpsService.Download(url);                   
                 }
-                imageBytes = httpsService.Download(url);
+                else
+                {
+                    imageBytes = cellPic.GetImageBytes();
+                }
                 cache.Add(url, imageBytes);
             }
             else
@@ -126,14 +136,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 imageBytes = cache.GetImageBytes(url);
             }
 
-            //var httpTask = new HttpRemoteTask(url, this, context);
-            //RemoteCallManager.QueueTask(httpTask);
-            // return #BUSY error
 
-            var cellPictureManager = new CellPicturesManager(context.CurrentWorksheet);
             cellPictureManager.SetWebPicture(context.CurrentCell.Row, context.CurrentCell.Column, new Uri(url), imageBytes, altText, CalcOrigins.Formula, sizing, height, width);
-            var cellPic = context.CurrentWorksheet.GetValue(context.CurrentCell.Row, context.CurrentCell.Column);
-            //return CreateResult(cellPic, DataType.WebImage);
+            cellPic = (ExcelCellPicture)context.CurrentWorksheet.GetValue(context.CurrentCell.Row, context.CurrentCell.Column);
             return new WebImageCompileResult(cellPic);
         }
 

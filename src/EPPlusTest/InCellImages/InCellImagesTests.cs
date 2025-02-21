@@ -170,7 +170,19 @@ namespace EPPlusTest.InCellImages
 
             SaveAndCleanup(p);
         }
+        [TestMethod]
+        public void VerifyLoadOfImageFunction()
+        {
+            using var p = OpenTemplatePackage("5.7-InCellPictures.xlsx");
+            var ws = p.Workbook.Worksheets[0];
 
+            ws.Calculate(x => x.AlwaysRefreshImageFunction = true);
 
+            Assert.IsTrue(ws.Cells["A1"].Picture.Exists);
+            Assert.IsTrue(ws.Cells["B1"].Picture.Exists);
+            Assert.IsTrue(ws.Cells["B2"].Picture.Exists);
+
+            SaveAndCleanup(p);
+        }
     }
 }

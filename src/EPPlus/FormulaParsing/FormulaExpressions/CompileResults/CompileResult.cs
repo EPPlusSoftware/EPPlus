@@ -38,6 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         private static CompileResult _errorName = new CompileResult(ErrorValues.NameError, DataType.ExcelError);
         private static CompileResult _errorNum = new CompileResult(ErrorValues.NumError, DataType.ExcelError);
         private static CompileResult _errorCalc = new CompileResult(ErrorValues.CalcError, DataType.ExcelError);
+        private static CompileResult _errorBusy = new CompileResult(ErrorValues.BusyError, DataType.ExcelError);
 
         private static DynamicArrayCompileResult _arrayErrorRef = new DynamicArrayCompileResult(ErrorValues.RefError, DataType.ExcelError);
         private static DynamicArrayCompileResult _arrayErrorValue = new DynamicArrayCompileResult(ErrorValues.ValueError, DataType.ExcelError);
@@ -166,6 +167,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     return _errorNum;
                 case eErrorType.Calc:
                     return _errorCalc;
+                case eErrorType.Busy:
+                    return _errorBusy;
                 default: //#Value!
                     return _errorValue;
             }
