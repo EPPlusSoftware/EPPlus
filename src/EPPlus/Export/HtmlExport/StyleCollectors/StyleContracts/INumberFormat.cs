@@ -14,10 +14,5 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
         int NumberFormatID { get; }
         public ExcelIndexedColor? ColorId { get; }
         internal bool HasValue { get; }
-        //ExcelFormatTranslator Translator { get; }
-
-        //NumberFormatType Type { get; }
-
-        //NumberFormatInfo Info { get; }
     }
 }

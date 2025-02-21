@@ -180,22 +180,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Parsers
                 }
             }
 
-            if(cell.Style.Numberformat.IsNumberFormat)
-            {
-                var numberFormat = cell.Style.Numberformat;
-                ExcelFormatTranslator nf = ValueToTextHandler.GetNumberFormat(cell.StyleID, numberFormat._styles).FormatTranslator;
-
-                if(nf.NumFtColor != null)
-                {
-                    //var col2 = cell.Worksheet.Workbook.Styles.GetIndexedColor((int)nf.NumFtColor.Value);
-                    ////var color = cell.Worksheet.Workbook.ThemeManager.GetOrCreateTheme()._wb.Styles.GetIndexedColor((int)nf.NumFtColor.Value);
-                    //var htmlColor = "#" + col2.ToArgb().ToString("x8").Substring(2);
-                    ////inlineStyles += $"color={StyleColorShared.GetColor(new StyleColorNormal(cell.Style.Font.Color), cell.Worksheet.Workbook.ThemeManager.CurrentTheme)};";
-                    //inlineStyles += $"color:{htmlColor};";
-
-                }
-            }
-
             if (extras != "")
             {
                 return new List<string> { inlineStyles, extras };

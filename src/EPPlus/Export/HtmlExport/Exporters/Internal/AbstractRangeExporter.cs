@@ -88,11 +88,6 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             }
             else
             {
-                //if(cell.nu)
-                //return cell.Text;
-                //new NumberFormatToTextArgs(cell.Worksheet, cell._fromRow, cell._fromCol, cell.Value, cell.StyleID);
-                ////var aText = cell.Text;
-                ////var aValue = cell.Value;
                 return ValueToTextHandler.GetFormattedText(cell.Value, cell.Worksheet.Workbook, cell.StyleID, false, settings.Culture);
             }
         }
