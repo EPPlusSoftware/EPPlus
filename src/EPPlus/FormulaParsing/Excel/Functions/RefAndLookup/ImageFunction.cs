@@ -121,7 +121,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                     var httpsService = context.CurrentWorksheet._package.Settings.ImageFunctionService;
                     if (httpsService == null)
                     {
-                        return CreateResult(eErrorType.Value);
+                    return CreateResult(eErrorType.Name);
                     }
                     imageBytes = httpsService.Download(url);                   
                 }

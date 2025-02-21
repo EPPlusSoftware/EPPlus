@@ -170,6 +170,7 @@ namespace EPPlusTest.InCellImages
 
             SaveAndCleanup(p);
         }
+
         [TestMethod]
         public void VerifyLoadOfImageFunction()
         {
