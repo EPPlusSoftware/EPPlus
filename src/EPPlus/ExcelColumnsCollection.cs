@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+
 namespace OfficeOpenXml
 {
     /// <summary>
@@ -51,6 +52,6 @@ namespace OfficeOpenXml
             {            
                 return new ExcelRangeColumn(_worksheet, fromColumn, toColumn);
             }
-        }        
+        }
     }
 }

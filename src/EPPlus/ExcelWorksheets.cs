@@ -417,6 +417,35 @@ namespace OfficeOpenXml
         }
         #endregion
         #region Delete Worksheet
+
+        /// <summary>
+        /// Deletes all worksheets that matches the Predicate from the collection of worksheets
+        /// </summary>
+        /// <param name="match"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public void DeleteAll(Predicate<ExcelWorksheet> match)
+        {
+            if (match == null)
+            {
+                throw new ArgumentException ("Cannot delete worksheets with predicate 'null'");
+            }
+
+            int currentIndex = 0;
+
+            // Find the first item which needs to be removed.
+            while (currentIndex < Count && !match(_worksheets[currentIndex])) currentIndex++;
+            if (currentIndex >= Count) return;
+
+            while (currentIndex < _worksheets._items.Count())
+            {
+                if(match(_worksheets._items[currentIndex]))
+                {
+                    Delete(_worksheets._items[currentIndex].PositionId);
+                }
+                currentIndex++;
+            }
+        }
+
         /// <summary>
         /// Deletes a worksheet from the collection
         /// </summary>
