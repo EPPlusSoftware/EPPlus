@@ -643,17 +643,7 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
             var cellNode = GetSingleCellNode(cTag, cellAddress, styleID, cellType, mdAttr, formulaValue);
             var formulaNode = GetSingleCellFormulaNode(fTag, refStr, mdAttrForFTag, xmlFormula);
 
-            var retStr = string.Format(cellNode, formulaNode);
-
-
-            //var retStr = $"<{cTag} r=\"{cellAddress}\" s=\"{styleID}\"{cellType}{mdAttr}>" +
-            //                $"<{fTag} ref=\"{refStr}\" t=\"array\"{mdAttrForFTag}>" +
-            //                    $"{xmlFormula}" +
-            //                $"</{fTag}>" +
-            //                $"{formulaValue}" +
-            //             $"</{cTag}>";
-
-            return retStr;
+            return string.Format(cellNode, formulaNode);
         }
 
         private string GetSingleCellNode(string cTag, string cellAddress, string styleID, string cellType,string mdAttr, object formulaValue)
