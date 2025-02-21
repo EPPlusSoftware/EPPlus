@@ -110,5 +110,129 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual("", ws.Cells["B2"].Value);
             }
         }
+        [TestMethod]
+        public void DynamicArrayFormulaWithTwoCellsInTableGenerateCorruptWorkbook()
+        {
+            using (var package = OpenPackage("DynamicArrayTableNew.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sheet = wb.Worksheets.Add("newWorksheet");
+
+                var excelTable = sheet.Tables.Add(sheet.Cells["A1:D4"], "TableTest");
+
+                sheet.Cells["D2:D3"].CreateArrayFormula("SUM(A2:B2 * 1)", false);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void DynamicArrayFormulaWithTwoCellsInTableGenerateCorruptWorkbook2()
+        {
+            using (var package = OpenPackage("DynamicArrayTableNew.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sheet = wb.Worksheets.Add("newWorksheet");
+
+                var excelTable = sheet.Tables.Add(sheet.Cells["A1:D4"], "TableTest");
+                sheet.Cells["C2:D3"].CreateArrayFormula("SUM(A2:B2 * 1)", true);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+
+        [TestMethod]
+        public void FormulaNotConsideredArrayFormula()
+        {
+            using (var package = OpenPackage("FaultyNonArrayFormula.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sheet = wb.Worksheets.Add("newWorksheet");
+
+                sheet.Cells["A2"].Value = 2;
+                sheet.Cells["B2"].Value = 6;
+
+                //sheet.Cells["D2"].CreateArrayFormula("SUM(A2:B2 * 1)", true);
+                sheet.Cells["D2"].Formula = "SUM(A2:B2 * 1)";
+
+                wb.Calculate();
+
+                Assert.AreEqual(8, Convert.ToInt32(sheet.Cells["D2"].Value));
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void InsertArrayFormulaWithoutCalculate()
+        {
+            using (var package = OpenPackage("ArrayTable_InsertNoCalculate.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sheet = wb.Worksheets.Add("newWorksheet");
+
+                var excelTable = sheet.Tables.Add(sheet.Cells["A1:D2"], "TableTest");
+
+                var colFormula = "SUM((TableTest[[#This Row],[Column1]:[Column2]]<>0)*1)>0";
+
+                excelTable.Columns[3].CalculatedColumnFormula = colFormula;
+                excelTable.Columns[3].IsCalculatedFormulaArray = true;
+
+                excelTable.InsertRow(1);
+
+                var cell1 = sheet.Cells["D2"];
+                var cellFormula1 = cell1.Formula;
+                var isArray1 = sheet._flags.GetFlagValue(cell1._fromRow, cell1._fromCol, CellFlags.ArrayFormula);
+
+                Assert.IsTrue(isArray1);
+                Assert.AreEqual(colFormula, cellFormula1);
+
+                var cell = sheet.Cells["D3"];
+                var cellFormula = cell.Formula;
+                var isArray = sheet._flags.GetFlagValue(cell._fromRow, cell._fromCol, CellFlags.ArrayFormula);
+
+                Assert.IsTrue(isArray);
+                Assert.AreEqual(colFormula, cellFormula1);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void InsertArrayFormulaWithCalculate()
+        {
+            using (var package = OpenPackage("ArrayTable_InsertCalculate.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var sheet = wb.Worksheets.Add("newWorksheet");
+
+                var excelTable = sheet.Tables.Add(sheet.Cells["A1:D2"], "TableTest");
+
+                var colFormula = "SUM((TableTest[[#This Row],[Column1]:[Column2]]<>0)*1)>0";
+
+                excelTable.Columns[3].CalculatedColumnFormula = colFormula;
+
+                wb.Calculate();
+
+                excelTable.InsertRow(1);
+
+                var cell1 = sheet.Cells["D2"];
+                var cellFormula1 = cell1.Formula;
+                var isArray1 = sheet._flags.GetFlagValue(cell1._fromRow, cell1._fromCol, CellFlags.ArrayFormula);
+
+                Assert.IsTrue(isArray1);
+                Assert.AreEqual(colFormula, cellFormula1);
+
+                var cell = sheet.Cells["D3"];
+                var cellFormula = cell.Formula;
+                var isArray = sheet._flags.GetFlagValue(cell._fromRow, cell._fromCol, CellFlags.ArrayFormula);
+
+                Assert.IsTrue(isArray);
+                Assert.AreEqual(colFormula, cellFormula1);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
