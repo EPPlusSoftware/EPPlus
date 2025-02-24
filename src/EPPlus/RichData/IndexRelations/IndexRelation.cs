@@ -18,7 +18,7 @@ using System.Text;
 
 namespace OfficeOpenXml.RichData.IndexRelations
 {
-    [DebuggerDisplay("From: {From.EntityType}, To: {To.EntityType}, Deleted: {Deleted}")]
+    [DebuggerDisplay("Id: {Id}, From: {From.EntityType} ({From.Id}), To: {To.EntityType} ({To.Id}), Deleted: {Deleted}")]
     internal class IndexRelation : IdentityItem
     {
         public IndexRelation(RichDataIndexStore store, IndexEndpoint from, IndexEndpoint to, IndexType indexType, IndexRelationType relationType = IndexRelationType.Default)

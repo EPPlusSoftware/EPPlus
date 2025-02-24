@@ -46,7 +46,6 @@ namespace OfficeOpenXml.SensitivityLabels
             Labels = new EPPlusReadOnlyList<IExcelSensibilityLabel>();
             LoadLabelsFromPart();
         }
-
         internal ExcelSensibilityLabelCollection(ExcelPackage pck, SensibilityLabelInfo si)
         {
             _pck = pck;
@@ -241,7 +240,6 @@ namespace OfficeOpenXml.SensitivityLabels
             xml.Save(stream);
             stream.Flush();
         }
-
         private string FormatGuid(string guid)
         {
             if(guid == null || guid.Length!=36) return guid;

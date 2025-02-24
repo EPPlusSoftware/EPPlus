@@ -69,6 +69,8 @@ namespace OfficeOpenXml.CellPictures
         /// EPPlus supports the following image types: Png, Jpg, Gif, Bmp, WebP, Tif, Ico
         /// </summary>
         /// <param name="imageBytes">byte array of the image file</param>
+        /// 
+        /// 
         /// <param name="altText">Alt text for the cell/range picture</param>
         /// <param name="isDecorative">Sets the decorative property (used by accessibility tools)</param>
         public void Set(byte[] imageBytes, string altText = null, bool isDecorative = false)
