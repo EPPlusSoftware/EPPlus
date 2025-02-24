@@ -486,44 +486,6 @@ namespace EPPlusTest.Drawing.DigitalSignatures
         }
 
         [TestMethod]
-        public void SignSaveFileWithLOTSOfData()
-        {
-            string fileName = $"s350.xlsm";
-
-            using (var pck = OpenTemplatePackage(fileName))
-            {
-                var wb = pck.Workbook;
-
-                wb.FullCalcOnLoad = false;
-
-                var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.Add(cert);
-
-                pck.SaveAs(GetOutputFile(SubFolder, fileName));
-            }
-        }
-
-        //Interestingly enough. Excel gets invalid signature when EXCEL tries to save this.
-        //We do too
-        [TestMethod]
-        public void SignSaveFileWithLOTSOfData2()
-        {
-            using (var pck = OpenTemplatePackage("S610.xlsx"))
-            {
-                var wb = pck.Workbook;
-
-                wb.FullCalcOnLoad = false;
-
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                var digSig = wb.DigitialSignatures.Add(store.Certificates[1]);
-
-                SaveAndCleanup(pck);
-            }
-        }
-
-
-        [TestMethod]
         public void SignSaveFileWithData()
         {
             string fileName = "StackedLabelsMoveNineThree.xlsx";

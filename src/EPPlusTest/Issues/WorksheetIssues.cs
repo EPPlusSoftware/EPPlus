@@ -121,40 +121,6 @@ namespace EPPlusTest.Issues
 				SaveAndCleanup(package);
 			}
 		}
-		[TestMethod]
-		public void s610()
-		{
-			using(var p=OpenTemplatePackage("s610.xlsx"))
-			{
-				var wTestSheet = p.Workbook.Worksheets[0];
-				//wTestSheet.Name = "Sheet2";
-				//wTestSheet.View.UnFreezePanes();
-				wTestSheet.InsertColumn(1, 2);
-				SaveAndCleanup(p);
-			}
-		}
-		[TestMethod]
-		public void s614()
-		{
-			using (var package = OpenTemplatePackage("s614.xlsx"))
-			{
-				int sheetIndex = 5;
-				var sheetName = $"Data Sheet_{sheetIndex}";
-				var worksheet = package.Workbook.Worksheets[sheetName];
-				worksheet.Name = "TestSheet_{sheetIndex}";
-
-				worksheet.InsertColumn(1, 2);
-				worksheet.Cells.Style.Font.Name = "ＭＳ Ｐゴシック";
-				worksheet.Cells.Style.Font.Size = 11;
-
-				worksheet.Cells[1, 1].Value = "TextTextTextTextTextTextTextTextTextTextTextText";
-
-				worksheet.Column(1).AutoFit();
-				worksheet.Column(2).AutoFit();
-
-				package.Save();
-			}
-		}
         [TestMethod]
 		public void s616()
 		{

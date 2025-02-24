@@ -1956,16 +1956,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void Issue294()
-        {
-            using (var p = OpenTemplatePackage("test_excel_workbook_before2-xl.xlsx"))
-            {
-                var s = p.Workbook.Styles.NamedStyles.Count;
-                var ws = p.Workbook.Worksheets["Summary"];
-                p.Save();
-            }
-        }
-        [TestMethod]
         public void Issue333_2()
         {
             using (var p = OpenTemplatePackage("issue333-2.xlsx"))
@@ -2491,67 +2481,6 @@ namespace EPPlusTest
         public class Error { public string TypeOfError { get; set; } public int Row { get; set; } public int Col { get; set; } public List<string> Messages { get; set; } }
 
         public class AssetField { public int Index { get; set; } public string Field { get; set; } }
-
-        [TestMethod]
-        public void Issue478()
-        {
-
-            var dataStartRow = 2;
-            var errors = JsonConvert.DeserializeObject<Error[]>("[{\"typeOfError\":\"WARNING\",\"row\":4,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":20,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":35,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":47,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":57,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":60,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":90,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":131,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":136,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":138,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":139,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]}]");
-            var assetFields = JsonConvert.DeserializeObject<AssetField[]>("[{\"index\":1,\"field\":\"Reference\"},{\"index\":15,\"field\":\"ZipCode\"},{\"index\":16,\"field\":\"Municipality\"},{\"index\":17,\"field\":\"FullAddress\"}]");
-
-            using (var excelPackage = OpenTemplatePackage("issue478.xlsx"))
-            {
-                var worksheet = excelPackage.Workbook.Worksheets["Avances"];
-                var start = worksheet.Dimension.Start;
-                var end = worksheet.Dimension.End;
-
-                // Add column of errors and warnings
-                var startMessagesColumn = end.Column + 1;
-                worksheet.InsertColumn(startMessagesColumn, 2);
-                var errorColumn = startMessagesColumn;
-                var warningColumn = startMessagesColumn + 1;
-                worksheet.Cells[(dataStartRow) - 1, errorColumn].Value = "Errors";
-                worksheet.Cells[(dataStartRow) - 1, warningColumn].Value = "Warnings";
-                foreach (var error in errors)
-                {
-                    if (error.TypeOfError == "ERROR")
-                    {
-                        //worksheet.Cells[error.Row - 1, errorColumn].Value += string.Join(" ", error.Messages.Select(w => string.Format("{0} {1}", ASSET_FIELDS.GetValueOrDefault(assetFields.Where(x => x.Index == error.Col).Select(x => x.Field).FirstOrDefault()), w)));
-                    }
-                    else
-                    {
-                        //worksheet.Cells[error.Row - 1, warningColumn].Value += string.Join(" ", error.Messages.Select(w => string.Format("{0} {1}", ASSET_FIELDS.GetValueOrDefault(assetFields.Where(x => x.Index == error.Col).Select(x => x.Field).FirstOrDefault()), w)));
-                    }
-                }
-
-                // Remove distinct columns from "Reference"
-                var colFieldReference = assetFields.Where(x => x.Field == "REFERENCE").Select(x => x.Index).FirstOrDefault();
-                worksheet.Cells[1, colFieldReference + 1].Value = "Reference";
-
-                var deletedColumns = 0;
-                for (int i = 1; i <= end.Column; i++)
-                {
-                    if (colFieldReference + 1 != i && errorColumn != i && warningColumn != i)
-                    {
-                        worksheet.DeleteColumn(i - deletedColumns);
-                        deletedColumns++;
-                    }
-                }
-
-                // Remove rows that do not contain errors
-                var deletedRows = 0;
-                for (int i = 1; i <= end.Row; i++)
-                {
-                    if (i < (dataStartRow - 1) || (i >= dataStartRow && !errors.Any(w => (w.Row - 1) == i)))
-                    {
-                        worksheet.DeleteRow(i - deletedRows);
-                        deletedRows++;
-                    }
-                }
-                SaveAndCleanup(excelPackage);
-            };
-        }
         [TestMethod]
         public void TestColumnWidthsAfterDeletingColumn()
         {
@@ -3356,14 +3285,6 @@ namespace EPPlusTest
                 ws.Cells["P10"].Value = 10;
                 p.Workbook.VbaProject.Remove();
                 SaveWorkbook("i676.xlsx", p);
-            }
-        }
-        [TestMethod]
-        public void s350()
-        {
-            using (var p = OpenTemplatePackage("s350.xlsm"))
-            {
-                SaveWorkbook("s350.xlsm", p);
             }
         }
         [TestMethod]
@@ -4794,28 +4715,6 @@ namespace EPPlusTest
         }
 
         [TestMethod]
-        public void i863()
-        {
-            using (var p = OpenTemplatePackage("i863.xlsx"))
-            {
-                // Removed insertion of PHI data, just re-saving the template for sample purposes
-
-                // Workaround - Issue with "Inputs" tab - Validation of T60:T64 failed: Formula2 must be set if operator is 'between' or 'notBetween' when cells are not using between or notBetween
-                var otherInputTab = p.Workbook.Worksheets.FirstOrDefault(ws => ws.Name.Equals("Inputs"));
-                if (otherInputTab != null)
-                {
-                    otherInputTab.DataValidations.InternalValidationEnabled = false;
-                }
-                // Saving
-                SaveAndCleanup(p);
-
-                var p2 = OpenPackage("i863.xlsx");
-
-                var ws17 = p2.Workbook.Worksheets[16];
-            }
-        }
-
-        [TestMethod]
         public void Issue864()
         {
             using (var p = OpenPackage("i864.xlsx", true))
@@ -5584,41 +5483,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void s539()
-        {
-            //Outputs
-            var pc = Thread.CurrentThread.CurrentCulture;
-
-            try
-            {
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
-
-                string sheetName = "Sheet1";
-                string range = "G2:G5";
-                string value = "VLOOKUP(F2,'Reference Data'!A2:B187021,2,0)";
-                var logFile = new FileInfo("c:\\temp\\formulaLog.log");
-                if (logFile.Exists) logFile.Delete();
-                using (var package = OpenTemplatePackage("s539.xlsm"))
-                {
-                    package.Workbook.FormulaParserManager.AttachLogger(logFile);
-                    var ws = package.Workbook.Worksheets[sheetName];
-                    ws.Cells[range].Formula = value;
-                    ws.Cells[range].Calculate();
-                    SaveAndCleanup(package);
-                }
-            }
-            catch (Exception e)
-            {
-                string exc = "";
-                exc = "Failed. " + e.ToString();
-            }
-            finally
-            {
-                Thread.CurrentThread.CurrentCulture = pc;
-                System.GC.Collect();
-            }
-        }
-        [TestMethod]
         public void I1107()
         {
             using (var package = OpenTemplatePackage("Hyperlink with subaddress.xlsx"))
@@ -5966,22 +5830,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void s551_2()
-        {
-            using (var p = OpenTemplatePackage("s551.xlsx"))
-            {
-                var ws = p.Workbook.Worksheets[0];
-                var usedRange = ws.Cells["a1:b5"];
-                foreach (ExcelRangeRow dataRow in usedRange.EntireRow)
-                {
-                    if (dataRow.Hidden == false)
-                    {
-                        dataRow.Range.Formula = "f1";
-                    }
-                }
-            }
-        }
-        [TestMethod]
         public void i1203()
         {
             using (var p = OpenTemplatePackage("i1203.xlsx"))
@@ -6283,6 +6131,66 @@ namespace EPPlusTest
                 SaveWorkbook("789_issue_only_ws.xlsx", package);
                //SaveAndCleanup(package);
             }
+        }
+        [TestMethod]
+        public void Issue478()
+        {
+
+            var dataStartRow = 2;
+            var errors = JsonConvert.DeserializeObject<Error[]>("[{\"typeOfError\":\"WARNING\",\"row\":4,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":20,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":35,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":47,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":57,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":60,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":90,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":131,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":136,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":138,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":139,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]}]");
+            var assetFields = JsonConvert.DeserializeObject<AssetField[]>("[{\"index\":1,\"field\":\"Reference\"},{\"index\":15,\"field\":\"ZipCode\"},{\"index\":16,\"field\":\"Municipality\"},{\"index\":17,\"field\":\"FullAddress\"}]");
+
+            using (var excelPackage = OpenTemplatePackage("issue478.xlsx"))
+            {
+                var worksheet = excelPackage.Workbook.Worksheets["Avances"];
+                var start = worksheet.Dimension.Start;
+                var end = worksheet.Dimension.End;
+
+                // Add column of errors and warnings
+                var startMessagesColumn = end.Column + 1;
+                worksheet.InsertColumn(startMessagesColumn, 2);
+                var errorColumn = startMessagesColumn;
+                var warningColumn = startMessagesColumn + 1;
+                worksheet.Cells[(dataStartRow) - 1, errorColumn].Value = "Errors";
+                worksheet.Cells[(dataStartRow) - 1, warningColumn].Value = "Warnings";
+                foreach (var error in errors)
+                {
+                    if (error.TypeOfError == "ERROR")
+                    {
+                        //worksheet.Cells[error.Row - 1, errorColumn].Value += string.Join(" ", error.Messages.Select(w => string.Format("{0} {1}", ASSET_FIELDS.GetValueOrDefault(assetFields.Where(x => x.Index == error.Col).Select(x => x.Field).FirstOrDefault()), w)));
+                    }
+                    else
+                    {
+                        //worksheet.Cells[error.Row - 1, warningColumn].Value += string.Join(" ", error.Messages.Select(w => string.Format("{0} {1}", ASSET_FIELDS.GetValueOrDefault(assetFields.Where(x => x.Index == error.Col).Select(x => x.Field).FirstOrDefault()), w)));
+                    }
+                }
+
+                // Remove distinct columns from "Reference"
+                var colFieldReference = assetFields.Where(x => x.Field == "REFERENCE").Select(x => x.Index).FirstOrDefault();
+                worksheet.Cells[1, colFieldReference + 1].Value = "Reference";
+
+                var deletedColumns = 0;
+                for (int i = 1; i <= end.Column; i++)
+                {
+                    if (colFieldReference + 1 != i && errorColumn != i && warningColumn != i)
+                    {
+                        worksheet.DeleteColumn(i - deletedColumns);
+                        deletedColumns++;
+                    }
+                }
+
+                // Remove rows that do not contain errors
+                var deletedRows = 0;
+                for (int i = 1; i <= end.Row; i++)
+                {
+                    if (i < (dataStartRow - 1) || (i >= dataStartRow && !errors.Any(w => (w.Row - 1) == i)))
+                    {
+                        worksheet.DeleteRow(i - deletedRows);
+                        deletedRows++;
+                    }
+                }
+                SaveAndCleanup(excelPackage);
+            };
         }
     }
 }
