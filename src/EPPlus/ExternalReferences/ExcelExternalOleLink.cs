@@ -120,16 +120,21 @@ namespace OfficeOpenXml.ExternalReferences
 
         internal override void Save(StreamWriter sw)
         {
-            sw.Write($"<oleLink progId=\"{ProgId}\" r:id=\"{Relation.Id}\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><oleItems>");
-            foreach (ExcelExternalOleItem item in OleItems)
+            sw.Write($"<oleLink progId=\"{ProgId}\" r:id=\"{Relation.Id}\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">");
+            if (OleItems.Count > 0)
             {
-                sw.Write(string.Format("<mc:AlternateContent><mc:Choice Requires=\"x14\"><x14:oleItem name=\"{0}\" {1}{2}{3}/></mc:Choice><mc:Fallback><oleItem name=\"{0}\" {1}{2}{3}/></mc:Fallback></mc:AlternateContent>",
-                  item.Name,
-                  item.Advise.GetXmlAttributeValue("advise", false),
-                  item.Icon.GetXmlAttributeValue("icon", false),
-                  item.PreferPicture.GetXmlAttributeValue("preferPic", false)));
+                sw.Write("<oleItems>");
+                foreach (ExcelExternalOleItem item in OleItems)
+                {
+                    sw.Write(string.Format("<mc:AlternateContent><mc:Choice Requires=\"x14\"><x14:oleItem name=\"{0}\" {1}{2}{3}/></mc:Choice><mc:Fallback><oleItem name=\"{0}\" {1}{2}{3}/></mc:Fallback></mc:AlternateContent>",
+                      item.Name,
+                      item.Advise.GetXmlAttributeValue("advise", false),
+                      item.Icon.GetXmlAttributeValue("icon", false),
+                      item.PreferPicture.GetXmlAttributeValue("preferPic", false)));
+                }
+                sw.Write("</oleItems>");
             }
-            sw.Write("</oleItems></oleLink>");
+            sw.Write("</oleLink>");
         }
     }
 }

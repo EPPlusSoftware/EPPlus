@@ -625,9 +625,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             xml.Append(" xmlns:xxl21=\"http://schemas.microsoft.com/office/spreadsheetml/2021/extlinks2021\">");
             xml.Append("<oleLink xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"");
             xml.AppendFormat(" r:id=\"{0}\" progId=\"{1}\">", fileRel.Id, progId);
-            xml.Append("<oleItems>");
             if (writeItem)
             {
+                xml.Append("<oleItems>");
                 if (DisplayAsIcon)
                 {
                     xml.AppendFormat("<oleItem name=\"{0}\" icon=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1");
@@ -636,8 +636,9 @@ namespace OfficeOpenXml.Drawing.OleObject
                 {
                     xml.AppendFormat("<oleItem name=\"{0}\" advise=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1");
                 }
+                xml.Append("</oleItems>");
             }
-            xml.Append("</oleItems></oleLink></externalLink>");
+            xml.Append("</oleLink></externalLink>");
             _linkedOleObjectXml = new XmlDocument();
             _linkedOleObjectXml.LoadXml(xml.ToString());
             _linkedOleObjectXml.Save(part.GetStream(FileMode.Create, FileAccess.Write));
