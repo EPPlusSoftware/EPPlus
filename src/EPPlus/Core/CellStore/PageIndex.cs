@@ -68,7 +68,16 @@ namespace OfficeOpenXml.Core.CellStore
                 return (Index << CellStoreSettings._pageBits);
             }
         }
-        internal IndexItem[] Rows { get; set; }
+
+        private IndexItem[] _rows { get; set; }
+
+        internal IndexItem[] Rows { 
+            get { return _rows; }
+            set 
+            {
+                _rows = value;
+            } 
+        }
         /// <summary>
         /// First row index minus last row index
         /// </summary>

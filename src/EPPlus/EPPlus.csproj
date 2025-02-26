@@ -699,4 +699,7 @@
 	<ItemGroup>
 	  <Folder Include="FormulaParsing\FormulaExpressions\Variables\" />
 	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="MSTest.TestAdapter" />
+	</ItemGroup>
 </Project>

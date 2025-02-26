@@ -53,6 +53,9 @@ namespace OfficeOpenXml.Core.CellStore
         internal ColumnIndex<T>[] _columnIndex;
         internal int ColumnCount;
         public bool IsReadonly { get; set; }
+
+        internal int VersionNr;
+
         /// <summary>
         /// For internal use only. 
         /// Must be set before any instance of the CellStore is created.
@@ -60,6 +63,8 @@ namespace OfficeOpenXml.Core.CellStore
         public CellStore()
         {
             _columnIndex = new ColumnIndex<T>[CellStoreSettings.ColSizeMin];
+            ////A column of some kind must exist
+            //AddColumn(0, 1);
         }
         ~CellStore()
         {
@@ -1078,7 +1083,7 @@ namespace OfficeOpenXml.Core.CellStore
             AddPage(columnIndex, nextPage, pagePos + 1);
         }
 
-        private static void ResizePageCollectionIfNecessery(ColumnIndex<T> columnIndex)
+        private static void ResizePageCollectionIfNecessary(ColumnIndex<T> columnIndex)
         {
             if (columnIndex.PageCount  >= columnIndex._pages.Length)
             {
@@ -1132,7 +1137,7 @@ namespace OfficeOpenXml.Core.CellStore
         /// <param name="pos">Position</param>
         private void AddPage(ColumnIndex<T> column, int pos)
         {
-            ResizePageCollectionIfNecessery(column);
+            ResizePageCollectionIfNecessary(column);
 
             if (pos < column.PageCount)
             {
@@ -1590,7 +1595,7 @@ namespace OfficeOpenXml.Core.CellStore
         /// </summary>
         /// <param name="fromCol">From column</param>
         /// <param name="toCol">To Column</param>
-        internal void EnsureColumnsExists(int fromCol, int toCol)
+        internal void EnsureColumnsExists(int fromCol, int toCol, bool addPage = false)
         {
             for (int col = fromCol; col <= toCol; col++)
             {
@@ -1599,6 +1604,13 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     colPos = ~colPos;
                     AddColumn(colPos, col);
+
+                    var aCol = _columnIndex[colPos];
+                    if (addPage && aCol.PageCount < 0)
+                    {
+                        var page = (short)(0 >> CellStoreSettings._pageBits);
+                        AddPage(aCol, 0, page);
+                    }
                 }
             }
         }

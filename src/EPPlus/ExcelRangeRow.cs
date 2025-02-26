@@ -5,6 +5,7 @@ using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Globalization;
 using System.Linq;
 
@@ -346,6 +347,7 @@ namespace OfficeOpenXml
         /// </summary>
         public IEnumerator<ExcelRangeRow> GetEnumerator()
         {
+            Reset();
             return this;
         }
 
@@ -354,17 +356,22 @@ namespace OfficeOpenXml
         /// </summary>
         IEnumerator IEnumerable.GetEnumerator()
         {
+            Reset();
             return this;
         }
 
         CellStoreValue _cs;
-        int enumRow = -1;
+        int enumRow = 1;
         int enumCol = -1;
         int minCol=-1;
+        ColumnIndex<ExcelValue> firstColIndex;
+        int cellStoreVersionNr = -1;
+
         /// <summary>
         /// Iterate to the next row
         /// </summary>
         /// <returns>False if no more row exists</returns>
+        /// Returns true if finds next row to move to. False if there is none.
         public bool MoveNext()
         {
             if (minCol < 0)
@@ -372,8 +379,48 @@ namespace OfficeOpenXml
                 if (_cs == null) Reset();
                 if (minCol < 0) return false;
             }
-            enumCol = -1;
-            return _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow,0);
+
+            if (_cs.ColumnCount > 0)
+            {
+                int endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
+
+                if (minCol >= _cs.ColumnCount)
+                {
+                    return false;
+                }
+
+                if (endColumn >= _cs.ColumnCount)
+                {
+                    endColumn = _cs.ColumnCount - 1;
+                }
+
+                while (enumRow < EndRow)
+                {
+                    for (int i = minCol; i < _cs.ColumnCount; i++)
+                    {
+                        var colIndex = _cs._columnIndex[i];
+                        var rownr = colIndex.GetNextRow(enumRow + 1);
+                        //var rownr = _cs._columnIndex[i]._pages[0].GetRow(enumRow);
+                        if (rownr == (enumRow + 1))
+                        {
+                            enumRow++;
+                            return true;
+                        }
+                    }
+                    enumRow++;
+                }
+                return false;
+
+                //enumCol = -1;
+                ////enumRow++;
+
+                ////int ensureNotRef = enumRow;
+                ////var endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
+                //return _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
+            }
+
+            //Reset();
+            return false;
         }
 
         /// <summary>
@@ -381,9 +428,40 @@ namespace OfficeOpenXml
         /// </summary>
         public void Reset()
         {
+
+            ////var colPos = _worksheet._values.GetColumnPosition(0);
+            ////if (colPos < 0)
+            ////{
+            ////    colPos = ~colPos;
+            ////    _worksheet._values.AddColumn(colPos, 0);
+            ////    var page = (short)(0 >> CellStoreSettings._pageBits);
+            ////    var col = _columnIndex[colPos];
+            ////    _worksheet._values.AddPage(col, 0, _worksheet._values.);
+            ////}
+
+            ////_worksheet.Column(1).StyleID
+
+            //var colPos = _worksheet._values.GetColumnPosition(0);
+
+            //if (colPos < 0)
+            //{
+            //    _worksheet.GetColumn(0).Style.Fill.
+            //    //_worksheet._values.SetValue_Style(0, 0, 1);
+            //}
+
             _cs = _worksheet._values;
+         
+            cellStoreVersionNr = _cs.VersionNr;
             enumRow = _fromRow - 1;
+            //if(enumRow <= 0)
+            //{
+            //    enumRow = 1;
+            //}
             minCol = 0;
+
+            //Ensure that the first col exists
+            ////Ensure at least one column exists
+            //_cs.EnsureColumnsExists(-1, 0);
         }
         /// <summary>
         /// Disposes this object
