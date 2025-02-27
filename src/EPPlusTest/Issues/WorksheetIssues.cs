@@ -224,7 +224,7 @@ namespace EPPlusTest.Issues
 		{
 			using (var pck = new ExcelPackage())
 			{
-				// Set up a ws with a single table that has lots of rows and a calculated column
+				// Set up a worksheet with a single table that has lots of rows and a calculated column
 				var wks = pck.Workbook.Worksheets.Add("Sheet1");
 				wks.Cells["A1:A14"].Value = "Data outside table";
 				wks.Cells["A16"].Value = "Col1";
@@ -488,7 +488,7 @@ namespace EPPlusTest.Issues
 		[TestMethod]
 		public void i1742()
 		{
-			// before this fix we couldn't delete the very last coloumn on the sheet...
+			// before this fix we couldn't delete the very last column on the sheet...
 			using var package = new ExcelPackage();
 			var sheet = package.Workbook.Worksheets.Add("Sheet1");
 			var maxCol = ExcelPackage.MaxColumns;
@@ -587,9 +587,9 @@ namespace EPPlusTest.Issues
 		{
 			// This tests creates a workbook without errors. When this workbook is opened in Excel
 			// and then closed without changing anything, Excel still shows a "Save changes" dialog.
-			// this seems to be related to that Excel renames the ws xml files.
+			// this seems to be related to that Excel renames the worksheet xml files.
 			// EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
-			// this bug was fixed in Github Issue 1794 /MA
+			// this bug was fixed in GitHub Issue 1794 /MA
 
 			using var p = OpenTemplatePackage("Issue1794.xltx");
             var wsTemplate = p.Workbook.Worksheets[0];
@@ -608,9 +608,9 @@ namespace EPPlusTest.Issues
         {
             // This tests creates a workbook without errors. When this workbook is opened in Excel
             // and then closed without changing anything, Excel still shows a "Save changes" dialog.
-            // this seems to be related to that Excel renames the ws xml files.
+            // this seems to be related to that Excel renames the worksheet xml files.
             // EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
-            // this bug was fixed in Github Issue 1794 /MA
+            // this bug was fixed in github Issue 1794 /MA
             using var p = OpenTemplatePackage("Issue1794.xlsx");
             var wsTemplate = p.Workbook.Worksheets[0];
 
