@@ -35,15 +35,9 @@ namespace EPPlusTest.Issues
 			{
 				ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Invoice");
 
-				//var namedStyle = p.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
-				//namedStyle.Style.Font.Name = "Arial";
-				//namedStyle.Style.Font.Size = 7;
 				var namedStyle = package.Workbook.Styles.NamedStyles[0]; // Create a default style
 				namedStyle.Style.Font.Name = "Arial";
 				namedStyle.Style.Font.Size = 7;
-
-				//"&L&\"Arial,Normal\"&8";
-
 
 				// Default font and size for spreadsheet  DOES NOT WORK
 				worksheet.Cells.Style.Font.Name = "Arial";
@@ -55,24 +49,12 @@ namespace EPPlusTest.Issues
 
 				// Set other print settings as needed
 				worksheet.PrinterSettings.Orientation = eOrientation.Portrait;
-				//ws.PrinterSettings.FitToPage = true;
-				//ws.PrinterSettings.FitToWidth = 1;
 				worksheet.PrinterSettings.FooterMargin = 5;
-
-
-
-
-				//string longText = ""; // Our long string
-				//int maxLineLength = 140; // Maximum length of each line, adjust as needed
-				//						 //var lines = SplitStringIntoLines(longText, maxLineLength);
 
 
 				// Now 'lines' contains our text split into lines.
 				// We can then concatenate these lines with a line break character for the footer.
 				//string footerText = string.Join(Environment.NewLine, lines.Take(5)); // Take only the first 5 lines
-
-
-
 
 				var footerText = "This communication is intended only for the addressed recipient(s) and may contain information which is privileged, confidential, commercially sensitive and exempt from " + // + "\n" + 
 					"disclosure under applicable codes and laws.Unauthorised copying.";// or disclosure of this communication to any other person is strictly prohibited. ";// +
@@ -84,26 +66,6 @@ namespace EPPlusTest.Issues
 
 				worksheet.HeaderFooter.OddFooter.LeftAlignedText = footerText;
 				worksheet.HeaderFooter.EvenFooter.LeftAlignedText = footerText; // We want the same for even pages
-
-
-				//ws.HeaderFooter.OddFooter.CenteredText = "Test Disclaimer";
-				//ws.HeaderFooter.EvenFooter.CenteredText = "Test Disclaimer";
-
-
-
-
-				// Populate all elements of the SS in order
-				//int startRow = 1;
-				//PopulateInvoiceHeader(ws, invoiceHeader, company, shipper, invoiceType, imagePath, ref startRow);
-				//PopulateInvoiceDetailLines(ws, invoiceHeader, ref startRow);
-				//PopulateInvoiceSummary(ws, invoiceHeader, invoiceType, ref startRow);
-				//PopulateInvoicenote(ws, invoiceHeader, ref startRow);
-				//PopulateInvoiceVATnote(ws, shipper, company, invoiceHeader, ref startRow);
-				//PopulateInvoiceFootnoteData(ws, company, invoiceHeader, ref startRow);
-				//  PopulateDisclaimer(ws, invoiceHeader, ref startRow);
-
-
-
 
 				// Conversion factor (assuming the default font size)
 				double conversionFactor = 0.45;
@@ -128,8 +90,6 @@ namespace EPPlusTest.Issues
 			using(var p=OpenTemplatePackage("s610.xlsx"))
 			{
 				var wTestSheet = p.Workbook.Worksheets[0];
-				//wTestSheet.Name = "Sheet2";
-				//wTestSheet.View.UnFreezePanes();
 				wTestSheet.InsertColumn(1, 2);
 				SaveAndCleanup(p);
 			}
@@ -382,7 +342,6 @@ namespace EPPlusTest.Issues
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.StackTrace);
-                    //Assert.Fail("Expected no exception, but got: " + ex.Message);
                 }
             }
         }
@@ -550,7 +509,6 @@ namespace EPPlusTest.Issues
                 var formulaB6 = ws.Cells["B6"].Formula;
 
 				ws.InsertRow(5, 1, 4 - 1);
-				//ws.Cells["B5"].Insert(eShiftTypeInsert.Down);
 
                 Assert.AreEqual("B2+B3", ws.Cells["B4"].Formula);
                 Assert.AreEqual("", ws.Cells["B5"].Formula);
