@@ -625,11 +625,16 @@ namespace EPPlusTest.Core.Worksheet
 
                 //var rows = ws.Rows[range.Start.Row, range.End.Row];
 
+                int numIter = 0;
+
                 foreach (var row in ws.Rows)
                 {
                     row.Style.Fill.SetBackground(Color.CornflowerBlue);
                     ws.InsertRow(row.StartRow + 1, 1);
+                    numIter++;
                 }
+
+                Assert.AreEqual(5, numIter);
 
                 SaveAndCleanup(p);
             }

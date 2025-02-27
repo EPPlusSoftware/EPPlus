@@ -361,6 +361,7 @@ namespace OfficeOpenXml
         }
 
         CellStoreValue _cs;
+        //int enumRow = 1;
         int enumRow = 1;
         int enumCol = -1;
         int minCol=-1;
@@ -413,31 +414,70 @@ namespace OfficeOpenXml
         }
 
         bool isFirstIteration = true;
+        int previousEnumRow = 0;
 
         bool MoveNextCellIteration()
         {
             if (_cs.ColumnCount > 0)
             {
-                if(isFirstIteration)
+                if(enumRow < EndRow)
                 {
-                    enumRow = -1;
-                    isFirstIteration = false;
-                }
+                    var endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
 
-                var endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
+                    //Every iteration we want to find the first column in case it has values of the appropriate row.
+                    //NextCell method moves to other columns if it does not exist in this column
+                    if(firstColIndex == null)
+                    {
+                        enumCol = -1;
+                        enumRow = -1;
+                    }
+                    else
+                    {
+                        enumCol = firstColIndex.Index;
+                        if(enumCol != 0)
+                        {
+                            enumRow++;
+                        }
+                    }
+                    //enumCol = firstColIndex != null ? firstColIndex.Index : -1;
 
-                var preRow = enumRow;
-                var rowExists = _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
-                if(enumRow == preRow)
-                {
-                    enumRow++;
+                    //enumRow++;
+                    //previousEnumRow = enumRow;
+                    //var refProtection = enumRow;
+                    var rowWasFound = _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
+
+                    if (firstColIndex == null)
+                    {
+                        if (_cs.GetValue(enumRow, _cs.GetColumnIndex(enumCol))._value != null)
+                        {
+                            firstColIndex = _cs.GetColumnIndex(enumCol);
+                        }
+                    }
+                    //var rownr = _cs.GetColumnIndex(enumCol).GetNextRow(enumRow);
+                    //enumRow = previousEnumRow > enumRow ? previousEnumRow++ : enumRow++;
+
+                    return rowWasFound;
                 }
-                if (enumRow >= _toRow)
-                {
-                    return false;
-                }
-                //enumRow++;
-                return rowExists;
+                //if(isFirstIteration)
+                //{
+                //    enumRow = -1;
+                //    isFirstIteration = false;
+                //}
+
+                //var endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
+
+                //var preRow = enumRow;
+                //var rowExists = _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
+                //if(enumRow == preRow)
+                //{
+                //    enumRow++;
+                //}
+                //if (enumRow >= _toRow)
+                //{
+                //    return false;
+                //}
+                ////enumRow++;
+                //return rowExists;
             }
             return false;
         }
@@ -504,8 +544,8 @@ namespace OfficeOpenXml
                 if (minCol < 0) return false;
             }
 
-            return MoveNextSimplified();
-            //return MoveNextCellIteration();
+            //return MoveNextSimplified();
+            return MoveNextCellIteration();
            // return MoveNextCellIterationAlternative();
 
         }
@@ -515,6 +555,7 @@ namespace OfficeOpenXml
         /// </summary>
         public void Reset()
         {
+            firstColIndex = null;
             isFirstIteration = true;
             _cs = _worksheet._values;
             cellStoreVersionNr = _cs.VersionNr;
