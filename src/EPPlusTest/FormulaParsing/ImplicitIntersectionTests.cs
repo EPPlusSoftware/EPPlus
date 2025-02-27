@@ -227,6 +227,8 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual("Not B", sheet.Cells["C5"].Value);
                 Assert.AreEqual(2, sheet.Cells["C6"].Value);
                 Assert.AreEqual("Not B", sheet.Cells["C7"].Value);
+
+                SaveWorkbook("ifImplicit.xlsx", package);
             }
         }
     }

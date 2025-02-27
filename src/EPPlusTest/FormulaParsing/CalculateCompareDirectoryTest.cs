@@ -21,7 +21,7 @@ using System.Linq;
 namespace EPPlusTest.FormulaParsing
 {
     [TestClass]
-    public class CalculateCompareDirecory : TestBase
+    public class CalculateCompareDirectory : TestBase
     {
         //private ParsingContext _context;
         //private ExcelPackage _package;
@@ -40,6 +40,29 @@ namespace EPPlusTest.FormulaParsing
         {
         }
         [TestMethod]
+        public void VerifySingleCell()
+        {
+            var path = _testInputPathOptional + "CalculationTests\\";
+
+            var xlFile = path + "4103_180_20210527_CAST_Risk_CRP_202103_internal.xlsx";
+            string logFile = path + new FileInfo(xlFile).Name + ".log";
+
+            using (var p = new ExcelPackage(xlFile))
+            {
+                p.Workbook.ClearFormulaValues();
+                var ws = p.Workbook.Worksheets["risk report"];
+                ws.Calculate();
+                //ws.Cells["C79:C80"].Calculate();
+                //var ws = p.Workbook.Worksheets["opties"];
+                //ws.Cells["A53"].Calculate();
+
+                //Assert.AreEqual(1.245085622, ((double)ws.Cells["C80"].Value), 0.001);
+            }
+
+            //VerifyCalculationInPackage(xlFile, logFile);
+        }
+
+        [TestMethod]
         public void VerifyCalculationInCalculateTestDirectory()
         {
             var path = _testInputPathOptional + "CalculationTests\\";
@@ -51,8 +74,7 @@ namespace EPPlusTest.FormulaParsing
             foreach(var xlFile in Directory.GetFiles(path).Where(x => x.EndsWith(".xlsx") || x.EndsWith(".xlsm")))
             {
                 string logFile = path + new FileInfo(xlFile).Name + ".log";
-
-
+                
                 VerifyCalculationInPackage(xlFile, logFile);
             }
         }
@@ -75,7 +97,7 @@ namespace EPPlusTest.FormulaParsing
                 p.Workbook.FormulaParserManager.AttachLogger(formulaLogFile);
                 var values = new Dictionary<ulong, object>();
                 foreach (var ws in p.Workbook.Worksheets)
-                {                    
+                {
                     if (ws.IsChartSheet) continue;
                     var cse = new CellStoreEnumerator<object>(ws._formulas);
                     foreach(var f in cse)
@@ -102,12 +124,12 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
-                    p.Workbook.Calculate(x => x.CacheExpressions=true);
+                    p.Workbook.Calculate(x => x.AllowCircularReferences=true);
                     //p.Workbook.Worksheets["Monthly Cash Flow"].Cells["F10"].Calculate(x => x.CacheExpressions = false);
                 }
                 catch (Exception ex)
                 {
-                    logWriter.WriteLine($"An exception occured: {ex}");
+                    logWriter.WriteLine($"An exception occurred: {ex}");
                 }
 
                 
@@ -166,32 +188,6 @@ namespace EPPlusTest.FormulaParsing
 
                 SaveWorkbook($"calcIssue{extension}", p);
             }
-        }
-        private void UpdateData(ExcelPackage p)
-        {
-            var inputSheet = p.Workbook.Worksheets["Invoer"];
-            if (inputSheet == null) return;
-            inputSheet.Cells[2, 1].Value = "Avery 50 gold gloss Polyester op 123 cm";
-            inputSheet.Cells[2, 2].Value = 1;
-            inputSheet.Cells[2, 3].Value = 0;
-            inputSheet.Cells[2, 7].Value = 44910d;
-            inputSheet.Cells[2, 8].Value = "Vink VTS";
-            inputSheet.Cells[2, 10].Value = "1268";
-            inputSheet.Cells[2, 11].Value = "NL";
-            inputSheet.Cells[2, 12].Value = "2719JE";
-            inputSheet.Cells[2, 13].Value = 17;
-            inputSheet.Cells[2, 14].Value = 5592;
-            inputSheet.Cells[2, 15].Value = 770347;
-
-            var opties2Sheet = p.Workbook.Worksheets["Opties 2"];
-            var outputSheet = p.Workbook.Worksheets["Uitvoer"];
-            //opties2Sheet.Calculate();
-            //outputSheet.Calculate();
-            //package.Workbook.Calculate();
-            //outputSheet.Calculate();
-            //var outputA2 = outputSheet.Cells[2, 1].Value;
-            //var outputB2 = outputSheet.Cells[2, 1].Value;
-
         }
     }
 }

@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using static OfficeOpenXml.ExcelAddressBase;
 using static OfficeOpenXml.ExcelWorksheet;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -514,17 +515,18 @@ namespace OfficeOpenXml.FormulaParsing
             NextFormula:
                 var fe = f._formulaEnumerator;
                 var row = fe.Row;
-                var col = fe.Column < 0 ? fe._startCol - 1 : fe.Column;
+                var col = fe.Column < 0 ? fe._startCol : fe.Column;
+                var rPos = fe.RangePos;
                 if (fe.Next())
                 {
                     if (fe.Value == null || depChain.processedCells.Contains(ExcelCellBase.GetCellId(f._enumeratorWorksheetIx, fe.Row, fe.Column)))
                     {
-                        MergeToRd(rd, row, col, fe, false);
+                        MergeToRd(rd, row, rPos, col, fe, false);
                         goto NextFormula;
                     }
 
                     depChain._formulaStack.Push(f);
-                    MergeToRd(rd, row, col, fe, false);
+                    MergeToRd(rd, row, col,rPos, fe, false);
                     if (GetFormula(depChain, ws, fe.Row, fe.Column, fe.Value, ref f))
                     {
                         goto ExecuteFormula;
@@ -535,7 +537,7 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                 }
 
-                MergeToRd(rd, row, col, fe, true);
+                MergeToRd(rd, row, col, rPos, fe, true);
 
                 f._formulaEnumerator = null;
                 f._tokenIndex++;
@@ -772,19 +774,39 @@ namespace OfficeOpenXml.FormulaParsing
             var e=f._expressionStack.Pop();            
             SetValueToWorkbook(depChain, f, rd, e.Compile());
         }
-        private static void MergeToRd(RangeHashset rd, int fromRow, int fromCol, CellStoreEnumerator<object> fe, bool atEnd)
+        private static void MergeToRd(RangeHashset rd, int fromRow, int fromCol, int rangePos, CellStoreEnumerator<object> fe, bool atEnd)
         {
-            var startCol = fe._startCol;           
+            if (rangePos < fe.RangePos)
+            {
+                var a = fe.Ranges[rangePos];
+                if (fromCol < 1) fromCol = 1;
+                MergeAddressToRd(rd, fe, fromRow, fromCol, a.ToRow, a.ToCol, a.ToRow, a.ToCol);
+                for (int i = rangePos; i < fe.RangePos - 1; i++)
+                {
+                    a = fe.Ranges[i];
+                    MergeAddressToRd(rd, fe, a.FromRow, a.FromCol, a.ToRow, a.ToCol, a.ToRow, a.ToCol);
+                }
+                //var rp = fe.Ranges.Count > rangePos ? rangePos : fe.Ranges.Count - 1;
+                //a = fe.Ranges[rp];
+                //fromRow = a.FromRow; 
+                //fromCol = a.FromCol;
+                fromRow = fe._startRow;
+                fromCol = fe._startCol;
+            }
+            else
+            {
+                if (fromCol > fe._endCol)
+                {
+                    if (fe._endRow <= fromRow) return;
+                    fromCol = fe._startCol;
+                    fromRow++;
+                }
+            }
+
             var endRow = fe._endRow;
             var endCol = fe._endCol;
-            if (++fromCol > fe._endCol)
-            {
-                if (endRow <= fromRow) return;
-                fromCol = startCol;
-                fromRow++;
-            }
             int toRow, toCol;
-            if (atEnd || fe.Column < 0 || endRow < fe.Row || endCol < fe.Column) 
+            if (atEnd || fe.Column < 0 || endRow < fe.Row || endCol < fe.Column)
             {
                 toRow = endRow;
                 toCol = endCol;
@@ -794,34 +816,39 @@ namespace OfficeOpenXml.FormulaParsing
                 toRow = fe.Row;
                 toCol = fe.Column;
             }
+            MergeAddressToRd(rd, fe, fromRow, fromCol, toRow, toCol, endRow, endCol);
+        }
 
+        private static void MergeAddressToRd(RangeHashset rd, CellStoreEnumerator<object> fe, int fromRow, int fromCol, int toRow, int toCol, int endRow, int endCol)
+        {
+            var startCol = fe._startCol;
             FormulaRangeAddress fa;
-            if(fe._startRow == endRow || startCol==endCol)
+            if (fe._startRow == endRow || startCol == endCol)
             {
                 fa = new FormulaRangeAddress() { FromCol = fromCol, FromRow = fromRow, ToCol = toCol, ToRow = toRow };
                 rd.Merge(ref fa);
             }
             else if (fromRow < toRow)
             {
-                if(fromCol > startCol)
+                if (fromCol > startCol)
                 {
-                    fa = new FormulaRangeAddress() { FromCol = fromCol, FromRow = fromRow, ToCol=endCol, ToRow=fromRow};
+                    fa = new FormulaRangeAddress() { FromCol = fromCol, FromRow = fromRow, ToCol = endCol, ToRow = fromRow };
                     rd.Merge(ref fa);
                     fromRow++;
                 }
-                if(fromRow < toRow)
+                if (fromRow < toRow)
                 {
-                    if(toCol == endCol)
+                    if (toCol == endCol)
                     {
                         fa = new FormulaRangeAddress() { FromCol = startCol, FromRow = fromRow, ToCol = endCol, ToRow = toRow };
                         rd.Merge(ref fa);
                         return;
                     }
-                    fa = new FormulaRangeAddress() { FromCol = startCol, FromRow = fromRow, ToCol = endCol, ToRow = toRow-1 };
+                    fa = new FormulaRangeAddress() { FromCol = startCol, FromRow = fromRow, ToCol = endCol, ToRow = toRow - 1 };
                     rd.Merge(ref fa);
                     fromRow = toRow;
                 }
-                if(fromRow==toRow)
+                if (fromRow == toRow)
                 {
                     fa = new FormulaRangeAddress() { FromCol = startCol, FromRow = toRow, ToCol = toCol, ToRow = toRow };
                     rd.Merge(ref fa);
@@ -1243,6 +1270,7 @@ namespace OfficeOpenXml.FormulaParsing
                 if (string.IsNullOrEmpty(key) || !cache.TryGetValue(key, out funcExp._cachedCompileResult))
                 {
                     args = CompileFunctionArguments(f, funcExp);
+                    funcExp.Status = ExpressionStatus.CanCompile;
                     return funcExp.SetArguments(args);
                 }
                 else
@@ -1268,13 +1296,24 @@ namespace OfficeOpenXml.FormulaParsing
             CompileResult result;
             if (funcExp.Status==ExpressionStatus.IsCached)
             {
-                result = funcExp._cachedResult;
+                result = funcExp._cachedCompileResult;
             }
             else
             {
                 result = funcExp.Compile();
+                if (_cacheExpressions)
+                {
+                    funcExp._cachedCompileResult = result;
+                    var key = funcExp.GetExpressionKey(f);
+                    if (key != null)
+                    {
+                        funcExp.Status = ExpressionStatus.IsCached;
+                        var cache = depChain.GetCache(f._ws);
+                        cache.Add(key, result);
+                    }
+                }
             }
-            if(funcExp._function!=null && funcExp._function.ReturnsReference && result.Address!=null && result.Address.FromRow > 0)
+            if (funcExp._function!=null && funcExp._function.ReturnsReference && result.Address!=null && result.Address.FromRow > 0)
             {
                 f._expressionStack.Push(new RangeExpression(result.Address));
             }

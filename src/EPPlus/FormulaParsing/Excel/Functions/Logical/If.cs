@@ -47,7 +47,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             {
 
                 if((ri.Size.NumberOfRows > 1 || ri.Size.NumberOfCols > 1) && 
-                    context.CurrentWorksheet._flags.GetFlagValue(context.CurrentCell.Row, context.CurrentCell.Column, CellFlags.CanBeDynamicArray))
+                    context.CurrentWorksheet._flags.GetFlagValue(context.CurrentCell.Row, context.CurrentCell.Column, CellFlags.CanBeDynamicArray|CellFlags.ArrayFormula))
                 {
                     return If_DynamicArrayFormula(arg1, arg2, ri);
                 }
@@ -314,6 +314,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         }
 
         public override bool ReturnsReference => true;
+        public override bool IsVolatile => true;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             if (argumentIndex == 0)

@@ -193,7 +193,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     return Math.Round(product, 0, MidpointRounding.AwayFromZero);
                 }
-                return (double)Decimal.Round((Decimal)product, numberOfSignificantFigures - (int)wholeNumberPart, MidpointRounding.AwayFromZero);
+                return (double)Decimal.Round((Decimal)product, Math.Min(numberOfSignificantFigures - (int)wholeNumberPart,28), MidpointRounding.AwayFromZero);
             }
         }
 
