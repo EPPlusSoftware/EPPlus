@@ -55,8 +55,8 @@ namespace EPPlusTest.Issues
 
 				// Set other print settings as needed
 				worksheet.PrinterSettings.Orientation = eOrientation.Portrait;
-				//worksheet.PrinterSettings.FitToPage = true;
-				//worksheet.PrinterSettings.FitToWidth = 1;
+				//ws.PrinterSettings.FitToPage = true;
+				//ws.PrinterSettings.FitToWidth = 1;
 				worksheet.PrinterSettings.FooterMargin = 5;
 
 
@@ -86,21 +86,21 @@ namespace EPPlusTest.Issues
 				worksheet.HeaderFooter.EvenFooter.LeftAlignedText = footerText; // We want the same for even pages
 
 
-				//worksheet.HeaderFooter.OddFooter.CenteredText = "Test Disclaimer";
-				//worksheet.HeaderFooter.EvenFooter.CenteredText = "Test Disclaimer";
+				//ws.HeaderFooter.OddFooter.CenteredText = "Test Disclaimer";
+				//ws.HeaderFooter.EvenFooter.CenteredText = "Test Disclaimer";
 
 
 
 
 				// Populate all elements of the SS in order
 				//int startRow = 1;
-				//PopulateInvoiceHeader(worksheet, invoiceHeader, company, shipper, invoiceType, imagePath, ref startRow);
-				//PopulateInvoiceDetailLines(worksheet, invoiceHeader, ref startRow);
-				//PopulateInvoiceSummary(worksheet, invoiceHeader, invoiceType, ref startRow);
-				//PopulateInvoicenote(worksheet, invoiceHeader, ref startRow);
-				//PopulateInvoiceVATnote(worksheet, shipper, company, invoiceHeader, ref startRow);
-				//PopulateInvoiceFootnoteData(worksheet, company, invoiceHeader, ref startRow);
-				//  PopulateDisclaimer(worksheet, invoiceHeader, ref startRow);
+				//PopulateInvoiceHeader(ws, invoiceHeader, company, shipper, invoiceType, imagePath, ref startRow);
+				//PopulateInvoiceDetailLines(ws, invoiceHeader, ref startRow);
+				//PopulateInvoiceSummary(ws, invoiceHeader, invoiceType, ref startRow);
+				//PopulateInvoicenote(ws, invoiceHeader, ref startRow);
+				//PopulateInvoiceVATnote(ws, shipper, company, invoiceHeader, ref startRow);
+				//PopulateInvoiceFootnoteData(ws, company, invoiceHeader, ref startRow);
+				//  PopulateDisclaimer(ws, invoiceHeader, ref startRow);
 
 
 
@@ -264,7 +264,7 @@ namespace EPPlusTest.Issues
 		{
 			using (var pck = new ExcelPackage())
 			{
-				// Set up a worksheet with a single table that has lots of rows and a calculated column
+				// Set up a ws with a single table that has lots of rows and a calculated column
 				var wks = pck.Workbook.Worksheets.Add("Sheet1");
 				wks.Cells["A1:A14"].Value = "Data outside table";
 				wks.Cells["A16"].Value = "Col1";
@@ -629,7 +629,7 @@ namespace EPPlusTest.Issues
 		{
 			// This tests creates a workbook without errors. When this workbook is opened in Excel
 			// and then closed without changing anything, Excel still shows a "Save changes" dialog.
-			// this seems to be related to that Excel renames the worksheet xml files.
+			// this seems to be related to that Excel renames the ws xml files.
 			// EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
 			// this bug was fixed in Github Issue 1794 /MA
 
@@ -650,7 +650,7 @@ namespace EPPlusTest.Issues
         {
             // This tests creates a workbook without errors. When this workbook is opened in Excel
             // and then closed without changing anything, Excel still shows a "Save changes" dialog.
-            // this seems to be related to that Excel renames the worksheet xml files.
+            // this seems to be related to that Excel renames the ws xml files.
             // EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
             // this bug was fixed in Github Issue 1794 /MA
             using var p = OpenTemplatePackage("Issue1794.xlsx");
@@ -807,6 +807,18 @@ namespace EPPlusTest.Issues
             Assert.AreEqual("3", loadedSheet.Cells["A2"].ThreadedComment.Comments.First().Text);
             Assert.AreEqual("2", loadedSheet.Cells["B1"].Comment.Text);
             Assert.AreEqual("3", loadedSheet.Cells["B2"].Comment.Text);
+        }
+		[TestMethod]
+		public void i1876()
+        {
+            using (var p = OpenTemplatePackage("i1876.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];                
+				var dv = ws.DimensionByValue;
+
+				Assert.AreEqual("A1:F1", dv.Address);
+
+            }
         }
     }
 }
