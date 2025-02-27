@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing.OleObject;
+using OfficeOpenXml.Table.PivotTable.Calculation.ShowDataAs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,7 +33,6 @@ namespace EPPlusTest.Core
             Assert.AreEqual(testString, p3.Workbook.Worksheets[0].Cells["A7"].Value);
 
             p.SaveAs("C:\\epplusTest\\Testoutput\\OleEmbeddedLinkData.xlsx");
-
         }
 
         [TestMethod]
@@ -42,19 +42,9 @@ namespace EPPlusTest.Core
             using var p = OpenTemplatePackage("OleObjectTest_Embed_XLSX.xlsx");
             var ws = p.Workbook.Worksheets[0];
             var ole = ws.Drawings[0] as ExcelOleObject;
-            var b1 = ole.GetEmbeddedObjectBytes();
-            var pp = ole.GetEmbeddedPackage();
-            var b2 = ole.GetEmbeddedObjectBytes();
-            ole.SetEmbeddedPackage(pp);
-            var b3 = ole.GetEmbeddedObjectBytes();
+            ole.CreateLinkToEmbeddedPackage();
             ws.Cells["A5"].CreateArrayFormula("[1]!'!Sheet1!Object 1!Sheet1!R2C3'");
             SaveAndCleanup(p);
-
-            var p2 = new ExcelPackage("C:\\epplusTest\\Testoutput\\OleObjectTest_Embed_XLSX.xlsx");
-            var ws2 = p2.Workbook.Worksheets[0];
-            var ole2 = ws2.Drawings[0] as ExcelOleObject;
-            var b4 = ole2.GetEmbeddedObjectBytes();
-
         }
 
         [TestMethod]
@@ -69,32 +59,39 @@ namespace EPPlusTest.Core
             SaveAndCleanup(p);
         }
 
+
+        [TestMethod]
+        public void TestInvalidFile()
+        {
+            using var p = OpenTemplatePackage("OleObjectTest_Embed_DOCX.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var ole = ws.Drawings[0] as ExcelOleObject;
+
+            Assert.ThrowsException<InvalidOperationException>(() => ole.GetEmbeddedPackage());
+        }
+
     }
 }
 
 /*
- * WHEN EMBEDDING XLSX:
- * 
- * 
- * TODO:
- * write tests.
- * update docs
- * ?
- * 
- * 
- * 
- * External links wiki documentation
- * 
- * ### External Links to Embedded XLSX files.
-As of version 8.?, EPPlus has now limited support for links to embedded XLSX files. EPPlus won't use links for calculation but will preservde them and you can write formulas for referencing data in an embedded XLSX file.
-There now exsists a method on OLE Objects called var embeddedPackage = GetEmbeddedPackage() that returns the ExcelPackage of the embedded workbook that you can manipulate like any other workbook in EPPlus. To save the changes use SetEmbeddedPackage(embeddedPackage)
-to save it.
+
+### Linking to Embedded XLSX files.
+See the page for OLE Objects.
 
 
+//Ole Object wiki text
 
-Formulas have the following format:
-[1]!'!Sheet1!Object 1!OleSheet!R7C1'
+### Link to cell inside an embedded xlsx Ole Object.
 
+While EPPlus won't use the formula for calculation, you can still add formulas that reference data inside an OLE Object. The object must be a valid xlsx file else it might create a corrupt workbook.
+To add a formula that references a cell in the embedded xlsx file you must first prepare the file by adding a link to it. You can do it by calling CreateLinkToEmbeddedObject() method on the Ole Object. You can then add
+formulas using the following format: [1]!'!Sheet1!Object 1!OleSheet!R7C1'
 The [1]! is the index of the externalLink. !Sheet1 is the name of the sheet in the current workbook. !Object 1 is the name of the OLE Object. !OleSheet is the name of the worksheet inside !Object 1. !R7C1 is referecing the 7th row in the 1st Column.
 An exmaple use would be ws.Cells["A5"].CreateArrayFormula("[1]!'!Sheet1!Object 1!OleSheet!R7C1'");
+
+
+### Open an embedded xlsx document for editing.
+EPPlus supports opening and editing embedded workbooks. You can use the var embeddedPackage = GetEmbeddedPackage() to get the embedded excel package that you can manipulate like any other workbook in EPPlus.
+To save the changes use SetEmbeddedPackage(embeddedPackage) method.
+
  */

@@ -763,6 +763,19 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
+        public void CreateLinkToEmbeddedPackage()
+        {
+            if (IsExternalLink || _oleObject.ProgId != "Worksheet" || _oleObject.ProgId != "Excel.Sheet.12")
+            {
+                throw new InvalidOperationException("This method is only for embedded Ole Objects.");
+            }
+            if (_externalLink == null)
+            {
+                ZipPackagePart part = null;
+                CreateLinkToObject(_worksheet._package.File.FullName, GetProgId(".xlsx"), part, false);
+            }
+        }
+
         /// <summary>
         /// Get the workbook of the embedded xlsx object.
         /// </summary>
@@ -770,9 +783,9 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// <exception cref="NotImplementedException"></exception>
         public ExcelPackage GetEmbeddedPackage()
         {
-            if (IsExternalLink)
+            if (IsExternalLink || _oleObject.ProgId != "Worksheet" || _oleObject.ProgId != "Excel.Sheet.12")
             {
-                throw new InvalidOperationException("");
+                throw new InvalidOperationException("Invaldig Ole Object. Only support excel workbooks.");
             }
             if (_externalLink == null)
             {
@@ -794,12 +807,12 @@ namespace OfficeOpenXml.Drawing.OleObject
 
         internal override void DeleteMe()
         {
-            if (IsExternalLink)
+            if (IsExternalLink || _externalLink != null)
             {
                 //delete externalReferences
                 _worksheet.Workbook.ExternalLinks.Remove(_externalLink);
             }
-            else
+            if(!IsExternalLink)
             {
                 //Delete embeddings
                 _worksheet._package.ZipPackage.DeletePart(_oleObjectPart.Uri);
