@@ -367,19 +367,11 @@ namespace OfficeOpenXml
         ColumnIndex<ExcelValue> firstColIndex;
         int cellStoreVersionNr = -1;
 
-        /// <summary>
-        /// Iterate to the next row
-        /// </summary>
-        /// <returns>False if no more row exists</returns>
-        /// Returns true if finds next row to move to. False if there is none.
-        public bool MoveNext()
+        //This assumes the cellstore value copy we reference does not change during iteration
+        //Which it can't.
+        //The original collection will however not match current worksheet state...
+        bool MoveNextSimplified()
         {
-            if (minCol < 0)
-            {
-                if (_cs == null) Reset();
-                if (minCol < 0) return false;
-            }
-
             if (_cs.ColumnCount > 0)
             {
                 int endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
@@ -400,27 +392,122 @@ namespace OfficeOpenXml
                     {
                         var colIndex = _cs._columnIndex[i];
                         var rownr = colIndex.GetNextRow(enumRow + 1);
-                        //var rownr = _cs._columnIndex[i]._pages[0].GetRow(enumRow);
                         if (rownr == (enumRow + 1))
                         {
-                            enumRow++;
-                            return true;
+                            if(colIndex != null)
+                            {
+                                //Filter out styles etc. Only return true if the actual cell value exists.
+                                //Setting propeties on the row itself like e.g. `Hidden = True` count as values.
+                                if (_cs.GetValue(rownr, colIndex.Index)._value != null)
+                                {
+                                    enumRow++;
+                                    return true;
+                                }
+                            }
                         }
                     }
                     enumRow++;
                 }
-                return false;
+            }
+            return false;
+        }
 
-                //enumCol = -1;
+        bool isFirstIteration = true;
+
+        bool MoveNextCellIteration()
+        {
+            if (_cs.ColumnCount > 0)
+            {
+                if(isFirstIteration)
+                {
+                    enumRow = -1;
+                    isFirstIteration = false;
+                }
+
+                var endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
+
+                var preRow = enumRow;
+                var rowExists = _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
+                if(enumRow == preRow)
+                {
+                    enumRow++;
+                }
+                if (enumRow >= _toRow)
+                {
+                    return false;
+                }
+                //enumRow++;
+                return rowExists;
+            }
+            return false;
+        }
+
+        bool MoveNextCellIterationAlternative()
+        {
+            if (_cs.ColumnCount > 0)
+            {
+                if (isFirstIteration)
+                {
+                    enumRow = -1;
+                    isFirstIteration = false;
+                }
+
+                if (enumRow >= _toRow)
+                {
+                    return false;
+                }
+
+                var endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
+
+                enumCol = -1;
+
+                var preRow = enumRow;
+                var rowExists = _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
+                if (enumRow == preRow)
+                {
+                    enumRow++;
+                }
+                //if (isFirstIteration)
+                //{
+                //    enumRow = -1;
+                //    isFirstIteration = false;
+                //}
+
+                //var endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
+
+                ////var preRow = enumRow;
+                //var rowExists = _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
+                //if (enumRow == preRow)
+                //{
+                //    enumRow++;
+                //}
+                //if (enumRow >= _toRow)
+                //{
+                //    return false;
+                //}
                 ////enumRow++;
+                return rowExists;
+            }
+            return false;
+        }
 
-                ////int ensureNotRef = enumRow;
-                ////var endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
-                //return _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
+        /// <summary>
+        /// Iterate to the next row
+        /// </summary>
+        /// <returns>False if no more row exists</returns>
+        /// Returns true if finds next row to move to. False if there is none.
+        public bool MoveNext()
+        {
+            if (minCol < 0)
+            {
+                if (_cs == null) Reset();
+                if (minCol < 0) return false;
             }
 
-            //Reset();
-            return false;
+            return MoveNextSimplified();
+            //return MoveNextCellIteration();
+           // return MoveNextCellIterationAlternative();
+
         }
 
         /// <summary>
@@ -428,40 +515,11 @@ namespace OfficeOpenXml
         /// </summary>
         public void Reset()
         {
-
-            ////var colPos = _worksheet._values.GetColumnPosition(0);
-            ////if (colPos < 0)
-            ////{
-            ////    colPos = ~colPos;
-            ////    _worksheet._values.AddColumn(colPos, 0);
-            ////    var page = (short)(0 >> CellStoreSettings._pageBits);
-            ////    var col = _columnIndex[colPos];
-            ////    _worksheet._values.AddPage(col, 0, _worksheet._values.);
-            ////}
-
-            ////_worksheet.Column(1).StyleID
-
-            //var colPos = _worksheet._values.GetColumnPosition(0);
-
-            //if (colPos < 0)
-            //{
-            //    _worksheet.GetColumn(0).Style.Fill.
-            //    //_worksheet._values.SetValue_Style(0, 0, 1);
-            //}
-
+            isFirstIteration = true;
             _cs = _worksheet._values;
-         
             cellStoreVersionNr = _cs.VersionNr;
             enumRow = _fromRow - 1;
-            //if(enumRow <= 0)
-            //{
-            //    enumRow = 1;
-            //}
             minCol = 0;
-
-            //Ensure that the first col exists
-            ////Ensure at least one column exists
-            //_cs.EnsureColumnsExists(-1, 0);
         }
         /// <summary>
         /// Disposes this object

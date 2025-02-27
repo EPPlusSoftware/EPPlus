@@ -1208,8 +1208,21 @@ namespace OfficeOpenXml.Core.CellStore
                     }
                     else
                     {
+                        var cBefore = c;
                         var r = GetNextCell(ref row, ref c, minColPos, maxRow, maxColPos);
-                        col = _columnIndex[c].Index;
+
+                        if(_columnIndex[c] != null)
+                        {
+                            col = _columnIndex[c].Index;
+                        }
+                        else
+                        {
+                            //This happens when
+                            if (row >= maxRow)
+                            {
+                                //do something? Update col? 'c' is almost certainly past last index in columnIndex here.
+                            }
+                        }
                         return r;
                     }
                 }
@@ -1361,7 +1374,7 @@ namespace OfficeOpenXml.Core.CellStore
 
                             if (minRow == int.MaxValue || minRow > endRow)
                             {
-                                return false;
+                                    return false;
                             }
                             else
                             {

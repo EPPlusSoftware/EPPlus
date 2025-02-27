@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OfficeOpenXml.FormulaParsing.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Drawing;
@@ -10,6 +11,32 @@ namespace EPPlusTest.Core.Worksheet
     public class WorksheetRowIterationTests : TestBase
     {
         [TestMethod]
+        public void IterateRowsWithPropeties()
+        {
+            using (var p = OpenPackage("Rows_Iterate_WithProperty.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("rowSheet");
+
+                int iteratedRows = 0;
+
+                ws.Row(1).Hidden = true;
+                ws.Row(2).Hidden = true;
+                ws.Row(3).Hidden = true;
+
+                var rows = ws.Rows;
+                foreach (var row in rows)
+                {
+                    Assert.IsTrue(row.Hidden);
+                    iteratedRows++;
+                }
+
+                Assert.AreEqual(3, iteratedRows);
+            }
+        }
+
+
+            [TestMethod]
         public void RowsIterateEmptyShouldSkip()
         {
             using (var p = OpenPackage("DeleteRows.xlsx", true))
@@ -171,23 +198,39 @@ namespace EPPlusTest.Core.Worksheet
         }
 
         [TestMethod]
+        public void SetStylingOnRows()
+        {
+            using (var p = OpenPackage("NumRows_SetRowColStyles.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("rowSheet");
+
+                var values = ws._values;
+
+                ws.Cells["A1"].EntireColumn.Style.Fill.SetBackground(Color.Blue);
+
+                var range = ws.Cells["N1:R5"];
+
+                range.Value = "1";
+
+                var rows = ws.Rows[range.Start.Row, range.End.Row];
+
+                int nrRowsAfter = 0;
+                foreach (var row in rows)
+                {
+                    nrRowsAfter++;
+                }
+
+                Assert.AreEqual(5 , nrRowsAfter);
+            }
+        }
+
+
+        [TestMethod]
         public void NumRowsSetRowColStyles()
         {
             using (var p = OpenPackage("NumRows_SetRowColStyles.xlsx", true))
             {
-                //List<int> inmts = new List<int> { 1, 2, 3, 4 };
-
-                //int numThrough = 0;
-                //foreach(var num in inmts)
-                //{
-                //    numThrough++;
-                //}
-
-                //foreach (var num in inmts)
-                //{
-                //    numThrough++;
-                //}
-
                 var wb = p.Workbook;
                 var ws = wb.Worksheets.Add("rowSheet");
 
@@ -534,7 +577,45 @@ namespace EPPlusTest.Core.Worksheet
         [TestMethod]
         public void DoesNotCareAboutSetCellsOnRows()
         {
-            using (var p = OpenPackage("IteratingAndAddingToRows.xlsx", true))
+            using (var p = OpenPackage("IteratingAndAddingToRowsRange.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("iterateSetWs");
+
+                var range = ws.Cells["N1:R5"];
+
+
+                ws.Cells["N2"].Value = 5;
+
+                ws.Cells["R4"].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dashed;
+
+                ws.Row(5).Hidden = true;
+
+                foreach (var row in range.EntireRow)
+                {
+                    row.Style.Fill.SetBackground(Color.CadetBlue);
+                }
+
+                //var rows = ws.Rows[range.Start.Row, range.End.Row];
+
+                //int iteratedNr = 0;
+
+                //foreach (var row in rows)
+                //{
+                //    row.Style.Fill.SetBackground(Color.CadetBlue);
+                //    ws.InsertRow(row.StartRow + 1, 1);
+                //    ws.Row(row.StartRow + 1).Height = ws.Row(row.StartRow + 1).Height + 0.1;
+                //    iteratedNr++;
+                //}
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void DoesNotCareAboutSetCellsOnRowsNonRange()
+        {
+            using (var p = OpenPackage("IteratingAndAddingToRowsWs.xlsx", true))
             {
                 var wb = p.Workbook;
                 var ws = wb.Worksheets.Add("iterateSetWs");
@@ -542,12 +623,51 @@ namespace EPPlusTest.Core.Worksheet
                 var range = ws.Cells["N1:R5"];
                 range.Value = "1";
 
-                var rows = ws.Rows[range.Start.Row, range.End.Row];
+                //var rows = ws.Rows[range.Start.Row, range.End.Row];
 
-                foreach (var row in rows)
+                foreach (var row in ws.Rows)
                 {
-                    row.Style.Fill.SetBackground(Color.Blue);
+                    row.Style.Fill.SetBackground(Color.CornflowerBlue);
                     ws.InsertRow(row.StartRow + 1, 1);
+                }
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void HoleInRows()
+        {
+            using (var p = OpenPackage("HoleInRows.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("iterateSeveral");
+
+                var range = ws.Cells["N1:R5"];
+
+                var range2 = ws.Cells["B8:R9"];
+
+                var range3 = ws.Cells["C10:L12"];
+
+
+                range.Value = 1;
+                range2.Value = 2;
+                range3.Value = 3;
+
+                foreach (var row in ws.Rows)
+                {
+                    if(row.StartRow < 6)
+                    {
+                        row.Style.Fill.SetBackground(Color.IndianRed);
+                    }
+                    else if(row.StartRow >= 6 && row.StartRow < 10)
+                    {
+                        row.Style.Fill.SetBackground(Color.DarkOliveGreen);
+                    }
+                    else if(row.StartRow > 9)
+                    {
+                        row.Style.Fill.SetBackground(Color.CadetBlue);
+                    }
                 }
 
                 SaveAndCleanup(p);
