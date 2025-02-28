@@ -11,6 +11,7 @@
   6/4/2022         EPPlus Software AB           ExcelTable Html Export
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
 using System.Collections.Generic;
