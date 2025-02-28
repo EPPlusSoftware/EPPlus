@@ -236,8 +236,24 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
         [TestMethod]
-        public void ValidateWorksheetGetValue_Timespan()
+        public void ValidateDimensionValue2WithGap()
         {
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("Sheet1");
+                ws.Cells["A4:H10"].Style.Numberformat.Format = "0";
+                ws.Cells["B14:C14"].Value = 1;
+                ws.Cells["G12:K12"].Value = 1;
+                ws.Cells["G2:K2"].Value = 1;
+
+                ws.Cells["H20:L22"].Style.Fill.SetBackground(Color.Blue);
+
+                Assert.AreEqual("B2:K14", ws.DimensionByValue.Address);
+            }
+        } 
+        [TestMethod]
+        public void ValidateWorksheetGetValue_Timespan()
+        {               
             var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet1");
             ws.SetValue("A1", new TimeSpan(12, 30, 45));
