@@ -71,12 +71,17 @@ namespace OfficeOpenXml.Drawing
 
         internal byte[] GetImageBytes(Uri imageUri)
         {
-            var part = _pck.ZipPackage.GetPart(imageUri);
-            var s = part.GetStream();
-            var ms = new MemoryStream();
-            var destStream = ms as Stream;
-            StreamUtil.CopyStream(s, ref destStream);
-            return ms.ToArray();
+            if (_pck.ZipPackage.PartExists(imageUri))
+            {
+                var part = _pck.ZipPackage.GetPart(imageUri);
+
+                var s = part.GetStream();
+                var ms = new MemoryStream();
+                var destStream = ms as Stream;
+                StreamUtil.CopyStream(s, ref destStream);
+                return ms.ToArray();
+            }
+            return null;
         }
         internal ImageInfo AddImage(byte[] image)
         {
@@ -277,7 +282,7 @@ namespace OfficeOpenXml.Drawing
 
         internal ImageInfo GetImageInfoByHash(string hash)
         {
-            if (_images.ContainsKey(hash))
+            if (hash != null && _images.ContainsKey(hash))
             {
                 return _images[hash];
             }
