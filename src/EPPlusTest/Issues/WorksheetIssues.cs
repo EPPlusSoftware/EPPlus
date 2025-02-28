@@ -808,5 +808,18 @@ namespace EPPlusTest.Issues
             Assert.AreEqual("2", loadedSheet.Cells["B1"].Comment.Text);
             Assert.AreEqual("3", loadedSheet.Cells["B2"].Comment.Text);
         }
+		[TestMethod]
+		public void i1878()
+		{
+            using (var p = OpenTemplatePackage("i1878.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.First();
+
+                var timeSpanCell = ws.GetValue<TimeSpan>(1,1);
+
+                Assert.AreEqual(timeSpanCell.Ticks, new TimeSpan(12, 30, 45).Ticks);
+            }
+        }
+
     }
 }
