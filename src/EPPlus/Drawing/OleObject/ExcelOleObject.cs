@@ -765,7 +765,7 @@ namespace OfficeOpenXml.Drawing.OleObject
 
         public void CreateLinkToEmbeddedPackage()
         {
-            if (IsExternalLink || _oleObject.ProgId != "Worksheet" || _oleObject.ProgId != "Excel.Sheet.12")
+            if (IsExternalLink ||( _oleObject.ProgId != "Worksheet" && _oleObject.ProgId != "Excel.Sheet.12"))
             {
                 throw new InvalidOperationException("This method is only for embedded Ole Objects.");
             }
@@ -783,9 +783,9 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// <exception cref="NotImplementedException"></exception>
         public ExcelPackage GetEmbeddedPackage()
         {
-            if (IsExternalLink || _oleObject.ProgId != "Worksheet" || _oleObject.ProgId != "Excel.Sheet.12")
+            if (IsExternalLink || (_oleObject.ProgId != "Worksheet" && _oleObject.ProgId != "Excel.Sheet.12"))
             {
-                throw new InvalidOperationException("Invaldig Ole Object. Only support excel workbooks.");
+                throw new InvalidOperationException("Invalid Ole Object. Only support excel workbooks.");
             }
             if (_externalLink == null)
             {

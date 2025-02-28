@@ -2573,9 +2573,12 @@ namespace OfficeOpenXml
             }
             else if(d is ExcelOleObject o)
             {
-                if (o._oleObjectPart == null && o._linkedOleObjectXml != null)
+                if (o.IsExternalLink)
                 {
-                    o._linkedOleObjectXml.Save(o._oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+                    if (o._oleObjectPart != null && o._linkedOleObjectXml != null)
+                    {
+                        o._linkedOleObjectXml.Save(o._oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+                    }
                 }
                 o.UpdateXml();
             }
