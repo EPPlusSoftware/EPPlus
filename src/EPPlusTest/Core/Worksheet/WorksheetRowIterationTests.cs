@@ -598,7 +598,6 @@ namespace EPPlusTest.Core.Worksheet
 
                 var range = ws.Cells["N1:R5"];
 
-
                 ws.Cells["N2"].Value = 5;
 
                 ws.Cells["R4"].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dashed;
