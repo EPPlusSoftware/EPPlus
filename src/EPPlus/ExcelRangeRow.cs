@@ -413,8 +413,63 @@ namespace OfficeOpenXml
             return false;
         }
 
-        bool isFirstIteration = true;
-        int previousEnumRow = 0;
+        int lastEnumRow = int.MinValue;
+        int lastEnumCol = int.MinValue;
+
+        bool MoveNextRow()
+        {
+            if (_cs.ColumnCount > 0)
+            {
+                if (enumRow < EndRow)
+                {
+                    var endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
+
+                    if (firstColIndex == null)
+                    {
+                        //First iteration, find first value if it exists
+                        enumCol = -1;
+                        if (enumRow <= 0)
+                        {
+                            enumRow = -1;
+                        }
+                    }
+                    else
+                    {
+                        //Reset column
+                        enumCol = firstColIndex.Index;
+                    }
+
+                    var previousEnumRow = enumRow;
+
+                    bool nextCellIsFound = true;
+
+                    //Because column is reset, if e.g. cell 7,2 is found being reset to 7,0 may cause the same cell to be found.
+                    //To avoid this returning a faulty true on the next ROW rather than cell. We look for cells until we've found a new row.
+                    while(enumRow == previousEnumRow && nextCellIsFound)
+                    {
+                        nextCellIsFound = _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
+                    }
+
+                    if (nextCellIsFound && firstColIndex == null)
+                    {
+                        var colindex = _cs.GetColumnIndex(enumCol);
+                        if (_cs.GetValue(enumRow, colindex.Index)._value != null)
+                        {
+                            firstColIndex = _cs.GetColumnIndex(enumCol);
+                        }
+                    }
+
+                    //Fixes row missmatch possible on first iteration
+                    if (enumRow == 0)
+                    {
+                        enumRow++;
+                    }
+
+                    return nextCellIsFound;
+                }
+            }
+            return false;
+        }
 
         bool MoveNextCellIteration()
         {
@@ -429,34 +484,57 @@ namespace OfficeOpenXml
                     if(firstColIndex == null)
                     {
                         enumCol = -1;
-                        enumRow = -1;
+                        if(enumRow <= 0)
+                        {
+                            enumRow = -1;
+                        }
+                        //else
+                        //{
+                        //    enumRow++;
+                        //}
                     }
                     else
                     {
-                        enumCol = firstColIndex.Index;
-                        if(enumCol != 0)
-                        {
-                            enumRow++;
-                        }
+                        //We always want to check for rows from the first relevant column
+                        //enumCol = firstColIndex.Index;
+                        //if (enumCol != 0)
+                        //{
+                        //    enumRow++;
+                        //}
                     }
+
+                    lastEnumRow = enumRow;
+                    lastEnumCol = enumCol;
+
                     //enumCol = firstColIndex != null ? firstColIndex.Index : -1;
 
                     //enumRow++;
                     //previousEnumRow = enumRow;
                     //var refProtection = enumRow;
-                    var rowWasFound = _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
+
+                    var cellWasFound = _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
 
                     if (firstColIndex == null)
                     {
-                        if (_cs.GetValue(enumRow, _cs.GetColumnIndex(enumCol))._value != null)
+                        var colindex = _cs.GetColumnIndex(enumCol);
+                        if (_cs.GetValue(enumRow, colindex.Index)._value != null)
                         {
                             firstColIndex = _cs.GetColumnIndex(enumCol);
                         }
                     }
+
+                    //We never wanna get next cell on the same row
+                    //Sometimes nextCell iterates the enumRow sometimes it doesn't.
+                    if (enumRow == lastEnumRow || enumRow == 0)
+                    {
+                        enumRow++;
+                        cellWasFound = _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
+                    }
+
                     //var rownr = _cs.GetColumnIndex(enumCol).GetNextRow(enumRow);
                     //enumRow = previousEnumRow > enumRow ? previousEnumRow++ : enumRow++;
 
-                    return rowWasFound;
+                    return cellWasFound;
                 }
                 //if(isFirstIteration)
                 //{
@@ -486,12 +564,6 @@ namespace OfficeOpenXml
         {
             if (_cs.ColumnCount > 0)
             {
-                if (isFirstIteration)
-                {
-                    enumRow = -1;
-                    isFirstIteration = false;
-                }
-
                 if (enumRow >= _toRow)
                 {
                     return false;
@@ -545,8 +617,10 @@ namespace OfficeOpenXml
             }
 
             //return MoveNextSimplified();
-            return MoveNextCellIteration();
-           // return MoveNextCellIterationAlternative();
+            //return MoveNextCellIteration();
+            return MoveNextRow();
+
+            // return MoveNextCellIterationAlternative();
 
         }
 
@@ -556,10 +630,10 @@ namespace OfficeOpenXml
         public void Reset()
         {
             firstColIndex = null;
-            isFirstIteration = true;
             _cs = _worksheet._values;
             cellStoreVersionNr = _cs.VersionNr;
             enumRow = _fromRow - 1;
+            lastEnumRow = int.MinValue;
             minCol = 0;
         }
         /// <summary>

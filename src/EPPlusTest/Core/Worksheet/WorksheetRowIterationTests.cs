@@ -32,14 +32,15 @@ namespace EPPlusTest.Core.Worksheet
                 }
 
                 Assert.AreEqual(3, iteratedRows);
+                SaveAndCleanup(p);
             }
         }
 
 
             [TestMethod]
-        public void RowsIterateEmptyShouldSkip()
+        public void DoNotIterateEmpty()
         {
-            using (var p = OpenPackage("DeleteRows.xlsx", true))
+            using (var p = OpenPackage("IterateRows_Empty.xlsx", true))
             {
                 var wb = p.Workbook;
                 var ws = wb.Worksheets.Add("rowSheet");
@@ -60,40 +61,9 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-        [TestMethod]
-        public void EnsureEntireRowWorks()
-        {
-            using (var p = OpenPackage("DeleteRows.xlsx", true))
-            {
-                var wb = p.Workbook;
-                var ws = wb.Worksheets.Add("rowSheet");
-
-                var range = ws.Cells["A1:D10"];
-
-                range.Value = "";
-
-                range.EntireRow.Style.Fill.SetBackground(Color.DarkRed);
-
-                var royalBlue = ws.Cells["A1"].Style.Fill.BackgroundColor.Rgb;
-
-                var subRange = ws.Cells["A3:D6"];
-
-                var subRows = subRange.EntireRow;
-                subRows.Style.Fill.SetBackground(Color.Yellow);
-
-                var yellowRgb = subRows.Style.Fill.BackgroundColor.Rgb;
-
-                foreach (var row in subRows)
-                {
-                    Assert.AreEqual(yellowRgb, row.Style.Fill.BackgroundColor.Rgb);
-                }
-
-                SaveAndCleanup(p);
-            }
-        }
 
         [TestMethod]
-        public void DeleteAllWithPredicate()
+        public void DeleteAllRowslWithPredicate()
         {
             using (var p = OpenPackage("DeleteRowsWithPredicate.xlsx", true))
             {
@@ -120,8 +90,9 @@ namespace EPPlusTest.Core.Worksheet
                 SaveAndCleanup(p);
             }
         }
+
         [TestMethod]
-        public void IterationTest()
+        public void DeleteAllHiddenRows()
         {
             using (var p = OpenPackage("IterateRows.xlsx", true))
             {
@@ -140,58 +111,9 @@ namespace EPPlusTest.Core.Worksheet
 
                 ws.Rows.DeleteAll(r => r.Hidden == true);
 
-                //Assert.AreEqual(0, ws.Cells[4, 2].Value);
-                //Assert.AreEqual(5, ws.Cells[7, 2].Value);
-                //Assert.AreEqual(10, ws.Cells[9, 2].Value);
-
-
-                //var hiddenRows = ws.Rows.Where(r => r.Hidden == true);
-
-                //foreach (var row in hiddenRows)
-                //{
-                //    ws.DeleteRow(row.StartRow);
-                //}
-
-                SaveAndCleanup(p);
-            }
-        }
-        [TestMethod]
-        public void IterationTest2()
-        {
-            using (var p = OpenPackage("IterateRows2.xlsx", true))
-            {
-                var wb = p.Workbook;
-                var ws = wb.Worksheets.Add("rowSheet");
-
-                ws.Row(2).Height = ws.Row(2).Height * 1.1;
-                ws.Row(5).Hidden = true;
-                ws.Row(6).Hidden = true;
-
-                ws.Cells[7, 2].Value = 5;
-
-                ws.Row(9).Hidden = true;
-                ws.Cells[10, 2].Value = 10;
-
-                var range = ws.Cells["A2:B11"];
-                var rows = ws.Rows[range.Start.Row, range.End.Row];
-
-                List<int> otherRows = new();
-                foreach (var row in rows)
-                {
-                    otherRows.Add(row.StartRow);
-                }
-
-                var hiddenRows = ws.Rows.Where(r => r.Hidden == true);
-
-                List<int> startingRows = new();
-
-                foreach (var row in hiddenRows)
-                {
-                    startingRows.Add(row.StartRow);
-                }
-
-                Assert.AreEqual(3, startingRows.Count());
-                Assert.AreEqual(5, startingRows[0]);
+                Assert.AreEqual(0, ws.Cells[4, 2].Value);
+                Assert.AreEqual(5, ws.Cells[5, 2].Value);
+                Assert.AreEqual(10, ws.Cells[7, 2].Value);
 
                 SaveAndCleanup(p);
             }
@@ -200,7 +122,7 @@ namespace EPPlusTest.Core.Worksheet
         [TestMethod]
         public void SetStylingOnRows()
         {
-            using (var p = OpenPackage("NumRows_SetRowColStyles.xlsx", true))
+            using (var p = OpenPackage("IterateRows_SetRowColStyles.xlsx", true))
             {
                 var wb = p.Workbook;
                 var ws = wb.Worksheets.Add("rowSheet");
@@ -218,13 +140,114 @@ namespace EPPlusTest.Core.Worksheet
                 int nrRowsAfter = 0;
                 foreach (var row in rows)
                 {
+                    row.Style.Fill.SetBackground(Color.IndianRed);
                     nrRowsAfter++;
                 }
 
-                Assert.AreEqual(5 , nrRowsAfter);
+                Assert.AreEqual(5, nrRowsAfter);
+
+                SaveAndCleanup(p);
             }
         }
 
+        [TestMethod]
+        public void RowsIterateEntireRowSubRange()
+        {
+            using (var p = OpenPackage("IterateRows_EntireRowSubrange.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("rowSheet");
+
+                var range = ws.Cells["A1:D10"];
+
+                range.Value = "";
+
+                range.EntireRow.Style.Fill.SetBackground(Color.DarkRed);
+
+                var darkRed = ws.Cells["A1"].Style.Fill.BackgroundColor.Rgb;
+
+                var subRange = ws.Cells["A3:D6"];
+
+                var subRows = subRange.EntireRow;
+                subRows.Style.Fill.SetBackground(Color.Yellow);
+
+                var yellowRgb = subRows.Style.Fill.BackgroundColor.Rgb;
+
+                var blueRgb = "";
+
+                List<int> iteratedRowIndicies = new(); 
+
+                foreach (var row in subRows)
+                {
+                    iteratedRowIndicies.Add(row.StartRow);
+                    Assert.AreEqual(yellowRgb, row.Style.Fill.BackgroundColor.Rgb);
+                    if(row.StartRow == 3 || row.StartRow == 5)
+                    {
+                        row.Style.Fill.SetBackground(Color.Blue);
+                        blueRgb = row.Style.Fill.BackgroundColor.Rgb;
+                    }
+                }
+
+                Assert.AreEqual(blueRgb, ws.Cells["A3"].EntireRow.Style.Fill.BackgroundColor.Rgb);
+                Assert.AreEqual(blueRgb, ws.Cells["A5"].EntireRow.Style.Fill.BackgroundColor.Rgb);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void IterateRowsWithValues()
+        {
+            using (var p = OpenPackage("IterateRows_WithValues.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("rowSheet");
+
+                ws.Row(2).Height = ws.Row(2).Height * 1.1;
+                ws.Row(5).Hidden = true;
+                ws.Row(6).Hidden = true;
+
+                ws.Cells[7, 2].Value = 5;
+
+                ws.Row(9).Hidden = true;
+                ws.Cells[10, 2].Value = 10;
+
+                var range = ws.Cells["A2:B11"];
+                var rows = ws.Rows[range.Start.Row, range.End.Row];
+
+                List<int> iteratedValueRows = new();
+                foreach (var row in rows)
+                {
+                    iteratedValueRows.Add(row.StartRow);
+                }
+                Assert.AreEqual(6, iteratedValueRows.Count);
+
+                Assert.AreEqual(2, iteratedValueRows[0]);
+                Assert.AreEqual(5, iteratedValueRows[1]);
+                Assert.AreEqual(6, iteratedValueRows[2]);
+                Assert.AreEqual(7, iteratedValueRows[3]);
+                Assert.AreEqual(9, iteratedValueRows[4]);
+                Assert.AreEqual(10, iteratedValueRows[5]);
+
+
+                var hiddenRows = ws.Rows.Where(r => r.Hidden == true);
+
+                List<int> foundRows = new();
+
+                foreach (var row in hiddenRows)
+                {
+                    foundRows.Add(row.StartRow);
+                }
+
+                Assert.AreEqual(3, foundRows.Count());
+
+                Assert.AreEqual(5, foundRows[0]);
+                Assert.AreEqual(6, foundRows[1]);
+                Assert.AreEqual(9, foundRows[2]);
+
+                SaveAndCleanup(p);
+            }
+        }
 
         [TestMethod]
         public void NumRowsSetRowColStyles()
@@ -312,33 +335,18 @@ namespace EPPlusTest.Core.Worksheet
 
                 var range = ws.Cells["N1:R5"];
 
-
-                //int nrRowsBefore = 0;
-                //foreach (var row in ws.Rows[range.Start.Row, range.End.Row])
-                //{
-                //    row.Style.Fill.SetBackground(Color.Red);
-                //    nrRowsBefore++;
-                //}
-
-                //int nrColsBefore = 0;
-
-                //foreach (var col in ws.Columns[range.Start.Column, range.End.Column])
-                //{
-                //    ws.Columns[col.StartColumn].Style.Fill.SetBackground(Color.Red);
-                //    nrColsBefore++;
-                //}
-
                 range.Value = "1";
 
                 var rows = ws.Rows[range.Start.Row, range.End.Row];
-                //var cols = ws.Columns[range.Start.Column, range.End.Column];
 
                 int nrRowsAfter = 0;
                 foreach (var row in rows)
                 {
-                    row.Style.Fill.SetBackground(Color.Red);
+                    row.Style.Fill.SetBackground(Color.Yellow);
                     nrRowsAfter++;
                 }
+
+                Assert.AreEqual(5, nrRowsAfter);
 
                 var entireRows = range.EntireRow;
                 int nrEntireRowsAfter = 0;
@@ -356,12 +364,16 @@ namespace EPPlusTest.Core.Worksheet
                     nrEntireRowsAfter++;
                 }
 
+                Assert.AreEqual(5, nrEntireRowsAfter);
+
                 int nrColsAfter = 0;
                 foreach (var col in ws.Columns[range.Start.Column, range.End.Column])
                 {
                     ws.Columns[col.StartColumn].Style.Fill.SetBackground(Color.Red);
                     nrColsAfter++;
                 }
+
+                Assert.AreEqual(5, nrColsAfter);
 
                 SaveAndCleanup(p);
             }
@@ -421,14 +433,6 @@ namespace EPPlusTest.Core.Worksheet
 
                 var startRow = ws.Rows.StartRow;
                 var endRow = ws.Rows.EndRow;
-
-                //var dimensionRows = ws.Rows[ws.Dimension.Start.Row,ws.Dimension.End.Row];
-
-                //int numDimRows = 0;
-                //foreach(var dimRow in dimensionRows)
-                //{
-                //    numDimRows++;
-                //}
 
                 foreach (var row in rows)
                 {
@@ -494,9 +498,12 @@ namespace EPPlusTest.Core.Worksheet
                     colNr++;
                 }
 
+                List<int> iteratedRows = new();
+
                 var entireRows2 = range.EntireRow;
                 foreach (var row in entireRows2)
                 {
+                    iteratedRows.Add(row.StartRow);
                     rowNr++;
                 }
 
@@ -504,6 +511,13 @@ namespace EPPlusTest.Core.Worksheet
 
                 Assert.AreEqual(5, colNr);
                 Assert.AreEqual(5, rowNr);
+
+                Assert.AreEqual(5, iteratedRows.Count());
+                Assert.AreEqual(1, iteratedRows[0]);
+                Assert.AreEqual(2, iteratedRows[1]);
+                Assert.AreEqual(3, iteratedRows[2]);
+                Assert.AreEqual(4, iteratedRows[3]);
+                Assert.AreEqual(5, iteratedRows[4]);
             }
         }
 
@@ -575,7 +589,41 @@ namespace EPPlusTest.Core.Worksheet
         }
 
         [TestMethod]
-        public void DoesNotCareAboutSetCellsOnRows()
+        public void FindsRowsIfCellValueSet()
+        {
+            using (var p = OpenPackage("FindsRowsIfCellValueSet.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("iterateSetWs");
+
+                var range = ws.Cells["N1:R5"];
+
+
+                ws.Cells["N2"].Value = 5;
+
+                ws.Cells["R4"].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dashed;
+
+                ws.Row(5).Hidden = true;
+
+                List<int> iteratedRows = new();
+
+                foreach (var row in range.EntireRow)
+                {
+                    iteratedRows.Add(row.StartRow);
+                    row.Style.Fill.SetBackground(Color.CadetBlue);
+                }
+
+                Assert.AreEqual(3, iteratedRows.Count());
+                Assert.AreEqual(2, iteratedRows[0]);
+                Assert.AreEqual(4, iteratedRows[1]);
+                Assert.AreEqual(5, iteratedRows[2]);
+
+                SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void IteratingAndAddingToRowsRange()
         {
             using (var p = OpenPackage("IteratingAndAddingToRowsRange.xlsx", true))
             {
@@ -591,29 +639,36 @@ namespace EPPlusTest.Core.Worksheet
 
                 ws.Row(5).Hidden = true;
 
+                List<int> iteratedRows = new();
+
                 foreach (var row in range.EntireRow)
                 {
+                    iteratedRows.Add(row.StartRow);
                     row.Style.Fill.SetBackground(Color.CadetBlue);
                 }
 
-                //var rows = ws.Rows[range.Start.Row, range.End.Row];
+                Assert.AreEqual(3, iteratedRows.Count());
+                Assert.AreEqual(2, iteratedRows[0]);
+                Assert.AreEqual(4, iteratedRows[1]);
+                Assert.AreEqual(5, iteratedRows[2]);
 
-                //int iteratedNr = 0;
+                var rows = ws.Rows[range.Start.Row, range.End.Row];
 
-                //foreach (var row in rows)
-                //{
-                //    row.Style.Fill.SetBackground(Color.CadetBlue);
-                //    ws.InsertRow(row.StartRow + 1, 1);
-                //    ws.Row(row.StartRow + 1).Height = ws.Row(row.StartRow + 1).Height + 0.1;
-                //    iteratedNr++;
-                //}
+                int iteratedNr = 0;
+
+                foreach (var row in rows)
+                {
+                    ws.InsertRow(row.StartRow + 1, 1);
+                    ws.Row(row.StartRow + 1).Height = ws.Row(row.StartRow + 1).Height + 0.1;
+                    iteratedNr++;
+                }
 
                 SaveAndCleanup(p);
             }
         }
 
-        [TestMethod]
-        public void DoesNotCareAboutSetCellsOnRowsNonRange()
+                [TestMethod]
+        public void IteratingAndAddingToRowsWsNoValues()
         {
             using (var p = OpenPackage("IteratingAndAddingToRowsWs.xlsx", true))
             {
@@ -623,12 +678,13 @@ namespace EPPlusTest.Core.Worksheet
                 var range = ws.Cells["N1:R5"];
                 range.Value = "1";
 
-                //var rows = ws.Rows[range.Start.Row, range.End.Row];
-
                 int numIter = 0;
+
+                List<int> iteratedRows = new();
 
                 foreach (var row in ws.Rows)
                 {
+                    iteratedRows.Add(row.StartRow);
                     row.Style.Fill.SetBackground(Color.CornflowerBlue);
                     ws.InsertRow(row.StartRow + 1, 1);
                     numIter++;
@@ -659,8 +715,12 @@ namespace EPPlusTest.Core.Worksheet
                 range2.Value = 2;
                 range3.Value = 3;
 
+                List<int> iteratedRows = new();
+
                 foreach (var row in ws.Rows)
                 {
+                    iteratedRows.Add(row.StartRow);
+
                     if(row.StartRow < 6)
                     {
                         row.Style.Fill.SetBackground(Color.IndianRed);
