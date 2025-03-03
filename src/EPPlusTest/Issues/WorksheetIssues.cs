@@ -778,5 +778,18 @@ namespace EPPlusTest.Issues
 
             }
         }
+		[TestMethod]
+		public void i1878()
+		{
+            using (var p = OpenTemplatePackage("i1878.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.First();
+
+                var timeSpanCell = ws.GetValue<TimeSpan>(1,1);
+
+                Assert.AreEqual(timeSpanCell.Ticks, new TimeSpan(12, 30, 45).Ticks);
+            }
+        }
+
     }
 }
