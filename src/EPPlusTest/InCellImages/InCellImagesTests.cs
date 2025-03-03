@@ -171,13 +171,24 @@ namespace EPPlusTest.InCellImages
             SaveAndCleanup(p);
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
+        public void VerifyLoadOfImageFunction()
+        {
+            using var p = OpenTemplatePackage("5.7-InCellPictures.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+
+            ws.Calculate(x => x.AlwaysRefreshImageFunction = true);
+
+            Assert.IsTrue(ws.Cells["A1"].Picture.Exists);
+            Assert.IsTrue(ws.Cells["B1"].Picture.Exists);
+            Assert.IsTrue(ws.Cells["B2"].Picture.Exists);
+
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
         public void CellPictureIssue1()
         {
-            var path = @"c:\Temp\CpIssue1.xlsx";
-            if(File.Exists(path)) File.Delete(path);
-
-            using var p = new ExcelPackage();
+            using var p = OpenTemplatePackage("CpIssue1.xlsx");
             var sheet = p.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Picture.Set(Resources.Png3ByteArray);
             sheet.Cells["B1"].Formula = "A1";
@@ -185,7 +196,7 @@ namespace EPPlusTest.InCellImages
             sheet.Calculate();
 
             sheet.Cells["A1:B1"].Picture.Remove();
-            p.SaveAs(path);
+            SaveAndCleanup(p);
         }
     }
 }
