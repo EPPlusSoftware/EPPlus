@@ -316,5 +316,18 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void PivotCacheIssue()
+        {
+            using (var package = OpenTemplatePackage("Issues\\PivotCache\\Sample.xlsx"))
+            {
+                var wb = package.Workbook;
+                foreach (var ws in wb.Worksheets)
+                {
+                    if (ws.PivotTables.Any()) Console.WriteLine(ws.Name);
+                }
+                SaveWorkbook("SampleNew.xlsx", package);
+            }
+        }
     }
 }

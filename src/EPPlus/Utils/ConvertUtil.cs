@@ -567,16 +567,15 @@ namespace OfficeOpenXml.Utils
                     }
                 }
 #endif  
-                return (T)(object)dt;
+                if (dt != null)
+                {
+                    return (T)(object)dt;
+                }
             }
             else if (conversion.ReturnType.IsTimeSpan)
             {
                 TimeSpan? ts=null;
-                if (conversion.TryGetTimeSpan(out object tso))
-                {
-                    ts = (TimeSpan)tso;
-                }
-                else if (value is DateTime dt)
+                if (value is DateTime dt)
                 {                    
                     ts = new TimeSpan((long)(dt.ToOADate() * TimeSpan.TicksPerDay));
                 }
@@ -589,10 +588,14 @@ namespace OfficeOpenXml.Utils
                 {
                     ts=new TimeSpan((long)dateOnly.ToDateTime(TimeOnly.MinValue).ToOADate() * TimeSpan.TicksPerDay);
                 }
+                else if (conversion.TryGetTimeSpan(out object tso))
+                {
+                    ts = (TimeSpan)tso;
+                }
 #endif
 
 #if (NET8_0_OR_GREATER)
-                if(conversion.ReturnType.Type == typeof(TimeOnly))
+                if (conversion.ReturnType.Type == typeof(TimeOnly))
                 {
                     if (ts.HasValue == false && value is TimeSpan tsc)
                     {
