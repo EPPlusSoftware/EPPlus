@@ -29,8 +29,4 @@
 			<PackagePath></PackagePath>
 		</None>
 	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Include="MSTest.TestAdapter" />
-	</ItemGroup>
 </Project>
