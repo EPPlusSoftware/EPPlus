@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using static OfficeOpenXml.Style.XmlAccess.ExcelNumberFormatXml;
 
 namespace OfficeOpenXml.Style.XmlAccess
@@ -28,6 +29,10 @@ namespace OfficeOpenXml.Style.XmlAccess
             AllMinutes=0x12,
             AllSeconds = 0x14
         }
+
+        internal ExcelIndexedColor? NumFtColor = null;
+        internal string NumftColorText = "";
+
         internal class FormatPart
         {
             internal string NetFormat { get; set; }
@@ -264,7 +269,14 @@ namespace OfficeOpenXml.Style.XmlAccess
                             }
                             else
                             {
-                                sb.Append(bracketText);
+                                if(IsStringNumFtColor(bracketText, out NumFtColor))
+                                {
+                                    NumftColorText = bracketText;
+                                }
+                                else
+                                {
+                                    sb.Append(bracketText);
+                                }
                                 f.SpecialDateFormat = eSystemDateFormat.Conditional;
                             }
                         }
@@ -736,6 +748,35 @@ namespace OfficeOpenXml.Style.XmlAccess
             {
                 return -1;
             }
+        }
+
+        private bool IsStringNumFtColor(string text, out ExcelIndexedColor? indexColor)
+        {
+            indexColor = null;
+            bool isColor = false;
+            var textToCheck = text.ToLowerInvariant();
+            textToCheck = textToCheck.CapitalizeFirstLetter();
+
+            //Indexed colors for NumberFormats only go to 56, so no need to check if there are more than 2 numbers.
+            if (textToCheck.StartsWith("Color") && text.Count() <= 7)
+            {
+                var ConvertedNumber = Convert.ToInt32(textToCheck.Remove(0,5));
+                if (ConvertedNumber < 57)
+                {
+                    indexColor = (ExcelIndexedColor)ConvertedNumber;
+                    isColor = true;
+                }
+            }
+            else
+            {
+                if(Enum.IsDefined(typeof(ExcelIndexedColorNamedNumFt), textToCheck))
+                {
+                    isColor = true;
+                    indexColor = (ExcelIndexedColor)Enum.Parse(typeof(ExcelIndexedColorNamedNumFt), textToCheck);
+                }
+            }
+
+            return isColor;
         }
     }
 }

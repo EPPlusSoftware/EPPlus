@@ -70,9 +70,9 @@ namespace OfficeOpenXml.CellPictures
             return null;
         }
 
-        public ExcelCellPicture GetCellPicture(int row, int col)
+        public ExcelCellPicture GetCellPicture(int row, int col, string type = StructureTypes.LocalImage)
         {
-            var richValue = _richDataStore.GetRichValue(row, col, out uint vmId, StructureTypes.LocalImage);
+            var richValue = _richDataStore.GetRichValue(row, col, out uint vmId, type);
             if (richValue != null)
             {
                 return GetExcelCellPictureByRichValue(richValue, row, col, vmId);

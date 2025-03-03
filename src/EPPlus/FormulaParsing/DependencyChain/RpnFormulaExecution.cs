@@ -15,6 +15,7 @@ using System.Threading;
 using static OfficeOpenXml.ExcelAddressBase;
 using static OfficeOpenXml.ExcelWorksheet;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.RichData.RichValues;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -44,7 +45,6 @@ namespace OfficeOpenXml.FormulaParsing
             var depChain = new RpnOptimizedDependencyChain(ws.Workbook, options);
             ExecuteChain(depChain, ws.Cells, options, true);
             ExecuteChain(depChain, ws.Names, options, true);
-
             return depChain;
         }
         internal static RpnOptimizedDependencyChain Execute(ExcelRangeBase cells, ExcelCalculationOption options)
@@ -638,7 +638,15 @@ namespace OfficeOpenXml.FormulaParsing
                 var mdb = ws.Workbook.Metadata.Db.ValueMetadata.Get(md.vm);
                 if (mdb != null)
                 {
-                    mdb.DeleteMe();
+                    var rv = f._ws._richDataStore.GetRichValue(md.vm);
+                    if(rv != null && rv.Structure.Type != "_webimage")
+                    {
+                        mdb.DeleteMe();
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
             }
             if(md.cm > 0u)
