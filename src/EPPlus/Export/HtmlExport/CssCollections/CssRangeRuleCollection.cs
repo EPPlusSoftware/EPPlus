@@ -181,6 +181,12 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             {
                 translators.Add(new CssFontTranslator(style.Font, ns.Style.Font, style.CheckBox));
             }
+            if (style.NumberFormat != null && style.NumberFormat.HasValue)
+            {
+                //TODO: possibly ensure to only apply one color attribute.
+                //Currently Numberformat AND Font can decide text color. Numberformat "wins" because written last.
+                translators.Add(new CssNumberFormatTranslator(style.NumberFormat));
+            }
 
             if (styleList.Count > 1)
             {

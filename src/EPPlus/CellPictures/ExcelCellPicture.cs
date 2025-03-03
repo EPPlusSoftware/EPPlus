@@ -13,6 +13,7 @@
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.RichValues.WebImages;
+using OfficeOpenXml.Utils;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -70,7 +71,28 @@ namespace OfficeOpenXml.CellPictures
             get;
             private set;
         }
-
+        /// <summary>
+        /// Returns the <see cref="ExcelImage" /> with information abount the image file.
+        /// </summary>
+        /// <exception cref="InvalidDataException"></exception>
+        /// <returns>The <see cref="ExcelImage" /> object.</returns>
+        public ExcelImage GetImage()
+        {
+            ePictureType? pt = null;
+            var b = GetImageBytes();
+            using (var stream = RecyclableMemory.GetStream(b))
+            {
+                pt = ImageReader.GetPictureType(stream, false);
+            }
+            if (pt == null)
+            {
+                throw new InvalidDataException("The image bytes is not in a valid format.");
+            }
+            else
+            {
+                return new ExcelImage(GetImageBytes(), pt.Value);
+            }
+        }
         /// <summary>
         /// The bytes of the image file
         /// </summary>
@@ -120,6 +142,5 @@ namespace OfficeOpenXml.CellPictures
             return wsName != CellAddress._ws || row != CellAddress._fromRow || col != CellAddress._toCol;
         }
 
-       
     }
 }

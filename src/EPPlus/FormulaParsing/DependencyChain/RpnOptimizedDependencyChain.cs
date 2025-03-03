@@ -38,6 +38,7 @@ namespace OfficeOpenXml.FormulaParsing
                 config.AllowCircularReferences = options.AllowCircularReferences;
                 config.CacheExpressions = options.CacheExpressions;
                 config.PrecisionAndRoundingStrategy = options.PrecisionAndRoundingStrategy;
+                config.AlwaysRefreshImageFunction = options.AlwaysRefreshImageFunction;
             });
 
         }

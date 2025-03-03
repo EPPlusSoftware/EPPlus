@@ -16,7 +16,7 @@ namespace EPPlusTest.Export.HtmlExport
         [TestMethod]
         public void ShouldWriteTable()
         {
-            using(var ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
                 var writer = new HtmlWriter(ms, Encoding.UTF8);
                 writer.RenderBeginTagAsync(HtmlElements.Table).Wait();
@@ -39,7 +39,7 @@ namespace EPPlusTest.Export.HtmlExport
                 attributes[0].AttributeName = HtmlAttributes.Class;
                 attributes[0].Value = "myClass";
 
-                writer.RenderBeginTagAsync( HtmlElements.Table, attributes).Wait();
+                writer.RenderBeginTagAsync(HtmlElements.Table, attributes).Wait();
                 writer.RenderEndTagAsync(HtmlElements.Table).Wait();
                 var reader = new StreamReader(ms);
                 ms.Position = 0;
