@@ -588,11 +588,11 @@ namespace OfficeOpenXml.Utils
                 {
                     ts=new TimeSpan((long)dateOnly.ToDateTime(TimeOnly.MinValue).ToOADate() * TimeSpan.TicksPerDay);
                 }
+#endif
                 else if (conversion.TryGetTimeSpan(out object tso))
                 {
                     ts = (TimeSpan)tso;
                 }
-#endif
 
 #if (NET8_0_OR_GREATER)
                 if (conversion.ReturnType.Type == typeof(TimeOnly))
