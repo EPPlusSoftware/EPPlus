@@ -108,7 +108,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             var uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
             var emfStream = (MemoryStream)_worksheet._package.ZipPackage.GetPart(uri).GetStream();
             byte[] image = emfStream.ToArray();
-            _mediaImage = _worksheet._package.PictureStore.AddImage(image, null, ePictureType.Emf);
+            _mediaImage = _worksheet._package.PictureStore.LoadImage(image, uri, _worksheet._package.ZipPackage.GetPart(uri));
             if (IsExternalLink)
             {
                 IsExternalLink = false;

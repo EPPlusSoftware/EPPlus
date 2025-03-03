@@ -74,10 +74,6 @@ namespace EPPlusTest.Core
 }
 
 /*
-
-*Should we link when reading to make user not have to call CreateLinkToembeddedObject()? 
-*Copy method update?
-*extra image is created...
 *xlsm
 *xlst
 
