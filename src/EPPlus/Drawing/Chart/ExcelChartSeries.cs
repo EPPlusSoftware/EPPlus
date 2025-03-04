@@ -18,8 +18,6 @@ using OfficeOpenXml.Table.PivotTable;
 using System.Linq;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Helpers;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Logical;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>

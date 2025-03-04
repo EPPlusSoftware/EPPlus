@@ -55,6 +55,80 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             CreatespPrNode();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fromCol"></param>
+        /// <param name="columns"></param>
+        /// <param name="affectedRange"></param>
+        /// <param name="delete">Whether we are deleting columns. If not deleting we are inserting</param>
+        internal void UpdateAddressesColumns(int fromCol, int columns, ExcelAddressBase affectedRange, bool delete = false)
+        {
+            Series = UpdateAddressString(Series, fromCol, columns, affectedRange);
+            XSeries = UpdateAddressString(XSeries, fromCol, columns, affectedRange);
+
+            if(HeaderAddress != null && string.IsNullOrEmpty(HeaderAddress.FullAddress) == false)
+            {
+                var hAddress = UpdateAddressString(HeaderAddress.FullAddress, fromCol, columns, affectedRange);
+                HeaderAddress = new ExcelAddressBase(hAddress);
+            }
+            //var SeriesAddress = new ExcelAddressBase(Series);
+            //var XSeriesAddress = new ExcelAddressBase(XSeries);
+            //var hAddress = new ExcelAddressBase(HeaderAddress.FullAddress);
+
+            //if (delete == false)
+            //{
+            //    UpdateInsertColumnAddress(ref SeriesAddress, columnFrom, columns, affectedRange);
+            //    UpdateInsertColumnAddress(ref XSeriesAddress, columnFrom, columns, affectedRange);
+            //    UpdateInsertColumnAddress(ref hAddress, columnFrom, columns, affectedRange);
+            //}
+            //else
+            //{
+            //    //SeriesAddress = SeriesAddress.
+            //    //if (columnFrom < SeriesAddress._toCol)
+            //    //{
+
+            //    //}
+            //}
+
+            //Series = SeriesAddress.FullAddress;
+            //XSeries = XSeriesAddress.FullAddress;
+            //HeaderAddress = hAddress;
+
+            //SeriesAddress.Intersect(new ExcelAddress(1, columnFrom, 2500, columnTo));
+        }
+
+        void UpdateInsertColumnAddress(ref ExcelAddressBase address, int fromCol, int columns, ExcelAddressBase affectedRange)
+        {
+            if (address != null && affectedRange.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            {
+                address = address.AddColumn(fromCol, columns);
+            }
+        }
+
+        string UpdateAddressString(string address, int fromCol, int columns, ExcelAddressBase affectedRange)
+        {
+            if(string.IsNullOrEmpty(address) == false)
+            {
+                var addressBase = new ExcelAddressBase(address);
+                UpdateInsertColumnAddress(ref addressBase, fromCol, columns, affectedRange);
+                return addressBase.FullAddress;
+            }
+            return address;
+        }
+
+        internal void UpdateAddressesRows(int rowFrom, int rowTo)
+        {
+            var SeriesAddress = new ExcelAddress(Series);
+            var XSeriesAddress = new ExcelAddress(XSeries);
+
+            SeriesAddress.Addresses.Add(XSeriesAddress);
+            SeriesAddress.Addresses.Add(HeaderAddress);
+
+            SeriesAddress.Intersect(new ExcelAddress(rowFrom, 1, rowTo, 2500));
+        }
+
         /// <summary>
         /// The header address for the serie.
         /// </summary>

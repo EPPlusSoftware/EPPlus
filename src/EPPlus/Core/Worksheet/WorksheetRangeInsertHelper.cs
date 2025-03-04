@@ -94,6 +94,56 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
+        private static void InsertChartSerieAddresses(ExcelRangeBase range, ExcelAddressBase affectedRange, eShiftTypeInsert shift)
+        {
+            foreach (var drawing in range.Worksheet.Drawings)
+            {
+                if (drawing.DrawingType == eDrawingType.Chart)
+                {
+                    var chartSerie = drawing.As.Chart.Chart.Series;
+
+                    foreach (var serie in chartSerie)
+                    {
+                        serie.UpdateAddressesColumns(range._fromCol, range.Columns, affectedRange);
+                    }
+
+                    //if (shift == eShiftTypeInsert.Right)
+                    //{
+                    //    foreach (var serie in chartSerie)
+                    //    {
+                    //        serie.UpdateAddressesColumns(range._fromCol, range.Columns, affectedRange);
+                    //    }
+                    //}
+                    //if (ws.AutoFilter.Address != null && effectedAddress.Collide(ws.AutoFilter.Address) != ExcelAddressBase.eAddressCollition.No)
+                    //{
+
+                    //}
+                    //    var aChart = drawing.As.Chart.Chart;
+                    //var chartSerie = drawing.As.Chart.Chart.Series;
+                    //foreach (var serie in chartSerie)
+                    //{
+                    //    serie.UpdateAddressesColumns(columnFrom, columns);
+                    //}
+                }
+            }
+        }
+
+        //internal static void AdjustChartSerieAddresses(ExcelWorksheet ws, int columnFrom, int columns)
+        //{
+        //    foreach (var drawing in ws.Drawings)
+        //    {
+        //        if (drawing.DrawingType == eDrawingType.Chart)
+        //        {
+        //            var aChart = drawing.As.Chart.Chart;
+        //            var chartSerie = drawing.As.Chart.Chart.Series;
+        //            foreach (var serie in chartSerie)
+        //            {
+        //                serie.UpdateAddressesColumns(columnFrom, columns);
+        //            }
+        //        }
+        //    }
+        //}
+
         internal static void InsertColumn(ExcelWorksheet ws, int columnFrom, int columns, int copyStylesFromColumn)
         {
             ValidateInsertColumn(ws, columnFrom, columns);
@@ -118,12 +168,13 @@ namespace OfficeOpenXml.Core.Worksheet
                 var range = ws.Cells[1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1];
                 var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Right);
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Right);
+                InsertChartSerieAddresses(range, affectedAddress, eShiftTypeInsert.Right);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Right, affectedAddress);
                 InsertDataValidation(range, eShiftTypeInsert.Right, affectedAddress, ws, false);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Right, affectedAddress, ws, false);
 
                 WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(ws, columnFrom, columns);
-			
+			    
                 //Adjust drawing positions.
 				WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
 			}
