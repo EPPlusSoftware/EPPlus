@@ -1102,6 +1102,13 @@ namespace OfficeOpenXml.FormulaParsing
                         break;
                     case TokenType.Operator:
                         ApplyOperator(depChain._parsingContext, t, f);
+
+                        if (s.Count > 0 && s.Peek().Status == ExpressionStatus.IsAddress)
+                        {
+                            var cr = s.Peek().Compile();                            
+                            return [cr.Address]; //TODO:Check multi add
+                        }
+
                         break;
                     case TokenType.Percent:
                         ApplyPercent(depChain._parsingContext, f);

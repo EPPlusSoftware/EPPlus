@@ -44,15 +44,17 @@ namespace EPPlusTest.FormulaParsing
         {
             var path = _testInputPathOptional + "CalculationTests\\";
 
-            var xlFile = path + "4103_180_20210527_CAST_Risk_CRP_202103_internal.xlsx";
+            //var xlFile = path + "4103_180_20210527_CAST_Risk_CRP_202103_internal.xlsx";
+            var xlFile = path + "Excel Sample Circular Ref break links.xlsx"; 
             string logFile = path + new FileInfo(xlFile).Name + ".log";
 
             using (var p = new ExcelPackage(xlFile))
             {
                 p.Workbook.ClearFormulaValues();
-                var ws = p.Workbook.Worksheets["risk report"];
-                ws.Calculate();
-                //ws.Cells["C79:C80"].Calculate();
+                //var ws = p.Workbook.Worksheets["risk report"];
+                var ws = p.Workbook.Worksheets[0];
+                //ws.Calculate();
+                ws.Cells["y273"].Calculate();
                 //var ws = p.Workbook.Worksheets["opties"];
                 //ws.Cells["A53"].Calculate();
 
@@ -124,7 +126,7 @@ namespace EPPlusTest.FormulaParsing
                 logWriter.WriteLine($"Calculating {xlFile} starting {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}.  Elapsed {new TimeSpan(sw.ElapsedTicks)}");
                 try
                 {
-                    p.Workbook.Calculate(x => x.AllowCircularReferences=true);
+                    p.Workbook.Calculate(x => { x.AllowCircularReferences = true; x.CacheExpressions = true; });
                     //p.Workbook.Worksheets["Monthly Cash Flow"].Cells["F10"].Calculate(x => x.CacheExpressions = false);
                 }
                 catch (Exception ex)
