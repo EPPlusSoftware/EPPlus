@@ -1,4 +1,12 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.6.1
+* Pivot caches with error values in the source data were not handled correctly.
+* Timespan was not correctly converted in the GetValue<T> function.
+* The ExcelWorksheet.DimensionByValue property sometimes threw an unhandled exception.
+* The FIND function did not handle empty cells correctly in all cases.
+* Range sorting did not handle threaded comments.
+* Table.AddRows incorrectly shifted the first row if a table contained 1 row and had no header.
+
 ## Version 7.6.0
 * Added target framework .NET 9. 
 * Removed out of support frameworks, .NET 6 and .NET 7.

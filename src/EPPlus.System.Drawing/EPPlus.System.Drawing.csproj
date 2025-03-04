@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0;net7.0;net6.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>7.5.0.0</AssemblyVersion>
-    <FileVersion>7.5.0.0</FileVersion>
-    <Version>7.5.0</Version>
+    <TargetFrameworks>net9.0;net8.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
+    <AssemblyVersion>7.6.1.0</AssemblyVersion>
+    <FileVersion>7.6.1.0</FileVersion>
+    <Version>7.6.1</Version>
     <SignAssembly>true</SignAssembly>
     <PackageLicenseFile>license.md</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -19,11 +19,13 @@
     <ProjectReference Include="..\EPPlus.Interfaces\EPPlus.Interfaces.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' != 'net35'">
+  <ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net8.0'">
     <PackageReference Include="System.Drawing.Common" />
   </ItemGroup>
-
-  <ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+	<PackageReference Include="System.Drawing.Common" VersionOverride="8.0.1" />
+  </ItemGroup>
+	<ItemGroup>
     <None Include="EPPlusLogo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
