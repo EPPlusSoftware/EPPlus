@@ -45,7 +45,7 @@ namespace EPPlusTest.FormulaParsing
             var path = _testInputPathOptional + "CalculationTests\\";
 
             //var xlFile = path + "4103_180_20210527_CAST_Risk_CRP_202103_internal.xlsx";
-            var xlFile = path + "Excel Sample Circular Ref break links.xlsx"; 
+            var xlFile = path + "CalcForGembox.xlsx"; 
             string logFile = path + new FileInfo(xlFile).Name + ".log";
 
             using (var p = new ExcelPackage(xlFile))
@@ -54,7 +54,8 @@ namespace EPPlusTest.FormulaParsing
                 //var ws = p.Workbook.Worksheets["risk report"];
                 var ws = p.Workbook.Worksheets[0];
                 //ws.Calculate();
-                ws.Cells["y273"].Calculate();
+                ws.Cells["C45:C48"].Calculate();
+                ws.Cells["B48"].Calculate(x => x.FollowDependencyChain = false);
                 //var ws = p.Workbook.Worksheets["opties"];
                 //ws.Cells["A53"].Calculate();
 
@@ -101,7 +102,7 @@ namespace EPPlusTest.FormulaParsing
                 foreach (var ws in p.Workbook.Worksheets)
                 {
                     if (ws.IsChartSheet) continue;
-                    var cse = new CellStoreEnumerator<object>(ws._formulas);
+                    var cse = new CellStoreEnumerator<object>(ws._formulas);    
                     foreach(var f in cse)
                     {
                         var id = ExcelCellBase.GetCellId(ws.IndexInList, cse.Row, cse.Column);
