@@ -368,31 +368,6 @@ namespace EPPlusTest.Drawing.Chart
                 ws.ClearFormulas();
 
                 ws.Columns.DeleteAll(c => c.Hidden);
-                //List<ExcelRangeColumn> cols = [.. ws.Columns.Where(c => c.Hidden).OrderByDescending(c => c.StartColumn)];
-
-                //List<int> deletedCols = new();
-
-                //foreach (ExcelRangeColumn col in cols)
-                //{
-                //    ws.DeleteColumn(col.StartColumn);
-                //    deletedCols.Add(col.StartColumn);
-                //}
-
-                //foreach (var drawing in ws.Drawings)
-                //{
-                //    if (drawing.DrawingType == eDrawingType.Chart)
-                //    {
-                //        var chartSerie = drawing.As.Chart.Chart.Series;
-
-                //        foreach (var serie in chartSerie)
-                //        {
-                //            foreach (var col in deletedCols)
-                //            {
-                //                DeleteColumnFromSeries(ws, serie, col);
-                //            }
-                //        }
-                //    }
-                //}
 
                 SaveAndCleanup(p);
             }
