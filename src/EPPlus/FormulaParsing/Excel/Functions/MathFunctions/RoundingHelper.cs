@@ -186,7 +186,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (number == 0.0) return 0.0;
             else
             {
-                double wholeNumberPart = Math.Floor(Math.Log10(Math.Abs(number))) + 1;
+                double wholeNumberPart = Math.Floor(Math.Log10(Math.Abs(number)));
                 double adjust = Math.Pow(10, wholeNumberPart);
                 double product = adjust * Math.Round(number / adjust, numberOfSignificantFigures, MidpointRounding.AwayFromZero);
                 if ((int)wholeNumberPart >= numberOfSignificantFigures)
