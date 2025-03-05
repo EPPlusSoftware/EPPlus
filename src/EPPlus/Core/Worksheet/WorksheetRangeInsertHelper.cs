@@ -107,51 +107,16 @@ namespace OfficeOpenXml.Core.Worksheet
                     {
                         if(shift == eShiftTypeInsert.Right)
                         {
-                            serie.UpdateAddressesColumns(range._fromCol, range.Columns, affectedRange, shift);
+                            serie.UpdateAddressesInsert(range._fromCol, range.Columns, affectedRange, shift);
                         }
                         else if (shift == eShiftTypeInsert.Down)
                         {
-                            serie.UpdateAddressesColumns(range._fromRow, range.Rows, affectedRange, shift);
+                            serie.UpdateAddressesInsert(range._fromRow, range.Rows, affectedRange, shift);
                         }
                     }
-
-                    //if (shift == eShiftTypeInsert.Right)
-                    //{
-                    //    foreach (var serie in chartSerie)
-                    //    {
-                    //        serie.UpdateAddressesColumns(range._fromCol, range.Columns, affectedRange);
-                    //    }
-                    //}
-                    //if (ws.AutoFilter.Address != null && effectedAddress.Collide(ws.AutoFilter.Address) != ExcelAddressBase.eAddressCollition.No)
-                    //{
-
-                    //}
-                    //    var aChart = drawing.As.Chart.Chart;
-                    //var chartSerie = drawing.As.Chart.Chart.Series;
-                    //foreach (var serie in chartSerie)
-                    //{
-                    //    serie.UpdateAddressesColumns(columnFrom, columns);
-                    //}
                 }
             }
         }
-
-        //internal static void AdjustChartSerieAddresses(ExcelWorksheet ws, int columnFrom, int columns)
-        //{
-        //    foreach (var drawing in ws.Drawings)
-        //    {
-        //        if (drawing.DrawingType == eDrawingType.Chart)
-        //        {
-        //            var aChart = drawing.As.Chart.Chart;
-        //            var chartSerie = drawing.As.Chart.Chart.Series;
-        //            foreach (var serie in chartSerie)
-        //            {
-        //                serie.UpdateAddressesColumns(columnFrom, columns);
-        //            }
-        //        }
-        //    }
-        //}
-
         internal static void InsertColumn(ExcelWorksheet ws, int columnFrom, int columns, int copyStylesFromColumn)
         {
             ValidateInsertColumn(ws, columnFrom, columns);

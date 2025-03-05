@@ -226,6 +226,90 @@ namespace EPPlusTest.Drawing.Chart
             }
         }
 
+        [TestMethod]
+        public void DeleteRowMoveData()
+        {
+            var fileName = "DeleteRowMoveData.xlsx";
+
+            using (ExcelPackage p = OpenPackage(fileName, true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("Chartinsert");
+
+                var chart = FillWithData(ws);
+
+                chart.SetPosition(1, 0, 5, 0);
+                chart.SetSize(400, 400);
+
+                SaveAndCleanup(p);
+            }
+
+            using (ExcelPackage p = OpenPackage(fileName))
+            {
+                var ws = p.Workbook.Worksheets.First();
+
+                var series = ws.Drawings[0].As.Chart.Chart.Series;
+
+                ws.DeleteRow(1, 1);
+
+                Assert.AreEqual("Chartinsert!$B$1:$B$4", series[0].Series);
+                Assert.AreEqual("Chartinsert!$C$1:$C$4", series[1].Series);
+                Assert.AreEqual("Chartinsert!$D$1:$D$4", series[2].Series);
+
+                //Should move partial
+                ws.DeleteRow(2, 1);
+
+                Assert.AreEqual("Chartinsert!$B$1:$B$3", series[0].Series);
+                Assert.AreEqual("Chartinsert!$C$1:$C$3", series[1].Series);
+                Assert.AreEqual("Chartinsert!$D$1:$D$3", series[2].Series);
+
+                var saveName = GetOutputFile("", $"afterDelete_{fileName}").FullName;
+                p.SaveAs(saveName);
+            }
+        }
+
+        [TestMethod]
+        public void DeleteColumnMoveData()
+        {
+            var fileName = "DeleteColMoveData.xlsx";
+
+            using (ExcelPackage p = OpenPackage(fileName, true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("Chartinsert");
+
+                var chart = FillWithData(ws);
+
+                chart.SetPosition(1, 0, 5, 0);
+                chart.SetSize(400, 400);
+
+                SaveAndCleanup(p);
+            }
+
+            using (ExcelPackage p = OpenPackage(fileName))
+            {
+                var ws = p.Workbook.Worksheets.First();
+
+                var series = ws.Drawings[0].As.Chart.Chart.Series;
+
+                ws.DeleteColumn(1, 1);
+
+                Assert.AreEqual("Chartinsert!$A$2:$A$5", series[0].Series);
+                Assert.AreEqual("Chartinsert!$B$2:$B$5", series[1].Series);
+                Assert.AreEqual("Chartinsert!$C$2:$C$5", series[2].Series);
+
+                //Should move partial
+                ws.DeleteColumn(2, 1);
+
+                Assert.AreEqual("Chartinsert!$A$2:$A$5", series[0].Series);
+                Assert.AreEqual("", series[1].Series);
+                Assert.AreEqual("Chartinsert!$B$2:$B$5", series[2].Series);
+
+                var saveName = GetOutputFile("", $"afterDelete_{fileName}").FullName;
+                p.SaveAs(saveName);
+            }
+        }
+
 
         public void DeleteColumnFromSeries(ExcelWorksheet ws, ExcelChartSerie serie, int deletedColumn)
         {

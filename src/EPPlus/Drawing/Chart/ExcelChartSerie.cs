@@ -68,7 +68,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <param name="columns"></param>
         /// <param name="affectedRange"></param>
         /// <param name="insertType">Wheter Inserting rows or columns</param>
-        internal void UpdateAddressesColumns(int fromCol, int columns, ExcelAddressBase affectedRange, eShiftTypeInsert insertType)
+        internal void UpdateAddressesInsert(int fromCol, int columns, ExcelAddressBase affectedRange, eShiftTypeInsert insertType)
         {
             Series = UpdateAddressString(Series, fromCol, columns, affectedRange, insertType);
             XSeries = UpdateAddressString(XSeries, fromCol, columns, affectedRange, insertType);
@@ -80,32 +80,57 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="fromRow"></param>
-        ///// <param name="rows"></param>
-        ///// <param name="affectedRange"></param>
-        ///// <param name="delete">Whether we are deleting columns. If not deleting we are inserting</param>
-        //internal void UpdateAddressesRows(int fromRow, int rows, ExcelAddressBase affectedRange, bool delete = false)
-        //{
-        //    Series = UpdateAddressString(Series, fromRow, rows, affectedRange);
-        //    XSeries = UpdateAddressString(XSeries, fromRow, rows, affectedRange);
-
-        //    if (HeaderAddress != null && string.IsNullOrEmpty(HeaderAddress.FullAddress) == false)
-        //    {
-        //        var hAddress = UpdateAddressString(HeaderAddress.FullAddress, fromRow, rows, affectedRange);
-        //        HeaderAddress = new ExcelAddressBase(hAddress);
-        //    }
-        //}
-
-        void UpdateInsertColumnAddress(ref ExcelAddressBase address, int fromCol, int columns, ExcelAddressBase affectedRange)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fromCol"></param>
+        /// <param name="columns"></param>
+        /// <param name="affectedRange"></param>
+        /// <param name="insertType">Wheter Inserting rows or columns</param>
+        internal void UpdateAddressesDelete(int fromCol, int columns, ExcelAddressBase affectedRange, eShiftTypeDelete insertType)
         {
-            if (address != null && affectedRange.Collide(address) != ExcelAddressBase.eAddressCollition.No)
+            Series = UpdateAddressStringDelete(Series, fromCol, columns, affectedRange, insertType);
+            XSeries = UpdateAddressStringDelete(XSeries, fromCol, columns, affectedRange, insertType);
+
+            if (HeaderAddress != null && string.IsNullOrEmpty(HeaderAddress.FullAddress) == false)
             {
-                address = address.AddColumn(fromCol, columns);
+                var hAddress = UpdateAddressStringDelete(HeaderAddress.FullAddress, fromCol, columns, affectedRange, insertType);
+                HeaderAddress = new ExcelAddressBase(hAddress);
             }
         }
+
+        string UpdateAddressStringDelete(string address, int from, int numToDelete, ExcelAddressBase affectedRange, eShiftTypeDelete insertType)
+        {
+            if (string.IsNullOrEmpty(address) == false)
+            {
+                if (ExcelCellBase.IsValidAddress(address))
+                {
+                    var addressBase = new ExcelAddressBase(address);
+                    if (address != null && affectedRange.Collide(addressBase) != ExcelAddressBase.eAddressCollition.No)
+                    {
+                        if (insertType == eShiftTypeDelete.Left)
+                        {
+                            addressBase = addressBase.DeleteColumn(from, numToDelete);
+                        }
+                        else if (insertType == eShiftTypeDelete.Up)
+                        {
+                            addressBase = addressBase.DeleteRow(from, numToDelete);
+                        }
+                    }
+
+                    if(addressBase == null)
+                    {
+                        return "";
+                    }
+                    else
+                    {
+                        return addressBase.FullAddress;
+                    }
+                }
+            }
+            return address;
+        }
+
 
         string UpdateAddressString(string address, int from, int numToAdd, ExcelAddressBase affectedRange, eShiftTypeInsert insertType)
         {
@@ -129,17 +154,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
             return address;
-        }
-
-        internal void UpdateAddressesRows(int rowFrom, int rowTo)
-        {
-            var SeriesAddress = new ExcelAddress(Series);
-            var XSeriesAddress = new ExcelAddress(XSeries);
-
-            SeriesAddress.Addresses.Add(XSeriesAddress);
-            SeriesAddress.Addresses.Add(HeaderAddress);
-
-            SeriesAddress.Intersect(new ExcelAddress(rowFrom, 1, rowTo, 2500));
         }
 
         /// <summary>
