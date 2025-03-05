@@ -18,6 +18,7 @@ using System.Linq;
 using OfficeOpenXml.Core.CellStore;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.IO;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -29,6 +30,10 @@ namespace OfficeOpenXml.Drawing.Chart
 
 
         double[] _NumberLiteralsY = null;
+        double[] _NumberLiteralsX = null;
+        string[] _StringLiteralsX = null;
+        string[] _StringLiteralsY = null;
+
         /// <summary>
         /// Literals for the Y serie, if the literal values are numeric
         /// </summary>
@@ -36,7 +41,7 @@ namespace OfficeOpenXml.Drawing.Chart
         { 
             get 
             {
-                if(string.IsNullOrEmpty(_seriesNumLitPath) == false)
+                if(string.IsNullOrEmpty(_seriesNumLitPath) == false && GetNode(_seriesNumLitPath) != null)
                 {
                     ReadNumLiterals(_seriesNumLitPath, out _NumberLiteralsY);
                     return _NumberLiteralsY;
@@ -51,11 +56,61 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Literals for the X serie, if the literal values are numeric
         /// </summary>
-        public double[] NumberLiteralsX { get; protected set; } = null;
+        public override double[] NumberLiteralsX 
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_xSeriesNumLitPath) == false && GetNode(_xSeriesNumLitPath) != null)
+                {
+                    ReadNumLiterals(_xSeriesNumLitPath, out _NumberLiteralsX);
+                    return _NumberLiteralsX;
+                }
+                return _NumberLiteralsX;
+            }
+            protected set
+            {
+                _NumberLiteralsX = value;
+            }
+        }
+        /// <summary>
+        /// Literals for the Y serie, if the literal values are strings
+        /// </summary>
+        public string[] StringLiteralsY
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_seriesStrLitPath) == false && GetNode(_seriesStrLitPath) != null)
+                {
+                    ReadStringLiterals(_seriesStrLitPath, out _StringLiteralsY);
+                    return _StringLiteralsY;
+                }
+                return _StringLiteralsY;
+            }
+            protected set
+            {
+                _StringLiteralsY = value;
+            }
+        }
+
         /// <summary>
         /// Literals for the X serie, if the literal values are strings
         /// </summary>
-        public string[] StringLiteralsX { get; protected set; } = null;
+        public override string[] StringLiteralsX
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_xSeriesStrLitPath) == false && GetNode(_xSeriesStrLitPath) != null)
+                {
+                    ReadStringLiterals(_xSeriesStrLitPath, out _StringLiteralsX);
+                    return _StringLiteralsX;
+                }
+                return _StringLiteralsX;
+            }
+            protected set
+            {
+                _StringLiteralsX = value;
+            }
+        }
 
         /// <summary>
         /// Default constructor
@@ -257,25 +312,27 @@ namespace OfficeOpenXml.Drawing.Chart
                     numLits.Add(Convert.ToDouble(txt));
                 }
             }
-
-            //numberLiterals = new double[numLits.Count];
             numberLiterals = numLits.ToArray();
+        }
 
-            //var seriesNumLit = GetXmlNodeString(_seriesNumLitPath);
+        private void ReadStringLiterals(string path, out string[] stringLiterals)
+        {
+            var parentNode = GetNode(path);
+            List<string> strLits = new();
 
-            //GetNumLit(seriesNumLit, out _NumberLiteralsY);
-            //value = value.Substring(1, value.Length - 2); //Remove outer {}
+            if(parentNode != null)
+            {
+                var childNodes = parentNode.ChildNodes;
 
-            //var split = value.Split(',');
-            //numberLiterals = new double[split.Length];
-
-            //for (int i = 0; i < split.Length; i++)
-            //{
-            //    if (double.TryParse(split[i], NumberStyles.Any, CultureInfo.InvariantCulture, out double d))
-            //    {
-            //        numberLiterals[i] = d;
-            //    }
-            //}
+                foreach (XmlElement node in childNodes)
+                {
+                    if (node.LocalName == "pt")
+                    {
+                        strLits.Add(node.InnerText);
+                    }
+                }
+            }
+            stringLiterals = strLits.ToArray();
         }
 
         private void GetLitValues(string value, out double[] numberLiterals, out string[] stringLiterals)

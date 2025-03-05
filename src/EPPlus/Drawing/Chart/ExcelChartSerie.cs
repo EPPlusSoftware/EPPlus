@@ -51,6 +51,10 @@ namespace OfficeOpenXml.Drawing.Chart
         /// Literals for the X serie, if the literal values are strings
         /// </summary>
         virtual public string[] StringLiteralsX { get; protected set; } = null;
+        /// <summary>
+        /// Literals for the Y serie, if the literal values are strings
+        /// </summary>
+        virtual public string[] StringLiteralsY { get; protected set; } = null;
         void IDrawingStyleBase.CreatespPr()
         {
             CreatespPrNode();

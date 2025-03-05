@@ -14,6 +14,36 @@ namespace EPPlusTest.Drawing.Chart
     public class ChartInsertTests : TestBase
     {
         [TestMethod]
+        public void ReadChart()
+        {
+            var filename = "StringAndNumLiterals.xlsx";
+
+            using (var p = OpenTemplatePackage(filename))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var testchart = ws.Drawings[0].As.Chart.Chart;
+
+                var serie = testchart.Series[0];
+
+                var strLit = serie.StringLiteralsX;
+                var numLit = serie.NumberLiteralsY;
+
+                var expectedStrings = new string[] { "stringVal1", "stringVal2", "stringVal3" };
+                var expectedNums = new double[]{ 0, 1, 2 };
+
+                CollectionAssert.AreEqual(expectedStrings, strLit);
+                CollectionAssert.AreEqual(expectedNums, numLit);
+
+                var nullStr = serie.StringLiteralsY;
+                var nullNum = serie.NumberLiteralsX;
+
+                Assert.IsNull(nullStr);
+                Assert.IsNull(nullNum);
+            }
+        }
+
+        [TestMethod]
         public void InsertChart()
         {
             var filename = "ExcelChartWithAndWithoutCellRef.xlsx";
@@ -22,35 +52,27 @@ namespace EPPlusTest.Drawing.Chart
             {
                 var ws = p.Workbook.Worksheets[0];
 
-                var otherChart = ws.Drawings[1].As.Chart.BarChart;
-
                 var testchart = ws.Drawings[1].As.Chart.Chart;
                 var chartSerie = testchart.Series;
 
-                var someLit = otherChart.Series[0].NumberLiteralsY;
+                var serie1 = chartSerie[0];
 
-                //var aSeries = chartSerie[0].Series;
-                //var bSeries = chartSerie[0].XSeries;
+                var xLits = chartSerie[0].NumberLiteralsX;
+                var yLits = chartSerie[0].NumberLiteralsY;
 
-                var lits = chartSerie[0].NumberLiteralsX;
-                //var lits2 = chartSerie[0].NumberLiteralsY;
+                var expectedNums1 = new double[] { 1, 2, 3, 4, 5 };
+                var expectedNums2 = new double[] { 10, 20, 30, 40, 50 };
 
+                CollectionAssert.AreEqual(expectedNums1, xLits);
+                CollectionAssert.AreEqual(expectedNums2, yLits);
 
-                //ws.Drawings
-                //foreach (var drawing in ws.Drawings)
-                //{
-                //    if (drawing.DrawingType == eDrawingType.Chart)
-                //    {
-                //        var chartSerie = drawing.As.Chart.Chart.Series;
+                var xLits1 = chartSerie[1].NumberLiteralsX;
+                var yLits1 = chartSerie[1].NumberLiteralsY;
 
-                //        foreach (var serie in chartSerie)
-                //        {
-                //            var noneMb = serie.Series;
-                //            //serie.UpdateAddressesColumns(range._fromCol, range.Columns, affectedRange);
-                //        }
+                var expectedNums3 = new double[] { 20, 30, 40, 50, 60 };
 
-                //    }
-                //}
+                CollectionAssert.AreEqual(expectedNums1, xLits1);
+                CollectionAssert.AreEqual(expectedNums3, yLits1);
             }
         }
 
