@@ -379,7 +379,10 @@ namespace OfficeOpenXml.Drawing
                     break;
                 case DrawingsCollectionType.excel:
                 default:
-                    node.AppendChild(grpNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings));
+                    if (parent == null && node.SelectSingleNode("xdr:clientData", NameSpaceManager) == null)
+                    {
+                        node.AppendChild(grpNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings));
+                    }
                     break;
             }
         }
