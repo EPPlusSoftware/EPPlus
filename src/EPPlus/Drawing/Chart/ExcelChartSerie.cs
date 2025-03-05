@@ -20,6 +20,7 @@ using System.Globalization;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -66,18 +67,37 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <param name="fromCol"></param>
         /// <param name="columns"></param>
         /// <param name="affectedRange"></param>
-        /// <param name="delete">Whether we are deleting columns. If not deleting we are inserting</param>
-        internal void UpdateAddressesColumns(int fromCol, int columns, ExcelAddressBase affectedRange, bool delete = false)
+        /// <param name="insertType">Wheter Inserting rows or columns</param>
+        internal void UpdateAddressesColumns(int fromCol, int columns, ExcelAddressBase affectedRange, eShiftTypeInsert insertType)
         {
-            Series = UpdateAddressString(Series, fromCol, columns, affectedRange);
-            XSeries = UpdateAddressString(XSeries, fromCol, columns, affectedRange);
+            Series = UpdateAddressString(Series, fromCol, columns, affectedRange, insertType);
+            XSeries = UpdateAddressString(XSeries, fromCol, columns, affectedRange, insertType);
 
             if(HeaderAddress != null && string.IsNullOrEmpty(HeaderAddress.FullAddress) == false)
             {
-                var hAddress = UpdateAddressString(HeaderAddress.FullAddress, fromCol, columns, affectedRange);
+                var hAddress = UpdateAddressString(HeaderAddress.FullAddress, fromCol, columns, affectedRange, insertType);
                 HeaderAddress = new ExcelAddressBase(hAddress);
             }
         }
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="fromRow"></param>
+        ///// <param name="rows"></param>
+        ///// <param name="affectedRange"></param>
+        ///// <param name="delete">Whether we are deleting columns. If not deleting we are inserting</param>
+        //internal void UpdateAddressesRows(int fromRow, int rows, ExcelAddressBase affectedRange, bool delete = false)
+        //{
+        //    Series = UpdateAddressString(Series, fromRow, rows, affectedRange);
+        //    XSeries = UpdateAddressString(XSeries, fromRow, rows, affectedRange);
+
+        //    if (HeaderAddress != null && string.IsNullOrEmpty(HeaderAddress.FullAddress) == false)
+        //    {
+        //        var hAddress = UpdateAddressString(HeaderAddress.FullAddress, fromRow, rows, affectedRange);
+        //        HeaderAddress = new ExcelAddressBase(hAddress);
+        //    }
+        //}
 
         void UpdateInsertColumnAddress(ref ExcelAddressBase address, int fromCol, int columns, ExcelAddressBase affectedRange)
         {
@@ -87,14 +107,24 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
 
-        string UpdateAddressString(string address, int fromCol, int columns, ExcelAddressBase affectedRange)
+        string UpdateAddressString(string address, int from, int numToAdd, ExcelAddressBase affectedRange, eShiftTypeInsert insertType)
         {
             if(string.IsNullOrEmpty(address) == false)
             {
                 if (ExcelCellBase.IsValidAddress(address))
                 {
                     var addressBase = new ExcelAddressBase(address);
-                    UpdateInsertColumnAddress(ref addressBase, fromCol, columns, affectedRange);
+                    if (address != null && affectedRange.Collide(addressBase) != ExcelAddressBase.eAddressCollition.No)
+                    {
+                        if(insertType == eShiftTypeInsert.Right)
+                        {
+                            addressBase = addressBase.AddColumn(from, numToAdd);
+                        }
+                        else if (insertType == eShiftTypeInsert.Down)
+                        {
+                            addressBase = addressBase.AddRow(from, numToAdd);
+                        }
+                    }
                     return addressBase.FullAddress;
                 }
             }

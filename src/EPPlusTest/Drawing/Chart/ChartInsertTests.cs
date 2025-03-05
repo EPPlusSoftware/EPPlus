@@ -1,11 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Drawing.Chart;
 
 namespace EPPlusTest.Drawing.Chart
@@ -76,6 +73,42 @@ namespace EPPlusTest.Drawing.Chart
             }
         }
 
+        ExcelChart FillWithData(ExcelWorksheet ws)
+        {
+            ws.Cells["A1"].Value = "CompanyName";
+            ws.Cells["B1"].Value = "NumberOfEmployees";
+            ws.Cells["C1"].Value = "NumberOfSales";
+            ws.Cells["D1"].Value = "DeathToll";
+
+            var companyRange = ws.Cells["A2:A5"];
+
+            int iterationNum = 1;
+
+            for (int i = 2; i < 6; i++)
+            {
+                companyRange[i, 1].Value = $"Company{iterationNum}";
+            }
+
+            var employeeRange = ws.Cells["B2:B5"];
+            employeeRange.Formula = "ROW()*1.5 + COLUMN()";
+
+            var numSalesRange = ws.Cells["C2:C5"];
+            numSalesRange.Formula = "ROW() + COLUMN()*2";
+
+            var deathToll = ws.Cells["D2:D5"];
+            deathToll.Formula = "ROW()*2 + COLUMN()";
+
+            ws.Calculate();
+
+            var chart = ws.Drawings.AddBarChart("CompanyChart", eBarChartType.ColumnStacked100);
+
+            chart.Series.Add(employeeRange.TakeSingleColumn(0));
+            chart.Series.Add(numSalesRange.TakeSingleColumn(0));
+            chart.Series.Add(deathToll.TakeSingleColumn(0));
+
+            return chart;
+        }
+
         [TestMethod]
         public void InsertingShouldMoveChartData()
         {
@@ -86,36 +119,7 @@ namespace EPPlusTest.Drawing.Chart
                 var wb = p.Workbook;
                 var ws = wb.Worksheets.Add("Chartinsert");
 
-                ws.Cells["A1"].Value = "CompanyName";
-                ws.Cells["B1"].Value = "NumberOfEmployees";
-                ws.Cells["C1"].Value = "NumberOfSales";
-                ws.Cells["D1"].Value = "DeathToll";
-
-                var companyRange = ws.Cells["A2:A5"];
-
-                int iterationNum = 1;
-
-                for (int i = 2; i < 6; i++)
-                {
-                    companyRange[i, 1].Value = $"Company{iterationNum}";
-                }
-
-                var employeeRange = ws.Cells["B2:B5"];
-                employeeRange.Formula = "ROW()*1.5 + COLUMN()";
-
-                var numSalesRange = ws.Cells["C2:C5"];
-                numSalesRange.Formula = "ROW() + COLUMN()*2";
-
-                var deathToll = ws.Cells["D2:D5"];
-                deathToll.Formula = "ROW()*2 + COLUMN()";
-
-                ws.Calculate();
-
-                var chart = ws.Drawings.AddBarChart("CompanyChart", eBarChartType.ColumnStacked100);
-
-                chart.Series.Add(employeeRange.TakeSingleColumn(0));
-                chart.Series.Add(numSalesRange.TakeSingleColumn(0));
-                chart.Series.Add(deathToll.TakeSingleColumn(0));
+                var chart = FillWithData(ws);
 
                 chart.SetPosition(1, 0, 5, 0);
                 chart.SetSize(400, 400);
@@ -127,28 +131,97 @@ namespace EPPlusTest.Drawing.Chart
             {
                 var ws = p.Workbook.Worksheets.First();
 
-                //foreach (var drawing in ws.Drawings)
-                //{
-                //    if (drawing.DrawingType == eDrawingType.Chart)
-                //    {
-                //        var aChart = drawing.As.Chart.Chart;
-                //        var chartSerie = drawing.As.Chart.Chart.Series;
+                var series = ws.Drawings[0].As.Chart.Chart.Series;
 
-
-                //        //aChart.Series[0].HeaderAddress
-                //        //foreach (var serie in chartSerie)
-                //        //{
-                //        //    foreach (var col in deletedCols)
-                //        //    {
-                //        //        DeleteColumnFromSeries(ws, serie, col);
-                //        //    }
-                //        //}
-                //    }
-                //}
+                Assert.AreEqual("Chartinsert!$B$2:$B$5", series[0].Series);
+                Assert.AreEqual("Chartinsert!$C$2:$C$5", series[1].Series);
+                Assert.AreEqual("Chartinsert!$D$2:$D$5", series[2].Series);
 
                 ws.InsertColumn(1, 1);
 
+                Assert.AreEqual("Chartinsert!$C$2:$C$5", series[0].Series);
+                Assert.AreEqual("Chartinsert!$D$2:$D$5", series[1].Series);
+                Assert.AreEqual("Chartinsert!$E$2:$E$5", series[2].Series);
+
                 var saveName = GetOutputFile("", $"afterInsert_{fileName}").FullName;
+                p.SaveAs(saveName);
+            }
+        }
+
+
+        [TestMethod]
+        public void InsertingInMiddleOfDataShouldMoveDataPartially()
+        {
+            var fileName = "InsertingShouldMoveChartData_Partial.xlsx";
+
+            using (ExcelPackage p = OpenPackage(fileName, true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("Chartinsert");
+
+                var chart = FillWithData(ws);
+
+                chart.SetPosition(1, 0, 5, 0);
+                chart.SetSize(400, 400);
+
+                SaveAndCleanup(p);
+            }
+
+            using (ExcelPackage p = OpenPackage(fileName))
+            {
+                var ws = p.Workbook.Worksheets.First();
+
+                var series = ws.Drawings[0].As.Chart.Chart.Series;
+
+                ws.InsertColumn(3, 1);
+
+                Assert.AreEqual("Chartinsert!$B$2:$B$5", series[0].Series);
+                Assert.AreEqual("Chartinsert!$D$2:$D$5", series[1].Series);
+                Assert.AreEqual("Chartinsert!$E$2:$E$5", series[2].Series);
+
+                var saveName = GetOutputFile("", $"afterInsert_{fileName}").FullName;
+                p.SaveAs(saveName);
+            }
+        }
+
+        [TestMethod]
+        public void InsertingRowMoveData()
+        {
+            var fileName = "InsertingRowMoveData.xlsx";
+
+            using (ExcelPackage p = OpenPackage(fileName, true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("Chartinsert");
+
+                var chart = FillWithData(ws);
+
+                chart.SetPosition(1, 0, 5, 0);
+                chart.SetSize(400, 400);
+
+                SaveAndCleanup(p);
+            }
+
+            using (ExcelPackage p = OpenPackage(fileName))
+            {
+                var ws = p.Workbook.Worksheets.First();
+
+                var series = ws.Drawings[0].As.Chart.Chart.Series;
+
+                ws.InsertRow(1, 1);
+
+                Assert.AreEqual("Chartinsert!$B$3:$B$6", series[0].Series);
+                Assert.AreEqual("Chartinsert!$C$3:$C$6", series[1].Series);
+                Assert.AreEqual("Chartinsert!$D$3:$D$6", series[2].Series);
+
+                //Should move partial
+                ws.InsertRow(4, 1);
+
+                Assert.AreEqual("Chartinsert!$B$3:$B$7", series[0].Series);
+                Assert.AreEqual("Chartinsert!$C$3:$C$7", series[1].Series);
+                Assert.AreEqual("Chartinsert!$D$3:$D$7", series[2].Series);
+
+                var saveName = GetOutputFile("", $"afterInsertRow_{fileName}").FullName;
                 p.SaveAs(saveName);
             }
         }

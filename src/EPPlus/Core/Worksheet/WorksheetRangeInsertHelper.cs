@@ -61,6 +61,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Down);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
+                InsertChartSerieAddresses(range, affectedAddress, eShiftTypeInsert.Down);
                 InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws, true);
 
@@ -104,7 +105,14 @@ namespace OfficeOpenXml.Core.Worksheet
 
                     foreach (var serie in chartSerie)
                     {
-                        serie.UpdateAddressesColumns(range._fromCol, range.Columns, affectedRange);
+                        if(shift == eShiftTypeInsert.Right)
+                        {
+                            serie.UpdateAddressesColumns(range._fromCol, range.Columns, affectedRange, shift);
+                        }
+                        else if (shift == eShiftTypeInsert.Down)
+                        {
+                            serie.UpdateAddressesColumns(range._fromRow, range.Rows, affectedRange, shift);
+                        }
                     }
 
                     //if (shift == eShiftTypeInsert.Right)
