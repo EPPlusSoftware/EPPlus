@@ -209,13 +209,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             var isInLambdaCalculation = false;
             LambdaTokensExpression lambdaCalculationExpression = null;
             var tokens = rpnTokens.Tokens;
+            var lambdaLevel = 0;
             for (int tokenIx = 0; tokenIx < tokens.Count; tokenIx++)
             {
                 var t = tokens[tokenIx];
                 if (isInLambdaCalculation)
                 {
-                    if (!(t.TokenType == TokenType.Function && t.Value.ToString().ToLower().Contains("lambda")))
+                    var isLambdaToken = t.IsLambdaFunction();
+                    if(isLambdaToken && t.TokenType == TokenType.StartFunctionArguments)
                     {
+                        lambdaLevel++;
                         if (rpnFormula != null)
                         {
                             rpnFormula.AddLambdaToken(tokenIx);
@@ -223,6 +226,28 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         lambdaCalculationExpression.AddLambdaToken(t);
                         continue;
                     }
+                    else if (isLambdaToken && t.TokenType == TokenType.Function && lambdaLevel > 0)
+                    {
+                        if(lambdaLevel > 0)
+                        {
+                            if (rpnFormula != null)
+                            {
+                                rpnFormula.AddLambdaToken(tokenIx);
+                            }
+                            lambdaCalculationExpression.AddLambdaToken(t);
+                            lambdaLevel--;
+                            continue;
+                        }
+                    }
+                    else if (!(t.TokenType == TokenType.Function && isLambdaToken) || lambdaLevel > 0)
+                    {
+                        if (rpnFormula != null)
+                        {
+                            rpnFormula.AddLambdaToken(tokenIx);
+                        }
+                        lambdaCalculationExpression.AddLambdaToken(t);
+                        continue;
+                    }  
                 }
                 if (rpnTokens.HasLambdaRefs && rpnTokens.LambdaRefs.ContainsKey(tokenIx))
                 {

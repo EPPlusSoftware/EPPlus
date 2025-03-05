@@ -13,6 +13,7 @@
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
+using System.Linq;
 namespace OfficeOpenXml.FormulaParsing.Utilities
 {
     internal static class ExtensionMethods
@@ -53,7 +54,13 @@ namespace OfficeOpenXml.FormulaParsing.Utilities
         private static bool FunctionNameMatches(Token token, string functionName)
         {
             if ((token.TokenType != TokenType.StartFunctionArguments && token.TokenType != TokenType.Function) || string.IsNullOrEmpty(token.Value)) return false;
-            var funcName = token.Value.ToLower().Replace("xlfn.", string.Empty);
+            var funcName = token.Value.ToLower();
+            if(funcName.Contains("."))
+            {
+                var parts = funcName.Split('.');
+                if (parts.Length > 0 && !parts.Any(x => x?.ToLower().Contains("xlfn") ?? false)) return false;
+                funcName = parts.Last();
+            }
             return string.Compare(funcName, functionName, StringComparison.OrdinalIgnoreCase) == 0;
         }
     }

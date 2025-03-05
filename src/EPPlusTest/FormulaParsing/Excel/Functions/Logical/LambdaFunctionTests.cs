@@ -1,5 +1,9 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using FakeItEasy;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +14,22 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
 {
     /*
      * Status 2025-02-21: The functionality in the tokenizer/RPN tokens that concatenated comma-separated
-     * Excel addresses is disabled. We need tests for this, see line 76 in FormulaExecutor.CreateRpnTokens.
+     * Excel addresses is disabled. We need unit tests for this, see line 76 in FormulaExecutor.CreateRpnTokens.
      */
     [TestClass]
     public class LambdaFunctionTests
     {
+        [TestMethod]
+        public void LambdaSelfInvokeSingleArg()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "LAMBDA(r,r+1)(D6)";
+            sheet.Cells["D6"].Value = 5;
+            sheet.Calculate();
+            Assert.AreEqual(6d, sheet.Cells["A1"].Value);
+        }
+
         [TestMethod]
         public void LambdaSelfInvokeTest1()
         {
@@ -25,6 +40,62 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Cells["D7"].Value = 6;
             sheet.Calculate();
             Assert.AreEqual(11d, sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void LambdaTokensTest1()
+        {
+            var tokens = SourceCodeTokenizer.Default.Tokenize("LAMBDA(r,c,r+c)(D6,D7)");
+            var rpnTokens = FormulaExecutor.CreateRPNTokens(tokens);
+            Assert.AreEqual(1, rpnTokens.LambdaRefs.Count);
+            Assert.AreEqual(0, rpnTokens.LambdaRefs.First().Key);
+            Assert.AreEqual(9, rpnTokens.LambdaRefs.First().Value);
+
+            var ctx = ParsingContext.Create();
+            var exp = FormulaExecutor.CompileExpressions(null, ref rpnTokens, ctx);
+            Assert.AreEqual(6, exp.Count);
+            Assert.AreEqual(ExpressionType.Function, exp[0].ExpressionType);
+            Assert.IsInstanceOfType(exp[1], typeof(VariableExpression));
+            Assert.IsInstanceOfType(exp[3], typeof(VariableExpression));
+            Assert.AreEqual(ExpressionType.LambdaCalculation, exp[4].ExpressionType);
+            Assert.IsInstanceOfType(exp[4], typeof(LambdaTokensExpression));
+            Assert.IsInstanceOfType(exp[9], typeof(RangeExpression));
+            Assert.IsInstanceOfType(exp[11], typeof(RangeExpression));
+        }
+
+        [TestMethod]
+        public void LambdaTokensTest2()
+        {
+            var tokens = SourceCodeTokenizer.Default.Tokenize("LAMBDA(r,c,r+c)(D6,D7)");
+            var rpnTokens = FormulaExecutor.CreateRPNTokens(tokens);
+            Assert.AreEqual(1, rpnTokens.LambdaRefs.Count);
+            Assert.AreEqual(0, rpnTokens.LambdaRefs.First().Key);
+            Assert.AreEqual(9, rpnTokens.LambdaRefs.First().Value);
+
+            var ctx = ParsingContext.Create();
+            var exp = FormulaExecutor.CompileExpressions(null, ref rpnTokens, ctx);
+            Assert.AreEqual(6, exp.Count);
+            Assert.AreEqual(ExpressionType.Function, exp[0].ExpressionType);
+            Assert.IsInstanceOfType(exp[1], typeof(VariableExpression));
+            Assert.IsInstanceOfType(exp[3], typeof(VariableExpression));
+            Assert.AreEqual(ExpressionType.LambdaCalculation, exp[4].ExpressionType);
+            Assert.IsInstanceOfType(exp[4], typeof(LambdaTokensExpression));
+            Assert.IsInstanceOfType(exp[9], typeof(RangeExpression));
+            Assert.IsInstanceOfType(exp[11], typeof(RangeExpression));
+        }
+
+        [TestMethod]
+        public void LambdaTokensTest3()
+        {
+            var tokens = SourceCodeTokenizer.Default.Tokenize("LAMBDA(a, a + LAMBDA(b, b + a)(2))(2)");
+            var rpnTokens = FormulaExecutor.CreateRPNTokens(tokens);
+            Assert.AreEqual(2, rpnTokens.LambdaRefs.Count);
+            Assert.AreEqual(4, rpnTokens.LambdaRefs.First().Key);
+            Assert.AreEqual(11, rpnTokens.LambdaRefs.First().Value);
+
+            var ctx = ParsingContext.Create();
+            var exp = FormulaExecutor.CompileExpressions(null, ref rpnTokens, ctx);
+            Assert.AreEqual(4, exp.Count);
         }
 
         [TestMethod]
@@ -39,7 +110,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(5d, sheet.Cells["A1"].Value);
         }
 
-        [TestMethod, Ignore("Support for nested Lambdas is still to be implemented...")]
+        [TestMethod/*, Ignore("Support for nested Lambdas is still to be implemented...")*/]
         public void LambdaRecursive1()
         {
             using var package = new ExcelPackage();

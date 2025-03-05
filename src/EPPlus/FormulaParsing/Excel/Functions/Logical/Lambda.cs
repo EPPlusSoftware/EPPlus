@@ -27,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         IntroducedInExcelVersion = "2021")]
     internal class Lambda : ExcelFunction
     {
-        public override int ArgumentMinLength => 3;
+        public override int ArgumentMinLength => 2;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
