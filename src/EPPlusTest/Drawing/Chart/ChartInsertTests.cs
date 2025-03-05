@@ -14,6 +14,47 @@ namespace EPPlusTest.Drawing.Chart
     public class ChartInsertTests : TestBase
     {
         [TestMethod]
+        public void InsertChart()
+        {
+            var filename = "ExcelChartWithAndWithoutCellRef.xlsx";
+
+            using (var p = OpenTemplatePackage(filename))
+            {
+                var ws = p.Workbook.Worksheets[0];
+
+                var otherChart = ws.Drawings[1].As.Chart.BarChart;
+
+                var testchart = ws.Drawings[1].As.Chart.Chart;
+                var chartSerie = testchart.Series;
+
+                var someLit = otherChart.Series[0].NumberLiteralsY;
+
+                //var aSeries = chartSerie[0].Series;
+                //var bSeries = chartSerie[0].XSeries;
+
+                var lits = chartSerie[0].NumberLiteralsX;
+                //var lits2 = chartSerie[0].NumberLiteralsY;
+
+
+                //ws.Drawings
+                //foreach (var drawing in ws.Drawings)
+                //{
+                //    if (drawing.DrawingType == eDrawingType.Chart)
+                //    {
+                //        var chartSerie = drawing.As.Chart.Chart.Series;
+
+                //        foreach (var serie in chartSerie)
+                //        {
+                //            var noneMb = serie.Series;
+                //            //serie.UpdateAddressesColumns(range._fromCol, range.Columns, affectedRange);
+                //        }
+
+                //    }
+                //}
+            }
+        }
+
+        [TestMethod]
         public void InsertingShouldMoveChartData()
         {
             var fileName = "InsertingShouldMoveChartData.xlsx";

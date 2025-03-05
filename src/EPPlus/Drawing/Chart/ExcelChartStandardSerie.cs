@@ -26,14 +26,45 @@ namespace OfficeOpenXml.Drawing.Chart
     public class ExcelChartStandardSerie : ExcelChartSerie
     {
         private readonly bool _isPivot;
+
+
+        double[] _NumberLiteralsY = null;
+        /// <summary>
+        /// Literals for the Y serie, if the literal values are numeric
+        /// </summary>
+        public override double[] NumberLiteralsY 
+        { 
+            get 
+            {
+                if(string.IsNullOrEmpty(_seriesNumLitPath) == false)
+                {
+                    ReadNumLiterals(_seriesNumLitPath, out _NumberLiteralsY);
+                    return _NumberLiteralsY;
+                }
+                return _NumberLiteralsY;
+            } 
+            protected set
+            {
+                _NumberLiteralsY = value;
+            }
+        }
+        /// <summary>
+        /// Literals for the X serie, if the literal values are numeric
+        /// </summary>
+        public double[] NumberLiteralsX { get; protected set; } = null;
+        /// <summary>
+        /// Literals for the X serie, if the literal values are strings
+        /// </summary>
+        public string[] StringLiteralsX { get; protected set; } = null;
+
         /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="chart">The chart</param>
         /// <param name="ns">Namespacemanager</param>
         /// <param name="node">Topnode</param>
-       /// <param name="isPivot">Is pivotchart</param>  
-       internal ExcelChartStandardSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot)
+        /// <param name="isPivot">Is pivotchart</param>  
+        internal ExcelChartStandardSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot)
            : base(chart, ns, node)
        {
            _chart = chart;
@@ -211,6 +242,41 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
        }
+
+        private void ReadNumLiterals(string path, out double[] numberLiterals)
+        {
+            var childNodes = GetNode(path).ChildNodes;
+            //numberLiterals = new double[childNodes.Count];
+            List<double> numLits = new();
+
+            foreach (XmlElement node in childNodes)
+            {
+                if(node.LocalName == "pt")
+                {
+                    var txt = node.InnerText;
+                    numLits.Add(Convert.ToDouble(txt));
+                }
+            }
+
+            //numberLiterals = new double[numLits.Count];
+            numberLiterals = numLits.ToArray();
+
+            //var seriesNumLit = GetXmlNodeString(_seriesNumLitPath);
+
+            //GetNumLit(seriesNumLit, out _NumberLiteralsY);
+            //value = value.Substring(1, value.Length - 2); //Remove outer {}
+
+            //var split = value.Split(',');
+            //numberLiterals = new double[split.Length];
+
+            //for (int i = 0; i < split.Length; i++)
+            //{
+            //    if (double.TryParse(split[i], NumberStyles.Any, CultureInfo.InvariantCulture, out double d))
+            //    {
+            //        numberLiterals[i] = d;
+            //    }
+            //}
+        }
 
         private void GetLitValues(string value, out double[] numberLiterals, out string[] stringLiterals)
         {

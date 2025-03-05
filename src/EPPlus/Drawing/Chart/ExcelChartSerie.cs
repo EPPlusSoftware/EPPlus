@@ -42,15 +42,15 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Literals for the Y serie, if the literal values are numeric
         /// </summary>
-        public double[] NumberLiteralsY { get; protected set; } = null;
+        virtual public double[] NumberLiteralsY { get; protected set; } = null;
         /// <summary>
         /// Literals for the X serie, if the literal values are numeric
         /// </summary>
-        public double[] NumberLiteralsX { get; protected set; } = null;
+        virtual public double[] NumberLiteralsX { get; protected set; } = null;
         /// <summary>
         /// Literals for the X serie, if the literal values are strings
         /// </summary>
-        public string[] StringLiteralsX { get; protected set; } = null;
+        virtual public string[] StringLiteralsX { get; protected set; } = null;
         void IDrawingStyleBase.CreatespPr()
         {
             CreatespPrNode();
@@ -73,30 +73,6 @@ namespace OfficeOpenXml.Drawing.Chart
                 var hAddress = UpdateAddressString(HeaderAddress.FullAddress, fromCol, columns, affectedRange);
                 HeaderAddress = new ExcelAddressBase(hAddress);
             }
-            //var SeriesAddress = new ExcelAddressBase(Series);
-            //var XSeriesAddress = new ExcelAddressBase(XSeries);
-            //var hAddress = new ExcelAddressBase(HeaderAddress.FullAddress);
-
-            //if (delete == false)
-            //{
-            //    UpdateInsertColumnAddress(ref SeriesAddress, columnFrom, columns, affectedRange);
-            //    UpdateInsertColumnAddress(ref XSeriesAddress, columnFrom, columns, affectedRange);
-            //    UpdateInsertColumnAddress(ref hAddress, columnFrom, columns, affectedRange);
-            //}
-            //else
-            //{
-            //    //SeriesAddress = SeriesAddress.
-            //    //if (columnFrom < SeriesAddress._toCol)
-            //    //{
-
-            //    //}
-            //}
-
-            //Series = SeriesAddress.FullAddress;
-            //XSeries = XSeriesAddress.FullAddress;
-            //HeaderAddress = hAddress;
-
-            //SeriesAddress.Intersect(new ExcelAddress(1, columnFrom, 2500, columnTo));
         }
 
         void UpdateInsertColumnAddress(ref ExcelAddressBase address, int fromCol, int columns, ExcelAddressBase affectedRange)
@@ -111,9 +87,12 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             if(string.IsNullOrEmpty(address) == false)
             {
-                var addressBase = new ExcelAddressBase(address);
-                UpdateInsertColumnAddress(ref addressBase, fromCol, columns, affectedRange);
-                return addressBase.FullAddress;
+                if (ExcelCellBase.IsValidAddress(address))
+                {
+                    var addressBase = new ExcelAddressBase(address);
+                    UpdateInsertColumnAddress(ref addressBase, fromCol, columns, affectedRange);
+                    return addressBase.FullAddress;
+                }
             }
             return address;
         }
@@ -221,6 +200,5 @@ namespace OfficeOpenXml.Drawing.Chart
                 return value;
             }
         }
-
     }
 }
