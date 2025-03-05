@@ -362,31 +362,37 @@ namespace EPPlusTest.Drawing.Chart
             using (var p = OpenTemplatePackage("s808_2.xlsx"))
             {
                 var ws = p.Workbook.Worksheets["overzicht"];
-                List<ExcelRangeColumn> cols = [.. ws.Columns.Where(c => c.Hidden).OrderByDescending(c => c.StartColumn)];
 
-                List<int> deletedCols = new();
+                ws.Calculate();
 
-                foreach (ExcelRangeColumn col in cols)
-                {
-                    ws.DeleteColumn(col.StartColumn);
-                    deletedCols.Add(col.StartColumn);
-                }
+                ws.ClearFormulas();
 
-                foreach (var drawing in ws.Drawings)
-                {
-                    if (drawing.DrawingType == eDrawingType.Chart)
-                    {
-                        var chartSerie = drawing.As.Chart.Chart.Series;
+                ws.Columns.DeleteAll(c => c.Hidden);
+                //List<ExcelRangeColumn> cols = [.. ws.Columns.Where(c => c.Hidden).OrderByDescending(c => c.StartColumn)];
 
-                        foreach (var serie in chartSerie)
-                        {
-                            foreach (var col in deletedCols)
-                            {
-                                DeleteColumnFromSeries(ws, serie, col);
-                            }
-                        }
-                    }
-                }
+                //List<int> deletedCols = new();
+
+                //foreach (ExcelRangeColumn col in cols)
+                //{
+                //    ws.DeleteColumn(col.StartColumn);
+                //    deletedCols.Add(col.StartColumn);
+                //}
+
+                //foreach (var drawing in ws.Drawings)
+                //{
+                //    if (drawing.DrawingType == eDrawingType.Chart)
+                //    {
+                //        var chartSerie = drawing.As.Chart.Chart.Series;
+
+                //        foreach (var serie in chartSerie)
+                //        {
+                //            foreach (var col in deletedCols)
+                //            {
+                //                DeleteColumnFromSeries(ws, serie, col);
+                //            }
+                //        }
+                //    }
+                //}
 
                 SaveAndCleanup(p);
             }
