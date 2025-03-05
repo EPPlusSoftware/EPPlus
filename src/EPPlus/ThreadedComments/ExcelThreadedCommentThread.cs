@@ -10,6 +10,7 @@
  *************************************************************************************************
   07/29/2020         EPPlus Software AB       Threaded comments
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using System;
 using System.Collections.Generic;
@@ -115,6 +116,10 @@ namespace OfficeOpenXml.ThreadedComments
         {
             Require.That(text).Named("text").IsNotNullOrEmpty();
             Require.That(personId).Named("personId").IsNotNullOrEmpty();
+            if(Comments.Worksheet.Workbook.ThreadedCommentPersons.Any(x=>x.Id == personId)==false)
+            {
+                throw new ArgumentException("The personId does not exist in the ThreadedCommetnPersons collection", nameof(personId));
+            }
             var parentId = string.Empty;
             if (Comments.Any())
             {

@@ -255,8 +255,9 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                         default:
                             if (cf.Value.Style.HasValue)
                             {
-                                var style = new StyleDxf(cf.Value.Style);
-                                if (!_exporterContext._dxfStyleCache.GetOrCreateId(style.StyleKey, out int id) || _addedToCssDxf.Contains(id) == false)
+                                bool KeyAlreadyExists = _exporterContext._dxfStyleCache.GetOrCreateId(cf.Value.Style.Id, out int id);
+                                var style = new StyleDxf(cf.Value.Style, id);
+                                if (!KeyAlreadyExists || _addedToCssDxf.Contains(id) == false)
                                 {
                                     _addedToCssDxf.Add(id);
                                     var name = $".{Settings.StyleClassPrefix}{Settings.DxfStyleClassName}{id}";

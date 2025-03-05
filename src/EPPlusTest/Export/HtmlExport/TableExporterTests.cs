@@ -562,5 +562,33 @@ namespace EPPlusTest.Export.HtmlExport
     //string.Format(htmlTemplate, css, tbl1Html, tbl2Html, tbl3Html));
             }
         }
+        [TestMethod]
+        public void NumberFormatColorShouldCreateCssColorInTable()
+        {
+            using (var package = OpenPackage("html_numfRed_table.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewWs");
+
+                var range = ws.Cells["A1:A5"];
+                var table = ws.Tables.Add(range, "NumberTable");
+                table.Columns[0].CalculatedColumnFormula = "ROW()";
+                table.DataStyle.NumberFormat.Format = "[Red]-#";
+
+                //Ensure numberformat color takes priority as in Excel
+                table.DataStyle.Font.Color.SetColor(Color.Green);
+
+                wb.Calculate();
+
+                var exporter = range.CreateHtmlExporter();
+                var page = exporter.GetSinglePage();
+
+                var path = GetOutputFile("", "numfRed_table.html").FullName;
+
+                File.WriteAllText(path, page);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }

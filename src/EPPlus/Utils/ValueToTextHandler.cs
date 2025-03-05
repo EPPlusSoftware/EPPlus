@@ -53,6 +53,25 @@ namespace OfficeOpenXml.Utils
             return null;
         }
 
+        internal static ExcelNumberFormatXml GetDxfNumberFormat(int styleId, ExcelStyles styles)
+        {
+            var nfID = styles.Dxfs[styleId].DxfId;
+            ExcelFormatTranslator nf = null;
+            for (int i = 0; i < styles.NumberFormats.Count; i++)
+            {
+                if (nfID == styles.NumberFormats[i].NumFmtId)
+                {
+                    return styles.NumberFormats[i];
+                }
+            }
+            if (nf == null)
+            {
+                return styles.NumberFormats[0];  //nf should never be null. If so set to General, Issue 173
+            }
+
+            return null;
+        }
+
         internal static string FormatValue(object v, bool forWidthCalc, ExcelFormatTranslator nf, CultureInfo overrideCultureInfo)
         {
             var f = nf.GetFormatPart(v);
@@ -92,7 +111,7 @@ namespace OfficeOpenXml.Utils
                             return string.Format(overrideCultureInfo ?? nf.Culture, f.NetFormat, d);
                         }
                         else
-                        {
+                          {
                             return FormatNumber(d, format, overrideCultureInfo ?? nf.Culture);
                         }
                     }

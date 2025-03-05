@@ -33,6 +33,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.ImageUtils
             if (_urlCache.ContainsKey(url))
             {
                 var hash = _urlCache[url];
+                if(hash==null)
+                {
+                    return new ImageInfo() { Uri = new Uri(url) };
+                }
                 return _pictureStore.GetImageInfoByHash(hash);
             }
             return null;
@@ -47,14 +51,21 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.ImageUtils
 
         internal void Add(string url, byte[] imageBytes)
         {
-            var hash = _pictureStore.GetImageHash(imageBytes);
-            if (_urlCache.ContainsKey(url))
+            if(imageBytes == null)
             {
-                _urlCache[url] = hash;
+                _urlCache[url] = null;
             }
             else
             {
-                _urlCache.Add(url, hash);
+                var hash = _pictureStore.GetImageHash(imageBytes);
+                if (_urlCache.ContainsKey(url))
+                {
+                    _urlCache[url] = hash;
+                }
+                else
+                {
+                    _urlCache.Add(url, hash);
+                }
             }
         }
     }
