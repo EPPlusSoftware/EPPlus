@@ -767,14 +767,16 @@ namespace EPPlusTest.Drawing
             string targetPath = "s814Target.xlsx";
             string namedRange = "Scratchpad";
 
-            if (File.Exists(targetPath))
+            var target = GetOutputFile("", targetPath).FullName;
+
+            if (File.Exists(target))
             {
-                File.Delete(targetPath);
+                File.Delete(target);
             }
 
             var template = GetTemplateFile("s814Template.xlsx");
-            // Copy template.xlsx to Book2.xlsx
-            File.Copy(template.FullName, GetOutputFile("", targetPath).FullName, true);
+
+            File.Copy(template.FullName, target, true);
 
             using (var sourcePackage = OpenTemplatePackage("s814Original.xlsx"))
             using (var targetPackage = OpenPackage(targetPath))
@@ -793,7 +795,6 @@ namespace EPPlusTest.Drawing
                 }
 
                 SaveAndCleanup(targetPackage);
-                //targetPackage.SaveAs(new FileInfo(targetPath));
             }
         }
     }
