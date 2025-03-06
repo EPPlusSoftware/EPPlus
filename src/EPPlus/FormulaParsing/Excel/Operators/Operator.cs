@@ -121,8 +121,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     else if (CanDoNumericOperation(l, r))
                     {
-                        if(ctx.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel)
-                            return new CompileResult(RoundingHelper.RoundToSignificantFig(l.ResultNumeric + r.ResultNumeric, 15), DataType.Decimal);
                         return new CompileResult(l.ResultNumeric + r.ResultNumeric, DataType.Decimal);
                     }
                     return new CompileResult(eErrorType.Value);
@@ -152,8 +150,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     else if (CanDoNumericOperation(l, r))
                     {
-                        if (ctx.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel)
-                            return new CompileResult(RoundingHelper.GetSignificantFigures( l.ResultNumeric - r.ResultNumeric, 15), DataType.Decimal);
                         return new CompileResult(l.ResultNumeric - r.ResultNumeric, DataType.Decimal);
                     }
 
@@ -184,8 +180,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     else if (CanDoNumericOperation(l, r))
                     {
-                        if (ctx.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel)
-                            return new CompileResult(RoundingHelper.GetSignificantFigures(l.ResultNumeric * r.ResultNumeric, 15), DataType.Decimal);
                         return new CompileResult(l.ResultNumeric * r.ResultNumeric, DataType.Decimal);
                     }
                     return new CompileResult(eErrorType.Value);
@@ -220,8 +214,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
                     }
                     else if (CanDoNumericOperation(l, r))
                     {
-                        if (ctx.Configuration.PrecisionAndRoundingStrategy == PrecisionAndRoundingStrategy.Excel)
-                            return new CompileResult(RoundingHelper.GetSignificantFigures(left / right, 15), DataType.Decimal);
                         return new CompileResult(left / right, DataType.Decimal);
                     }
                     return new CompileResult(eErrorType.Value);
