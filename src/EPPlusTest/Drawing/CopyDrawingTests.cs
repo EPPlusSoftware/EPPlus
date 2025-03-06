@@ -767,16 +767,18 @@ namespace EPPlusTest.Drawing
             string targetPath = "s814Target.xlsx";
             string namedRange = "Scratchpad";
 
-            var target = GetOutputFile("", targetPath).FullName;
-
-            if (File.Exists(target))
+            using (var templatePackage = OpenTemplatePackage("s814Template.xlsx"))
             {
-                File.Delete(target);
+                var output = GetOutputFile("", targetPath);
+                var outputPath = GetOutputFile("", targetPath).FullName;
+
+                if (output.Exists)
+                {
+                    output.Delete();
+                }
+  
+                templatePackage.SaveAs(outputPath);
             }
-
-            var template = GetTemplateFile("s814Template.xlsx");
-
-            File.Copy(template.FullName, target, true);
 
             using (var sourcePackage = OpenTemplatePackage("s814Original.xlsx"))
             using (var targetPackage = OpenPackage(targetPath))
