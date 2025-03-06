@@ -779,5 +779,15 @@ namespace EPPlusTest.Issues
 			var loadedCommentText = loadedSheet.Cells["A3"].Comment.Text;
 			Assert.AreEqual("6", loadedCommentText);
 		}
+        [TestMethod]
+        public void properties()
+        {
+            using (var package = OpenTemplatePackage("properties.xlsx"))
+            {
+				package.Workbook.Properties.LastModifiedBy = "";
+                SaveAndCleanup(package);
+            }
+        }
+
     }
 }
