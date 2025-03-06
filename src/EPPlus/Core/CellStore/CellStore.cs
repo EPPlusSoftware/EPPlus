@@ -54,8 +54,6 @@ namespace OfficeOpenXml.Core.CellStore
         internal int ColumnCount;
         public bool IsReadonly { get; set; }
 
-        internal int VersionNr;
-
         /// <summary>
         /// For internal use only. 
         /// Must be set before any instance of the CellStore is created.
@@ -63,8 +61,6 @@ namespace OfficeOpenXml.Core.CellStore
         public CellStore()
         {
             _columnIndex = new ColumnIndex<T>[CellStoreSettings.ColSizeMin];
-            ////A column of some kind must exist
-            //AddColumn(0, 1);
         }
         ~CellStore()
         {
@@ -1190,6 +1186,10 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     return false;
                 }
+                if (row > maxRow)
+                {
+                    return false;
+                }
                 if (maxColPos >= ColumnCount)
                 {
                     maxColPos = ColumnCount - 1;
@@ -1211,18 +1211,12 @@ namespace OfficeOpenXml.Core.CellStore
                         var cBefore = c;
                         var r = GetNextCell(ref row, ref c, minColPos, maxRow, maxColPos);
 
-                        if(_columnIndex[c] != null)
+                        if(c >= ColumnCount)
                         {
-                            col = _columnIndex[c].Index;
+                            return false;
                         }
-                        else
-                        {
-                            //This happens when
-                            if (row >= maxRow)
-                            {
-                                //do something? Update col? 'c' is almost certainly past last index in columnIndex here.
-                            }
-                        }
+
+                        col = _columnIndex[c].Index;
                         return r;
                     }
                 }
@@ -1306,6 +1300,11 @@ namespace OfficeOpenXml.Core.CellStore
         }
         internal bool GetNextCell(ref int row, ref int colPos, int startColPos, int endRow, int endColPos)
         {
+            if (row > endRow)
+            {
+                return false;
+            }
+
             if (ColumnCount == 0)
             {
                 return false;
