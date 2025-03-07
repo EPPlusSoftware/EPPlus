@@ -31,6 +31,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         {
             var search = ArgToString(arguments, 0);
             var searchIn = ArgToString(arguments, 1);
+            if(string.IsNullOrEmpty(searchIn))
+            {                
+                if(string.IsNullOrEmpty(search))
+                {
+                    return CreateResult(1D, DataType.Integer); 
+                }
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
             var startIndex = 0;
             if (arguments.Count > 2)
             {
@@ -42,7 +50,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
-            // Adding 1 because Excel uses 1-based index
+            //Adding 1 because Excel uses 1-based index
             return CreateResult(result + 1, DataType.Integer);
         }
     }

@@ -19,7 +19,7 @@ namespace OfficeOpenXml.Core.CellStore
     internal class CellStoreEnumerator<T> : IEnumerable<T>, IEnumerator<T>
     {
         CellStore<T> _cellStore;
-        int row, colPos;
+        int _row, _colPos;
         internal int _startRow, _startCol, _endRow, _endCol;
         List<SimpleAddress> _ranges=null;
         int _rangePos = 0;
@@ -96,8 +96,8 @@ namespace OfficeOpenXml.Core.CellStore
             maxRow = _endRow;
             UpdateMinMaxColPos();
             lastColCount = _cellStore.ColumnCount;
-            row = minRow;
-            colPos = minColPos - 1;
+            _row = minRow;
+            _colPos = minColPos - 1;
         }
 
         private void UpdateMinMaxColPos()
@@ -123,24 +123,24 @@ namespace OfficeOpenXml.Core.CellStore
         {
             get
             {
-                return row;
+                return _row;
             }
         }
         internal int Column
         {
             get
             {
-                if (colPos < 0 || colPos >= _cellStore.ColumnCount)
+                if (_colPos < 0 || _colPos >= _cellStore.ColumnCount)
                 {
                     return -1;
                 }
-                if(colPos < minColPos)
+                if(_colPos < minColPos)
                 {
                     return _startCol;
                 }
                 else
                 {
-                    return _cellStore._columnIndex[colPos].Index;
+                    return _cellStore._columnIndex[_colPos].Index;
                 }
             }
         }
@@ -150,21 +150,21 @@ namespace OfficeOpenXml.Core.CellStore
             {
                 lock (_cellStore)
                 {
-                    return _cellStore.GetValue(row, Column);
+                    return _cellStore.GetValue(_row, Column);
                 }
             }
             set
             {
                 lock (_cellStore)
                 {
-                    _cellStore.SetValue(row, Column, value);
+                    _cellStore.SetValue(_row, Column, value);
                 }
             }
         }
         internal bool Next()
         {
             if (lastColCount != _cellStore.ColumnCount) UpdateMinMaxColPos();
-            var ret = _cellStore.GetNextCell(ref row, ref colPos, minColPos, maxRow, maxColPos);
+            var ret = _cellStore.GetNextCell(ref _row, ref _colPos, minColPos, maxRow, maxColPos);
             if (ret == false && _ranges!=null && _ranges.Count > ++_rangePos)
             {
                 var a = _ranges[_rangePos];
@@ -173,7 +173,7 @@ namespace OfficeOpenXml.Core.CellStore
                 _startCol = a.FromCol;
                 _endRow = a.ToRow;
                 _endCol = a.ToCol;
-
+                
                 InitNewRange();                
                 return Next();
             }
@@ -184,7 +184,7 @@ namespace OfficeOpenXml.Core.CellStore
             lock (_cellStore)
             {
                 if (lastColCount != _cellStore.ColumnCount) UpdateMinMaxColPos();
-                var ret = _cellStore.GetPrevCell(ref row, ref colPos, minRow, minColPos, maxColPos);
+                var ret = _cellStore.GetPrevCell(ref _row, ref _colPos, minRow, minColPos, maxColPos);
                 if(ret==false && _rangePos>0)
                 {
                     _rangePos--;
@@ -194,8 +194,8 @@ namespace OfficeOpenXml.Core.CellStore
                     _startCol = a.FromCol;
                     _endRow = a.ToRow;
                     _endCol = a.ToCol;
-                    colPos = maxColPos;
-                    row = maxRow;
+                    _colPos = maxColPos;
+                    _row = maxRow;
                     return Previous();
                 }
                 return ret;

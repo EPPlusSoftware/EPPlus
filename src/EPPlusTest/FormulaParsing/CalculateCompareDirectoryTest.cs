@@ -44,18 +44,18 @@ namespace EPPlusTest.FormulaParsing
         {
             var path = _testInputPathOptional + "CalculationTests\\";
 
-            //var xlFile = path + "4103_180_20210527_CAST_Risk_CRP_202103_internal.xlsx";
-            var xlFile = path + "CalcForGembox.xlsx"; 
+            var xlFile = path + "3293_127_20210317_k-c_01-01-2021_to_01-05-2021.xlsx";
+            //var xlFile = path + "CalcForGembox.xlsx"; 
             string logFile = path + new FileInfo(xlFile).Name + ".log";
 
             using (var p = new ExcelPackage(xlFile))
             {
                 p.Workbook.ClearFormulaValues();
-                //var ws = p.Workbook.Worksheets["risk report"];
-                var ws = p.Workbook.Worksheets[0];
+                var ws = p.Workbook.Worksheets["1"];
+                //var ws = p.Workbook.Worksheets[0];
                 //ws.Calculate();
-                ws.Cells["C45:C48"].Calculate();
-                ws.Cells["B48"].Calculate(x => x.FollowDependencyChain = false);
+                //ws.Cells["D42"].Calculate(x=>x.CacheExpressions = false);
+                p.Workbook.Names[45].Calculate();
                 //var ws = p.Workbook.Worksheets["opties"];
                 //ws.Cells["A53"].Calculate();
 

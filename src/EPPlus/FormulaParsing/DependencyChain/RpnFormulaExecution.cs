@@ -397,7 +397,6 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 SetCurrentCell(depChain, f);
                 var ws = f._ws;
-
                 if (f._tokenIndex < f._tokens.Count)
                 {
                     addresses = ExecuteNextToken(depChain, f, followChain);
@@ -521,12 +520,12 @@ namespace OfficeOpenXml.FormulaParsing
                 {
                     if (fe.Value == null || depChain.processedCells.Contains(ExcelCellBase.GetCellId(f._enumeratorWorksheetIx, fe.Row, fe.Column)))
                     {
-                        MergeToRd(rd, row, rPos, col, fe, false);
+                        MergeToRd(rd, row, col, rPos, fe, false);
                         goto NextFormula;
                     }
 
                     depChain._formulaStack.Push(f);
-                    MergeToRd(rd, row, col,rPos, fe, false);
+                    MergeToRd(rd, row, col, rPos, fe, false);
                     if (GetFormula(depChain, ws, fe.Row, fe.Column, fe.Value, ref f))
                     {
                         goto ExecuteFormula;
@@ -784,6 +783,7 @@ namespace OfficeOpenXml.FormulaParsing
         }
         private static void MergeToRd(RangeHashset rd, int fromRow, int fromCol, int rangePos, CellStoreEnumerator<object> fe, bool atEnd)
         {
+            
             if (rangePos < fe.RangePos)
             {
                 var a = fe.Ranges[rangePos];

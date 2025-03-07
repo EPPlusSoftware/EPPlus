@@ -46,8 +46,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             if (arg0 is IRangeInfo ri)
             {
 
-                if((ri.Size.NumberOfRows > 1 || ri.Size.NumberOfCols > 1) && 
-                    context.CurrentWorksheet._flags.GetFlagValue(context.CurrentCell.Row, context.CurrentCell.Column, CellFlags.CanBeDynamicArray|CellFlags.ArrayFormula))
+                if((ri.Size.NumberOfRows > 1 || ri.Size.NumberOfCols > 1)) /*&& 
+                    context.CurrentWorksheet._flags.GetFlagValue(context.CurrentCell.Row, context.CurrentCell.Column, CellFlags.CanBeDynamicArray|CellFlags.ArrayFormula))*/
                 {
                     return If_DynamicArrayFormula(arg1, arg2, ri);
                 }

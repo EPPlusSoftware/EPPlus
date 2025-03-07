@@ -10,6 +10,7 @@
  *************************************************************************************************
   21/06/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -54,12 +55,12 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         public static List<object> FlattenRangeObject(IRangeInfo r1)
         {
             var result = new List<object>();
-
-            for (var row = 0; row < r1.Size.NumberOfRows; row++)
+            var address = r1.GetAddressDimensionAdjusted(0);
+            for (var row = address.FromRow; row <= address.ToRow; row++)
             {
-                for (var column = 0; column < r1.Size.NumberOfCols; column++)
+                for (var column = address.FromCol; column <= address.ToCol; column++)
                 {
-                    result.Add(r1.GetOffset(row, column));
+                    result.Add(r1.GetValue(row, column));
                 }
             }
             return result;
