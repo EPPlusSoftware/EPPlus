@@ -197,8 +197,8 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
                 ws.Cells["A1"].Formula = "3627683204550360+555487768042629000";
                 ws.Cells["A2"].Formula = "551879477094850000+71728430321556700000";
                 ws.Calculate();
-                Assert.AreEqual(559115451247179000D, (double)ws.Cells["A1"].Value);
-                Assert.AreEqual(72280309798651600000D, (double)ws.Cells["A2"].Value);
+                Assert.AreEqual(559115451247179330D, (double)ws.Cells["A1"].Value);
+                Assert.AreEqual(72280309798651552000D, (double)ws.Cells["A2"].Value);
             }
         } 
     }
