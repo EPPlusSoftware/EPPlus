@@ -8,37 +8,28 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  06/03/2025         EPPlus Software AB       Initial release EPPlus 8
+  06/12/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 
-namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
 {
-    internal class LetFunctionExpression : VariableFunctionExpression
+    internal static class VariableStorageId
     {
-        internal LetFunctionExpression(string tokenValue, VariableStorageManager variableStorage, ParsingContext ctx, int pos) : base(tokenValue, variableStorage, ctx, pos)
+        private static int _currentId = 0;
+        private static object _locker = new object();
+
+        public static int GetNewId()
         {
-
+            int id;
+            lock (_locker)
+            {
+                id = _currentId++;
+            }
+            return id;
         }
-
-        internal override bool IsLet => true;
-
-        internal override void AddArgument(int arg)
-        {
-            base.AddArgument(arg);
-        }
-
-        internal override bool HandlesVariables => true;
-
-        internal override bool IsVariableArg(int arg, bool isLastArgument)
-        {
-            return arg % 2 == 0 && !isLastArgument;
-        }
-
     }
 }

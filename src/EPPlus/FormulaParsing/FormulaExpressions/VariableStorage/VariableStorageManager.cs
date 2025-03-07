@@ -8,37 +8,32 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  06/03/2025         EPPlus Software AB       Initial release EPPlus 8
+  06/12/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 
-namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
+namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage
 {
-    internal class LetFunctionExpression : VariableFunctionExpression
+    internal class VariableStorageManager
     {
-        internal LetFunctionExpression(string tokenValue, VariableStorageManager variableStorage, ParsingContext ctx, int pos) : base(tokenValue, variableStorage, ctx, pos)
-        {
+        public VariableStorageManager() { }
 
+        private readonly Stack<VariableStorageScope> _scopes = new Stack<VariableStorageScope>();
+
+        public VariableStorageScope AddNewScope()
+        {
+            VariableStorageScope parent = _scopes.Count > 0 ? _scopes.Peek() : null;
+            var newScope = new VariableStorageScope(this, parent);
+            _scopes.Push(newScope);
+            return newScope;
         }
 
-        internal override bool IsLet => true;
-
-        internal override void AddArgument(int arg)
+        public void Clear()
         {
-            base.AddArgument(arg);
+            _scopes.Clear();
         }
-
-        internal override bool HandlesVariables => true;
-
-        internal override bool IsVariableArg(int arg, bool isLastArgument)
-        {
-            return arg % 2 == 0 && !isLastArgument;
-        }
-
     }
 }

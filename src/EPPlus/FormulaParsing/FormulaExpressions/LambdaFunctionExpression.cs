@@ -23,6 +23,7 @@
   06/12/2024         EPPlus Software AB       Initial release EPPlus 7.3
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
@@ -34,9 +35,10 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
     internal class LambdaFunctionExpression : VariableFunctionExpression
     {
         internal override bool IsLambda => true;
+        internal override bool HandlesVariables => true;
         private List<Token> _lambdaTokens;
         
-        internal LambdaFunctionExpression(string tokenValue, Stack<FunctionExpression> funcStack, ParsingContext ctx, int pos) : base(tokenValue, funcStack, ctx, pos)
+        internal LambdaFunctionExpression(string tokenValue, VariableStorageManager variableStorage, ParsingContext ctx, int pos) : base(tokenValue, variableStorage, ctx, pos)
         {
 
         }

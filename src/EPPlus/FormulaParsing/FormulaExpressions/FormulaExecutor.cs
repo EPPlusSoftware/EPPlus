@@ -209,6 +209,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             var isInLambdaCalculation = false;
             LambdaTokensExpression lambdaCalculationExpression = null;
             var tokens = rpnTokens.Tokens;
+            var variableStorage = rpnFormula != null ? rpnFormula.VariableStorage : new VariableStorage.VariableStorageManager();
             var lambdaLevel = 0;
             for (int tokenIx = 0; tokenIx < tokens.Count; tokenIx++)
             {
@@ -355,7 +356,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         {
                             if(exp is VariableFunctionExpression vfeExp)
                             {
-                                if(vfeExp.VariableIsDeclared(t.Value))
+                                if(vfeExp.VariableIsDeclared(t.Value) && !expressions.ContainsKey(tokenIx))
                                 {
                                     expressions.Add(tokenIx, new VariableExpression(t.Value, vfeExp, false));
                                 }
@@ -364,9 +365,9 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.StartFunctionArguments:
                         var func = t.IsLetFunction() ?
-                             new LetFunctionExpression(t.Value, stack, parsingContext, tokenIx) :
+                             new LetFunctionExpression(t.Value, variableStorage, parsingContext, tokenIx) :
                                  t.IsLambdaFunction() ?
-                                     new LambdaFunctionExpression(t.Value, stack, parsingContext, tokenIx) :
+                                     new LambdaFunctionExpression(t.Value, variableStorage, parsingContext, tokenIx) :
                                      new FunctionExpression(t.Value, parsingContext, tokenIx);
                         expressions.Add(tokenIx, func);
                         if(tokenIx <= tokens.Count && tokens[tokenIx + 1].TokenType != TokenType.Function) // Check that the function has any argument
@@ -383,7 +384,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         break;
                     case TokenType.CommaLambda:
                         isInLambdaCalculation = true;
-                        lambdaCalculationExpression = new LambdaTokensExpression(parsingContext);
+                        lambdaCalculationExpression = new LambdaTokensExpression(parsingContext, variableStorage.AddNewScope());
                         expressions.Add(tokenIx, lambdaCalculationExpression);
                         if (stack.Count > 0)
                         {

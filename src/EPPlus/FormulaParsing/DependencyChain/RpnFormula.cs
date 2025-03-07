@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal int _arrayIndex = -1;
         internal FormulaFlags _flags = 0;
         internal FunctionExpression _currentFunction = null;
+        private VariableStorageManager _variableStorage;
 
         public bool CanBeDynamicArray
         {
@@ -51,6 +53,8 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal int NumberOfLambdaArgs { get; set; }
 
+        internal VariableStorageManager VariableStorage => _variableStorage;
+
         public void AddLambdaToken(int tokenIx)
         {
             LambdaTokens ??= [];
@@ -59,12 +63,18 @@ namespace OfficeOpenXml.FormulaParsing
         }
 
         internal RpnFormula(ExcelWorksheet ws, int row, int column)
+            : this(ws, row, column, new VariableStorageManager())
+        {
+        }
+
+        internal RpnFormula(ExcelWorksheet ws, int row, int column, VariableStorageManager variableStorage)
         {
             _ws = ws;
             _row = row;
             _column = column;
             _expressionStack = new Stack<Expression>();
             _funcStack = new Stack<FunctionExpression>();
+            _variableStorage = variableStorage;
         }
 
         internal string GetAddress()

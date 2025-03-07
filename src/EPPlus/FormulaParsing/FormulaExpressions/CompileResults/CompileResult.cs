@@ -17,12 +17,14 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml;
 using System;
 using System.Linq;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     /// <summary>
     /// Compile result
     /// </summary>
+    [DebuggerDisplay("DataType: {DataType}, ResultType: {ResultType}, ResultValue: {ResultValue}")]
     public class CompileResult : CompileResultBase
     {
         private static CompileResult _empty = new CompileResult(null, DataType.Empty);

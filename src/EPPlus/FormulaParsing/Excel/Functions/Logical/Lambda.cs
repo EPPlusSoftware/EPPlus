@@ -36,8 +36,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             {
                 return CreateResult(eErrorType.Value);
             }
-            var tokens = arguments.Last().Value as List<Token>;
-            var calculator = new LambdaCalculator(tokens);
+            var tokenResult = arguments.Last().Value as LambdaTokensResult;
+            var calculator = new LambdaCalculator(tokenResult.Tokens, tokenResult.Scope);
             var variables = new List<CompileResult>();
             for(var i = 0; i < arguments.Count -1; i++)
             {

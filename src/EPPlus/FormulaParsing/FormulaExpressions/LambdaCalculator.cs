@@ -15,15 +15,17 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
     internal class LambdaCalculator
     {
-        public LambdaCalculator(List<Token> lambdaTokens)
+        public LambdaCalculator(List<Token> lambdaTokens, VariableStorageScope scope)
         {
             _originalTokens = lambdaTokens;
+            _scope = scope;
             for(var i = 0; i < _originalTokens.Count; i++)
             {
                 var t = _originalTokens[i];
@@ -36,6 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         private List<int> _variableIndexes = new List<int>();
         private List<CompileResult> _variables;
+        private VariableStorageScope _scope;
         private readonly List<Token> _originalTokens;
         private List<Token> _currentTokens;
 
@@ -100,6 +103,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     return TokenType.String;
                 case DataType.Time:
                     return TokenType.Decimal;
+                case DataType.ExcelRange:
+                    return TokenType.ExcelAddress;
                 case DataType.ExcelError:
                     switch(obj.ToString().ToUpper())
                     {

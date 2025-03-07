@@ -59,6 +59,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         internal virtual bool IsLambda => false;
 
+        internal virtual void OnExecuteStarted()
+        {
+
+        }
+
         internal virtual bool IsVariableArg(int arg, bool isLastArgument)
         {
             return false;

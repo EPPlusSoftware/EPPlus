@@ -10,35 +10,24 @@
  *************************************************************************************************
   06/03/2025         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OfficeOpenXml.FormulaParsing.Exceptions;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
-    internal class LetFunctionExpression : VariableFunctionExpression
+    internal class LambdaTokensResult
     {
-        internal LetFunctionExpression(string tokenValue, VariableStorageManager variableStorage, ParsingContext ctx, int pos) : base(tokenValue, variableStorage, ctx, pos)
+        public LambdaTokensResult(List<Token> tokens, VariableStorageScope scope)
         {
-
+            Tokens = tokens;
+            Scope = scope;
         }
 
-        internal override bool IsLet => true;
-
-        internal override void AddArgument(int arg)
-        {
-            base.AddArgument(arg);
-        }
-
-        internal override bool HandlesVariables => true;
-
-        internal override bool IsVariableArg(int arg, bool isLastArgument)
-        {
-            return arg % 2 == 0 && !isLastArgument;
-        }
-
+        public List<Token> Tokens { get; }
+        public VariableStorageScope Scope { get; }
     }
 }
