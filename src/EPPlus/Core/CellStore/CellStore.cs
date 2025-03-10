@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Core.CellStore
         public bool IsReadonly { get; set; }
 
         /// <summary>
-        /// For internal use only. 
+        /// For internal use only.
         /// Must be set before any instance of the CellStore is created.
         /// </summary>
         public CellStore()
@@ -1208,7 +1208,6 @@ namespace OfficeOpenXml.Core.CellStore
                     }
                     else
                     {
-                        var cBefore = c;
                         var r = GetNextCell(ref row, ref c, minColPos, maxRow, maxColPos);
 
                         if(c >= ColumnCount)
@@ -1607,7 +1606,7 @@ namespace OfficeOpenXml.Core.CellStore
         /// </summary>
         /// <param name="fromCol">From column</param>
         /// <param name="toCol">To Column</param>
-        internal void EnsureColumnsExists(int fromCol, int toCol, bool addPage = false)
+        internal void EnsureColumnsExists(int fromCol, int toCol)
         {
             for (int col = fromCol; col <= toCol; col++)
             {
@@ -1616,13 +1615,6 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     colPos = ~colPos;
                     AddColumn(colPos, col);
-
-                    var aCol = _columnIndex[colPos];
-                    if (addPage && aCol.PageCount < 0)
-                    {
-                        var page = (short)(0 >> CellStoreSettings._pageBits);
-                        AddPage(aCol, 0, page);
-                    }
                 }
             }
         }
