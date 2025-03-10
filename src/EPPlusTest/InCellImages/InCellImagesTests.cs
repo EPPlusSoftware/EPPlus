@@ -201,7 +201,7 @@ namespace EPPlusTest.InCellImages
         }
 
         [TestMethod]
-        public void InCellPicutreTeset()
+        public void InCellPicturesMultiCellRange()
         {
             using var p = new ExcelPackage();
             var ws = p.Workbook.Worksheets.Add("Sheet 1");
@@ -210,16 +210,8 @@ namespace EPPlusTest.InCellImages
             var imageBytes = File.ReadAllBytes(myPic);
 
 
-            //This is not valid Picutre.Set sets range._toRow to 1.
-            var range = ws.Cells["A1:D20"];
-            for (int c = range._fromCol; c < range._toCol; c++)
-            {
-                for (int r = range._fromRow; r < range._toRow; r++)
-                {
-                    range[r, c].Picture.Set(imageBytes);
-                }
-            }
-            p.SaveAs("C:\\epplusTest\\Testoutput\\IncellPictureTestFor8.xlsx");
+            ws.Cells["A1:D20"].Picture.Set(imageBytes);
+            SaveWorkbook("IncellPictureTestFor8.xlsx", p);
         }
     }
 }

@@ -107,19 +107,20 @@ namespace OfficeOpenXml
             {
                 ValidateRowCol(Row, Col);
 
-                _fromCol = Col;
-                _fromRow = Row;
-                _toCol = Col;
-                _toRow = Row;
-                _rtc = null;
-                // avoid address re-calculation
-                //base.Address = GetAddress(_fromRow, _fromCol);
-                _start = null;
-                _end = null;
-                _addresses = null;
-                _address = GetAddress(_fromRow, _fromCol);
-                ChangeAddress();
-                return this;
+                //_fromCol = Col;
+                //_fromRow = Row;
+                //_toCol = Col;
+                //_toRow = Row;
+                //_rtc = null;
+                //// avoid address re-calculation
+                ////base.Address = GetAddress(_fromRow, _fromCol);
+                //_start = null;
+                //_end = null;
+                //_addresses = null;
+                //_address = GetAddress(_fromRow, _fromCol);
+                //ChangeAddress();
+                //return this;
+                return new ExcelRange(_worksheet, Row, Col, Row, Col);
             }
         }
         /// <summary>
