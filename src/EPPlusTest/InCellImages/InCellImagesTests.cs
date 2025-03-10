@@ -10,6 +10,7 @@ using System.IO;
 using EPPlusTest.Properties;
 using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using System.Security.Cryptography;
 
 namespace EPPlusTest.InCellImages
 {
@@ -197,6 +198,28 @@ namespace EPPlusTest.InCellImages
 
             sheet.Cells["A1:B1"].Picture.Remove();
             SaveAndCleanup(p);
+        }
+
+        [TestMethod]
+        public void InCellPicutreTeset()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            var myPic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+            var imageBytes = File.ReadAllBytes(myPic);
+
+
+            //This is not valid Picutre.Set sets range._toRow to 1.
+            var range = ws.Cells["A1:D20"];
+            for (int c = range._fromCol; c < range._toCol; c++)
+            {
+                for (int r = range._fromRow; r < range._toRow; r++)
+                {
+                    range[r, c].Picture.Set(imageBytes);
+                }
+            }
+            p.SaveAs("C:\\epplusTest\\Testoutput\\IncellPictureTestFor8.xlsx");
         }
     }
 }
