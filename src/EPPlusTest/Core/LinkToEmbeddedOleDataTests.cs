@@ -63,6 +63,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void TestInvalidFile()
         {
+            //Open package that contains OLE Object that is not an xlsx file.
             using var p = OpenTemplatePackage("OleObjectTest_Embed_DOCX.xlsx");
             var ws = p.Workbook.Worksheets[0];
             var ole = ws.Drawings[0] as ExcelOleObject;
