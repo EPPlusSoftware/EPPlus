@@ -165,7 +165,7 @@ namespace OfficeOpenXml.Sorting
                     HandleMetadata(wsd, row, col, addr);
 
                     //Move formulas
-                    HandleFormula(wsd, row, col, addr, sortItems[r].Row, col);
+                    HandleFormula(wsd, row, col, addr, sortItems[r].Row, col, range);
 
                     //Move hyperlinks
                     HandleHyperlink(wsd, row, col, addr);
@@ -212,7 +212,7 @@ namespace OfficeOpenXml.Sorting
                     HandleMetadata(wsd, row, col, addr);
 
                     //Move formulas
-                    HandleFormula(wsd, row, col, addr, row, sortItems[c].Column);
+                    HandleFormula(wsd, row, col, addr, row, sortItems[c].Column, range);
 
                     //Move hyperlinks
                     HandleHyperlink(wsd, row, col, addr);
@@ -291,17 +291,16 @@ namespace OfficeOpenXml.Sorting
             }
         }
 
-        private void HandleFormula(RangeWorksheetData wsd, int row, int col, string addr, int initialRow, int initialCol)
+        private void HandleFormula(RangeWorksheetData wsd, int row, int col, string addr, int initialRow, int initialCol, ExcelRangeBase rangeToSort)
         {
             if (wsd.Formulas.ContainsKey(addr))
             {
-                _worksheet._formulas.SetValue(row, col, wsd.Formulas[addr]);
                 if(wsd.Formulas[addr] is string)
                 {
                     var formula = wsd.Formulas[addr].ToString();
                     var newFormula = initialRow != row ?
-                        AddressUtility.ShiftAddressRowsInFormula(string.Empty, formula, 1, row - initialRow) :
-                        AddressUtility.ShiftAddressColumnsInFormula(string.Empty, formula, 1, col - initialCol);
+                        AddressUtility.ShiftAddressRowsInFormula(rangeToSort, formula, 1, row - initialRow) :
+                        AddressUtility.ShiftAddressColumnsInFormula(rangeToSort, formula, 1, col - initialCol);
                     _worksheet._formulas.SetValue(row, col, newFormula);
                 }
                 else if (wsd.Formulas[addr] is int)
@@ -312,6 +311,7 @@ namespace OfficeOpenXml.Sorting
 
                     f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, col);
                     f.Address = ExcelCellBase.GetAddress(row, col, row, col);
+                    _worksheet._formulas.SetValue(row, col, wsd.Formulas[addr]);
                 }
             }
             else
