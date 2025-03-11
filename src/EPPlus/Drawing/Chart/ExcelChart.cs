@@ -24,7 +24,7 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -1117,65 +1117,18 @@ namespace OfficeOpenXml.Drawing.Chart
         Uri IPictureRelationDocument.RelatedUri => UriChart;
 
 
+        private ExcelChartDrawings _chartDrawings = null;
 
-        ExcelDrawings _chartDrawings = null;
-
-        /// <summary>
-        /// Collection of drawing-objects like shapes, images and charts
-        /// </summary>
-        public ExcelDrawings Drawings
+        public ExcelChartDrawings Drawings
         {
             get
             {
-                LoadDrawings();
+                if (_chartDrawings == null)
+                {
+                    _chartDrawings = new ExcelChartDrawings(this);
+                }
                 return _chartDrawings;
             }
-        }
-
-        internal void LoadDrawings()
-        {
-            if (_chartDrawings == null)
-            {
-                _chartDrawings = new ExcelDrawings(this._drawings._package , this);
-            }
-        }
-
-        public ExcelShape AddShape(string Name, eShapeStyle Style)
-        {
-            return Drawings.AddShape(Name, Style, this);
-        }
-
-        //String
-
-        public ExcelPicture AddPicture(string Name, string ImagePath)
-        {
-            return AddPicture(Name, new FileInfo(ImagePath), null);
-        }
-        public ExcelPicture AddPicture(string Name, string ImagePath, ExcelHyperLink HyperLink)
-        {
-            return AddPicture(Name, new FileInfo(ImagePath), HyperLink);
-        }
-
-        //FileInfo
-
-        public ExcelPicture AddPicture(string Name, FileInfo ImagePath)
-        {
-            return AddPicture(Name, ImagePath, null);
-        }
-        public ExcelPicture AddPicture(string Name, FileInfo ImagePath, Uri HyperLink)
-        {
-            return Drawings.AddPicture(Name, ImagePath, HyperLink, PictureLocation.Embed, this);
-        }
-
-        //Stream
-
-        public ExcelPicture AddPicture(string Name, Stream ImagePath)
-        {
-            return AddPicture(Name, ImagePath, null);
-        }
-        public ExcelPicture AddPicture(string Name, Stream ImagePath, Uri HyperLink)
-        {
-            return Drawings.AddPicture(Name, ImagePath, HyperLink, this);
         }
     }
 }

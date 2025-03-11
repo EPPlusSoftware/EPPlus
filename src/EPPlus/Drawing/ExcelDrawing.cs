@@ -1620,7 +1620,6 @@ namespace OfficeOpenXml.Drawing
             if (this is ExcelShape || this is ExcelPicture || this is ExcelGroupShape)
             {
                 XmlNode drawNode = null;
-                targetChart.LoadDrawings();
                 switch (DrawingType)
                 {
                     case eDrawingType.Shape:
@@ -2126,7 +2125,7 @@ namespace OfficeOpenXml.Drawing
                 drawNode = targetChart.Drawings.CreateDrawingXmlChartDrawings(targetChart);
                 drawNode.InnerXml = TopNode.InnerXml;
             }
-            if (targetChart.Drawings != _drawings)
+            if (targetChart.Drawings._drawings != _drawings)
             {
                 var relNode = drawNode.SelectSingleNode("cdr:pic/cdr:blipFill/a:blip/@r:embed", NameSpaceManager);
                 if (relNode != null && _drawings.Part.RelationshipExists(relNode.Value))

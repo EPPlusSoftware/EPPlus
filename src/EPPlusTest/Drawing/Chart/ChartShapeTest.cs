@@ -21,18 +21,18 @@ namespace EPPlusTest.Drawing.Chart
             var cdr2 = chart.Drawings[4];
             cdr2.SetSize(200);
 
-            var chartShape = chart.AddShape("MyShape", eShapeStyle.Diamond);
+            var chartShape = chart.Drawings.AddShape("MyShape", eShapeStyle.Diamond);
             chartShape.Fill.Color = Color.LightSeaGreen;
             chartShape.Effect.SetPresetShadow(ePresetExcelShadowType.OuterRight);
             chartShape.SetPosition(144, 240);
             chartShape.SetSize(240, 144);
-            var chartShape2 = chart.AddShape("MyShape2", eShapeStyle.Diamond);
+            var chartShape2 = chart.Drawings.AddShape("MyShape2", eShapeStyle.Diamond);
             chartShape2.Fill.Color = Color.Orange;
             chartShape2.Effect.SetPresetShadow(ePresetExcelShadowType.OuterRight);
             chartShape2.SetPosition(10000, 10000);
             chartShape2.SetSize(30);
 
-            var chartPic = chart.AddPicture("MyPic", @"C:\epplusTest\epplusobject.png");
+            var chartPic = chart.Drawings.AddPicture("MyPic", @"C:\epplusTest\epplusobject.png");
             chartPic.SetPosition(0, 5000);
             chartPic.SetSize(200);
 
@@ -40,18 +40,18 @@ namespace EPPlusTest.Drawing.Chart
             var myPic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
             using (FileStream fileStream = new FileStream(myPic, FileMode.Open, FileAccess.Read))
             {
-                var chartPic2 = chart.AddPicture("MyPic2", fileStream);
+                var chartPic2 = chart.Drawings.AddPicture("MyPic2", fileStream);
                 chartPic2.SetPosition(0, 5000);
                 chartPic2.SetSize(200);
             }
 
-            var shp1 = chart.AddShape("level1", eShapeStyle.Star10);
+            var shp1 = chart.Drawings.AddShape("level1", eShapeStyle.Star10);
             shp1.SetPosition(150, 250);
-            var shp2 = chart.AddShape("level2", eShapeStyle.UpDownArrow);
+            var shp2 = chart.Drawings.AddShape("level2", eShapeStyle.UpDownArrow);
             shp2.SetPosition(200, 200);
-            var shp3 = chart.AddShape("level3", eShapeStyle.Teardrop);
+            var shp3 = chart.Drawings.AddShape("level3", eShapeStyle.Teardrop);
             shp3.SetPosition(100, 50);
-            var shp4 = chart.AddShape("level4", eShapeStyle.MathEqual);
+            var shp4 = chart.Drawings.AddShape("level4", eShapeStyle.MathEqual);
             shp4.SetPosition(10, 60);
             var group1 = shp1.Group(shp2, shp3);
             var group2 = group1.Group(shp4);
@@ -61,7 +61,7 @@ namespace EPPlusTest.Drawing.Chart
             var chart2 = ws.Drawings.AddChart("Chart 3", eChartType.Line);
             chart2.Series.Add(ws.Cells["B2:B6"], ws.Cells["C2:C6"]);
             chart2.SetSize(480, 288);
-            chart2.AddShape("hsp", eShapeStyle.Can);
+            chart2.Drawings.AddShape("hsp", eShapeStyle.Can);
             shp4.Copy(chart2);
             chartPic.Copy(chart);
             chartPic.Copy(chart2);
@@ -111,7 +111,7 @@ namespace EPPlusTest.Drawing.Chart
             AddDataToChart(ws, chart);
 
             Assert.IsTrue(chart.Drawings.Count == 0);
-            chart.AddShape("Shape 2", eShapeStyle.DownArrow);
+            chart.Drawings.AddShape("Shape 2", eShapeStyle.DownArrow);
             Assert.IsTrue(chart.Drawings.Count == 1);
         }
         [TestMethod]
@@ -125,14 +125,14 @@ namespace EPPlusTest.Drawing.Chart
             AddDataToChart(ws, chart);
             var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
             Assert.IsTrue(chart.Drawings.Count == 0);
-            chart.AddPicture("Picture 2", pic);
+            chart.Drawings.AddPicture("Picture 2", pic);
             Assert.IsTrue(chart.Drawings.Count == 1);
             FileInfo picInfo = new FileInfo(pic);
-            chart.AddPicture("Picture 3", picInfo);
+            chart.Drawings.AddPicture("Picture 3", picInfo);
             Assert.IsTrue(chart.Drawings.Count == 2);
             using (FileStream fileStream = new FileStream(pic, FileMode.Open, FileAccess.Read))
             {
-                chart.AddPicture("Picture 4", fileStream);
+                chart.Drawings.AddPicture("Picture 4", fileStream);
             }
             Assert.IsTrue(chart.Drawings.Count == 3);
         }
@@ -147,10 +147,10 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
 
-            var arrow = chart.AddShape("Arrow", eShapeStyle.UpArrow);
-            var equal = chart.AddShape("Equal", eShapeStyle.MathEqual);
-            var roundRect = chart.AddShape("RoundRect", eShapeStyle.Round1Rect);
-            var triangle = chart.AddShape("Triangle", eShapeStyle.Triangle);
+            var arrow = chart.Drawings.AddShape("Arrow", eShapeStyle.UpArrow);
+            var equal = chart.Drawings.AddShape("Equal", eShapeStyle.MathEqual);
+            var roundRect = chart.Drawings.AddShape("RoundRect", eShapeStyle.Round1Rect);
+            var triangle = chart.Drawings.AddShape("Triangle", eShapeStyle.Triangle);
 
             Assert.IsTrue(chart.Drawings.Count == 4);
             var group = arrow.Group(equal, roundRect, triangle);
@@ -167,15 +167,15 @@ namespace EPPlusTest.Drawing.Chart
             AddDataToChart(ws, chart);
 
             var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
-            var pic1 = chart.AddPicture("Pic 1", pic);
+            var pic1 = chart.Drawings.AddPicture("Pic 1", pic);
             pic1.SetPosition(10, 10);
-            var pic2 = chart.AddPicture("Pic 2", pic);
+            var pic2 = chart.Drawings.AddPicture("Pic 2", pic);
             pic1.SetPosition(20, 20);
-            var pic3 = chart.AddPicture("Pic 3", pic);
+            var pic3 = chart.Drawings.AddPicture("Pic 3", pic);
             pic1.SetPosition(30, 30);
-            var pic4 = chart.AddPicture("Pic 4", pic);
+            var pic4 = chart.Drawings.AddPicture("Pic 4", pic);
             pic1.SetPosition(40, 40);
-            var pic5 = chart.AddPicture("Pic 5", pic);
+            var pic5 = chart.Drawings.AddPicture("Pic 5", pic);
             pic1.SetPosition(50, 50);
 
             Assert.IsTrue(chart.Drawings.Count == 5);
@@ -192,10 +192,10 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
 
-            var arrow = chart.AddShape("Arrow", eShapeStyle.UpArrow);
-            var equal = chart.AddShape("Equal", eShapeStyle.MathEqual);
-            var roundRect = chart.AddShape("RoundRect", eShapeStyle.Round1Rect);
-            var triangle = chart.AddShape("Triangle", eShapeStyle.Triangle);
+            var arrow = chart.Drawings.AddShape("Arrow", eShapeStyle.UpArrow);
+            var equal = chart.Drawings.AddShape("Equal", eShapeStyle.MathEqual);
+            var roundRect = chart.Drawings.AddShape("RoundRect", eShapeStyle.Round1Rect);
+            var triangle = chart.Drawings.AddShape("Triangle", eShapeStyle.Triangle);
 
             Assert.IsTrue(chart.Drawings.Count == 4);
             var group1 = arrow.Group(equal);
@@ -212,13 +212,13 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
 
-            var arrow = chart.AddShape("Arrow", eShapeStyle.UpArrow);
-            var equal = chart.AddShape("Equal", eShapeStyle.MathEqual);
+            var arrow = chart.Drawings.AddShape("Arrow", eShapeStyle.UpArrow);
+            var equal = chart.Drawings.AddShape("Equal", eShapeStyle.MathEqual);
 
             var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
-            var pic1 = chart.AddPicture("Pic 1", pic);
+            var pic1 = chart.Drawings.AddPicture("Pic 1", pic);
             pic1.SetPosition(10, 10);
-            var pic2 = chart.AddPicture("Pic 2", pic);
+            var pic2 = chart.Drawings.AddPicture("Pic 2", pic);
             pic1.SetPosition(20, 20);
             Assert.IsTrue(chart.Drawings.Count == 4);
             var group1 = arrow.Group(pic1);
@@ -235,7 +235,7 @@ namespace EPPlusTest.Drawing.Chart
             var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
-            var cshape = chart.AddShape("Shape 2", eShapeStyle.DownArrow);
+            var cshape = chart.Drawings.AddShape("Shape 2", eShapeStyle.DownArrow);
             Assert.IsTrue(chart.Drawings.Count == 1);
             cshape.Copy(chart);
             Assert.IsTrue(chart.Drawings.Count == 2);
@@ -250,7 +250,7 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
             var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
-            var cpic = chart.AddPicture("Picture 2", pic);
+            var cpic = chart.Drawings.AddPicture("Picture 2", pic);
             Assert.IsTrue(chart.Drawings.Count == 1);
             cpic.Copy(chart);
             Assert.IsTrue(chart.Drawings.Count == 2);
@@ -264,10 +264,10 @@ namespace EPPlusTest.Drawing.Chart
             var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
-            var cshape1 = chart.AddShape("Shape 2", eShapeStyle.DownArrow);
-            var cshape2 = chart.AddShape("Shape 3", eShapeStyle.Teardrop);
+            var cshape1 = chart.Drawings.AddShape("Shape 2", eShapeStyle.DownArrow);
+            var cshape2 = chart.Drawings.AddShape("Shape 3", eShapeStyle.Teardrop);
             var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
-            var cpic = chart.AddPicture("Picture 2", pic);
+            var cpic = chart.Drawings.AddPicture("Picture 2", pic);
             var group = cshape1.Group(cshape2, cpic);
             Assert.IsTrue(chart.Drawings.Count == 1);
             group.Copy(chart);
@@ -282,10 +282,10 @@ namespace EPPlusTest.Drawing.Chart
             var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
-            var cshape1 = chart.AddShape("Shape 2", eShapeStyle.DownArrow);
-            var cshape2 = chart.AddShape("Shape 3", eShapeStyle.Teardrop);
+            var cshape1 = chart.Drawings.AddShape("Shape 2", eShapeStyle.DownArrow);
+            var cshape2 = chart.Drawings.AddShape("Shape 3", eShapeStyle.Teardrop);
             var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
-            var cpic = chart.AddPicture("Picture 2", pic);
+            var cpic = chart.Drawings.AddPicture("Picture 2", pic);
             var group = cshape1.Group(cshape2, cpic);
             Assert.IsTrue(chart.Drawings.Count == 1);
 
@@ -305,7 +305,7 @@ namespace EPPlusTest.Drawing.Chart
             var chart = ws.Drawings.AddChart("Chart 2", eChartType.Line);
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
-            var cshape = chart.AddShape("Shape 2", eShapeStyle.DownArrow);
+            var cshape = chart.Drawings.AddShape("Shape 2", eShapeStyle.DownArrow);
             Assert.IsTrue(chart.Drawings.Count == 1);
             chart.Drawings.Remove(cshape);
             Assert.IsTrue(chart.Drawings.Count == 0);
@@ -320,7 +320,7 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
             var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
-            var cpic = chart.AddPicture("Picture 2", pic);
+            var cpic = chart.Drawings.AddPicture("Picture 2", pic);
             Assert.IsTrue(chart.Drawings.Count == 1);
             chart.Drawings.Remove(cpic);
             Assert.IsTrue(chart.Drawings.Count == 0);
@@ -335,12 +335,12 @@ namespace EPPlusTest.Drawing.Chart
             chart.SetPosition(0, 0, 5, 0);
             AddDataToChart(ws, chart);
 
-            var arrow = chart.AddShape("Arrow", eShapeStyle.UpArrow);
-            var equal = chart.AddShape("Equal", eShapeStyle.MathEqual);
+            var arrow = chart.Drawings.AddShape("Arrow", eShapeStyle.UpArrow);
+            var equal = chart.Drawings.AddShape("Equal", eShapeStyle.MathEqual);
             var pic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
-            var pic1 = chart.AddPicture("Pic 1", pic);
+            var pic1 = chart.Drawings.AddPicture("Pic 1", pic);
             pic1.SetPosition(10, 10);
-            var pic2 = chart.AddPicture("Pic 2", pic);
+            var pic2 = chart.Drawings.AddPicture("Pic 2", pic);
             pic1.SetPosition(20, 20);
             var group1 = arrow.Group(pic1);
             var group2 = group1.Group(pic2, equal);
