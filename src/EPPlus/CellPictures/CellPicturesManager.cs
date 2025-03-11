@@ -150,26 +150,35 @@ namespace OfficeOpenXml.CellPictures
         {
             // Add image to picture store and create relation
             var imageInfo = AddToPictureStore(imageBytes);
-            
+            var existingPic = GetCellPicture(row, col);
             var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
             var imageUri = UriHelper.ResolvePartUri(rdUri, imageInfo.Uri);
             var cacheKey = new LocalImageCacheKey(imageUri, calcOrigin, altText);
 
             if (_referenceCache.Contains(cacheKey, out uint cachedVmId))
             {
+                if(existingPic != null && existingPic.ImageUri.OriginalString != imageUri.OriginalString)
+                {
+                    var cKey = new LocalImageCacheKey(existingPic.ImageUri, existingPic.CalcOrigin, existingPic.AltText);
+                    _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
+                    if(numberOfRefsLeft <= 0)
+                    {
+                        _richDataStore.DeleteRichData(row, col);
+                    }
+                    _pictureStore.RemoveReference(existingPic.ImageUri);
+                }
                 AddReferenceToPicture(row, col, cacheKey, cachedVmId);
                 return;
             }
 
-            var hasRv = _richDataStore.HasRichData(row, col, out MetaDataReference md);
+            //var hasRv = _richDataStore.HasRichData(row, col, out MetaDataReference md);
             // no existing rich data, add new
-            if (!hasRv)
+            if (existingPic == null)
             {
                 AddNewLocalPicture(row, col, altText, calcOrigin, imageUri);
             }
             else
             {
-                var existingPic = GetCellPicture(row, col);
                 if(existingPic != null)
                 {
                     if(existingPic.ImageUri.OriginalString == imageUri.OriginalString)
@@ -178,7 +187,13 @@ namespace OfficeOpenXml.CellPictures
                     }
                     else
                     {
-                        _referenceCache.RemoveReference(cacheKey, out int numberOfRefsLeft);
+                        var cKey = new LocalImageCacheKey(existingPic.ImageUri, existingPic.CalcOrigin, existingPic.AltText);
+                        _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
+                        if(numberOfRefsLeft <= 0)
+                        {
+                            _richDataStore.DeleteRichData(row, col);
+                        }
+                        _pictureStore.RemoveReference(existingPic.ImageUri);
                     }
                 }
                 else
@@ -313,6 +328,7 @@ namespace OfficeOpenXml.CellPictures
             if (_pictureStore.ImageExists(imageBytes))
             {
                 imageInfo = _pictureStore.GetImageInfo(imageBytes);
+                _pictureStore.AddReference(imageInfo.Uri, imageBytes);
             }
             else
             {
