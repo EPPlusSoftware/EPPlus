@@ -37,7 +37,7 @@ namespace EPPlusTest.Core.Worksheet
         }
 
 
-            [TestMethod]
+        [TestMethod]
         public void DoNotIterateEmpty()
         {
             using (var p = OpenPackage("IterateRows_Empty.xlsx", true))
@@ -175,13 +175,13 @@ namespace EPPlusTest.Core.Worksheet
 
                 var blueRgb = "";
 
-                List<int> iteratedRowIndicies = new(); 
+                List<int> iteratedRowIndicies = new();
 
                 foreach (var row in subRows)
                 {
                     iteratedRowIndicies.Add(row.StartRow);
                     Assert.AreEqual(yellowRgb, row.Style.Fill.BackgroundColor.Rgb);
-                    if(row.StartRow == 3 || row.StartRow == 5)
+                    if (row.StartRow == 3 || row.StartRow == 5)
                     {
                         row.Style.Fill.SetBackground(Color.Blue);
                         blueRgb = row.Style.Fill.BackgroundColor.Rgb;
@@ -458,12 +458,12 @@ namespace EPPlusTest.Core.Worksheet
 
                 int colNr = 0;
                 int rowNr = 0;
-                foreach(var col in cols)
+                foreach (var col in cols)
                 {
                     colNr++;
                 }
 
-                foreach(var row in rows)
+                foreach (var row in rows)
                 {
                     rowNr++;
                 }
@@ -476,12 +476,12 @@ namespace EPPlusTest.Core.Worksheet
                 var entireColumns = range.EntireColumn;
                 var entireRows = range.EntireRow;
 
-                foreach(var col in entireColumns)
+                foreach (var col in entireColumns)
                 {
                     colNr++;
                 }
 
-                foreach(var row in entireRows)
+                foreach (var row in entireRows)
                 {
                     rowNr++;
                 }
@@ -666,7 +666,7 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
-                [TestMethod]
+        [TestMethod]
         public void IteratingAndAddingToRowsWsNoValues()
         {
             using (var p = OpenPackage("IteratingAndAddingToRowsWs.xlsx", true))
@@ -720,21 +720,51 @@ namespace EPPlusTest.Core.Worksheet
                 {
                     iteratedRows.Add(row.StartRow);
 
-                    if(row.StartRow < 6)
+                    if (row.StartRow < 6)
                     {
                         row.Style.Fill.SetBackground(Color.IndianRed);
                     }
-                    else if(row.StartRow >= 6 && row.StartRow < 10)
+                    else if (row.StartRow >= 6 && row.StartRow < 10)
                     {
                         row.Style.Fill.SetBackground(Color.DarkOliveGreen);
                     }
-                    else if(row.StartRow > 9)
+                    else if (row.StartRow > 9)
                     {
                         row.Style.Fill.SetBackground(Color.CadetBlue);
                     }
                 }
 
                 SaveAndCleanup(p);
+            }
+        }
+
+        [TestMethod]
+        public void RowLargerThanMaxRowShouldBeFalse()
+        {
+            using (var p = OpenPackage("IteratingOverRow.xlsx", true))
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("iterateSetWs");
+
+                var range = ws.Cells["N1:R5"];
+
+                ws.Cells["N2"].Value = 5;
+
+                ws.Cells["R4"].Style.Border.Right.Style = OfficeOpenXml.Style.ExcelBorderStyle.Dashed;
+
+                ws.Row(5).Hidden = true;
+
+                var cell = ws.Cells["S6"];
+                ws.Cells["S6"].Style.Fill.SetBackground(Color.Brown);
+
+                var cs = ws._values;
+
+                var row = cell.Start.Row + 1;
+                var col = cell.Start.Column;
+                //_cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
+                var found = cs.NextCell(ref row, ref col, row, 0, 6, col);
+
+                Assert.IsFalse(found);
             }
         }
     }

@@ -375,10 +375,7 @@ namespace OfficeOpenXml
             {
                 if (enumRow < EndRow)
                 {
-                    if(_cs.VersionNr != cellStoreVersionNr)
-                    {
-                        //TODO: Cellstore has changed since start of iteration. We should probably throw?
-                    }
+                    //TODO: check if Cellstore has changed since start of iteration. And throw
 
                     var endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
 
@@ -452,7 +449,6 @@ namespace OfficeOpenXml
         {
             firstColIndex = null;
             _cs = _worksheet._values;
-            cellStoreVersionNr = _cs.VersionNr;
             enumRow = _fromRow - 1;
             minCol = 0;
         }

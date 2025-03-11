@@ -8,7 +8,6 @@ using OfficeOpenXml.Drawing;
 using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.DigitalSignatures;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace EPPlusTest.Drawing.DigitalSignatures
 {
