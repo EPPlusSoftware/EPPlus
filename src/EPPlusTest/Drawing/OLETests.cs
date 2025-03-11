@@ -780,10 +780,12 @@ namespace EPPlusTest.Drawing
             Assert.IsNotNull(odtOleBytes);
 
             //Read DOCX bytes
-            var docxOlePackage = OpenTemplatePackage("OleObjectTest_Embed_DOCX.xlsx");
+            var docxOlePackage = OpenTemplatePackage("OleObjectTest_Embed_XLSX - Copy.xlsx");
             var docxOleWs = docxOlePackage.Workbook.Worksheets[0];
             var docxOle = docxOleWs.Drawings[0] as ExcelOleObject;
             var docxOleBytes = docxOle.GetEmbeddedObjectBytes();
+            var ms = new MemoryStream(docxOleBytes);
+            var sp = new ExcelPackage(ms);
             Assert.IsNotNull(docxOleBytes);
 
             //Read generic linked ole object.
