@@ -10,6 +10,7 @@ using System.IO;
 using EPPlusTest.Properties;
 using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using System.Security.Cryptography;
 
 namespace EPPlusTest.InCellImages
 {
@@ -197,6 +198,20 @@ namespace EPPlusTest.InCellImages
 
             sheet.Cells["A1:B1"].Picture.Remove();
             SaveAndCleanup(p);
+        }
+
+        [TestMethod]
+        public void InCellPicturesMultiCellRange()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            var myPic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+            var imageBytes = File.ReadAllBytes(myPic);
+
+
+            ws.Cells["A1:D20"].Picture.Set(imageBytes);
+            SaveWorkbook("IncellPictureTestFor8.xlsx", p);
         }
     }
 }
