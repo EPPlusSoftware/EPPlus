@@ -737,7 +737,19 @@ namespace EPPlusTest.Issues
 			var loadedCommentText = loadedSheet.Cells["A3"].Comment.Text;
 			Assert.AreEqual("6", loadedCommentText);
 		}
-		[TestMethod]
+        [TestMethod]
+        public void s816_2()
+        {
+            using var excelPackage = OpenTemplatePackage("s816-2.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
+			var formula = sheet.Cells["B5"].Formula;
+            // Act
+            sheet.Cells.Sort(column: 0);
+
+			Assert.AreEqual(sheet.Cells["B3"].Formula, formula);
+			SaveAndCleanup(excelPackage);
+        }
+        [TestMethod]
         public void i1870()
 		{
             using var savedExcelPackage = OpenTemplatePackage("i1870.xlsx");
@@ -748,16 +760,17 @@ namespace EPPlusTest.Issues
             sheet.Cells["6:6"].Clear();
             sheet.Cells.Sort(column: 0);
 
-            // Assert 1
+            //Assert 1
+
             Assert.AreEqual("2", sheet.Cells["A1"].ThreadedComment.Comments.First().Text);
             Assert.AreEqual("3", sheet.Cells["A2"].ThreadedComment.Comments.First().Text);
             Assert.AreEqual("2", sheet.Cells["B1"].Comment.Text);
             Assert.AreEqual("3", sheet.Cells["B2"].Comment.Text);
 
-            // Act 2
+            //Act 2
             SaveWorkbook("i1870-save.xlsx", savedExcelPackage);
 
-            // Assert 2
+            //Assert 2
             using var loadedExcelPackage = OpenPackage("i1870-save.xlsx");
             var loadedSheet = loadedExcelPackage.Workbook.Worksheets.First();
 
