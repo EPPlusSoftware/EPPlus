@@ -554,6 +554,7 @@ namespace OfficeOpenXml
 
         public IEnumerator<ExcelRangeColumn> GetEnumerator()
         {
+            _cs = null;
             return this;
         }
         /// <summary>
@@ -562,6 +563,7 @@ namespace OfficeOpenXml
 
         IEnumerator IEnumerable.GetEnumerator()
         {
+            _cs = null;
             return this;
         }
 
