@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
+using System.Xml.Serialization;
 
 namespace OfficeOpenXml
 {
@@ -119,6 +120,7 @@ namespace OfficeOpenXml
                 _address = GetAddress(_fromRow, _fromCol);
                 ChangeAddress();
                 return this;
+                return new ExcelRange(_worksheet, Row, Col, Row, Col);
             }
         }
         /// <summary>

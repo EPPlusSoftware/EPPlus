@@ -634,7 +634,7 @@ namespace OfficeOpenXml
             return true;
         }
 
-        private void SetStyleFullRow(StyleBase sender, StyleChangeEventArgs e, ExcelAddressBase address, ExcelWorksheet ws, Dictionary<int, int> styleCashe)
+        private void SetStyleFullRow(StyleBase sender, StyleChangeEventArgs e, ExcelAddressBase address, ExcelWorksheet ws, Dictionary<int, int> styleCache)
         {
             for (int rowNum = address.Start.Row; rowNum <= address.End.Row; rowNum++)
             {
@@ -679,15 +679,15 @@ namespace OfficeOpenXml
                     cse.Dispose();
                 }
 
-                if (styleCashe.ContainsKey(s))
+                if (styleCache.ContainsKey(s))
                 {
-                    ws.SetStyleInner(rowNum, 0, styleCashe[s]);
+                    ws.SetStyleInner(rowNum, 0, styleCache[s]);
                 }
                 else
                 {
                     ExcelXfs st = CellXfs[s];
                     int newId = st.GetNewID(CellXfs, sender, e.StyleClass, e.StyleProperty, e.Value);
-                    styleCashe.Add(s, newId);
+                    styleCache.Add(s, newId);
                     ws.SetStyleInner(rowNum, 0, newId);
                 }
             }
@@ -697,15 +697,15 @@ namespace OfficeOpenXml
             while (cse2.Next())
             {
                 var s = cse2.Value._styleId;
-                if (styleCashe.ContainsKey(s))
+                if (styleCache.ContainsKey(s))
                 {
-                    ws.SetStyleInner(cse2.Row, cse2.Column, styleCashe[s]);
+                    ws.SetStyleInner(cse2.Row, cse2.Column, styleCache[s]);
                 }
                 else
                 {
                     ExcelXfs st = CellXfs[s];
                     int newId = st.GetNewID(CellXfs, sender, e.StyleClass, e.StyleProperty, e.Value);
-                    styleCashe.Add(s, newId);
+                    styleCache.Add(s, newId);
                     ws.SetStyleInner(cse2.Row, cse2.Column, newId);
                 }
             }
@@ -719,15 +719,15 @@ namespace OfficeOpenXml
                     if (!ws.ExistsStyleInner(r, cse2.Column))
                     {
                         var s = cse2.Value._styleId;
-                        if (styleCashe.ContainsKey(s))
+                        if (styleCache.ContainsKey(s))
                         {
-                            ws.SetStyleInner(r, cse2.Column, styleCashe[s]);
+                            ws.SetStyleInner(r, cse2.Column, styleCache[s]);
                         }
                         else
                         {
                             ExcelXfs st = CellXfs[s];
                             int newId = st.GetNewID(CellXfs, sender, e.StyleClass, e.StyleProperty, e.Value);
-                            styleCashe.Add(s, newId);
+                            styleCache.Add(s, newId);
                             ws.SetStyleInner(r, cse2.Column, newId);
                         }
                     }

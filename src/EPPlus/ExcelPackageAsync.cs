@@ -282,7 +282,8 @@ namespace OfficeOpenXml
                                 using (var ms = RecyclableMemory.GetStream())
                                 {
                                     _zipPackage.Save(ms);
-                                    _stream = await SensibilityLabels.ApplyLabel(ms.ToArray()).ConfigureAwait(false);
+                                    stream = await SensibilityLabels.ApplyLabel(ms.ToArray()).ConfigureAwait(false);
+                                    await fi.WriteAsync(stream.ToArray(), 0, (int)Stream.Length, cancellationToken).ConfigureAwait(false);
                                 }
                             }
                             else

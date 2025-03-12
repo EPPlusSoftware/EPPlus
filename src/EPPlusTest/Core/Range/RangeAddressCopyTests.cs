@@ -471,9 +471,10 @@ namespace EPPlusTest.Core.Range
         {
             using (var p = new ExcelPackage())
             {
+                var person = p.Workbook.ThreadedCommentPersons.Add("JK");
                 ExcelWorksheet ws = SetupCopyRange(p);
                 ws.Cells["A2"].AddThreadedComment();
-                ws.Cells["A2"].ThreadedComment.AddComment("1", "Threaded Comment");
+                ws.Cells["A2"].ThreadedComment.AddComment(person.Id, "Threaded Comment");
                 ws.Cells["A1:A2"].Copy(ws.Cells["B5:B6"], ExcelRangeCopyOptionFlags.ExcludeValues, ExcelRangeCopyOptionFlags.ExcludeStyles);
 
                 Assert.AreEqual("Threaded Comment", ws.Cells["B6"].ThreadedComment.Comments[0].Text);
@@ -867,7 +868,7 @@ namespace EPPlusTest.Core.Range
         {
             using (var p = new ExcelPackage())
             {
-                p.Workbook.ThreadedCommentPersons.Add("JK");
+                var person = p.Workbook.ThreadedCommentPersons.Add("JK");
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
 
                 for (var r = 1; r <= 5; r++)
@@ -875,7 +876,7 @@ namespace EPPlusTest.Core.Range
                     for (var c = 1; c <= 5; c++)
                     {
                         var tc = ws.Cells[r, c].AddThreadedComment();
-                        tc.AddComment("1", $"R{r}C{c}");
+                        tc.AddComment(person.Id, $"R{r}C{c}");
                     }
                 }
 

@@ -1,5 +1,7 @@
 ﻿
 
+using OfficeOpenXml.LoadFunctions;
+
 namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
 {
     /// <summary>
@@ -27,5 +29,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
         /// Border
         /// </summary>
         internal IBorder Border { get; }
+
+        internal INumberFormat NumberFormat { get; }
     }
 }

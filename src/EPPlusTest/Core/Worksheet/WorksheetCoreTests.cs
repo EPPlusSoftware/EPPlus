@@ -28,7 +28,9 @@
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using System;
 using System.Drawing;
+using System.Linq;
 
 namespace EPPlusTest.Core.Worksheet
 {
@@ -61,7 +63,7 @@ namespace EPPlusTest.Core.Worksheet
 
                 ws.Column(2).Hidden = true;
 
-                ws.Cells.AutoFitColumns(); 
+                ws.Cells.AutoFitColumns();
                 Assert.AreEqual(true, ws.Column(2).Hidden);
                 p.Save();
             }
@@ -142,7 +144,7 @@ namespace EPPlusTest.Core.Worksheet
                 var ws = p.Workbook.Worksheets.Add("RichTextOverwrite");
 
                 ws.Cells["A1:C3"].FormulaR1C1 = "RC";
-                Assert.IsFalse(ws.Cells["A1"].Formula==null);
+                Assert.IsFalse(ws.Cells["A1"].Formula == null);
 
                 ws.Cells["A1:B2"].Value = new string[,] { { "Text", "Text" }, { "Text", "Text" } };
                 Assert.IsTrue(ws.Cells["A1"].Formula == "");
@@ -182,7 +184,7 @@ namespace EPPlusTest.Core.Worksheet
 
                 ws.Cells["B6:C7"].Value = 1;
 
-                Assert.AreEqual("B6",ws.FirstValueCell.Address);
+                Assert.AreEqual("B6", ws.FirstValueCell.Address);
                 Assert.AreEqual("C7", ws.LastValueCell.Address);
 
                 Assert.AreEqual("B6:C7", ws.DimensionByValue.Address);
@@ -233,6 +235,31 @@ namespace EPPlusTest.Core.Worksheet
                 ws.Cells["B11:C13"].Value = 1;
 
                 Assert.AreEqual("B6:D13", ws.DimensionByValue.Address);
+            }
+        }
+        [TestMethod]
+        public void DeletingWorksheetsWithParameters()
+        {
+            using (var p = OpenPackage("DeletingGroupOfWorksheetsNew.xlsx"))
+            {
+                var wb = p.Workbook;
+                var worksheets = wb.Worksheets;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    worksheets.Add($"Data {i}");
+                }
+
+                for (int i = 0; i < 5; i++)
+                {
+                    worksheets.Add($"SomeWorksheet{i}");
+                }
+
+                worksheets.DeleteAll(ws => ws.Name.StartsWith("Data ", StringComparison.OrdinalIgnoreCase));
+
+                var countWs = p.Workbook.Worksheets.Count();
+
+                Assert.AreEqual(5, countWs);
             }
         }
     }

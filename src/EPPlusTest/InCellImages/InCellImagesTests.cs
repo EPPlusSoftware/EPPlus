@@ -10,6 +10,7 @@ using System.IO;
 using EPPlusTest.Properties;
 using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Interfaces.Drawing.Text;
+using System.Security.Cryptography;
 
 namespace EPPlusTest.InCellImages
 {
@@ -171,6 +172,46 @@ namespace EPPlusTest.InCellImages
             SaveAndCleanup(p);
         }
 
+        [TestMethod]
+        public void VerifyLoadOfImageFunction()
+        {
+            using var p = OpenTemplatePackage("5.7-InCellPictures.xlsx");
+            var ws = p.Workbook.Worksheets[0];
 
+            ws.Calculate(x => x.AlwaysRefreshImageFunction = true);
+
+            Assert.IsTrue(ws.Cells["A1"].Picture.Exists);
+            Assert.IsTrue(ws.Cells["B1"].Picture.Exists);
+            Assert.IsTrue(ws.Cells["B2"].Picture.Exists);
+
+            SaveAndCleanup(p);
+        }
+        [TestMethod]
+        public void CellPictureIssue1()
+        {
+            using var p = OpenTemplatePackage("CpIssue1.xlsx");
+            var sheet = p.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Picture.Set(Resources.Png3ByteArray);
+            sheet.Cells["B1"].Formula = "A1";
+            sheet.Cells["C1"].SetFormula("Image(\"https://samples.epplussoftware.com/img/EPPlus-logo-full.png\")");
+            sheet.Calculate();
+
+            sheet.Cells["A1:B1"].Picture.Remove();
+            SaveAndCleanup(p);
+        }
+
+        [TestMethod]
+        public void InCellPicturesMultiCellRange()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            var myPic = Properties.Resources.GetOLEObjectFullFileName("SampleIcon.bmp");
+            var imageBytes = File.ReadAllBytes(myPic);
+
+
+            ws.Cells["A1:D20"].Picture.Set(imageBytes);
+            SaveWorkbook("IncellPictureTestFor8.xlsx", p);
+        }
     }
 }

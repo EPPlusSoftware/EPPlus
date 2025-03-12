@@ -419,7 +419,7 @@ namespace OfficeOpenXml
         {
             _worksheet.Cells[1, _fromCol, ExcelPackage.MaxRows, _toCol].AutoFitColumns(MinimumWidth, MaximumWidth);
         }
-        private ExcelColumn GetColumn(int col, bool ignoreFromCol = true)
+        protected internal ExcelColumn GetColumn(int col, bool ignoreFromCol = true)
         {
             var currentCol = _worksheet.GetValueInner(0, col) as ExcelColumn;
             if (currentCol == null)
@@ -554,6 +554,7 @@ namespace OfficeOpenXml
 
         public IEnumerator<ExcelRangeColumn> GetEnumerator()
         {
+            _cs = null;
             return this;
         }
         /// <summary>
@@ -562,6 +563,7 @@ namespace OfficeOpenXml
 
         IEnumerator IEnumerable.GetEnumerator()
         {
+            _cs = null;
             return this;
         }
 
@@ -574,9 +576,19 @@ namespace OfficeOpenXml
             if(_cs==null)
             {
                 Reset();
+                if(enumCol == 0)
+                {
+                    return false;
+                }
                 return enumCol <= _toCol;
             }
             enumCol++;
+
+            if(enumCol > _toCol)
+            {
+                return false;
+            }
+
             if (_currentCol?.ColumnMax>=enumCol)
             {
                 return true;
@@ -662,6 +674,26 @@ namespace OfficeOpenXml
                 maxCol = Math.Max(_worksheet.Dimension.End.Column, _worksheet._values.GetLastColumn());
             }
             return _toCol > maxCol + 1 ? maxCol + 1 : _toCol;   // +1 if the last column has outline level 1 then +1 is outline level 0.
+        }
+
+        /// <summary>
+        /// Delete all columns that match the predicate
+        /// </summary>
+        /// <param name="match"></param>
+        public void DeleteAll(Predicate<ExcelColumn> match)
+        {
+            List<int> toDelete = new();
+            for(int i = EndColumn; i >= StartColumn; i--)
+            {
+                var col = _worksheet.GetValueInner(0, i) as ExcelColumn;
+                if (col != null)
+                {
+                    if (match(col))
+                    {
+                        _worksheet.DeleteColumn(i);
+                    }
+                }
+            }
         }
 
         /// <summary>

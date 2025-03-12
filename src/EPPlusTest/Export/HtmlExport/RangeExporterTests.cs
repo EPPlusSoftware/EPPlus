@@ -556,6 +556,34 @@ namespace EPPlusTest.Export.HtmlExport
             exporter.Settings.HeaderRows = headerRows;
             File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", exporter.GetSinglePage());
         }
+
+        [TestMethod]
+        public void NumberFormatColorShouldCreateCssColor()
+        {
+            using (var package = OpenPackage("html_numfRed_text.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var aNewWs = wb.Worksheets.Add("NewWs"); 
+
+                var range = aNewWs.Cells["A1:A5"];
+                range.Formula = "ROW()";
+                range.Style.Numberformat.Format = "[Red]-#";
+
+                //Ensure numberformat color takes priority as in Excel
+                range.Style.Font.Color.SetColor(Color.Green);
+
+                wb.Calculate();
+
+                var exporter = range.CreateHtmlExporter();
+                var page = exporter.GetSinglePage();
+
+                var path = GetOutputFile("", "numfRed.html").FullName;
+
+                File.WriteAllText(path, page);
+
+                SaveAndCleanup(package);
+            }
+        }
     }
 }
     

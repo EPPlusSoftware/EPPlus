@@ -16,7 +16,9 @@ using System.Text;
 using System.Xml;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Utils;
+using static OfficeOpenXml.ExcelWorksheet;
 
 namespace OfficeOpenXml.Table
 {
@@ -246,7 +248,7 @@ namespace OfficeOpenXml.Table
         const string CALCULATEDCOLUMNFORMULA_PATH = "d:calculatedColumnFormula";
         /// <summary>
         /// Sets a calculated column Formula.
-        /// Be carefull with this property since it is not validated. 
+        /// Be careful with this property since it is not validated. 
         /// <example>
         /// tbl.Columns[9].CalculatedColumnFormula = string.Format("SUM(MyDataTable[[#This Row],[{0}]])",tbl.Columns[9].Name);  //Reference within the current row
         /// tbl.Columns[9].CalculatedColumnFormula = string.Format("MyDataTable[[#Headers],[{0}]]",tbl.Columns[9].Name);  //Reference to a column header
@@ -296,6 +298,11 @@ namespace OfficeOpenXml.Table
                         throw new InvalidOperationException($"IsCalculatedFormulaArray: No formula set on column {Name}");
                     }
                     SetXmlNodeBool(CALCULATEDCOLUMNFORMULA_ARRAY_PATH, value.Value);
+
+                    if (value.Value)
+                    {
+                        SetTableArrayFormula();
+                    }
                 }
                 else
                 {
@@ -350,6 +357,26 @@ namespace OfficeOpenXml.Table
             }
         }
 
+        internal void SetTableArrayFormula()
+        {
+            int fromRow = _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow;
+            int toRow = _tbl.ShowTotal ? _tbl.Address._toRow - 1 : _tbl.Address._toRow;
+            var colNum = _tbl.Address._fromCol + Position;
+
+            string r1c1Formula = ExcelCellBase.TranslateToR1C1(CalculatedColumnFormula, _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow, colNum);
+
+            var md = _tbl.WorkSheet.Workbook.Metadata;
+
+            for (int i = 0; i< _tbl.Address.Rows; i++)
+            {
+                _tbl.WorkSheet._flags.SetFlagValue(fromRow + i, colNum, true, CellFlags.ArrayFormula);
+
+                md.GetDynamicArrayId(out uint cm);
+                var metaData =_tbl.WorkSheet._metadataStore.GetValue(fromRow + i, colNum);
+                metaData.cm = cm;
+                _tbl.WorkSheet._metadataStore.SetValue(fromRow + i, colNum, metaData);
+            }
+        }
         internal void SetFormulaCells(int fromRow, int toRow, int colNum)
         {
             string r1c1Formula = ExcelCellBase.TranslateToR1C1(CalculatedColumnFormula, _tbl.ShowHeader ? _tbl.Address._fromRow + 1 : _tbl.Address._fromRow, colNum);
@@ -358,14 +385,28 @@ namespace OfficeOpenXml.Table
             var ws = _tbl.WorkSheet;
             for (int row = fromRow; row <= toRow; row++)
             {
-                if(needsTranslation)
+                if (needsTranslation)
                 {
                     var f = ExcelCellBase.TranslateFromR1C1(r1c1Formula, row, colNum);
                     ws.SetFormula(row, colNum, f);
                 }
-                else if(ws._formulas.Exists(row, colNum)==false)
+                else if (ws._formulas.Exists(row, colNum) == false)
                 {
                     ws.SetFormula(row, colNum, CalculatedColumnFormula);
+                }
+
+                if(row > _tbl.Address._fromRow)
+                {
+                    if(ws._flags.GetFlagValue(row - 1, colNum, CellFlags.ArrayFormula))
+                    {
+                        var flag = CellFlags.ArrayFormula;
+                        ws._flags.SetFlagValue(row, colNum, true, flag);
+                    }
+                    if (ws._metadataStore.Exists(row - 1, colNum))
+                    {
+                        MetaDataReference md = ws._metadataStore.GetValue(row - 1, colNum);
+                        ws._metadataStore.SetValue(row, colNum, md);
+                    }
                 }
             }
         }

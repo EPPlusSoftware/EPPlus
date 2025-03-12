@@ -53,8 +53,9 @@ namespace OfficeOpenXml.Core.CellStore
         internal ColumnIndex<T>[] _columnIndex;
         internal int ColumnCount;
         public bool IsReadonly { get; set; }
+
         /// <summary>
-        /// For internal use only. 
+        /// For internal use only.
         /// Must be set before any instance of the CellStore is created.
         /// </summary>
         public CellStore()
@@ -1078,7 +1079,7 @@ namespace OfficeOpenXml.Core.CellStore
             AddPage(columnIndex, nextPage, pagePos + 1);
         }
 
-        private static void ResizePageCollectionIfNecessery(ColumnIndex<T> columnIndex)
+        private static void ResizePageCollectionIfNecessary(ColumnIndex<T> columnIndex)
         {
             if (columnIndex.PageCount  >= columnIndex._pages.Length)
             {
@@ -1132,7 +1133,7 @@ namespace OfficeOpenXml.Core.CellStore
         /// <param name="pos">Position</param>
         private void AddPage(ColumnIndex<T> column, int pos)
         {
-            ResizePageCollectionIfNecessery(column);
+            ResizePageCollectionIfNecessary(column);
 
             if (pos < column.PageCount)
             {
@@ -1185,6 +1186,10 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     return false;
                 }
+                if (row > maxRow)
+                {
+                    return false;
+                }
                 if (maxColPos >= ColumnCount)
                 {
                     maxColPos = ColumnCount - 1;
@@ -1204,6 +1209,12 @@ namespace OfficeOpenXml.Core.CellStore
                     else
                     {
                         var r = GetNextCell(ref row, ref c, minColPos, maxRow, maxColPos);
+
+                        if(c >= ColumnCount)
+                        {
+                            return false;
+                        }
+
                         col = _columnIndex[c].Index;
                         return r;
                     }
@@ -1288,6 +1299,11 @@ namespace OfficeOpenXml.Core.CellStore
         }
         internal bool GetNextCell(ref int row, ref int colPos, int startColPos, int endRow, int endColPos)
         {
+            if (row > endRow)
+            {
+                return false;
+            }
+
             if (ColumnCount == 0)
             {
                 return false;
@@ -1356,7 +1372,7 @@ namespace OfficeOpenXml.Core.CellStore
 
                             if (minRow == int.MaxValue || minRow > endRow)
                             {
-                                return false;
+                                    return false;
                             }
                             else
                             {
