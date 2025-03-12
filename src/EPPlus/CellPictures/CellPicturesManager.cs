@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.RichValues;
@@ -151,6 +152,10 @@ namespace OfficeOpenXml.CellPictures
             // Add image to picture store and create relation
             var imageInfo = AddToPictureStore(imageBytes);
             var existingPic = GetCellPicture(row, col);
+            if(existingPic == null)
+            {
+                existingPic = GetCellPicture(row, col, StructureTypes.WebImage);
+            }
             var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
             var imageUri = UriHelper.ResolvePartUri(rdUri, imageInfo.Uri);
             var cacheKey = new LocalImageCacheKey(imageUri, calcOrigin, altText);
@@ -159,7 +164,7 @@ namespace OfficeOpenXml.CellPictures
             {
                 if(existingPic != null && existingPic.ImageUri.OriginalString != imageUri.OriginalString)
                 {
-                    var cKey = new LocalImageCacheKey(existingPic.ImageUri, existingPic.CalcOrigin, existingPic.AltText);
+                    var cKey = GetCacheKey(existingPic);
                     _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
                     if(numberOfRefsLeft <= 0)
                     {
@@ -187,7 +192,7 @@ namespace OfficeOpenXml.CellPictures
                     }
                     else
                     {
-                        var cKey = new LocalImageCacheKey(existingPic.ImageUri, existingPic.CalcOrigin, existingPic.AltText);
+                        var cKey = GetCacheKey(existingPic);
                         _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
                         if(numberOfRefsLeft <= 0)
                         {
@@ -244,6 +249,15 @@ namespace OfficeOpenXml.CellPictures
                 }
                 AddNewWebPicture(row, col, imageUri, addressUri, altText, calcOrigin, sizing, height, width);
             }
+        }
+
+        private PictureCacheKey GetCacheKey(ExcelCellPicture pic)
+        {
+            if(pic.PictureType == ExcelCellPictureTypes.LocalImage)
+            {
+                return new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
+            }
+            return new WebPictureCacheKey(pic.ExternalAddress, pic.AltText, pic.CalcOrigin, pic.Sizing ?? WebImageSizing.FitToCellMaintainRatio, null, null);
         }
 
         private void AddNewLocalPicture(int row, int col, string altText, CalcOrigins calcOrigin, Uri imageUri)
