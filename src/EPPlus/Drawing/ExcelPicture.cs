@@ -324,11 +324,10 @@ namespace OfficeOpenXml.Drawing
                 //Recalculates width/height and bounds to 100% width/height relative to original image size
                 Image.Bounds = PictureStore.GetImageBounds(Image.ImageBytes, Image.Type.Value, _drawings._package);
 
-                double horizontalDpi=0, verticalDpi=0;
-                ImageUtil.CalculateDPI(Image, STANDARD_DPI, ref horizontalDpi, ref verticalDpi);
+                var width = 0d;
+                var height = 0d;
+                ImageUtil.CalculateDPI(Image, STANDARD_DPI, ref width, ref height);
 
-                var width = Image.Bounds.Width / (horizontalDpi / STANDARD_DPI);
-                var height = Image.Bounds.Height / (verticalDpi / STANDARD_DPI);
                 SetPosDefaults((float)width, (float)height);
                 if (drawingsCollectionType == DrawingsCollectionType.chart)
                 {
@@ -416,10 +415,7 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                double horizontalDpi = 0, verticalDpi = 0;
-                ImageUtil.CalculateDPI(Image, STANDARD_DPI, ref horizontalDpi, ref verticalDpi);
-                _width = Image.Bounds.Width / (horizontalDpi / STANDARD_DPI);
-                _height = Image.Bounds.Height / (verticalDpi / STANDARD_DPI);
+                ImageUtil.CalculateDPI(Image, STANDARD_DPI, ref _width, ref _height);
 
                 _width = (int)(_width * ((double)Percent / 100));
                 _height = (int)(_height * ((double)Percent / 100));

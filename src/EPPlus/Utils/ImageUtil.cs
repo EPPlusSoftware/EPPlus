@@ -18,8 +18,10 @@ namespace OfficeOpenXml.Utils
 
         internal static void CalculateDPI(ExcelImage Image, float Standard_DPI, ref double horizontalResoluton, ref double verticalResolution)
         {
-            horizontalResoluton = Image.Bounds.HorizontalResolution == 0 ? Standard_DPI : Image.Bounds.HorizontalResolution;
-            verticalResolution = Image.Bounds.VerticalResolution == 0 ? Standard_DPI : Image.Bounds.VerticalResolution;
+            var horizontalDpi = Image.Bounds.HorizontalResolution == 0 ? Standard_DPI : Image.Bounds.HorizontalResolution;
+            var verticalDpi = Image.Bounds.VerticalResolution == 0 ? Standard_DPI : Image.Bounds.VerticalResolution;
+            horizontalResoluton = Image.Bounds.Width / (horizontalDpi / Standard_DPI);
+            verticalResolution = Image.Bounds.Height / (verticalDpi / Standard_DPI);
         }
     }
 }
