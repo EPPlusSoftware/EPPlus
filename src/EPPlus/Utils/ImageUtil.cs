@@ -31,10 +31,9 @@ namespace OfficeOpenXml.Utils
         /// <param name="standard_DPI"></param>
         /// <param name="resolution">Horizontal or Vertical Resolution</param>
         /// <returns></returns>
-        internal static double PixelToPointConversion(double pixelValue, float standard_DPI, double resolution)
+        internal static double PixelToPointConversion(double pixelValue, double resolution, float standard_DPI = 72) //Pixel --> Points
         {
             double pointsValue = pixelValue * standard_DPI / resolution;
-
             return pointsValue;
         }
     }
