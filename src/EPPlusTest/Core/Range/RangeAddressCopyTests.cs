@@ -864,7 +864,7 @@ namespace EPPlusTest.Core.Range
             }
         }
         [TestMethod]
-        public void CopyExcludingHiddenCells_TheadedComments()
+        public void CopyExcludingHiddenCells_ThreadedComments()
         {
             using (var p = new ExcelPackage())
             {

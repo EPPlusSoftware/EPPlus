@@ -794,10 +794,6 @@ namespace OfficeOpenXml.FormulaParsing
                     a = fe.Ranges[i];
                     MergeAddressToRd(rd, fe, a.FromRow, a.FromCol, a.ToRow, a.ToCol, a.ToRow, a.ToCol);
                 }
-                //var rp = fe.Ranges.Count > rangePos ? rangePos : fe.Ranges.Count - 1;
-                //a = fe.Ranges[rp];
-                //fromRow = a.FromRow; 
-                //fromCol = a.FromCol;
                 fromRow = fe._startRow;
                 fromCol = fe._startCol;
             }
@@ -890,7 +886,7 @@ namespace OfficeOpenXml.FormulaParsing
                 var fa = new FormulaRangeAddress(depChain._parsingContext) { FromRow = sf.StartRow, ToRow = sf.EndRow, FromCol = sf.StartCol, ToCol = sf.EndCol, WorksheetIx = f._ws.IndexInList };
                 if (fa.CollidesWith(address) != eAddressCollition.No)
                 {
-                    throw new CircularReferenceException($"Circular reference in Arrayformula: {fa.Address}");
+                    throw new CircularReferenceException($"Circular reference in array formula: {fa.Address}");
                 }
             }
             var wsIx=f._ws?.IndexInList ?? ushort.MaxValue;
@@ -937,7 +933,6 @@ namespace OfficeOpenXml.FormulaParsing
             }
             else
             {
-                
                 throw new CircularReferenceException($"Circular reference in cell {f.GetAddress()}");
             }
         }

@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var significance = 4;
             if (arguments.Count() > 2)
             {
-                significance = ArgToInt(arguments, 2, out ExcelErrorValue e3) + 1;
+                significance = ArgToInt(arguments, 2, out ExcelErrorValue e3);
                 if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
             }
             var result = PercentRankExcImpl(array, number);

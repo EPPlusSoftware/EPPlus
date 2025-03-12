@@ -44,19 +44,19 @@ namespace EPPlusTest.FormulaParsing
         {
             var path = _testInputPathOptional + "CalculationTests\\";
 
-            var xlFile = path + "3293_127_20210317_k-c_01-01-2021_to_01-05-2021.xlsx";
+            var xlFile = path + "Test.xlsx";
             //var xlFile = path + "CalcForGembox.xlsx"; 
             string logFile = path + new FileInfo(xlFile).Name + ".log";
 
             using (var p = new ExcelPackage(xlFile))
             {
                 p.Workbook.ClearFormulaValues();
-                var ws = p.Workbook.Worksheets["1"];
+                //var ws = p.Workbook.Worksheets["Sheet1"];
                 //var ws = p.Workbook.Worksheets[0];
                 //ws.Calculate();
-                //ws.Cells["D42"].Calculate(x=>x.CacheExpressions = false);
-                p.Workbook.Names[45].Calculate();
-                //var ws = p.Workbook.Worksheets["opties"];
+                //ws.Cells["Y3"].Calculate();
+                //var v = ws.Cells["Y3"].Value;
+                //p.Workbook.Names[45].Calculate();
                 //ws.Cells["A53"].Calculate();
 
                 //Assert.AreEqual(1.245085622, ((double)ws.Cells["C80"].Value), 0.001);

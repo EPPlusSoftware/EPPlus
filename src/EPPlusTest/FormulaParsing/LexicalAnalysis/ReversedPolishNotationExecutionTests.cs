@@ -124,7 +124,6 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
                 Assert.AreEqual(wsIx, 0);
                 Assert.AreEqual(row, 1);
                 Assert.AreEqual(col, 2);
-
             }
         }
         [TestMethod]
