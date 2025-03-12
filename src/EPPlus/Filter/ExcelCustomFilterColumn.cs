@@ -13,7 +13,7 @@
 using System;
 using System.Xml;
 using OfficeOpenXml.Filter;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 namespace OfficeOpenXml.Filter
 {
     /// <summary>
@@ -87,7 +87,16 @@ namespace OfficeOpenXml.Filter
         {
             if(!_isNumericFilterSet)
             {
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
                 IsNumericFilter = Utils.ConvertUtil.IsNumericOrDate(value);
+            }
+After:
+                IsNumericFilter = ConvertUtil.IsNumericOrDate(value);
+            }
+*/
+                IsNumericFilter = Utils.TypeConversion.ConvertUtil.IsNumericOrDate(value);
             }
             var match = true;
             foreach(var filter in Filters)
@@ -113,13 +122,25 @@ namespace OfficeOpenXml.Filter
         {
             if (filter.Operator == null)
             {
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
                 return filter._valueDouble.Equals(Utils.ConvertUtil.GetValueDouble(value));
+            }
+After:
+                return filter._valueDouble.Equals(ConvertUtil.GetValueDouble(value));
+            }
+*/
+                return filter._valueDouble.Equals(Utils.TypeConversion.ConvertUtil.GetValueDouble(value));
             }
             else
             {
                 switch (filter.Operator.Value)
                 {
                     case eFilterOperator.Equal:
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
                         return filter._valueDouble.Equals(Utils.ConvertUtil.GetValueDouble(value));
                     case eFilterOperator.NotEqual:
                         return !filter._valueDouble.Equals(Utils.ConvertUtil.GetValueDouble(value));
@@ -131,6 +152,32 @@ namespace OfficeOpenXml.Filter
                         return Utils.ConvertUtil.GetValueDouble(value) < filter._valueDouble;
                     case eFilterOperator.LessThanOrEqual:
                         return Utils.ConvertUtil.GetValueDouble(value) <= filter._valueDouble;
+                    default:
+After:
+                        return filter._valueDouble.Equals(ConvertUtil.GetValueDouble(value));
+                    case eFilterOperator.NotEqual:
+                        return !filter._valueDouble.Equals(ConvertUtil.GetValueDouble(value));
+                    case eFilterOperator.GreaterThan:
+                        return ConvertUtil.GetValueDouble(value) > filter._valueDouble;
+                    case eFilterOperator.GreaterThanOrEqual:
+                        return ConvertUtil.GetValueDouble(value) >= filter._valueDouble;
+                    case eFilterOperator.LessThan:
+                        return ConvertUtil.GetValueDouble(value) < filter._valueDouble;
+                    case eFilterOperator.LessThanOrEqual:
+                        return ConvertUtil.GetValueDouble(value) <= filter._valueDouble;
+                    default:
+*/
+                        return filter._valueDouble.Equals(Utils.TypeConversion.ConvertUtil.GetValueDouble(value));
+                    case eFilterOperator.NotEqual:
+                        return !filter._valueDouble.Equals(Utils.TypeConversion.ConvertUtil.GetValueDouble(value));
+                    case eFilterOperator.GreaterThan:
+                        return Utils.TypeConversion.ConvertUtil.GetValueDouble(value) > filter._valueDouble;
+                    case eFilterOperator.GreaterThanOrEqual:
+                        return Utils.TypeConversion.ConvertUtil.GetValueDouble(value) >= filter._valueDouble;
+                    case eFilterOperator.LessThan:
+                        return Utils.TypeConversion.ConvertUtil.GetValueDouble(value) < filter._valueDouble;
+                    case eFilterOperator.LessThanOrEqual:
+                        return Utils.TypeConversion.ConvertUtil.GetValueDouble(value) <= filter._valueDouble;
                     default:
                         throw (new ArgumentException($"Unhandled filter operator {filter.Operator}"));
                 }

@@ -22,6 +22,20 @@ using OfficeOpenXml.Export.ToDataTable;
 using OfficeOpenXml.Export.ToCollection;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 
+/* Unmerged change from project 'EPPlus (net35)'
+Added:
+using OfficeOpenXml.Utils.TypeConversion;
+*/
+using OfficeOpenXml.Utils.TypeConversion;
+
+/* Unmerged change from project 'EPPlus (net35)'
+Added:
+using OfficeOpenXml.Utils.String;
+*/
+using OfficeOpenXml.Utils.String;
+
+
+
 
 #if !NET35 && !NET40
 using System.Threading.Tasks;

@@ -4,7 +4,8 @@ using System.Text;
 using System.Xml;
 using System.Globalization;
 using System.Linq;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.EncodingUtils;
 
 namespace OfficeOpenXml.DigitalSignatures.XAdES
 {

@@ -18,6 +18,7 @@ using OfficeOpenXml.Utils;
 using System;
 using System.Linq;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.DataValidation.Formulas
 {

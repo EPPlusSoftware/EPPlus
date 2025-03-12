@@ -17,7 +17,7 @@ using System.Text;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Sorting.Internal;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
 
 

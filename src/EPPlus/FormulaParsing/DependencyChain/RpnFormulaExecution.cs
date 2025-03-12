@@ -6,7 +6,6 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.CellPictures;
-using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +14,8 @@ using System.Threading;
 using static OfficeOpenXml.ExcelAddressBase;
 using static OfficeOpenXml.ExcelWorksheet;
 using OfficeOpenXml.RichData.RichValues;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.FormulaParsing
 {

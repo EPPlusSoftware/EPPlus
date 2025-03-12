@@ -66,13 +66,35 @@ namespace OfficeOpenXml.Filter
         {
             if(Top)
             {
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
                 if (Utils.ConvertUtil.IsNumericOrDate(value))
                     return Utils.ConvertUtil.GetValueDouble(value) >= FilterValue;
             }
+After:
+                if (ConvertUtil.IsNumericOrDate(value))
+                    return ConvertUtil.GetValueDouble(value) >= FilterValue;
+            }
+*/
+                if (Utils.TypeConversion.ConvertUtil.IsNumericOrDate(value))
+                    return Utils.TypeConversion.ConvertUtil.GetValueDouble(value) >= FilterValue;
+            }
             else
             {
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
                 if (Utils.ConvertUtil.IsNumericOrDate(value))
                     return Utils.ConvertUtil.GetValueDouble(value) <= FilterValue;
+            }
+After:
+                if (ConvertUtil.IsNumericOrDate(value))
+                    return ConvertUtil.GetValueDouble(value) <= FilterValue;
+            }
+*/
+                if (Utils.TypeConversion.ConvertUtil.IsNumericOrDate(value))
+                    return Utils.TypeConversion.ConvertUtil.GetValueDouble(value) <= FilterValue;
             }
             return false;
         }
@@ -93,9 +115,22 @@ namespace OfficeOpenXml.Filter
             for (int row= address._fromRow + 1; row <= address._toRow; row++)
             {
                 var v = worksheet.GetValue(row, col);
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
                 if (Utils.ConvertUtil.IsNumericOrDate(v))
                 {
                     items.Add(Utils.ConvertUtil.GetValueDouble(v));
+                }
+After:
+                if (ConvertUtil.IsNumericOrDate(v))
+                {
+                    items.Add(ConvertUtil.GetValueDouble(v));
+                }
+*/
+                if (Utils.TypeConversion.ConvertUtil.IsNumericOrDate(v))
+                {
+                    items.Add(Utils.TypeConversion.ConvertUtil.GetValueDouble(v));
                 }
             }
             items.Sort();

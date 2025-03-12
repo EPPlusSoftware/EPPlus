@@ -20,10 +20,18 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Packaging;
 using System.Linq;
 using System.Globalization;
+using OfficeOpenXml.Utils.Image;
+using OfficeOpenXml.Utils.FileUtils;
+
+
 
 #if NETFULL
 using System.Drawing.Imaging;
 using System.Xml.Linq;
+using OfficeOpenXml.Utils.Image;
+using OfficeOpenXml.Utils.FileUtils;
+
+
 
 #endif
 #if !NET35 && !NET40

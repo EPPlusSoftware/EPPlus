@@ -15,6 +15,8 @@ using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.CompundDocument;
 using System;
 using System.IO;
+using OfficeOpenXml.Utils.FileUtils;
+
 #if !NET35 && !NET40
 using System.Threading;
 using System.Threading.Tasks;

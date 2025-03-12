@@ -13,7 +13,8 @@
  *************************************************************************************************/
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.XML;
 using System;
 using System.Collections;
 using System.Collections.Generic;

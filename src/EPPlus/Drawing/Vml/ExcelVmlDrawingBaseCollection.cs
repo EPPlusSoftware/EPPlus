@@ -15,11 +15,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.Collections;
-using OfficeOpenXml.Utils;
 using System.IO;
 using OfficeOpenXml.Constants;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Drawing.Vml
 {

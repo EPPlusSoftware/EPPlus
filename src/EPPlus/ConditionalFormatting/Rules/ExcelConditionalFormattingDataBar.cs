@@ -18,7 +18,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Drawing;
 using System.Globalization;

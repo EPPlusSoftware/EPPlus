@@ -30,8 +30,20 @@ using OfficeOpenXml.Configuration;
 using OfficeOpenXml.EventArguments;
 
 using OfficeOpenXml.Interfaces;
+
+/* Unmerged change from project 'EPPlus (net35)'
+Before:
 #if(!NET35)
+After:
+using OfficeOpenXml.Utils.FileUtils;
+#if(!NET35)
+*/
+using OfficeOpenXml.Utils.FileUtils;
+
+#if (!NET35)
 using OfficeOpenXml.SensitivityLabels;
+using OfficeOpenXml.Utils.FileUtils;
+
 #endif
 
 #if (Core)

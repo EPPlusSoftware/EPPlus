@@ -2,7 +2,7 @@
 using System.Xml;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 namespace OfficeOpenXml.Drawing.Vml
 {
     /// <summary>

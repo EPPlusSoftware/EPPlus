@@ -63,7 +63,16 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
         /// <param name="behaviour"></param>
         public virtual void ToColAndRow(string address, out int col, out int row, RangeCalculationBehaviour behaviour)
         {
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
             address = Utils.ConvertUtil._invariantTextInfo.ToUpper(address);
+            var alphaPart = GetAlphaPart(address);
+After:
+            address = ConvertUtil._invariantTextInfo.ToUpper(address);
+            var alphaPart = GetAlphaPart(address);
+*/
+            address = Utils.TypeConversion.ConvertUtil._invariantTextInfo.ToUpper(address);
             var alphaPart = GetAlphaPart(address);
             col = 0;
             var nLettersInAlphabet = 26;

@@ -1,14 +1,15 @@
 ﻿using OfficeOpenXml.Constants;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
-using OfficeOpenXml.Utils.Extensions;
 using System.Runtime.InteropServices;
 using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.Utils.XML;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.RichData.Types
 {

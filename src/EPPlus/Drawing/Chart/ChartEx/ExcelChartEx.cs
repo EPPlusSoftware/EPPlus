@@ -18,7 +18,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;

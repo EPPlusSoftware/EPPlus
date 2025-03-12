@@ -13,10 +13,10 @@
 using OfficeOpenXml.Drawing.Style;
 using OfficeOpenXml.Drawing.Style.Effect;
 using System.Xml;
-using OfficeOpenXml.Utils.Extensions;
 using System;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.Drawing.Chart.Style
 {

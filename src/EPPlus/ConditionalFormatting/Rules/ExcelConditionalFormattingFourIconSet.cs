@@ -13,7 +13,6 @@
  *************************************************************************************************/
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
-using OfficeOpenXml.Utils.Extensions;
 
 namespace OfficeOpenXml.ConditionalFormatting.Rules
 {

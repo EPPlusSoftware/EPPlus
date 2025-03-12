@@ -15,7 +15,6 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Encryption;
 using OfficeOpenXml.Interfaces.SensitivityLabels;
-using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

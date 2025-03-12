@@ -16,8 +16,6 @@ using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,6 +27,10 @@ using OfficeOpenXml.Drawing.OleObject;
 using System.Drawing;
 using System.Globalization;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.EnumUtils;
+
+
 
 
 #if !NET35 && !NET40

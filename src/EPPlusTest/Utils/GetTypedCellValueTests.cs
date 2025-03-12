@@ -27,7 +27,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Text;

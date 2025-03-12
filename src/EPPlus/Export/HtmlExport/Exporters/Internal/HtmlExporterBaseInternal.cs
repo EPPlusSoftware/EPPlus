@@ -17,6 +17,7 @@ using OfficeOpenXml.Export.HtmlExport.HtmlCollections;
 using OfficeOpenXml.Export.HtmlExport.Parsers;
 using OfficeOpenXml.Table;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.String;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

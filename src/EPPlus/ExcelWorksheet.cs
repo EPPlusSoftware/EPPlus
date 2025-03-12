@@ -50,6 +50,10 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.Utils.XML;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.String;
 
 namespace OfficeOpenXml
 {

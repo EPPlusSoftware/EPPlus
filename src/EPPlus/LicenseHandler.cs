@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.EnumUtils;
 using static OfficeOpenXml.EPPlusLicenseInfo;
 namespace OfficeOpenXml
 {

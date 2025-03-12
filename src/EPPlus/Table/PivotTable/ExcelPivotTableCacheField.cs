@@ -20,6 +20,8 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.DateAndTime;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Information;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.Compare;
 using System;
 using System.Collections;
 using System.Collections.Generic;

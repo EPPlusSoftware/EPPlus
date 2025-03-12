@@ -17,18 +17,19 @@ using System.Drawing;
 using System.Globalization;
 using OfficeOpenXml.Export.HtmlExport;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Statistical;
 using System.Xml.Linq;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.AttributesUtils;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.Style
 {
-   
+
     /// <summary>
     /// A richtext part
     /// </summary>
@@ -137,7 +138,16 @@ namespace OfficeOpenXml.Style
                 }
                 else if (ColorSettings.Theme.HasValue)
                 {
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
                     ret = Utils.ColorConverter.GetThemeColor(_collection._wb.ThemeManager.GetOrCreateTheme(), ColorSettings.Theme.Value);
+                }
+After:
+                    ret = ColorConverter.GetThemeColor(_collection._wb.ThemeManager.GetOrCreateTheme(), ColorSettings.Theme.Value);
+                }
+*/
+                    ret = Utils.TypeConversion.ColorConverter.GetThemeColor(_collection._wb.ThemeManager.GetOrCreateTheme(), ColorSettings.Theme.Value);
                 }
                 else if (ColorSettings.Auto == true)
                 {
@@ -145,7 +155,16 @@ namespace OfficeOpenXml.Style
                 }
                 if (ColorSettings.Tint.HasValue)
                 {
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
                     return Utils.ColorConverter.ApplyTint(ret, ColorSettings.Tint.Value);
+                }
+After:
+                    return ColorConverter.ApplyTint(ret, ColorSettings.Tint.Value);
+                }
+*/
+                    return Utils.TypeConversion.ColorConverter.ApplyTint(ret, ColorSettings.Tint.Value);
                 }
                 return ret;
             }

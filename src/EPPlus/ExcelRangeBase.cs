@@ -20,7 +20,6 @@ using OfficeOpenXml.Table;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Core;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Core.Worksheet;
@@ -29,6 +28,9 @@ using OfficeOpenXml.CellPictures;
 using OfficeOpenXml.Sorting;
 using OfficeOpenXml.Export.HtmlExport.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.String;
+using OfficeOpenXml.Utils.Cell;
 
 namespace OfficeOpenXml
 {

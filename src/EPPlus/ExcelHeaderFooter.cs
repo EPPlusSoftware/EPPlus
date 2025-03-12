@@ -18,14 +18,15 @@ using System.Collections.Generic;
 using OfficeOpenXml.Drawing.Vml;
 using System.IO;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Utils.Image;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml
-{    
+{
     /// <summary>
     /// How a picture will be aligned in the header/footer
     /// </summary>

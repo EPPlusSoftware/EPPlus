@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.Utilities;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Database
 {

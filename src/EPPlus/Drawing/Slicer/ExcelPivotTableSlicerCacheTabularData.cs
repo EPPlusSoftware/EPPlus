@@ -16,7 +16,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.Sorting;
 using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Collections;
 using System.Linq;

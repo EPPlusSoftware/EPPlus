@@ -19,6 +19,7 @@ using System.IO;
 using System.Security.Cryptography;
 using OfficeOpenXml.Packaging;
 using System.Linq;
+using OfficeOpenXml.Utils.FileUtils;
 namespace OfficeOpenXml.Drawing
 {
     internal class ImageInfo

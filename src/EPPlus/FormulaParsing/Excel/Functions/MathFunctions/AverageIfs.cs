@@ -19,7 +19,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {

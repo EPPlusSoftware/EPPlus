@@ -22,8 +22,9 @@ using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
+using OfficeOpenXml.Utils.FileUtils;
+using OfficeOpenXml.Utils.XML;
 
 namespace OfficeOpenXml.Drawing
 {

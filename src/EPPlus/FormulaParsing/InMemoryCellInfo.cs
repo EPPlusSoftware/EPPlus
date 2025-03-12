@@ -1,5 +1,5 @@
 ﻿using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

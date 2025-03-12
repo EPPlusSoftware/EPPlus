@@ -19,13 +19,14 @@ using OfficeOpenXml.Utils;
 using System.Drawing;
 using System.Globalization;
 using System.Xml;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
-  /// <summary>
-  /// Conditional formatting helper
-  /// </summary>
-  internal static class ExcelConditionalFormattingHelper
+    /// <summary>
+    /// Conditional formatting helper
+    /// </summary>
+    internal static class ExcelConditionalFormattingHelper
   {
     /// <summary>
     /// Check and fix an address (string address)

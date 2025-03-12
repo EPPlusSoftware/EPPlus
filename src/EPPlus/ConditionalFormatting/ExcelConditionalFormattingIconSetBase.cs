@@ -16,12 +16,12 @@ using System.Globalization;
 using System.Xml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.FormulaParsing.Utilities;
-using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.ConditionalFormatting.Rules;
+using OfficeOpenXml.Utils.TypeConversion;
+using OfficeOpenXml.Utils.EnumUtils;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {

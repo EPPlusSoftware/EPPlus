@@ -14,13 +14,13 @@ using System.Collections.Generic;
 using System.Linq;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Style.XmlAccess;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.Table;
 using System;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.ExternalReferences;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.FormulaParsing.Ranges
 {

@@ -11,7 +11,7 @@
   11/18/2020         EPPlus Software AB       EPPlus 5.5
  *************************************************************************************************/
 using OfficeOpenXml.Utils;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Xml;
 namespace OfficeOpenXml.Drawing.Vml

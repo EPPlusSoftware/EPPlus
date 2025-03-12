@@ -254,10 +254,28 @@ namespace OfficeOpenXml.Style
         private string GetThemeColor(eThemeSchemeColor theme, double tint)
         {
             var themeColor = _styles._wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum(theme);
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
             var color = Utils.ColorConverter.GetThemeColor(themeColor);
             if (tint != 0)
+After:
+            var color = ColorConverter.GetThemeColor(themeColor);
+            if (tint != 0)
+*/
+            var color = Utils.TypeConversion.ColorConverter.GetThemeColor(themeColor);
+            if (tint != 0)
             {
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
                 color = Utils.ColorConverter.ApplyTint(color, tint);
+            }
+After:
+                color = ColorConverter.ApplyTint(color, tint);
+            }
+*/
+                color = Utils.TypeConversion.ColorConverter.ApplyTint(color, tint);
             }
 
             return "#" + color.ToArgb().ToString("X");

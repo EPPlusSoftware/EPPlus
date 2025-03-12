@@ -11,7 +11,7 @@
   01/20/2021         EPPlus Software AB       Table Styling - EPPlus 5.6
  *************************************************************************************************/
 using OfficeOpenXml.Style.Dxf;
-using OfficeOpenXml.Utils.Extensions;
+using OfficeOpenXml.Utils.EnumUtils;
 using System;
 using System.Xml;
 

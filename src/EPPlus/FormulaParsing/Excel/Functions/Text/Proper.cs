@@ -37,7 +37,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             {
                 if (!char.IsLetter(previousChar))
                 {
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
                     sb.Append(Utils.ConvertUtil._invariantTextInfo.ToUpper(ch.ToString()));
+                }
+After:
+                    sb.Append(ConvertUtil._invariantTextInfo.ToUpper(ch.ToString()));
+                }
+*/
+                    sb.Append(Utils.TypeConversion.ConvertUtil._invariantTextInfo.ToUpper(ch.ToString()));
                 }
                 else
                 {

@@ -24,7 +24,7 @@ using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Drawing.Theme;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 
 namespace OfficeOpenXml.ConditionalFormatting
 {
@@ -307,7 +307,16 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
             else if (c.Theme.HasValue)
             {
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
                 ret = Utils.ColorConverter.GetThemeColor(theme, c.Theme.Value);
+            }
+After:
+                ret = ColorConverter.GetThemeColor(theme, c.Theme.Value);
+            }
+*/
+                ret = Utils.TypeConversion.ColorConverter.GetThemeColor(theme, c.Theme.Value);
             }
             else if (c.Index != null)
             {
@@ -328,7 +337,16 @@ namespace OfficeOpenXml.ConditionalFormatting
 
             if (c.Tint != 0)
             {
+
+/* Unmerged change from project 'EPPlus (netstandard2.0)'
+Before:
                 ret = Utils.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
+            }
+After:
+                ret = ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
+            }
+*/
+                ret = Utils.TypeConversion.ColorConverter.ApplyTint(ret, Convert.ToDouble(c.Tint));
             }
 
             return "#" + ret.ToArgb().ToString("x8").Substring(2);

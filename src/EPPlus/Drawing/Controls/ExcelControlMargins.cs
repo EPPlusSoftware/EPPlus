@@ -11,7 +11,7 @@
     11/24/2020         EPPlus Software AB           Controls 
  *************************************************************************************************/
 using OfficeOpenXml.Drawing.Vml;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
 namespace OfficeOpenXml.Drawing.Controls
 {
     /// <summary>

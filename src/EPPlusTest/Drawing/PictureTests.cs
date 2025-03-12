@@ -1,12 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Utils;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using System.Linq;
-using OfficeOpenXml.Drawing.Interfaces;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace EPPlusTest.Drawing
 {

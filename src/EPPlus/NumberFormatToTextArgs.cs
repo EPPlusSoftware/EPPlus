@@ -13,7 +13,7 @@
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.XmlAccess;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.String;
 
 namespace OfficeOpenXml
 {

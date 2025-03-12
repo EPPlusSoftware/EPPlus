@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 using OfficeOpenXml.Drawing.EMF.Records;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Drawing.EMF
 {

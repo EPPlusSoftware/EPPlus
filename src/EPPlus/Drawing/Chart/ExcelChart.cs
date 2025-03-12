@@ -16,7 +16,6 @@ using System.Globalization;
 using System.Xml;
 using System.IO;
 using OfficeOpenXml.Table.PivotTable;
-using OfficeOpenXml.Utils;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Drawing.Chart.Style;
 using OfficeOpenXml.Drawing.Interfaces;
@@ -24,6 +23,7 @@ using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Drawing.Chart
 {

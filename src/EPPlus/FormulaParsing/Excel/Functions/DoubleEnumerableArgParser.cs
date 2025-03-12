@@ -10,7 +10,7 @@
  *************************************************************************************************
   03/10/2023         EPPlus Software AB       Initial release EPPlus 7
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.TypeConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;

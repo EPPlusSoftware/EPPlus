@@ -18,11 +18,11 @@ using OfficeOpenXml.Constants;
 using OfficeOpenXml.Utils.CompundDocument;
 using OfficeOpenXml.ExternalReferences;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils;
 using System.IO;
 using System.Text;
 using OfficeOpenXml.Drawing.OleObject.Structures;
 using System.Text.RegularExpressions;
+using OfficeOpenXml.Utils.FileUtils;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {

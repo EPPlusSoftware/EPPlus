@@ -13,7 +13,7 @@
 using OfficeOpenXml.Attributes;
 using OfficeOpenXml.LoadFunctions.Params;
 using OfficeOpenXml.LoadFunctions.ReflectionHelpers;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.AttributesUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;

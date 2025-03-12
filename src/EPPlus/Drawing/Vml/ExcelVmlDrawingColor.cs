@@ -1,7 +1,5 @@
-﻿using OfficeOpenXml.Utils.Extensions;
-using System;
+﻿using System;
 using System.Drawing;
-using System.Globalization;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Vml

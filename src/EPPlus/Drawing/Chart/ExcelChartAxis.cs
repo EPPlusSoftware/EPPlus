@@ -10,15 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
 using System.Xml;
 using OfficeOpenXml.Style;
-using System.Globalization;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
-using OfficeOpenXml.Utils.Extensions;
-using System.Runtime.InteropServices;
 
 namespace OfficeOpenXml.Drawing.Chart
 {

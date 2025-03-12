@@ -17,7 +17,7 @@ using OfficeOpenXml.RichData.RichValues;
 using OfficeOpenXml.RichData.RichValues.LocalImage;
 using OfficeOpenXml.RichData.RichValues.WebImages;
 using OfficeOpenXml.RichData.Structures.Constants;
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.Utils.FileUtils;
 using System;
 using System.IO;
 using System.Linq;

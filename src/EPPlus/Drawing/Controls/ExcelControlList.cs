@@ -10,12 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Packaging;
-using OfficeOpenXml.Utils.Extensions;
 using System;
-using System.Globalization;
-using System.Linq;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Controls
