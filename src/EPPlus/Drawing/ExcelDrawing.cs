@@ -1632,7 +1632,7 @@ namespace OfficeOpenXml.Drawing
                         drawNode = CopyGroupShape(targetChart);
                         break;
                 }
-                var copy = GetDrawing(targetChart.Drawings, drawNode, DrawingsCollectionType.chart);
+                var copy = GetDrawing(targetChart.Drawings._drawings, drawNode, DrawingsCollectionType.chart);
                 targetChart.Drawings.AddDrawingInternal(copy);
                 if (PixelTop > 0 || PixelLeft > 0)
                 {
@@ -2138,7 +2138,7 @@ namespace OfficeOpenXml.Drawing
             }
             if (!isGroupShape)
             {
-                var targetPic = GetDrawing(targetChart.Drawings, drawNode, DrawingsCollectionType.chart) as ExcelPicture;
+                var targetPic = GetDrawing(targetChart.Drawings._drawings, drawNode, DrawingsCollectionType.chart) as ExcelPicture;
                 targetPic.Id = ++targetChart.Drawings._nextDrawingId;
                 targetPic.Name = targetChart._drawings.GetUniqueDrawingName(this.Name);
             }
@@ -2256,7 +2256,7 @@ namespace OfficeOpenXml.Drawing
             {
                 drawNode = targetChart.Drawings.CreateDrawingXmlChartDrawings(targetChart);
                 drawNode.InnerXml = TopNode.InnerXml;
-                var targetShape = GetDrawing(targetChart.Drawings, drawNode, DrawingsCollectionType.chart) as ExcelShape;
+                var targetShape = GetDrawing(targetChart.Drawings._drawings, drawNode, DrawingsCollectionType.chart) as ExcelShape;
                 targetShape.Id = ++targetChart.Drawings._nextDrawingId;
                 targetShape.Name = targetChart.Drawings.GetUniqueDrawingName(this.Name);
             }

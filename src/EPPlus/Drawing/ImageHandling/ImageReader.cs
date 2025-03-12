@@ -355,18 +355,10 @@ namespace OfficeOpenXml.Drawing
                         br.ReadBytes(12);
                         horizontalResolution = br.ReadInt32() / M_TO_INCH;
                         verticalResolution = br.ReadInt32() / M_TO_INCH;
-                        if( horizontalResolution == 0)
-                        {
-                            horizontalResolution = 1;
-                        }
-                        if (verticalResolution == 0)
-                        {
-                            verticalResolution = 1;
-                        }
                     }
                     else
                     {
-                        horizontalResolution = verticalResolution = 1;
+                        horizontalResolution = verticalResolution = 0;
                     }
 
                     return true;

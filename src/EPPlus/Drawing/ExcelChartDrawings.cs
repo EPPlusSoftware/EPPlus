@@ -16,6 +16,17 @@ namespace OfficeOpenXml.Drawing
 
         internal int _nextDrawingId { get { return _drawings._nextDrawingId; } set { _drawings._nextDrawingId = value; } }
 
+        /// <summary>
+        /// A reference to the drawing xml document
+        /// </summary>
+        public XmlDocument DrawingXml
+        {
+            get
+            {
+                return _drawings.DrawingXml;
+            }
+        }
+
         internal ExcelChartDrawings(ExcelChart chart)
         {
             _chart = chart;
@@ -32,7 +43,7 @@ namespace OfficeOpenXml.Drawing
 
         public ExcelShape AddShape(string Name, eShapeStyle Style)
         {
-            return _drawings.AddShape(Name, Style, this);
+            return _drawings.AddShape(Name, Style, _chart);
         }
 
         //String
@@ -54,7 +65,7 @@ namespace OfficeOpenXml.Drawing
         }
         public ExcelPicture AddPicture(string Name, FileInfo ImagePath, Uri HyperLink)
         {
-            return _drawings.AddPicture(Name, ImagePath, HyperLink, PictureLocation.Embed, this);
+            return _drawings.AddPicture(Name, ImagePath, HyperLink, PictureLocation.Embed, _chart);
         }
 
         //Stream
@@ -65,7 +76,7 @@ namespace OfficeOpenXml.Drawing
         }
         public ExcelPicture AddPicture(string Name, Stream ImagePath, Uri HyperLink)
         {
-            return _drawings.AddPicture(Name, ImagePath, HyperLink, this);
+            return _drawings.AddPicture(Name, ImagePath, HyperLink, _chart);
         }
 
         internal void AddDrawingInternal(ExcelDrawing dr)

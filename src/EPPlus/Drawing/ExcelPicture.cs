@@ -85,7 +85,6 @@ namespace OfficeOpenXml.Drawing
                     node.AppendChild(picNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings));
                     break;
             }
-
         }
 
         internal ExcelPicture(ExcelDrawings drawings, XmlNode node, ExcelGroupShape shape = null, DrawingsCollectionType DrawingsType = DrawingsCollectionType.excel) :
@@ -325,8 +324,11 @@ namespace OfficeOpenXml.Drawing
                 //Recalculates width/height and bounds to 100% width/height relative to original image size
                 Image.Bounds = PictureStore.GetImageBounds(Image.ImageBytes, Image.Type.Value, _drawings._package);
 
-                var width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
-                var height = Image.Bounds.Height / (Image.Bounds.VerticalResolution / STANDARD_DPI);
+                double horizontalDpi=0, verticalDpi=0;
+                ImageUtil.CalculateDPI(Image, STANDARD_DPI, ref horizontalDpi, ref verticalDpi);
+
+                var width = Image.Bounds.Width / (horizontalDpi / STANDARD_DPI);
+                var height = Image.Bounds.Height / (verticalDpi / STANDARD_DPI);
                 SetPosDefaults((float)width, (float)height);
                 if (drawingsCollectionType == DrawingsCollectionType.chart)
                 {
@@ -414,8 +416,10 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                _width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
-                _height = Image.Bounds.Height / (Image.Bounds.VerticalResolution / STANDARD_DPI);
+                double horizontalDpi = 0, verticalDpi = 0;
+                ImageUtil.CalculateDPI(Image, STANDARD_DPI, ref horizontalDpi, ref verticalDpi);
+                _width = Image.Bounds.Width / (horizontalDpi / STANDARD_DPI);
+                _height = Image.Bounds.Height / (verticalDpi / STANDARD_DPI);
 
                 _width = (int)(_width * ((double)Percent / 100));
                 _height = (int)(_height * ((double)Percent / 100));

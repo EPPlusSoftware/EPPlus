@@ -1,8 +1,5 @@
-﻿using OfficeOpenXml.Drawing.Style.Coloring;
+﻿using OfficeOpenXml.Drawing;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Utils
 {
@@ -17,6 +14,12 @@ namespace OfficeOpenXml.Utils
 
             newWidth = Convert.ToInt32(width * ratio);
             newHeight = Convert.ToInt32(height * ratio);
+        }
+
+        internal static void CalculateDPI(ExcelImage Image, float Standard_DPI, ref double horizontalResoluton, ref double verticalResolution)
+        {
+            horizontalResoluton = Image.Bounds.HorizontalResolution == 0 ? Standard_DPI : Image.Bounds.HorizontalResolution;
+            verticalResolution = Image.Bounds.VerticalResolution == 0 ? Standard_DPI : Image.Bounds.VerticalResolution;
         }
     }
 }
