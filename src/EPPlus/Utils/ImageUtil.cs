@@ -21,5 +21,19 @@ namespace OfficeOpenXml.Utils
             horizontalResoluton = Image.Bounds.HorizontalResolution == 0 ? Standard_DPI : Image.Bounds.HorizontalResolution;
             verticalResolution = Image.Bounds.VerticalResolution == 0 ? Standard_DPI : Image.Bounds.VerticalResolution;
         }
+
+        /// <summary>
+        /// Converts from pixels to points at a specified DPI (usually 72 DPI)
+        /// </summary>
+        /// <param name="pixelValue"></param>
+        /// <param name="standard_DPI"></param>
+        /// <param name="resolution">Horizontal or Vertical Resolution</param>
+        /// <returns></returns>
+        internal static double PixelToPointConversion(double pixelValue, float standard_DPI, double resolution)
+        {
+            double pointsValue = pixelValue * standard_DPI / resolution;
+
+            return pointsValue;
+        }
     }
 }
