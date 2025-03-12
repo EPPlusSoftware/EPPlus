@@ -9,7 +9,7 @@
 
 ### Minor features
 * Autofit columns optimaiztion.
-* Range Copy now supports fill.
+* The Range Copy method now supports fills and the option to copy visible cells only.
 * EPPlus now rounds decimal numbers more true to Excels precision.
 * Added ExcelRange.IsEmpty method.
 * Shape adjustments points support.
