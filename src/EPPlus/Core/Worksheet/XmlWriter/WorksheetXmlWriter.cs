@@ -24,6 +24,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.XmlAccess;
@@ -407,14 +408,47 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     object formula = _ws._formulas.GetValue(cse.Row, cse.Column);
                     if (hasMd)
                     {
-                        if (v is ExcelErrorValue error)
+                        if (v is ExcelRichDataErrorValue error)
                         {
                             if (error.Type == eErrorType.Spill || error.Type == eErrorType.Calc)
                             {
                                 v = ErrorValues.ValueError;
-                                _richValueErrors.SetMetaDataForError(cse, error);
+                                var md = _ws._metadataStore.GetValue(cse.Row, cse.Column);
+                                if(md.vm > 0)
+                                {
+                                    var rd = _ws._richDataStore.GetRichValue(md.vm);
+                                    if (rd != null && rd.Structure.Type == "_error")
+                                    {
+                                        var ese = RichValueErrorFactory.CreateRichValueErrorFromRichData(rd, _ws.Workbook.IndexStore, _ws.Workbook.RichData.Db);
+                                        if(ese != null && ese.ErrorType == 8 && (ese.StructureType & RichData.RichDataStructureTypes.ErrorSpill) != 0)
+                                        {
+                                            var spillError = error as ExcelSpillErrorValue;
+                                            var spe = ese.As.ErrorSpill;
+                                            if(spe.RwOffset != spillError.SpillRowOffset || spe.ColOffset != spillError.SpillColOffset)
+                                            {
+                                                _richValueErrors.SetMetaDataForError(cse, error);
+                                            }
+                                        }
+                                        else if(ese != null && (ese.StructureType & RichData.RichDataStructureTypes.ErrorPropagated) != 0)
+                                        {
+
+                                        }
+                                        else if(!(ese != null && ese.ErrorType == 13))
+                                        {
+                                            _richValueErrors.SetMetaDataForError(cse, error);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    _richValueErrors.SetMetaDataForError(cse, error);
+                                }
                                 hasRd = true;
                             }
+                        }
+                        else if(v is ExcelErrorValue err && err.Type == eErrorType.Calc)
+                        {
+
                         }
 
                         mdAttr = "";

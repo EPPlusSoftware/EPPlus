@@ -147,7 +147,7 @@ namespace OfficeOpenXml.RichData.RichValues
             _part.SaveHandler = Save;
         }
 
-        internal void AddErrorSpill(ExcelRichDataErrorValue spillError)
+        internal void AddErrorSpill(ExcelSpillErrorValue spillError)
         {
             var item = new ErrorSpillRichValue(_wb.RichData.Db)
             {

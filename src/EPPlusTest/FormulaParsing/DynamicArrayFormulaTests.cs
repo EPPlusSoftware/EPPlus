@@ -134,8 +134,8 @@ namespace EPPlusTest.FormulaParsing
             ws.Cells["G2"].Value = 2;
             ws.Calculate();
             var v = ws.GetValue(2, 6);
-            Assert.IsInstanceOfType(v, typeof(ExcelRichDataErrorValue));
-            var spillError = (ExcelRichDataErrorValue)v;
+            Assert.IsInstanceOfType(v, typeof(ExcelSpillErrorValue));
+            var spillError = (ExcelSpillErrorValue)v;
             Assert.AreEqual(0, spillError.SpillRowOffset);
             Assert.AreEqual(1, spillError.SpillColOffset);
         }

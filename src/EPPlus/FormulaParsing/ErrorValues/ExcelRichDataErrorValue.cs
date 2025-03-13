@@ -17,17 +17,10 @@ namespace OfficeOpenXml
     /// </summary>
     public class ExcelRichDataErrorValue : ExcelErrorValue
     {
-        internal ExcelRichDataErrorValue(int rowOffset, int colOffset) : base(eErrorType.Spill)
+        internal ExcelRichDataErrorValue(eErrorType type) : base(type)
         {
-            SpillRowOffset = rowOffset;
-            SpillColOffset = colOffset;
+            
         }
-        internal int SpillRowOffset { get; set; }
-        internal int SpillColOffset { get; set; }
-        internal bool IsPropagated
-        {
-            get;
-            set;
-        }
+        
     }
 }
