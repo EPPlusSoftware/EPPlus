@@ -803,5 +803,23 @@ namespace EPPlusTest.LoadFunctions
                 SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void StringList1()
+        {
+            var l = new List<StringListDto>()
+            {
+                new StringListDto()
+                {
+                    Name = "Test1",
+                    ListOfStrings = new List<string>{ "A", "B", "C" }
+                }
+            };
+            using var p = new ExcelPackage();
+            var sheet = p.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].LoadFromCollection(l, false);
+            Assert.AreEqual("Test1", sheet.Cells["A1"].Value);
+            SaveWorkbook("Issue1901.xlsx", p);
+        }
     }
 }
