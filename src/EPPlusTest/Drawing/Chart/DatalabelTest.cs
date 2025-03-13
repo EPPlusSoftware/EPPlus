@@ -55,6 +55,29 @@ namespace EPPlusTest.Drawing.Chart
             SaveAndCleanup(_pck);
         }
 
+        [TestMethod]
+        public void ReadingDataLabel()
+        {
+            using (var p = OpenTemplatePackage("leaderlinesSome.xlsx"))
+            {
+                var cSheet = p.Workbook.Worksheets[0];
+
+                var aChart = cSheet.Drawings[0].As.Chart.BarChart;
+
+                for (int i = 0; i < aChart.Series.Count; i++)
+                {
+                    var label = aChart.Series[i].DataLabel;
+
+                    if(label.DataLabels.Count > 0)
+                    {
+                        var firstLabelOfLabelsInSeries = label.DataLabels[0];
+
+                        var showLines = firstLabelOfLabelsInSeries.ShowLeaderLines;
+                    }
+                }
+            }
+        }
+
         // s679
         //Manual layout when labels are atop eachother
         [TestMethod]
