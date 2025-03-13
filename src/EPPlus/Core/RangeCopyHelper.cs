@@ -101,7 +101,7 @@ namespace OfficeOpenXml.Core
                 rowAdder = 0;
                 colAdder += colIncrement;
             }
-            if(EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures) || EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeWebPictures))
+            if(!EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures) || !EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeWebPictures))
             {
                 var richDataHelper = new RichDataCopyHelper(_sourceRange, _destinationRange);
                 richDataHelper.Copy(_copyOptions);

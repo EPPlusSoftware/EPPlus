@@ -131,7 +131,7 @@ namespace EPPlusTest.InCellImages
 
             //var images = new List<string> { "jpg1.jpg", "png1.png", "gif1.gif", "bmp1.bmp", "ico1.ico", "tif1.tif", "emf1.emf", "wmf1.wmf" };
             // doesn't work: emf, wmf, svg
-            var images = new List<string> { "jpg1.jpg", "png1.png", "gif1.gif", "bmp1.bmp", "ico1.ico", "tif1.tif", "webp1.webp"};
+            var images = new List<string> { "jpg1.jpg", "png1.png", "gif1.gif", "bmp1.bmp", "ico1.ico", "tif1.tif", "webp1.webp" };
             //var images = new List<string> { "svg1.svg" };
             for (var i = 1; i <= images.Count; i++)
             {
@@ -212,6 +212,59 @@ namespace EPPlusTest.InCellImages
 
             ws.Cells["A1:D20"].Picture.Set(imageBytes);
             SaveWorkbook("IncellPictureTestFor8.xlsx", p);
+        }
+
+        [TestMethod]
+        public void PictureSet()
+        {
+            using var p = new ExcelPackage();
+            var sheet = p.Workbook.Worksheets.Add("Sheet");
+            sheet.Cells["A1"].Picture.Set(Resources.Png3ByteArray);
+        }
+
+
+        [TestMethod]
+        public void InCellPicture_CopyBecomesLeftAlign()
+        {
+            using (ExcelPackage package = OpenPackage("PicturesInCellRef.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewSheet");
+                var wsOther = wb.Worksheets.Add("NewSheet2");
+                var fi = GetResourceFile("EPPlus.png");
+                ws.Cells["D4"].Picture.Set(fi);
+                ws.Cells["A1:M30"].Copy(wsOther.Cells["A1:M30"]);
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void ChangeImages()
+        {
+            using (ExcelPackage package = OpenPackage("CellPictures.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("cellSheet");
+                var ws2 = wb.Worksheets.Add("Ws_other");
+
+                var fi = GetResourceFile("EPPlus.png");
+                var fi2 = GetResourceFile("Test1.jpg");
+
+                ws.Cells["F5"].Picture.Set(fi);
+                ws.Cells["F6"].Picture.Set(fi);
+
+                var pic = ws.Cells["F5"].Picture;
+                pic.Set(fi2);
+
+                var picAlt = ws.Cells["F6"].Picture.Get();
+                ws.Cells["F6"].Picture.Set(fi2);
+
+                //Maybe not quite the right assert
+                //Ensure media folder only contains one file after save.
+                Assert.AreEqual(1, wb._images.Count());
+
+                SaveAndCleanup(package);
+            }
         }
     }
 }
