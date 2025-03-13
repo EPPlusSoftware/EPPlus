@@ -3664,6 +3664,7 @@ namespace OfficeOpenXml
         }
         internal void SetValueRow_Value(int row, int col, object[] array)
         {
+            _formulas.Clear(row, col, row, col + array.Length - 1);
             for (int c = 0; c < array.Length; c++)
             {
                 if (array[c] == DBNull.Value)
@@ -3678,6 +3679,7 @@ namespace OfficeOpenXml
         }
         internal void SetValueRow_ValueTransposed(int row, int col, object[] array)
         {
+            _formulas.Clear(row, col, row+array.Length-1, col);
             for (int c = 0; c < array.Length; c++)
             {
                 if (array[c] == DBNull.Value)
@@ -3693,9 +3695,12 @@ namespace OfficeOpenXml
         internal void SetValueRow_Value(int row, int col, IEnumerable collection)
         {
             int offset = 0;
+            
             foreach (var v in collection)
             {
-                SetValueInner(row, col + offset, v);
+                var c = col + offset;
+                _formulas.Clear(row, c, row, c);
+                SetValueInner(row, c, v);
                 offset++;
             }
         }
@@ -3704,7 +3709,9 @@ namespace OfficeOpenXml
             int offset = 0;
             foreach (var v in collection)
             {
-                SetValueInner(row + offset, col, v);
+                var r = row + offset;
+                _formulas.Clear(r, col, r, col);
+                SetValueInner(r, col, v);
                 offset++;
             }
         }
