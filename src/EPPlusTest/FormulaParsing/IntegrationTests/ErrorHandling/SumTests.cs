@@ -52,7 +52,7 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.ErrorHandling
             BaseCleanup();
         }
 
-        private TestContext testContextInstance;
+        private TestContext testContextInstance { get; set; }
 
         /// <summary>
         ///Gets or sets the test context which provides

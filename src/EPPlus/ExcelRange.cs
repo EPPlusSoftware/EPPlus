@@ -120,7 +120,6 @@ namespace OfficeOpenXml
                 _address = GetAddress(_fromRow, _fromCol);
                 ChangeAddress();
                 return this;
-                return new ExcelRange(_worksheet, Row, Col, Row, Col);
             }
         }
         /// <summary>

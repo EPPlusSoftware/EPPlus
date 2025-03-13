@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Metadata
     internal class ExcelMetadata
     {
         private ExcelWorkbook _wb;
-        private readonly ExcelRichData _richData;
+        //private readonly ExcelRichData _richData;
         private ZipPackagePart _part;
         private Uri _uri;
         

@@ -11,11 +11,6 @@
   01/01/2025         EPPlus Software AB           Initial release EPPlus 8
  *************************************************************************************************/
 using System.IO;
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.Drawing.EMF
 

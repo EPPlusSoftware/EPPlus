@@ -119,17 +119,17 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal int CalculatedAverageWidth;
 
-        private bool recalculateWidth = false;
+        //private bool recalculateWidth = false;
         internal LogFont() { }
 
         internal LogFont(BinaryReader br)
         {
             Height = br.ReadInt32();
             Width = br.ReadInt32();
-            if(Width == 0)
-            {
-                recalculateWidth = true;
-            }
+            //if(Width == 0)
+            //{
+            //    recalculateWidth = true;
+            //}
             Escapement = br.ReadInt32();
             Orientation = br.ReadInt32();
             Weight = br.ReadInt32();

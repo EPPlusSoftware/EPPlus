@@ -8,7 +8,7 @@ using System.Text;
 namespace OfficeOpenXml.Table
 {
     /// <summary>
-    /// A collection of <see cref="ExcelTableRow">s.
+    /// A collection of <see cref="ExcelTableRow"/>s.
     /// </summary>
     public class ExcelTableRowCollection : IEnumerable<ExcelTableRow>
     {
