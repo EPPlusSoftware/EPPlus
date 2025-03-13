@@ -429,10 +429,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                                 _richValueErrors.SetMetaDataForError(cse, error);
                                             }
                                         }
-                                        else if(ese != null && (ese.StructureType & RichData.RichDataStructureTypes.ErrorPropagated) != 0)
-                                        {
-
-                                        }
                                         else if(!(ese != null && ese.ErrorType == 13))
                                         {
                                             _richValueErrors.SetMetaDataForError(cse, error);
@@ -445,10 +441,6 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                                 }
                                 hasRd = true;
                             }
-                        }
-                        else if(v is ExcelErrorValue err && err.Type == eErrorType.Calc)
-                        {
-
                         }
 
                         mdAttr = "";
