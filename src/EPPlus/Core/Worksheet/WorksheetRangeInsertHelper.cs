@@ -61,6 +61,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Down);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Down, affectedAddress);
+                InsertChartSerieAddresses(range, affectedAddress, eShiftTypeInsert.Down);
                 InsertDataValidation(range, eShiftTypeInsert.Down, affectedAddress, ws, false);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Down, affectedAddress, ws, true);
 
@@ -94,6 +95,28 @@ namespace OfficeOpenXml.Core.Worksheet
             }
         }
 
+        private static void InsertChartSerieAddresses(ExcelRangeBase range, ExcelAddressBase affectedRange, eShiftTypeInsert shift)
+        {
+            foreach (var drawing in range.Worksheet.Drawings)
+            {
+                if (drawing.DrawingType == eDrawingType.Chart)
+                {
+                    var chartSerie = drawing.As.Chart.Chart.Series;
+
+                    foreach (var serie in chartSerie)
+                    {
+                        if(shift == eShiftTypeInsert.Right)
+                        {
+                            serie.UpdateAddressesInsert(range._fromCol, range.Columns, affectedRange, shift);
+                        }
+                        else if (shift == eShiftTypeInsert.Down)
+                        {
+                            serie.UpdateAddressesInsert(range._fromRow, range.Rows, affectedRange, shift);
+                        }
+                    }
+                }
+            }
+        }
         internal static void InsertColumn(ExcelWorksheet ws, int columnFrom, int columns, int copyStylesFromColumn)
         {
             ValidateInsertColumn(ws, columnFrom, columns);
@@ -118,12 +141,13 @@ namespace OfficeOpenXml.Core.Worksheet
                 var range = ws.Cells[1, columnFrom, ExcelPackage.MaxRows, columnFrom + columns - 1];
                 var affectedAddress = GetAffectedRange(range, eShiftTypeInsert.Right);
                 InsertFilterAddress(range, affectedAddress, eShiftTypeInsert.Right);
+                InsertChartSerieAddresses(range, affectedAddress, eShiftTypeInsert.Right);
                 InsertSparkLinesAddress(range, eShiftTypeInsert.Right, affectedAddress);
                 InsertDataValidation(range, eShiftTypeInsert.Right, affectedAddress, ws, false);
                 InsertConditionalFormatting(range, eShiftTypeInsert.Right, affectedAddress, ws, false);
 
                 WorksheetRangeCommonHelper.AdjustDvAndCfFormulasColumn(ws, columnFrom, columns);
-			
+			    
                 //Adjust drawing positions.
 				WorksheetRangeHelper.AdjustDrawingsColumn(ws, columnFrom, columns);
 			}

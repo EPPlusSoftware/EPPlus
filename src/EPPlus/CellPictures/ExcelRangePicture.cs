@@ -13,6 +13,7 @@
 using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.RichData;
+using OfficeOpenXml.RichData.Structures.Constants;
 using System.IO;
 
 namespace OfficeOpenXml.CellPictures
@@ -45,7 +46,11 @@ namespace OfficeOpenXml.CellPictures
         {
             get
             {
-                return _cellPicturesManager.GetCellPicture(_range._fromRow, _range._fromCol) != null;
+                if(_cellPicturesManager.GetCellPicture(_range._fromRow, _range._fromCol) != null)
+                {
+                    return true;
+                }
+                return _cellPicturesManager.GetCellPicture(_range._fromRow, _range._fromCol, StructureTypes.WebImage) != null;
             }
         }
 

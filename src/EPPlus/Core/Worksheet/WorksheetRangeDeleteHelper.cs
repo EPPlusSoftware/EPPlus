@@ -15,6 +15,7 @@ using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.Drawing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.Sorting.Internal;
 using OfficeOpenXml.Sparkline;
@@ -54,6 +55,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 var effectedAddress = GetAffectedRange(range, eShiftTypeDelete.Up);
 
                 DeleteDataValidations(range, eShiftTypeDelete.Up, ws, effectedAddress);
+                DeleteChartSerieAddress(range, eShiftTypeDelete.Up, ws, effectedAddress);
                 DeleteConditionalFormatting(range, eShiftTypeDelete.Up, ws, effectedAddress);
                 DeleteFilterAddress(range, effectedAddress, eShiftTypeDelete.Up);
                 DeleteSparkLinesAddress(range, eShiftTypeDelete.Up, effectedAddress);
@@ -128,7 +130,7 @@ namespace OfficeOpenXml.Core.Worksheet
                 var effectedAddress = GetAffectedRange(range, eShiftTypeDelete.Left);
                 DeleteDataValidations(range, eShiftTypeDelete.Left, ws, effectedAddress);
                 DeleteConditionalFormatting(range, eShiftTypeDelete.Left, ws, effectedAddress);
-
+                DeleteChartSerieAddress(range, eShiftTypeDelete.Left, ws, effectedAddress);
                 DeleteFilterAddress(range, effectedAddress, eShiftTypeDelete.Left);
                 DeleteSparkLinesAddress(range, eShiftTypeDelete.Left, effectedAddress);
 
@@ -570,6 +572,29 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
             deletedCF.ForEach(cf => ws.ConditionalFormatting.Remove(cf));
+        }
+
+        private static void DeleteChartSerieAddress(ExcelRangeBase range, eShiftTypeDelete shift, ExcelWorksheet ws, ExcelAddressBase effectedAddress)
+        {
+            foreach (var drawing in range.Worksheet.Drawings)
+            {
+                if (drawing.DrawingType == eDrawingType.Chart)
+                {
+                    var chartSerie = drawing.As.Chart.Chart.Series;
+
+                    foreach (var serie in chartSerie)
+                    {
+                        if (shift == eShiftTypeDelete.Left)
+                        {
+                            serie.UpdateAddressesDelete(range._fromCol, range.Columns, effectedAddress, shift);
+                        }
+                        else if (shift == eShiftTypeDelete.Up)
+                        {
+                            serie.UpdateAddressesDelete(range._fromRow, range.Rows, effectedAddress, shift);
+                        }
+                    }
+                }
+            }
         }
 
         private static void DeleteDataValidations(ExcelRangeBase range, eShiftTypeDelete shift, ExcelWorksheet ws, ExcelAddressBase effectedAddress)

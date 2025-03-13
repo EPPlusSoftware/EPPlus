@@ -343,7 +343,7 @@ namespace OfficeOpenXml.Drawing
 
             using (var ms = RecyclableMemory.GetStream(image))
             {
-                if (_container.RelationDocument.Package.Settings.ImageSettings.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
+                if (_container.RelationDocument.Package.Settings.ImageSettings.GetImageBounds(ms, pictureType, out double width, out double height, out double horizontalResolution, out double verticalResolution))
                 {
                     Bounds.Width = width;
                     Bounds.Height = height;

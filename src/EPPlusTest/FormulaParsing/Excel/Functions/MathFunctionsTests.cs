@@ -1770,7 +1770,6 @@ namespace EPPlusTest.Excel.Functions
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result);
             }
         }
-
         [TestMethod]
         public void Percentile_Test1()
         {
