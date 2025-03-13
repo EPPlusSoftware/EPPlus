@@ -67,7 +67,6 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             Assert.AreEqual(3727.881, GetPtData(pt, 1));
             Assert.AreEqual(9689.13000000001, GetPtData(pt, 2));
             Assert.AreEqual(9895964.00, GetPtData(pt, 3));
-
         }
         [TestMethod]
         public void VerifyCalculationPivotTable4()

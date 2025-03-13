@@ -960,17 +960,17 @@ namespace OfficeOpenXml.FormulaParsing
                         break;
                     case TokenType.CellAddress:
                     case TokenType.ExcelAddress:
-						var e = f._expressions[f._tokenIndex];
+                    case TokenType.FullColumnAddress:
+                    case TokenType.FullRowAddress:
+                        var e = f._expressions[f._tokenIndex];
                         s.Push(e);
                         if(returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek())==false))
                         {
-                            return e.GetAddress();                            
+                            if(IsSingleAddress(f))
+                            {
+                                return e.GetAddress();
+                            }
                         }
-                        break;
-					case TokenType.FullColumnAddress:
-					case TokenType.FullRowAddress:
-						var frce = f._expressions[f._tokenIndex];
-						s.Push(frce);
                         break;
 					case TokenType.NameValue:
                         var ne = (NamedValueExpression)f._expressions[f._tokenIndex];
@@ -987,7 +987,10 @@ namespace OfficeOpenXml.FormulaParsing
                             }
                             else if (returnAddresses && (f._funcStack.Count == 0 || ShouldIgnoreAddress(f._funcStack.Peek()) == false))
                             {
-                                return nameAddress;
+                                if(IsSingleAddress(f))
+                                {
+                                    return nameAddress;
+                                }
                             }
                         }
                         break;
@@ -1100,8 +1103,11 @@ namespace OfficeOpenXml.FormulaParsing
 
                         if (s.Count > 0 && s.Peek().Status == ExpressionStatus.IsAddress)
                         {
-                            var cr = s.Peek().Compile();                            
-                            return [cr.Address]; //TODO:Check multi add
+                            var cr = s.Peek().Compile();
+                            if (cr.Address != null)
+                            {
+                                return [cr.Address];
+                            }
                         }
 
                         break;
@@ -1139,6 +1145,20 @@ namespace OfficeOpenXml.FormulaParsing
 				}
 			}
             return null;
+        }
+
+        private static bool IsSingleAddress(RpnFormula f)
+        {
+            var t = f._tokenIndex + 1;
+            while (t < f._tokens.Count && f._tokens[t].TokenTypeIsAddressToken)
+            {
+                if (f._tokens[t].TokenType==TokenType.Operator && f._tokens[t].Value==":")
+                {
+                    return false;
+                }
+                t++;
+            }
+            return true;
         }
 
         private static ExpressionCondition GetCondition(CompileResult v)
