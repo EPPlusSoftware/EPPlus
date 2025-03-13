@@ -1072,5 +1072,24 @@ namespace EPPlusTest.Core.Range
             a1b2.Copy(a1b2Dest3, ExcelRangeCopyOptionFlags.Fill);
             SaveAndCleanup(p);
         }
+        [TestMethod]
+
+        public void InCellPicture_CopyBecomesLeftAlign()
+        {
+            using (var package = OpenPackage("PicturesInCellRef.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewSheet");
+                var wsOther = wb.Worksheets.Add("NewSheet2");
+                var fi = GetResourceFile("EPPlus.png");
+                ws.Cells["A2"].Value = 1;
+                ws.Cells["C3"].Formula = "A2";
+                ws.Cells["D4"].Picture.Set(fi);
+                ws.Cells["A1:M30"].Copy(wsOther.Cells["A1:M30"]);
+                Assert.AreEqual(1, wsOther.Cells["A2"].Value);
+                Assert.AreEqual("A2", wsOther.Cells["C3"].Formula);
+                Assert.IsTrue(wsOther.Cells["D4"].Picture.Exists);
+            }
+        }
     }
 }
