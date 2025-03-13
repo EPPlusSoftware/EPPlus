@@ -47,7 +47,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             {
 
                 if((ri.Size.NumberOfRows > 1 || ri.Size.NumberOfCols > 1) && 
-                    context.CurrentWorksheet._flags.GetFlagValue(context.CurrentCell.Row, context.CurrentCell.Column, CellFlags.CanBeDynamicArray|CellFlags.ArrayFormula))
+                    ((context.CurrentWorksheet._flags.GetFlagValue(context.CurrentCell.Row, context.CurrentCell.Column, CellFlags.CanBeDynamicArray|CellFlags.ArrayFormula)) ||
+                    ri.IsInMemoryRange == true))
                 {
                     return If_DynamicArrayFormula(arg1, arg2, ri);
                 }
