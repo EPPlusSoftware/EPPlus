@@ -62,6 +62,10 @@ namespace EPPlusTest
         protected static string _testInputPath = AppContext.BaseDirectory + "\\workbooks\\";
         protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";
         protected static string _imagePath = @"c:\epplusTest\images\";
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
         public TestContext TestContext { get; set; }
         
         public static void InitBase()

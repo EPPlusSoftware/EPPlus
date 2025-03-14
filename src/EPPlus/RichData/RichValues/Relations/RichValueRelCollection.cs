@@ -78,7 +78,6 @@ namespace OfficeOpenXml.RichData.RichValues.Relations
 
         private RichValueRel ReadItem(XmlReader xr)
         {
-            var ns = "http://schemas.openxmlformats.org/package/2006/relationships";
             var item = new RichValueRel(_wb, _part);
 
             var id = xr.GetAttribute("r:id");

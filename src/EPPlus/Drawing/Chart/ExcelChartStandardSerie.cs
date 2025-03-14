@@ -75,7 +75,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Literals for the Y serie, if the literal values are strings
         /// </summary>
-        public string[] StringLiteralsY
+        public override string[] StringLiteralsY
         {
             get
             {
@@ -308,8 +308,11 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if(node.LocalName == "pt")
                 {
-                    var txt = node.InnerText;
-                    numLits.Add(Convert.ToDouble(txt));
+                    if(double.TryParse(node.InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out double numLit) == false)
+                    {
+                        throw new InvalidDataException($"numberLiteral in xml node:'{node.Name}' in chart:'{_chart.Name}' with value:'{node.InnerText}' could not be parsed as double. Chart cannot be read.");
+                    }
+                    numLits.Add(numLit);
                 }
             }
             numberLiterals = numLits.ToArray();

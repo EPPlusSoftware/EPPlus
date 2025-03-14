@@ -6,6 +6,9 @@ using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Vml
 {
+    /// <summary>
+    /// Base class for ExcelPosition.
+    /// </summary>
     public abstract class ExcelPositionBase : XmlHelper
     {
         internal delegate void SetWidthCallback();

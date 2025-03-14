@@ -43,7 +43,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             Ionic.Zip.SharedUtilities.Workaround_Ladybug318918(this.ArchiveStream);
 
             byte[] block = new byte[30];
-            this.ArchiveStream.Read(block, 0, block.Length);
+            var r = this.ArchiveStream.Read(block, 0, block.Length);
             int i = 26;
             Int16 filenameLength = (short)(block[i++] + block[i++] * 256);
             Int16 extraFieldLength = (short)(block[i++] + block[i++] * 256);
