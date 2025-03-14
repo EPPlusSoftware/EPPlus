@@ -721,7 +721,7 @@ namespace OfficeOpenXml
             }
         }
         #region Workbook Properties
-        decimal _standardFontWidth = decimal.MinValue;
+        double _standardFontWidth = double.MinValue;
         string _fontID = "";
         internal FormulaParser FormulaParser
         {
@@ -769,18 +769,18 @@ namespace OfficeOpenXml
         /// Max font width for the workbook, used in the calculation of column widths.
         /// <remarks>This property uses the static <see cref="FontSize.FontWidths"></see> dictionary to get the max font width /></remarks>
         /// </summary>
-        public decimal MaxFontWidth
+        public double MaxFontWidth
         {
             get
             {
-                if (_standardFontWidth == decimal.MinValue)
+                if (_standardFontWidth == double.MinValue)
                 {
                     var ix = Styles.GetNormalStyleIndex();
                     if (ix >= 0)
                     {
                         var font = Styles.NamedStyles[ix].Style.Font;
                         if (font.Index == int.MinValue) font.Index = 0;
-                        if (_standardFontWidth == decimal.MinValue || _fontID != font.Id)
+                        if (_standardFontWidth == double.MinValue || _fontID != font.Id)
                         {
                             try
                             {
@@ -2117,7 +2117,7 @@ namespace OfficeOpenXml
 
         internal void ClearDefaultHeightsAndWidths()
         {
-            _standardFontWidth = decimal.MinValue;
+            _standardFontWidth = double.MinValue;
             foreach (var ws in Worksheets)
             {
                 if (ws.IsChartSheet == false)

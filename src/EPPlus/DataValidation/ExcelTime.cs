@@ -24,9 +24,9 @@ namespace OfficeOpenXml.DataValidation
     public class ExcelTime
     {
         private event EventHandler _timeChanged;
-        private readonly decimal SecondsPerDay = 3600 * 24;
-        private readonly decimal SecondsPerHour = 3600;
-        private readonly decimal SecondsPerMinute = 60;
+        private readonly double SecondsPerDay = 3600 * 24;
+        private readonly double SecondsPerHour = 3600;
+        private readonly double SecondsPerMinute = 60;
         /// <summary>
         /// Max number of decimals when rounding.
         /// </summary>
@@ -44,34 +44,34 @@ namespace OfficeOpenXml.DataValidation
         /// Constructor
         /// </summary>
         /// <param name="value">An existing time for initialization</param>
-        public ExcelTime(decimal value)
+        public ExcelTime(double value)
         {
-            if (value < 0M)
+            if (value < 0d)
             {
                 throw new ArgumentException("Value cannot be less than 0");
             }
-            else if (value >= 1M)
+            else if (value >= 1d)
             {
                 throw new ArgumentException("Value cannot be greater or equal to 1");
             }
             Init(value);
         }
 
-        private void Init(decimal value)
+        private void Init(double value)
         {
             // handle hour
-            decimal totalSeconds = value * SecondsPerDay;
-            decimal hour = Math.Floor(totalSeconds / SecondsPerHour);
+            double totalSeconds = value * SecondsPerDay;
+            double hour = Math.Floor(totalSeconds / SecondsPerHour);
             Hour = (int)hour;
 
             // handle minute
-            decimal remainingSeconds = totalSeconds - (hour * SecondsPerHour);
-            decimal minute = Math.Floor(remainingSeconds / SecondsPerMinute);
+            double remainingSeconds = totalSeconds - (hour * SecondsPerHour);
+            double minute = Math.Floor(remainingSeconds / SecondsPerMinute);
             Minute = (int)minute;
 
             // handle second
             remainingSeconds = totalSeconds - (hour * SecondsPerHour) - (minute * SecondsPerMinute);
-            decimal second = Math.Round(remainingSeconds, MidpointRounding.AwayFromZero);
+            double second = Math.Round(remainingSeconds, MidpointRounding.AwayFromZero);
             // Second might be rounded to 60... the SetSecond method handles that.
             SetSecond((int)second);
         }
@@ -209,27 +209,27 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
-        private decimal Round(decimal value)
+        private double Round(double value)
         {
             return Math.Round(value, NumberOfDecimals);
         }
 
-        private decimal ToSeconds()
+        private double ToSeconds()
         {
             var result = Hour * SecondsPerHour;
             result += Minute * SecondsPerMinute;
             result += Second ?? 0;
-            return (decimal)result;
+            return result;
         }
 
         /// <summary>
         /// Returns the excel decimal representation of a time.
         /// </summary>
         /// <returns></returns>
-        public decimal ToExcelTime()
+        public double ToExcelTime()
         {
             var seconds = ToSeconds();
-            return Round(seconds / (decimal)SecondsPerDay);
+            return Round(seconds / SecondsPerDay);
         }
 
         /// <summary>
