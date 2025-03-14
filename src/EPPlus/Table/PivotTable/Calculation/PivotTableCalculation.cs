@@ -245,6 +245,11 @@ namespace OfficeOpenXml.Table.PivotTable
 					if (field.Grouping == null)
 					{
 						key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
+						if (field.Items[key[i]].Hidden) //Items is hidden by a filter, break and skip this row.
+						{
+							key = null;
+							break;
+						}
 					}
 					else
 					{
@@ -259,8 +264,8 @@ namespace OfficeOpenXml.Table.PivotTable
 						}
 						key[i] = field.GetGroupingKey((int)recs.CacheItems[ix][r]);						
 					}
-				 }
-
+				}
+				if (key == null) continue;
 				if ((pageFilterExists == false || PivotTableFilterMatcher.IsHiddenByPageField(pivotTable, recs, r) == false) &&
 					(captionFilterExists == false || PivotTableFilterMatcher.IsHiddenByRowColumnFilter(pivotTable, captionFilters, recs, r) == false) &&
 					(slicerFields.Count == 0 || PivotTableFilterMatcher.IsHiddenBySlicer(pivotTable, recs, r, slicerFields)==false))
