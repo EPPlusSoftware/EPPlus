@@ -55,7 +55,7 @@ namespace OfficeOpenXml.Core
         private readonly bool _sameWorkbook;
 		private ExcelMetadata _sourceMd, _destMd;
 		Dictionary<ulong, CopiedCell> _copiedCells=new Dictionary<ulong, CopiedCell>();
-        uint? _sourceDaIx;
+        uint? _sourceDaIx = default;
         uint? _destDaIx;
         internal RangeCopyHelper(ExcelRangeBase sourceRange, ExcelRangeBase destination, ExcelRangeCopyOptionFlags copyOptions)
         {
@@ -541,8 +541,7 @@ namespace OfficeOpenXml.Core
         {
             var ret = new Dictionary<int, int>();
             var pos = 0;
-            int fromCol, toCol;
-            GetSourceColsDimension(out fromCol, out toCol);
+            GetSourceColsDimension(out int fromCol, out int toCol);
             if(fromCol == 0) return ret;
             var startCol = fromCol - _sourceRange._fromCol;
             for (int c = fromCol; c <= toCol; c++)

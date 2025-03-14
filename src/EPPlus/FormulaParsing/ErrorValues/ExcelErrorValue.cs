@@ -240,5 +240,14 @@ namespace OfficeOpenXml
             if (!(obj is ExcelErrorValue)) return false;
             return ((ExcelErrorValue)obj).ToString() == this.ToString();
         }
+
+        /// <summary>
+        /// Get the Hash code for object
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

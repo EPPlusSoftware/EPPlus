@@ -1813,7 +1813,6 @@ namespace OfficeOpenXml.Drawing
                 {
                     var srcsRel = _drawings.Part.GetRelationship(relNode.Value);
                     ZipPackageRelationship newRel = null;
-                    bool imageExists = false;
 
                     //Copy image file to new workbook if target worksheet is in a different workbook.
                     if (targetWorkbook != _drawings.Worksheet.Workbook)

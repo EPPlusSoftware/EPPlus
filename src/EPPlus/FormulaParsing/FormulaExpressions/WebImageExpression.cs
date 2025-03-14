@@ -26,7 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             _cachedCompileResult = result;
         }
 
-        private readonly ExcelCellPicture _picture;
+        //private readonly ExcelCellPicture _picture;
 
         internal override ExpressionType ExpressionType => ExpressionType.WebImage;
 

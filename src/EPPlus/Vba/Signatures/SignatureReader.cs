@@ -59,7 +59,9 @@ namespace OfficeOpenXml.VBA.Signatures
                     {
                         //Add property values here...
                         case 0x20:
+#pragma warning disable SYSLIB0057 //new X509Certificate2(value); is depricated. Suppressing warning because NET35 compatiblity.
                             si.Certificate = new X509Certificate2(value);
+#pragma warning restore SYSLIB0057
                             break;
                         default:
                             break;

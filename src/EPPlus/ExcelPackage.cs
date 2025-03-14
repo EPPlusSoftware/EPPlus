@@ -859,7 +859,7 @@ namespace OfficeOpenXml
 #endif
                 if (File == null)
                 {
-                    if (Encryption.IsEncrypted && Encryption.Version != EncryptionVersion.ProtectedBySensibilityLabel)
+                    if (Encryption.IsEncrypted && (Encryption.Version == EncryptionVersion.Standard || Encryption.Version == EncryptionVersion.Agile))
                     {
                         byte[] file;
                         using (var ms = RecyclableMemory.GetStream())
@@ -911,7 +911,7 @@ namespace OfficeOpenXml
                         using (var fi = new FileStream(File.FullName, FileMode.Create))
                         {
                             //EncryptPackage
-                            if (Encryption.IsEncrypted && Encryption.Version != EncryptionVersion.ProtectedBySensibilityLabel)
+                            if (Encryption.IsEncrypted && (Encryption.Version == EncryptionVersion.Standard || Encryption.Version == EncryptionVersion.Agile))
                             {
                                 byte[] file = ((MemoryStream)Stream).ToArray();
                                 EncryptedPackageHandler eph = new EncryptedPackageHandler(this);
@@ -1197,7 +1197,7 @@ namespace OfficeOpenXml
             Byte[] byRet = new byte[Stream.Length];
             long pos = Stream.Position;            
             Stream.Seek(0, SeekOrigin.Begin);
-            Stream.Read(byRet, 0, (int)Stream.Length);
+            var r = Stream.Read(byRet, 0, (int)Stream.Length);
 
             //Encrypt Workbook?
             if (Encryption.IsEncrypted)

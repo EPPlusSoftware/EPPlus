@@ -173,7 +173,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 using FileStream oleFs = oleInfo.OpenRead();
                 {
                     oleData = new byte[oleFs.Length];
-                    oleFs.Read(oleData, 0, oleData.Length);
+                    var r = oleFs.Read(oleData, 0, oleData.Length);
                 }
             }
             byte[] iconData = null;
@@ -200,7 +200,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         {
             byte[] oleData = new byte[oleStream.Length];
             oleStream.Seek(0, SeekOrigin.Begin);
-            oleStream.Read(oleData, 0, (int)oleStream.Length);
+            var r = oleStream.Read(oleData, 0, (int)oleStream.Length);
             if (oleData.Length > _maxFileSize)
             {
                 throw new IOException("The file is too long.This operation is currently limited to supporting files less than 2 gigabytes in size.");
@@ -706,12 +706,11 @@ namespace OfficeOpenXml.Drawing.OleObject
                 return ".bmp";
             using MemoryStream ms = new MemoryStream(iconData);
             using BinaryReader br = new BinaryReader(ms);
-            string sign;
             if (ImageReader.IsEmf(br))
             {
                 return ".emf";
             }
-            else if (ImageReader.IsBmp(br, out sign))
+            else if (ImageReader.IsBmp(br, out string sign))
             {
                 return ".bmp";
             }
@@ -763,6 +762,10 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
+        /// <summary>
+        /// Creates a link to the embedded Ole Package. Used for accessing contents in embedded xlsx files.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
         public void CreateLinkToEmbeddedPackage()
         {
             if (IsExternalLink ||( _oleObject.ProgId != "Worksheet" && _oleObject.ProgId != "Excel.Sheet.12"))
@@ -797,6 +800,10 @@ namespace OfficeOpenXml.Drawing.OleObject
             return new ExcelPackage(ms);
         }
 
+        /// <summary>
+        /// Overwrites the current package with the new package in Ole Object.
+        /// </summary>
+        /// <param name="package">The new package.</param>
         public void SetEmbeddedPackage(ExcelPackage package)
         {
             var xlsx = package.GetAsByteArray();

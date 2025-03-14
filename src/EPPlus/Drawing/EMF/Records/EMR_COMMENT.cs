@@ -22,8 +22,8 @@ namespace OfficeOpenXml.Drawing.EMF
         CommentIdentifier? commentType = null;
 
         //EMFSpool
-        uint EMFSpoolRecordIdentifier;
-        byte[] EMFSpoolRecords;
+        //uint EMFSpoolRecordIdentifier;
+        //byte[] EMFSpoolRecords;
 
         //EMFPLUS
        // byte[] EMFPLUSRECORDS;

@@ -57,7 +57,7 @@ namespace OfficeOpenXml.Metadata
 
         private readonly IndexEndpoint _parent;
         private readonly MetadataDatabase _metadataDb;
-        private readonly int _readValueIndex;
+        //private readonly int _readValueIndex;
 
 
 

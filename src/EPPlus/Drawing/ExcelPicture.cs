@@ -177,7 +177,7 @@ namespace OfficeOpenXml.Drawing
         {
             var img = new byte[stream.Length];
             stream.Seek(0, SeekOrigin.Begin);
-            stream.Read(img, 0, (int)stream.Length);
+            var r = stream.Read(img, 0, (int)stream.Length);
 
             SaveImageToPackage(type, img);
         }
@@ -186,7 +186,7 @@ namespace OfficeOpenXml.Drawing
         {
             var img = new byte[stream.Length];
             stream.Seek(0, SeekOrigin.Begin);
-            stream.Read(img, 0, (int)stream.Length);
+            var r = stream.Read(img, 0, (int)stream.Length);
 
             if (type == ePictureType.Emz ||
                type == ePictureType.Wmz)
