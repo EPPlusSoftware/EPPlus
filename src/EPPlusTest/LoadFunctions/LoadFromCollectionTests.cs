@@ -819,7 +819,29 @@ namespace EPPlusTest.LoadFunctions
             var sheet = p.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].LoadFromCollection(l, false);
             Assert.AreEqual("Test1", sheet.Cells["A1"].Value);
-            SaveWorkbook("Issue1901.xlsx", p);
+            Assert.IsInstanceOfType(sheet.Cells["B1"].Value, typeof(List<string>));
+            //SaveWorkbook("Issue1901.xlsx", p);
+        }
+
+        [TestMethod]
+        public void StringList2()
+        {
+            var l = new List<StringListDto>()
+            {
+                new StringListDto()
+                {
+                    Name = "Test1",
+                    ListOfStrings = new List<string>{ "A", "B", "C" }
+                }
+            };
+            using var p = new ExcelPackage();
+            var sheet = p.Workbook.Worksheets.Add("Sheet1");
+            var t = typeof(StringListDto);
+            sheet.Cells["A1"].LoadFromCollection(l, x => x.Members = new MemberInfo[] { t.GetProperty("Name"), t.GetProperty("ListOfStrings")});
+            Assert.AreEqual("Test1", sheet.Cells["A1"].Value);
+            Assert.IsNotNull(sheet.Cells["B1"].Value);
+            Assert.IsInstanceOfType(sheet.Cells["B1"].Value, typeof(List<string>));
+            //SaveWorkbook("Issue1901.xlsx", p);
         }
     }
 }
