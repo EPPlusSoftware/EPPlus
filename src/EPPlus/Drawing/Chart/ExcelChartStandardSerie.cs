@@ -75,7 +75,7 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Literals for the Y serie, if the literal values are strings
         /// </summary>
-        public string[] StringLiteralsY
+        public override string[] StringLiteralsY
         {
             get
             {

@@ -178,7 +178,6 @@ namespace OfficeOpenXml.RichData.Structures.Constants
                     return null;
 
             }
-            return null;
         }
 
         internal static ExcelRichValueStructureKey GetKey(RichDataStructureTypes structureType, string name)

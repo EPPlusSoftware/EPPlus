@@ -526,7 +526,9 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                                    EventHandler<ReadProgressEventArgs> readProgress)
         {
             if (zipStream == null)
+            {
                 throw new ArgumentNullException("zipStream");
+            }
 
             ZipFile zf = new ZipFile();
             zf._StatusMessageTextWriter = statusMessageWriter;
@@ -607,7 +609,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                     zf._locEndOfCDS = s.Position - 4;
 
                     byte[] block = new byte[16];
-                    s.Read(block, 0, block.Length);
+                    var r = s.Read(block, 0, block.Length);
 
                     zf._diskNumberWithCd = BitConverter.ToUInt16(block, 2);
 
@@ -675,7 +677,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             // seek back to find the ZIP64 EoCD.
             // I think this might not work for .NET CF ?
             s.Seek(-40, SeekOrigin.Current);
-            s.Read(block, 0, 16);
+            var r = s.Read(block, 0, 16);
 
             Int64 offset64 = BitConverter.ToInt64(block, 8);
             zf._OffsetOfCentralDirectory = 0xFFFFFFFF;
@@ -688,11 +690,11 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
             if (datum != ZipConstants.Zip64EndOfCentralDirectoryRecordSignature)
                 throw new BadReadException(String.Format("  Bad signature (0x{0:X8}) looking for ZIP64 EoCD Record at position 0x{1:X8}", datum, s.Position));
 
-            s.Read(block, 0, 8);
+            r = s.Read(block, 0, 8);
             Int64 Size = BitConverter.ToInt64(block, 0);
 
             block = new byte[Size];
-            s.Read(block, 0, block.Length);
+            r = s.Read(block, 0, block.Length);
 
             offset64 = BitConverter.ToInt64(block, 36);
             // change for workitem 8098
@@ -833,7 +835,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         {
             Stream s = zf.ReadStream;
             int signature = Ionic.Zip.SharedUtilities.ReadSignature(s);
-
+            int r=0;
             byte[] block = null;
             int j = 0;
             if (signature == ZipConstants.Zip64EndOfCentralDirectoryRecordSignature)
@@ -854,7 +856,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                 // 52 bytes
 
                 block = new byte[8 + 44];
-                s.Read(block, 0, block.Length);
+                r = s.Read(block, 0, block.Length);
 
                 Int64 DataSize = BitConverter.ToInt64(block, 0);  // == 44 + the variable length
 
@@ -872,7 +874,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
                 // read the extended block
                 block = new byte[DataSize - 44];
-                s.Read(block, 0, block.Length);
+                r = s.Read(block, 0, block.Length);
                 // discard the result
 
                 signature = Ionic.Zip.SharedUtilities.ReadSignature(s);
@@ -880,7 +882,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
                     throw new ZipException("Inconsistent metadata in the ZIP64 Central Directory.");
 
                 block = new byte[16];
-                s.Read(block, 0, block.Length);
+                r = s.Read(block, 0, block.Length);
                 // discard the result
 
                 signature = Ionic.Zip.SharedUtilities.ReadSignature(s);
@@ -897,7 +899,7 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
 
             // read the End-of-Central-Directory-Record
             block = new byte[16];
-            zf.ReadStream.Read(block, 0, block.Length);
+            r = zf.ReadStream.Read(block, 0, block.Length);
 
             // off sz  data
             // -------------------------------------------------------
@@ -927,13 +929,13 @@ namespace OfficeOpenXml.Packaging.Ionic.Zip
         {
             // read the comment here
             byte[] block = new byte[2];
-            zf.ReadStream.Read(block, 0, block.Length);
+            var r = zf.ReadStream.Read(block, 0, block.Length);
 
             Int16 commentLength = (short)(block[0] + block[1] * 256);
             if (commentLength > 0)
             {
                 block = new byte[commentLength];
-                zf.ReadStream.Read(block, 0, block.Length);
+                r = zf.ReadStream.Read(block, 0, block.Length);
 
                 // workitem 10392 - prefer ProvisionalAlternateEncoding,
                 // first.  The fix for workitem 6513 tried to use UTF8

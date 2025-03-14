@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Drawing.EMF
         EMR_EXTCREATEFONTINDIRECTW lastFont;
         internal uint currentlySelectedId;
         float ppi;
-        float unitsPerEm;
+        //float unitsPerEm;
 
         internal void LoadTemplateFromResource(string fileName, string localZipPath)
         {

@@ -52,23 +52,12 @@ namespace EPPlusTest.FormulaParsing.IntegrationTests.ErrorHandling
             BaseCleanup();
         }
 
-        private TestContext testContextInstance;
-
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
         ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
+        public TestContext TestContext { get; set; }
+
         [TestMethod]
         public void SingleCell()
         {

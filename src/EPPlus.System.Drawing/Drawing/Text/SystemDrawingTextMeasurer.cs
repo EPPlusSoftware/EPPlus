@@ -1,18 +1,27 @@
-﻿using OfficeOpenXml;
-using OfficeOpenXml.Interfaces.Drawing.Text;
+﻿using OfficeOpenXml.Interfaces.Drawing.Text;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
+
 
 namespace OfficeOpenXml.SystemDrawing.Text
 {
+#pragma warning disable CA1416 // Platform compatibility warning
     public class SystemDrawingTextMeasurer : ITextMeasurer, IDisposable
     {
         public SystemDrawingTextMeasurer()
         {
-            _stringFormat = StringFormat.GenericDefault;
-            _bmp = new Bitmap(1, 1);
-            _graphics = System.Drawing.Graphics.FromImage(_bmp);
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT &&
+            Environment.OSVersion.Version.Major >= 6 &&
+            Environment.OSVersion.Version.Minor >= 1)
+            {
+                _stringFormat = StringFormat.GenericDefault;
+                _bmp = new Bitmap(1, 1);
+                _graphics = System.Drawing.Graphics.FromImage(_bmp);
+            }
+            else
+            {
+                throw new PlatformNotSupportedException("Unsupported Operating System for this text measurer.");
+            }
         }
 
         private readonly StringFormat _stringFormat;
@@ -105,4 +114,5 @@ namespace OfficeOpenXml.SystemDrawing.Text
             return _validForEnvironment.Value;
         }
     }
+#pragma warning restore CA1416
 }

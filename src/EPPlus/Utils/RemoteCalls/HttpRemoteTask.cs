@@ -34,7 +34,7 @@ namespace OfficeOpenXml.Utils.RemoteCalls
                 ParsingContext.Package.Workbook.Worksheets[Cell.WorksheetIx].SetValueInner(Cell.Row, Cell.Column, cr.ResultValue);
 
             }
-            catch(Exception ex)
+            catch
             {
                 ParsingContext.Package.Workbook.Worksheets[Cell.WorksheetIx].SetValueInner(Cell.Row, Cell.Column, ErrorValues.ValueError);
             }

@@ -49,7 +49,7 @@ namespace OfficeOpenXml.DigitalSignatures
 
         XmlDocument _doc;
 
-        bool wasRead = false;
+        //bool wasRead = false;
         private SignatureProperty signatureProperty;
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace OfficeOpenXml.DigitalSignatures
             string serialInFile = _qualifyingProperties.SignedProps.SignatureProps.Serial;
 
 
-            wasRead = true;
+            //wasRead = true;
         }
 
         internal ExcelDigitalSignature(ExcelWorkbook wb, XmlNamespaceManager ns, int num) : base(ns)
