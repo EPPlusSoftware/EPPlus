@@ -169,9 +169,18 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             get
             {
-                if(TopNode.LocalName == "dLbl" && TopNode.SelectSingleNode("c:idx", NameSpaceManager) == null)
+                if(TopNode.LocalName == "dLbl")
                 {
-                    return GetXmlNodeBool(showLeaderLinesPathExt, TopNode.ParentNode);
+                    var pNode = TopNode.ParentNode;
+                    var showLeaderLines = pNode.SelectSingleNode(showLeaderLinesPathExt, NameSpaceManager);
+                    if (showLeaderLines != null)
+                    {
+                        return GetXmlNodeBool(showLeaderLinesPathExt, pNode);
+                    }
+                    else
+                    {
+                        return GetXmlNodeBool(showLeaderLinesPath, pNode);
+                    }
                 }
                 return GetXmlNodeBool(showLeaderLinesPath);
             }

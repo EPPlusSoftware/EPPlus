@@ -68,12 +68,44 @@ namespace EPPlusTest.Drawing.Chart
                 {
                     var label = aChart.Series[i].DataLabel;
 
-                    if(label.DataLabels.Count > 0)
+                    if (label.DataLabels.Count > 0)
                     {
-                        var firstLabelOfLabelsInSeries = label.DataLabels[0];
+                        var labelIndividual = label.DataLabels[0];
 
-                        var showLines = firstLabelOfLabelsInSeries.ShowLeaderLines;
+                        if(i > 0 && i< 3)
+                        {
+                            Assert.AreEqual(true, labelIndividual.ShowLeaderLines);
+                        }
+                        else
+                        {
+                            Assert.AreEqual(false, labelIndividual.ShowLeaderLines);
+                        }
                     }
+                }
+            }
+        }
+
+        [TestMethod]
+        public void ReadingMultipleSeriesMultipleLabels()
+        {
+            using (var p = OpenTemplatePackage("3StackedColumns.xlsx"))
+            {
+                var cSheet = p.Workbook.Worksheets[0];
+
+                var aChart = cSheet.Drawings[0].As.Chart.BarChart;
+
+                for (int i = 0; i < aChart.Series.Count; i++)
+                {
+                    var label = aChart.Series[i].DataLabel;
+
+                    for(int j = 0; j < label.DataLabels.Count; j++)
+                    {
+                        //Ensure individual labels return correctly
+                        Assert.AreEqual(true, label.DataLabels[j].ShowLeaderLines);
+                    }
+
+                    //Ensure parent label returns correctly
+                    Assert.AreEqual(label.ShowLeaderLines, false);
                 }
             }
         }
@@ -383,6 +415,25 @@ namespace EPPlusTest.Drawing.Chart
             //Offset the data label 10% of the charts height to the top
             //AKA remove 10 from y coordinate
             dl.Layout.ManualLayout.Top = -10;
+        }
+
+
+        [TestMethod]
+        public void ReadChart()
+        {
+            using (ExcelPackage p = OpenTemplatePackage("leaderlinesSome.xlsx"))
+            {
+                var wb = p.Workbook;
+                var ws = p.Workbook.Worksheets[0];
+
+                var aChart = ws.Drawings[0].As.Chart.BarChart;
+
+                var label = aChart.Series[1].DataLabel.DataLabels[0];
+                var label2 = aChart.Series[3].DataLabel.DataLabels[0];
+
+                label2.ShowLeaderLines = true;
+                SaveAndCleanup(p);
+            }
         }
     }
 }
