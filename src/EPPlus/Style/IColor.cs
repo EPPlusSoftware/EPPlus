@@ -33,7 +33,7 @@ namespace OfficeOpenXml.Style
         int Indexed { get; set; }
         string Rgb { get; }
         eThemeSchemeColor? Theme { get; }
-        decimal Tint { get; set; }
+        double Tint { get; set; }
         void SetColor(Color color);
         void SetColor(eThemeSchemeColor color);
         void SetColor(ExcelIndexedColor color);

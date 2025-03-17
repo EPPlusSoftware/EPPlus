@@ -615,20 +615,20 @@ namespace OfficeOpenXml
         }
         //TODO: Examine if mdw is really a neccessary input parameter.
         //Seems it is always the same as Workbook.MaxFontWidth
-        internal int GetColumnWidthPixels(int col, decimal mdw)
+        internal int GetColumnWidthPixels(int col, double mdw)
         {
             return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), Workbook.MaxFontWidth);
         }
-        internal decimal GetColumnWidth(int col)
+        internal double GetColumnWidth(int col)
         {
             var column = GetColumn(col);
             if (column == null)   //Check that the column exists
             {                
-                return (decimal)DefaultColWidth;
+                return DefaultColWidth;
             }
             else
             {
-                return (decimal)Columns[col].Width;
+                return Columns[col].Width;
             }
         }
 

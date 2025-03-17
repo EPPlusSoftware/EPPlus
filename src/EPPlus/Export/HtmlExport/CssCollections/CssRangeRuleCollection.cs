@@ -154,7 +154,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             {
                 var clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1) + " ";
                 CssRule widthRule = new CssRule(clsName, int.MaxValue);
-                widthRule.AddDeclaration("width", $"{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px");
+                widthRule.AddDeclaration("width", $"{ExcelColumn.ColumnWidthToPixels(ws.DefaultColWidth, ws.Workbook.MaxFontWidth)}px");
 
                 clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1) + " ";
                 CssRule heightRule = new CssRule(clsName, int.MaxValue);

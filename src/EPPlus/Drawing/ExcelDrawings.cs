@@ -1319,7 +1319,7 @@ namespace OfficeOpenXml.Drawing
             shape.To.Row = 5;
             shape.Text = text;
 
-            var pixelSize = ExcelColumn.ColumnWidthToPixels((decimal)Worksheet.DefaultColWidth, Worksheet.Workbook.MaxFontWidth);
+            var pixelSize = ExcelColumn.ColumnWidthToPixels(Worksheet.DefaultColWidth, Worksheet.Workbook.MaxFontWidth);
             int halfColumnInPixel = Convert.ToInt32((pixelSize * 0.5d));
 
             shape.To.ColumnOff = halfColumnInPixel * 9525;
