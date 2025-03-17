@@ -1306,6 +1306,17 @@ namespace OfficeOpenXml.FormulaParsing
             
             var c1 = v1.Compile();
             var c2 = v2.Compile();
+            if(c2.Result is LambdaCalculator lc)
+            {
+                var args = new List<Expression>();
+                while(f._expressionStack.Count > 0)
+                {
+                    args.Add(f._expressionStack.Pop());
+                }
+                var cr = args.First().Compile();
+                lc.SetVariableValue(0, cr.Result, cr.DataType);
+                c2 = lc.Execute(context);
+            }
 
             if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator op))
             {
