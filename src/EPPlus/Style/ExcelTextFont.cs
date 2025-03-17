@@ -248,35 +248,7 @@ namespace OfficeOpenXml.Style
                 return _fill;
             }
         }
-        string _colorPath = "a:solidFill/a:srgbClr/@val";
-        /// <summary>
-        /// Sets the default color of the text.
-        /// This sets the Fill to a SolidFill with the specified color.
-        /// <remark>
-        /// Use the Fill property for more options
-        /// </remark>
-        /// </summary>
-        [Obsolete("Use the Fill property for more options")]
-        public Color Color
-        {
-            get
-            {
-                string col = GetXmlNodeString(_colorPath);
-                if (col == "")
-                {
-                    return Color.Empty;
-                }
-                else
-                {
-                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
-                }
-            }
-            set
-            {
-                Fill.Style = eFillStyle.SolidFill;
-                Fill.SolidFill.Color.SetRgbColor(value);
-            }
-        }
+
         string _kernPath = "@kern";
         /// <summary>
         /// Specifies the minimum font size at which character kerning occurs for this text run

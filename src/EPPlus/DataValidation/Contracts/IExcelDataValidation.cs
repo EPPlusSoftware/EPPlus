@@ -81,12 +81,5 @@ namespace OfficeOpenXml.DataValidation.Contracts
         /// </summary>
         ExcelDataValidationImeMode ImeMode { get; set; }
 
-        /// <summary>
-        /// Indicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions
-        /// </summary>
-        bool IsStale { get; }
-
-
-
     }
 }
