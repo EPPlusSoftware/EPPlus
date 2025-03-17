@@ -30,7 +30,18 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var search = ArgToString(arguments, 0);
+            if (string.IsNullOrEmpty(search))
+            {
+                return CreateResult(1, DataType.Integer);
+            }
+
             var searchIn = ArgToString(arguments, 1);
+
+            if (string.IsNullOrEmpty(searchIn))
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
+
             var startIndex = 0;
             if (arguments.Count > 2)
             {

@@ -1270,6 +1270,15 @@ namespace OfficeOpenXml.Core.CellStore
             }
             return false;
         }
+        /// <summary>
+        /// Get the current or previous cell 
+        /// </summary>
+        /// <param name="row">The row</param>
+        /// <param name="col">The column</param>
+        /// <param name="minRow">The minimum row in the span.</param>
+        /// <param name="maxRow">The maximum row in the span.</param>
+        /// <param name="maxColPos">The maximum col position.</param>
+        /// <returns></returns>
         internal bool PrevCellByColumn(ref int row, ref int col, int minRow, int maxRow, int maxColPos)
         {
             lock (_syncRoot)
@@ -1278,7 +1287,7 @@ namespace OfficeOpenXml.Core.CellStore
                 maxColPos = Math.Min(maxColPos, ColumnCount - 1);
                 while (c >= 0)
                 {
-                    var r = _columnIndex[c].GetPrevRow(row);
+                    var r = _columnIndex[c].GetPrevRow(row+1);
                     if (r == row)
                     {
                         col = _columnIndex[c].Index;
@@ -1514,7 +1523,7 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     if (--colPos >= startColPos)
                     {
-                        var r = _columnIndex[colPos].GetNextRow(row);
+                        var r = _columnIndex[colPos].GetPrevRow(row + 1);
                         if (r == row) //Exists next Row
                         {
                             return true;
@@ -1522,58 +1531,45 @@ namespace OfficeOpenXml.Core.CellStore
                         else
                         {
                             int minRow, minCol;
-                            if (r > row && r >= startRow)
+                            if (r < row && r >= startRow)
                             {
                                 minRow = r;
                                 minCol = colPos;
                             }
                             else
                             {
-                                minRow = int.MaxValue;
+                                minRow = int.MinValue;
                                 minCol = 0;
                             }
 
                             var c = colPos - 1;
                             if (c >= startColPos)
                             {
-                                while (c >= startColPos)
+                                while (c != colPos)
                                 {
-                                    r = _columnIndex[c].GetNextRow(row);
+                                    r = _columnIndex[c].GetPrevRow(row + 1);
                                     if (r == row) //Exists next Row
                                     {
                                         colPos = c;
                                         return true;
                                     }
-                                    if (r > row && r < minRow && r >= startRow)
+                                    if (r <= row && r > minRow && r >= startRow)
                                     {
                                         minRow = r;
                                         minCol = c;
                                     }
                                     c--;
+                                    if(c < startColPos)
+                                    {
+                                        c = endColPos;
+                                        row--;
+                                        if (row < 0) return false;
+                                    }
                                 }
                             }
-                            if (row > startRow)
+                            if(minRow==int.MinValue)
                             {
-                                c = endColPos;
-                                row--;
-                                while (c > colPos)
-                                {
-                                    r = _columnIndex[c].GetNextRow(row);
-                                    if (r == row) //Exists next Row
-                                    {
-                                        colPos = c;
-                                        return true;
-                                    }
-                                    if (r > row && r < minRow && r >= startRow)
-                                    {
-                                        minRow = r;
-                                        minCol = c;
-                                    }
-                                    c--;
-                                }
-                            }
-                            if (minRow == int.MaxValue || startRow < minRow)
-                            {
+                                row = 0;
                                 return false;
                             }
                             else

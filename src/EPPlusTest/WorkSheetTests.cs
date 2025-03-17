@@ -361,7 +361,7 @@ namespace EPPlusTest
             {
                 Assert.Inconclusive("WorksheetRead.xlsx does not exists");
             }
-            using (FileStream instream = new FileStream(_worksheetPath + @"/WorksheetRead.xlsx", FileMode.Open, FileAccess.ReadWrite))
+            using (FileStream instream = new FileStream(_worksheetPath + @"/WorksheetRead.xlsx", FileMode.Open, FileAccess.Read))
             {
                 MemoryStream stream = new MemoryStream();
                 using (ExcelPackage pck = new ExcelPackage(instream))
