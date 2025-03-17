@@ -1,11 +1,18 @@
 # Features / Fixed issues - EPPlus 7
+## Version 7.7.0
+* Reverted System.* and Microsoft.* references to 8.0.x for all target frameworks except .NET 9.
+* LoadFromArray and LoadFromDataTable of the ExcelRangeBase class did not clear existing formulas before populating the range.
+* Fixed a rare issue when copying images between named ranges.
+* When sorting a range with formulas, the formulas addresses were sometimes updated incorrectly.
+* GetAsByteArrayAsync could not be called more than once.
+
 ## Version 7.6.1
 * Pivot caches with error values in the source data were not handled correctly.
 * Timespan was not correctly converted in the GetValue<T> function.
 * The ExcelWorksheet.DimensionByValue property sometimes threw an unhandled exception.
 * The FIND function did not handle empty cells correctly in all cases.
 * Range sorting did not handle threaded comments.
-* Table.AddRows incorrectly shifted the first row if a table contained 1 row and had no header.
+* Table.AddRows incorrectly shifted the first row if a table contained 1 row and had no header.* 
 
 ## Version 7.6.0
 * Added target framework .NET 9. 
