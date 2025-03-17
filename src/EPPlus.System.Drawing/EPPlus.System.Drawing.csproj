@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFrameworks>net9.0;net8.0;netstandard2.1;netstandard2.0;net462;net35</TargetFrameworks>
-    <AssemblyVersion>7.7.1.0</AssemblyVersion>
-    <FileVersion>7.7.1.0</FileVersion>
-    <Version>7.7.1</Version>
+    <AssemblyVersion>7.7.0.0</AssemblyVersion>
+    <FileVersion>7.7.0.0</FileVersion>
+    <Version>7.7.0</Version>
     <SignAssembly>true</SignAssembly>
     <PackageLicenseFile>license.md</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
