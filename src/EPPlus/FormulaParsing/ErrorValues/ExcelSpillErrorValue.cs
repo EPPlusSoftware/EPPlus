@@ -10,17 +10,35 @@
 *************************************************************************************************
  03/13/2025         EPPlus Software AB       Initial release EPPlus 8
 *************************************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 namespace OfficeOpenXml
 {
     /// <summary>
-    /// Represents spill errors 
+    /// Represents a #SPILL! error
     /// </summary>
-    public class ExcelRichDataErrorValue : ExcelErrorValue
+    public class ExcelSpillErrorValue : ExcelRichDataErrorValue
     {
-        internal ExcelRichDataErrorValue(eErrorType type) : base(type)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="rowOffset"></param>
+        /// <param name="colOffset"></param>
+        public ExcelSpillErrorValue(int rowOffset, int colOffset) : base(eErrorType.Spill)
         {
-            
+            SpillRowOffset = rowOffset;
+            SpillColOffset = colOffset;
         }
-        
+
+        internal int SpillRowOffset { get; set; }
+        internal int SpillColOffset { get; set; }
+        internal bool IsPropagated
+        {
+            get;
+            set;
+        }
     }
 }

@@ -10,17 +10,17 @@
 *************************************************************************************************
  03/13/2025         EPPlus Software AB       Initial release EPPlus 8
 *************************************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 namespace OfficeOpenXml
 {
-    /// <summary>
-    /// Represents spill errors 
-    /// </summary>
-    public class ExcelRichDataErrorValue : ExcelErrorValue
+    internal class ExcelCalcErrorValue : ExcelRichDataErrorValue
     {
-        internal ExcelRichDataErrorValue(eErrorType type) : base(type)
+        internal ExcelCalcErrorValue() : base(eErrorType.Calc)
         {
-            
         }
-        
     }
 }

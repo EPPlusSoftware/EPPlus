@@ -536,12 +536,12 @@ namespace EPPlusTest.Core
 
             for(int r= incr; r < max; r+= incr)
             {
-                var row = r;
+                var row = r+5;
                 int c = 1;
                 
                 if(cellStore.PrevCellByColumn(ref row, ref c, 1, 0, 0))
                 {
-                    Assert.AreEqual(r - incr, row);
+                    Assert.AreEqual(r, row);
                 }
             }
         }

@@ -1848,14 +1848,23 @@ namespace OfficeOpenXml.Drawing
                         {
                             var relativeUri = UriHelper.GetRelativeUri(srcsRel.SourceUri, imageInfo.Uri);
                             var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.TargetUri == relativeUri).FirstOrDefault();
-                            relNode.Value = exisistingRel.Id;
+                            //Create new relation id if no relation exists. Otherwise asign the existing relationship Id
+                            if (exisistingRel == null )
+                            {
+                                newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
+                                relNode.Value = newRel.Id;
+                            }
+                            else
+                            {
+                                relNode.Value = exisistingRel.Id;
+                            }
                         }
                     }
                     else
                     {
                         //Check if relationship exists.
                         var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.TargetUri == srcsRel.TargetUri).FirstOrDefault();
-                        //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the existing relationship Id
+                        //Create new relation id if no relation exists or if it's a different worksheet. Otherwise asign the existing relationship Id
                         if (exisistingRel == null || targetWorksheet != _drawings.Worksheet)
                         {
                             newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);

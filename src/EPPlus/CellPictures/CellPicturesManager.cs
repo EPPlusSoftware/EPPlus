@@ -176,7 +176,6 @@ namespace OfficeOpenXml.CellPictures
                 return;
             }
 
-            //var hasRv = _richDataStore.HasRichData(row, col, out MetaDataReference md);
             // no existing rich data, add new
             if (existingPic == null)
             {

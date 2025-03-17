@@ -242,12 +242,12 @@ namespace OfficeOpenXml
         }
 
         /// <summary>
-        /// Get the Hash code for object
+        /// Serves as the default hash function
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A hash code for the current object</returns>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+           return base.GetHashCode();
         }
     }
 }
