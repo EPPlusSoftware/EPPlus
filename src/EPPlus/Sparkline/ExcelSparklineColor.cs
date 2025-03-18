@@ -97,9 +97,9 @@ namespace OfficeOpenXml.Sparkline
         /// <summary>
         /// The tint value
         /// </summary>
-        public decimal Tint
+        public double Tint
         {
-            get=> GetXmlNodeDecimal("@tint");
+            get=> GetXmlNodeDouble("@tint");
             set
             {
                 if (value > 1 || value < -1)

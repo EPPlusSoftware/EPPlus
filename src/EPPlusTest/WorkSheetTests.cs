@@ -570,8 +570,8 @@ namespace EPPlusTest
             ws.InsertRow(1, 1);
             ws.InsertRow(3, 1);
 
-            ws.DeleteRow(1000, 3, true);
-            ws.DeleteRow(2000, 1, true);
+            ws.DeleteRow(1000, 3);
+            ws.DeleteRow(2000, 1);
 
             ws.InsertRow(2001, 4);
 
@@ -579,20 +579,20 @@ namespace EPPlusTest
 
             ws.InsertRow(20000, 2);
 
-            ws.DeleteRow(20005, 4, false);
+            ws.DeleteRow(20005, 4);
 
             //Single formula
             ws.Cells["H3"].Formula = "B2+B3";
-            ws.DeleteRow(2, 1, true);
+            ws.DeleteRow(2, 1);
 
             //Shared formula
             ws.Cells["H5:H30"].Formula = "B4+B5";
             ws.Cells["H5:H30"].Style.Numberformat.Format = "_(\"$\"* # ##0.00_);_(\"$\"* (# ##0.00);_(\"$\"* \"-\"??_);_(@_)";
             ws.InsertRow(7, 3);
             ws.InsertRow(2, 1);
-            ws.DeleteRow(30, 3, true);
+            ws.DeleteRow(30, 3);
 
-            ws.DeleteRow(15, 2, true);
+            ws.DeleteRow(15, 2);
             ws.Cells["a1:B100"].Style.Locked = false;
             ws.Cells["a1:B12"].Style.Hidden = true;
             Console.WriteLine("EndTime {0}", DateTime.Now);
@@ -610,7 +610,7 @@ namespace EPPlusTest
 
             ws.Cells["A10:C15"].Value = 1;
             ws.Cells["A11:B13"].Merge = true;
-            ws.DeleteRow(12, 1, true);
+            ws.DeleteRow(12, 1);
 
             ws.Cells["a1:B100"].Style.Locked = false;
             ws.Cells["a1:B12"].Style.Hidden = true;
@@ -764,10 +764,10 @@ namespace EPPlusTest
             //Set printersettings
             ws.PrinterSettings.RepeatColumns = ws.Cells["A:B"];
             ws.PrinterSettings.RepeatRows = ws.Cells["1:11"];
-            ws.PrinterSettings.TopMargin = 1M;
-            ws.PrinterSettings.LeftMargin = 1M;
-            ws.PrinterSettings.BottomMargin = 1M;
-            ws.PrinterSettings.RightMargin = 1M;
+            ws.PrinterSettings.TopMargin = 1d;
+            ws.PrinterSettings.LeftMargin = 1d;
+            ws.PrinterSettings.BottomMargin = 1d;
+            ws.PrinterSettings.RightMargin = 1d;
             ws.PrinterSettings.Orientation = eOrientation.Landscape;
             ws.PrinterSettings.PaperSize = ePaperSize.A4;
         }

@@ -53,7 +53,7 @@ namespace OfficeOpenXml.Style
         /// <summary>
         /// The tint value
         /// </summary>
-        public decimal Tint
+        public double Tint
         {
             get
             {

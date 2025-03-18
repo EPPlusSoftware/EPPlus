@@ -504,22 +504,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// 
         const string SortStatePath = "d:sortState";
-        /// <summary>
-        /// The auto filter address. 
-        /// null means no auto filter.
-        /// </summary>
-        [Obsolete("AutoFilterAddress is deprecated please use AutoFilter.Address instead.")]
-        public ExcelAddressBase AutoFilterAddress
-        {
-            get
-            {
-                return AutoFilter.Address;
-            }
-            internal set
-            {
-                AutoFilter.Address = value;
-            }
-        }
+
         ExcelAutoFilter _autoFilter = null;
         /// <summary>
         /// Autofilter settings
@@ -615,20 +600,20 @@ namespace OfficeOpenXml
         }
         //TODO: Examine if mdw is really a neccessary input parameter.
         //Seems it is always the same as Workbook.MaxFontWidth
-        internal int GetColumnWidthPixels(int col, decimal mdw)
+        internal int GetColumnWidthPixels(int col, double mdw)
         {
             return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), Workbook.MaxFontWidth);
         }
-        internal decimal GetColumnWidth(int col)
+        internal double GetColumnWidth(int col)
         {
             var column = GetColumn(col);
             if (column == null)   //Check that the column exists
             {                
-                return (decimal)DefaultColWidth;
+                return DefaultColWidth;
             }
             else
             {
-                return (decimal)Columns[col].Width;
+                return Columns[col].Width;
             }
         }
 
@@ -2253,17 +2238,6 @@ namespace OfficeOpenXml
             WorksheetRangeDeleteHelper.DeleteRow(this, rowFrom, rows);
         }
 
-        /// <summary>
-        /// Deletes the specified rows from the worksheet.
-        /// </summary>
-        /// <param name="rowFrom">The number of the start row to be deleted</param>
-        /// <param name="rows">Number of rows to delete</param>
-        /// <param name="shiftOtherRowsUp">Not used. Rows are always shifted</param>
-        [Obsolete("Use the two-parameter method instead")]
-        public void DeleteRow(int rowFrom, int rows, bool shiftOtherRowsUp)
-        {
-            DeleteRow(rowFrom, rows);
-        }
 #endregion
 #region Delete column
         /// <summary>

@@ -116,7 +116,7 @@ namespace EPPlusTest.Drawing
 			var ws = workbook.Worksheets.Add("WmfImageStream");
 
 			var imageStream = new FileStream(GetResourceFile("Vector Drawing.wmf").FullName, FileMode.Open, FileAccess.Read) ;
-			var pic = ws.Drawings.AddPicture("wmfStream", imageStream, ePictureType.Wmf);
+			var pic = ws.Drawings.AddPicture("wmfStream", imageStream);
 			pic.From.Row = 0;
 			pic.From.Column = 0;
 		}
@@ -127,7 +127,7 @@ namespace EPPlusTest.Drawing
 			var ws = workbook.Worksheets.Add("JpgImageStreamAsync");
 
 			var imageStream = new FileStream(GetResourceFile("Test1.jpg").FullName, FileMode.Open, FileAccess.Read);
-			var pic = await ws.Drawings.AddPictureAsync("jpgStreamAsync", imageStream, ePictureType.Jpg);
+			var pic = await ws.Drawings.AddPictureAsync("jpgStreamAsync", imageStream);
 			pic.From.Row = 0;
 			pic.From.Column = 0;
 		}

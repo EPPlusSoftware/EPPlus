@@ -615,6 +615,19 @@ namespace EPPlusTest
                 Assert.AreEqual(1, result, string.Format("Expected 1, got {0}", result));
             }
         }
+
+        [TestMethod]
+        public void s828()
+        {
+            using var p = OpenTemplatePackage("s828.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var start = DateTime.Now;
+            ws.Calculate();
+            var end = DateTime.Now;
+            TimeSpan span = end - start;
+        }
+
+
         [TestMethod]
         public void Issue63() // See https://github.com/JanKallman/EPPlus/issues/63
         {
@@ -776,7 +789,7 @@ namespace EPPlusTest
             var pck = OpenPackage("sheetname_pbl.xlsx", true);
             var ws = pck.Workbook.Worksheets.Add("Deal's History");
             var a = ws.Cells["A:B"];
-            ws.AutoFilterAddress = ws.Cells["A1:C3"];
+            ws.AutoFilter.Address = ws.Cells["A1:C3"];
             pck.Workbook.Names.Add("Test", ws.Cells["B1:D2"]);
             var name = a.WorkSheetName;
 
