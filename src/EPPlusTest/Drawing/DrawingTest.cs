@@ -262,13 +262,13 @@ namespace EPPlusTest
             chrt.To.Column = 12;
 
             chrt.DataLabel.ShowPercent = true;
-            chrt.Legend.Font.Fill.Color = expected;
+            chrt.Legend.Font.Color = expected;
             chrt.Title.Border.Fill.Style = eFillStyle.SolidFill;
             chrt.Legend.Position = eLegendPosition.TopRight;
             Assert.IsTrue(chrt.ChartType == eChartType.Pie, "Invalid Charttype");
             Assert.IsTrue(chrt.VaryColors);
-            //var expectedArgb = expected.ToArgb() & 0xFFFFFF;    //Without alpha part
-            //Assert.AreEqual(expectedArgb, chrt.Legend.Font.Fill.Color.ToArgb());
+            var expectedArgb = expected.ToArgb() & 0xFFFFFF;    //Without alpha part
+            Assert.AreEqual(expectedArgb, chrt.Legend.Font.Color.ToArgb());
             Assert.AreEqual(chrt.Legend.Font.Fill.Style, eFillStyle.SolidFill);
             Assert.AreEqual(chrt.Legend.Font.Fill.SolidFill.Color.ColorType, eDrawingColorType.Rgb);
             Assert.AreEqual(expected.ToArgb(), chrt.Legend.Font.Fill.SolidFill.Color.RgbColor.Color.ToArgb());

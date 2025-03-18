@@ -158,5 +158,32 @@ Renaming worksheet's will now change the formula correctly to include single quo
 * Adding Threaded Comments now throws an exception if the 'personId' does not exist in the ThreadedCommentPersons Collection.
 * Worksheet.Dimension now returns the address including rows and columns data.
 #### Removed Methods & Properties
-* Obsolete property ExcelVbaReferenceControl.LibIdExternal, please use LibIdExtended instead.
-* Obsolete property ExcelDataValidation.IsStale has been removed.
+* Obsolete property `ExcelVbaReferenceControl.LibIdExternal`, please use `LibIdExtended` instead.
+* Obsolete property `ExcelDataValidation.IsStale` has been removed.
+* Obsolete property `ExcelLineChartSerie.LineColor` has been removed. Use `Border.Fill.Color` instead.
+* Obsolete property `ExcelLineChartSerie.MarkerSize` has been removed. Use `Marker.Size` instead.
+* Obsolete property `ExcelLineChartSerie.LineWidth` has been removed. Use `Border.Width` instead.
+* Obsolete property `ExcelLineChartSerie.MarkerLineColor` has been removed. Use `Marker.Border.Fill.Color` instead.
+* Obsolete property `ExcelRadarChartSerie.MarkerSize` has been removed. Use `Marker.Size` instead.
+* Obsolete property `ExcelScatterChartSerie.LineColor` has been removed. Use `Border.Fill.Color` instead.
+* Obsolete property `ExcelScatterChartSerie.MarkerSize` has been removed. Use `Marker.Size` instead.
+* Obsolete property `ExcelScatterChartSerie.MarkerColor` has been removed. Use `Marker.Fill` instead.
+* Obsolete property `ExcelScatterChartSerie.LineWidth` has been removed. Use `Border.Width` instead.
+* Obsolete property `ExcelScatterChartSerie.MarkerLineColor` has been removed. Use `Marker.Border.Fill.Color` instead.
+* Obsolete property `ExcelStockChartSerie.LineColor` has been removed. Use `Border.Fill.Color` instead.
+* Obsolete property `ExcelStockChartSerie.MarkerSize` has been removed. Use `Marker.Size` instead.
+* Obsolete property `ExcelStockChartSerie.MarkerColor` has been removed. Use `Marker.Fill` instead.
+* Obsolete property `ExcelStockChartSerie.LineWidth` has been removed. Use `Border.Width` instead.
+* Obsolete property `ExcelStockChartSerie.MarkerLineColor` has been removed. Use `Marker.Border.Fill.Color` instead.
+* Obsolete Method `ExcelDrawings.AddPicture(string, Stream, ePictureType?)` has been removed. Use `ExcelDrawings.AddPicture(string, Stream)` instead.
+* Obsolete Method `ExcelDrawings.AddPicture(string, Stream, ePictureType?, Uri)` has been removed. Use `ExcelDrawings.AddPicture(string, Stream, Uri)` instead.
+* Obsolete property `ExcelHeaderFooter.InsertPicture` has been removed.
+* Obsolete Constructor `ExcelHyperLink(string, bool)` has been removed. Depricated constructor, use `ExcelHyperLink(string)` instead
+* Obsolete property `ExcelStockChartSerie.MarkerColor` has been removed. Use `Marker.Fill` instead.
+* Obsolete property `ExcelRow.RowID` has been removed.
+* Obsolete interface `IRangeID` has been removed.
+* Obsolete property `ExcelWorksheet.AutoFilterAddress` has been removed. Use `AutoFilter.Address` instead.
+* Obsolete Method `ExcelWorksheet.DeleteRow(int, int, bool)` has been removed. Use `ExcelWorksheet.DeleteRow(int, int)` instead.
+* Obsolete Method `ExcelFunction.ValidateArguments(IEnumerable<FunctionArgument>, int, eErrorType)` has been removed. Use property `ArgumentMinLength` instead.
+* Obsolete Method `ExcelFunction.ValidateArguments(IEnumerable<FunctionArgument>, int)` has been removed. Use property `ArgumentMinLength` instead.
+* Obsolete property `ExcelPivotTable.TableStyle` has been removed. Use property `PivotTableStyle ` instead.
