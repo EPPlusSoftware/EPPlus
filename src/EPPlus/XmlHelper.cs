@@ -1013,7 +1013,7 @@ namespace OfficeOpenXml
         {
             var tempNode = TopNode;
             TopNode = parentNode;
-            var retVal = GetXmlNodeBool(path, TopNode);
+            var retVal = GetXmlNodeBool(path);
             TopNode = tempNode;
             return retVal;
         }
