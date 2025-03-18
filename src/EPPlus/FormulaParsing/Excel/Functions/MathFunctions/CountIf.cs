@@ -52,12 +52,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             _expressionEvaluator = new ExpressionEvaluator(context);
             var range = arguments[0];
-            var arg1 = arguments[1].ValueFirst;
-            if (arg1 == null) return CreateResult(0d, DataType.Integer);
+            var arg1 = arguments[1].ValueFirst??0;
             string criteria = null;
             bool isString = false;
             bool isEmptyCriteria = false;
-
             if (arg1 is string s)
             {
                 criteria = s;
@@ -119,7 +117,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                         }
                         else
                         {
-                            if(ConvertUtil.GetValueDouble(cse.Value._value) == ConvertUtil.GetValueDouble(arg1))
+                            var v = cse.Value._value;
+                            if (string.IsNullOrEmpty(v?.ToString())==false && ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(arg1))
                             {
                                 result++;
                             }
