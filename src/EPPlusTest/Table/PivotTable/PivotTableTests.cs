@@ -266,7 +266,7 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(pt.Fields[0].SubTotalFunctions, eSubTotalFunctions.Default);
 
             pt.Fields[0].Sort = eSortType.Descending;
-            pt.TableStyle = OfficeOpenXml.Table.TableStyles.Medium14;
+            pt.PivotTableStyle = PivotTableStyles.Medium14;
         }
         [TestMethod]
         public void Pivot_GroupDate()
@@ -324,7 +324,7 @@ namespace EPPlusTest.Table.PivotTable
             pt.RowFields[0].Items[2].Hidden = true;
             pt.RowFields[0].Items[3].Hidden = true;
             pt.DataOnRows = false;
-            pt.TableStyle = OfficeOpenXml.Table.TableStyles.Medium14;
+            pt.PivotTableStyle = PivotTableStyles.Medium14;
         }
         [TestMethod]
         public void Pivot_ManyRowFields()
@@ -555,26 +555,26 @@ namespace EPPlusTest.Table.PivotTable
             var pt = ws.PivotTables.Add(ws.Cells["A3"], wsData.Cells["K1:N11"], "Pivottable8");
             pt.PivotTableStyle = PivotTableStyles.None;
             Assert.AreEqual(PivotTableStyles.None, pt.PivotTableStyle);
-            Assert.AreEqual(TableStyles.None, pt.TableStyle);
+            //Assert.AreEqual(TableStyles.None, pt.TableStyle);
 
             pt.PivotTableStyle = PivotTableStyles.Medium28;
             Assert.AreEqual(PivotTableStyles.Medium28, pt.PivotTableStyle);
-            Assert.AreEqual(TableStyles.Medium28, pt.TableStyle);
+            //Assert.AreEqual(TableStyles.Medium28, pt.TableStyle);
 
             pt.PivotTableStyle = PivotTableStyles.Dark28;
             Assert.AreEqual(PivotTableStyles.Dark28, pt.PivotTableStyle);
-            Assert.AreEqual(TableStyles.Custom, pt.TableStyle);
+            //Assert.AreEqual(TableStyles.Custom, pt.TableStyle);
             Assert.AreEqual("PivotStyleDark28", pt.StyleName);
 
-            pt.TableStyle = TableStyles.Light15;
-            Assert.AreEqual(PivotTableStyles.Light15, pt.PivotTableStyle);
-            Assert.AreEqual(TableStyles.Light15, pt.TableStyle);
-            Assert.AreEqual("PivotStyleLight15", pt.StyleName);
+            //pt.TableStyle = TableStyles.Light15;
+            //Assert.AreEqual(PivotTableStyles.Light15, pt.PivotTableStyle);
+            //Assert.AreEqual(TableStyles.Light15, pt.TableStyle);
+            //Assert.AreEqual("PivotStyleLight15", pt.StyleName);
 
 
             pt.PivotTableStyle = PivotTableStyles.Light28;
             Assert.AreEqual(PivotTableStyles.Light28, pt.PivotTableStyle);
-            Assert.AreEqual(TableStyles.Custom, pt.TableStyle);
+            //Assert.AreEqual(TableStyles.Custom, pt.TableStyle);
             Assert.AreEqual("PivotStyleLight28", pt.StyleName);
         }
 

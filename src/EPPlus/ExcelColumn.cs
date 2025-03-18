@@ -20,7 +20,7 @@ namespace OfficeOpenXml
     /// <summary>
 	/// Represents one or more columns within the worksheet
 	/// </summary>
-	public class ExcelColumn : IRangeID
+	public class ExcelColumn
 	{
 		private ExcelWorksheet _worksheet;
 
@@ -311,26 +311,6 @@ namespace OfficeOpenXml
         {
             return (int)MathHelper.TruncateDouble(((256 * columnWidth + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
         }
-
-        #region IRangeID Members
-
-        ulong IRangeID.RangeID
-        {
-            get
-            {
-                return ColumnID;
-            }
-            set
-            {
-                int prevColMin = _columnMin;
-                _columnMin = ((int)(value >> 15) & 0x3FF);
-                _columnMax += prevColMin - ColumnMin;
-                //Todo:More Validation
-                if (_columnMax > ExcelPackage.MaxColumns) _columnMax = ExcelPackage.MaxColumns;
-            }
-        }
-
-        #endregion
 
         /// <summary>
         /// Copies the current column to a new worksheet

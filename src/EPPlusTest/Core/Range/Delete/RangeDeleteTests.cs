@@ -1134,62 +1134,62 @@ namespace EPPlusTest.Core.Range.Delete
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftUp");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = new ExcelAddressBase("A2:D100");
+            ws.AutoFilter.Address = new ExcelAddressBase("A2:D100");
             ws.Cells["A1:D1"].Delete(eShiftTypeDelete.Up);
-            Assert.AreEqual("A1:D99", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("A1:D99", ws.AutoFilter.Address.Address);
             ws.Cells["A50:D50"].Delete(eShiftTypeDelete.Up);
-            Assert.AreEqual("A1:D98", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("A1:D98", ws.AutoFilter.Address.Address);
         }
         [TestMethod]
         public void ValidateFilterDeleteFirstRow()
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterDeleteFirstRow");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
             ws.Cells["A1:D1"].Delete(eShiftTypeDelete.Up);
-            Assert.IsNull(ws.AutoFilterAddress);
+            Assert.IsNull(ws.AutoFilter.Address);
         }
         [TestMethod]
         public void ValidateFilterShiftLeft()
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftLeft");
             LoadTestdata(ws, 100, 2);
-            ws.AutoFilterAddress = new ExcelAddressBase("B1:E100");
+            ws.AutoFilter.Address = new ExcelAddressBase("B1:E100");
             ws.Cells["A1:A100"].Delete(eShiftTypeDelete.Left);
-            Assert.AreEqual("A1:D100", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("A1:D100", ws.AutoFilter.Address.Address);
             ws.Cells["C1:C100"].Delete(eShiftTypeDelete.Left); 
-            Assert.AreEqual("A1:C100", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("A1:C100", ws.AutoFilter.Address.Address);
         }
         [TestMethod]
         public void ValidateFilterDeleteRow()
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterDeleteRow");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = new ExcelAddressBase("A2:D100");
+            ws.AutoFilter.Address = new ExcelAddressBase("A2:D100");
             ws.DeleteRow(1, 1);
-            Assert.AreEqual("A1:D99", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("A1:D99", ws.AutoFilter.Address.Address);
             ws.DeleteRow(5, 2);
-            Assert.AreEqual("A1:D97", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("A1:D97", ws.AutoFilter.Address.Address);
         }
         [TestMethod]
         public void ValidateFilterDeleteRowFirstRow()
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterDeleteRowFirstRow");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
             ws.DeleteRow(1);
-            Assert.IsNull(ws.AutoFilterAddress);
+            Assert.IsNull(ws.AutoFilter.Address);
         }
         [TestMethod]
         public void ValidateFilterDeleteColumn()
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterDeleteCol");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = new ExcelAddressBase("B1:E100");
+            ws.AutoFilter.Address = new ExcelAddressBase("B1:E100");
             ws.DeleteColumn(1, 1);
-            Assert.AreEqual("A1:D100", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("A1:D100", ws.AutoFilter.Address.Address);
             ws.DeleteColumn(1, 2);
-            Assert.AreEqual("A1:B100", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("A1:B100", ws.AutoFilter.Address.Address);
         }
 
         [TestMethod]
@@ -1200,7 +1200,7 @@ namespace EPPlusTest.Core.Range.Delete
             {
                 var ws = p.Workbook.Worksheets.Add("AutoFilterShiftUpPart");
                 LoadTestdata(ws);
-                ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+                ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
                 ws.Cells["A1:C1"].Delete(eShiftTypeDelete.Up);
             }
         }
@@ -1212,7 +1212,7 @@ namespace EPPlusTest.Core.Range.Delete
             {
                 var ws = p.Workbook.Worksheets.Add("AutoFilterShiftLeftPart");
                 LoadTestdata(ws);
-                ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+                ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
                 ws.Cells["A1:A99"].Delete(eShiftTypeDelete.Left);
             }
         }

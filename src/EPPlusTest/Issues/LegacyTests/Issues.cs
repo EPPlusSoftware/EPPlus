@@ -776,7 +776,7 @@ namespace EPPlusTest
             var pck = OpenPackage("sheetname_pbl.xlsx", true);
             var ws = pck.Workbook.Worksheets.Add("Deal's History");
             var a = ws.Cells["A:B"];
-            ws.AutoFilterAddress = ws.Cells["A1:C3"];
+            ws.AutoFilter.Address = ws.Cells["A1:C3"];
             pck.Workbook.Names.Add("Test", ws.Cells["B1:D2"]);
             var name = a.WorkSheetName;
 

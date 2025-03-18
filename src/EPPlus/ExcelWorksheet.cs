@@ -504,22 +504,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// 
         const string SortStatePath = "d:sortState";
-        /// <summary>
-        /// The auto filter address. 
-        /// null means no auto filter.
-        /// </summary>
-        [Obsolete("AutoFilterAddress is deprecated please use AutoFilter.Address instead.")]
-        public ExcelAddressBase AutoFilterAddress
-        {
-            get
-            {
-                return AutoFilter.Address;
-            }
-            internal set
-            {
-                AutoFilter.Address = value;
-            }
-        }
+
         ExcelAutoFilter _autoFilter = null;
         /// <summary>
         /// Autofilter settings
@@ -2253,17 +2238,6 @@ namespace OfficeOpenXml
             WorksheetRangeDeleteHelper.DeleteRow(this, rowFrom, rows);
         }
 
-        /// <summary>
-        /// Deletes the specified rows from the worksheet.
-        /// </summary>
-        /// <param name="rowFrom">The number of the start row to be deleted</param>
-        /// <param name="rows">Number of rows to delete</param>
-        /// <param name="shiftOtherRowsUp">Not used. Rows are always shifted</param>
-        [Obsolete("Use the two-parameter method instead")]
-        public void DeleteRow(int rowFrom, int rows, bool shiftOtherRowsUp)
-        {
-            DeleteRow(rowFrom, rows);
-        }
 #endregion
 #region Delete column
         /// <summary>
