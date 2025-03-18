@@ -42,8 +42,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
 
-                return CompileResult.GetErrorResult(eErrorType.Value);
-            }
             var startIndex = 0;
             if (arguments.Count > 2)
             {

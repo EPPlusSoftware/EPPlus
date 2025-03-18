@@ -262,7 +262,8 @@ namespace EPPlusTest
             chrt.To.Column = 12;
 
             chrt.DataLabel.ShowPercent = true;
-            chrt.Legend.Font.Color = expected;
+            chrt.Legend.Font.Fill.Style = eFillStyle.SolidFill;
+            chrt.Legend.Font.Fill.SolidFill.Color.SetRgbColor(expected);
             chrt.Title.Border.Fill.Style = eFillStyle.SolidFill;
             chrt.Legend.Position = eLegendPosition.TopRight;
             Assert.IsTrue(chrt.ChartType == eChartType.Pie, "Invalid Charttype");
