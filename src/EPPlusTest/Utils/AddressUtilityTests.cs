@@ -82,44 +82,59 @@ namespace EPPlusTest.Utils
         [TestMethod]
         public void ShouldShiftRowInFormulaAddresses1()
         {
-            var formula = "SUM(A3:A4)";
-            var ws = "test";
-            var result = AddressUtility.ShiftAddressRowsInFormula(ws, formula, 3, -2);
-            Assert.AreEqual("SUM(A1:A2)", result);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("test");
+                var formula = "SUM(A3:A4)";
+                var result = AddressUtility.ShiftAddressRowsInFormula(ws.Cells["A1:C4"], formula, 3, -2);
+                Assert.AreEqual("SUM(A1:A2)", result);
+            }
         }
         [TestMethod]
         public void ShouldShiftRowInFormulaAddressesFullRow()
         {
-            var formula = "SUM(3:4)";
-            var ws = "test";
-            var result = AddressUtility.ShiftAddressRowsInFormula(ws, formula, 3, -2);
-            Assert.AreEqual("SUM(1:2)", result);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("test");
+                var formula = "SUM(3:4)";
+                var result = AddressUtility.ShiftAddressRowsInFormula(ws.Cells["A1:C4"], formula, 3, -2);
+                Assert.AreEqual("SUM(1:2)", result);
+            }
         }
         [TestMethod]
         public void ShouldShiftRowInFormulaAddressesFullColumn()
         {
-            var formula = "SUM(C:D)";
-            var ws = "test";
-            var result = AddressUtility.ShiftAddressColumnsInFormula(ws, formula, 3, -2);
-            Assert.AreEqual("SUM(A:B)", result);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("test");
+                var formula = "SUM(C:D)";
+                var result = AddressUtility.ShiftAddressColumnsInFormula(ws.Cells["A:E"], formula, 3, -2);
+                Assert.AreEqual("SUM(A:B)", result);
+            }
         }
 
 
         [TestMethod]
         public void ShouldNotShiftRowInFormulaFixedAddresses()
         {
-            var formula = "SUM(A$3:A$4)";
-            var ws = "test";
-            var result = AddressUtility.ShiftAddressRowsInFormula(ws, formula, 3, -2);
-            Assert.AreEqual("SUM(A$3:A$4)", result);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("test");
+                var formula = "SUM(A$3:A$4)";
+                var result = AddressUtility.ShiftAddressRowsInFormula(ws.Cells["A1:C4"], formula, 3, -2);
+                Assert.AreEqual("SUM(A$3:A$4)", result);
+            }
         }
         [TestMethod]
         public void ShouldNotShiftRowInFormulaFixedAddressesFullRow()
         {
-            var formula = "SUM($3:$4)";
-            var ws = "test";
-            var result = AddressUtility.ShiftAddressRowsInFormula(ws, formula, 3, -2);
-            Assert.AreEqual("SUM($3:$4)", result);
+            using (var p = new ExcelPackage())
+            {
+                var ws = p.Workbook.Worksheets.Add("test");
+                var formula = "SUM($3:$4)";
+                var result = AddressUtility.ShiftAddressRowsInFormula(ws.Cells["A1:C4"], formula, 3, -2);
+                Assert.AreEqual("SUM($3:$4)", result);
+            }
         }
     }
 }

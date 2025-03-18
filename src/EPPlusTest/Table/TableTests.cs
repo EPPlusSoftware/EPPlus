@@ -862,13 +862,13 @@ namespace EPPlusTest.Table
                 wks.Cells["B2:C3"].Style.Font.Bold = true;
                 wks.Cells["B2:C3"].Style.Font.Size = 16;
                 wks.Cells["B2:C3"].Style.Font.Color.SetColor(eThemeSchemeColor.Text2);
-                wks.Cells["B2:C3"].Style.Font.Color.Tint = 0.39997558519241921m;
+                wks.Cells["B2:C3"].Style.Font.Color.Tint = 0.39997558519241921d;
 
                 // Check the style has been applied
                 Assert.AreEqual(true, wks.Cells["B3"].Style.Font.Bold);
                 Assert.AreEqual(16, wks.Cells["B3"].Style.Font.Size, 1E-3);
                 Assert.AreEqual(eThemeSchemeColor.Text2, wks.Cells["B3"].Style.Font.Color.Theme);
-                Assert.AreEqual(0.39997558519241921m, wks.Cells["B3"].Style.Font.Color.Tint);
+                Assert.AreEqual(0.39997558519241921d, wks.Cells["B3"].Style.Font.Color.Tint);
 
                 // Remove the calculated column formula from the tableCopy
                 table1.Columns["Col3"].CalculatedColumnFormula = "";
@@ -877,7 +877,7 @@ namespace EPPlusTest.Table
                 Assert.AreEqual(true, wks.Cells["B3"].Style.Font.Bold);
                 Assert.AreEqual(16, wks.Cells["B3"].Style.Font.Size, 1E-3);
                 Assert.AreEqual(eThemeSchemeColor.Text2, wks.Cells["B3"].Style.Font.Color.Theme);
-                Assert.AreEqual(0.39997558519241921m, wks.Cells["B3"].Style.Font.Color.Tint);
+                Assert.AreEqual(0.39997558519241921d, wks.Cells["B3"].Style.Font.Color.Tint);
             }
         }
         [TestMethod]

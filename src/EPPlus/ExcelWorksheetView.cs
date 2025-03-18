@@ -898,10 +898,10 @@ namespace OfficeOpenXml
             }
         }
 
-        private decimal GetVisibleColumnWidth(int topCol, int cols)
+        private double GetVisibleColumnWidth(int topCol, int cols)
         {
-            decimal mdw = _worksheet.Workbook.MaxFontWidth;
-            decimal width = 0;
+            double mdw = _worksheet.Workbook.MaxFontWidth;
+            double width = 0;
             for (var c = 0; c < cols; c++)
             {
                 width += _worksheet.GetColumnWidthPixels(topCol + c, mdw);

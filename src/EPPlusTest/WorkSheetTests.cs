@@ -361,7 +361,7 @@ namespace EPPlusTest
             {
                 Assert.Inconclusive("WorksheetRead.xlsx does not exists");
             }
-            using (FileStream instream = new FileStream(_worksheetPath + @"/WorksheetRead.xlsx", FileMode.Open, FileAccess.ReadWrite))
+            using (FileStream instream = new FileStream(_worksheetPath + @"/WorksheetRead.xlsx", FileMode.Open, FileAccess.Read))
             {
                 MemoryStream stream = new MemoryStream();
                 using (ExcelPackage pck = new ExcelPackage(instream))
@@ -764,10 +764,10 @@ namespace EPPlusTest
             //Set printersettings
             ws.PrinterSettings.RepeatColumns = ws.Cells["A:B"];
             ws.PrinterSettings.RepeatRows = ws.Cells["1:11"];
-            ws.PrinterSettings.TopMargin = 1M;
-            ws.PrinterSettings.LeftMargin = 1M;
-            ws.PrinterSettings.BottomMargin = 1M;
-            ws.PrinterSettings.RightMargin = 1M;
+            ws.PrinterSettings.TopMargin = 1d;
+            ws.PrinterSettings.LeftMargin = 1d;
+            ws.PrinterSettings.BottomMargin = 1d;
+            ws.PrinterSettings.RightMargin = 1d;
             ws.PrinterSettings.Orientation = eOrientation.Landscape;
             ws.PrinterSettings.PaperSize = ePaperSize.A4;
         }

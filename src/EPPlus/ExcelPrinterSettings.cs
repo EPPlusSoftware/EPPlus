@@ -338,11 +338,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// Left margin in inches
         /// </summary>
-        public decimal LeftMargin 
+        public double LeftMargin
         {
             get
             {
-                return GetXmlNodeDecimal(_leftMarginPath);
+                return GetXmlNodeDouble(_leftMarginPath);
             }
             set
             {
@@ -354,11 +354,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// Right margin in inches
         /// </summary>
-        public decimal RightMargin 
+        public double RightMargin
         {
             get
             {
-                return GetXmlNodeDecimal(_rightMarginPath);
+                return GetXmlNodeDouble(_rightMarginPath);
             }
             set
             {
@@ -370,11 +370,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// Top margin in inches
         /// </summary>
-        public decimal TopMargin 
+        public double TopMargin
         {
             get
             {
-                return GetXmlNodeDecimal(_topMarginPath);
+                return GetXmlNodeDouble(_topMarginPath);
             }
             set
             {
@@ -386,11 +386,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// Bottom margin in inches
         /// </summary>
-        public decimal BottomMargin 
+        public double BottomMargin
         {
             get
             {
-                return GetXmlNodeDecimal(_bottomMarginPath);
+                return GetXmlNodeDouble(_bottomMarginPath);
             }
             set
             {
@@ -402,11 +402,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// Header margin in inches
         /// </summary>
-        public decimal HeaderMargin 
+        public double HeaderMargin
         {
             get
             {
-                return GetXmlNodeDecimal(_headerMarginPath);
+                return GetXmlNodeDouble(_headerMarginPath);
             }
             set
             {
@@ -418,11 +418,11 @@ namespace OfficeOpenXml
         /// <summary>
         /// Footer margin in inches
         /// </summary>
-        public decimal FooterMargin 
+        public double FooterMargin
         {
             get
             {
-                return GetXmlNodeDecimal(_footerMarginPath);
+                return GetXmlNodeDouble(_footerMarginPath);
             }
             set
             {
@@ -814,12 +814,12 @@ namespace OfficeOpenXml
             if (_marginsCreated==false && TopNode.SelectSingleNode(_leftMarginPath, NameSpaceManager) == null) 
             {
                 _marginsCreated=true;
-                LeftMargin = 0.7087M;
-                RightMargin = 0.7087M;
-                TopMargin = 0.7480M;
-                BottomMargin = 0.7480M;
-                HeaderMargin = 0.315M;
-                FooterMargin = 0.315M;
+                LeftMargin = 0.7087d;
+                RightMargin = 0.7087d;
+                TopMargin = 0.7480d;
+                BottomMargin = 0.7480d;
+                HeaderMargin = 0.315d;
+                FooterMargin = 0.315d;
             }
         }
     }

@@ -600,20 +600,20 @@ namespace OfficeOpenXml
         }
         //TODO: Examine if mdw is really a neccessary input parameter.
         //Seems it is always the same as Workbook.MaxFontWidth
-        internal int GetColumnWidthPixels(int col, decimal mdw)
+        internal int GetColumnWidthPixels(int col, double mdw)
         {
             return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), Workbook.MaxFontWidth);
         }
-        internal decimal GetColumnWidth(int col)
+        internal double GetColumnWidth(int col)
         {
             var column = GetColumn(col);
             if (column == null)   //Check that the column exists
             {                
-                return (decimal)DefaultColWidth;
+                return DefaultColWidth;
             }
             else
             {
-                return (decimal)Columns[col].Width;
+                return Columns[col].Width;
             }
         }
 
@@ -3697,6 +3697,7 @@ namespace OfficeOpenXml
         }
         internal void SetValueRow_Value(int row, int col, object[] array)
         {
+            _formulas.Clear(row, col, row, col + array.Length - 1);
             for (int c = 0; c < array.Length; c++)
             {
                 if (array[c] == DBNull.Value)
@@ -3711,6 +3712,7 @@ namespace OfficeOpenXml
         }
         internal void SetValueRow_ValueTransposed(int row, int col, object[] array)
         {
+            _formulas.Clear(row, col, row+array.Length-1, col);
             for (int c = 0; c < array.Length; c++)
             {
                 if (array[c] == DBNull.Value)
@@ -3726,9 +3728,12 @@ namespace OfficeOpenXml
         internal void SetValueRow_Value(int row, int col, IEnumerable collection)
         {
             int offset = 0;
+            
             foreach (var v in collection)
             {
-                SetValueInner(row, col + offset, v);
+                var c = col + offset;
+                _formulas.Clear(row, c, row, c);
+                SetValueInner(row, c, v);
                 offset++;
             }
         }
@@ -3737,7 +3742,9 @@ namespace OfficeOpenXml
             int offset = 0;
             foreach (var v in collection)
             {
-                SetValueInner(row + offset, col, v);
+                var r = row + offset;
+                _formulas.Clear(r, col, r, col);
+                SetValueInner(r, col, v);
                 offset++;
             }
         }

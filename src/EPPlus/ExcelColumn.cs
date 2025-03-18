@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Style;
 
 namespace OfficeOpenXml
@@ -306,9 +307,9 @@ namespace OfficeOpenXml
             return ((ulong)sheetID) + (((ulong)column) << 15);
         }
 
-        internal static int ColumnWidthToPixels(decimal columnWidth, decimal mdw)
+        internal static int ColumnWidthToPixels(double columnWidth, double mdw)
         {
-            return (int)decimal.Truncate(((256 * columnWidth + decimal.Truncate(128 / mdw)) / 256) * mdw);
+            return (int)MathHelper.TruncateDouble(((256 * columnWidth + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
         }
 
         /// <summary>

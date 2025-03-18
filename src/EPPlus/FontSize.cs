@@ -105,22 +105,22 @@ namespace OfficeOpenXml
 
         };
 
-        internal static decimal GetWidthPixels(string fontName, float fontSize)
+        internal static double GetWidthPixels(string fontName, float fontSize)
         {
             return GetWidthHeight(fontName, fontSize, true, 7);
         }
-        internal static decimal GetHeightPixels(string fontName, float fontSize)
+        internal static double GetHeightPixels(string fontName, float fontSize)
         {
             return GetWidthHeight(fontName, fontSize, false, 20);
         }
 
-        private static decimal GetWidthHeight(string fontName, float fontSize, bool width, decimal defaultValue)
+        private static double GetWidthHeight(string fontName, float fontSize, bool width, double defaultValue)
         {
             var font = GetFontSize(fontName, width);
 
             if (font.ContainsKey(fontSize))
             {
-                return Convert.ToDecimal(font[fontSize]);
+                return Convert.ToDouble(font[fontSize]);
             }
             else
             {
@@ -143,7 +143,7 @@ namespace OfficeOpenXml
                 {
                     if(fontSize > 72)
                     {
-                        return Convert.ToDecimal((int)(font[min] / min * fontSize)); 
+                        return Convert.ToDouble((int)(font[min] / min * fontSize)); 
                     }
                     return font[min];
                 }
