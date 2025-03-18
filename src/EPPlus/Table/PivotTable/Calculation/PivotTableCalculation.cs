@@ -245,7 +245,9 @@ namespace OfficeOpenXml.Table.PivotTable
 					if (field.Grouping == null)
 					{
 						key[i] = (int)recs.CacheItems[fieldIndex[i]][r];
-						if (field.Items[key[i]].Hidden) //Items is hidden by a filter, break and skip this row.
+						var item = field.Items.GetByCacheIndex(key[i]);
+
+                        if (item !=null && item.Hidden) //Items is hidden by a filter, break and skip this row.
 						{
 							key = null;
 							break;

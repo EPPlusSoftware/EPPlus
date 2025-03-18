@@ -481,7 +481,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         }
                         else
                         {
-                            var v = fieldItemSelection[j].Value;
+                            var v = fieldItemSelection[j].Value ?? PivotNullValue;
                             if (cache.ContainsKey(v))
                             {
                                 key[i] = cache[v];

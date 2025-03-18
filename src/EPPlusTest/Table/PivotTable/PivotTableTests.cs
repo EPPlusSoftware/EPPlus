@@ -1193,9 +1193,9 @@ namespace EPPlusTest.Table.PivotTable
             pt.RowFields.Add(pt.Fields[1]);
             pt.DataFields.Add(pt.Fields[3]);
 
-            pt.Copy(ws.Cells["A1"], "CopiedPivotTable21");
+            pt.Copy(ws.Cells["A10"], "CopiedPivotTable21");
             Assert.AreEqual(2, ws.PivotTables.Count);
-            Assert.AreEqual("CopyPivotTable22", ws.PivotTables[1].Name);
+            Assert.AreEqual("CopiedPivotTable21", ws.PivotTables[1].Name);
         }
         [TestMethod]
         public void PivotTableCopyInRangeTest()

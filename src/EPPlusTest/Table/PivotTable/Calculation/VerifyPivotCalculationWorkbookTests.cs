@@ -177,7 +177,16 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 
 			return pt.GetPivotData(pt.DataFields[datafield].Name, l);
 		}
-
+        [TestMethod]
+        public void ValidatePivotCalculationColumnFilters()
+        {
+            using (var p = OpenTemplatePackage("PivotTableCalculation.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[3];
+                ws.PivotTables.Calculate(false);
+                Assert.AreEqual(8846134.39, ws.PivotTables[0].CalculatedData.GetValue(0));
+            }
+        }
         private bool GetSubTotalFunctionFromString(string value, out eSubTotalFunctions function)
         {
             switch(value.ToLower())

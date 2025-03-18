@@ -65,7 +65,7 @@ namespace OfficeOpenXml.Core
 			_copyOptions = copyOptions;
         }
         internal void Copy()
-        {
+        {            
             if(EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHiddenCells))
             {
                 UpdateHiddenDictionaries();

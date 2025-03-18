@@ -54,12 +54,12 @@ namespace EPPlusTest.FormulaParsing
                 var ws = p.Workbook.Worksheets["Datos"];
                 //var ws = p.Workbook.Worksheets[0];
                 //ws.Calculate();
-                ws.Cells["J3"].Calculate();
+                ws.Cells["J3"].Calculate();                
                 //var v = ws.Cells["Y3"].Value;
                 //p.Workbook.Names[45].Calculate();
                 //ws.Cells["A53"].Calculate();
 
-                //Assert.AreEqual(1.245085622, ((double)ws.Cells["C80"].Value), 0.001);
+                Assert.AreEqual(0.00410879812090966, ((double)ws.Cells["J3"].Value));
             }
 
             //VerifyCalculationInPackage(xlFile, logFile);
