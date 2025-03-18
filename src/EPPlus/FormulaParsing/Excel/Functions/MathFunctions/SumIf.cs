@@ -134,7 +134,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             KahanSum retVal = 0d;
             foreach (var candidate in range)
             {
-                if (IsNumeric(candidate.Value) && _evaluator.Evaluate(candidate.Value, expressions) && IsNumeric(candidate.Value))
+                if (IsNumeric(candidate.Value) && _evaluator.Evaluate(candidate.Value, expressions))
                 {
                     if (candidate.IsExcelError)
                     {
