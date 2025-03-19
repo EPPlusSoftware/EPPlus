@@ -6297,5 +6297,29 @@ namespace EPPlusTest
                //SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void s830()
+        {
+            using var p = new ExcelPackage();
+            var ws1 = p.Workbook.Worksheets.Add("Red");
+            ws1.TabColor = Color.Red;
+            var ws2 = p.Workbook.Worksheets.Add("White");
+            ws2.TabColor = Color.White;
+            var ws3 = p.Workbook.Worksheets.Add("Blue");
+            ws3.TabColor = Color.Blue;
+
+            p.SaveAs("C:\\epplusTest\\Testoutput\\tabcolor830.xlsx");
+        }
+
+        [TestMethod]
+        public void s830_ChangeColor()
+        {
+            using var p = OpenTemplatePackage("tabcolor830.xlsx");
+            var ws1 = p.Workbook.Worksheets[0];
+            ws1.TabColor = Color.Empty;
+
+            SaveAndCleanup(p);
+        }
     }
 }
