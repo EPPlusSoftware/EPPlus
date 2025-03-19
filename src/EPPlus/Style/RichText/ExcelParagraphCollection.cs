@@ -189,21 +189,24 @@ namespace OfficeOpenXml.Style
                         sb.Append(item.Text);
                     }
                 }
-                //Remove last crlf
-                var nlCharsLength = Environment.NewLine.Length;
-                sb.Remove(sb.Length - nlCharsLength, nlCharsLength);
-                return sb.ToString();
+                var ret = sb.ToString();
+                if (ret.EndsWith(Environment.NewLine))
+                {
+                    //Remove last NewLine
+                    return ret.Substring(0, ret.Length - Environment.NewLine.Length);
+                }
+                return ret;
             }
             set
             {
                 if (Count == 0)
-                {                    
+                {
                     Add(value);
                 }
                 else
                 {
                     this[0].Text = value;
-                    for (int ix = _list.Count-1; ix > 0; ix--)
+                    for (int ix = _list.Count - 1; ix > 0; ix--)
                     {
                         RemoveAt(ix);
                     }
