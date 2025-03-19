@@ -978,7 +978,7 @@ namespace OfficeOpenXml
         }
         const string tabColorPath = "d:sheetPr/d:tabColor/@rgb";
         /// <summary>
-        /// Color of the sheet tab
+        /// Color of the sheet tab. To remove color, set TabColor to Color.Empty.
         /// </summary>
         public Color TabColor
         {
@@ -996,6 +996,11 @@ namespace OfficeOpenXml
             }
             set
             {
+                if (value == Color.Empty)
+                {
+                    DeleteNode(tabColorPath, true);
+                    return;
+                }
                 SetXmlNodeString(tabColorPath, value.ToArgb().ToString("X"));
             }
         }
