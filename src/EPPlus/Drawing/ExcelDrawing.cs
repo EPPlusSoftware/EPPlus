@@ -1262,14 +1262,20 @@ namespace OfficeOpenXml.Drawing
             {
                 throw new InvalidOperationException("Cannot ungroup this drawing. This drawing is not part of a group");
             }
-            if(ungroupThisItemOnly)
+            var prevParent = _parent;
+            if (ungroupThisItemOnly)
             {
                 _parent.Drawings.Remove(this);
             }
             else
             {
                 _parent.Drawings.Clear();
-            }           
+            }
+
+            if (prevParent.Drawings._drawingNames == null)
+            {
+                prevParent.DeleteMe();
+            }
         }
         /// <summary>
         /// If the drawing is grouped this property contains the Group drawing containing the group.
@@ -1340,11 +1346,16 @@ namespace OfficeOpenXml.Drawing
             TopNode.AppendChild(shapeNode);
             return shapeNode;
         }
-        internal XmlElement CreateClientData()
+        internal XmlElement CreateClientData(bool printsWithSheet = true)
         {
             XmlElement clientDataNode = TopNode.OwnerDocument.CreateElement("xdr", "clientData", ExcelPackage.schemaSheetDrawings);
-            //clientDataNode.SetAttribute("fPrintsWithSheet", "0");
-            TopNode.GetChildAtPosition(2).GetChildAtPosition(0).GetChildAtPosition(0).AppendChild(clientDataNode);
+            if(printsWithSheet)
+            {
+                clientDataNode.SetAttribute("fPrintsWithSheet", "0");
+            }
+            var parentNode = TopNode.GetChildAtPosition(2).GetChildAtPosition(0).GetChildAtPosition(0);
+            parentNode.AppendChild(clientDataNode);
+            //InserAfter(top)
             TopNode.AppendChild(clientDataNode);
             return clientDataNode;
         }
