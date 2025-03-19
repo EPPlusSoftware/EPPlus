@@ -45,7 +45,6 @@ namespace EPPlusTest.FormulaParsing
             var path = _testInputPathOptional + "CalculationTests\\";
 
             var xlFile = path + "Test.xlsm";
-            //var xlFile = path + "CalcForGembox.xlsx"; 
             string logFile = path + new FileInfo(xlFile).Name + ".log";
 
             //using (var p = new ExcelPackage(xlFile))
@@ -55,9 +54,6 @@ namespace EPPlusTest.FormulaParsing
             //    //var ws = p.Workbook.Worksheets[0];
             //    //ws.Calculate();
             //    ws.Cells["A1"].Calculate();                
-            //    //var v = ws.Cells["Y3"].Value;
-            //    //p.Workbook.Names[45].Calculate();
-            //    //ws.Cells["A53"].Calculate();
 
             //    Assert.AreEqual(1, (double)ws.Cells["A1"].Value, 0.000001D);
             //}
