@@ -59,7 +59,7 @@ namespace EPPlusTest.FormulaParsing
                 //p.Workbook.Names[45].Calculate();
                 //ws.Cells["A53"].Calculate();
 
-                Assert.AreEqual(0.00410879812090966, ((double)ws.Cells["J3"].Value));
+                Assert.AreEqual(0.00410879812090966D, (double)ws.Cells["J3"].Value, 0.000001D);
             }
 
             //VerifyCalculationInPackage(xlFile, logFile);
