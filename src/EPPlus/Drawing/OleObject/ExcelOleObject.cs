@@ -54,7 +54,48 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// True: File is linked. False: File is embedded.
         /// </summary>
         public readonly bool IsExternalLink;
-
+        /// <summary>
+        /// If the Ole object is linked, this property contains the external link object.
+        /// </summary>
+        public ExcelExternalOleLink ExternalLink 
+        { 
+            get
+            {
+                return _externalLink;
+            }
+        }
+        /// <summary>
+        /// The progid for the ole object.
+        /// </summary>x
+        public string ProgId
+        {
+            get
+            {
+                return _oleObject.ProgId;
+            }
+        }
+        ExcelImageReadOnly _image = null;
+        /// <summary>
+        /// The icon bitmap used to display the ole object. 
+        /// Must be a .bmp or .emf image.
+        /// </summary>
+        public ExcelImageReadOnly Image
+        {
+            get
+            {
+                if (_image == null)
+                {
+                    _image = new ExcelImageReadOnly();
+                    var ms = ((MemoryStream)_mediaImage.Part.GetStream());
+                    var pt = ImageReader.GetPictureType(ms, false);
+                    if (pt != null)
+                    {
+                        _image.SetImage(ms.ToArray(), pt.Value, false);
+                    }
+                }
+                return _image;
+            }
+        }
         /// <summary>
         /// Returns the drawing type of this object.
         /// </summary>
@@ -65,7 +106,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 return eDrawingType.OleObject;
             }
         }
-
+        
         internal string LegacySpId
         {
             get

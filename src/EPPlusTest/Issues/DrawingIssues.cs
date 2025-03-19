@@ -81,5 +81,17 @@ namespace EPPlusTest.Issues
             excelWorksheet.Cells[sourceFrom.ToString() + ":" + sourceTo].Copy(
                 excelWorksheet.Cells[destFrom.ToString() + ":" + destTo]);
         }
+        [TestMethod]
+        public void OleTest1()
+        {
+            using var p=OpenTemplatePackage("OleMSChart.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var oleObject = ws.Drawings[0].As.OleObject;
+
+            Assert.IsNotNull(oleObject);
+            Assert.IsNotNull(oleObject.ProgId);
+            Assert.IsNotNull(oleObject.Image);
+            Assert.IsNull(oleObject.ExternalLink);
+        }
     }
 }
