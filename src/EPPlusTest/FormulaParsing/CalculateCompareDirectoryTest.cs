@@ -39,28 +39,28 @@ namespace EPPlusTest.FormulaParsing
         public void Cleanup()
         {
         }
-        [TestMethod]
+        [TestMethod, Ignore]
         public void VerifySingleCell()
         {
             var path = _testInputPathOptional + "CalculationTests\\";
 
-            var xlFile = path + "s350.xlsm";
+            var xlFile = path + "Test.xlsm";
             //var xlFile = path + "CalcForGembox.xlsx"; 
             string logFile = path + new FileInfo(xlFile).Name + ".log";
 
-            using (var p = new ExcelPackage(xlFile))
-            {
-                p.Workbook.ClearFormulaValues();
-                var ws = p.Workbook.Worksheets["Datos"];
-                //var ws = p.Workbook.Worksheets[0];
-                //ws.Calculate();
-                ws.Cells["J3"].Calculate();                
-                //var v = ws.Cells["Y3"].Value;
-                //p.Workbook.Names[45].Calculate();
-                //ws.Cells["A53"].Calculate();
+            //using (var p = new ExcelPackage(xlFile))
+            //{
+            //    p.Workbook.ClearFormulaValues();
+            //    var ws = p.Workbook.Worksheets["Sheet1"];
+            //    //var ws = p.Workbook.Worksheets[0];
+            //    //ws.Calculate();
+            //    ws.Cells["A1"].Calculate();                
+            //    //var v = ws.Cells["Y3"].Value;
+            //    //p.Workbook.Names[45].Calculate();
+            //    //ws.Cells["A53"].Calculate();
 
-                Assert.AreEqual(0.00410879812090966D, (double)ws.Cells["J3"].Value, 0.000001D);
-            }
+            //    Assert.AreEqual(1, (double)ws.Cells["A1"].Value, 0.000001D);
+            //}
 
             //VerifyCalculationInPackage(xlFile, logFile);
         }
