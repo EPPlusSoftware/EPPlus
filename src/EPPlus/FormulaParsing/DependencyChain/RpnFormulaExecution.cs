@@ -958,11 +958,24 @@ namespace OfficeOpenXml.FormulaParsing
             }
         }
 
+        private static bool IsSingleAddress(RpnFormula f)
+        {
+            var t = f._tokenIndex + 1;
+            while (t < f._tokens.Count && f._tokens[t].TokenTypeIsAddressToken)
+            {
+                if (f._tokens[t].TokenType == TokenType.Operator && f._tokens[t].Value == ":")
+                {
+                    return false;
+                }
+                t++;
+            }
+            return true;
+        }
+
         private static FormulaRangeAddress[] ExecuteNextToken(RpnOptimizedDependencyChain depChain, RpnFormula f, bool returnAddresses)
         {
             FormulaRangeAddress[] addresses;
             var s = f._expressionStack;
-            bool lastFuncWasLambda = false;
             while (f._tokenIndex < f._tokens.Count)
             {
                 if (f.LambdaTokens != null && f.LambdaTokens.Contains(f._tokenIndex))

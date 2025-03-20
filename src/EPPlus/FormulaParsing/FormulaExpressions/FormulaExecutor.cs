@@ -191,7 +191,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             // TODO: create a new list and loop through the existing tokens
             // move tokens from the Lambda invoke parenthesis to after the corresponding
             // variable and use the new Assign operator... /MA
-            var TokenList = new List<Token>();
+            //var TokenList = new List<Token>();
         }
 
         public static Dictionary<int, Expression> CompileExpressions(ref RpnTokens rpnTokens, ParsingContext parsingContext)
@@ -377,14 +377,14 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         {
                             func = new FunctionExpression(t.Value, parsingContext, tokenIx);
                         }
-                        else 
+                        else if (parsingContext.Package.Workbook.Names.ContainsKey(t.Value) || parsingContext.CurrentWorksheet.Names.ContainsKey(t.Value))
                         {
                             var name = parsingContext.Package.Workbook.Names[t.Value];
-                            if(name == null)
+                            if (name == null)
                             {
                                 name = parsingContext.CurrentWorksheet.Names[t.Value];
                             }
-                            if(name != null)
+                            if (name != null)
                             {
                                 var lambdaFormulaCandidate = name.Formula;
                                 if (!string.IsNullOrEmpty(lambdaFormulaCandidate) && lambdaFormulaCandidate.ToLower().StartsWith("lambda") || lambdaFormulaCandidate.ToLower().StartsWith("_xlfn.lambda"))

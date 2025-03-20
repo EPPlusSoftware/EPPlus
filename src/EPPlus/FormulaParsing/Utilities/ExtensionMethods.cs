@@ -56,11 +56,7 @@ namespace OfficeOpenXml.FormulaParsing.Utilities
         {
             var funcName = token.Value;
             if (string.IsNullOrEmpty(funcName)) return false;
-            if(funcName.Contains("."))
-            {
-                var arr = funcName.Split('.');
-                funcName = arr.Last();
-            }
+            funcName = funcName.Replace("_xlfn.", string.Empty).Replace("_xlws.", string.Empty);
             return repository.GetFunction(funcName) != null;
         }
 
