@@ -281,12 +281,6 @@ namespace OfficeOpenXml.Drawing
             {
                 _parent._drawings._drawingsList.Remove(_parent);
                 _parent._drawings._drawingNames.Remove(_parent.Name);
-
-                //if(_groupDrawings.Count <= 0)
-                //{
-                //    _groupDrawings = null;
-                //    _drawingNames = null;
-                //}
             }
             _parent._drawings.ReIndexNames(ix, 1);
             drawing._parent = null;
