@@ -37,7 +37,8 @@ namespace OfficeOpenXml.RichData.Types
         public Dictionary<string, ExcelRichTypeValueKey> Global { get; set; } = new Dictionary<string, ExcelRichTypeValueKey>();
         public List<ExcelRichTypeValueType> Types { get; set; } = new List<ExcelRichTypeValueType>();
         public string ExtLstXml { get; set; }
-        private string _globalExtLstXml = null, _typesExtLstXml = null;
+        private string _globalExtLstXml = null;
+        //private string _typesExtLstXml = null;
 
         private void ReadPart(ExcelWorkbook wb)
         {

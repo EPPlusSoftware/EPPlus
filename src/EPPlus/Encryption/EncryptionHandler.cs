@@ -731,7 +731,7 @@ namespace OfficeOpenXml.Encryption
 
                         var decryptedData = new byte[size];
 
-                        cryptoStream.Read(decryptedData, 0, (int)size);
+                        var r = cryptoStream.Read(decryptedData, 0, (int)size);
                         doc.Write(decryptedData, 0, (int)size);
                     }
                 }
@@ -773,7 +773,7 @@ namespace OfficeOpenXml.Encryption
                 CryptoStream cryptoStream = new CryptoStream(dataStream,
                                                               decryptor,
                                                               CryptoStreamMode.Read);
-                cryptoStream.Read(decryptedVerifier, 0, 16);
+                var r = cryptoStream.Read(decryptedVerifier, 0, 16);
             }
 
             using (dataStream = RecyclableMemory.GetStream(encryptionInfo.Verifier.EncryptedVerifierHash))
@@ -783,7 +783,7 @@ namespace OfficeOpenXml.Encryption
                                                     CryptoStreamMode.Read);
 
                 //Decrypt the verifier hash
-                cryptoStream.Read(decryptedVerifierHash, 0, 16);
+                var r = cryptoStream.Read(decryptedVerifierHash, 0, 16);
             }
             //Get the hash for the decrypted verifier
 #if (Core)

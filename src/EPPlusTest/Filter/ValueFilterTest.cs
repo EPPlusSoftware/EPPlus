@@ -58,7 +58,7 @@ namespace EPPlusTest.Filter
             var ws = _pck.Workbook.Worksheets.Add("ValueFilter");
             LoadTestdata(ws);
             
-            ws.AutoFilterAddress = ws.Cells["A1:D100"];
+            ws.AutoFilter.Address = ws.Cells["A1:D100"];
             var col=ws.AutoFilter.Columns.AddValueFilterColumn(1);
             col.Filters.Add("7");
             col.Filters.Add("14");
@@ -145,7 +145,7 @@ namespace EPPlusTest.Filter
             var ws = _pck.Workbook.Worksheets.Add("DateYear");
             LoadTestdata(ws, 200);
 
-            ws.AutoFilterAddress = ws.Cells["A1:D200"];
+            ws.AutoFilter.Address = ws.Cells["A1:D200"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(0);
             var year = _loadDataStartDate.Year;
             col.Filters.Add(new ExcelFilterDateGroupItem(year));
@@ -164,7 +164,7 @@ namespace EPPlusTest.Filter
             var ws = _pck.Workbook.Worksheets.Add("DateMonth");
             LoadTestdata(ws, 200);
 
-            ws.AutoFilterAddress = ws.Cells["A1:D200"];
+            ws.AutoFilter.Address = ws.Cells["A1:D200"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(0);
             var year = _loadDataStartDate.Year + 1;
             col.Filters.Add(new ExcelFilterDateGroupItem(year,1));
@@ -185,7 +185,7 @@ namespace EPPlusTest.Filter
             var ws = _pck.Workbook.Worksheets.Add("DateDay");
             LoadTestdata(ws, 200);
 
-            ws.AutoFilterAddress = ws.Cells["A1:D200"];
+            ws.AutoFilter.Address = ws.Cells["A1:D200"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(0);
             var year = _loadDataStartDate.Year + 1;
             col.Filters.Add(new ExcelFilterDateGroupItem(year, 1, 12));
@@ -206,7 +206,7 @@ namespace EPPlusTest.Filter
             var year = _loadDataStartDate.Year + 1;
             ws.SetValue("A82", new DateTime(year, 1, 20, 12, 11, 33));
             ws.SetValue("A83", new DateTime(year, 1, 20, 13, 11, 33));
-            ws.AutoFilterAddress = ws.Cells["A1:D200"];
+            ws.AutoFilter.Address = ws.Cells["A1:D200"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(0);
             col.Filters.Add(new ExcelFilterDateGroupItem(year, 1, 20, 12));
             ws.AutoFilter.ApplyFilter();
@@ -226,7 +226,7 @@ namespace EPPlusTest.Filter
             var year = _loadDataStartDate.Year + 1;
             ws.SetValue("A82", new DateTime(year, 1, 20, 12, 11, 33));
             ws.SetValue("A83", new DateTime(year, 1, 20, 12, 12, 33));
-            ws.AutoFilterAddress = ws.Cells["A1:D200"];
+            ws.AutoFilter.Address = ws.Cells["A1:D200"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(0);
             col.Filters.Add(new ExcelFilterDateGroupItem(year, 1, 20, 12, 11));
             ws.AutoFilter.ApplyFilter();
@@ -246,7 +246,7 @@ namespace EPPlusTest.Filter
             var year = _loadDataStartDate.Year + 1;
             ws.SetValue("A82", new DateTime(year, 1, 20, 12, 11, 33));
             ws.SetValue("A83", new DateTime(year, 1, 20, 12, 11, 35));
-            ws.AutoFilterAddress = ws.Cells["A1:D200"];
+            ws.AutoFilter.Address = ws.Cells["A1:D200"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(0);
             col.Filters.Add(new ExcelFilterDateGroupItem(year, 1, 20, 12, 11, 33));
             ws.AutoFilter.ApplyFilter();
@@ -265,7 +265,7 @@ namespace EPPlusTest.Filter
             LoadTestdata(ws);
             SetDateValues(ws);
 
-            ws.AutoFilterAddress = ws.Cells["A1:D102"];
+            ws.AutoFilter.Address = ws.Cells["A1:D102"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(2);
             col.Filters.Add("Value 8");
             col.Filters.Add("Value 55");
@@ -295,7 +295,7 @@ namespace EPPlusTest.Filter
             LoadTestdata(ws);
             SetDateValues(ws);
 
-            ws.AutoFilterAddress = ws.Cells["A1:D102"];
+            ws.AutoFilter.Address = ws.Cells["A1:D102"];
             var col = ws.AutoFilter.Columns.AddValueFilterColumn(3);
             col.Filters.Add("66,00");
             col.Filters.Add("3 003,00");

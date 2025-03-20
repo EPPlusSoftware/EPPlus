@@ -98,6 +98,14 @@ namespace OfficeOpenXml.FormulaParsing
             get;
             set;
         } = true;
-
+        /// <summary>
+        /// If true, EPPlus will download the images in the IMAGE function even if they exists in the package. The same URL will only be downloaded once.
+        /// If false(default), EPPlus will only download images that don't exist in the package.
+        /// </summary>
+        public bool AlwaysRefreshImageFunction
+        {
+            get; 
+            set; 
+        } = false; 
     }
 }

@@ -63,7 +63,7 @@ namespace OfficeOpenXml.Metadata
 
         private readonly IndexEndpoint _parent;
         private readonly MetadataDatabase _metadataDb;
-        private readonly int _readValueIndex;
+        //private readonly int _readValueIndex;
 
         /// <summary>
         /// Corresponds to the t-attribute of the bk element
@@ -75,12 +75,12 @@ namespace OfficeOpenXml.Metadata
         /// </summary>
         public uint ValueId { get; private set; }
 
-        public int MetadataTypeIndex
+        public int? MetadataTypeIndex
         {
             get
             {
                 var ix = _metadataDb.MetadataTypes.GetIndexById(TypeId);
-                return ix.Value + 1;
+                return ix == null ? null : ix.Value + 1;
             }
         }
 
@@ -90,6 +90,7 @@ namespace OfficeOpenXml.Metadata
             {
                 var bk = _metadataDb.FutureMetadataRichValueBlocks.Get(ValueId);
                 var fmType = bk.GetFirstIncomingRelByType<FutureMetadataBase>();
+                if (fmType == null) return null;
                 return fmType.Blocks.GetZeroBasedIndex(ValueId);
             }
         }

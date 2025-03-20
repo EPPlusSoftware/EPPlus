@@ -33,6 +33,13 @@
 			* In-cell pictures / support for the IMAGE function.
 			* Sensitivity Label API to integrate with MIP (Microsoft Information Protection SDK).
 
+			## Version 7.7.0
+			* Fixed referenced packages versioning.
+			* Minor bug fixes.
+
+			## Version 7.6.1
+			* Minor bug fixes.
+			
 			Minor features:
 			* Autofit columns optimaiztion.
 			* Range Copy now supports fill.
@@ -46,7 +53,7 @@
 
 			## Version 7.6.0
 			* Added target framework .NET 9. Removed out of support versions, .NET 6 and .NET 7.
-			* Minor features and bug fixes. See https://epplussoftware.com/en/Developers/MinorFeaturesAndIssues
+			* Minor features and bug fixes.
 
 			## Version 7.5.3
 			* Minor features and bug fixes.
@@ -472,7 +479,9 @@
 			A list of fixed issues can be found here https://epplussoftware.com/docs/7.0/articles/fixedissues.html
 
 			Version history
+			7.7.0			20250317 Fixed referenced packages versioning. Minor bug fixes.
 			8.0.0-beta		20250214 Digital Signatures, Ole objects, in-cell pictures. https://epplussoftware.com/en/Developers/EPPlus8
+			7.6.1			20250304 Minor bug fixes.
 			7.6.0			20250206 Updated target frameworks. Minor features and bug fixes.
 			7.5.3			20250116 Minor features and bug fixes.
 			7.5.2			20241209 Minor features and bug fixes.
@@ -640,12 +649,22 @@
 		<PackageReference Include="System.Security.Cryptography.Xml" />	
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462'">
+	<ItemGroup Condition="'$(TargetFramework)' != 'net35' and '$(TargetFramework)' != 'net462' and '$(TargetFramework)' != 'net9.0'">
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" />
 		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" />
 		<PackageReference Include="System.ComponentModel.Annotations" />
 		<PackageReference Include="System.Text.Encoding.CodePages" />
-		<PackageReference Include="System.Security.Cryptography.Xml" />	
+		<PackageReference Include="System.Security.Cryptography.Xml" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" VersionOverride="9.0.3" />
+		<PackageReference Include="Microsoft.IO.RecyclableMemoryStream" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" VersionOverride="9.0.3" />
+		<PackageReference Include="System.ComponentModel.Annotations" />
+		<PackageReference Include="System.Text.Encoding.CodePages" VersionOverride="9.0.3"/>
+		<PackageReference Include="System.Security.Cryptography.Xml" VersionOverride="9.0.3"/>
 	</ItemGroup>
 
 	<ItemGroup>

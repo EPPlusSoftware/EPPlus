@@ -420,5 +420,87 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
             return "<No address>";
         }
+        public FormulaRangeAddress GetAddressDimensionAdjusted(int index=0)
+        {
+            var a = Addresses[0];
+            if (Worksheet?.Dimension!=null)
+            {
+                var d = Worksheet?.Dimension;
+                if (d._fromRow > a.FromRow || d._toRow < a.ToRow ||
+                    d._fromCol > a.FromCol || d._toCol < a.ToCol)
+                {
+                    return new FormulaRangeAddress(null, 0,
+                        Math.Max(d._fromRow, a.FromRow),
+                        Math.Max(d._fromCol, a.FromCol),
+                        Math.Min(d._toRow, a.ToRow),
+                        Math.Min(d._toCol, a.ToCol));
+                }
+                else
+                {
+                    return a;
+                }
+            }
+            else
+            {
+                return a;
+            }
+        }
+        public int GetNumberOfRowsDimension()
+        {
+            if (Worksheet?.Dimension != null)
+            {
+                int tr;
+                if (Worksheet.Dimension._toRow < Address.ToRow)
+                {
+                    tr = Worksheet.Dimension._toRow;
+                }
+                else
+                {
+                    tr = Address.ToRow;
+                }
+
+                if (Worksheet.Dimension._fromRow > Address.FromRow)
+                {
+                    return tr - Worksheet.Dimension._fromRow+1;
+                }
+                else
+                {
+                    return tr - Address.FromRow+1;
+                }
+            }
+            else
+            {
+                return Size.NumberOfRows;
+            }
+        }
+
+        public int GetNumberOfColsDimension()
+        {
+            if (Worksheet?.Dimension != null)
+            {
+                int tc;
+                if (Worksheet.Dimension._toCol < Address.ToCol)
+                {
+                    tc = Worksheet.Dimension._toCol;
+                }
+                else
+                {
+                    tc = Address.ToCol;
+                }
+
+                if (Worksheet.Dimension._fromCol > Address.FromCol)
+                {
+                    return tc - Worksheet.Dimension._fromCol + 1;
+                }
+                else
+                {
+                    return tc - Address.FromCol + 1;
+                }
+            }
+            else
+            {
+                return Size.NumberOfCols;
+            }
+        }
     }
 }

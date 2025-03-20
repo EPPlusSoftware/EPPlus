@@ -294,8 +294,8 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ChartType">Type of chart</param>
-        /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>
-        /// <param name="DrawingType">The top element drawingtype. Default is OneCellAnchor for Pictures and TwoCellAnchor from Charts and Shapes</param>
+        /// <param name="PivotTableSource">The pivot table source for a pivot chart</param>
+        /// <param name="DrawingType">The top element drawing type. Default is OneCellAnchor for Pictures and TwoCellAnchor from Charts and Shapes</param>
         /// <returns>The chart</returns>
         public ExcelChart AddChart(string Name, eChartType ChartType, ExcelPivotTable PivotTableSource, eEditAs DrawingType = eEditAs.TwoCell)
         {
@@ -977,31 +977,6 @@ namespace OfficeOpenXml.Drawing
         {
             return AddImageInternal(Name, PictureStream, null, Hyperlink);
         }
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="PictureStream">An stream image.</param>
-        /// <param name="PictureType">The type of image.  A null value means that EPPlus will identify the type of image automatically.</param>
-        /// <returns>A picture object</returns>
-        [Obsolete("This overload is deprecated, please use AddPicture(string, Stream) instead.")]
-        public ExcelPicture AddPicture(string Name, Stream PictureStream, ePictureType? PictureType)
-        {
-            return AddPicture(Name, PictureStream, PictureType, null);
-        }
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="pictureStream">An stream image.</param>
-        /// <param name="pictureType">The type of image. A null value means that EPPlus will identify the type of image automatically.</param>
-        /// <param name="Hyperlink">Picture Hyperlink</param>
-        /// <returns>A picture object</returns>
-        [Obsolete("This overload is deprecated, please use AddPicture(string, Stream, Uri) instead.")]
-        public ExcelPicture AddPicture(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
-        {
-            return AddImageInternal(Name, pictureStream, pictureType, Hyperlink);
-        }
 
         private ExcelPicture AddImageInternal(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
         {
@@ -1114,31 +1089,7 @@ namespace OfficeOpenXml.Drawing
         {
             return await AddPictureInternalAsync(Name, PictureStream, null, Hyperlink);
         }
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="PictureStream">An stream image.</param>
-        /// <param name="PictureType">The type of image. A null value means that EPPlus will identify the type of image automatically.</param>
-        /// <returns>A picture object</returns>
-        [Obsolete("This overload is deprecated, please use AddPictureAsync(string, Stream) instead.")]
-        public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream, ePictureType? PictureType)
-        {
-            return await AddPictureInternalAsync(Name, PictureStream, PictureType, null);
-        }
-        /// <summary>
-        /// Adds a picture to the worksheet
-        /// </summary>
-        /// <param name="Name"></param>
-        /// <param name="pictureStream">An stream image.</param>
-        /// <param name="pictureType">The type of image. A null value means that EPPlus will identify the type of image automatically.</param>
-        /// <param name="Hyperlink">The Picture Hyperlink</param>
-        /// <returns>A picture object</returns>
-        [Obsolete("This overload is deprecated, please use AddPictureAsync(string, Stream, Uri) instead.")]
-        public async Task<ExcelPicture> AddPictureAsync(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
-        {
-            return await AddPictureInternalAsync(Name, pictureStream, pictureType, Hyperlink);
-        }
+
         private async Task<ExcelPicture> AddPictureInternalAsync(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
         {
             if (pictureStream == null)
@@ -1319,7 +1270,7 @@ namespace OfficeOpenXml.Drawing
             shape.To.Row = 5;
             shape.Text = text;
 
-            var pixelSize = ExcelColumn.ColumnWidthToPixels((decimal)Worksheet.DefaultColWidth, Worksheet.Workbook.MaxFontWidth);
+            var pixelSize = ExcelColumn.ColumnWidthToPixels(Worksheet.DefaultColWidth, Worksheet.Workbook.MaxFontWidth);
             int halfColumnInPixel = Convert.ToInt32((pixelSize * 0.5d));
 
             shape.To.ColumnOff = halfColumnInPixel * 9525;

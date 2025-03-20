@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
-    public class SignatureProperty
+    internal class SignatureProperty
     {
         internal string Target;
         internal string Id;

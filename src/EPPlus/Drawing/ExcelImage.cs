@@ -191,7 +191,7 @@ namespace OfficeOpenXml.Drawing
                 }
                 var byRet = new byte[imageStream.Length];
                 imageStream.Seek(0, SeekOrigin.Begin);
-                imageStream.Read(byRet, 0, (int)imageStream.Length);
+                var r = imageStream.Read(byRet, 0, (int)imageStream.Length);
 
                 return SetImage(byRet, pictureType);
             }
@@ -216,7 +216,7 @@ namespace OfficeOpenXml.Drawing
                 }
                 var byRet = new byte[imageStream.Length];
                 imageStream.Seek(0, SeekOrigin.Begin);
-                await imageStream.ReadAsync(byRet, 0, (int)imageStream.Length);
+                var r = await imageStream.ReadAsync(byRet, 0, (int)imageStream.Length);
 
                 return SetImage(byRet, pictureType);
             }
@@ -252,7 +252,7 @@ namespace OfficeOpenXml.Drawing
             var type = PictureStore.GetPictureType(imageFile.Extension);
             var fs = imageFile.OpenRead();
             var b = new byte[fs.Length];
-            await fs.ReadAsync(b, 0, b.Length);
+            var r = await fs.ReadAsync(b, 0, b.Length);
             return SetImage(b, type, true);
         }
 
@@ -343,7 +343,7 @@ namespace OfficeOpenXml.Drawing
 
             using (var ms = RecyclableMemory.GetStream(image))
             {
-                if (_container.RelationDocument.Package.Settings.ImageSettings.GetImageBounds(ms, pictureType, out double height, out double width, out double horizontalResolution, out double verticalResolution))
+                if (_container.RelationDocument.Package.Settings.ImageSettings.GetImageBounds(ms, pictureType, out double width, out double height, out double horizontalResolution, out double verticalResolution))
                 {
                     Bounds.Width = width;
                     Bounds.Height = height;

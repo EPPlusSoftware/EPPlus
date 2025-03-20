@@ -53,11 +53,13 @@ namespace OfficeOpenXml
         /// Default.
         /// </summary>
         Agile,
+#if !NET35 && !NET40
         /// <summary>
         /// The workbook is protected by a sensitiviy label.
-        /// For EPPlus to work with this type of encryption you need to set a <see cref="OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabels.SensibilityLabelHandler"/> that handels the decryption/encryption using the Microsoft MIPS API.
+        /// For EPPlus to work with this type of encryption you need to set a <see cref="ExcelPackage.SensibilityLabelHandler"/> that handels the decryption/encryption using the Microsoft MIPS API.
         /// </summary>
         ProtectedBySensibilityLabel
+#endif
     }
     /// <summary>
     /// How and if the workbook is encrypted
@@ -172,7 +174,7 @@ namespace OfficeOpenXml
             }
             
             var b = new byte[stream.Length];
-            stream.Read(b, 0, (int)stream.Length);
+            var r = stream.Read(b, 0, (int)stream.Length);
             return e.EncryptPackage(b, new ExcelEncryption { Password = password, Algorithm = algorithm, Version = encryptionVersion });
         }
         /// <summary>

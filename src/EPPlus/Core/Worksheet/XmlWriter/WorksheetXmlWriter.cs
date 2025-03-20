@@ -10,6 +10,7 @@
  *************************************************************************************************
   02/10/2023       EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
+using Microsoft.VisualBasic;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Constants;
@@ -19,9 +20,11 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.ExcelXMLWriter;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
+using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
 using OfficeOpenXml.Style.XmlAccess;
@@ -37,6 +40,7 @@ using System.Security;
 using System.Text;
 using static OfficeOpenXml.ExcelWorkbook;
 using static OfficeOpenXml.ExcelWorksheet;
+using static OfficeOpenXml.RichData.Structures.Constants.SpecialKeyNames;
 
 namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 {
@@ -404,12 +408,37 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     object formula = _ws._formulas.GetValue(cse.Row, cse.Column);
                     if (hasMd)
                     {
-                        if (v is ExcelErrorValue error)
+                        if (v is ExcelRichDataErrorValue error)
                         {
                             if (error.Type == eErrorType.Spill || error.Type == eErrorType.Calc)
                             {
                                 v = ErrorValues.ValueError;
-                                _richValueErrors.SetMetaDataForError(cse, error);
+                                var md = _ws._metadataStore.GetValue(cse.Row, cse.Column);
+                                if(md.vm > 0)
+                                {
+                                    var rd = _ws._richDataStore.GetRichValue(md.vm);
+                                    if (rd != null && rd.Structure.Type == "_error")
+                                    {
+                                        var ese = RichValueErrorFactory.CreateRichValueErrorFromRichData(rd, _ws.Workbook.IndexStore, _ws.Workbook.RichData.Db);
+                                        if(ese != null && ese.ErrorType == 8 && (ese.StructureType & RichData.RichDataStructureTypes.ErrorSpill) != 0)
+                                        {
+                                            var spillError = error as ExcelSpillErrorValue;
+                                            var spe = ese.As.ErrorSpill;
+                                            if(spe.RwOffset != spillError.SpillRowOffset || spe.ColOffset != spillError.SpillColOffset)
+                                            {
+                                                _richValueErrors.SetMetaDataForError(cse, error);
+                                            }
+                                        }
+                                        else if(!(ese != null && ese.ErrorType == 13))
+                                        {
+                                            _richValueErrors.SetMetaDataForError(cse, error);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    _richValueErrors.SetMetaDataForError(cse, error);
+                                }
                                 hasRd = true;
                             }
                         }
@@ -438,22 +467,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                         }
                         var f = _ws._sharedFormulas[sfId];
 
-                        //Set calc attributes for array formula. We preserve them from load only at this point.
-                        if (hasFlags)
-                        {
-                            mdAttrForFTag = "";
-                            if (_ws._flags.Exists(cse.Row, cse.Column))
-                            {                                
-                                if (_ws._flags.GetFlagValue(cse.Row, cse.Column, CellFlags.CellFlagAlwaysCalculateArray))
-                                {
-                                    mdAttrForFTag = $" aca=\"1\"";
-                                }
-                                if (_ws._flags.GetFlagValue(cse.Row, cse.Column, CellFlags.CellFlagCalculateCell))
-                                {
-                                    mdAttrForFTag += $" ca=\"1\"";
-                                }
-                            }
-                        }
+                        SetCalcAttributesForArrayFormula(hasFlags, cse, ref mdAttrForFTag);
+
                         if(f._hasUpdatedNamespace==false) f.UpdateFormulaNamespaces(nsf);
                         if (f.Address.IndexOf(':') > 0)
                         {
@@ -501,7 +516,8 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             // We can also have a single cell array formula
                             if (f.FormulaType == FormulaType.Array)
                             {
-                                cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}><{fTag} ref=\"{string.Format("{0}:{1}", f.Address, f.Address)}\" t=\"array\"{mdAttrForFTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f.Formula, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                                var cellXml = GenerateArrayFormulaXml(cTag, fTag, cse.CellAddress, styleID.ToString(), mdAttr, mdAttrForFTag, f.Address, v, f.Formula, prefix);
+                                cache.Append(cellXml);
                             }
                             else
                             {
@@ -512,9 +528,20 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                     }
                     else if (formula != null && formula.ToString() != "")
                     {
-                        var f= SharedFormula.UpdateFormulaNamespaces(formula.ToString(), nsf);
-                        cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>");
-                        cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                        // We can also have a single cell array formula
+                        if (_ws._flags.GetFlagValue(_ws.Cells[cse.CellAddress]._fromRow, _ws.Cells[cse.CellAddress]._fromCol, CellFlags.ArrayFormula))
+                        {
+                            SetCalcAttributesForArrayFormula(hasFlags, cse, ref mdAttrForFTag);
+
+                            var cellXml = GenerateArrayFormulaXml(cTag, fTag, cse.CellAddress, styleID.ToString(), mdAttr, mdAttrForFTag, _ws.Cells[cse.CellAddress].Address, v, formula.ToString(), prefix);
+                            cache.Append(cellXml);
+                        }
+                        else
+                        {
+                            var f = SharedFormula.UpdateFormulaNamespaces(formula.ToString(), nsf);
+                            cache.Append($"<{cTag} r=\"{cse.CellAddress}\" s=\"{styleID}\"{ConvertUtil.GetCellType(v, true)}{mdAttr}>");
+                            cache.Append($"<{fTag}>{ConvertUtil.ExcelEscapeAndEncodeString(f, false)}</{fTag}>{GetFormulaValue(v, prefix)}</{cTag}>");
+                        }
                     }
                     else
                     {
@@ -612,6 +639,53 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                 _ws.Workbook.RichData.SetHasValuesOnParts();
             }
         }
+
+        private void SetCalcAttributesForArrayFormula(bool hasFlags, CellStoreEnumerator<ExcelValue> cse, ref string mdAttrForFTag)
+        {
+            //Set calc attributes for array formula. We preserve them from load only at this point.
+            if (hasFlags)
+            {
+                if (_ws._flags.Exists(cse.Row, cse.Column))
+                {
+                    mdAttrForFTag = "";
+                    if (_ws._flags.GetFlagValue(cse.Row, cse.Column, CellFlags.CellFlagAlwaysCalculateArray))
+                    {
+                        mdAttrForFTag = $" aca=\"1\"";
+                    }
+                    if (_ws._flags.GetFlagValue(cse.Row, cse.Column, CellFlags.CellFlagCalculateCell))
+                    {
+                        mdAttrForFTag += $" ca=\"1\"";
+                    }
+                }
+            }
+        }
+        private string GenerateArrayFormulaXml(string cTag, string fTag, string cellAddress, string styleID, string mdAttr, string mdAttrForFTag, string refAddress, object value, string formula, string prefix)
+        {
+            var cellType = ConvertUtil.GetCellType(value, true);
+            var refStr = string.Format("{0}:{1}", refAddress, refAddress);
+            var xmlFormula = ConvertUtil.ExcelEscapeAndEncodeString(formula, false);
+            var formulaValue = GetFormulaValue(value, prefix);
+
+            var cellNode = GetSingleCellNode(cTag, cellAddress, styleID, cellType, mdAttr, formulaValue);
+            var formulaNode = GetSingleCellFormulaNode(fTag, refStr, mdAttrForFTag, xmlFormula);
+
+            return string.Format(cellNode, formulaNode);
+        }
+
+        private string GetSingleCellNode(string cTag, string cellAddress, string styleID, string cellType,string mdAttr, object formulaValue)
+        {
+            var str = $"<{cTag} r=\"{cellAddress}\" s=\"{styleID}\"{cellType}{mdAttr}>{{0}}{formulaValue}</{cTag}>";
+            return str;
+        }
+
+        private string GetSingleCellFormulaNode(string fTag, string refStr, string mdAttrForFTag, string xmlFormula)
+        {
+            string formulaNode = $"<{fTag} ref=\"{refStr}\" t=\"array\"{mdAttrForFTag}>" +
+                                    $"{xmlFormula}" +
+                                 $"</{fTag}>";
+            return formulaNode;
+        }
+
 
         /// <summary>
         /// Update merged cells

@@ -28,6 +28,7 @@
  *******************************************************************************/
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.Style;
 
 namespace EPPlusTest
 {
@@ -172,6 +173,85 @@ namespace EPPlusTest
 
                 worksheet.Calculate();
                 SaveWorkbook("Nan.xlsx", package);
+            }
+        }
+
+        [TestMethod]
+        public void ExcelRangeBaseShouldReturnCorrectText()
+        {
+            using (var package = OpenPackage("numfRed.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var aNewWs = wb.Worksheets.Add("NewWs");
+
+                var cell = aNewWs.Cells["A1"];
+                cell.Value = -5;
+                cell.Style.Numberformat.Format = "[Red]-#";
+
+                var value = aNewWs.Cells["A1"].Value;
+                var aText = aNewWs.Cells["A1"].Text;
+
+                Assert.AreEqual(value.ToString(), aText);
+
+                SaveAndCleanup(package);
+            }
+        }
+
+
+        [TestMethod]
+        public void ExcelRangeBaseShouldReturnCorrectTextAdvanced()
+        {
+            using (var package = OpenPackage("numfAdvancedCyan.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewWs");
+
+                var cell = ws.Cells["A1"];
+                cell.Value = -5;
+                cell.Style.Numberformat.Format = "[Cyan]-#";
+
+                var cell2 = ws.Cells["A2"];
+                //Should be same color as cell1
+                //Indicies for Color1,Color2 etc. are 1-based in the string
+                cell2.Style.Numberformat.Format = $"[Color{(int)ExcelIndexedColorNamedNumFt.Cyan + 1}]-#";
+
+                var cell3 = ws.Cells["A3"];
+                //Should become red
+                cell3.Style.Numberformat.Format = $"[Color3]-#";
+
+                ws.Cells["B1:B2"].Value = "Should be same color (Cyan)";
+                ws.Cells["B3"].Value = "Should be Red";
+
+                ws.Cells["A2:A3"].Formula = "ROW()";
+
+                ws.Calculate();
+
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void ExcelRangeBaseShouldReturnCorrectNumberFormatText()
+        {
+            using (var package = OpenPackage("numfRedStandard.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var aNewWs = wb.Worksheets.Add("NewWs");
+
+                var cell = aNewWs.Cells["A1"];
+                cell.Value = -5;
+                cell.Style.Numberformat.Format = "#,##0_);[Red](#,##0)";
+
+                var value = aNewWs.Cells["A1"].Value;
+
+                //Should return "(5)" since that's what excel returns on this format
+                var aText = aNewWs.Cells["A1"].Text;
+
+                var numberFormat = cell.Style.Numberformat;
+
+                Assert.AreEqual("(5)", aText);
+
+                SaveAndCleanup(package);
             }
         }
 

@@ -55,6 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             return CompileResult.GetErrorResult(eErrorType.NA);
         }
         public override bool ReturnsReference => true;
+        public override bool IsVolatile => true;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             if (argumentIndex % 2 == 0)

@@ -750,7 +750,9 @@ namespace OfficeOpenXml
         {
             Packaging.ZipPackagePart part = _zipPackage.GetPart(uri);
             var stream = part.GetStream(FileMode.Create, FileAccess.Write);
-            xmlDoc.Save(stream);
+            var xmlSettings = new XmlWriterSettings();
+            var xmlWriter = XmlWriter.Create(stream, xmlSettings);
+            xmlDoc.Save(xmlWriter);
         }
         /// <summary>
 		/// Saves the XmlDocument into the package at the specified Uri.
@@ -857,7 +859,7 @@ namespace OfficeOpenXml
 #endif
                 if (File == null)
                 {
-                    if (Encryption.IsEncrypted && Encryption.Version != EncryptionVersion.ProtectedBySensibilityLabel)
+                    if (Encryption.IsEncrypted && (Encryption.Version == EncryptionVersion.Standard || Encryption.Version == EncryptionVersion.Agile))
                     {
                         byte[] file;
                         using (var ms = RecyclableMemory.GetStream())
@@ -909,7 +911,7 @@ namespace OfficeOpenXml
                         using (var fi = new FileStream(File.FullName, FileMode.Create))
                         {
                             //EncryptPackage
-                            if (Encryption.IsEncrypted && Encryption.Version != EncryptionVersion.ProtectedBySensibilityLabel)
+                            if (Encryption.IsEncrypted && (Encryption.Version == EncryptionVersion.Standard || Encryption.Version == EncryptionVersion.Agile))
                             {
                                 byte[] file = ((MemoryStream)Stream).ToArray();
                                 EncryptedPackageHandler eph = new EncryptedPackageHandler(this);
@@ -1129,7 +1131,7 @@ namespace OfficeOpenXml
 			XmlDocument xml = new XmlDocument();
 			Packaging.ZipPackagePart part = _zipPackage.GetPart(uri);
             XmlHelper.LoadXmlSafe(xml, part.GetStream()); 
-			return (xml);
+			return xml;
 		}
         #endregion
         #region GetAsByteArray
@@ -1195,7 +1197,7 @@ namespace OfficeOpenXml
             Byte[] byRet = new byte[Stream.Length];
             long pos = Stream.Position;            
             Stream.Seek(0, SeekOrigin.Begin);
-            Stream.Read(byRet, 0, (int)Stream.Length);
+            var r = Stream.Read(byRet, 0, (int)Stream.Length);
 
             //Encrypt Workbook?
             if (Encryption.IsEncrypted)

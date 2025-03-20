@@ -47,7 +47,7 @@ using OfficeOpenXml.FormulaParsing.Ranges;
 namespace EPPlusTest.Excel.Functions
 {
     [TestClass]
-    public class MathFunctionsTests
+    public class MathFunctionsTests : TestBase
     {
         private ParsingContext _parsingContext;
 
@@ -1765,11 +1765,11 @@ namespace EPPlusTest.Excel.Functions
 
                 sheet.Cells["B1"].Formula = "PERCENTRANK.EXC(A1:A9,18)";
                 sheet.Calculate();
+                SaveWorkbook("percentRank.xlsx", package);
                 result = sheet.Cells["B1"].Value;
                 Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), result);
             }
         }
-
         [TestMethod]
         public void Percentile_Test1()
         {

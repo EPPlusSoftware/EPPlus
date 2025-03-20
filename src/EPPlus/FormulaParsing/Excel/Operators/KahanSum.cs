@@ -57,7 +57,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 
         public double Get()
         {
-            return RoundingHelper.GetSignificantFigures(_sum - _c, 15);
+            return _sum + _c;
         }
 
         public void Clear()

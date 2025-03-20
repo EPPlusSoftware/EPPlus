@@ -18,6 +18,7 @@ using System.Linq;
 using OfficeOpenXml.Core.CellStore;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using System.IO;
 namespace OfficeOpenXml.Drawing.Chart
 {
     /// <summary>
@@ -26,14 +27,99 @@ namespace OfficeOpenXml.Drawing.Chart
     public class ExcelChartStandardSerie : ExcelChartSerie
     {
         private readonly bool _isPivot;
+
+
+        double[] _NumberLiteralsY = null;
+        double[] _NumberLiteralsX = null;
+        string[] _StringLiteralsX = null;
+        string[] _StringLiteralsY = null;
+
+        /// <summary>
+        /// Literals for the Y serie, if the literal values are numeric
+        /// </summary>
+        public override double[] NumberLiteralsY 
+        { 
+            get 
+            {
+                if(string.IsNullOrEmpty(_seriesNumLitPath) == false && GetNode(_seriesNumLitPath) != null)
+                {
+                    ReadNumLiterals(_seriesNumLitPath, out _NumberLiteralsY);
+                    return _NumberLiteralsY;
+                }
+                return _NumberLiteralsY;
+            } 
+            protected set
+            {
+                _NumberLiteralsY = value;
+            }
+        }
+        /// <summary>
+        /// Literals for the X serie, if the literal values are numeric
+        /// </summary>
+        public override double[] NumberLiteralsX 
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_xSeriesNumLitPath) == false && GetNode(_xSeriesNumLitPath) != null)
+                {
+                    ReadNumLiterals(_xSeriesNumLitPath, out _NumberLiteralsX);
+                    return _NumberLiteralsX;
+                }
+                return _NumberLiteralsX;
+            }
+            protected set
+            {
+                _NumberLiteralsX = value;
+            }
+        }
+        /// <summary>
+        /// Literals for the Y serie, if the literal values are strings
+        /// </summary>
+        public override string[] StringLiteralsY
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_seriesStrLitPath) == false && GetNode(_seriesStrLitPath) != null)
+                {
+                    ReadStringLiterals(_seriesStrLitPath, out _StringLiteralsY);
+                    return _StringLiteralsY;
+                }
+                return _StringLiteralsY;
+            }
+            protected set
+            {
+                _StringLiteralsY = value;
+            }
+        }
+
+        /// <summary>
+        /// Literals for the X serie, if the literal values are strings
+        /// </summary>
+        public override string[] StringLiteralsX
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_xSeriesStrLitPath) == false && GetNode(_xSeriesStrLitPath) != null)
+                {
+                    ReadStringLiterals(_xSeriesStrLitPath, out _StringLiteralsX);
+                    return _StringLiteralsX;
+                }
+                return _StringLiteralsX;
+            }
+            protected set
+            {
+                _StringLiteralsX = value;
+            }
+        }
+
         /// <summary>
         /// Default constructor
         /// </summary>
         /// <param name="chart">The chart</param>
         /// <param name="ns">Namespacemanager</param>
         /// <param name="node">Topnode</param>
-       /// <param name="isPivot">Is pivotchart</param>  
-       internal ExcelChartStandardSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot)
+        /// <param name="isPivot">Is pivotchart</param>  
+        internal ExcelChartStandardSerie(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, bool isPivot)
            : base(chart, ns, node)
        {
            _chart = chart;
@@ -211,6 +297,46 @@ namespace OfficeOpenXml.Drawing.Chart
                 }
             }
        }
+
+        private void ReadNumLiterals(string path, out double[] numberLiterals)
+        {
+            var childNodes = GetNode(path).ChildNodes;
+            //numberLiterals = new double[childNodes.Count];
+            List<double> numLits = new();
+
+            foreach (XmlElement node in childNodes)
+            {
+                if(node.LocalName == "pt")
+                {
+                    if(double.TryParse(node.InnerText, NumberStyles.Any, CultureInfo.InvariantCulture, out double numLit) == false)
+                    {
+                        throw new InvalidDataException($"numberLiteral in xml node:'{node.Name}' in chart:'{_chart.Name}' with value:'{node.InnerText}' could not be parsed as double. Chart cannot be read.");
+                    }
+                    numLits.Add(numLit);
+                }
+            }
+            numberLiterals = numLits.ToArray();
+        }
+
+        private void ReadStringLiterals(string path, out string[] stringLiterals)
+        {
+            var parentNode = GetNode(path);
+            List<string> strLits = new();
+
+            if(parentNode != null)
+            {
+                var childNodes = parentNode.ChildNodes;
+
+                foreach (XmlElement node in childNodes)
+                {
+                    if (node.LocalName == "pt")
+                    {
+                        strLits.Add(node.InnerText);
+                    }
+                }
+            }
+            stringLiterals = strLits.ToArray();
+        }
 
         private void GetLitValues(string value, out double[] numberLiterals, out string[] stringLiterals)
         {

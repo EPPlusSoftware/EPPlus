@@ -28,7 +28,7 @@ namespace OfficeOpenXml.Metadata
     internal class ExcelMetadata
     {
         private ExcelWorkbook _wb;
-        private readonly ExcelRichData _richData;
+        //private readonly ExcelRichData _richData;
         private ZipPackagePart _part;
         private Uri _uri;
         
@@ -336,17 +336,20 @@ namespace OfficeOpenXml.Metadata
         private void WriteValueMetadataItems(StreamWriter sw, string element, ValueMetadataBlockCollection collection)
         {
             if (collection.Count == 0) return;
-            sw.Write($"<{element} count=\"{collection.Count(x => !x.Deleted && x.Records.Any())}\">");
+            sw.Write($"<{element} count=\"{collection.Count(x => !x.Deleted && x.Records.Any(x => x.MetadataTypeIndex != null && x.FutureMetadataBlockIndex != null))}\">");
             foreach (var item in collection)
             {
                 if (item.Deleted) continue;
                 var records = item.Records.Where(x => !x.Deleted);
-                if (records.Any())
+                if (records.Any(x => x.MetadataTypeIndex != null && x.FutureMetadataBlockIndex != null))
                 {
                     sw.Write("<bk>");
                     foreach (var r in records)
                     {
-                        sw.Write($"<rc t=\"{r.MetadataTypeIndex}\" v=\"{r.FutureMetadataBlockIndex}\"/>");
+                        var mtIx = r.MetadataTypeIndex;
+                        var fmbIx = r.FutureMetadataBlockIndex;
+                        if (mtIx == null || fmbIx == null) continue;
+                        sw.Write($"<rc t=\"{mtIx}\" v=\"{fmbIx}\"/>");
                     }
                     sw.Write("</bk>");
                 }
