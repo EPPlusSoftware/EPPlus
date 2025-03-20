@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Linq;
 
@@ -61,6 +60,55 @@ namespace EPPlusTest.Core.Worksheet
             }
         }
 
+        [TestMethod]
+        public void DeleteTest()
+        {
+            using (var p = new ExcelPackage())
+            {
+                var wb = p.Workbook;
+                var ws = wb.Worksheets.Add("rowSheet");
+                var range = ws.Cells["A1:D10"];
+
+                range.EntireRow.Style.Fill.SetBackground(Color.DarkRed);
+
+                range.Value = "5";
+                int iteratedRows = 0;
+
+                var rows = ws.Rows;
+
+                foreach (var row in rows)
+                {
+                    if (row.StartRow % 2 > 0)
+                    {
+                        ws.Row(row.StartRow).Style.Fill.SetBackground(Color.CornflowerBlue);
+                    }
+                }
+
+                List<int> rowNumbers = new();
+                List<int> rowDeleteNumbers = new();
+
+                //foreach (var row in rows)
+                //{
+                //    rowNumbers.Add(row.StartRow);
+                //    if (row.StartRow % 2 > 0)
+                //    {
+                //        rowDeleteNumbers.Add(row.StartRow);
+                //        ws.DeleteRow(row.StartRow);
+                //    }
+                //    iteratedRows++;
+                //}
+
+                // var finalRows = iteratedRows;
+
+                var toBeDeleted = ws.Rows.Where(row => row.StartRow % 2 > 0).ToList();
+                for (int i = toBeDeleted.Count() -1; i >= 0; i--)
+                {
+                    ws.DeleteRow(toBeDeleted[i].StartRow);
+                }
+
+                SaveWorkbook("SomeWorkbook.xlsx", p);
+            }
+        }
 
         [TestMethod]
         public void DeleteAllRowslWithPredicate()
@@ -75,8 +123,6 @@ namespace EPPlusTest.Core.Worksheet
                 range.Value = "";
 
                 range.EntireRow.Style.Fill.SetBackground(Color.DarkRed);
-
-                var royalBlue = ws.Cells["A1"].Style.Fill.BackgroundColor.Rgb;
 
                 var subRange = ws.Cells["A3:D6"];
 

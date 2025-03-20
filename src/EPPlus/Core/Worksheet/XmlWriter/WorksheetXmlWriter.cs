@@ -10,7 +10,6 @@
  *************************************************************************************************
   02/10/2023       EPPlus Software AB       Initial release EPPlus 6.2
  *************************************************************************************************/
-using Microsoft.VisualBasic;
 using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.ConditionalFormatting.Rules;
 using OfficeOpenXml.Constants;
@@ -20,9 +19,7 @@ using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.DataValidation.Formulas;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
 using OfficeOpenXml.ExcelXMLWriter;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.RichData.RichValues.Errors;
 using OfficeOpenXml.Style;
@@ -40,7 +37,6 @@ using System.Security;
 using System.Text;
 using static OfficeOpenXml.ExcelWorkbook;
 using static OfficeOpenXml.ExcelWorksheet;
-using static OfficeOpenXml.RichData.Structures.Constants.SpecialKeyNames;
 
 namespace OfficeOpenXml.Core.Worksheet.XmlWriter
 {
@@ -450,12 +446,18 @@ namespace OfficeOpenXml.Core.Worksheet.XmlWriter
                             if (md.cm > 0)
                             {
                                 var ix = _ws.Workbook.Metadata.Db.CellMetadata.GetIndexById(md.cm) + 1;
-                                mdAttr = $" cm=\"{ix}\"";
+                                if(ix != null)
+                                {
+                                    mdAttr = $" cm=\"{ix}\"";
+                                }
                             }
                             if (md.vm > 0)
                             {
                                 var ix = _ws.Workbook.Metadata.Db.ValueMetadata.GetIndexById(md.vm) + 1;
-                                mdAttr += $" vm=\"{ix}\"";
+                                if (ix != null)
+                                {
+                                    mdAttr += $" vm=\"{ix}\"";
+                                }
                             }
                         }
                     }

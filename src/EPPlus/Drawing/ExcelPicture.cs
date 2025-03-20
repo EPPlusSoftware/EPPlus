@@ -533,13 +533,20 @@ namespace OfficeOpenXml.Drawing
                 var node = TopNode.SelectSingleNode($"{_topPath}xdr:blipFill/a:blip/a:extLst/a:ext/asvg:svgBlip/@r:embed", NameSpaceManager);
                 if(node == null)
                 {
-                    var newNode = TopNode.OwnerDocument.CreateElement("extLst", "28A0092B-C50C-407E-A947-70E740481C1C");
+                    var newNode = TopNode.OwnerDocument.CreateElement("a","extLst", "http://schemas.openxmlformats.org/drawingml/2006/main");
                     picNode.AppendChild(newNode);
                     newNode.InnerXml = $"<a:ext uri=\"{{28A0092B-C50C-407E-A947-70E740481C1C}}\"><a14:useLocalDpi xmlns:a14=\"http://schemas.microsoft.com/office/drawing/2010/main\" val=\"0\"/></a:ext><a:ext uri=\"{{96DAC541-7B7A-43D3-8B79-37D633B846F1}}\"><asvg:svgBlip xmlns:asvg=\"http://schemas.microsoft.com/office/drawing/2016/SVG/main\" r:embed=\"{relId}\"/></a:ext>";
                 }
                 else
                 {
                     node.Value = relId;
+                }
+            }
+            else
+            {
+                if(picNode.HasChildNodes)
+                {
+                    picNode.InnerXml = "";
                 }
             }
 
