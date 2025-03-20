@@ -291,8 +291,10 @@ namespace OfficeOpenXml.Drawing
                 //Recalculates width/height and bounds to 100% width/height relative to original image size
                 Image.Bounds = PictureStore.GetImageBounds(Image.ImageBytes, Image.Type.Value, _drawings._package);
 
-                var width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
-                var height = Image.Bounds.Height / (Image.Bounds.VerticalResolution / STANDARD_DPI);
+                var width = 0d;
+                var height = 0d;
+                ImageUtil.CalculateDPI(Image, STANDARD_DPI, ref width, ref height);
+
                 SetPosDefaults((float)width, (float)height);
 
                 //Image.Bounds.Height = origHeight;
@@ -384,8 +386,7 @@ namespace OfficeOpenXml.Drawing
             }
             else
             {
-                _width = Image.Bounds.Width / (Image.Bounds.HorizontalResolution / STANDARD_DPI);
-                _height = Image.Bounds.Height / (Image.Bounds.VerticalResolution / STANDARD_DPI);
+                ImageUtil.CalculateDPI(Image, STANDARD_DPI, ref _width, ref _height);
 
                 _width = (int)(_width * ((double)Percent / 100));
                 _height = (int)(_height * ((double)Percent / 100));
