@@ -89,9 +89,11 @@ namespace EPPlusTest.FormulaParsing
                 using (var package = new ExcelPackage())
                 {
                     var ws = package.Workbook.Worksheets.Add("Sheet1");
+
                     ws.Cells[2, 2].Value = "15/1/2014";
                     ws.Cells[3, 3].Formula = "EOMONTH(C2, 0)";
                     ws.Cells[2, 3].Formula = "EDATE(B2, 0)";
+                    var endrow = ws.Dimension.End.Row;
                     ws.Calculate();
                     try
                     {

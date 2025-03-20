@@ -481,7 +481,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         }
                         else
                         {
-                            var v = fieldItemSelection[j].Value;
+                            var v = fieldItemSelection[j].Value ?? PivotNullValue;
                             if (cache.ContainsKey(v))
                             {
                                 key[i] = cache[v];
@@ -676,13 +676,18 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             var isCollapsed = false;
             var isParentFunctionNone = false;
+            var partentIsSingleItem = false;
             for (int i = fromIndex; i < toIndex; i++)
             {
                 if (key[i] == PivotCalculationStore.SumLevelValue)
                 {
-                    if (isParentFunctionNone && isCollapsed == false && Keys[DataFields.IndexOf(datafield)].ContainsKey(key) && Keys[DataFields.IndexOf(datafield)][key].Count > 1)
+                    if (isParentFunctionNone && partentIsSingleItem == false && isCollapsed == false && Keys[DataFields.IndexOf(datafield)].ContainsKey(key) && Keys[DataFields.IndexOf(datafield)][key].Select(x => x[i]).Distinct().Count() > 1)
                     {
                         return true;
+                    }
+                    else
+                    {
+                        partentIsSingleItem = true;
                     }
                     continue;
                 }
@@ -1482,21 +1487,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     try
                     {
-                        if (Enum.GetNames(typeof(TableStyles)).Any(x => x.Equals(value.Substring(10, value.Length - 10), StringComparison.OrdinalIgnoreCase)))
-                        {
-                            _tableStyle = (TableStyles)Enum.Parse(typeof(TableStyles), value.Substring(10, value.Length - 10), true);
-                        }
-                        else
-                        {
-                            _tableStyle = TableStyles.Custom;
-                        }
-                    }
-                    catch
-                    {
-                        _tableStyle = TableStyles.Custom;
-                    }
-                    try
-                    {
                         _pivotTableStyle = (PivotTableStyles)Enum.Parse(typeof(PivotTableStyles), value.Substring(10, value.Length - 10), true);
                     }
                     catch
@@ -1507,13 +1497,11 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 else if (value == "None")
                 {
-                    _tableStyle = TableStyles.None;
                     _pivotTableStyle = PivotTableStyles.None;
                     value = "";
                 }
                 else
                 {
-                    _tableStyle = TableStyles.Custom;
                     _pivotTableStyle = PivotTableStyles.Custom;
                 }
                 SetXmlNodeString(STYLENAME_PATH, value, true);
@@ -1594,26 +1582,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool(SHOWROWSTRIPES_PATH, value);
             }
         }
-        TableStyles _tableStyle = Table.TableStyles.Medium6;
-        /// <summary>
-        /// The table style. If this property is Custom, the style from the StyleName propery is used.
-        /// </summary>
-        [Obsolete("Use the PivotTableStyle property for more options")]
-        public TableStyles TableStyle
-        {
-            get
-            {
-                return _tableStyle;
-            }
-            set
-            {
-                _tableStyle = value;
-                if (value != TableStyles.Custom)
-                {
-                    StyleName = "PivotStyle" + value.ToString();
-                }
-            }
-        }
+
         PivotTableStyles _pivotTableStyle = PivotTableStyles.Medium6;
         /// <summary>
         /// The pivot table style. If this property is Custom, the style from the StyleName propery is used.

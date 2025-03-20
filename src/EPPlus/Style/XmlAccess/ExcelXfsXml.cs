@@ -538,7 +538,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             }
             else if (styleProperty == eStyleProperty.Tint)
             {
-                excelBorderItem.Color.Tint = (decimal)value;
+                excelBorderItem.Color.Tint = (double)value;
             }
             else if (styleProperty == eStyleProperty.AutoColor)
             {
@@ -588,7 +588,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                     }
                     else if (styleProperty == eStyleProperty.Tint)
                     {
-                        destColor.Tint = (decimal)value;
+                        destColor.Tint = (double)value;
                     }
                     else if (styleProperty == eStyleProperty.IndexedColor)
                     {
@@ -678,7 +678,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                     }
                     else if (styleProperty == eStyleProperty.Tint)
                     {
-                        destColor.Tint = (decimal)value;
+                        destColor.Tint = (double)value;
                     }
                     else if (styleProperty == eStyleProperty.Theme)
                     {
@@ -754,7 +754,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                     fnt.Color.Rgb=value.ToString();
                     break;
                 case eStyleProperty.Tint:
-                    fnt.Color.Tint = (decimal)value;
+                    fnt.Color.Tint = (double)value;
                     break;
                 case eStyleProperty.Theme:
                     fnt.Color.Theme = (eThemeSchemeColor?)value;

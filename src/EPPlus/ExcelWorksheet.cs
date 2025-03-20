@@ -504,22 +504,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// 
         const string SortStatePath = "d:sortState";
-        /// <summary>
-        /// The auto filter address. 
-        /// null means no auto filter.
-        /// </summary>
-        [Obsolete("AutoFilterAddress is deprecated please use AutoFilter.Address instead.")]
-        public ExcelAddressBase AutoFilterAddress
-        {
-            get
-            {
-                return AutoFilter.Address;
-            }
-            internal set
-            {
-                AutoFilter.Address = value;
-            }
-        }
+
         ExcelAutoFilter _autoFilter = null;
         /// <summary>
         /// Autofilter settings
@@ -615,20 +600,20 @@ namespace OfficeOpenXml
         }
         //TODO: Examine if mdw is really a neccessary input parameter.
         //Seems it is always the same as Workbook.MaxFontWidth
-        internal int GetColumnWidthPixels(int col, decimal mdw)
+        internal int GetColumnWidthPixels(int col, double mdw)
         {
             return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), Workbook.MaxFontWidth);
         }
-        internal decimal GetColumnWidth(int col)
+        internal double GetColumnWidth(int col)
         {
             var column = GetColumn(col);
             if (column == null)   //Check that the column exists
             {                
-                return (decimal)DefaultColWidth;
+                return DefaultColWidth;
             }
             else
             {
-                return (decimal)Columns[col].Width;
+                return Columns[col].Width;
             }
         }
 
@@ -979,7 +964,7 @@ namespace OfficeOpenXml
         }
         const string tabColorPath = "d:sheetPr/d:tabColor/@rgb";
         /// <summary>
-        /// Color of the sheet tab
+        /// Color of the sheet tab. To remove color, set TabColor to Color.Empty.
         /// </summary>
         public Color TabColor
         {
@@ -997,6 +982,11 @@ namespace OfficeOpenXml
             }
             set
             {
+                if (value == Color.Empty)
+                {
+                    DeleteNode(tabColorPath, true);
+                    return;
+                }
                 SetXmlNodeString(tabColorPath, value.ToArgb().ToString("X"));
             }
         }
@@ -2253,17 +2243,6 @@ namespace OfficeOpenXml
             WorksheetRangeDeleteHelper.DeleteRow(this, rowFrom, rows);
         }
 
-        /// <summary>
-        /// Deletes the specified rows from the worksheet.
-        /// </summary>
-        /// <param name="rowFrom">The number of the start row to be deleted</param>
-        /// <param name="rows">Number of rows to delete</param>
-        /// <param name="shiftOtherRowsUp">Not used. Rows are always shifted</param>
-        [Obsolete("Use the two-parameter method instead")]
-        public void DeleteRow(int rowFrom, int rows, bool shiftOtherRowsUp)
-        {
-            DeleteRow(rowFrom, rows);
-        }
 #endregion
 #region Delete column
         /// <summary>
@@ -3723,6 +3702,7 @@ namespace OfficeOpenXml
         }
         internal void SetValueRow_Value(int row, int col, object[] array)
         {
+            _formulas.Clear(row, col, row, col + array.Length - 1);
             for (int c = 0; c < array.Length; c++)
             {
                 if (array[c] == DBNull.Value)
@@ -3737,6 +3717,7 @@ namespace OfficeOpenXml
         }
         internal void SetValueRow_ValueTransposed(int row, int col, object[] array)
         {
+            _formulas.Clear(row, col, row+array.Length-1, col);
             for (int c = 0; c < array.Length; c++)
             {
                 if (array[c] == DBNull.Value)
@@ -3752,9 +3733,12 @@ namespace OfficeOpenXml
         internal void SetValueRow_Value(int row, int col, IEnumerable collection)
         {
             int offset = 0;
+            
             foreach (var v in collection)
             {
-                SetValueInner(row, col + offset, v);
+                var c = col + offset;
+                _formulas.Clear(row, c, row, c);
+                SetValueInner(row, c, v);
                 offset++;
             }
         }
@@ -3763,7 +3747,9 @@ namespace OfficeOpenXml
             int offset = 0;
             foreach (var v in collection)
             {
-                SetValueInner(row + offset, col, v);
+                var r = row + offset;
+                _formulas.Clear(r, col, r, col);
+                SetValueInner(r, col, v);
                 offset++;
             }
         }

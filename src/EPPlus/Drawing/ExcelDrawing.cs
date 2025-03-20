@@ -21,6 +21,7 @@ using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Controls;
 using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Utils.Extensions;
@@ -709,7 +710,7 @@ namespace OfficeOpenXml.Drawing
             else
             {
                 ExcelWorksheet ws = _drawings.Worksheet;
-                decimal mdw = ws.Workbook.MaxFontWidth;
+                double mdw = ws.Workbook.MaxFontWidth;
 
                 pix = 0;
                 for (int col = 0; col < From.Column; col++)
@@ -753,15 +754,15 @@ namespace OfficeOpenXml.Drawing
             if (CellAnchor == eEditAs.TwoCell)
             {
                 ExcelWorksheet ws = _drawings.Worksheet;
-                decimal mdw = ws.Workbook.MaxFontWidth;
+                double mdw = ws.Workbook.MaxFontWidth;
 
                 pix = -From.ColumnOff / (double)EMU_PER_PIXEL;
                 for (int col = From.Column + 1; col <= To.Column; col++)
                 {
-                    pix += (double)decimal.Truncate(((256 * ws.GetColumnWidth(col) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                    pix += MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
                 }
 
-                var w = (double)decimal.Truncate(((256 * ws.GetColumnWidth(To.Column + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                var w = MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(To.Column + 1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
                 pix += Math.Min(w, Convert.ToDouble(To.ColumnOff) / EMU_PER_PIXEL);
             }
             else
@@ -812,7 +813,7 @@ namespace OfficeOpenXml.Drawing
         internal void CalcRowFromPixelTop(double pixels, out int row, out int rowOff)
         {
             ExcelWorksheet ws = _drawings.Worksheet;
-            decimal mdw = ws.Workbook.MaxFontWidth;
+            double mdw = ws.Workbook.MaxFontWidth;
             double prevPix = 0;
             double pix = ws.GetRowHeight(1) / 0.75;
             int r = 2;
@@ -855,15 +856,15 @@ namespace OfficeOpenXml.Drawing
         {
 
             ExcelWorksheet ws = _drawings.Worksheet;
-            decimal mdw = ws.Workbook.MaxFontWidth;
+            double mdw = ws.Workbook.MaxFontWidth;
             double prevPix = 0;
-            double pix = (int)decimal.Truncate(((256 * ws.GetColumnWidth(1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+            double pix = (int)MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
             int col = 2;
 
             while (pix < pixels)
             {
                 prevPix = pix;
-                pix += (int)decimal.Truncate(((256 * ws.GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                pix += (int)MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col++) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
             }
             if (pix == pixels)
             {
@@ -940,19 +941,19 @@ namespace OfficeOpenXml.Drawing
         internal void GetToColumnFromPixels(double pixels, out int col, out int colOff, int fromColumn = -1, int fromColumnOff = -1)
         {
             ExcelWorksheet ws = _drawings.Worksheet;
-            decimal mdw = ws.Workbook.MaxFontWidth;
+            double mdw = ws.Workbook.MaxFontWidth;
             if(fromColumn<0)
             {
                 fromColumn = From.Column;
                 fromColumnOff = From.ColumnOff;
             }
-            double pixOff = pixels - (double)(decimal.Truncate(((256 * ws.GetColumnWidth(fromColumn + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
+            double pixOff = pixels - (MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(fromColumn + 1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw) - fromColumnOff / EMU_PER_PIXEL);
             double offset = (double)fromColumnOff / EMU_PER_PIXEL + pixels;
             col = fromColumn + 2;
             while (pixOff >= 0)
             {
                 offset = pixOff;
-                pixOff -= (double)decimal.Truncate(((256 * ws.GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                pixOff -= MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col++) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
             }
             colOff = (int)offset;
         }
@@ -1859,14 +1860,23 @@ namespace OfficeOpenXml.Drawing
                         {
                             var relativeUri = UriHelper.GetRelativeUri(srcsRel.SourceUri, imageInfo.Uri);
                             var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.TargetUri == relativeUri).FirstOrDefault();
-                            relNode.Value = exisistingRel.Id;
+                            //Create new relation id if no relation exists. Otherwise asign the existing relationship Id
+                            if (exisistingRel == null )
+                            {
+                                newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);
+                                relNode.Value = newRel.Id;
+                            }
+                            else
+                            {
+                                relNode.Value = exisistingRel.Id;
+                            }
                         }
                     }
                     else
                     {
                         //Check if relationship exists.
                         var exisistingRel = targetWorksheet._drawings.Part.GetRelationshipsByType(srcsRel.RelationshipType).Where(x => x.TargetUri == srcsRel.TargetUri).FirstOrDefault();
-                        //Create new relation id if no relation exsist or if it's a different worksheet. Otherwise asign the existing relationship Id
+                        //Create new relation id if no relation exists or if it's a different worksheet. Otherwise asign the existing relationship Id
                         if (exisistingRel == null || targetWorksheet != _drawings.Worksheet)
                         {
                             newRel = targetWorksheet._drawings.Part.CreateRelationshipFromCopy(srcsRel);

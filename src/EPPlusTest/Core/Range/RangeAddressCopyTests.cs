@@ -473,6 +473,7 @@ namespace EPPlusTest.Core.Range
             {
                 var person = p.Workbook.ThreadedCommentPersons.Add("JK");
                 ExcelWorksheet ws = SetupCopyRange(p);
+                var person1 = p.Workbook.ThreadedCommentPersons.Add("Person 1");
                 ws.Cells["A2"].AddThreadedComment();
                 ws.Cells["A2"].ThreadedComment.AddComment(person.Id, "Threaded Comment");
                 ws.Cells["A1:A2"].Copy(ws.Cells["B5:B6"], ExcelRangeCopyOptionFlags.ExcludeValues, ExcelRangeCopyOptionFlags.ExcludeStyles);
@@ -864,7 +865,7 @@ namespace EPPlusTest.Core.Range
             }
         }
         [TestMethod]
-        public void CopyExcludingHiddenCells_TheadedComments()
+        public void CopyExcludingHiddenCells_ThreadedComments()
         {
             using (var p = new ExcelPackage())
             {

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace EPPlusTest.Sorting
 {
     [TestClass]
-    public class SortRangeTests
+    public class SortRangeTests : TestBase
     {
         [TestMethod]
         public void ShouldSetSortState()
@@ -577,6 +577,34 @@ namespace EPPlusTest.Sorting
                 sheet.Cells["A1:A2"].Sort(x => x.SortBy.Column(0));
                 Assert.AreEqual(1, sheet.SortState.SortConditions.Count());
             }
+        }
+        [TestMethod]
+        public void SortWithEmptyRowsDown()
+        {
+            using var p = OpenPackage("SortWithEmptyRowsAndComments.xlsx", true);
+            var sheet = p.Workbook.Worksheets.Add("Sheet1");
+
+            var user = p.Workbook.ThreadedCommentPersons.Add("Jan Källman");
+            LoadTestdata(sheet, 7);
+
+            for (int r=2;r < 6;r++)
+            {
+                sheet.Cells[r, 1].AddComment(r.ToString());
+                var tc = sheet.Cells[r, 2].AddThreadedComment();
+                    
+                tc.AddComment(user.Id, r.ToString());                
+            }
+
+            // Act
+            sheet.Cells["2:3"].Clear();
+            sheet.Cells["6:6"].Clear();
+            sheet.Cells.Sort(column: 0, true);
+
+            Assert.AreEqual("5", sheet.Cells["A3"].Comment.Text);
+            Assert.AreEqual("4", sheet.Cells["A4"].Comment.Text);
+
+            // Act 2
+            SaveWorkbook("i1870-save.xlsx", p);
         }
     }
 }

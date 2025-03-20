@@ -45,21 +45,11 @@ namespace OfficeOpenXml
     /// <summary>
 	/// Represents an individual row in the spreadsheet.
 	/// </summary>
-	public class ExcelRow : IRangeID
+	public class ExcelRow
 	{
 		private ExcelWorksheet _worksheet;
 		private XmlElement _rowElement = null;
-        /// <summary>
-        /// Internal RowID.
-        /// </summary>
-        [Obsolete]
-        public ulong RowID 
-        {
-            get
-            {
-                return GetRowID(_worksheet.SheetId, Row);
-            }
-        }
+
 		#region ExcelRow Constructor
 		/// <summary>
 		/// Creates a new instance of the ExcelRow class. 
@@ -348,23 +338,7 @@ namespace OfficeOpenXml
             return ((ulong)sheetID) + (((ulong)row) << 29);
 
         }
-        
-        #region IRangeID Members
 
-        [Obsolete]
-        ulong IRangeID.RangeID
-        {
-            get
-            {
-                return RowID; 
-            }
-            set
-            {
-                Row = ((int)(value >> 29));
-            }
-        }
-
-        #endregion
         /// <summary>
         /// Copies the current row to a new worksheet
         /// </summary>

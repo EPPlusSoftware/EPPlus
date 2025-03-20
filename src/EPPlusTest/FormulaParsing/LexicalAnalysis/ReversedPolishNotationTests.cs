@@ -67,7 +67,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var formula = "(( 1 -(- 2)-( 3 + 4 + 5 ))/( 6 + 7 * 8 - 9) * 10 )";
             var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook, formula, new ExcelCalculationOption());
-            var expected = -1.69811320754717D;
+            var expected = -1.6981132075471697D;
             Assert.AreEqual(expected, value);
         }
         [TestMethod]
@@ -75,7 +75,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             var formula = "( 1 + 2 ) * ( 3 / 4 ) ^ ( 5 + 6 )";
             var value = RpnFormulaExecution.ExecuteFormula(_package.Workbook, formula, new ExcelCalculationOption());
-            Assert.AreEqual(0.126705408096313D, value);
+            Assert.AreEqual(0.12670540809631348D, value);
         }
         [TestMethod]
         public void Calculate_NumericExpressionWithFunctions()

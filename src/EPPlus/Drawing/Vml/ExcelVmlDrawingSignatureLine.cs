@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using System;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing.Vml
@@ -298,19 +299,19 @@ namespace OfficeOpenXml.Drawing.Vml
         internal void GetToColumnFromPixels(double pixels, out int col, out int colOff, int fromColumn = -1, int fromColumnOff = -1)
         {
             ExcelWorksheet ws = _ws;
-            decimal mdw = ws.Workbook.MaxFontWidth;
+            double mdw = ws.Workbook.MaxFontWidth;
             if (fromColumn < 0)
             {
                 fromColumn = From.Column;
                 fromColumnOff = From.ColumnOff;
             }
-            double pixOff = pixels - (double)(decimal.Truncate(((256 * ws.GetColumnWidth(fromColumn + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw) - fromColumnOff);
+            double pixOff = pixels - (MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(fromColumn + 1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw) - fromColumnOff);
             double offset = (double)fromColumnOff + pixels;
             col = fromColumn + 2;
             while (pixOff >= 0)
             {
                 offset = pixOff;
-                pixOff -= (double)decimal.Truncate(((256 * ws.GetColumnWidth(col++) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                pixOff -= MathHelper.TruncateDouble(((256 * ws.GetColumnWidth(col++) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
             }
             colOff = (int)offset;
         }
@@ -352,15 +353,15 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             var cols = From.Column - To.Column;
             double pix;
-            decimal mdw = _ws.Workbook.MaxFontWidth;
+            double mdw = _ws.Workbook.MaxFontWidth;
 
             pix = -From.ColumnOff;
             for (int col = From.Column + 1; col <= To.Column; col++)
             {
-                pix += (double)decimal.Truncate(((256 * _ws.GetColumnWidth(col) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+                pix += MathHelper.TruncateDouble(((256 * _ws.GetColumnWidth(col) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
             }
 
-            var w = (double)decimal.Truncate(((256 * _ws.GetColumnWidth(To.Column + 1) + decimal.Truncate(128 / (decimal)mdw)) / 256) * mdw);
+            var w = MathHelper.TruncateDouble(((256 * _ws.GetColumnWidth(To.Column + 1) + MathHelper.TruncateDouble(128 / mdw)) / 256) * mdw);
             pix += Math.Min(w, Convert.ToDouble(To.ColumnOff));
 
             return Convert.ToInt32(Math.Round(pix, MidpointRounding.AwayFromZero));

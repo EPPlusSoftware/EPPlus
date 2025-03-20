@@ -205,14 +205,6 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
-        /// <summary>
-        /// Indicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions
-        /// DEPRECATED as of Epplus 6.2.
-        /// This as validations can no longer be stale since all attributes are now always fresh and held in the system.
-        /// </summary>
-        [Obsolete]
-        public bool IsStale { get; } = false;
-
         string operatorString = null;
         /// <summary>
         /// Operator for comparison between the entered value and Formula/Formulas.
