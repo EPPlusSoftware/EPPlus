@@ -836,7 +836,7 @@ namespace EPPlusTest.Table
 
                 var totalRow = tableRange.End.Row;
                 Assert.AreEqual(table.Columns.GetIndexOfColName("Density"), 3);
-                Assert.AreEqual(154.406291155941d, sheet.Cells[totalRow, 4].Value);
+                Assert.AreEqual(154.40629115594086d, sheet.Cells[totalRow, 4].Value);
             }
 
         }

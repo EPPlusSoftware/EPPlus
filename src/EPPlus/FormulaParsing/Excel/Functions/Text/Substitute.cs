@@ -32,6 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var text = ArgToString(arguments, 0);
             var find = ArgToString(arguments, 1);
             var replaceWith = ArgToString(arguments, 2);
+            if (string.IsNullOrEmpty(text)) return CreateResult(text, DataType.String);
             if(arguments.Count > 3)
             {
                 var instanceNumber = ArgToInt(arguments, 3, out ExcelErrorValue e1);

@@ -361,6 +361,11 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             return false;
         }
+
+        public FormulaRangeAddress GetAddressDimensionAdjusted(int index)
+        {
+            return _address;
+        }
     }
 
     /// <summary>

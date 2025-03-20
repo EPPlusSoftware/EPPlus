@@ -33,10 +33,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             var number = ArgToDecimal(arguments, 1, out ExcelErrorValue e2);
             if (e2 != null) return CompileResult.GetErrorResult(e2.Type);
             if (number < array.First() || number > array.Last()) return CompileResult.GetErrorResult(eErrorType.NA);
-            var significance = 3;
+            var significance = 4;
             if (arguments.Count > 2)
             {
-                significance = ArgToInt(arguments, 2, out ExcelErrorValue e3);
+                significance = ArgToInt(arguments, 2, out ExcelErrorValue e3) + 1;
                 if (e3 != null) return CompileResult.GetErrorResult(e3.Type);
             }
             var result = PercentRankIncImpl(array, number);

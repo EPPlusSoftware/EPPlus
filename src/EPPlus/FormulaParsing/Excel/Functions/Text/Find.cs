@@ -32,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             var search = ArgToString(arguments, 0);
             if (string.IsNullOrEmpty(search))
             {
-                return CreateResult(1, DataType.Integer);
+                return CreateResult(1D, DataType.Integer);
             }
 
             var searchIn = ArgToString(arguments, 1);
@@ -53,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Text
             {
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
-            // Adding 1 because Excel uses 1-based index
+            //Adding 1 because Excel uses 1-based index
             return CreateResult(result + 1, DataType.Integer);
         }
     }

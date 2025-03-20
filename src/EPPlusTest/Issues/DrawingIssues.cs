@@ -92,6 +92,14 @@ namespace EPPlusTest.Issues
             Assert.IsNotNull(oleObject.ProgId);
             Assert.IsNotNull(oleObject.Image);
             Assert.IsNull(oleObject.ExternalLink);
+        public void i1902()
+        {
+            using var package = new ExcelPackage();
+            var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+            var rect = worksheet.Drawings.AddShape("rect1", eShapeStyle.Rect);
+
+            Console.WriteLine(rect.Text);
         }
     }
 }

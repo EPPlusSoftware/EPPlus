@@ -294,8 +294,8 @@ namespace OfficeOpenXml.Drawing
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="ChartType">Type of chart</param>
-        /// <param name="PivotTableSource">The pivottable source for a pivotchart</param>
-        /// <param name="DrawingType">The top element drawingtype. Default is OneCellAnchor for Pictures and TwoCellAnchor from Charts and Shapes</param>
+        /// <param name="PivotTableSource">The pivot table source for a pivot chart</param>
+        /// <param name="DrawingType">The top element drawing type. Default is OneCellAnchor for Pictures and TwoCellAnchor from Charts and Shapes</param>
         /// <returns>The chart</returns>
         public ExcelChart AddChart(string Name, eChartType ChartType, ExcelPivotTable PivotTableSource, eEditAs DrawingType = eEditAs.TwoCell)
         {

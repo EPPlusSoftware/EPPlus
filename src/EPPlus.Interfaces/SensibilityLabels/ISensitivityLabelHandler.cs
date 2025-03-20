@@ -23,7 +23,7 @@ using System.Xml;
 namespace OfficeOpenXml.Interfaces.SensitivityLabels;
 /// <summary>
 /// An interface that should be applied to a handler that integrates into EPPlus to handle sensibility labels. 
-/// The handler should apply or remove sensibility labels, decrypt/encryt protected packages and add extended information about the sensibility labels.
+/// The handler should apply or remove sensibility labels, decrypt/encrypt protected packages and add extended information about the sensibility labels.
 /// </summary>
 public interface ISensitivityLabelHandler
 {
@@ -37,7 +37,7 @@ public interface ISensitivityLabelHandler
     /// </summary>
     /// <param name="packageStream">The encrypted package stream</param>
     /// <param name="Id">The unique id of the package.</param>
-    /// <returns>The decrypted package with any neccessary protection information.</returns>
+    /// <returns>The decrypted package with any necessary protection information.</returns>
     public Task<IPackageInfo> DecryptPackageAsync(MemoryStream packageStream, string Id);
     /// <summary>
     /// Called when the package is saved in EPPlus and should apply the active label using the Microsoft Information Protection SDK
@@ -47,9 +47,9 @@ public interface ISensitivityLabelHandler
     /// <returns></returns>
     public Task<MemoryStream> ApplyLabelAndSavePackageAsync(IPackageInfo package, string Id);
     /// <summary>
-    /// Should update the supplied list of sensibility lables with name, description and other properties not present in the Sensibility Label XML document inside the package.
+    /// Should update the supplied list of sensibility labels with name, description and other properties not present in the Sensibility Label XML document inside the package.
     /// </summary>
-    /// <param name="list">The list of lables to update.</param>
+    /// <param name="list">The list of labels to update.</param>
     /// <param name="Id">The unique id of the package.</param>
     public void UpdateLabelList(IEnumerable<IExcelSensibilityLabel> list, string Id);
     /// <summary>

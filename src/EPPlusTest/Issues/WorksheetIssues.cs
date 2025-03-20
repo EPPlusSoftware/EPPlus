@@ -80,7 +80,6 @@ namespace EPPlusTest.Issues
 				worksheet.Column(6).Width = 24 * conversionFactor; // Column F
 				worksheet.Column(7).Width = 30 * conversionFactor; // Column G
 
-
 				SaveAndCleanup(package);
 			}
 		}
