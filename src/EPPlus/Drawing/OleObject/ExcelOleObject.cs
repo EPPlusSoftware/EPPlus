@@ -23,6 +23,8 @@ using System.IO;
 using System.Text;
 using OfficeOpenXml.Drawing.OleObject.Structures;
 using System.Text.RegularExpressions;
+using System.Globalization;
+using System.Linq;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
@@ -132,7 +134,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         }
 
         /// <summary>
-        /// Constructor for loading exsisting Ole Object.
+        /// Constructor for loading existing Ole Object.
         /// </summary>
         internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, OleObjectInternal oleObject, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
@@ -179,7 +181,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             {
                 oleData = File.ReadAllBytes(olePath);
             }
-            parameters.Extension = Path.GetExtension(olePath);
+            parameters.OlePath= olePath;
             byte[] iconData = null;
             if (parameters.Icon != null)
             {
@@ -203,7 +205,6 @@ namespace OfficeOpenXml.Drawing.OleObject
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             byte[] oleData = null;
-            parameters.Extension = string.IsNullOrEmpty(parameters.Extension) ? oleInfo.Extension : parameters.Extension;
             parameters.OlePath = oleInfo.FullName;
             if (parameters.LinkToFile == false)
             {
@@ -272,7 +273,8 @@ namespace OfficeOpenXml.Drawing.OleObject
             string oleObjectNode = "";
             if (parameters.ProgId == null)
             {
-                parameters.ProgId = GetProgId(parameters.Extension);
+                var extension = new FileInfo(parameters.OlePath).Extension;
+                parameters.ProgId = GetProgId(extension);
             }
             if (IsExternalLink)
             {
@@ -312,6 +314,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             else if (iconExt == ".bmp")
             {
                 byte[] image = OleObjectIcon.DefaultIcon;
+                var ext = new FileInfo(parameters.OlePath).Extension;
                 EmfImage emf = new EmfImage();
                 emf.Read(image);
                 if (iconData != null)
@@ -320,7 +323,6 @@ namespace OfficeOpenXml.Drawing.OleObject
                 }
                 else
                 {
-                    var ext = parameters.Extension;
                     if (ext != null)
                     {
                         if (ext.Contains("docx"))
@@ -333,14 +335,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                             emf.ChangeImage(OleObjectIcon.PDF_Icon_Bitmap);
                     }
                 }
-                if (parameters.OlePath == null)
-                {
-                    emf.SetNewTextInDefaultEMFImage(name + parameters.Extension);
-                }
-                else
-                {
-                    emf.SetNewTextInDefaultEMFImage(Path.GetFileName(parameters.OlePath));
-                }
+                emf.SetNewTextInDefaultEMFImage(Path.GetFileName(parameters.OlePath));
                 image = emf.GetBytes();
                 //Add image to Picture Store
                 _mediaImage = _worksheet._package.PictureStore.AddImage(image, null, ePictureType.Emf);
@@ -540,8 +535,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             string relId = "";
             _oleDataStructures = new OleObjectDataStructures();
             _document = new CompoundDocument();
+            var extension = new FileInfo(parameters.OlePath).Extension;
             Guid ClsId = OleObjectGUIDCollection.keyValuePairs["Package"];
-            if (parameters.Extension == ".pdf")
+            if (extension == ".pdf")
             {
                 Ole.CreateOleObject(_oleDataStructures, IsExternalLink);
                 Ole.CreateOleDataStream(_oleDataStructures, _document, IsExternalLink);
@@ -551,22 +547,22 @@ namespace OfficeOpenXml.Drawing.OleObject
                 OleDataFile.CreateDataFileDataStream(_document, OleDataFile.CONTENTS_STREAM_NAME, oleData);
                 ClsId = OleObjectGUIDCollection.keyValuePairs["PDF"];
             }
-            else if (parameters.Extension == ".odp" || parameters.Extension == ".odt" || parameters.Extension == ".ods")
+            else if (extension == ".odp" || extension == ".odt" || extension == ".ods")
             {
                 string UserType = "", Reserved = "", key = "";
-                if (parameters.Extension == ".odp")
+                if (extension == ".odp")
                 {
                     UserType = "OpenDocument Presentation";
                     Reserved = "PowerPoint.OpenDocumentPresentation.12";
                     key = "ODP";
                 }
-                else if (parameters.Extension == ".odt")
+                else if (extension == ".odt")
                 {
                     UserType = "OpenDocument Text";
                     Reserved = "Word.OpenDocumentText.12";
                     key = "ODT";
                 }
-                else if (parameters.Extension == ".ods")
+                else if (extension == ".ods")
                 {
                     UserType = "OpenDocument Spreadsheet";
                     Reserved = "Excel.OpenDocumentSpreadsheet.12";
@@ -580,36 +576,32 @@ namespace OfficeOpenXml.Drawing.OleObject
                 CompObj.CreateCompObjDataStream(_oleDataStructures, _document);
                 ClsId = OleObjectGUIDCollection.keyValuePairs[key];
             }
-            else if (parameters.Extension == ".docx" || parameters.Extension == ".pptx" || parameters.Extension == ".xlsx")
+            else if (extension == ".docx" || extension == ".pptx" || extension == ".xlsx")
             {
                 //Embedd as is
                 string oleName = "";
                 string contentType = "";
-                string ext = "";
-                if (parameters.Extension == ".docx")
+                if (extension == ".docx")
                 {
                     oleName = "Microsoft_Word_Document";
                     contentType = ContentTypes.contentTypeOleDocx;
                     CompObj.CreateCompObjObject(_oleDataStructures, "Document", "Document");
-                    ext = "docx";
                 }
-                else if (parameters.Extension == ".xlsx")
+                else if (extension == ".xlsx")
                 {
                     oleName = "Microsoft_Excel_Worksheet";
                     contentType = ContentTypes.contentTypeOleXlsx;
                     CompObj.CreateCompObjObject(_oleDataStructures, "Worksheet", "Worksheet");
-                    ext = "xlsx";
                 }
-                else if (parameters.Extension == ".pptx")
+                else if (extension == ".pptx")
                 {
                     oleName = "Microsoft_PowerPoint_Presentation";
                     contentType = ContentTypes.contentTypeOlePptx;
                     CompObj.CreateCompObjObject(_oleDataStructures, "Presentation", "Presentation");
-                    ext = "pptx";
                 }
                 int newID = 1;
-                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + oleName + "{0}" + parameters.Extension, ref newID);
-                _oleObjectPart = _worksheet._package.ZipPackage.CreatePart(Uri, contentType, CompressionLevel.None, ext);
+                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + oleName + "{0}" + extension, ref newID);
+                _oleObjectPart = _worksheet._package.ZipPackage.CreatePart(Uri, contentType, CompressionLevel.None, extension.Substring(1));
                 var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/package");
                 relId = rel.Id;
                 MemoryStream ms = (MemoryStream)_oleObjectPart.GetStream(FileMode.Create, FileAccess.Write);
@@ -618,18 +610,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
             else
             {
-                string oleName = "";
-                if(parameters.OlePath == null)
-                {
-                    oleName = name + parameters.Extension;
-                }
-                else
-                {
-                    oleName = parameters.OlePath;
-                }
                 CompObj.CreateCompObjObject(_oleDataStructures, "OLE Package", "Package");
                 CompObj.CreateCompObjDataStream(_oleDataStructures, _document);
-                Ole10Native.CreateOle10NativeObject(oleData, oleName, _oleDataStructures);
+                Ole10Native.CreateOle10NativeObject(oleData, parameters.OlePath, _oleDataStructures);
                 Ole10Native.CreateOle10NativeDataStream(_oleDataStructures, _document);
                 ClsId = OleObjectGUIDCollection.keyValuePairs["Package"];
             }
@@ -776,7 +759,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 _oleDataStructures = new OleObjectDataStructures();
             }
             if (_document != null)
-            { 
+            {
                 if (_document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME))
                 {
                     _oleDataStructures.OleNative = new OleObjectDataStructures.OleNativeStream();
@@ -787,9 +770,17 @@ namespace OfficeOpenXml.Drawing.OleObject
                 {
                     OleDataFile.ReadDataFileObject(_oleDataStructures, _document.Storage.DataStreams[OleDataFile.CONTENTS_STREAM_NAME].Stream);
                 }
-                else if(_document.Storage.DataStreams.ContainsKey(OleDataFile.EMBEDDEDODF_STREAM_NAME))
+                else if (_document.Storage.DataStreams.ContainsKey(OleDataFile.EMBEDDEDODF_STREAM_NAME))
                 {
-                     OleDataFile.ReadDataFileObject(_oleDataStructures, _document.Storage.DataStreams[OleDataFile.EMBEDDEDODF_STREAM_NAME].Stream);
+                    OleDataFile.ReadDataFileObject(_oleDataStructures, _document.Storage.DataStreams[OleDataFile.EMBEDDEDODF_STREAM_NAME].Stream);
+                }
+                else if (_oleDataStructures.DataFile == null)
+                {
+                    var streamName = GetCustomDataStreamName();
+                    if (string.IsNullOrEmpty(streamName) == false)
+                    { 
+                        OleDataFile.ReadDataFileObject(_oleDataStructures, _document.Storage.DataStreams[streamName].Stream);
+                    }
                 }
                 return _oleDataStructures.DataFile;
             }
@@ -801,6 +792,19 @@ namespace OfficeOpenXml.Drawing.OleObject
                 ms.Read(oleBytes, 0, (int)ms.Length);
                 return oleBytes;
             }
+        }
+
+        private string GetCustomDataStreamName()
+        {
+            if(_document.Storage.DataStreams.Count <= 3)
+            {
+                var stream =  _document.Storage.DataStreams.FirstOrDefault(x => !x.Key.StartsWith("\u0001"));
+                if(stream.Value != null)
+                {
+                    return stream.Key;
+                }
+            }
+            return string.Empty;
         }
 
         /// <summary>

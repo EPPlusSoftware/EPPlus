@@ -43,5 +43,18 @@ namespace OfficeOpenXml.Utils
             }
             return dirUp + path +(path == "" ? "" : "\\") + targetFile.Name;
         }
+        internal static bool IsFileNameValid(string fileName)
+        {
+            if (string.IsNullOrEmpty(fileName)) return false;
+#if (NETFRAMEWORK || NETSTANDARD2_0)
+            if (fileName.IndexOfAny(Path.InvalidPathChars)>=0)
+#else
+            if (fileName.IndexOfAny(Path.GetInvalidFileNameChars())>=0)
+#endif
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

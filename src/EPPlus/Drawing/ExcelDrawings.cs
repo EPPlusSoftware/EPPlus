@@ -1625,6 +1625,10 @@ namespace OfficeOpenXml.Drawing
         {
             var parameters = new ExcelOleObjectParameters();
             optionalParameters?.Invoke(parameters);
+            if(FileHelper.IsFileNameValid(fileName) == false)
+            {
+                throw new ArgumentException("Parameter filename is not valid.", nameof(fileName));
+            }
             return AddOleObject(name, oleStream, fileName, parameters);
         }
         /// <summary>
@@ -1651,6 +1655,10 @@ namespace OfficeOpenXml.Drawing
             {
                 throw (new IOException("OleStream must be readable and seekable"));
             }
+            if (FileHelper.IsFileNameValid(fileName) == false)
+            {
+                throw new ArgumentException("Parameter filename is not valid.", nameof(fileName));
+            }
             if (optionalParameters == null) optionalParameters = new ExcelOleObjectParameters();
             optionalParameters.OlePath = fileName;
             if (optionalParameters.LinkToFile == true)
@@ -1662,11 +1670,6 @@ namespace OfficeOpenXml.Drawing
             _drawingsList.Add(oleObj);
             _drawingNames.Add(oleObj.Name, _drawingsList.Count - 1);
             return oleObj;
-        }
-
-        private void CheckExcelOleObjectParameters(ExcelOleObjectParameters optionalParameters)
-        {
-
         }
 
         private XmlElement CreateDrawingXml(eEditAs topNodeType = eEditAs.TwoCell, bool asAlterniveContent = false)
