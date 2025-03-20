@@ -364,11 +364,36 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         }
                         break;
                     case TokenType.StartFunctionArguments:
-                        var func = t.IsLetFunction() ?
-                             new LetFunctionExpression(t.Value, variableStorage, parsingContext, tokenIx) :
-                                 t.IsLambdaFunction() ?
-                                     new LambdaFunctionExpression(t.Value, variableStorage, parsingContext, tokenIx) :
-                                     new FunctionExpression(t.Value, parsingContext, tokenIx);
+                        FunctionExpression func = default;
+                        if(t.IsLetFunction())
+                        {
+                            func = new LetFunctionExpression(t.Value, variableStorage, parsingContext, tokenIx);
+                        }
+                        else if(t.IsLambdaFunction())
+                        {
+                            func = new LambdaFunctionExpression(t.Value, variableStorage, parsingContext, tokenIx);
+                        }
+                        else if(t.IsBuiltInFunction(parsingContext.Configuration.FunctionRepository))
+                        {
+                            func = new FunctionExpression(t.Value, parsingContext, tokenIx);
+                        }
+                        else 
+                        {
+                            var name = parsingContext.Package.Workbook.Names[t.Value];
+                            if(name == null)
+                            {
+                                name = parsingContext.CurrentWorksheet.Names[t.Value];
+                            }
+                            if(name != null)
+                            {
+                                var lambdaFormulaCandidate = name.Formula;
+                                if (!string.IsNullOrEmpty(lambdaFormulaCandidate) && lambdaFormulaCandidate.ToLower().StartsWith("lambda") || lambdaFormulaCandidate.ToLower().StartsWith("_xlfn.lambda"))
+                                {
+                                    func = new LambdaNameFunctionExpression(t.Value, lambdaFormulaCandidate, variableStorage, parsingContext, tokenIx);
+                                }
+                            }
+                        }
+                        if (func == null) func = new FunctionExpression(t.Value, parsingContext, tokenIx);             
                         expressions.Add(tokenIx, func);
                         if(tokenIx <= tokens.Count && tokens[tokenIx + 1].TokenType != TokenType.Function) // Check that the function has any argument
                         {

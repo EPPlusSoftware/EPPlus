@@ -167,15 +167,6 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             while (ix < length)
             {
                 var c = input[ix];
-                //if (ix > 0 && isInString == 0 && c == '(' && input[ix - 1] == ')')
-                //{
-                //    l.Add(new Token("(", TokenType.LambdaInvokeArgsStart));
-                //    lambdaInvokeParenthesisCount++;
-                //    ix++;
-                //    if (c != ' ') pc = c;
-                //    isInLambdaInvoke = true;
-                //    continue;
-                //}
                 if (c == '\"' && isInString != 2 && bracketCount==0)
                 {
                     current.Append(c);

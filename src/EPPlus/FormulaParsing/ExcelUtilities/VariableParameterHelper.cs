@@ -184,11 +184,12 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
             // 3. Process variable names in the last argument (the calculation)
             openParenthesis = 1;
             int lastArgIx;
-            if (string.Compare(func.Name, "lambda", StringComparison.OrdinalIgnoreCase) == 0)
+            if (IsMatchingFuncName(func.Name, "lambda"))
             {
                 _tokens[commaIndexes.Last()] = new Token(",", TokenType.CommaLambda);
             }
-            for (lastArgIx = commaIndexes.Last(); _tokens[lastArgIx].TokenType != TokenType.ClosingParenthesis && openParenthesis == 1; lastArgIx++)
+            //for (lastArgIx = commaIndexes.Last(); _tokens[lastArgIx].TokenType != TokenType.ClosingParenthesis && openParenthesis == 1; lastArgIx++)
+            for (lastArgIx = commaIndexes.Last(); lastArgIx < _tokens.Count; lastArgIx++)
             {
                 var candidate = _tokens[lastArgIx];
                 if (candidate.TokenType == TokenType.OpeningParenthesis)
@@ -219,6 +220,18 @@ namespace OfficeOpenXml.FormulaParsing.ExcelUtilities
                 return $"_xlpm.{variableToken.Trim()}";
             }
             return variableToken;
+        }
+
+        private bool IsMatchingFuncName(string candidate, string func)
+        {
+            var cf = candidate;
+            if (string.IsNullOrEmpty(candidate)) return false;
+            if(candidate.Contains("."))
+            {
+                var arr = candidate.Split('.');
+                cf = arr.Last();
+            }
+            return string.Compare(cf, func, StringComparison.OrdinalIgnoreCase) == 0;
         }
     }
 }

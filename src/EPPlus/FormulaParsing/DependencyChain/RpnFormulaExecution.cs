@@ -1074,7 +1074,7 @@ namespace OfficeOpenXml.FormulaParsing
                             }
 
                             var r = ExecFunc(depChain, f, funcExp);
-                            if(funcExp.IsLambda)
+                            if(funcExp.IsLambda && !(funcExp is LambdaNameFunctionExpression))
                             {
                                 f.LastFuncWasLambda = true;
                                 f.NumberOfLambdaArgs = ((LambdaCalculator)r.Result).NumberOfVariables;
@@ -1096,7 +1096,7 @@ namespace OfficeOpenXml.FormulaParsing
                                 }
                             }
                         }
-                        catch
+                        catch(Exception exp)
                         {
                             f._expressionStack.Push(ErrorExpression.ValueError);
                         }
@@ -1308,6 +1308,7 @@ namespace OfficeOpenXml.FormulaParsing
             var c2 = v2.Compile();
             if(c2.Result is LambdaCalculator lc)
             {
+                lc.BeginCalculation();
                 var args = new List<Expression>();
                 while(f._expressionStack.Count > 0)
                 {

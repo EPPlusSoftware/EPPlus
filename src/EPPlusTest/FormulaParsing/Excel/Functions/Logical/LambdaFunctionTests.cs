@@ -110,7 +110,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(5d, sheet.Cells["A1"].Value);
         }
 
-        [TestMethod/*, Ignore("Support for nested Lambdas is still to be implemented...")*/]
+        [TestMethod]
         public void LambdaRecursive1()
         {
             using var package = new ExcelPackage();
@@ -118,6 +118,43 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             sheet.Cells["A1"].Formula = "LAMBDA(a,a + LAMBDA(b,b + a)(2))(2)";
             sheet.Calculate();
             Assert.AreEqual(6d, sheet.Cells["A1"].Value);
+        }
+
+
+        [TestMethod]
+        public void LambdaAsName1()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            package.Workbook.Names.AddFormula("TestFunc", "_xlfn.LAMBDA(_xlpm.x,_xlfn.CONCAT(\"Testfunc: \",_xlpm.x))");
+            sheet.Cells["A1"].Formula = "TestFunc(\"Hej hopp\")";
+            sheet.Calculate();
+            var v = sheet.Cells["A1"].Value;
+            Assert.AreEqual("Testfunc: Hej hopp", v);
+        }
+
+        [TestMethod]
+        public void LambdaAsName2()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            package.Workbook.Names.AddFormula("TestFunc", "LAMBDA(x,CONCAT(\"Testfunc: \",x))");
+            sheet.Cells["A1"].Formula = "TestFunc(\"Hej hopp\")";
+            sheet.Calculate();
+            var v = sheet.Cells["A1"].Value;
+            Assert.AreEqual("Testfunc: Hej hopp", v);
+        }
+
+        [TestMethod]
+        public void LambdaAsName3()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            package.Workbook.Names.AddFormula("TestFunc", "LAMBDA(x,y, x/y)");
+            sheet.Cells["A1"].Formula = "TestFunc(12,3)";
+            sheet.Calculate();
+            var v = sheet.Cells["A1"].Value;
+            Assert.AreEqual(4d, v);
         }
     }
 }

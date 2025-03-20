@@ -64,7 +64,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 {
                     var tt = DataTypeToTokenType(dt, value);
                     var tokenValue = Convert.ToString(value, CultureInfo.CurrentCulture);
-                    _currentTokens[ix] = new Token(value.ToString(), tt);
+                    if(tt == TokenType.StringContent)
+                    {
+                        tokenValue = $"\"{tokenValue}\"";
+                    }
+                    _currentTokens[ix] = new Token(tokenValue, tt);
                 }
             }
         }
@@ -100,7 +104,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 case DataType.Decimal:
                     return TokenType.Decimal;
                 case DataType.String:
-                    return TokenType.String;
+                    return TokenType.StringContent;
                 case DataType.Time:
                     return TokenType.Decimal;
                 case DataType.ExcelRange:

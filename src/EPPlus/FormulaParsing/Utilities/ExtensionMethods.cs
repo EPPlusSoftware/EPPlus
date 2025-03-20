@@ -11,6 +11,7 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using OfficeOpenXml.Compatibility;
+using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Linq;
@@ -49,6 +50,18 @@ namespace OfficeOpenXml.FormulaParsing.Utilities
         internal static bool IsLetFunction(this Token token)
         {
             return FunctionNameMatches(token, "let");
+        }
+
+        internal static bool IsBuiltInFunction(this Token token, FunctionRepository repository)
+        {
+            var funcName = token.Value;
+            if (string.IsNullOrEmpty(funcName)) return false;
+            if(funcName.Contains("."))
+            {
+                var arr = funcName.Split('.');
+                funcName = arr.Last();
+            }
+            return repository.GetFunction(funcName) != null;
         }
 
         private static bool FunctionNameMatches(Token token, string functionName)

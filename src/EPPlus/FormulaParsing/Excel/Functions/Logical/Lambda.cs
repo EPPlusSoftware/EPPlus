@@ -8,7 +8,7 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  05/27/2024         EPPlus Software AB       Initial release EPPlus 7.2
+  05/27/2024         EPPlus Software AB       Initial release EPPlus 8.0
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
