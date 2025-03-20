@@ -309,7 +309,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             //Create drawings xml
             XmlElement spElement = CreateShapeNode();
             spElement.InnerXml = CreateOleObjectDrawingNode(name);
-            CreateClientData();
+            CreateClientData(false);
             From.Column = 0;  From.ColumnOff = 0;
             From.Row = 0;     From.RowOff = 0;
             To.Column = 1;    To.ColumnOff = 304800;

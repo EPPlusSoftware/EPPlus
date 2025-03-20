@@ -16,6 +16,7 @@ using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection.Emit;
 using System.Xml;
 
@@ -138,7 +139,6 @@ namespace OfficeOpenXml.Drawing
             XmlNode drawingNode;
             if (_parent.TopNode.ParentNode?.ParentNode?.LocalName == "AlternateContent") //Create alternat content above ungrouped drawing.
             {
-                //drawingNode = xmlDoc.CreateElement("mc", "AlternateContent", ExcelPackage.schemaMarkupCompatibility);
                 drawingNode = _parent.TopNode.ParentNode.ParentNode.CloneNode(false);
                 var choiceNode= _parent.TopNode.ParentNode.CloneNode(false);
                 drawingNode.AppendChild(choiceNode);
@@ -152,7 +152,8 @@ namespace OfficeOpenXml.Drawing
             {
                 d.TopNode.ParentNode.RemoveChild(d.TopNode);
                 drawingNode = CreateAnchorNode(d.TopNode);
-                _parent.TopNode.ParentNode.InsertBefore(drawingNode, _parent.TopNode);
+                d.TopNode.ChildNodes[0].PrependChild(drawingNode);
+                _parent.TopNode.ParentNode.InsertBefore(d.TopNode, _parent.TopNode);
             }
             d.AdjustXPathsForGrouping(false);
             d.TopNode = drawingNode;
@@ -164,7 +165,8 @@ namespace OfficeOpenXml.Drawing
         private XmlNode CreateAnchorNode(XmlNode drawingNode)
         {
             XmlNode topNode;
-            if(drawingNode.LocalName=="AlternateContent")
+            var ix = 3;
+            if (drawingNode.LocalName=="AlternateContent")
             {
                 var xmlDoc = _topNode.OwnerDocument;
                 topNode = _topNode.OwnerDocument.CreateElement("xdr", "twoCellAnchor", ExcelPackage.schemaSheetDrawings);
@@ -172,18 +174,22 @@ namespace OfficeOpenXml.Drawing
                 var to = _topNode.OwnerDocument.CreateElement("xdr", "to", ExcelPackage.schemaSheetDrawings);
                 topNode.AppendChild(from);
                 topNode.AppendChild(to);
+
+                topNode.AppendChild(drawingNode.ChildNodes[0].ChildNodes[0]);
+                drawingNode.ChildNodes[0].PrependChild(topNode);
             }
             else
             {
                 topNode = _parent.TopNode.CloneNode(false);
                 topNode.AppendChild(_parent.TopNode.GetChildAtPosition(0).CloneNode(true));
                 topNode.AppendChild(_parent.TopNode.GetChildAtPosition(1).CloneNode(true));
+                topNode.AppendChild(drawingNode);
             }
-            topNode.AppendChild(drawingNode);
-            var ix = 3;
+
             while (ix < _parent.TopNode.ChildNodes.Count)
             {
-                topNode.AppendChild(_parent.TopNode.ChildNodes[ix].CloneNode(true));
+                var nodeToAppend = _parent.TopNode.ChildNodes[ix].CloneNode(true);
+                topNode.AppendChild(nodeToAppend);
                 ix++;
             }
             return topNode;
@@ -275,6 +281,12 @@ namespace OfficeOpenXml.Drawing
             {
                 _parent._drawings._drawingsList.Remove(_parent);
                 _parent._drawings._drawingNames.Remove(_parent.Name);
+
+                //if(_groupDrawings.Count <= 0)
+                //{
+                //    _groupDrawings = null;
+                //    _drawingNames = null;
+                //}
             }
             _parent._drawings.ReIndexNames(ix, 1);
             drawing._parent = null;
@@ -302,7 +314,7 @@ namespace OfficeOpenXml.Drawing
             var grpNode = CreateNode(_topPath);
             if (grpNode.InnerXml == "")
             {
-                grpNode.InnerXml = "<xdr:nvGrpSpPr><xdr:cNvPr name=\"\" id=\"3\"><a:extLst><a:ext uri=\"{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}\"><a16:creationId id=\"{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGrpSpPr/></xdr:nvGrpSpPr><xdr:grpSpPr><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/><a:chOff y=\"0\" x=\"0\"/><a:chExt cy=\"0\" cx=\"0\"/></a:xfrm></xdr:grpSpPr>";
+                grpNode.InnerXml = $"<xdr:nvGrpSpPr><xdr:cNvPr name=\"\" id=\"{Id}\"><a:extLst><a:ext uri=\"{{FF2B5EF4-FFF2-40B4-BE49-F238E27FC236}}\"><a16:creationId id=\"{{F33F4CE3-706D-4DC2-82DA-B596E3C8ACD0}}\" xmlns:a16=\"http://schemas.microsoft.com/office/drawing/2014/main\"/></a:ext></a:extLst></xdr:cNvPr><xdr:cNvGrpSpPr/></xdr:nvGrpSpPr><xdr:grpSpPr><a:xfrm><a:off y=\"0\" x=\"0\"/><a:ext cy=\"0\" cx=\"0\"/><a:chOff y=\"0\" x=\"0\"/><a:chExt cy=\"0\" cx=\"0\"/></a:xfrm></xdr:grpSpPr>";
             }
             if(parent==null) CreateNode("xdr:clientData");
         }
