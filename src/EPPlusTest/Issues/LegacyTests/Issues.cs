@@ -6291,5 +6291,15 @@ namespace EPPlusTest
                //SaveAndCleanup(package);
             }
         }
+
+        [TestMethod]
+        public void s830_ChangeColor()
+        {
+            using var p = OpenTemplatePackage("tabcolor830.xlsx");
+            var ws1 = p.Workbook.Worksheets[0];
+            Color k = ws1.TabColor;
+            ws1.TabColor = Color.Empty;
+            SaveAndCleanup(p);
+        }
     }
 }
