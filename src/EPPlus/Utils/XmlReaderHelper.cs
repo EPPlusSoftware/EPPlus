@@ -25,8 +25,8 @@ namespace OfficeOpenXml.Utils
         }
 		/// <summary>
 		/// Read file until a tag in tagName is found or EOF.
-		/// This requires more careful consideration than when specifing depth.
-		/// As it will exit on endnodes and continue directly to end of file if nothing is found.
+		/// This requires more careful consideration than when specifying depth.
+		/// As it will exit on end nodes and continue directly to end of file if nothing is found.
 		/// </summary>
 		/// <param name="xr">Handle to xml to read data from</param>
         /// <param name="nodeType">The node</param>

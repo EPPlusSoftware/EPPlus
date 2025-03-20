@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Utilities;
@@ -51,13 +52,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             _expressionEvaluator = new ExpressionEvaluator(context);
             var range = arguments[0];
-            var criteria = arguments[1].ValueFirst?.ToString().Trim() ?? default;
+            var arg1 = arguments[1].ValueFirst??0;
+            string criteria = null;
+            bool isString = false;
+            bool isEmptyCriteria = false;
+            if (arg1 is string s)
+            {
+                criteria = s;
+                isString = true;
+                isEmptyCriteria = criteria == string.Empty || criteria.Trim() == "=";
+            }
             double result = 0d;
             if (range.IsExcelRange)
             {
                 var rangeInfo = range.ValueAsRangeInfo;
-                //int fromRow, toRow,fromCol, toCol;
-                var isEmptyCriteria = string.IsNullOrEmpty(criteria) || criteria.Trim() == "=";
                 if (rangeInfo.Address.FromRow <= 0)
                 {
                     var toRow = rangeInfo.Size.NumberOfRows;
@@ -67,9 +75,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                         for (int c = 0; c < toCol; c++)
                         {
                             var v = rangeInfo.GetValue(r, c);
-                            if (Evaluate(v, criteria))
+                            if (isString)
                             {
-                                result++;
+                                if (Evaluate(v, criteria))
+                                {
+                                    result++;
+                                }
+                            }
+                            else
+                            {
+                                if (ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(arg1))
+                                {
+                                    result++;
+                                }
                             }
                         }
                     }
@@ -90,9 +108,20 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
                         row = cse.Row;
                         col = cse.Column;
-                        if (Evaluate(cse.Value._value, criteria))
+                        if (isString)
                         {
-                            result++;
+                            if (Evaluate(cse.Value._value, criteria))
+                            {
+                                result++;
+                            }
+                        }
+                        else
+                        {
+                            var v = cse.Value._value;
+                            if (string.IsNullOrEmpty(v?.ToString())==false && ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(arg1))
+                            {
+                                result++;
+                            }
                         }
                         add = 0;
                     }
@@ -105,19 +134,39 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             else if (range.Value is IEnumerable<FunctionArgument>)
             {
-                foreach (var arg in (IEnumerable<FunctionArgument>) range.Value)
+                foreach (var arg in (IEnumerable<FunctionArgument>)range.Value)
                 {
-                    if(Evaluate(arg.Value, criteria))
+                    if (isString)
                     {
-                        result++;
+                        if (Evaluate(arg.Value, criteria))
+                        {
+                            result++;
+                        }
+                    }
+                    else
+                    {
+                        if (ConvertUtil.GetValueDouble(arg.Value) == ConvertUtil.GetValueDouble(arg1))
+                        {
+                            result++;
+                        }
                     }
                 }
             }
             else
             {
-                if (Evaluate(range.Value, criteria))
+                if(isString)
+                { 
+                    if (Evaluate(range.Value, criteria))
+                    {
+                        result++;
+                    }
+                }
+                else
                 {
-                    result++;
+                    if (ConvertUtil.GetValueDouble(range.Value) == ConvertUtil.GetValueDouble(arg1))
+                    {
+                        result++;
+                    }
                 }
             }
             return CreateResult(result, DataType.Integer);

@@ -481,7 +481,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         }
                         else
                         {
-                            var v = fieldItemSelection[j].Value;
+                            var v = fieldItemSelection[j].Value ?? PivotNullValue;
                             if (cache.ContainsKey(v))
                             {
                                 key[i] = cache[v];
@@ -676,13 +676,18 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             var isCollapsed = false;
             var isParentFunctionNone = false;
+            var partentIsSingleItem = false;
             for (int i = fromIndex; i < toIndex; i++)
             {
                 if (key[i] == PivotCalculationStore.SumLevelValue)
                 {
-                    if (isParentFunctionNone && isCollapsed == false && Keys[DataFields.IndexOf(datafield)].ContainsKey(key) && Keys[DataFields.IndexOf(datafield)][key].Count > 1)
+                    if (isParentFunctionNone && partentIsSingleItem == false && isCollapsed == false && Keys[DataFields.IndexOf(datafield)].ContainsKey(key) && Keys[DataFields.IndexOf(datafield)][key].Select(x => x[i]).Distinct().Count() > 1)
                     {
                         return true;
+                    }
+                    else
+                    {
+                        partentIsSingleItem = true;
                     }
                     continue;
                 }

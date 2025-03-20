@@ -47,7 +47,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             {
 
                 if((ri.Size.NumberOfRows > 1 || ri.Size.NumberOfCols > 1) && 
-                    context.CurrentWorksheet._flags.GetFlagValue(context.CurrentCell.Row, context.CurrentCell.Column, CellFlags.CanBeDynamicArray))
+                    ((context.CurrentWorksheet._flags.GetFlagValue(context.CurrentCell.Row, context.CurrentCell.Column, CellFlags.CanBeDynamicArray|CellFlags.ArrayFormula)) ||
+                    ri.Address!=null && ri.Address.FromRow == 0))
                 {
                     return If_DynamicArrayFormula(arg1, arg2, ri);
                 }
@@ -196,7 +197,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 
         private void GetIntersectingRowCol(FormulaRangeAddress address, FormulaCellAddress currentCell, out int offsetRow, out int offsetCol)
         {
-            if(address.FromRow <= currentCell.Row && address.ToRow >= currentCell.Row)
+            if(address==null)
+            {
+                offsetRow = 0;
+                offsetCol = 0;
+            }
+            else if(address.FromRow <= currentCell.Row && address.ToRow >= currentCell.Row)
             {
                 offsetRow = currentCell.Row - address.FromRow;
                 offsetCol = 0;
@@ -314,6 +320,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
         }
 
         public override bool ReturnsReference => true;
+        public override bool IsVolatile => true;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             if (argumentIndex == 0)
