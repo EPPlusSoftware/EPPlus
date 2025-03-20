@@ -84,7 +84,7 @@ namespace EPPlusTest.Issues
         [TestMethod]
         public void OleTest1()
         {
-            using var p=OpenTemplatePackage("OleMSChart.xlsx");
+            using var p = OpenTemplatePackage("OleMSChart.xlsx");
             var ws = p.Workbook.Worksheets[0];
             var oleObject = ws.Drawings[0].As.OleObject;
 
@@ -92,6 +92,7 @@ namespace EPPlusTest.Issues
             Assert.IsNotNull(oleObject.ProgId);
             Assert.IsNotNull(oleObject.Image);
             Assert.IsNull(oleObject.ExternalLink);
+        }
         public void i1902()
         {
             using var package = new ExcelPackage();
