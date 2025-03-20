@@ -81,5 +81,15 @@ namespace EPPlusTest.Issues
             excelWorksheet.Cells[sourceFrom.ToString() + ":" + sourceTo].Copy(
                 excelWorksheet.Cells[destFrom.ToString() + ":" + destTo]);
         }
+        [TestMethod]
+        public void i1902()
+        {
+            using var package = new ExcelPackage();
+            var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+
+            var rect = worksheet.Drawings.AddShape("rect1", eShapeStyle.Rect);
+
+            Console.WriteLine(rect.Text);
+        }
     }
 }
