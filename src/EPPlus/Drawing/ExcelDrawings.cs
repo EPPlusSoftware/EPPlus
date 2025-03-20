@@ -1546,7 +1546,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="olePath">Path to the file.</param>
         /// <param name="optionalParameters">Object containing additional parameters.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
-        /// <exception cref="ArgumentException">Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.</exception>
+        /// <exception cref="ArgumentException">Can Throw exception if Name exists or if OleStream or IconStream are invalid streams.</exception>
         public ExcelOleObject AddOleObject(string name, string olePath, Action<ExcelOleObjectParameters> optionalParameters)
         {
             var parameters = new ExcelOleObjectParameters();
@@ -1560,7 +1560,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="olePath">Path to the file.</param>
         /// <param name="optionalParameters">Object containing additional parameters.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
-        /// <exception cref="ArgumentException">Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.</exception>
+        /// <exception cref="ArgumentException">Can Throw exception if Name exists or if OleStream or IconStream are invalid streams.</exception>
         public ExcelOleObject AddOleObject(string name, string olePath, ExcelOleObjectParameters optionalParameters = null)
         {
             if (_drawingNames.ContainsKey(name))
@@ -1582,7 +1582,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="oleInfo">FileInfo containing the file.</param>
         /// <param name="optionalParameters">Object containing additional parameters.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
-        /// <exception cref="ArgumentException">Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.</exception>
+        /// <exception cref="ArgumentException">Can Throw exception if Name exists or if OleStream or IconStream are invalid streams.</exception>
         public ExcelOleObject AddOleObject(string name, FileInfo oleInfo, Action<ExcelOleObjectParameters> optionalParameters)
         {
             var parameters = new ExcelOleObjectParameters();
@@ -1596,7 +1596,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="oleInfo">FileInfo containing the file.</param>
         /// <param name="optionalParameters">Object containing additional parameters.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
-        /// <exception cref="ArgumentException">Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.</exception>
+        /// <exception cref="ArgumentException">Can Throw exception if Name exists or if OleStream or IconStream are invalid streams.</exception>
         public ExcelOleObject AddOleObject(string name, FileInfo oleInfo, ExcelOleObjectParameters optionalParameters = null)
         {
             if (_drawingNames.ContainsKey(name))
@@ -1619,7 +1619,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="fileName">The name of the file.</param>
         /// <param name="optionalParameters">Object containing additional parameters.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
-        /// <exception cref="ArgumentException">Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.</exception>
+        /// <exception cref="ArgumentException">Can Throw exception if Name exists or if OleStream or IconStream are invalid streams.</exception>
         /// <exception cref="ArgumentException">Can Throw exception if ExcelOleObjectParameters.LinkToFile is true when using a stream for OLE Object.</exception>
         public ExcelOleObject AddOleObject(string name, Stream oleStream, string fileName, Action<ExcelOleObjectParameters> optionalParameters)
         {
@@ -1635,7 +1635,7 @@ namespace OfficeOpenXml.Drawing
         /// <param name="fileName">The name of the file.</param>
         /// <param name="optionalParameters">Object containing additional parameters.</param>
         /// <returns>A new drawing of type ExcelOleObject.</returns>
-        /// <exception cref="ArgumentException">Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.</exception>
+        /// <exception cref="ArgumentException">Can Throw exception if Name exists or if OleStream or IconStream are invalid streams.</exception>
         /// <exception cref="ArgumentException">Can Throw exception if ExcelOleObjectParameters.LinkToFile is true when using a stream for OLE Object.</exception>
         public ExcelOleObject AddOleObject(string name, Stream oleStream, string fileName, ExcelOleObjectParameters optionalParameters = null)
         {
@@ -1708,7 +1708,7 @@ namespace OfficeOpenXml.Drawing
             return drawNode;
         }
 
-        internal XmlElement CreateDocumentAndTopNode(eEditAs topNodeType, bool asAlterniveContent)
+        internal XmlElement CreateDocumentAndTopNode(eEditAs topNodeType, bool asAlternativeContent)
         {
             if (DrawingXml.DocumentElement == null)
             {
@@ -1739,7 +1739,7 @@ namespace OfficeOpenXml.Drawing
             var drawNode = _drawingsXml.CreateElement("xdr", topElementname, ExcelPackage.schemaSheetDrawings);
             var colNode = _drawingsXml.SelectSingleNode("//xdr:wsDr", NameSpaceManager);
 
-            if (asAlterniveContent)
+            if (asAlternativeContent)
             {
                 var acNode = (XmlElement)_drawingsXml.CreateElement("mc", "AlternateContent", ExcelPackage.schemaMarkupCompatibility);
                 acNode.SetAttribute("xmlns:mc", ExcelPackage.schemaMarkupCompatibility);
