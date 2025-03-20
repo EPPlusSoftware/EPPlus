@@ -1272,7 +1272,7 @@ namespace OfficeOpenXml.Drawing
                 _parent.Drawings.Clear();
             }
 
-            if (prevParent.Drawings._drawingNames == null)
+            if (prevParent.Drawings.Count <= 0)
             {
                 prevParent.DeleteMe();
             }

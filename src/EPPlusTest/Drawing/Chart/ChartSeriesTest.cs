@@ -238,8 +238,6 @@ namespace EPPlusTest.Drawing.Chart
                     series.DataLabel.DataLabels.Add(0).ShowValue = true;
                 }
 
-                //chart.ShowDataLabelsOverMaximum = true;
-
                 SaveAndCleanup(p);
             }
         }

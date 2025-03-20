@@ -795,11 +795,6 @@ namespace OfficeOpenXml
             }
         }
 
-        //public void DeleteAll(IEnumerable <ExcelWorksheet> worksheets)
-        //{
-
-        //}
-
         internal void NormalStyleChange()
         {
             throw new NotImplementedException();

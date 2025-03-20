@@ -139,7 +139,6 @@ namespace OfficeOpenXml.Drawing
             XmlNode drawingNode;
             if (_parent.TopNode.ParentNode?.ParentNode?.LocalName == "AlternateContent") //Create alternat content above ungrouped drawing.
             {
-                //drawingNode = xmlDoc.CreateElement("mc", "AlternateContent", ExcelPackage.schemaMarkupCompatibility);
                 drawingNode = _parent.TopNode.ParentNode.ParentNode.CloneNode(false);
                 var choiceNode= _parent.TopNode.ParentNode.CloneNode(false);
                 drawingNode.AppendChild(choiceNode);
@@ -155,7 +154,6 @@ namespace OfficeOpenXml.Drawing
                 drawingNode = CreateAnchorNode(d.TopNode);
                 d.TopNode.ChildNodes[0].PrependChild(drawingNode);
                 _parent.TopNode.ParentNode.InsertBefore(d.TopNode, _parent.TopNode);
-                //drawingNode = d.TopNode;
             }
             d.AdjustXPathsForGrouping(false);
             d.TopNode = drawingNode;
@@ -179,15 +177,6 @@ namespace OfficeOpenXml.Drawing
 
                 topNode.AppendChild(drawingNode.ChildNodes[0].ChildNodes[0]);
                 drawingNode.ChildNodes[0].PrependChild(topNode);
-                //drawingNode.ChildNodes[0].
-                //topNode.AppendChild(_parent.TopNode.GetChildAtPosition(0).CloneNode(true));
-                //ix = 0;
-                //topNode = 
-                //var temp = drawingNode;
-                //drawingNode = topNode;
-                //topNode = temp.ChildNodes[0];
-                //topNode.PrependChild(drawingNode);
-                //topNode = temp;
             }
             else
             {
@@ -293,11 +282,11 @@ namespace OfficeOpenXml.Drawing
                 _parent._drawings._drawingsList.Remove(_parent);
                 _parent._drawings._drawingNames.Remove(_parent.Name);
 
-                if(_groupDrawings.Count <= 0)
-                {
-                    _groupDrawings = null;
-                    _drawingNames = null;
-                }
+                //if(_groupDrawings.Count <= 0)
+                //{
+                //    _groupDrawings = null;
+                //    _drawingNames = null;
+                //}
             }
             _parent._drawings.ReIndexNames(ix, 1);
             drawing._parent = null;
