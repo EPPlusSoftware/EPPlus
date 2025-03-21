@@ -13,6 +13,7 @@
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Controls;
+using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
 using System;
 
@@ -110,22 +111,15 @@ namespace OfficeOpenXml.Drawing
                 return _controlAsType;
             }
         }
-
-        ExcelOleObjectAsType _oleObjectAsType;
-
         /// <summary>
-        /// Helps to cast drawings to controls. Use the properties of this class to cast to the various specific control types.
+        /// Helps to cast drawings to an Ole object. If the drawing is not an Ole object null will be returned.
         /// </summary>
         /// <returns></returns>
-        public ExcelOleObjectAsType OleObject
+        public ExcelOleObject OleObject
         {
             get
             {
-                if (_oleObjectAsType == null)
-                {
-                    _oleObjectAsType = new ExcelOleObjectAsType(_drawing);
-                }
-                return _oleObjectAsType;
+                return _drawing as ExcelOleObject;
             }
         }
     }

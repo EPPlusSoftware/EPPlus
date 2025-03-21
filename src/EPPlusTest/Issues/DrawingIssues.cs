@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using System.IO;
 namespace EPPlusTest.Issues
 {
 	[TestClass]
@@ -82,6 +83,18 @@ namespace EPPlusTest.Issues
                 excelWorksheet.Cells[destFrom.ToString() + ":" + destTo]);
         }
         [TestMethod]
+        public void OleTest1()
+        {
+            using var p = OpenTemplatePackage("OleMSChart.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var oleObject = ws.Drawings[0].As.OleObject;
+            var grph = oleObject.GetEmbeddedObjectBytes();
+            Assert.IsNotNull(oleObject);
+            Assert.IsNotNull(oleObject.ProgId);
+            Assert.IsNotNull(oleObject.Image);
+            Assert.IsNull(oleObject.ExternalLink);
+            SaveAndCleanup(p);
+        }
         public void i1902()
         {
             using var package = new ExcelPackage();
@@ -93,3 +106,4 @@ namespace EPPlusTest.Issues
         }
     }
 }
+

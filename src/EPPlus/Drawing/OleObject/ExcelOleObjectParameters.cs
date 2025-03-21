@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/01/2025         EPPlus Software AB           Initial release EPPlus 8
  *************************************************************************************************/
+using System;
 using System.IO;
 
 namespace OfficeOpenXml.Drawing.OleObject
@@ -32,8 +33,6 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
         }
 
-        internal string mediaFileExtension = ".bmp";
-
         /// <summary>
         /// True: File will be linked. False: File will be embedded.
         /// </summary>
@@ -50,20 +49,5 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// The icon for the object.
         /// </summary>
         public ExcelImage Icon = null;
-        private string _extension;
-        /// <summary>
-        /// File Extension of OLE Object.
-        /// </summary>
-        public string Extension
-        {
-            get
-            {
-                return _extension;
-            }
-            set
-            {
-                _extension = value.StartsWith(".") ? value : "." + value;
-            }
-        }
     }
 }
