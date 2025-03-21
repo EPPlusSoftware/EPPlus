@@ -8,6 +8,7 @@ items:
   - OfficeOpenXml.ExcelErrorValue.AsCompileResult
   - OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
   - OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+  - OfficeOpenXml.ExcelErrorValue.GetHashCode
   - OfficeOpenXml.ExcelErrorValue.op_Addition(OfficeOpenXml.ExcelErrorValue,OfficeOpenXml.ExcelErrorValue)
   - OfficeOpenXml.ExcelErrorValue.op_Addition(System.Object,OfficeOpenXml.ExcelErrorValue)
   - OfficeOpenXml.ExcelErrorValue.Parse(System.String)
@@ -23,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelErrorValue
     path: ../src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
@@ -46,7 +47,6 @@ items:
   - OfficeOpenXml.RichData.RichDataReferenceValueError
   inheritedMembers:
   - System.Object.Equals(System.Object,System.Object)
-  - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
@@ -70,11 +70,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-    startLine: 125
+    startLine: 131
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -111,11 +111,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AsCompileResult
     path: ../src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-    startLine: 132
+    startLine: 138
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -148,11 +148,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Parse
     path: ../src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-    startLine: 147
+    startLine: 153
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -199,11 +199,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-    startLine: 170
+    startLine: 176
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -236,11 +236,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-    startLine: 176
+    startLine: 182
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -274,11 +274,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Addition
     path: ../src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-    startLine: 208
+    startLine: 216
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -318,11 +318,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: op_Addition
     path: ../src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-    startLine: 218
+    startLine: 226
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -362,11 +362,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Equals
     path: ../src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
-    startLine: 229
+    startLine: 237
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -384,6 +384,44 @@ items:
     content.vb: Public Overrides Function Equals(obj As Object) As Boolean
   overridden: System.Object.Equals(System.Object)
   overload: OfficeOpenXml.ExcelErrorValue.Equals*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
+  commentId: M:OfficeOpenXml.ExcelErrorValue.GetHashCode
+  id: GetHashCode
+  parent: OfficeOpenXml.ExcelErrorValue
+  langs:
+  - csharp
+  - vb
+  name: GetHashCode()
+  nameWithType: ExcelErrorValue.GetHashCode()
+  fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetHashCode
+    path: ../src/EPPlus/FormulaParsing/ErrorValues/ExcelErrorValue.cs
+    startLine: 247
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nServes as the default hash function\n"
+  example: []
+  syntax:
+    content: public override int GetHashCode()
+    return:
+      type: System.Int32
+      description: A hash code for the current object
+    content.vb: Public Overrides Function GetHashCode As Integer
+  overridden: System.Object.GetHashCode
+  overload: OfficeOpenXml.ExcelErrorValue.GetHashCode*
   modifiers.csharp:
   - public
   - override
@@ -463,37 +501,6 @@ references:
     nameWithType: Object
     fullName: System.Object
     isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  commentId: M:System.Object.GetHashCode
-  parent: System.Object
-  isExternal: true
-  name: GetHashCode()
-  nameWithType: Object.GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -766,3 +773,46 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelErrorValue.GetHashCode*
+  commentId: Overload:OfficeOpenXml.ExcelErrorValue.GetHashCode
+  name: GetHashCode
+  nameWithType: ExcelErrorValue.GetHashCode
+  fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32

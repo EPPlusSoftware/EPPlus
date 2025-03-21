@@ -27,11 +27,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalCellInfo
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 368
+    startLine: 373
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -74,11 +74,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 380
+    startLine: 385
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -113,11 +113,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 387
+    startLine: 392
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -152,11 +152,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 395
+    startLine: 400
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -191,11 +191,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 402
+    startLine: 407
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -230,11 +230,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 412
+    startLine: 417
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -269,11 +269,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueDouble
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 422
+    startLine: 427
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -308,11 +308,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValueDoubleLogical
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 429
+    startLine: 434
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -347,11 +347,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHiddenRow
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 436
+    startLine: 441
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -386,11 +386,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsExcelError
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 447
+    startLine: 452
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -425,11 +425,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tokens
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 454
+    startLine: 459
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -464,11 +464,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 464
+    startLine: 469
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
@@ -503,11 +503,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorksheetName
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 474
+    startLine: 479
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges

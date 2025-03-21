@@ -1,0 +1,532 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Encryption.EPPlusDecryptionInfo
+  commentId: T:OfficeOpenXml.Encryption.EPPlusDecryptionInfo
+  id: EPPlusDecryptionInfo
+  parent: OfficeOpenXml.Encryption
+  children:
+  - OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ActiveLabelId
+  - OfficeOpenXml.Encryption.EPPlusDecryptionInfo.PackageStream
+  - OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ProtectionInformation
+  langs:
+  - csharp
+  - vb
+  name: EPPlusDecryptionInfo
+  nameWithType: EPPlusDecryptionInfo
+  fullName: OfficeOpenXml.Encryption.EPPlusDecryptionInfo
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EPPlusDecryptionInfo
+    path: ../src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Encryption
+  summary: "\nDecryption information passed to the sensitivity label handler\n"
+  example: []
+  syntax:
+    content: 'public class EPPlusDecryptionInfo : IPackageInfo'
+    content.vb: >-
+      Public Class EPPlusDecryptionInfo
+          Implements IPackageInfo
+  inheritance:
+  - System.Object
+  implements:
+  - OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.PackageStream
+  commentId: P:OfficeOpenXml.Encryption.EPPlusDecryptionInfo.PackageStream
+  id: PackageStream
+  parent: OfficeOpenXml.Encryption.EPPlusDecryptionInfo
+  langs:
+  - csharp
+  - vb
+  name: PackageStream
+  nameWithType: EPPlusDecryptionInfo.PackageStream
+  fullName: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.PackageStream
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PackageStream
+    path: ../src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
+    startLine: 30
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Encryption
+  summary: "\nThe package stream\n"
+  example: []
+  syntax:
+    content: public MemoryStream PackageStream { get; set; }
+    parameters: []
+    return:
+      type: System.IO.MemoryStream
+    content.vb: Public Property PackageStream As MemoryStream
+  overload: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.PackageStream*
+  implements:
+  - OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo.PackageStream
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ProtectionInformation
+  commentId: P:OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ProtectionInformation
+  id: ProtectionInformation
+  parent: OfficeOpenXml.Encryption.EPPlusDecryptionInfo
+  langs:
+  - csharp
+  - vb
+  name: ProtectionInformation
+  nameWithType: EPPlusDecryptionInfo.ProtectionInformation
+  fullName: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ProtectionInformation
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ProtectionInformation
+    path: ../src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
+    startLine: 34
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Encryption
+  summary: "\nProtection information passed to the sensitivity label handler\n"
+  example: []
+  syntax:
+    content: public object ProtectionInformation { get; set; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public Property ProtectionInformation As Object
+  overload: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ProtectionInformation*
+  implements:
+  - OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo.ProtectionInformation
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ActiveLabelId
+  commentId: P:OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ActiveLabelId
+  id: ActiveLabelId
+  parent: OfficeOpenXml.Encryption.EPPlusDecryptionInfo
+  langs:
+  - csharp
+  - vb
+  name: ActiveLabelId
+  nameWithType: EPPlusDecryptionInfo.ActiveLabelId
+  fullName: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ActiveLabelId
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ActiveLabelId
+    path: ../src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Encryption
+  summary: "\nIf a new sensibility label has been set, this property contains the id of the new label.\n"
+  example: []
+  syntax:
+    content: public string ActiveLabelId { get; set; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Property ActiveLabelId As String
+  overload: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ActiveLabelId*
+  implements:
+  - OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo.ActiveLabelId
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Encryption
+  commentId: N:OfficeOpenXml.Encryption
+  name: OfficeOpenXml.Encryption
+  nameWithType: OfficeOpenXml.Encryption
+  fullName: OfficeOpenXml.Encryption
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo
+  commentId: T:OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo
+  parent: OfficeOpenXml.Interfaces.SensitivityLabels
+  name: IPackageInfo
+  nameWithType: IPackageInfo
+  fullName: OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Interfaces.SensitivityLabels
+  commentId: N:OfficeOpenXml.Interfaces.SensitivityLabels
+  name: OfficeOpenXml.Interfaces.SensitivityLabels
+  nameWithType: OfficeOpenXml.Interfaces.SensitivityLabels
+  fullName: OfficeOpenXml.Interfaces.SensitivityLabels
+- uid: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.PackageStream*
+  commentId: Overload:OfficeOpenXml.Encryption.EPPlusDecryptionInfo.PackageStream
+  name: PackageStream
+  nameWithType: EPPlusDecryptionInfo.PackageStream
+  fullName: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.PackageStream
+- uid: OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo.PackageStream
+  commentId: P:OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo.PackageStream
+  parent: OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo
+  name: PackageStream
+  nameWithType: IPackageInfo.PackageStream
+  fullName: OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo.PackageStream
+- uid: System.IO.MemoryStream
+  commentId: T:System.IO.MemoryStream
+  parent: System.IO
+  isExternal: true
+  name: MemoryStream
+  nameWithType: MemoryStream
+  fullName: System.IO.MemoryStream
+- uid: System.IO
+  commentId: N:System.IO
+  isExternal: true
+  name: System.IO
+  nameWithType: System.IO
+  fullName: System.IO
+- uid: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ProtectionInformation*
+  commentId: Overload:OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ProtectionInformation
+  name: ProtectionInformation
+  nameWithType: EPPlusDecryptionInfo.ProtectionInformation
+  fullName: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ProtectionInformation
+- uid: OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo.ProtectionInformation
+  commentId: P:OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo.ProtectionInformation
+  parent: OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo
+  name: ProtectionInformation
+  nameWithType: IPackageInfo.ProtectionInformation
+  fullName: OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo.ProtectionInformation
+- uid: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ActiveLabelId*
+  commentId: Overload:OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ActiveLabelId
+  name: ActiveLabelId
+  nameWithType: EPPlusDecryptionInfo.ActiveLabelId
+  fullName: OfficeOpenXml.Encryption.EPPlusDecryptionInfo.ActiveLabelId
+- uid: OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo.ActiveLabelId
+  commentId: P:OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo.ActiveLabelId
+  parent: OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo
+  name: ActiveLabelId
+  nameWithType: IPackageInfo.ActiveLabelId
+  fullName: OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo.ActiveLabelId
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String

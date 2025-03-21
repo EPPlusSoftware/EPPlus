@@ -72,7 +72,6 @@ namespace EPPlusTest.Core.Worksheet
                 range.EntireRow.Style.Fill.SetBackground(Color.DarkRed);
 
                 range.Value = "5";
-                int iteratedRows = 0;
 
                 var rows = ws.Rows;
 

@@ -27,11 +27,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableColumn
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 26
+    startLine: 28
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -77,11 +77,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 39
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -114,11 +114,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 53
+    startLine: 55
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -151,11 +151,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 61
+    startLine: 63
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -188,11 +188,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowLabel
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 107
+    startLine: 109
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -225,11 +225,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFunction
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 124
+    startLine: 126
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -262,11 +262,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFormula
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 157
+    startLine: 159
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -299,11 +299,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataCellStyleName
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 178
+    startLine: 180
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -336,11 +336,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Slicer
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 208
+    startLine: 210
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -373,11 +373,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSlicer
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 241
+    startLine: 243
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -408,15 +408,15 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalculatedColumnFormula
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 255
+    startLine: 257
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
-  summary: "\nSets a calculated column Formula.\nBe carefull with this property since it is not validated. \n<example>\ntbl.Columns[9].CalculatedColumnFormula = string.Format(&quot;SUM(MyDataTable[[#This Row],[{0}]])&quot;,tbl.Columns[9].Name);  //Reference within the current row\ntbl.Columns[9].CalculatedColumnFormula = string.Format(&quot;MyDataTable[[#Headers],[{0}]]&quot;,tbl.Columns[9].Name);  //Reference to a column header\ntbl.Columns[9].CalculatedColumnFormula = string.Format(&quot;MyDataTable[[#Totals],[{0}]]&quot;,tbl.Columns[9].Name);  //Reference to a column total        \n</example>\n"
+  summary: "\nSets a calculated column Formula.\nBe careful with this property since it is not validated. \n<example>\ntbl.Columns[9].CalculatedColumnFormula = string.Format(&quot;SUM(MyDataTable[[#This Row],[{0}]])&quot;,tbl.Columns[9].Name);  //Reference within the current row\ntbl.Columns[9].CalculatedColumnFormula = string.Format(&quot;MyDataTable[[#Headers],[{0}]]&quot;,tbl.Columns[9].Name);  //Reference to a column header\ntbl.Columns[9].CalculatedColumnFormula = string.Format(&quot;MyDataTable[[#Totals],[{0}]]&quot;,tbl.Columns[9].Name);  //Reference to a column total        \n</example>\n"
   example: []
   syntax:
     content: public string CalculatedColumnFormula { get; set; }
@@ -445,11 +445,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsCalculatedFormulaArray
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 283
+    startLine: 285
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -486,11 +486,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Table
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 317
+    startLine: 324
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table

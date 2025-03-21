@@ -33,7 +33,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTableOptions
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -116,7 +116,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Create
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -160,7 +160,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FirstRowIsColumnNames
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnNameParsingStrategy
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -234,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SkipNumberOfRowsStart
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -271,7 +271,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SkipNumberOfRowsEnd
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -308,7 +308,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelErrorParsingStrategy
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -345,7 +345,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EmptyRowStrategy
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -382,7 +382,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Mappings
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -422,7 +422,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PredefinedMappingsOnly
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -459,7 +459,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnNamePrefix
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -496,7 +496,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataTableName
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -533,7 +533,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataTableNamespace
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -570,7 +570,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AlwaysAllowNull
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -607,7 +607,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataIsTransposed
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -644,7 +644,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowDuplicateColumnNames
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
@@ -681,11 +681,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPrimaryKey
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-    startLine: 156
+    startLine: 157
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.ToDataTable
@@ -720,11 +720,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetPrimaryKey
     path: ../src/EPPlus/Export/ToDataTable/ToDataTableOptions.cs
-    startLine: 167
+    startLine: 168
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Export.ToDataTable

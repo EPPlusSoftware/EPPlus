@@ -15,6 +15,7 @@ items:
   - OfficeOpenXml.ExcelWorksheets.Delete(OfficeOpenXml.ExcelWorksheet)
   - OfficeOpenXml.ExcelWorksheets.Delete(System.Int32)
   - OfficeOpenXml.ExcelWorksheets.Delete(System.String)
+  - OfficeOpenXml.ExcelWorksheets.DeleteAll(System.Predicate{OfficeOpenXml.ExcelWorksheet})
   - OfficeOpenXml.ExcelWorksheets.Dispose
   - OfficeOpenXml.ExcelWorksheets.GetEnumerator
   - OfficeOpenXml.ExcelWorksheets.Item(System.Int32)
@@ -38,7 +39,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWorksheets
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -89,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -126,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -164,7 +165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -196,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -234,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -275,7 +276,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -317,7 +318,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -362,7 +363,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -405,6 +406,48 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ExcelWorksheets.DeleteAll(System.Predicate{OfficeOpenXml.ExcelWorksheet})
+  commentId: M:OfficeOpenXml.ExcelWorksheets.DeleteAll(System.Predicate{OfficeOpenXml.ExcelWorksheet})
+  id: DeleteAll(System.Predicate{OfficeOpenXml.ExcelWorksheet})
+  parent: OfficeOpenXml.ExcelWorksheets
+  langs:
+  - csharp
+  - vb
+  name: DeleteAll(Predicate<ExcelWorksheet>)
+  nameWithType: ExcelWorksheets.DeleteAll(Predicate<ExcelWorksheet>)
+  fullName: OfficeOpenXml.ExcelWorksheets.DeleteAll(System.Predicate<OfficeOpenXml.ExcelWorksheet>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorksheets.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeleteAll
+    path: ../src/EPPlus/ExcelWorksheets.cs
+    startLine: 425
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDeletes all worksheets that matches the Predicate from the collection of worksheets\n"
+  example: []
+  syntax:
+    content: public void DeleteAll(Predicate<ExcelWorksheet> match)
+    parameters:
+    - id: match
+      type: System.Predicate{OfficeOpenXml.ExcelWorksheet}
+      description: ''
+    content.vb: Public Sub DeleteAll(match As Predicate(Of ExcelWorksheet))
+  overload: OfficeOpenXml.ExcelWorksheets.DeleteAll*
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+  nameWithType.vb: ExcelWorksheets.DeleteAll(Predicate(Of ExcelWorksheet))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelWorksheets.DeleteAll(System.Predicate(Of OfficeOpenXml.ExcelWorksheet))
+  name.vb: DeleteAll(Predicate(Of ExcelWorksheet))
 - uid: OfficeOpenXml.ExcelWorksheets.Delete(System.Int32)
   commentId: M:OfficeOpenXml.ExcelWorksheets.Delete(System.Int32)
   id: Delete(System.Int32)
@@ -419,11 +462,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 423
+    startLine: 452
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -455,11 +498,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 526
+    startLine: 555
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -491,11 +534,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 539
+    startLine: 568
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -527,11 +570,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 586
+    startLine: 615
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -574,11 +617,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 607
+    startLine: 636
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -618,11 +661,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 620
+    startLine: 649
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -660,11 +703,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveBefore
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 678
+    startLine: 707
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -699,11 +742,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveBefore
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 688
+    startLine: 717
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -738,11 +781,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveAfter
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 698
+    startLine: 727
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -777,11 +820,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveAfter
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 708
+    startLine: 737
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -816,11 +859,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToStart
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 717
+    startLine: 746
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -852,11 +895,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToStart
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 727
+    startLine: 756
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -888,11 +931,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToEnd
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 736
+    startLine: 765
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -924,11 +967,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToEnd
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 747
+    startLine: 776
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -960,11 +1003,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 755
+    startLine: 784
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1661,6 +1704,95 @@ references:
   name: ExcelRangeBase
   nameWithType: ExcelRangeBase
   fullName: OfficeOpenXml.ExcelRangeBase
+- uid: System.ArgumentException
+  commentId: T:System.ArgumentException
+  isExternal: true
+- uid: OfficeOpenXml.ExcelWorksheets.DeleteAll*
+  commentId: Overload:OfficeOpenXml.ExcelWorksheets.DeleteAll
+  name: DeleteAll
+  nameWithType: ExcelWorksheets.DeleteAll
+  fullName: OfficeOpenXml.ExcelWorksheets.DeleteAll
+- uid: System.Predicate{OfficeOpenXml.ExcelWorksheet}
+  commentId: T:System.Predicate{OfficeOpenXml.ExcelWorksheet}
+  parent: System
+  definition: System.Predicate`1
+  name: Predicate<ExcelWorksheet>
+  nameWithType: Predicate<ExcelWorksheet>
+  fullName: System.Predicate<OfficeOpenXml.ExcelWorksheet>
+  nameWithType.vb: Predicate(Of ExcelWorksheet)
+  fullName.vb: System.Predicate(Of OfficeOpenXml.ExcelWorksheet)
+  name.vb: Predicate(Of ExcelWorksheet)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelWorksheet
+    name: ExcelWorksheet
+    nameWithType: ExcelWorksheet
+    fullName: OfficeOpenXml.ExcelWorksheet
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Predicate`1
+  commentId: T:System.Predicate`1
+  isExternal: true
+  name: Predicate<T>
+  nameWithType: Predicate<T>
+  fullName: System.Predicate<T>
+  nameWithType.vb: Predicate(Of T)
+  fullName.vb: System.Predicate(Of T)
+  name.vb: Predicate(Of T)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.ExcelWorksheets.Delete*
   commentId: Overload:OfficeOpenXml.ExcelWorksheets.Delete
   name: Delete

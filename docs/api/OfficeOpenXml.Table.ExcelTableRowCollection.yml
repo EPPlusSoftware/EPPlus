@@ -1,0 +1,1062 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection
+  commentId: T:OfficeOpenXml.Table.ExcelTableRowCollection
+  id: ExcelTableRowCollection
+  parent: OfficeOpenXml.Table
+  children:
+  - OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRow(System.Boolean)
+  - OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRows(System.Int32,System.Boolean)
+  - OfficeOpenXml.Table.ExcelTableRowCollection.Clear
+  - OfficeOpenXml.Table.ExcelTableRowCollection.DeleteRows(System.Int32,System.Int32)
+  - OfficeOpenXml.Table.ExcelTableRowCollection.GetEnumerator
+  - OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRow(System.Int32,System.Boolean)
+  - OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRows(System.Int32,System.Int32,System.Boolean)
+  - OfficeOpenXml.Table.ExcelTableRowCollection.Item(System.Int32)
+  - OfficeOpenXml.Table.ExcelTableRowCollection.System#Collections#IEnumerable#GetEnumerator
+  langs:
+  - csharp
+  - vb
+  name: ExcelTableRowCollection
+  nameWithType: ExcelTableRowCollection
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRowCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTableRowCollection
+    path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
+    startLine: 12
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nA collection of <xref href=\"OfficeOpenXml.Table.ExcelTableRow\" data-throw-if-not-resolved=\"false\"></xref>s.\n"
+  example: []
+  syntax:
+    content: 'public class ExcelTableRowCollection : IEnumerable<ExcelTableRow>, IEnumerable'
+    content.vb: >-
+      Public Class ExcelTableRowCollection
+          Implements IEnumerable(Of ExcelTableRow), IEnumerable
+  inheritance:
+  - System.Object
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.ExcelTableRow}
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.Item(System.Int32)
+  commentId: P:OfficeOpenXml.Table.ExcelTableRowCollection.Item(System.Int32)
+  id: Item(System.Int32)
+  parent: OfficeOpenXml.Table.ExcelTableRowCollection
+  langs:
+  - csharp
+  - vb
+  name: Item[Int32]
+  nameWithType: ExcelTableRowCollection.Item[Int32]
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.Item[System.Int32]
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRowCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: this[]
+    path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns a table row\n"
+  example: []
+  syntax:
+    content: public ExcelTableRow this[int ix] { get; }
+    parameters:
+    - id: ix
+      type: System.Int32
+      description: 0-based index
+    return:
+      type: OfficeOpenXml.Table.ExcelTableRow
+      description: The <xref href="OfficeOpenXml.Table.ExcelTableRow" data-throw-if-not-resolved="false"></xref> that corresponds to the <code data-dev-comment-type="paramref" class="paramref">ix</code>
+    content.vb: Public ReadOnly Property Item(ix As Integer) As ExcelTableRow
+  overload: OfficeOpenXml.Table.ExcelTableRowCollection.Item*
+  nameWithType.vb: ExcelTableRowCollection.Item(Int32)
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+  fullName.vb: OfficeOpenXml.Table.ExcelTableRowCollection.Item(System.Int32)
+  name.vb: Item(Int32)
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRow(System.Boolean)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRow(System.Boolean)
+  id: AddNewRow(System.Boolean)
+  parent: OfficeOpenXml.Table.ExcelTableRowCollection
+  langs:
+  - csharp
+  - vb
+  name: AddNewRow(Boolean)
+  nameWithType: ExcelTableRowCollection.AddNewRow(Boolean)
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRow(System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRowCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNewRow
+    path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
+    startLine: 46
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nAdd a new empty row at the bottom the table.\n"
+  example: []
+  syntax:
+    content: public ExcelTableRow AddNewRow(bool copyStyles = true)
+    parameters:
+    - id: copyStyles
+      type: System.Boolean
+      description: Indicates whether styles should be copied to the new row. Default is true.
+    return:
+      type: OfficeOpenXml.Table.ExcelTableRow
+      description: The added <xref href="OfficeOpenXml.Table.ExcelTableRow" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Function AddNewRow(copyStyles As Boolean = True) As ExcelTableRow
+  overload: OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRow*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRows(System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRows(System.Int32,System.Boolean)
+  id: AddNewRows(System.Int32,System.Boolean)
+  parent: OfficeOpenXml.Table.ExcelTableRowCollection
+  langs:
+  - csharp
+  - vb
+  name: AddNewRows(Int32, Boolean)
+  nameWithType: ExcelTableRowCollection.AddNewRows(Int32, Boolean)
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRows(System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRowCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddNewRows
+    path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nAdd a number of new empty rows at the bottom the table.\n"
+  example: []
+  syntax:
+    content: public IEnumerable<ExcelTableRow> AddNewRows(int nRows, bool copyStyles = true)
+    parameters:
+    - id: nRows
+      type: System.Int32
+      description: Number of rows to add
+    - id: copyStyles
+      type: System.Boolean
+      description: Indicates whether styles should be copied to the new row. Default is true.
+    return:
+      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.ExcelTableRow}
+      description: The added rows
+    content.vb: Public Function AddNewRows(nRows As Integer, copyStyles As Boolean = True) As IEnumerable(Of ExcelTableRow)
+  overload: OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRows*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRow(System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRow(System.Int32,System.Boolean)
+  id: InsertNewRow(System.Int32,System.Boolean)
+  parent: OfficeOpenXml.Table.ExcelTableRowCollection
+  langs:
+  - csharp
+  - vb
+  name: InsertNewRow(Int32, Boolean)
+  nameWithType: ExcelTableRowCollection.InsertNewRow(Int32, Boolean)
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRow(System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRowCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertNewRow
+    path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
+    startLine: 76
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nInserts a new empty row at the specified position.\n"
+  example: []
+  syntax:
+    content: public ExcelTableRow InsertNewRow(int position, bool copyStyles = true)
+    parameters:
+    - id: position
+      type: System.Int32
+      description: 0-based position where the new row should be added
+    - id: copyStyles
+      type: System.Boolean
+      description: Indicates whether styles should be copied to the new row. Default is true.
+    return:
+      type: OfficeOpenXml.Table.ExcelTableRow
+      description: ''
+    content.vb: Public Function InsertNewRow(position As Integer, copyStyles As Boolean = True) As ExcelTableRow
+  overload: OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRow*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRows(System.Int32,System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRows(System.Int32,System.Int32,System.Boolean)
+  id: InsertNewRows(System.Int32,System.Int32,System.Boolean)
+  parent: OfficeOpenXml.Table.ExcelTableRowCollection
+  langs:
+  - csharp
+  - vb
+  name: InsertNewRows(Int32, Int32, Boolean)
+  nameWithType: ExcelTableRowCollection.InsertNewRows(Int32, Int32, Boolean)
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRows(System.Int32, System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRowCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: InsertNewRows
+    path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
+    startLine: 89
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nInserts one or more new empty rows at the specified position.\n"
+  example: []
+  syntax:
+    content: public IEnumerable<ExcelTableRow> InsertNewRows(int position, int nRows = 1, bool copyStyles = true)
+    parameters:
+    - id: position
+      type: System.Int32
+      description: 0-based position where the new rows should be added
+    - id: nRows
+      type: System.Int32
+      description: Number of new rows to insert
+    - id: copyStyles
+      type: System.Boolean
+      description: Indicates whether styles should be copied to the new row. Default is true.
+    return:
+      type: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.ExcelTableRow}
+      description: ''
+    content.vb: Public Function InsertNewRows(position As Integer, nRows As Integer = 1, copyStyles As Boolean = True) As IEnumerable(Of ExcelTableRow)
+  overload: OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRows*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.DeleteRows(System.Int32,System.Int32)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRowCollection.DeleteRows(System.Int32,System.Int32)
+  id: DeleteRows(System.Int32,System.Int32)
+  parent: OfficeOpenXml.Table.ExcelTableRowCollection
+  langs:
+  - csharp
+  - vb
+  name: DeleteRows(Int32, Int32)
+  nameWithType: ExcelTableRowCollection.DeleteRows(Int32, Int32)
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.DeleteRows(System.Int32, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRowCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeleteRows
+    path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
+    startLine: 106
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nDeletes the specified number of rows at the given position in the table\n"
+  example: []
+  syntax:
+    content: public void DeleteRows(int position, int numberOfRows = 1)
+    parameters:
+    - id: position
+      type: System.Int32
+      description: 0-based position of the deletion
+    - id: numberOfRows
+      type: System.Int32
+      description: Number of rows to delete
+    content.vb: Public Sub DeleteRows(position As Integer, numberOfRows As Integer = 1)
+  overload: OfficeOpenXml.Table.ExcelTableRowCollection.DeleteRows*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.GetEnumerator
+  commentId: M:OfficeOpenXml.Table.ExcelTableRowCollection.GetEnumerator
+  id: GetEnumerator
+  parent: OfficeOpenXml.Table.ExcelTableRowCollection
+  langs:
+  - csharp
+  - vb
+  name: GetEnumerator()
+  nameWithType: ExcelTableRowCollection.GetEnumerator()
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRowCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEnumerator
+    path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
+    startLine: 116
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns an iterator\n"
+  example: []
+  syntax:
+    content: public IEnumerator<ExcelTableRow> GetEnumerator()
+    return:
+      type: System.Collections.Generic.IEnumerator{OfficeOpenXml.Table.ExcelTableRow}
+      description: ''
+    content.vb: Public Function GetEnumerator As IEnumerator(Of ExcelTableRow)
+  overload: OfficeOpenXml.Table.ExcelTableRowCollection.GetEnumerator*
+  implements:
+  - System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.ExcelTableRow}.GetEnumerator
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:OfficeOpenXml.Table.ExcelTableRowCollection.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: OfficeOpenXml.Table.ExcelTableRowCollection
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  nameWithType: ExcelTableRowCollection.IEnumerable.GetEnumerator()
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRowCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
+    startLine: 124
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    return:
+      type: System.Collections.IEnumerator
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+  overload: OfficeOpenXml.Table.ExcelTableRowCollection.System#Collections#IEnumerable#GetEnumerator*
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelTableRowCollection.System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.Clear
+  commentId: M:OfficeOpenXml.Table.ExcelTableRowCollection.Clear
+  id: Clear
+  parent: OfficeOpenXml.Table.ExcelTableRowCollection
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelTableRowCollection.Clear()
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRowCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Table/ExcelTableRowCollection.cs
+    startLine: 132
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nClears/deletes all data in the table&apos;s rows.\n"
+  example: []
+  syntax:
+    content: public void Clear()
+    content.vb: Public Sub Clear
+  overload: OfficeOpenXml.Table.ExcelTableRowCollection.Clear*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.ExcelTableRow
+  commentId: T:OfficeOpenXml.Table.ExcelTableRow
+  parent: OfficeOpenXml.Table
+  name: ExcelTableRow
+  nameWithType: ExcelTableRow
+  fullName: OfficeOpenXml.Table.ExcelTableRow
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.ExcelTableRow}
+  commentId: T:System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.ExcelTableRow}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<ExcelTableRow>
+  nameWithType: IEnumerable<ExcelTableRow>
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.ExcelTableRow>
+  nameWithType.vb: IEnumerable(Of ExcelTableRow)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.ExcelTableRow)
+  name.vb: IEnumerable(Of ExcelTableRow)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.ExcelTableRow
+    name: ExcelTableRow
+    nameWithType: ExcelTableRow
+    fullName: OfficeOpenXml.Table.ExcelTableRow
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.ExcelTableRow
+    name: ExcelTableRow
+    nameWithType: ExcelTableRow
+    fullName: OfficeOpenXml.Table.ExcelTableRow
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerable
+  commentId: T:System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerable
+  nameWithType: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: System.Collections
+  commentId: N:System.Collections
+  isExternal: true
+  name: System.Collections
+  nameWithType: System.Collections
+  fullName: System.Collections
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.Item*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRowCollection.Item
+  name: Item
+  nameWithType: ExcelTableRowCollection.Item
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.Item
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRow*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRow
+  name: AddNewRow
+  nameWithType: ExcelTableRowCollection.AddNewRow
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRow
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRows*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRows
+  name: AddNewRows
+  nameWithType: ExcelTableRowCollection.AddNewRows
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.AddNewRows
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRow*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRow
+  name: InsertNewRow
+  nameWithType: ExcelTableRowCollection.InsertNewRow
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRow
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRows*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRows
+  name: InsertNewRows
+  nameWithType: ExcelTableRowCollection.InsertNewRows
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.InsertNewRows
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.DeleteRows*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRowCollection.DeleteRows
+  name: DeleteRows
+  nameWithType: ExcelTableRowCollection.DeleteRows
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.DeleteRows
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRowCollection.GetEnumerator
+  name: GetEnumerator
+  nameWithType: ExcelTableRowCollection.GetEnumerator
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.GetEnumerator
+- uid: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.ExcelTableRow}.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.ExcelTableRow}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{OfficeOpenXml.Table.ExcelTableRow}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  nameWithType: IEnumerable<ExcelTableRow>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.ExcelTableRow>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of ExcelTableRow).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.ExcelTableRow).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<ExcelTableRow>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<OfficeOpenXml.Table.ExcelTableRow>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of ExcelTableRow).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of OfficeOpenXml.Table.ExcelTableRow).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{OfficeOpenXml.Table.ExcelTableRow}
+  commentId: T:System.Collections.Generic.IEnumerator{OfficeOpenXml.Table.ExcelTableRow}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<ExcelTableRow>
+  nameWithType: IEnumerator<ExcelTableRow>
+  fullName: System.Collections.Generic.IEnumerator<OfficeOpenXml.Table.ExcelTableRow>
+  nameWithType.vb: IEnumerator(Of ExcelTableRow)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of OfficeOpenXml.Table.ExcelTableRow)
+  name.vb: IEnumerator(Of ExcelTableRow)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Table.ExcelTableRow
+    name: ExcelTableRow
+    nameWithType: ExcelTableRow
+    fullName: OfficeOpenXml.Table.ExcelTableRow
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Table.ExcelTableRow
+    name: ExcelTableRow
+    nameWithType: ExcelTableRow
+    fullName: OfficeOpenXml.Table.ExcelTableRow
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  commentId: M:System.Collections.Generic.IEnumerable`1.GetEnumerator
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  nameWithType.vb: IEnumerable(Of T).GetEnumerator()
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable<T>.GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable(Of T).GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  commentId: T:System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: IEnumerator<T>
+  nameWithType: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  nameWithType.vb: IEnumerator(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    nameWithType: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.System#Collections#IEnumerable#GetEnumerator*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRowCollection.System#Collections#IEnumerable#GetEnumerator
+  name: IEnumerable.GetEnumerator
+  nameWithType: ExcelTableRowCollection.IEnumerable.GetEnumerator
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.System.Collections.IEnumerable.GetEnumerator
+  nameWithType.vb: ExcelTableRowCollection.System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator
+- uid: System.Collections.IEnumerable.GetEnumerator
+  commentId: M:System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: true
+  name: GetEnumerator()
+  nameWithType: IEnumerable.GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    nameWithType: IEnumerable.GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  commentId: T:System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: true
+  name: IEnumerator
+  nameWithType: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: OfficeOpenXml.Table.ExcelTableRowCollection.Clear*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRowCollection.Clear
+  name: Clear
+  nameWithType: ExcelTableRowCollection.Clear
+  fullName: OfficeOpenXml.Table.ExcelTableRowCollection.Clear

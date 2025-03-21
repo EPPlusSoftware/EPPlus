@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AdditionalSignatureInfo
     path: ../src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SignerRoleTitle
     path: ../src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address1
     path: ../src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address2
     path: ../src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
@@ -176,7 +176,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ZipOrPostalCode
     path: ../src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
@@ -213,7 +213,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: City
     path: ../src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
@@ -250,7 +250,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CountryOrRegion
     path: ../src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
@@ -287,7 +287,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StateOrProvince
     path: ../src/EPPlus/DigitalSignatures/AdditionalSignatureInfo.cs

@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDigitalSignature
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Certificate
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Details
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -137,7 +137,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PurposeForSigning
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -170,7 +170,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CommitmentTyping
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -203,7 +203,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValid
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -240,7 +240,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetDigestMethod
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs

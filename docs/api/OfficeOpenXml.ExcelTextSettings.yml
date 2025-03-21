@@ -21,11 +21,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTextSettings
     path: ../src/EPPlus/ExcelTextSettings.cs
-    startLine: 23
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -64,11 +64,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrimaryTextMeasurer
     path: ../src/EPPlus/ExcelTextSettings.cs
-    startLine: 66
+    startLine: 33
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -101,11 +101,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FallbackTextMeasurer
     path: ../src/EPPlus/ExcelTextSettings.cs
-    startLine: 71
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -138,11 +138,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutofitScaleFactor
     path: ../src/EPPlus/ExcelTextSettings.cs
-    startLine: 76
+    startLine: 43
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -175,11 +175,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: textLengthThreshold
     path: ../src/EPPlus/ExcelTextSettings.cs
-    startLine: 81
+    startLine: 48
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -208,11 +208,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutofitRows
     path: ../src/EPPlus/ExcelTextSettings.cs
-    startLine: 85
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -241,11 +241,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GenericTextMeasurer
     path: ../src/EPPlus/ExcelTextSettings.cs
-    startLine: 89
+    startLine: 56
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

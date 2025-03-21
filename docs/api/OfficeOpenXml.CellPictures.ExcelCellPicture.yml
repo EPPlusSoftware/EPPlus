@@ -9,6 +9,7 @@ items:
   - OfficeOpenXml.CellPictures.ExcelCellPicture.CellAddress
   - OfficeOpenXml.CellPictures.ExcelCellPicture.ExternalAddress
   - OfficeOpenXml.CellPictures.ExcelCellPicture.FileName
+  - OfficeOpenXml.CellPictures.ExcelCellPicture.GetImage
   - OfficeOpenXml.CellPictures.ExcelCellPicture.GetImageBytes
   - OfficeOpenXml.CellPictures.ExcelCellPicture.PictureType
   langs:
@@ -21,11 +22,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCellPicture
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -48,8 +49,8 @@ items:
   - OfficeOpenXml.ExcelErrorValue.Type
   - OfficeOpenXml.ExcelErrorValue.ToString
   - OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+  - OfficeOpenXml.ExcelErrorValue.GetHashCode
   - System.Object.Equals(System.Object,System.Object)
-  - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
@@ -73,11 +74,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalAddress
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
-    startLine: 59
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -110,11 +111,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PictureType
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
-    startLine: 67
+    startLine: 68
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -133,6 +134,44 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
+- uid: OfficeOpenXml.CellPictures.ExcelCellPicture.GetImage
+  commentId: M:OfficeOpenXml.CellPictures.ExcelCellPicture.GetImage
+  id: GetImage
+  parent: OfficeOpenXml.CellPictures.ExcelCellPicture
+  langs:
+  - csharp
+  - vb
+  name: GetImage()
+  nameWithType: ExcelCellPicture.GetImage()
+  fullName: OfficeOpenXml.CellPictures.ExcelCellPicture.GetImage()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/CellPictures/ExcelCellPicture.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetImage
+    path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
+    startLine: 78
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.CellPictures
+  summary: "\nReturns the <xref href=\"OfficeOpenXml.Drawing.ExcelImage\" data-throw-if-not-resolved=\"false\"></xref> with information abount the image file.\n"
+  example: []
+  syntax:
+    content: public ExcelImage GetImage()
+    return:
+      type: OfficeOpenXml.Drawing.ExcelImage
+      description: The <xref href="OfficeOpenXml.Drawing.ExcelImage" data-throw-if-not-resolved="false"></xref> object.
+    content.vb: Public Function GetImage As ExcelImage
+  overload: OfficeOpenXml.CellPictures.ExcelCellPicture.GetImage*
+  exceptions:
+  - type: System.IO.InvalidDataException
+    commentId: T:System.IO.InvalidDataException
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.CellPictures.ExcelCellPicture.GetImageBytes
   commentId: M:OfficeOpenXml.CellPictures.ExcelCellPicture.GetImageBytes
   id: GetImageBytes
@@ -147,11 +186,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetImageBytes
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
-    startLine: 77
+    startLine: 99
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -182,11 +221,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FileName
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
-    startLine: 85
+    startLine: 107
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -219,11 +258,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AltText
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
-    startLine: 100
+    startLine: 122
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -256,11 +295,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelCellPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellAddress
     path: ../src/EPPlus/CellPictures/ExcelCellPicture.cs
-    startLine: 115
+    startLine: 137
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -464,6 +503,34 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
+  commentId: M:OfficeOpenXml.ExcelErrorValue.GetHashCode
+  parent: OfficeOpenXml.ExcelErrorValue
+  name: GetHashCode()
+  nameWithType: ExcelErrorValue.GetHashCode()
+  fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
+    name: GetHashCode
+    nameWithType: ExcelErrorValue.GetHashCode
+    fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
+    name: GetHashCode
+    nameWithType: ExcelErrorValue.GetHashCode
+    fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.Object.Equals(System.Object,System.Object)
   commentId: M:System.Object.Equals(System.Object,System.Object)
   parent: System.Object
@@ -518,37 +585,6 @@ references:
     nameWithType: Object
     fullName: System.Object
     isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  commentId: M:System.Object.GetHashCode
-  parent: System.Object
-  isExternal: true
-  name: GetHashCode()
-  nameWithType: Object.GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -710,6 +746,25 @@ references:
   name: ExcelCellPictureTypes
   nameWithType: ExcelCellPictureTypes
   fullName: OfficeOpenXml.CellPictures.ExcelCellPictureTypes
+- uid: OfficeOpenXml.Drawing.ExcelImage
+  commentId: T:OfficeOpenXml.Drawing.ExcelImage
+  parent: OfficeOpenXml.Drawing
+  name: ExcelImage
+  nameWithType: ExcelImage
+  fullName: OfficeOpenXml.Drawing.ExcelImage
+- uid: System.IO.InvalidDataException
+  commentId: T:System.IO.InvalidDataException
+  isExternal: true
+- uid: OfficeOpenXml.CellPictures.ExcelCellPicture.GetImage*
+  commentId: Overload:OfficeOpenXml.CellPictures.ExcelCellPicture.GetImage
+  name: GetImage
+  nameWithType: ExcelCellPicture.GetImage
+  fullName: OfficeOpenXml.CellPictures.ExcelCellPicture.GetImage
+- uid: OfficeOpenXml.Drawing
+  commentId: N:OfficeOpenXml.Drawing
+  name: OfficeOpenXml.Drawing
+  nameWithType: OfficeOpenXml.Drawing
+  fullName: OfficeOpenXml.Drawing
 - uid: OfficeOpenXml.CellPictures.ExcelCellPicture.GetImageBytes*
   commentId: Overload:OfficeOpenXml.CellPictures.ExcelCellPicture.GetImageBytes
   name: GetImageBytes

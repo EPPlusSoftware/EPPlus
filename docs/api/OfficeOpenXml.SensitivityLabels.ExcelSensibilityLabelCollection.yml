@@ -1,0 +1,678 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  commentId: T:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  id: ExcelSensibilityLabelCollection
+  parent: OfficeOpenXml.SensitivityLabels
+  children:
+  - OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.Labels
+  - OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.ProtectionInformation
+  - OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById(System.String)
+  - OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById(System.String,System.String,OfficeOpenXml.Interfaces.SensitivityLabels.eMethod,System.Boolean)
+  - OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelByName(System.String)
+  langs:
+  - csharp
+  - vb
+  name: ExcelSensibilityLabelCollection
+  nameWithType: ExcelSensibilityLabelCollection
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelSensibilityLabelCollection
+    path: ../src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
+    startLine: 36
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.SensitivityLabels
+  summary: "\nA collection of sensibility labels applied to a workbook.\n"
+  example: []
+  syntax:
+    content: public class ExcelSensibilityLabelCollection
+    content.vb: Public Class ExcelSensibilityLabelCollection
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById(System.String)
+  commentId: M:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById(System.String)
+  id: SetActiveLabelById(System.String)
+  parent: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  langs:
+  - csharp
+  - vb
+  name: SetActiveLabelById(String)
+  nameWithType: ExcelSensibilityLabelCollection.SetActiveLabelById(String)
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetActiveLabelById
+    path: ../src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
+    startLine: 86
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.SensitivityLabels
+  summary: "\nChanges the active sensibility label. This will overwrite the active sensibility label and any settings derived from it, if the <xref href=\"OfficeOpenXml.ExcelPackage.SensibilityLabelHandler\" data-throw-if-not-resolved=\"false\"></xref> is used.\n"
+  example: []
+  syntax:
+    content: public void SetActiveLabelById(string id)
+    parameters:
+    - id: id
+      type: System.String
+      description: The id for the sensibility label without heading and traling brackets.
+    content.vb: Public Sub SetActiveLabelById(id As String)
+  overload: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById(System.String,System.String,OfficeOpenXml.Interfaces.SensitivityLabels.eMethod,System.Boolean)
+  commentId: M:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById(System.String,System.String,OfficeOpenXml.Interfaces.SensitivityLabels.eMethod,System.Boolean)
+  id: SetActiveLabelById(System.String,System.String,OfficeOpenXml.Interfaces.SensitivityLabels.eMethod,System.Boolean)
+  parent: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  langs:
+  - csharp
+  - vb
+  name: SetActiveLabelById(String, String, eMethod, Boolean)
+  nameWithType: ExcelSensibilityLabelCollection.SetActiveLabelById(String, String, eMethod, Boolean)
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById(System.String, System.String, OfficeOpenXml.Interfaces.SensitivityLabels.eMethod, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetActiveLabelById
+    path: ../src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
+    startLine: 97
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.SensitivityLabels
+  summary: "\nChanges the active sensibility label. This will overwrite the active sensibility label and any settings derived from it, if the <xref href=\"OfficeOpenXml.ExcelPackage.SensibilityLabelHandler\" data-throw-if-not-resolved=\"false\"></xref> is used.\n"
+  example: []
+  syntax:
+    content: public void SetActiveLabelById(string id, string siteId, eMethod method = eMethod.Privileged, bool clearLabels = true)
+    parameters:
+    - id: id
+      type: System.String
+      description: The id for the sensibility label without heading and traling brackets.
+    - id: siteId
+      type: System.String
+      description: The site id for the tenent. This id is used if no <xref href="OfficeOpenXml.ExcelPackage.SensibilityLabelHandler" data-throw-if-not-resolved="false"></xref> is set.
+    - id: method
+      type: OfficeOpenXml.Interfaces.SensitivityLabels.eMethod
+      description: Sets the method property. This property is used if no <xref href="OfficeOpenXml.ExcelPackage.SensibilityLabelHandler" data-throw-if-not-resolved="false"></xref> is set.
+    - id: clearLabels
+      type: System.Boolean
+      description: If true, will not clear the <xref href="OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.Labels" data-throw-if-not-resolved="false"></xref> collection. If false, will set the active sensibility label(if any) to Readonly=true and Enabled=false
+    content.vb: Public Sub SetActiveLabelById(id As String, siteId As String, method As eMethod = eMethod.Privileged, clearLabels As Boolean = True)
+  overload: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelByName(System.String)
+  commentId: M:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelByName(System.String)
+  id: SetActiveLabelByName(System.String)
+  parent: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  langs:
+  - csharp
+  - vb
+  name: SetActiveLabelByName(String)
+  nameWithType: ExcelSensibilityLabelCollection.SetActiveLabelByName(String)
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelByName(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetActiveLabelByName
+    path: ../src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
+    startLine: 128
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.SensitivityLabels
+  summary: "\nChanges the active sensibility label. This will overwrite the active sensibility label and any settings derived from it.\n"
+  example: []
+  syntax:
+    content: public void SetActiveLabelByName(string name)
+    parameters:
+    - id: name
+      type: System.String
+      description: ''
+    content.vb: Public Sub SetActiveLabelByName(name As String)
+  overload: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelByName*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.Labels
+  commentId: P:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.Labels
+  id: Labels
+  parent: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  langs:
+  - csharp
+  - vb
+  name: Labels
+  nameWithType: ExcelSensibilityLabelCollection.Labels
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.Labels
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Labels
+    path: ../src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
+    startLine: 179
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.SensitivityLabels
+  summary: "\nContains sensitivity labels for the package. \nOnly the last sensitivity will be applied on save.\n"
+  example: []
+  syntax:
+    content: public EPPlusReadOnlyList<IExcelSensibilityLabel> Labels { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Interfaces.SensitivityLabels.IExcelSensibilityLabel}
+    content.vb: Public ReadOnly Property Labels As EPPlusReadOnlyList(Of IExcelSensibilityLabel)
+  overload: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.Labels*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.ProtectionInformation
+  commentId: P:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.ProtectionInformation
+  id: ProtectionInformation
+  parent: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  langs:
+  - csharp
+  - vb
+  name: ProtectionInformation
+  nameWithType: ExcelSensibilityLabelCollection.ProtectionInformation
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.ProtectionInformation
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ProtectionInformation
+    path: ../src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
+    startLine: 189
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.SensitivityLabels
+  summary: "\nProperty used by the <xref href=\"OfficeOpenXml.ExcelPackage.SensibilityLabelHandler\" data-throw-if-not-resolved=\"false\"></xref> to store information about the sensibility label. \nThe information is passed when calling the DecryptPackageAsync and ApplyLabelAndSavePackageAsync methods.\n<xref href=\"OfficeOpenXml.Interfaces.SensitivityLabels.ISensitivityLabelHandler.DecryptPackageAsync(System.IO.MemoryStream%2cSystem.String)\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.Interfaces.SensitivityLabels.ISensitivityLabelHandler.ApplyLabelAndSavePackageAsync(OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo%2cSystem.String)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public object ProtectionInformation { get; set; }
+    parameters: []
+    return:
+      type: System.Object
+    content.vb: Public Property ProtectionInformation As Object
+  overload: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.ProtectionInformation*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.SensitivityLabels
+  commentId: N:OfficeOpenXml.SensitivityLabels
+  name: OfficeOpenXml.SensitivityLabels
+  nameWithType: OfficeOpenXml.SensitivityLabels
+  fullName: OfficeOpenXml.SensitivityLabels
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.ExcelPackage.SensibilityLabelHandler
+  commentId: P:OfficeOpenXml.ExcelPackage.SensibilityLabelHandler
+  isExternal: true
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById*
+  commentId: Overload:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById
+  name: SetActiveLabelById
+  nameWithType: ExcelSensibilityLabelCollection.SetActiveLabelById
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelById
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.Labels
+  commentId: P:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.Labels
+  isExternal: true
+- uid: OfficeOpenXml.Interfaces.SensitivityLabels.eMethod
+  commentId: T:OfficeOpenXml.Interfaces.SensitivityLabels.eMethod
+  parent: OfficeOpenXml.Interfaces.SensitivityLabels
+  name: eMethod
+  nameWithType: eMethod
+  fullName: OfficeOpenXml.Interfaces.SensitivityLabels.eMethod
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Interfaces.SensitivityLabels
+  commentId: N:OfficeOpenXml.Interfaces.SensitivityLabels
+  name: OfficeOpenXml.Interfaces.SensitivityLabels
+  nameWithType: OfficeOpenXml.Interfaces.SensitivityLabels
+  fullName: OfficeOpenXml.Interfaces.SensitivityLabels
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelByName*
+  commentId: Overload:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelByName
+  name: SetActiveLabelByName
+  nameWithType: ExcelSensibilityLabelCollection.SetActiveLabelByName
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.SetActiveLabelByName
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.Labels*
+  commentId: Overload:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.Labels
+  name: Labels
+  nameWithType: ExcelSensibilityLabelCollection.Labels
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.Labels
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Interfaces.SensitivityLabels.IExcelSensibilityLabel}
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList{OfficeOpenXml.Interfaces.SensitivityLabels.IExcelSensibilityLabel}
+  parent: OfficeOpenXml.Core
+  definition: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<IExcelSensibilityLabel>
+  nameWithType: EPPlusReadOnlyList<IExcelSensibilityLabel>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<OfficeOpenXml.Interfaces.SensitivityLabels.IExcelSensibilityLabel>
+  nameWithType.vb: EPPlusReadOnlyList(Of IExcelSensibilityLabel)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of OfficeOpenXml.Interfaces.SensitivityLabels.IExcelSensibilityLabel)
+  name.vb: EPPlusReadOnlyList(Of IExcelSensibilityLabel)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.Interfaces.SensitivityLabels.IExcelSensibilityLabel
+    name: IExcelSensibilityLabel
+    nameWithType: IExcelSensibilityLabel
+    fullName: OfficeOpenXml.Interfaces.SensitivityLabels.IExcelSensibilityLabel
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.Interfaces.SensitivityLabels.IExcelSensibilityLabel
+    name: IExcelSensibilityLabel
+    nameWithType: IExcelSensibilityLabel
+    fullName: OfficeOpenXml.Interfaces.SensitivityLabels.IExcelSensibilityLabel
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  commentId: T:OfficeOpenXml.Core.EPPlusReadOnlyList`1
+  name: EPPlusReadOnlyList<T>
+  nameWithType: EPPlusReadOnlyList<T>
+  fullName: OfficeOpenXml.Core.EPPlusReadOnlyList<T>
+  nameWithType.vb: EPPlusReadOnlyList(Of T)
+  fullName.vb: OfficeOpenXml.Core.EPPlusReadOnlyList(Of T)
+  name.vb: EPPlusReadOnlyList(Of T)
+  spec.csharp:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: OfficeOpenXml.Core.EPPlusReadOnlyList`1
+    name: EPPlusReadOnlyList
+    nameWithType: EPPlusReadOnlyList
+    fullName: OfficeOpenXml.Core.EPPlusReadOnlyList
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Core
+  commentId: N:OfficeOpenXml.Core
+  name: OfficeOpenXml.Core
+  nameWithType: OfficeOpenXml.Core
+  fullName: OfficeOpenXml.Core
+- uid: OfficeOpenXml.Interfaces.SensitivityLabels.ISensitivityLabelHandler.DecryptPackageAsync(System.IO.MemoryStream,System.String)
+  commentId: M:OfficeOpenXml.Interfaces.SensitivityLabels.ISensitivityLabelHandler.DecryptPackageAsync(System.IO.MemoryStream,System.String)
+  isExternal: true
+- uid: OfficeOpenXml.Interfaces.SensitivityLabels.ISensitivityLabelHandler.ApplyLabelAndSavePackageAsync(OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo,System.String)
+  commentId: M:OfficeOpenXml.Interfaces.SensitivityLabels.ISensitivityLabelHandler.ApplyLabelAndSavePackageAsync(OfficeOpenXml.Interfaces.SensitivityLabels.IPackageInfo,System.String)
+  isExternal: true
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.ProtectionInformation*
+  commentId: Overload:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.ProtectionInformation
+  name: ProtectionInformation
+  nameWithType: ExcelSensibilityLabelCollection.ProtectionInformation
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection.ProtectionInformation

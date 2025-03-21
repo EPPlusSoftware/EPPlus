@@ -22,11 +22,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelRangePicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRangePicture
     path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -65,11 +65,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelRangePicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Exists
     path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
-    startLine: 43
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -102,11 +102,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelRangePicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Get
     path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
-    startLine: 55
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -137,11 +137,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelRangePicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Set
     path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
-    startLine: 73
+    startLine: 80
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -182,11 +182,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelRangePicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Set
     path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
-    startLine: 86
+    startLine: 103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -224,11 +224,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelRangePicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Set
     path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
-    startLine: 99
+    startLine: 126
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -266,11 +266,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelRangePicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Set
     path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
-    startLine: 112
+    startLine: 149
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures
@@ -308,11 +308,11 @@ items:
   source:
     remote:
       path: src/EPPlus/CellPictures/ExcelRangePicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/CellPictures/ExcelRangePicture.cs
-    startLine: 121
+    startLine: 168
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.CellPictures

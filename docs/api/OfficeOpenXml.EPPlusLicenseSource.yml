@@ -1,0 +1,159 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.EPPlusLicenseSource
+  commentId: T:OfficeOpenXml.EPPlusLicenseSource
+  id: EPPlusLicenseSource
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.EPPlusLicenseSource.Code
+  - OfficeOpenXml.EPPlusLicenseSource.ConfigFile
+  - OfficeOpenXml.EPPlusLicenseSource.EnvironmentVariable
+  langs:
+  - csharp
+  - vb
+  name: EPPlusLicenseSource
+  nameWithType: EPPlusLicenseSource
+  fullName: OfficeOpenXml.EPPlusLicenseSource
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseSource.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EPPlusLicenseSource
+    path: ../src/EPPlus/EPPlusLicenseSource.cs
+    startLine: 5
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe source method how a license is set.\n"
+  example: []
+  syntax:
+    content: public enum EPPlusLicenseSource
+    content.vb: Public Enum EPPlusLicenseSource
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.EPPlusLicenseSource.Code
+  commentId: F:OfficeOpenXml.EPPlusLicenseSource.Code
+  id: Code
+  parent: OfficeOpenXml.EPPlusLicenseSource
+  langs:
+  - csharp
+  - vb
+  name: Code
+  nameWithType: EPPlusLicenseSource.Code
+  fullName: OfficeOpenXml.EPPlusLicenseSource.Code
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseSource.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Code
+    path: ../src/EPPlus/EPPlusLicenseSource.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe license is set via the methods in <xref href=\"OfficeOpenXml.EPPlusLicense\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: Code = 0
+    return:
+      type: OfficeOpenXml.EPPlusLicenseSource
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusLicenseSource.EnvironmentVariable
+  commentId: F:OfficeOpenXml.EPPlusLicenseSource.EnvironmentVariable
+  id: EnvironmentVariable
+  parent: OfficeOpenXml.EPPlusLicenseSource
+  langs:
+  - csharp
+  - vb
+  name: EnvironmentVariable
+  nameWithType: EPPlusLicenseSource.EnvironmentVariable
+  fullName: OfficeOpenXml.EPPlusLicenseSource.EnvironmentVariable
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseSource.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EnvironmentVariable
+    path: ../src/EPPlus/EPPlusLicenseSource.cs
+    startLine: 14
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe license is set via an user or process environment variable.\n"
+  example: []
+  syntax:
+    content: EnvironmentVariable = 1
+    return:
+      type: OfficeOpenXml.EPPlusLicenseSource
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusLicenseSource.ConfigFile
+  commentId: F:OfficeOpenXml.EPPlusLicenseSource.ConfigFile
+  id: ConfigFile
+  parent: OfficeOpenXml.EPPlusLicenseSource
+  langs:
+  - csharp
+  - vb
+  name: ConfigFile
+  nameWithType: EPPlusLicenseSource.ConfigFile
+  fullName: OfficeOpenXml.EPPlusLicenseSource.ConfigFile
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseSource.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ConfigFile
+    path: ../src/EPPlus/EPPlusLicenseSource.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe license is set via the application configuration file\n"
+  example: []
+  syntax:
+    content: ConfigFile = 2
+    return:
+      type: OfficeOpenXml.EPPlusLicenseSource
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.EPPlusLicense
+  commentId: T:OfficeOpenXml.EPPlusLicense
+  parent: OfficeOpenXml
+  name: EPPlusLicense
+  nameWithType: EPPlusLicense
+  fullName: OfficeOpenXml.EPPlusLicense
+- uid: OfficeOpenXml.EPPlusLicenseSource
+  commentId: T:OfficeOpenXml.EPPlusLicenseSource
+  parent: OfficeOpenXml
+  name: EPPlusLicenseSource
+  nameWithType: EPPlusLicenseSource
+  fullName: OfficeOpenXml.EPPlusLicenseSource

@@ -27,11 +27,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelThreadedCommentThread
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 25
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments
@@ -69,11 +69,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellAddress
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 38
+    startLine: 39
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments
@@ -106,11 +106,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Comments
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 43
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments
@@ -143,11 +143,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 48
+    startLine: 49
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments
@@ -180,11 +180,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreadedCommentsXml
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 56
+    startLine: 57
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments
@@ -217,11 +217,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddComment
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 108
+    startLine: 109
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments
@@ -258,11 +258,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddComment
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 155
+    startLine: 160
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments
@@ -306,11 +306,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 167
+    startLine: 172
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments
@@ -345,11 +345,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResolveThread
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 180
+    startLine: 185
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments
@@ -377,11 +377,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsResolved
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 189
+    startLine: 194
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments
@@ -414,11 +414,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReopenThread
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 201
+    startLine: 206
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments
@@ -446,11 +446,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteThread
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 210
+    startLine: 215
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments
@@ -478,11 +478,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ThreadedComments/ExcelThreadedCommentThread.cs
-    startLine: 256
+    startLine: 261
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ThreadedComments

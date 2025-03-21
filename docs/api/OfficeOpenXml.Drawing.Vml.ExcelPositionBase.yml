@@ -21,14 +21,16 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPositionBase
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-    startLine: 8
+    startLine: 11
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml
+  summary: "\nBase class for ExcelPosition.\n"
+  example: []
   syntax:
     content: 'public abstract class ExcelPositionBase : XmlHelper'
     content.vb: >-
@@ -70,11 +72,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-    startLine: 22
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml
@@ -107,11 +109,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-    startLine: 37
+    startLine: 40
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml
@@ -144,11 +146,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnOff
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-    startLine: 57
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml
@@ -181,11 +183,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowOff
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-    startLine: 77
+    startLine: 80
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml
@@ -218,11 +220,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-    startLine: 92
+    startLine: 95
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml
@@ -252,11 +254,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateXml
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-    startLine: 97
+    startLine: 100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Vml

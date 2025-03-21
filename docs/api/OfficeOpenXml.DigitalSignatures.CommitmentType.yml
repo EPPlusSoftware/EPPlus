@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/CommitmentType.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CommitmentType
     path: ../src/EPPlus/DigitalSignatures/CommitmentType.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/CommitmentType.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/DigitalSignatures/CommitmentType.cs
@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/CommitmentType.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Approved
     path: ../src/EPPlus/DigitalSignatures/CommitmentType.cs
@@ -130,7 +130,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/CommitmentType.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Created
     path: ../src/EPPlus/DigitalSignatures/CommitmentType.cs
@@ -164,7 +164,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/CommitmentType.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreatedAndApproved
     path: ../src/EPPlus/DigitalSignatures/CommitmentType.cs

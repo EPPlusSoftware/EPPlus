@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SignatureLineCollection
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetSignatureLineStamps
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -151,7 +151,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetSignatureLines
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetSignatureLineById
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -239,6 +239,7 @@ items:
     parameters:
     - id: sline
       type: OfficeOpenXml.Drawing.ExcelSignatureLineStamp
+      description: Signature line to remove.
     content.vb: Public Sub Remove(sline As ExcelSignatureLineStamp)
   overload: OfficeOpenXml.Drawing.SignatureLineCollection.Remove*
   modifiers.csharp:
@@ -259,14 +260,16 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-    startLine: 119
+    startLine: 122
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
+  summary: "\nClear the signature list.\n"
+  example: []
   syntax:
     content: public void Clear()
     content.vb: Public Sub Clear
@@ -289,11 +292,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-    startLine: 129
+    startLine: 132
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -327,11 +330,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-    startLine: 134
+    startLine: 137
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -359,11 +362,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-    startLine: 143
+    startLine: 146
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -394,11 +397,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStamp
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-    startLine: 152
+    startLine: 155
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

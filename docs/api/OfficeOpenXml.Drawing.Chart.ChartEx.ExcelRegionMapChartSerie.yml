@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRegionMapChartSerie
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -58,6 +58,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsY
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
@@ -89,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Attribution
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -126,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Region
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -163,7 +164,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Language
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -200,7 +201,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ProjectionType
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -237,7 +238,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ViewedRegionType
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -274,7 +275,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Colors
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -311,7 +312,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RegionLableLayout
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -348,7 +349,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorBy
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -486,6 +487,12 @@ references:
   name: StringLiteralsX
   nameWithType: ExcelChartSerie.StringLiteralsX
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: StringLiteralsY
+  nameWithType: ExcelChartSerie.StringLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsY
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie

@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRowsCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRowsCollection
     path: ../src/EPPlus/ExcelRowsCollection.cs
@@ -68,6 +68,7 @@ items:
   - OfficeOpenXml.ExcelRangeRow.CollapseChildren(System.Boolean)
   - OfficeOpenXml.ExcelRangeRow.ExpandChildren(System.Boolean)
   - OfficeOpenXml.ExcelRangeRow.SetVisibleOutlineLevel(System.Int32,System.Boolean)
+  - OfficeOpenXml.ExcelRangeRow.DeleteAll(System.Predicate{OfficeOpenXml.ExcelRow})
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -95,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRowsCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRowsCollection.cs
@@ -139,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRowsCollection.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRowsCollection.cs
@@ -716,6 +717,68 @@ references:
     nameWithType: Boolean
     fullName: System.Boolean
     isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeRow.DeleteAll(System.Predicate{OfficeOpenXml.ExcelRow})
+  commentId: M:OfficeOpenXml.ExcelRangeRow.DeleteAll(System.Predicate{OfficeOpenXml.ExcelRow})
+  parent: OfficeOpenXml.ExcelRangeRow
+  isExternal: true
+  name: DeleteAll(Predicate<ExcelRow>)
+  nameWithType: ExcelRangeRow.DeleteAll(Predicate<ExcelRow>)
+  fullName: OfficeOpenXml.ExcelRangeRow.DeleteAll(System.Predicate<OfficeOpenXml.ExcelRow>)
+  nameWithType.vb: ExcelRangeRow.DeleteAll(Predicate(Of ExcelRow))
+  fullName.vb: OfficeOpenXml.ExcelRangeRow.DeleteAll(System.Predicate(Of OfficeOpenXml.ExcelRow))
+  name.vb: DeleteAll(Predicate(Of ExcelRow))
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelRangeRow.DeleteAll(System.Predicate{OfficeOpenXml.ExcelRow})
+    name: DeleteAll
+    nameWithType: ExcelRangeRow.DeleteAll
+    fullName: OfficeOpenXml.ExcelRangeRow.DeleteAll
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelRow
+    name: ExcelRow
+    nameWithType: ExcelRow
+    fullName: OfficeOpenXml.ExcelRow
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelRangeRow.DeleteAll(System.Predicate{OfficeOpenXml.ExcelRow})
+    name: DeleteAll
+    nameWithType: ExcelRangeRow.DeleteAll
+    fullName: OfficeOpenXml.ExcelRangeRow.DeleteAll
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelRow
+    name: ExcelRow
+    nameWithType: ExcelRow
+    fullName: OfficeOpenXml.ExcelRow
+  - name: )
+    nameWithType: )
+    fullName: )
   - name: )
     nameWithType: )
     fullName: )

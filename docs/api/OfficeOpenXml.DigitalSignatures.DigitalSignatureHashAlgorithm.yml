@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DigitalSignatureHashAlgorithm
     path: ../src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
@@ -52,7 +52,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SHA1
     path: ../src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
@@ -86,7 +86,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SHA256
     path: ../src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
@@ -120,7 +120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SHA384
     path: ../src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
@@ -154,7 +154,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SHA512
     path: ../src/EPPlus/DigitalSignatures/DigitalSignatureHashAlgorithm.cs

@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelBoxWhiskerChartSerie
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -56,6 +56,7 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsY
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
@@ -87,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParentLabelLayout
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -124,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: QuartileMethod
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -161,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowMeanLine
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -198,7 +199,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowMeanMarker
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -235,7 +236,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowNonOutliers
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -272,7 +273,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowOutliers
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelBoxWhiskerChartSerie.cs
@@ -410,6 +411,12 @@ references:
   name: StringLiteralsX
   nameWithType: ExcelChartSerie.StringLiteralsX
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: StringLiteralsY
+  nameWithType: ExcelChartSerie.StringLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsY
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie

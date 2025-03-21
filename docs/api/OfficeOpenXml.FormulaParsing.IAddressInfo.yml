@@ -17,11 +17,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IAddressInfo
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 97
+    startLine: 98
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -50,11 +50,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 102
+    startLine: 103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
@@ -85,15 +85,15 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/IRangeInfo.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Addresses
     path: ../src/EPPlus/FormulaParsing/IRangeInfo.cs
-    startLine: 106
+    startLine: 107
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nIf the address contains commaseparated addresses, this array contains the individual addresses.\n"
+  summary: "\nIf the address contains comma separated addresses, this array contains the individual addresses.\n"
   example: []
   syntax:
     content: FormulaRangeAddress[] Addresses { get; }

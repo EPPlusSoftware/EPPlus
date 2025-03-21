@@ -27,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPicture
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
@@ -149,11 +149,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Image
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 364
+    startLine: 366
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -186,11 +186,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSize
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 378
+    startLine: 380
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -225,11 +225,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 408
+    startLine: 409
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -262,11 +262,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 423
+    startLine: 424
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -299,11 +299,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 438
+    startLine: 439
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -336,11 +336,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PreferRelativeResize
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 453
+    startLine: 454
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -373,11 +373,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LockAspectRatio
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 468
+    startLine: 469
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -410,11 +410,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 496
+    startLine: 497
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -445,11 +445,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rotation
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 565
+    startLine: 573
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -482,11 +482,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HorizontalFlip
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 580
+    startLine: 588
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -519,11 +519,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPicture.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VerticalFlip
     path: ../src/EPPlus/Drawing/ExcelPicture.cs
-    startLine: 595
+    startLine: 603
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing

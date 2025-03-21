@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelSunburstChart.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSunburstChart
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelSunburstChart.cs

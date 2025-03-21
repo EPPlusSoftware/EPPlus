@@ -1,34 +1,34 @@
 ### YamlMime:ManagedReference
 items:
-- uid: OfficeOpenXml.LicenseException
-  commentId: T:OfficeOpenXml.LicenseException
-  id: LicenseException
+- uid: OfficeOpenXml.LicenseInformationException
+  commentId: T:OfficeOpenXml.LicenseInformationException
+  id: LicenseInformationException
   parent: OfficeOpenXml
   children: []
   langs:
   - csharp
   - vb
-  name: LicenseException
-  nameWithType: LicenseException
-  fullName: OfficeOpenXml.LicenseException
+  name: LicenseInformationException
+  nameWithType: LicenseInformationException
+  fullName: OfficeOpenXml.LicenseInformationException
   type: Class
   source:
     remote:
       path: src/EPPlus/LicenseException.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: LicenseException
+    id: LicenseInformationException
     path: ../src/EPPlus/LicenseException.cs
-    startLine: 21
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nAn exception thrown when the license context of EPPlus hasn&apos;t been set.\n"
+  summary: "\nAn exception thrown when the license has expired for the version used.\n"
   example: []
   syntax:
-    content: 'public class LicenseException : Exception, ISerializable'
+    content: 'public class LicenseInformationException : Exception, ISerializable'
     content.vb: >-
-      Public Class LicenseException
+      Public Class LicenseInformationException
           Inherits Exception
           Implements ISerializable
   inheritance:

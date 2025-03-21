@@ -24,7 +24,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelHyperLink
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelHyperLink.cs
@@ -186,11 +186,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelHyperLink.cs
-    startLine: 50
+    startLine: 37
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -225,11 +225,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelHyperLink.cs
-    startLine: 60
+    startLine: 47
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -264,11 +264,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReferenceAddress
     path: ../src/EPPlus/ExcelHyperLink.cs
-    startLine: 71
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -301,11 +301,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Display
     path: ../src/EPPlus/ExcelHyperLink.cs
-    startLine: 86
+    startLine: 73
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -338,11 +338,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToolTip
     path: ../src/EPPlus/ExcelHyperLink.cs
-    startLine: 100
+    startLine: 87
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -375,11 +375,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColSpan
     path: ../src/EPPlus/ExcelHyperLink.cs
-    startLine: 109
+    startLine: 96
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -412,11 +412,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowSpan
     path: ../src/EPPlus/ExcelHyperLink.cs
-    startLine: 124
+    startLine: 111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -449,11 +449,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelHyperLink.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OriginalUri
     path: ../src/EPPlus/ExcelHyperLink.cs
-    startLine: 139
+    startLine: 126
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/eSignatureLineType.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eSignatureLineType
     path: ../src/EPPlus/Drawing/SignatureLine/eSignatureLineType.cs
@@ -50,7 +50,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/eSignatureLineType.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Stamp
     path: ../src/EPPlus/Drawing/SignatureLine/eSignatureLineType.cs
@@ -84,7 +84,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/eSignatureLineType.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SignatureLine
     path: ../src/EPPlus/Drawing/SignatureLine/eSignatureLineType.cs

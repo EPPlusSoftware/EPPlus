@@ -1,0 +1,153 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.EPPlusLicenseType
+  commentId: T:OfficeOpenXml.EPPlusLicenseType
+  id: EPPlusLicenseType
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.EPPlusLicenseType.Commercial
+  - OfficeOpenXml.EPPlusLicenseType.NonCommercialOrganization
+  - OfficeOpenXml.EPPlusLicenseType.NonCommercialPersonal
+  langs:
+  - csharp
+  - vb
+  name: EPPlusLicenseType
+  nameWithType: EPPlusLicenseType
+  fullName: OfficeOpenXml.EPPlusLicenseType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseType.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EPPlusLicenseType
+    path: ../src/EPPlus/EPPlusLicenseType.cs
+    startLine: 5
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe type of license used.\n"
+  example: []
+  syntax:
+    content: public enum EPPlusLicenseType
+    content.vb: Public Enum EPPlusLicenseType
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.EPPlusLicenseType.Commercial
+  commentId: F:OfficeOpenXml.EPPlusLicenseType.Commercial
+  id: Commercial
+  parent: OfficeOpenXml.EPPlusLicenseType
+  langs:
+  - csharp
+  - vb
+  name: Commercial
+  nameWithType: EPPlusLicenseType.Commercial
+  fullName: OfficeOpenXml.EPPlusLicenseType.Commercial
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseType.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Commercial
+    path: ../src/EPPlus/EPPlusLicenseType.cs
+    startLine: 10
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf you use EPPlus within a commercial organization or for commercial purposes.\n"
+  example: []
+  syntax:
+    content: Commercial = 0
+    return:
+      type: OfficeOpenXml.EPPlusLicenseType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusLicenseType.NonCommercialPersonal
+  commentId: F:OfficeOpenXml.EPPlusLicenseType.NonCommercialPersonal
+  id: NonCommercialPersonal
+  parent: OfficeOpenXml.EPPlusLicenseType
+  langs:
+  - csharp
+  - vb
+  name: NonCommercialPersonal
+  nameWithType: EPPlusLicenseType.NonCommercialPersonal
+  fullName: OfficeOpenXml.EPPlusLicenseType.NonCommercialPersonal
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseType.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NonCommercialPersonal
+    path: ../src/EPPlus/EPPlusLicenseType.cs
+    startLine: 14
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nUse this license if you use EPPlus for personal noncommercial usage.\n"
+  example: []
+  syntax:
+    content: NonCommercialPersonal = 1
+    return:
+      type: OfficeOpenXml.EPPlusLicenseType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusLicenseType.NonCommercialOrganization
+  commentId: F:OfficeOpenXml.EPPlusLicenseType.NonCommercialOrganization
+  id: NonCommercialOrganization
+  parent: OfficeOpenXml.EPPlusLicenseType
+  langs:
+  - csharp
+  - vb
+  name: NonCommercialOrganization
+  nameWithType: EPPlusLicenseType.NonCommercialOrganization
+  fullName: OfficeOpenXml.EPPlusLicenseType.NonCommercialOrganization
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusLicenseType.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NonCommercialOrganization
+    path: ../src/EPPlus/EPPlusLicenseType.cs
+    startLine: 18
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nUse this license if you use EPPlus representing a noncommercial organization.\n"
+  example: []
+  syntax:
+    content: NonCommercialOrganization = 2
+    return:
+      type: OfficeOpenXml.EPPlusLicenseType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.EPPlusLicenseType
+  commentId: T:OfficeOpenXml.EPPlusLicenseType
+  parent: OfficeOpenXml
+  name: EPPlusLicenseType
+  nameWithType: EPPlusLicenseType
+  fullName: OfficeOpenXml.EPPlusLicenseType

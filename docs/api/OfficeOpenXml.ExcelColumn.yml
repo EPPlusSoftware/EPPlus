@@ -33,11 +33,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelColumn
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 21
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -75,11 +75,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 32
+    startLine: 33
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -114,11 +114,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnMin
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 44
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -151,11 +151,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnMax
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 54
+    startLine: 55
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -188,11 +188,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 94
+    startLine: 95
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -225,11 +225,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 135
+    startLine: 136
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -262,11 +262,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BestFit
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 163
+    startLine: 164
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -299,11 +299,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Collapsed
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 173
+    startLine: 174
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -336,11 +336,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineLevel
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 177
+    startLine: 178
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -373,11 +373,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Phonetic
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 185
+    startLine: 186
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -410,11 +410,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 193
+    startLine: 194
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -447,11 +447,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 206
+    startLine: 207
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -484,11 +484,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 221
+    startLine: 222
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -521,11 +521,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageBreak
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 235
+    startLine: 236
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -558,11 +558,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Merged
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 243
+    startLine: 244
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -595,11 +595,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToString
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 260
+    startLine: 261
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -633,11 +633,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 269
+    startLine: 270
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -665,11 +665,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 280
+    startLine: 281
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -701,11 +701,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelColumn.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelColumn.cs
-    startLine: 292
+    startLine: 293
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

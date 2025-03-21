@@ -38,6 +38,18 @@
     name: ePaneState
   - uid: OfficeOpenXml.ePaperSize
     name: ePaperSize
+  - uid: OfficeOpenXml.EPPlusCommercialLicenseType
+    name: EPPlusCommercialLicenseType
+  - uid: OfficeOpenXml.EPPlusLicense
+    name: EPPlusLicense
+  - uid: OfficeOpenXml.EPPlusLicenseInfo
+    name: EPPlusLicenseInfo
+  - uid: OfficeOpenXml.EPPlusLicenseSource
+    name: EPPlusLicenseSource
+  - uid: OfficeOpenXml.EPPlusLicenseStatus
+    name: EPPlusLicenseStatus
+  - uid: OfficeOpenXml.EPPlusLicenseType
+    name: EPPlusLicenseType
   - uid: OfficeOpenXml.eShiftTypeDelete
     name: eShiftTypeDelete
   - uid: OfficeOpenXml.eShiftTypeInsert
@@ -141,6 +153,8 @@
     name: ExcelRowsCollection
   - uid: OfficeOpenXml.ExcelSheetProtection
     name: ExcelSheetProtection
+  - uid: OfficeOpenXml.ExcelSpillErrorValue
+    name: ExcelSpillErrorValue
   - uid: OfficeOpenXml.ExcelStyleCollection`1
     name: ExcelStyleCollection<T>
     name.vb: ExcelStyleCollection(Of T)
@@ -184,6 +198,8 @@
     name: FixedWidthFormatErrorStrategy
   - uid: OfficeOpenXml.FontSize
     name: FontSize
+  - uid: OfficeOpenXml.InvalidLicenseKeyException
+    name: InvalidLicenseKeyException
   - uid: OfficeOpenXml.JsonExportSettings
     name: JsonExportSettings
   - uid: OfficeOpenXml.JsonRangeExportSettings
@@ -192,8 +208,12 @@
     name: JsonTableExportSettings
   - uid: OfficeOpenXml.LicenseContext
     name: LicenseContext
-  - uid: OfficeOpenXml.LicenseException
-    name: LicenseException
+  - uid: OfficeOpenXml.LicenseInformationException
+    name: LicenseInformationException
+  - uid: OfficeOpenXml.LicenseNotSetException
+    name: LicenseNotSetException
+  - uid: OfficeOpenXml.LicenseNotValidException
+    name: LicenseNotValidException
   - uid: OfficeOpenXml.NumberFormatToTextArgs
     name: NumberFormatToTextArgs
   - uid: OfficeOpenXml.OfficeProperties
@@ -509,10 +529,6 @@
     name: ExcelDigitalSignature
   - uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
     name: ExcelDigitalSignatureCollection
-  - uid: OfficeOpenXml.DigitalSignatures.SignatureProperty
-    name: SignatureProperty
-  - uid: OfficeOpenXml.DigitalSignatures.SignatureTime
-    name: SignatureTime
 - uid: OfficeOpenXml.Drawing
   name: OfficeOpenXml.Drawing
   items:
@@ -648,8 +664,8 @@
     name: ExcelImage
   - uid: OfficeOpenXml.Drawing.ExcelImageInfo
     name: ExcelImageInfo
-  - uid: OfficeOpenXml.Drawing.ExcelOleObjectAsType
-    name: ExcelOleObjectAsType
+  - uid: OfficeOpenXml.Drawing.ExcelImageReadOnly
+    name: ExcelImageReadOnly
   - uid: OfficeOpenXml.Drawing.ExcelPicture
     name: ExcelPicture
   - uid: OfficeOpenXml.Drawing.ExcelPosition
@@ -1287,6 +1303,11 @@
     name: ExcelVmlMeasurementUnit
   - uid: OfficeOpenXml.Drawing.Vml.VmlGradiantColor
     name: VmlGradiantColor
+- uid: OfficeOpenXml.Encryption
+  name: OfficeOpenXml.Encryption
+  items:
+  - uid: OfficeOpenXml.Encryption.EPPlusDecryptionInfo
+    name: EPPlusDecryptionInfo
 - uid: OfficeOpenXml.Export.HtmlExport
   name: OfficeOpenXml.Export.HtmlExport
   items:
@@ -1812,6 +1833,15 @@
     name: RichDataReferenceTypes
   - uid: OfficeOpenXml.RichData.RichDataReferenceValueError
     name: RichDataReferenceValueError
+- uid: OfficeOpenXml.SensitivityLabels
+  name: OfficeOpenXml.SensitivityLabels
+  items:
+  - uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabel
+    name: ExcelSensibilityLabel
+  - uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+    name: ExcelSensibilityLabelCollection
+  - uid: OfficeOpenXml.SensitivityLabels.MissingSensibilityHandlerException
+    name: MissingSensibilityHandlerException
 - uid: OfficeOpenXml.Sorting
   name: OfficeOpenXml.Sorting
   items:
@@ -1897,6 +1927,8 @@
     name: ExcelHorizontalAlignment
   - uid: OfficeOpenXml.Style.ExcelIndexedColor
     name: ExcelIndexedColor
+  - uid: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+    name: ExcelIndexedColorNamedNumFt
   - uid: OfficeOpenXml.Style.ExcelNumberFormat
     name: ExcelNumberFormat
   - uid: OfficeOpenXml.Style.ExcelParagraph
@@ -2021,6 +2053,10 @@
     name: ExcelTableColumnCollection
   - uid: OfficeOpenXml.Table.ExcelTableDxfBase
     name: ExcelTableDxfBase
+  - uid: OfficeOpenXml.Table.ExcelTableRow
+    name: ExcelTableRow
+  - uid: OfficeOpenXml.Table.ExcelTableRowCollection
+    name: ExcelTableRowCollection
   - uid: OfficeOpenXml.Table.PivotTableStyles
     name: PivotTableStyles
   - uid: OfficeOpenXml.Table.RowFunctions

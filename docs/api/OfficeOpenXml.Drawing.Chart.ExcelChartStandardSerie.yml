@@ -8,8 +8,12 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.CreateCache
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.HeaderAddress
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberOfItems
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Series
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
+  - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.TrendLines
   - OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.XSeries
   langs:
@@ -22,11 +26,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartStandardSerie
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 25
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -47,9 +51,6 @@ items:
   - OfficeOpenXml.Drawing.Chart.ExcelRadarChartSerie
   - OfficeOpenXml.Drawing.Chart.ExcelSurfaceChartSerie
   inheritedMembers:
-  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
-  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
-  - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Border
   - OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Effect
@@ -67,6 +68,174 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+  id: NumberLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  langs:
+  - csharp
+  - vb
+  name: NumberLiteralsY
+  nameWithType: ExcelChartStandardSerie.NumberLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NumberLiteralsY
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
+    startLine: 39
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLiterals for the Y serie, if the literal values are numeric\n"
+  example: []
+  syntax:
+    content: public override double[] NumberLiteralsY { get; protected set; }
+    parameters: []
+    return:
+      type: System.Double[]
+    content.vb: Public Overrides Property NumberLiteralsY As Double()
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - protected set
+  modifiers.vb:
+  - Public
+  - Overrides
+  - Get
+  - Protected Set
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+  id: NumberLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  langs:
+  - csharp
+  - vb
+  name: NumberLiteralsX
+  nameWithType: ExcelChartStandardSerie.NumberLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: NumberLiteralsX
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
+    startLine: 58
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLiterals for the X serie, if the literal values are numeric\n"
+  example: []
+  syntax:
+    content: public override double[] NumberLiteralsX { get; protected set; }
+    parameters: []
+    return:
+      type: System.Double[]
+    content.vb: Public Overrides Property NumberLiteralsX As Double()
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - protected set
+  modifiers.vb:
+  - Public
+  - Overrides
+  - Get
+  - Protected Set
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+  id: StringLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  langs:
+  - csharp
+  - vb
+  name: StringLiteralsY
+  nameWithType: ExcelChartStandardSerie.StringLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StringLiteralsY
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
+    startLine: 77
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLiterals for the Y serie, if the literal values are strings\n"
+  example: []
+  syntax:
+    content: public override string[] StringLiteralsY { get; protected set; }
+    parameters: []
+    return:
+      type: System.String[]
+    content.vb: Public Overrides Property StringLiteralsY As String()
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsY
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - protected set
+  modifiers.vb:
+  - Public
+  - Overrides
+  - Get
+  - Protected Set
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
+  id: StringLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie
+  langs:
+  - csharp
+  - vb
+  name: StringLiteralsX
+  nameWithType: ExcelChartStandardSerie.StringLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: StringLiteralsX
+    path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
+    startLine: 97
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.Chart
+  summary: "\nLiterals for the X serie, if the literal values are strings\n"
+  example: []
+  syntax:
+    content: public override string[] StringLiteralsX { get; protected set; }
+    parameters: []
+    return:
+      type: System.String[]
+    content.vb: Public Overrides Property StringLiteralsX As String()
+  overridden: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  overload: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX*
+  modifiers.csharp:
+  - public
+  - override
+  - get
+  - protected set
+  modifiers.vb:
+  - Public
+  - Overrides
+  - Get
+  - Protected Set
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.Header
   id: Header
@@ -81,11 +250,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Header
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 83
+    startLine: 169
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -121,11 +290,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HeaderAddress
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 108
+    startLine: 194
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -161,11 +330,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Series
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 141
+    startLine: 227
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -201,11 +370,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XSeries
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 179
+    startLine: 265
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -241,11 +410,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TrendLines
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 389
+    startLine: 515
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -281,11 +450,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfItems
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 403
+    startLine: 529
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -321,11 +490,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateCache
     path: ../src/EPPlus/Drawing/Chart/ExcelChartStandardSerie.cs
-    startLine: 423
+    startLine: 549
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Chart
@@ -364,24 +533,6 @@ references:
   name: ExcelChartSerie
   nameWithType: ExcelChartSerie
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
-  name: NumberLiteralsY
-  nameWithType: ExcelChartSerie.NumberLiteralsY
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
-  name: NumberLiteralsX
-  nameWithType: ExcelChartSerie.NumberLiteralsX
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
-- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
-  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
-  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
-  name: StringLiteralsX
-  nameWithType: ExcelChartSerie.StringLiteralsX
-  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Fill
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
@@ -696,6 +847,102 @@ references:
   name: OfficeOpenXml
   nameWithType: OfficeOpenXml
   fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: NumberLiteralsY
+  nameWithType: ExcelChartSerie.NumberLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsY
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+  name: NumberLiteralsY
+  nameWithType: ExcelChartStandardSerie.NumberLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsY
+- uid: System.Double[]
+  isExternal: true
+  name: Double[]
+  nameWithType: Double[]
+  fullName: System.Double[]
+  nameWithType.vb: Double()
+  fullName.vb: System.Double()
+  name.vb: Double()
+  spec.csharp:
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Double
+    name: Double
+    nameWithType: Double
+    fullName: System.Double
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: NumberLiteralsX
+  nameWithType: ExcelChartSerie.NumberLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.NumberLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+  name: NumberLiteralsX
+  nameWithType: ExcelChartStandardSerie.NumberLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.NumberLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsY
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsY
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: StringLiteralsY
+  nameWithType: ExcelChartSerie.StringLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsY
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+  name: StringLiteralsY
+  nameWithType: ExcelChartStandardSerie.StringLiteralsY
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsY
+- uid: System.String[]
+  isExternal: true
+  name: String[]
+  nameWithType: String[]
+  fullName: System.String[]
+  nameWithType.vb: String()
+  fullName.vb: System.String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+  parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie
+  name: StringLiteralsX
+  nameWithType: ExcelChartSerie.StringLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.StringLiteralsX
+- uid: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX*
+  commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
+  name: StringLiteralsX
+  nameWithType: ExcelChartStandardSerie.StringLiteralsX
+  fullName: OfficeOpenXml.Drawing.Chart.ExcelChartStandardSerie.StringLiteralsX
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Header
   commentId: P:OfficeOpenXml.Drawing.Chart.ExcelChartSerie.Header
   parent: OfficeOpenXml.Drawing.Chart.ExcelChartSerie

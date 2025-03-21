@@ -1,0 +1,303 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.EPPlusCommercialLicenseType
+  commentId: T:OfficeOpenXml.EPPlusCommercialLicenseType
+  id: EPPlusCommercialLicenseType
+  parent: OfficeOpenXml
+  children:
+  - OfficeOpenXml.EPPlusCommercialLicenseType.Custom
+  - OfficeOpenXml.EPPlusCommercialLicenseType.Package
+  - OfficeOpenXml.EPPlusCommercialLicenseType.PayAsYouGo
+  - OfficeOpenXml.EPPlusCommercialLicenseType.Perpetual
+  - OfficeOpenXml.EPPlusCommercialLicenseType.Subscription
+  - OfficeOpenXml.EPPlusCommercialLicenseType.TemporaryKey
+  - OfficeOpenXml.EPPlusCommercialLicenseType.Trial
+  langs:
+  - csharp
+  - vb
+  name: EPPlusCommercialLicenseType
+  nameWithType: EPPlusCommercialLicenseType
+  fullName: OfficeOpenXml.EPPlusCommercialLicenseType
+  type: Enum
+  source:
+    remote:
+      path: src/EPPlus/EPPlusCommercialLicenseType.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: EPPlusCommercialLicenseType
+    path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
+    startLine: 7
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe type of commercial license\n"
+  example: []
+  syntax:
+    content: >-
+      [Flags]
+
+      public enum EPPlusCommercialLicenseType
+    content.vb: >-
+      <Flags>
+
+      Public Enum EPPlusCommercialLicenseType
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - enum
+  modifiers.vb:
+  - Public
+  - Enum
+- uid: OfficeOpenXml.EPPlusCommercialLicenseType.Subscription
+  commentId: F:OfficeOpenXml.EPPlusCommercialLicenseType.Subscription
+  id: Subscription
+  parent: OfficeOpenXml.EPPlusCommercialLicenseType
+  langs:
+  - csharp
+  - vb
+  name: Subscription
+  nameWithType: EPPlusCommercialLicenseType.Subscription
+  fullName: OfficeOpenXml.EPPlusCommercialLicenseType.Subscription
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusCommercialLicenseType.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Subscription
+    path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
+    startLine: 13
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA subscription license.\n"
+  example: []
+  syntax:
+    content: Subscription = 1
+    return:
+      type: OfficeOpenXml.EPPlusCommercialLicenseType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusCommercialLicenseType.Perpetual
+  commentId: F:OfficeOpenXml.EPPlusCommercialLicenseType.Perpetual
+  id: Perpetual
+  parent: OfficeOpenXml.EPPlusCommercialLicenseType
+  langs:
+  - csharp
+  - vb
+  name: Perpetual
+  nameWithType: EPPlusCommercialLicenseType.Perpetual
+  fullName: OfficeOpenXml.EPPlusCommercialLicenseType.Perpetual
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusCommercialLicenseType.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Perpetual
+    path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
+    startLine: 17
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA perpetual license.\n"
+  example: []
+  syntax:
+    content: Perpetual = 2
+    return:
+      type: OfficeOpenXml.EPPlusCommercialLicenseType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusCommercialLicenseType.Package
+  commentId: F:OfficeOpenXml.EPPlusCommercialLicenseType.Package
+  id: Package
+  parent: OfficeOpenXml.EPPlusCommercialLicenseType
+  langs:
+  - csharp
+  - vb
+  name: Package
+  nameWithType: EPPlusCommercialLicenseType.Package
+  fullName: OfficeOpenXml.EPPlusCommercialLicenseType.Package
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusCommercialLicenseType.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Package
+    path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
+    startLine: 21
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA perpetual license package.\n"
+  example: []
+  syntax:
+    content: Package = 4
+    return:
+      type: OfficeOpenXml.EPPlusCommercialLicenseType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusCommercialLicenseType.Custom
+  commentId: F:OfficeOpenXml.EPPlusCommercialLicenseType.Custom
+  id: Custom
+  parent: OfficeOpenXml.EPPlusCommercialLicenseType
+  langs:
+  - csharp
+  - vb
+  name: Custom
+  nameWithType: EPPlusCommercialLicenseType.Custom
+  fullName: OfficeOpenXml.EPPlusCommercialLicenseType.Custom
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusCommercialLicenseType.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Custom
+    path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
+    startLine: 25
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA custom license, for example an enterprise or site license.\n"
+  example: []
+  syntax:
+    content: Custom = 8
+    return:
+      type: OfficeOpenXml.EPPlusCommercialLicenseType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusCommercialLicenseType.PayAsYouGo
+  commentId: F:OfficeOpenXml.EPPlusCommercialLicenseType.PayAsYouGo
+  id: PayAsYouGo
+  parent: OfficeOpenXml.EPPlusCommercialLicenseType
+  langs:
+  - csharp
+  - vb
+  name: PayAsYouGo
+  nameWithType: EPPlusCommercialLicenseType.PayAsYouGo
+  fullName: OfficeOpenXml.EPPlusCommercialLicenseType.PayAsYouGo
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusCommercialLicenseType.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: PayAsYouGo
+    path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
+    startLine: 29
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA pay-as-you go license. This license can no longer be purchased.\n"
+  example: []
+  syntax:
+    content: PayAsYouGo = 16
+    return:
+      type: OfficeOpenXml.EPPlusCommercialLicenseType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusCommercialLicenseType.Trial
+  commentId: F:OfficeOpenXml.EPPlusCommercialLicenseType.Trial
+  id: Trial
+  parent: OfficeOpenXml.EPPlusCommercialLicenseType
+  langs:
+  - csharp
+  - vb
+  name: Trial
+  nameWithType: EPPlusCommercialLicenseType.Trial
+  fullName: OfficeOpenXml.EPPlusCommercialLicenseType.Trial
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusCommercialLicenseType.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Trial
+    path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
+    startLine: 33
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThis license is granted for trial purposes, normaly for 32 days.\n"
+  example: []
+  syntax:
+    content: Trial = 32
+    return:
+      type: OfficeOpenXml.EPPlusCommercialLicenseType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EPPlusCommercialLicenseType.TemporaryKey
+  commentId: F:OfficeOpenXml.EPPlusCommercialLicenseType.TemporaryKey
+  id: TemporaryKey
+  parent: OfficeOpenXml.EPPlusCommercialLicenseType
+  langs:
+  - csharp
+  - vb
+  name: TemporaryKey
+  nameWithType: EPPlusCommercialLicenseType.TemporaryKey
+  fullName: OfficeOpenXml.EPPlusCommercialLicenseType.TemporaryKey
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/EPPlusCommercialLicenseType.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: TemporaryKey
+    path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
+    startLine: 37
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThis license has been temporary extended to complete the renewal process.\n"
+  example: []
+  syntax:
+    content: TemporaryKey = 64
+    return:
+      type: OfficeOpenXml.EPPlusCommercialLicenseType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+references:
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.EPPlusCommercialLicenseType
+  commentId: T:OfficeOpenXml.EPPlusCommercialLicenseType
+  parent: OfficeOpenXml
+  name: EPPlusCommercialLicenseType
+  nameWithType: EPPlusCommercialLicenseType
+  fullName: OfficeOpenXml.EPPlusCommercialLicenseType

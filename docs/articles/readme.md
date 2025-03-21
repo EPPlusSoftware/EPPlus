@@ -1,4 +1,4 @@
-# EPPlus 7
+# EPPlus 8
 
 ## Announcement: new license model from version 5
 EPPlus has from this new major version changed license from LGPL to [Polyform Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0/).
@@ -57,13 +57,13 @@ This might be the easiest way of configuring this. Just as above, set the variab
 **Important!** The environment variable should be set at the user level.
 
 
-## Breaking changes EPPlus 7
+## Breaking changes EPPlus 8
 See [Breaking Changes in EPPlus 7](https://github.com/EPPlusSoftware/EPPlus/wiki/Breaking-Changes-in-EPPlus-7)
 
-## New features in EPPlus 7
-EPPlus 7 comes with a set of new features, see (https://www.epplussoftware.com/Developers/Features)
+## New features in EPPlus 8
+EPPlus 8 comes with a set of new features, see (https://www.epplussoftware.com/Developers/Features)
 
 ## Improved documentation
-EPPlus 7 has new, separate sample projects for [C#](https://github.com/EPPlusSoftware/EPPlus.Samples.CSharp) and [Visual Basic](https://github.com/EPPlusSoftware/EPPlus.Samples.VB) respectively.
+EPPlus 8 has new, separate sample projects for [C#](https://github.com/EPPlusSoftware/EPPlus.Samples.CSharp) and [Visual Basic](https://github.com/EPPlusSoftware/EPPlus.Samples.VB) respectively.
 There is also an updated [developer wiki](https://github.com/EPPlusSoftware/EPPlus/wiki). The work with improving the documentation will continue, feedback is highly appreciated!
 

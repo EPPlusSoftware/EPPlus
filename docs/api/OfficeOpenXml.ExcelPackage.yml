@@ -31,6 +31,7 @@ items:
   - OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync(System.String,System.Threading.CancellationToken)
   - OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync(System.Threading.CancellationToken)
   - OfficeOpenXml.ExcelPackage.InitializationErrors
+  - OfficeOpenXml.ExcelPackage.License
   - OfficeOpenXml.ExcelPackage.LicenseContext
   - OfficeOpenXml.ExcelPackage.Load(System.IO.Stream)
   - OfficeOpenXml.ExcelPackage.Load(System.IO.Stream,System.String)
@@ -61,6 +62,8 @@ items:
   - OfficeOpenXml.ExcelPackage.SaveAsAsync(System.String,System.Threading.CancellationToken)
   - OfficeOpenXml.ExcelPackage.SaveAsync(System.String,System.Threading.CancellationToken)
   - OfficeOpenXml.ExcelPackage.SaveAsync(System.Threading.CancellationToken)
+  - OfficeOpenXml.ExcelPackage.SensibilityLabelHandler
+  - OfficeOpenXml.ExcelPackage.SensibilityLabels
   - OfficeOpenXml.ExcelPackage.Settings
   - OfficeOpenXml.ExcelPackage.Stream
   - OfficeOpenXml.ExcelPackage.Workbook
@@ -74,11 +77,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPackage
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -124,11 +127,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxColumns
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 234
+    startLine: 240
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -159,11 +162,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxRows
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 238
+    startLine: 244
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -194,11 +197,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 250
+    startLine: 256
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -226,11 +229,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 259
+    startLine: 265
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -262,11 +265,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 269
+    startLine: 275
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -298,11 +301,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 277
+    startLine: 283
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -337,11 +340,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 288
+    startLine: 294
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -376,11 +379,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 297
+    startLine: 303
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -415,11 +418,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 310
+    startLine: 316
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -457,11 +460,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 323
+    startLine: 329
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -499,11 +502,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 331
+    startLine: 337
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -538,11 +541,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 346
+    startLine: 352
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -580,11 +583,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 359
+    startLine: 365
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -616,11 +619,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 378
+    startLine: 384
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -655,11 +658,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 403
+    startLine: 409
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -694,11 +697,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 422
+    startLine: 428
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -736,11 +739,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Encryption
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 609
+    startLine: 615
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -773,23 +776,35 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseContext
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 628
+    startLine: 631
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nTo use the EPPlus library in debug mode a Licensetype must be specified.\nUse LicenseContext.NonCommercial if you use EPPlus in an non commercial context.\nUse LicenseContext.Commercial if you have purchased an license to use EPPlus\nSee https://epplussoftware.com/developers/licenseexception\n"
+  summary: "\nThis property is obsolete in EPPlus 8, and will be removed in coming versions. \nPlease use the <xref href=\"OfficeOpenXml.ExcelPackage.License\" data-throw-if-not-resolved=\"false\"></xref> property to configure the license.\nsee https://epplussoftware.com/developers/licensenotsetexception\n"
   example: []
   syntax:
-    content: public static LicenseContext? LicenseContext { get; set; }
+    content: >-
+      [Obsolete("Please set the license using the License property from EPPlus 8 and later. For more info see http://epplussoftware.com/developers/licensenotsetexception")]
+
+      public static LicenseContext? LicenseContext { get; set; }
     parameters: []
     return:
       type: System.Nullable{OfficeOpenXml.LicenseContext}
-    content.vb: Public Shared Property LicenseContext As LicenseContext?
+    content.vb: >-
+      <Obsolete("Please set the license using the License property from EPPlus 8 and later. For more info see http://epplussoftware.com/developers/licensenotsetexception")>
+
+      Public Shared Property LicenseContext As LicenseContext?
   overload: OfficeOpenXml.ExcelPackage.LicenseContext*
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Please set the license using the License property from EPPlus 8 and later. For more info see http://epplussoftware.com/developers/licensenotsetexception
   modifiers.csharp:
   - public
   - static
@@ -798,6 +813,45 @@ items:
   modifiers.vb:
   - Public
   - Shared
+- uid: OfficeOpenXml.ExcelPackage.License
+  commentId: P:OfficeOpenXml.ExcelPackage.License
+  id: License
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: License
+  nameWithType: ExcelPackage.License
+  fullName: OfficeOpenXml.ExcelPackage.License
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: License
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 650
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nUsed to set the license EPPlus uses.\n<xref href=\"OfficeOpenXml.EPPlusLicense.SetCommercial(System.String)\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization(System.String)\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal(System.String)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public static EPPlusLicense License { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.EPPlusLicense
+    content.vb: Public Shared ReadOnly Property License As EPPlusLicense
+  overload: OfficeOpenXml.ExcelPackage.License*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
 - uid: OfficeOpenXml.ExcelPackage.Workbook
   commentId: P:OfficeOpenXml.ExcelPackage.Workbook
   id: Workbook
@@ -812,11 +866,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Workbook
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 710
+    startLine: 655
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -849,11 +903,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Configure
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 737
+    startLine: 681
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -890,11 +944,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializationErrors
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 745
+    startLine: 688
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -927,11 +981,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoAdjustDrawings
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 756
+    startLine: 699
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -964,11 +1018,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 850
+    startLine: 795
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -998,11 +1052,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Save
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 888
+    startLine: 833
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1030,11 +1084,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Save
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 994
+    startLine: 962
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1066,11 +1120,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1004
+    startLine: 972
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1102,11 +1156,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1014
+    startLine: 982
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1138,11 +1192,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1025
+    startLine: 993
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1177,11 +1231,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1038
+    startLine: 1006
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1216,11 +1270,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1047
+    startLine: 1015
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1252,11 +1306,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1064
+    startLine: 1032
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1291,11 +1345,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: File
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1073
+    startLine: 1041
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1328,11 +1382,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Stream
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1092
+    startLine: 1060
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1365,11 +1419,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compression
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1103
+    startLine: 1071
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1402,11 +1456,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compatibility
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1118
+    startLine: 1086
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1439,11 +1493,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Settings
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1132
+    startLine: 1100
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1476,11 +1530,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MemorySettings
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1142
+    startLine: 1110
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1515,11 +1569,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArray
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1185
+    startLine: 1153
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1551,11 +1605,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArray
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1207
+    startLine: 1175
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1591,11 +1645,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1260
+    startLine: 1228
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1627,11 +1681,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1269
+    startLine: 1237
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1652,6 +1706,43 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ExcelPackage.SensibilityLabels
+  commentId: P:OfficeOpenXml.ExcelPackage.SensibilityLabels
+  id: SensibilityLabels
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SensibilityLabels
+  nameWithType: ExcelPackage.SensibilityLabels
+  fullName: OfficeOpenXml.ExcelPackage.SensibilityLabels
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackage.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SensibilityLabels
+    path: ../src/EPPlus/ExcelPackage.cs
+    startLine: 1320
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nSensibility labels meta data.\n<xref href=\"OfficeOpenXml.ExcelPackage.SensibilityLabelHandler\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public ExcelSensibilityLabelCollection SensibilityLabels { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+    content.vb: Public ReadOnly Property SensibilityLabels As ExcelSensibilityLabelCollection
+  overload: OfficeOpenXml.ExcelPackage.SensibilityLabels*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo,System.Threading.CancellationToken)
   commentId: M:OfficeOpenXml.ExcelPackage.LoadAsync(System.IO.FileInfo,System.Threading.CancellationToken)
   id: LoadAsync(System.IO.FileInfo,System.Threading.CancellationToken)
@@ -1666,11 +1757,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 33
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1708,11 +1799,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 45
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1750,11 +1841,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 56
+    startLine: 57
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1795,11 +1886,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 70
+    startLine: 71
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1840,11 +1931,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 82
+    startLine: 83
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1888,11 +1979,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 97
+    startLine: 98
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1936,11 +2027,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 107
+    startLine: 108
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1978,11 +2069,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 118
+    startLine: 119
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2023,11 +2114,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 190
+    startLine: 191
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2062,11 +2153,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 306
+    startLine: 328
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2104,11 +2195,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 322
+    startLine: 344
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2146,11 +2237,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 333
+    startLine: 355
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2188,11 +2279,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 346
+    startLine: 368
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2233,11 +2324,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 360
+    startLine: 382
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2278,11 +2369,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 371
+    startLine: 393
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2320,11 +2411,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 390
+    startLine: 412
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2351,6 +2442,45 @@ items:
   - async
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ExcelPackage.SensibilityLabelHandler
+  commentId: P:OfficeOpenXml.ExcelPackage.SensibilityLabelHandler
+  id: SensibilityLabelHandler
+  parent: OfficeOpenXml.ExcelPackage
+  langs:
+  - csharp
+  - vb
+  name: SensibilityLabelHandler
+  nameWithType: ExcelPackage.SensibilityLabelHandler
+  fullName: OfficeOpenXml.ExcelPackage.SensibilityLabelHandler
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelPackageAsync.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SensibilityLabelHandler
+    path: ../src/EPPlus/ExcelPackageAsync.cs
+    startLine: 438
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nIf you want your workbooks to be marked with sensibility lables, you can add a handler for authentication, encryption and decryption using the Microsoft Information Protection SDK.\nFor more information\n"
+  example: []
+  syntax:
+    content: public static ISensitivityLabelHandler SensibilityLabelHandler { get; set; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Interfaces.SensitivityLabels.ISensitivityLabelHandler
+    content.vb: Public Shared Property SensibilityLabelHandler As ISensitivityLabelHandler
+  overload: OfficeOpenXml.ExcelPackage.SensibilityLabelHandler*
+  modifiers.csharp:
+  - public
+  - static
+  - get
+  - set
+  modifiers.vb:
+  - Public
+  - Shared
 - uid: OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync(System.Threading.CancellationToken)
   commentId: M:OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync(System.Threading.CancellationToken)
   id: GetAsByteArrayAsync(System.Threading.CancellationToken)
@@ -2365,11 +2495,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArrayAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 455
+    startLine: 509
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2406,11 +2536,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: develop8
+      branch: release/epplus8-rc
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArrayAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
-    startLine: 479
+    startLine: 533
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -2804,6 +2934,9 @@ references:
   name: ExcelEncryption
   nameWithType: ExcelEncryption
   fullName: OfficeOpenXml.ExcelEncryption
+- uid: OfficeOpenXml.ExcelPackage.License
+  commentId: P:OfficeOpenXml.ExcelPackage.License
+  isExternal: true
 - uid: OfficeOpenXml.ExcelPackage.LicenseContext*
   commentId: Overload:OfficeOpenXml.ExcelPackage.LicenseContext
   name: LicenseContext
@@ -2890,6 +3023,26 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.EPPlusLicense.SetCommercial(System.String)
+  commentId: M:OfficeOpenXml.EPPlusLicense.SetCommercial(System.String)
+  isExternal: true
+- uid: OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization(System.String)
+  commentId: M:OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization(System.String)
+  isExternal: true
+- uid: OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal(System.String)
+  commentId: M:OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal(System.String)
+  isExternal: true
+- uid: OfficeOpenXml.ExcelPackage.License*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.License
+  name: License
+  nameWithType: ExcelPackage.License
+  fullName: OfficeOpenXml.ExcelPackage.License
+- uid: OfficeOpenXml.EPPlusLicense
+  commentId: T:OfficeOpenXml.EPPlusLicense
+  parent: OfficeOpenXml
+  name: EPPlusLicense
+  nameWithType: EPPlusLicense
+  fullName: OfficeOpenXml.EPPlusLicense
 - uid: OfficeOpenXml.ExcelPackage.Workbook*
   commentId: Overload:OfficeOpenXml.ExcelPackage.Workbook
   name: Workbook
@@ -3230,6 +3383,25 @@ references:
   name: Load
   nameWithType: ExcelPackage.Load
   fullName: OfficeOpenXml.ExcelPackage.Load
+- uid: OfficeOpenXml.ExcelPackage.SensibilityLabelHandler
+  commentId: P:OfficeOpenXml.ExcelPackage.SensibilityLabelHandler
+  isExternal: true
+- uid: OfficeOpenXml.ExcelPackage.SensibilityLabels*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.SensibilityLabels
+  name: SensibilityLabels
+  nameWithType: ExcelPackage.SensibilityLabels
+  fullName: OfficeOpenXml.ExcelPackage.SensibilityLabels
+- uid: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  commentId: T:OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+  parent: OfficeOpenXml.SensitivityLabels
+  name: ExcelSensibilityLabelCollection
+  nameWithType: ExcelSensibilityLabelCollection
+  fullName: OfficeOpenXml.SensitivityLabels.ExcelSensibilityLabelCollection
+- uid: OfficeOpenXml.SensitivityLabels
+  commentId: N:OfficeOpenXml.SensitivityLabels
+  name: OfficeOpenXml.SensitivityLabels
+  nameWithType: OfficeOpenXml.SensitivityLabels
+  fullName: OfficeOpenXml.SensitivityLabels
 - uid: OfficeOpenXml.ExcelPackage.LoadAsync*
   commentId: Overload:OfficeOpenXml.ExcelPackage.LoadAsync
   name: LoadAsync
@@ -3271,6 +3443,22 @@ references:
   name: SaveAsAsync
   nameWithType: ExcelPackage.SaveAsAsync
   fullName: OfficeOpenXml.ExcelPackage.SaveAsAsync
+- uid: OfficeOpenXml.ExcelPackage.SensibilityLabelHandler*
+  commentId: Overload:OfficeOpenXml.ExcelPackage.SensibilityLabelHandler
+  name: SensibilityLabelHandler
+  nameWithType: ExcelPackage.SensibilityLabelHandler
+  fullName: OfficeOpenXml.ExcelPackage.SensibilityLabelHandler
+- uid: OfficeOpenXml.Interfaces.SensitivityLabels.ISensitivityLabelHandler
+  commentId: T:OfficeOpenXml.Interfaces.SensitivityLabels.ISensitivityLabelHandler
+  parent: OfficeOpenXml.Interfaces.SensitivityLabels
+  name: ISensitivityLabelHandler
+  nameWithType: ISensitivityLabelHandler
+  fullName: OfficeOpenXml.Interfaces.SensitivityLabels.ISensitivityLabelHandler
+- uid: OfficeOpenXml.Interfaces.SensitivityLabels
+  commentId: N:OfficeOpenXml.Interfaces.SensitivityLabels
+  name: OfficeOpenXml.Interfaces.SensitivityLabels
+  nameWithType: OfficeOpenXml.Interfaces.SensitivityLabels
+  fullName: OfficeOpenXml.Interfaces.SensitivityLabels
 - uid: OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync*
   commentId: Overload:OfficeOpenXml.ExcelPackage.GetAsByteArrayAsync
   name: GetAsByteArrayAsync

@@ -1,0 +1,1169 @@
+### YamlMime:ManagedReference
+items:
+- uid: OfficeOpenXml.Table.ExcelTableRow
+  commentId: T:OfficeOpenXml.Table.ExcelTableRow
+  id: ExcelTableRow
+  parent: OfficeOpenXml.Table
+  children:
+  - OfficeOpenXml.Table.ExcelTableRow.Clear
+  - OfficeOpenXml.Table.ExcelTableRow.ColumnCount
+  - OfficeOpenXml.Table.ExcelTableRow.Delete
+  - OfficeOpenXml.Table.ExcelTableRow.GetFormula(System.Int32)
+  - OfficeOpenXml.Table.ExcelTableRow.GetFormula(System.String)
+  - OfficeOpenXml.Table.ExcelTableRow.GetValue(System.Int32)
+  - OfficeOpenXml.Table.ExcelTableRow.GetValue(System.String)
+  - OfficeOpenXml.Table.ExcelTableRow.GetValue``1(System.Int32)
+  - OfficeOpenXml.Table.ExcelTableRow.GetValue``1(System.String)
+  - OfficeOpenXml.Table.ExcelTableRow.IsDeleted
+  - OfficeOpenXml.Table.ExcelTableRow.IsEmpty
+  - OfficeOpenXml.Table.ExcelTableRow.IsHidden
+  - OfficeOpenXml.Table.ExcelTableRow.RowRange
+  - OfficeOpenXml.Table.ExcelTableRow.SetValue(System.Int32,System.Object)
+  - OfficeOpenXml.Table.ExcelTableRow.SetValue(System.String,System.Object)
+  - OfficeOpenXml.Table.ExcelTableRow.SetValues(System.Object[])
+  langs:
+  - csharp
+  - vb
+  name: ExcelTableRow
+  nameWithType: ExcelTableRow
+  fullName: OfficeOpenXml.Table.ExcelTableRow
+  type: Class
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExcelTableRow
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 12
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nRepresents a row in an <xref href=\"OfficeOpenXml.Table.ExcelTable\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public class ExcelTableRow
+    content.vb: Public Class ExcelTableRow
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
+  modifiers.csharp:
+  - public
+  - class
+  modifiers.vb:
+  - Public
+  - Class
+- uid: OfficeOpenXml.Table.ExcelTableRow.ColumnCount
+  commentId: P:OfficeOpenXml.Table.ExcelTableRow.ColumnCount
+  id: ColumnCount
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: ColumnCount
+  nameWithType: ExcelTableRow.ColumnCount
+  fullName: OfficeOpenXml.Table.ExcelTableRow.ColumnCount
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ColumnCount
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 65
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nNumber of columns\n"
+  example: []
+  syntax:
+    content: public int ColumnCount { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Property ColumnCount As Integer
+  overload: OfficeOpenXml.Table.ExcelTableRow.ColumnCount*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTableRow.IsHidden
+  commentId: P:OfficeOpenXml.Table.ExcelTableRow.IsHidden
+  id: IsHidden
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: IsHidden
+  nameWithType: ExcelTableRow.IsHidden
+  fullName: OfficeOpenXml.Table.ExcelTableRow.IsHidden
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsHidden
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 70
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns true if the entire row is hidden\n"
+  example: []
+  syntax:
+    content: public bool IsHidden { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsHidden As Boolean
+  overload: OfficeOpenXml.Table.ExcelTableRow.IsHidden*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTableRow.IsDeleted
+  commentId: P:OfficeOpenXml.Table.ExcelTableRow.IsDeleted
+  id: IsDeleted
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: IsDeleted
+  nameWithType: ExcelTableRow.IsDeleted
+  fullName: OfficeOpenXml.Table.ExcelTableRow.IsDeleted
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsDeleted
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 81
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nIndicates if this row has been deleted.\n"
+  example: []
+  syntax:
+    content: public bool IsDeleted { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsDeleted As Boolean
+  overload: OfficeOpenXml.Table.ExcelTableRow.IsDeleted*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTableRow.IsEmpty
+  commentId: P:OfficeOpenXml.Table.ExcelTableRow.IsEmpty
+  id: IsEmpty
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: IsEmpty
+  nameWithType: ExcelTableRow.IsEmpty
+  fullName: OfficeOpenXml.Table.ExcelTableRow.IsEmpty
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsEmpty
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 89
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns true if every cell in the row has null values\n"
+  example: []
+  syntax:
+    content: public bool IsEmpty { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsEmpty As Boolean
+  overload: OfficeOpenXml.Table.ExcelTableRow.IsEmpty*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTableRow.RowRange
+  commentId: P:OfficeOpenXml.Table.ExcelTableRow.RowRange
+  id: RowRange
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: RowRange
+  nameWithType: ExcelTableRow.RowRange
+  fullName: OfficeOpenXml.Table.ExcelTableRow.RowRange
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: RowRange
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 100
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nAn <xref href=\"OfficeOpenXml.ExcelRangeBase\" data-throw-if-not-resolved=\"false\"></xref> representing the row from first to last cell\n"
+  example: []
+  syntax:
+    content: public ExcelRangeBase RowRange { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExcelRangeBase
+    content.vb: Public ReadOnly Property RowRange As ExcelRangeBase
+  overload: OfficeOpenXml.Table.ExcelTableRow.RowRange*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Table.ExcelTableRow.GetFormula(System.String)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRow.GetFormula(System.String)
+  id: GetFormula(System.String)
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: GetFormula(String)
+  nameWithType: ExcelTableRow.GetFormula(String)
+  fullName: OfficeOpenXml.Table.ExcelTableRow.GetFormula(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetFormula
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 110
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns formula by column name.\n"
+  example: []
+  syntax:
+    content: public string GetFormula(string columnName)
+    parameters:
+    - id: columnName
+      type: System.String
+      description: ''
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Function GetFormula(columnName As String) As String
+  overload: OfficeOpenXml.Table.ExcelTableRow.GetFormula*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRow.GetFormula(System.Int32)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRow.GetFormula(System.Int32)
+  id: GetFormula(System.Int32)
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: GetFormula(Int32)
+  nameWithType: ExcelTableRow.GetFormula(Int32)
+  fullName: OfficeOpenXml.Table.ExcelTableRow.GetFormula(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetFormula
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 123
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns formula by 0-based column index\n"
+  example: []
+  syntax:
+    content: public string GetFormula(int offsetIndex)
+    parameters:
+    - id: offsetIndex
+      type: System.Int32
+      description: ''
+    return:
+      type: System.String
+      description: ''
+    content.vb: Public Function GetFormula(offsetIndex As Integer) As String
+  overload: OfficeOpenXml.Table.ExcelTableRow.GetFormula*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRow.GetValue``1(System.String)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRow.GetValue``1(System.String)
+  id: GetValue``1(System.String)
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: GetValue<T>(String)
+  nameWithType: ExcelTableRow.GetValue<T>(String)
+  fullName: OfficeOpenXml.Table.ExcelTableRow.GetValue<T>(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValue
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 137
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns cell value by column name\n"
+  example: []
+  syntax:
+    content: public T GetValue<T>(string columnName)
+    parameters:
+    - id: columnName
+      type: System.String
+      description: ''
+    typeParameters:
+    - id: T
+      description: Cell value type
+    return:
+      type: '{T}'
+      description: ''
+    content.vb: Public Function GetValue(Of T)(columnName As String) As T
+  overload: OfficeOpenXml.Table.ExcelTableRow.GetValue*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: If the row has previously been deleted.
+  nameWithType.vb: ExcelTableRow.GetValue(Of T)(String)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTableRow.GetValue(Of T)(System.String)
+  name.vb: GetValue(Of T)(String)
+- uid: OfficeOpenXml.Table.ExcelTableRow.GetValue(System.String)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRow.GetValue(System.String)
+  id: GetValue(System.String)
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: GetValue(String)
+  nameWithType: ExcelTableRow.GetValue(String)
+  fullName: OfficeOpenXml.Table.ExcelTableRow.GetValue(System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValue
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 151
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns cell value by column name\n"
+  example: []
+  syntax:
+    content: public object GetValue(string columnName)
+    parameters:
+    - id: columnName
+      type: System.String
+      description: ''
+    return:
+      type: System.Object
+      description: ''
+    content.vb: Public Function GetValue(columnName As String) As Object
+  overload: OfficeOpenXml.Table.ExcelTableRow.GetValue*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: If the row has previously been deleted.
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRow.GetValue``1(System.Int32)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRow.GetValue``1(System.Int32)
+  id: GetValue``1(System.Int32)
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: GetValue<T>(Int32)
+  nameWithType: ExcelTableRow.GetValue<T>(Int32)
+  fullName: OfficeOpenXml.Table.ExcelTableRow.GetValue<T>(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValue
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 166
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns cell value by column index\n"
+  example: []
+  syntax:
+    content: public T GetValue<T>(int offsetIndex)
+    parameters:
+    - id: offsetIndex
+      type: System.Int32
+      description: 0-based column index
+    typeParameters:
+    - id: T
+      description: Cell value type
+    return:
+      type: '{T}'
+      description: ''
+    content.vb: Public Function GetValue(Of T)(offsetIndex As Integer) As T
+  overload: OfficeOpenXml.Table.ExcelTableRow.GetValue*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: If the row has previously been deleted.
+  nameWithType.vb: ExcelTableRow.GetValue(Of T)(Int32)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTableRow.GetValue(Of T)(System.Int32)
+  name.vb: GetValue(Of T)(Int32)
+- uid: OfficeOpenXml.Table.ExcelTableRow.GetValue(System.Int32)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRow.GetValue(System.Int32)
+  id: GetValue(System.Int32)
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: GetValue(Int32)
+  nameWithType: ExcelTableRow.GetValue(Int32)
+  fullName: OfficeOpenXml.Table.ExcelTableRow.GetValue(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetValue
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 179
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nReturns cell value by column index\n"
+  example: []
+  syntax:
+    content: public object GetValue(int offsetIndex)
+    parameters:
+    - id: offsetIndex
+      type: System.Int32
+      description: 0-based column index
+    return:
+      type: System.Object
+      description: ''
+    content.vb: Public Function GetValue(offsetIndex As Integer) As Object
+  overload: OfficeOpenXml.Table.ExcelTableRow.GetValue*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: If the row has previously been deleted.
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRow.SetValue(System.String,System.Object)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRow.SetValue(System.String,System.Object)
+  id: SetValue(System.String,System.Object)
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: SetValue(String, Object)
+  nameWithType: ExcelTableRow.SetValue(String, Object)
+  fullName: OfficeOpenXml.Table.ExcelTableRow.SetValue(System.String, System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetValue
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 193
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSet a cell value by column name\n"
+  example: []
+  syntax:
+    content: public ExcelTableRow SetValue(string columnName, object value)
+    parameters:
+    - id: columnName
+      type: System.String
+      description: The table column name
+    - id: value
+      type: System.Object
+      description: The table cell value
+    return:
+      type: OfficeOpenXml.Table.ExcelTableRow
+      description: ''
+    content.vb: Public Function SetValue(columnName As String, value As Object) As ExcelTableRow
+  overload: OfficeOpenXml.Table.ExcelTableRow.SetValue*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: If the row has previously been deleted.
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRow.SetValue(System.Int32,System.Object)
+  commentId: M:OfficeOpenXml.Table.ExcelTableRow.SetValue(System.Int32,System.Object)
+  id: SetValue(System.Int32,System.Object)
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: SetValue(Int32, Object)
+  nameWithType: ExcelTableRow.SetValue(Int32, Object)
+  fullName: OfficeOpenXml.Table.ExcelTableRow.SetValue(System.Int32, System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetValue
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 209
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSet a cell value by column index\n"
+  example: []
+  syntax:
+    content: public ExcelTableRow SetValue(int offsetIndex, object value)
+    parameters:
+    - id: offsetIndex
+      type: System.Int32
+      description: 0-based column index
+    - id: value
+      type: System.Object
+      description: The table cell value
+    return:
+      type: OfficeOpenXml.Table.ExcelTableRow
+      description: ''
+    content.vb: Public Function SetValue(offsetIndex As Integer, value As Object) As ExcelTableRow
+  overload: OfficeOpenXml.Table.ExcelTableRow.SetValue*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: If the row has previously been deleted.
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRow.SetValues(System.Object[])
+  commentId: M:OfficeOpenXml.Table.ExcelTableRow.SetValues(System.Object[])
+  id: SetValues(System.Object[])
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: SetValues(Object[])
+  nameWithType: ExcelTableRow.SetValues(Object[])
+  fullName: OfficeOpenXml.Table.ExcelTableRow.SetValues(System.Object[])
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetValues
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 225
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nSet all the cell values of the table row by providing an array of <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  example: []
+  syntax:
+    content: public void SetValues(params object[] values)
+    parameters:
+    - id: values
+      type: System.Object[]
+      description: ''
+    content.vb: Public Sub SetValues(ParamArray values As Object())
+  overload: OfficeOpenXml.Table.ExcelTableRow.SetValues*
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: Will be thrown if <code data-dev-comment-type="paramref" class="paramref">values</code> is null
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: Will be thrown if <code data-dev-comment-type="paramref" class="paramref">values</code> is an empty array
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: Will be thrown if number of items in <code data-dev-comment-type="paramref" class="paramref">values</code> exceeds number of columns in the table.
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: If the row has previously been deleted.
+  nameWithType.vb: ExcelTableRow.SetValues(Object())
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.Table.ExcelTableRow.SetValues(System.Object())
+  name.vb: SetValues(Object())
+- uid: OfficeOpenXml.Table.ExcelTableRow.Delete
+  commentId: M:OfficeOpenXml.Table.ExcelTableRow.Delete
+  id: Delete
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: Delete()
+  nameWithType: ExcelTableRow.Delete()
+  fullName: OfficeOpenXml.Table.ExcelTableRow.Delete()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Delete
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 249
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nRemoves this row from the table\n"
+  example: []
+  syntax:
+    content: public void Delete()
+    content.vb: Public Sub Delete
+  overload: OfficeOpenXml.Table.ExcelTableRow.Delete*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Table.ExcelTableRow.Clear
+  commentId: M:OfficeOpenXml.Table.ExcelTableRow.Clear
+  id: Clear
+  parent: OfficeOpenXml.Table.ExcelTableRow
+  langs:
+  - csharp
+  - vb
+  name: Clear()
+  nameWithType: ExcelTableRow.Clear()
+  fullName: OfficeOpenXml.Table.ExcelTableRow.Clear()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableRow.cs
+      branch: release/epplus8-rc
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Clear
+    path: ../src/EPPlus/Table/ExcelTableRow.cs
+    startLine: 261
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nClear all cell values in the row&apos;s range.\n"
+  example: []
+  syntax:
+    content: public ExcelTableRow Clear()
+    return:
+      type: OfficeOpenXml.Table.ExcelTableRow
+      description: ''
+    content.vb: Public Function Clear As ExcelTableRow
+  overload: OfficeOpenXml.Table.ExcelTableRow.Clear*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+references:
+- uid: OfficeOpenXml.Table.ExcelTable
+  commentId: T:OfficeOpenXml.Table.ExcelTable
+  parent: OfficeOpenXml.Table
+  name: ExcelTable
+  nameWithType: ExcelTable
+  fullName: OfficeOpenXml.Table.ExcelTable
+- uid: OfficeOpenXml.Table
+  commentId: N:OfficeOpenXml.Table
+  name: OfficeOpenXml.Table
+  nameWithType: OfficeOpenXml.Table
+  fullName: OfficeOpenXml.Table
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
+- uid: OfficeOpenXml.Table.ExcelTableRow.ColumnCount*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRow.ColumnCount
+  name: ColumnCount
+  nameWithType: ExcelTableRow.ColumnCount
+  fullName: OfficeOpenXml.Table.ExcelTableRow.ColumnCount
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: OfficeOpenXml.Table.ExcelTableRow.IsHidden*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRow.IsHidden
+  name: IsHidden
+  nameWithType: ExcelTableRow.IsHidden
+  fullName: OfficeOpenXml.Table.ExcelTableRow.IsHidden
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: OfficeOpenXml.Table.ExcelTableRow.IsDeleted*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRow.IsDeleted
+  name: IsDeleted
+  nameWithType: ExcelTableRow.IsDeleted
+  fullName: OfficeOpenXml.Table.ExcelTableRow.IsDeleted
+- uid: OfficeOpenXml.Table.ExcelTableRow.IsEmpty*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRow.IsEmpty
+  name: IsEmpty
+  nameWithType: ExcelTableRow.IsEmpty
+  fullName: OfficeOpenXml.Table.ExcelTableRow.IsEmpty
+- uid: OfficeOpenXml.ExcelRangeBase
+  commentId: T:OfficeOpenXml.ExcelRangeBase
+  parent: OfficeOpenXml
+  name: ExcelRangeBase
+  nameWithType: ExcelRangeBase
+  fullName: OfficeOpenXml.ExcelRangeBase
+- uid: OfficeOpenXml.Table.ExcelTableRow.RowRange*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRow.RowRange
+  name: RowRange
+  nameWithType: ExcelTableRow.RowRange
+  fullName: OfficeOpenXml.Table.ExcelTableRow.RowRange
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
+- uid: OfficeOpenXml.Table.ExcelTableRow.GetFormula*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRow.GetFormula
+  name: GetFormula
+  nameWithType: ExcelTableRow.GetFormula
+  fullName: OfficeOpenXml.Table.ExcelTableRow.GetFormula
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  parent: System
+  isExternal: true
+  name: InvalidOperationException
+  nameWithType: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: OfficeOpenXml.Table.ExcelTableRow.GetValue*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRow.GetValue
+  name: GetValue
+  nameWithType: ExcelTableRow.GetValue
+  fullName: OfficeOpenXml.Table.ExcelTableRow.GetValue
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: OfficeOpenXml.Table.ExcelTableRow.SetValue*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRow.SetValue
+  name: SetValue
+  nameWithType: ExcelTableRow.SetValue
+  fullName: OfficeOpenXml.Table.ExcelTableRow.SetValue
+- uid: OfficeOpenXml.Table.ExcelTableRow
+  commentId: T:OfficeOpenXml.Table.ExcelTableRow
+  parent: OfficeOpenXml.Table
+  name: ExcelTableRow
+  nameWithType: ExcelTableRow
+  fullName: OfficeOpenXml.Table.ExcelTableRow
+- uid: System.ArgumentNullException
+  commentId: T:System.ArgumentNullException
+  isExternal: true
+- uid: System.ArgumentException
+  commentId: T:System.ArgumentException
+  isExternal: true
+- uid: System.ArgumentOutOfRangeException
+  commentId: T:System.ArgumentOutOfRangeException
+  isExternal: true
+- uid: OfficeOpenXml.Table.ExcelTableRow.SetValues*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRow.SetValues
+  name: SetValues
+  nameWithType: ExcelTableRow.SetValues
+  fullName: OfficeOpenXml.Table.ExcelTableRow.SetValues
+- uid: System.Object[]
+  isExternal: true
+  name: Object[]
+  nameWithType: Object[]
+  fullName: System.Object[]
+  nameWithType.vb: Object()
+  fullName.vb: System.Object()
+  name.vb: Object()
+  spec.csharp:
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: OfficeOpenXml.Table.ExcelTableRow.Delete*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRow.Delete
+  name: Delete
+  nameWithType: ExcelTableRow.Delete
+  fullName: OfficeOpenXml.Table.ExcelTableRow.Delete
+- uid: OfficeOpenXml.Table.ExcelTableRow.Clear*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableRow.Clear
+  name: Clear
+  nameWithType: ExcelTableRow.Clear
+  fullName: OfficeOpenXml.Table.ExcelTableRow.Clear
