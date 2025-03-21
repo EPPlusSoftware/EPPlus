@@ -38,7 +38,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWorksheets
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -126,7 +126,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -164,7 +164,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -196,7 +196,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -234,7 +234,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -275,7 +275,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -317,7 +317,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -362,7 +362,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -419,7 +419,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -455,7 +455,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -491,7 +491,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -527,11 +527,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 589
+    startLine: 596
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -574,11 +574,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 610
+    startLine: 617
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -618,11 +618,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 623
+    startLine: 630
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -660,11 +660,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveBefore
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 680
+    startLine: 687
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -699,11 +699,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveBefore
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 690
+    startLine: 697
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -738,11 +738,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveAfter
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 700
+    startLine: 707
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -777,11 +777,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveAfter
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 710
+    startLine: 717
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -816,11 +816,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToStart
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 719
+    startLine: 726
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -852,11 +852,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToStart
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 729
+    startLine: 736
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -888,11 +888,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToEnd
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 738
+    startLine: 745
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -924,11 +924,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToEnd
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 749
+    startLine: 756
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -960,11 +960,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelWorksheets.cs
-    startLine: 757
+    startLine: 764
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

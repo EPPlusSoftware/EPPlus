@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelSurfaceChartSerie.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSurfaceChartSerie
     path: ../src/EPPlus/Drawing/Chart/ExcelSurfaceChartSerie.cs

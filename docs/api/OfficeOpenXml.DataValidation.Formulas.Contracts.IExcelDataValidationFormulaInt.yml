@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaInt.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelDataValidationFormulaInt
     path: ../src/EPPlus/DataValidation/Formulas/Contracts/IExcelDataValidationFormulaInt.cs

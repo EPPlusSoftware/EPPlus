@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/AutoSort/ExcelPivotAreaAutoSort.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotAreaAutoSort
     path: ../src/EPPlus/Table/PivotTable/PivotArea/AutoSort/ExcelPivotAreaAutoSort.cs

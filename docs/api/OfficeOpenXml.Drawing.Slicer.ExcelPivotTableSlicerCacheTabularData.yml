@@ -20,11 +20,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableSlicerCacheTabularData
     path: ../src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-    startLine: 24
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Slicer
@@ -66,11 +66,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CrossFilter
     path: ../src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-    startLine: 37
+    startLine: 45
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Slicer
@@ -103,11 +103,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SortOrder
     path: ../src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-    startLine: 53
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Slicer
@@ -140,11 +140,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomListSort
     path: ../src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-    startLine: 69
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Slicer
@@ -177,11 +177,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Items
     path: ../src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-    startLine: 101
+    startLine: 109
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Slicer
@@ -214,11 +214,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotCacheId
     path: ../src/EPPlus/Drawing/Slicer/ExcelPivotTableSlicerCacheTabularData.cs
-    startLine: 115
+    startLine: 123
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.Slicer

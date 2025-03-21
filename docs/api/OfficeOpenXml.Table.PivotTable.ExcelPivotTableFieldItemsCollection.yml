@@ -21,12 +21,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/Table/PivotTable/PivotItemComparer.cs
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableFieldItemsCollection
-    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-    startLine: 22
+    path: ../src/EPPlus/Table/PivotTable/PivotItemComparer.cs
+    startLine: 16
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -75,12 +75,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Contains
-    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-    startLine: 65
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+    startLine: 64
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -114,12 +114,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetByValue
-    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-    startLine: 75
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+    startLine: 74
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -153,12 +153,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetIndexByValue
-    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-    startLine: 92
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+    startLine: 96
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -192,12 +192,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowAll
-    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-    startLine: 127
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+    startLine: 142
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -224,12 +224,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowDetails
-    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-    startLine: 139
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+    startLine: 154
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -260,12 +260,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SelectSingleItem
-    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-    startLine: 154
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+    startLine: 169
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
@@ -295,12 +295,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Refresh
-    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldCollectionBase.cs
-    startLine: 177
+    path: ../src/EPPlus/Table/PivotTable/ExcelPivotTableFieldItemsCollection.cs
+    startLine: 192
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable

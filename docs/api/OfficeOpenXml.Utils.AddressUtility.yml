@@ -16,11 +16,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/AddressUtility.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddressUtility
     path: ../src/EPPlus/Utils/AddressUtility.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Utils
@@ -60,11 +60,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Utils/AddressUtility.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ParseEntireColumnSelections
     path: ../src/EPPlus/Utils/AddressUtility.cs
-    startLine: 31
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Utils

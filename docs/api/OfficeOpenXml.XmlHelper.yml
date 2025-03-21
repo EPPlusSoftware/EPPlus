@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/XmlHelper.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: XmlHelper
     path: ../src/EPPlus/XmlHelper.cs

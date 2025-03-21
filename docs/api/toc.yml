@@ -636,6 +636,8 @@
     name: ExcelView3D
   - uid: OfficeOpenXml.Drawing.GenericImageHandler
     name: GenericImageHandler
+  - uid: OfficeOpenXml.Drawing.PictureLocation
+    name: PictureLocation
 - uid: OfficeOpenXml.Drawing.Chart
   name: OfficeOpenXml.Drawing.Chart
   items:

@@ -24,11 +24,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eErrorType
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -57,11 +57,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Div0
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 29
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -91,11 +91,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NA
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 33
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -125,11 +125,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 37
+    startLine: 38
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -159,11 +159,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: "Null"
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 41
+    startLine: 42
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -193,11 +193,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Num
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 45
+    startLine: 46
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -227,11 +227,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ref
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 49
+    startLine: 50
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -261,11 +261,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 53
+    startLine: 54
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -295,11 +295,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Calc
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 57
+    startLine: 58
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -329,11 +329,11 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelValues.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Spill
     path: ../src/EPPlus/FormulaParsing/ExcelValues.cs
-    startLine: 61
+    startLine: 62
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

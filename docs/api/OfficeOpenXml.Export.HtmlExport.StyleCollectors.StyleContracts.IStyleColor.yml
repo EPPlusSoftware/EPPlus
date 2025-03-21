@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Export/HtmlExport/StyleCollectors/StyleContracts/IStyleColor.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IStyleColor
     path: ../src/EPPlus/Export/HtmlExport/StyleCollectors/StyleContracts/IStyleColor.cs

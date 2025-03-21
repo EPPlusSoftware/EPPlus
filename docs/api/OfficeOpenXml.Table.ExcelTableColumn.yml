@@ -9,6 +9,7 @@ items:
   - OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula
   - OfficeOpenXml.Table.ExcelTableColumn.DataCellStyleName
   - OfficeOpenXml.Table.ExcelTableColumn.Id
+  - OfficeOpenXml.Table.ExcelTableColumn.IsCalculatedFormulaArray
   - OfficeOpenXml.Table.ExcelTableColumn.Name
   - OfficeOpenXml.Table.ExcelTableColumn.Position
   - OfficeOpenXml.Table.ExcelTableColumn.Slicer
@@ -26,7 +27,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableColumn
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -76,7 +77,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Id
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -113,7 +114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Position
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -150,7 +151,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -187,7 +188,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowLabel
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -224,7 +225,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFunction
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -261,7 +262,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TotalsRowFormula
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -298,7 +299,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataCellStyleName
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -335,11 +336,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Slicer
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 209
+    startLine: 208
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -372,11 +373,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSlicer
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 242
+    startLine: 241
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -407,7 +408,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalculatedColumnFormula
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
@@ -430,6 +431,47 @@ items:
   - set
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Table.ExcelTableColumn.IsCalculatedFormulaArray
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.IsCalculatedFormulaArray
+  id: IsCalculatedFormulaArray
+  parent: OfficeOpenXml.Table.ExcelTableColumn
+  langs:
+  - csharp
+  - vb
+  name: IsCalculatedFormulaArray
+  nameWithType: ExcelTableColumn.IsCalculatedFormulaArray
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.IsCalculatedFormulaArray
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Table/ExcelTableColumn.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: IsCalculatedFormulaArray
+    path: ../src/EPPlus/Table/ExcelTableColumn.cs
+    startLine: 283
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Table
+  summary: "\nIf the calculated formula is an array formula. \nThis property will be set if the formula calculation evaluate the formula as an array formula. \nSee <xref href=\"OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)\" data-throw-if-not-resolved=\"false\"></xref>        \n"
+  example: []
+  syntax:
+    content: public bool? IsCalculatedFormulaArray { get; set; }
+    parameters: []
+    return:
+      type: System.Nullable{System.Boolean}
+    content.vb: Public Property IsCalculatedFormulaArray As Boolean?
+  overload: OfficeOpenXml.Table.ExcelTableColumn.IsCalculatedFormulaArray*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: If the <xref href="OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula" data-throw-if-not-resolved="false"></xref> is null or empty.
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.Table.ExcelTableColumn.Table
   commentId: P:OfficeOpenXml.Table.ExcelTableColumn.Table
   id: Table
@@ -444,11 +486,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableColumn.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Table
     path: ../src/EPPlus/Table/ExcelTableColumn.cs
-    startLine: 288
+    startLine: 317
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table
@@ -884,6 +926,139 @@ references:
   name: CalculatedColumnFormula
   nameWithType: ExcelTableColumn.CalculatedColumnFormula
   fullName: OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula
+- uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  commentId: M:OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  name: Calculate(ExcelWorkbook)
+  nameWithType: CalculationExtension.Calculate(ExcelWorkbook)
+  fullName: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+  spec.csharp:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorkbook
+    name: ExcelWorkbook
+    nameWithType: ExcelWorkbook
+    fullName: OfficeOpenXml.ExcelWorkbook
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.CalculationExtension.Calculate(OfficeOpenXml.ExcelWorkbook)
+    name: Calculate
+    nameWithType: CalculationExtension.Calculate
+    fullName: OfficeOpenXml.CalculationExtension.Calculate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: OfficeOpenXml.ExcelWorkbook
+    name: ExcelWorkbook
+    nameWithType: ExcelWorkbook
+    fullName: OfficeOpenXml.ExcelWorkbook
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula
+  commentId: P:OfficeOpenXml.Table.ExcelTableColumn.CalculatedColumnFormula
+  isExternal: true
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  parent: System
+  isExternal: true
+  name: InvalidOperationException
+  nameWithType: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: OfficeOpenXml.Table.ExcelTableColumn.IsCalculatedFormulaArray*
+  commentId: Overload:OfficeOpenXml.Table.ExcelTableColumn.IsCalculatedFormulaArray
+  name: IsCalculatedFormulaArray
+  nameWithType: ExcelTableColumn.IsCalculatedFormulaArray
+  fullName: OfficeOpenXml.Table.ExcelTableColumn.IsCalculatedFormulaArray
+- uid: System.Nullable{System.Boolean}
+  commentId: T:System.Nullable{System.Boolean}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Boolean>
+  nameWithType: Nullable<Boolean>
+  fullName: System.Nullable<System.Boolean>
+  nameWithType.vb: Nullable(Of Boolean)
+  fullName.vb: System.Nullable(Of System.Boolean)
+  name.vb: Nullable(Of Boolean)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: OfficeOpenXml.Table.ExcelTable
   commentId: T:OfficeOpenXml.Table.ExcelTable
   parent: OfficeOpenXml.Table

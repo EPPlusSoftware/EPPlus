@@ -70,6 +70,7 @@ items:
   - OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart(System.String,OfficeOpenXml.Drawing.Chart.eSurfaceChartType)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddSurfaceChart(System.String,OfficeOpenXml.Drawing.Chart.eSurfaceChartType,OfficeOpenXml.Table.PivotTable.ExcelPivotTable)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddTableSlicer(OfficeOpenXml.Table.ExcelTableColumn)
+  - OfficeOpenXml.Drawing.ExcelDrawings.AddTextbox(System.String,System.String)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddTreemapChart(System.String)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddWaterfallChart(System.String)
   - OfficeOpenXml.Drawing.ExcelDrawings.Clear
@@ -93,11 +94,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawings
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 40
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -142,11 +143,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingXml
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 102
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -180,11 +181,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 197
+    startLine: 201
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -216,11 +217,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 203
+    startLine: 207
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -248,11 +249,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 215
+    startLine: 219
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -292,11 +293,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 228
+    startLine: 232
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -336,11 +337,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 245
+    startLine: 249
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -373,11 +374,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 297
+    startLine: 301
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -421,11 +422,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 335
+    startLine: 339
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -463,11 +464,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddExtendedChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 345
+    startLine: 349
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -505,11 +506,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSunburstChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 354
+    startLine: 358
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -544,11 +545,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTreemapChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 363
+    startLine: 367
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -583,11 +584,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBoxWhiskerChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 372
+    startLine: 376
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -622,11 +623,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddHistogramChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 382
+    startLine: 386
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -664,11 +665,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddWaterfallChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 391
+    startLine: 395
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -703,11 +704,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddFunnelChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 400
+    startLine: 404
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -742,11 +743,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRegionMapChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 410
+    startLine: 414
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -781,11 +782,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddExtendedChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 422
+    startLine: 426
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -826,11 +827,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 438
+    startLine: 442
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -874,11 +875,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 577
+    startLine: 581
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -931,11 +932,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 623
+    startLine: 627
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -988,11 +989,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLineChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 658
+    startLine: 662
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1030,11 +1031,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLineChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 669
+    startLine: 673
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1075,11 +1076,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAreaChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 679
+    startLine: 683
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1117,11 +1118,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAreaChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 690
+    startLine: 694
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1162,11 +1163,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBarChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 700
+    startLine: 704
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1204,11 +1205,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBarChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 711
+    startLine: 715
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1249,11 +1250,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPieChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 721
+    startLine: 725
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1291,11 +1292,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPieChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 732
+    startLine: 736
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1336,11 +1337,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDoughnutChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 743
+    startLine: 747
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1381,11 +1382,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDoughnutChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 753
+    startLine: 757
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1423,11 +1424,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOfPieChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 763
+    startLine: 767
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1465,11 +1466,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOfPieChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 774
+    startLine: 778
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1510,11 +1511,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBubbleChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 784
+    startLine: 788
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1552,11 +1553,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBubbleChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 795
+    startLine: 799
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1597,11 +1598,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddScatterChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 806
+    startLine: 810
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1642,11 +1643,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddScatterChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 816
+    startLine: 820
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1684,11 +1685,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRadarChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 827
+    startLine: 831
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1729,11 +1730,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRadarChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 837
+    startLine: 841
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1771,11 +1772,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSurfaceChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 848
+    startLine: 852
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1816,11 +1817,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSurfaceChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 858
+    startLine: 862
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1858,11 +1859,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 890
+    startLine: 894
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1903,11 +1904,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 903
+    startLine: 907
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1951,11 +1952,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 915
+    startLine: 919
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -1996,11 +1997,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 944
+    startLine: 948
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2044,11 +2045,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 962
+    startLine: 966
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2086,11 +2087,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 973
+    startLine: 977
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2131,11 +2132,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 984
+    startLine: 988
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2191,11 +2192,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 997
+    startLine: 1001
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2254,11 +2255,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1040
+    startLine: 1044
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2300,11 +2301,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1052
+    startLine: 1056
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2349,11 +2350,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1075
+    startLine: 1079
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2395,11 +2396,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1088
+    startLine: 1092
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2444,11 +2445,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1099
+    startLine: 1103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2487,11 +2488,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1110
+    startLine: 1114
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2533,11 +2534,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1121
+    startLine: 1125
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2594,11 +2595,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1134
+    startLine: 1138
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2658,11 +2659,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChartFromTemplate
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1193
+    startLine: 1197
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2700,11 +2701,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChartFromTemplate
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1204
+    startLine: 1208
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2745,11 +2746,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChartFromTemplate
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1233
+    startLine: 1237
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2787,11 +2788,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChartFromTemplate
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1244
+    startLine: 1248
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2818,6 +2819,48 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddTextbox(System.String,System.String)
+  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddTextbox(System.String,System.String)
+  id: AddTextbox(System.String,System.String)
+  parent: OfficeOpenXml.Drawing.ExcelDrawings
+  langs:
+  - csharp
+  - vb
+  name: AddTextbox(String, String)
+  nameWithType: ExcelDrawings.AddTextbox(String, String)
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddTextbox(System.String, System.String)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/ExcelDrawings.cs
+      branch: develop7
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AddTextbox
+    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
+    startLine: 1311
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAdd a textbox to the worksheet\n"
+  example: []
+  syntax:
+    content: public ExcelShape AddTextbox(string Name, string text = "")
+    parameters:
+    - id: Name
+      type: System.String
+      description: ''
+    - id: text
+      type: System.String
+      description: ''
+    return:
+      type: OfficeOpenXml.Drawing.ExcelShape
+      description: ''
+    content.vb: Public Function AddTextbox(Name As String, text As String = "") As ExcelShape
+  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddTextbox*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 - uid: OfficeOpenXml.Drawing.ExcelDrawings.AddShape(System.String,OfficeOpenXml.Drawing.eShapeStyle)
   commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddShape(System.String,OfficeOpenXml.Drawing.eShapeStyle)
   id: AddShape(System.String,OfficeOpenXml.Drawing.eShapeStyle)
@@ -2832,11 +2875,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddShape
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1308
+    startLine: 1349
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2874,11 +2917,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTableSlicer
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1332
+    startLine: 1373
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2913,11 +2956,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddShape
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1420
+    startLine: 1461
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2955,11 +2998,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1449
+    startLine: 1490
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3004,11 +3047,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddButtonControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1473
+    startLine: 1514
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3043,11 +3086,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddCheckBoxControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1482
+    startLine: 1523
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3082,11 +3125,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRadioButtonControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1491
+    startLine: 1532
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3121,11 +3164,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddListBoxControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1500
+    startLine: 1541
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3160,11 +3203,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDropDownControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1509
+    startLine: 1550
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3199,11 +3242,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddGroupBoxControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1518
+    startLine: 1559
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3238,11 +3281,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLabelControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1527
+    startLine: 1568
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3277,11 +3320,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSpinButtonControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1536
+    startLine: 1577
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3316,11 +3359,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddScrollBarControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1545
+    startLine: 1586
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3355,11 +3398,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1641
+    startLine: 1682
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3391,11 +3434,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1674
+    startLine: 1715
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3427,11 +3470,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1682
+    startLine: 1723
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3463,11 +3506,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1689
+    startLine: 1730
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3495,11 +3538,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: fix/comments-and-warings
+      branch: develop7
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1826
+    startLine: 1867
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -4746,6 +4789,17 @@ references:
   name: AddChartFromTemplate
   nameWithType: ExcelDrawings.AddChartFromTemplate
   fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate
+- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddTextbox*
+  commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddTextbox
+  name: AddTextbox
+  nameWithType: ExcelDrawings.AddTextbox
+  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddTextbox
+- uid: OfficeOpenXml.Drawing.ExcelShape
+  commentId: T:OfficeOpenXml.Drawing.ExcelShape
+  parent: OfficeOpenXml.Drawing
+  name: ExcelShape
+  nameWithType: ExcelShape
+  fullName: OfficeOpenXml.Drawing.ExcelShape
 - uid: OfficeOpenXml.Drawing.ExcelDrawings.AddShape*
   commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddShape
   name: AddShape
@@ -4757,12 +4811,6 @@ references:
   name: eShapeStyle
   nameWithType: eShapeStyle
   fullName: OfficeOpenXml.Drawing.eShapeStyle
-- uid: OfficeOpenXml.Drawing.ExcelShape
-  commentId: T:OfficeOpenXml.Drawing.ExcelShape
-  parent: OfficeOpenXml.Drawing
-  name: ExcelShape
-  nameWithType: ExcelShape
-  fullName: OfficeOpenXml.Drawing.ExcelShape
 - uid: OfficeOpenXml.Drawing.ExcelDrawings.AddTableSlicer*
   commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddTableSlicer
   name: AddTableSlicer
