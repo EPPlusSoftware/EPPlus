@@ -278,7 +278,7 @@ namespace OfficeOpenXml.Drawing.Chart
                     GetLitValues(_xSeries, out double[] numLit, out string[] strLit);
                     NumberLiteralsX = numLit;
                     StringLiteralsX = strLit;
-                    SetLits(NumberLiteralsX, StringLiteralsX, _xSeriesNumLitPath, _xSeriesStrLitPath);
+                    SetLits(numLit, strLit, _xSeriesNumLitPath, _xSeriesStrLitPath);
                 }
                 else
                 {

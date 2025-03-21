@@ -379,9 +379,26 @@ namespace EPPlusTest.Issues
 				var numlitsY = serie.NumberLiteralsY;
 
 				serie.Series = "{10,20,50}";
+				serie.XSeries = "{'col1','col2','col3','col4'}";
 
 				SaveAndCleanup(package);
 			}
 		}
-	}
+
+        [TestMethod]
+        public void CreateStringLitterals()
+        {
+			using (var package = OpenPackage("LitteralsSetting.xlsx", true))
+			{
+				var wb = package.Workbook;
+				var ws = wb.Worksheets.Add("NewWork");
+
+				var numLitChart = ws.Drawings.AddBarChart("bar", eBarChartType.ColumnClustered);
+
+				var serie = numLitChart.Series.Add("{10,20,50}");
+				serie.XSeries = "{'col1','col2','col3'}";
+                SaveAndCleanup(package);
+            }
+        }
+    }
 }
