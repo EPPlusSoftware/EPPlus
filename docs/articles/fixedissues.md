@@ -1,5 +1,5 @@
 # Features / Fixed issues - EPPlus 8
-## Version 8.0.0
+## Version 8.0.0-rc
 ### Features
 * EPPlus 8 will require a license key for commercial licenses.
 * Support for OLE objects (Linked or Embedded files).
@@ -20,6 +20,33 @@
 * Added a new rounding that is more true to Excels precision. You can switch between .Net and Excel precision with ParsingContext.
 * Added IsEmpty() method on ExcelRange. Can test for value, comments, threaded comments and formulas.
 * Override borders in Adjacent cells in BorderAround method.
+
+### Fixes since 8.0.0-beta
+* Several fixes in the formula calculation, 
+	* Better expression caching
+	* Fixed column filter in GETPIVOTDATA.
+	* Fixed PERCENTRANKS functions.
+	* Fixed array handling in the IF function.
+	* Fixed some issues in the IMAGE function.
+	* Fixed an issue in the COUNTIF function when comparing numbers
+* Ole objects
+	* Added new properties ProgId, ExternalLink and Image to the ExcelOleObject
+	* Removed Removed ExcelOleObjectParameters.Extension and use extension from the file name.
+	* Fixed issue with duplicate images.
+* Added DeleteAll method with predicate to ExcelWorkbook, ExcelRange, ExcelRangeRow and ExcelRangeColumn
+* Adding EMZ image files did not work in streams.
+* Removed several methods and properties marked as obsolete.
+* Changed several properties and methods from decimal to double. See breaking changes.
+* Fixed some issues with rich data and in-cell images.
+* GenericImageReader sometimes returned an invalid DPI.
+* Fixed support for .tif files.
+* Fixed images corrupting files in rare cases.
+* Ensured ungrouping the last drawing in a group deletes the group shape.
+* Ensured valid xml for leader lines in charts.
+* Ensured SetImage method did not swap width and height when switching between .svg and .png.
+* Inserting and deleting cells now updates chart references. Ensuring charts continue pointing to the moved cells.
+* Fixed numerous issues with array formulas and CalculatedColumnFormulas in tables related to inserting and deleting.
+ 
 
 # Features / Fixed issues - EPPlus 7
 ## Version 7.7.0
