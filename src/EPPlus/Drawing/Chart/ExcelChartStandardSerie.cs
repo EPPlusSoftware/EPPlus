@@ -243,7 +243,7 @@ namespace OfficeOpenXml.Drawing.Chart
                         throw (new ArgumentException("Value series can't contain strings"));
                     }
                     NumberLiteralsY = numLit;
-                    SetLits(NumberLiteralsY, null, _seriesNumLitPath, _seriesStrLitPath);
+                    SetLits(numLit, null, _seriesNumLitPath, _seriesStrLitPath);
                 }
                 else
                 {
@@ -481,6 +481,17 @@ namespace OfficeOpenXml.Drawing.Chart
         {
             if (numLit.Length == 0) return;
             var ci = CultureInfo.InvariantCulture;
+
+            //Remove previous child nodes
+            var previousPt = lit.SelectNodes("c:pt", NameSpaceManager);
+            if (previousPt != null)
+            {
+                for (int i = 0; i < previousPt.Count; i++)
+                {
+                    lit.RemoveChild(previousPt[i]);
+                }
+            }
+
             for (int i = 0; i < numLit.Length; i++)
             {
                 var pt = lit.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
@@ -493,6 +504,16 @@ namespace OfficeOpenXml.Drawing.Chart
 
         private void SetLitArray(XmlNode lit, string[] strLit)
         {
+            //Remove previous child nodes
+            var previousPt = lit.SelectNodes("c:pt", NameSpaceManager);
+            if(previousPt != null)
+            {
+                for (int i = 0; i < previousPt.Count; i++)
+                {
+                    lit.RemoveChild(previousPt[i]);
+                }
+            }
+
             for (int i = 0; i < strLit.Length; i++)
             {
                 var pt = lit.OwnerDocument.CreateElement("c", "pt", ExcelPackage.schemaChart);
@@ -502,11 +523,15 @@ namespace OfficeOpenXml.Drawing.Chart
             }
             AddCount(lit, strLit.Length);
         }
-        private static void AddCount(XmlNode lit, int count)
+        private void AddCount(XmlNode lit, int count)
         {
-            var ct = lit.OwnerDocument.CreateElement("c", "ptCount", ExcelPackage.schemaChart);
+            var ct = (XmlElement)lit.SelectSingleNode("c:ptCount", NameSpaceManager);
+            if (ct == null)
+            {
+                ct = lit.OwnerDocument.CreateElement("c", "ptCount", ExcelPackage.schemaChart);
+                lit.InsertBefore(ct, lit.FirstChild);
+            }
             ct.SetAttribute("val", count.ToString(CultureInfo.InvariantCulture));
-            lit.InsertBefore(ct, lit.FirstChild);
         }
 
         ExcelChartTrendlineCollection _trendLines = null;
