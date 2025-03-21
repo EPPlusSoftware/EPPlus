@@ -161,7 +161,7 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual(5D, ws.Cells["F2"].Value);
                 Assert.IsNull(ws.Cells["F3"].Value);
 
-                SaveAndCleanup(p);
+                SaveWorkbook("DynamicArrayFormulaRead.xlsx", p);
             }
         }
         [TestMethod]
@@ -182,7 +182,7 @@ namespace EPPlusTest.FormulaParsing
                 var ws = p.Workbook.Worksheets[0];
                 ws.Workbook.Worksheets[0].InsertColumn(2, 1);
                 ws.Calculate();
-                SaveWorkbook("ArrayFormulas_Deleted.xlsx", p);
+                SaveWorkbook("ArrayFormulas_Insert.xlsx", p);
             }
         }
         [TestMethod]
