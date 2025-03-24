@@ -1581,7 +1581,7 @@ namespace EPPlusTest
 
             Assert.AreEqual(img.Width, 426);
             img.Width /= 4;
-            Assert.AreEqual(img.Height, 49.5);
+            Assert.AreEqual(img.Height, 49.5); 
             img.Height /= 4;
             Assert.AreEqual(img.Left, 0);
             Assert.AreEqual(img.Top, 0);
@@ -1597,6 +1597,12 @@ namespace EPPlusTest
 
             _pck.Workbook.Worksheets.Copy(ws.Name, "Copied HeaderImage");
         }
+        [TestMethod]
+        public void HeaderFooterRichText()
+        {
+
+        }
+
         [TestMethod, Ignore]
         public void NamedStyles()
         {
