@@ -822,5 +822,16 @@ namespace EPPlusTest.Issues
 
 			SaveAndCleanup(p);
         }
+        [TestMethod]
+        public void s831()
+        {
+            using var p = OpenTemplatePackage("s831.xlsx");
+            var sheet = p.Workbook.Worksheets[0];
+            //var sw = new Stopwatch();
+            //sw.Start();
+            p.Workbook.Calculate();
+            //p.Workbook.FormulaParser.
+            //Console.WriteLine(new DateTime(sw.ElapsedTicks).ToString("HH:mm:ss"));
+        }
     }
 }

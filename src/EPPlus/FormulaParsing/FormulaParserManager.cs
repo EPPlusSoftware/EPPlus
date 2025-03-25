@@ -172,9 +172,11 @@ namespace OfficeOpenXml.FormulaParsing
             var opt = options != null ? options : new ExcelCalculationOption();
             var dc=RpnFormulaExecution.Execute(range, opt);
             var result = new List<IFormulaCellInfo>();
-            foreach(var f in dc._formulas)
+            foreach(var f in dc._depChain)
             {
-                var fi = new FormulaCellInfo(f._ws.Name, ExcelCellBase.GetAddress(f._row, f._column), f._formula);
+                ExcelCellBase.SplitCellId(f, out int sheetId, out int row, out int col);
+                var ws = range._workbook.GetWorksheetByIndexInList(sheetId);
+                var fi = new FormulaCellInfo(ws.Name, ExcelCellBase.GetAddress(row, col), ws.GetFormula(row,col));
                 result.Add(fi);
             }
             return result;

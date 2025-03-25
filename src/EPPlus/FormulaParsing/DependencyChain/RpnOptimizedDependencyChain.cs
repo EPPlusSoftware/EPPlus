@@ -10,10 +10,11 @@ namespace OfficeOpenXml.FormulaParsing
 {
     internal class RpnOptimizedDependencyChain
     {
-        internal List<RpnFormula> _formulas = new List<RpnFormula>();
+        //internal List<RpnFormula> _formulas = new List<RpnFormula>();
+        internal List<ulong> _depChain = new List<ulong>();
         internal Stack<RpnFormula> _formulaStack=new Stack<RpnFormula>();
         internal Dictionary<int, RangeHashset> accessedRanges = new Dictionary<int, RangeHashset>();
-        internal Dictionary<int, QuadTree<int>> formulaRangeReferences = new Dictionary<int, QuadTree<int>>();
+        internal Dictionary<int, QuadTree<ulong>> formulaRangeReferences = new Dictionary<int, QuadTree<ulong>>();
         internal HashSet<ulong> processedCells = new HashSet<ulong>();
         internal List<CircularReference> _circularReferences = new List<CircularReference>();
         internal ISourceCodeTokenizer _tokenizer;
@@ -28,7 +29,6 @@ namespace OfficeOpenXml.FormulaParsing
             _tokenizer = SourceCodeTokenizer.Default;
             _parsingContext = wb.FormulaParser.ParsingContext;
             _formulaExecutor = new FormulaExecutor(_parsingContext);
-
             var parser = wb.FormulaParser;
             var filterInfo = new FilterInfo(wb);
             parser.InitNewCalc(filterInfo);
@@ -43,40 +43,34 @@ namespace OfficeOpenXml.FormulaParsing
 
         }
 
-        internal void AddFormulaToChain(RpnFormula f)
+        internal void AddFormulaToChain(RpnFormula f, FormulaRangeAddress[] addresses)
         {
-            QuadTree<int> qr;
-            var ix = f._ws?.IndexInList ?? short.MaxValue;
-            if (formulaRangeReferences.TryGetValue(ix, out qr) == false)
+            QuadTree<ulong> qr;
+            foreach (var address in addresses)
             {
-                if (f._ws == null)
+                var ix = address.WorksheetIx; ;
+                if (formulaRangeReferences.TryGetValue(ix, out qr) == false)
                 {
-                    qr = new QuadTree<int>(1,1, _parsingContext.Package.Workbook.Names.Count, 1);
-                }
-                else
-                {
-                    if(f._ws.Dimension==null)
+                    if (ix < 0)
                     {
-                        qr = new QuadTree<int>(QuadRange.MinSize, QuadRange.MinSize, QuadRange.MinSize, QuadRange.MinSize);
+                        qr = new QuadTree<ulong>(1, 1, _parsingContext.Package.Workbook.Names.Count, 1);
                     }
                     else
                     {
-                        qr = new QuadTree<int>(f._ws.Dimension);
-                    }                    
-                }
-                formulaRangeReferences.Add(ix, qr);  
-            }
-            foreach(var e in f._expressions)
-            {
-                if((e.Value.Status & ExpressionStatus.IsAddress) == ExpressionStatus.IsAddress)
-                {
-                    foreach (var a in e.Value.GetAddress())
-                    {
-                        qr.Add(new QuadRange(a), _formulas.Count);
+                        var ws = _parsingContext.Package.Workbook.GetWorksheetByIndexInList(ix);
+                        if (ws.Dimension == null)
+                        {
+                            qr = new QuadTree<ulong>(QuadRange.MinSize, QuadRange.MinSize, QuadRange.MinSize, QuadRange.MinSize);
+                        }
+                        else
+                        {
+                            qr = new QuadTree<ulong>(ws.Dimension);
+                        }
                     }
+                    formulaRangeReferences.Add(ix, qr);
                 }
+                qr.Add(new QuadRange(address), f.CellId);
             }
-            _formulas.Add(f);
         }
 
         internal RpnOptimizedDependencyChain Execute()
@@ -104,10 +98,9 @@ namespace OfficeOpenXml.FormulaParsing
             return cache;
         }
 
-        //Adds the position where a chain of formulas start.
         internal void StartOfChain()
         {
-            _startOfChain.Add(_formulas.Count);
+            _startOfChain.Add(_depChain.Count);
         }
     }
 }

@@ -390,8 +390,8 @@ namespace OfficeOpenXml.FormulaParsing
             object v = null;
             bool hasLogger = depChain._parsingContext.Parser.Logger != null;
             rd?.Merge(f._row, f._column);
-            depChain.StartOfChain();
             var followChain = options.FollowDependencyChain;
+            depChain.StartOfChain();
         ExecuteFormula:
             try
             {
@@ -436,7 +436,9 @@ namespace OfficeOpenXml.FormulaParsing
                             addresses = f._expressions[f._tokenIndex].GetAddress();
                         }
 
-                        if(GetAddressesToFollow(depChain, f, options, ref addresses, ref rd, ref ws))
+                        depChain.AddFormulaToChain(f, addresses);
+
+                        if (GetAddressesToFollow(depChain, f, options, ref addresses, ref rd, ref ws))
                         {
                             goto FollowChain;
                         }
@@ -464,7 +466,6 @@ namespace OfficeOpenXml.FormulaParsing
                     depChain._parsingContext.Parser.Logger.Log($"Set value in Cell\t{f.GetAddress()}\t{cr.ResultValue}\t{cr.DataType}");
                 }
 
-                depChain.AddFormulaToChain(f);
                 if (depChain._formulaStack.Count > 0)
                 {
                     f = depChain._formulaStack.Pop();
@@ -748,35 +749,70 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                     }
                 }
+                depChain._depChain.Add(f.CellId);
             }
         }
 
         private static void RecalculateDirtyCells(SimpleAddress[] dirtyRange, RpnOptimizedDependencyChain depChain, RangeHashset rd)
         {
             var dirtyCells = dirtyRange.ToList();
-            foreach(var f in depChain._formulas)
+            if (depChain.formulaRangeReferences.ContainsKey(depChain._parsingContext.CurrentWorksheet.IndexInList))
             {
-                foreach(var e in f._expressions.Values)
+                var qt = depChain.formulaRangeReferences[depChain._parsingContext.CurrentWorksheet.IndexInList];
+                int fromIx = int.MaxValue;
+                int toIx = int.MinValue;
+                foreach (var a in dirtyRange)
                 {
-                    if(e.Status==ExpressionStatus.IsAddress)
+                    var ir = qt.GetIntersectingRangeItems(new Core.RangeQuadTree.QuadRange(a.FromRow, a.FromCol, a.ToRow, a.ToCol));
+                    if (ir.Count > 0)
                     {
-                        foreach (var a in e.GetAddress())
+                        foreach (var r in ir.Select(x=>x.Value).Distinct())
                         {
-                            if (a.DoCollide(dirtyCells))
+                            var ix = depChain._depChain.IndexOf(r);
+                            if (ix < 0) continue;
+                            if(ix < fromIx)
                             {
-                                ReCalculateFormula(f, depChain, rd);
-                                dirtyCells.Add(new SimpleAddress(a.FromRow, a.FromCol, a.ToRow, a.ToCol));
+                                fromIx = ix;
+                            }
+                            var ixEnd = depChain._startOfChain.BinarySearch(ix + 1);
+                            
+                            if(ixEnd < 0)
+                            {
+                                ixEnd = ~ixEnd;
+                            }
+
+                            if(ixEnd-1 > toIx)
+                            {
+                                toIx = ixEnd - 1;
                             }
                         }
                     }
                 }
+
+                if (fromIx != int.MaxValue)
+                {
+
+                    for (int i = fromIx; i <= toIx; i++)
+                    {
+                        ExcelCellBase.SplitCellId(depChain._depChain[i], out int sheetId, out int row, out int col);
+
+                        RpnFormula f = null;
+                        var ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(sheetId);
+                        var v = ws._formulas.GetValue(row, col);
+
+                        if (GetFormula(depChain, ws, row, col, v, ref f))
+                        {
+                            ReCalculateFormula(f, depChain, rd);
+                        }
+                    }
+                }
+
             }
         }
         private static void ReCalculateFormula(RpnFormula f, RpnOptimizedDependencyChain depChain, RangeHashset rd)
         {
             f._tokenIndex = 0;
             f.ClearCache();
-            var que=new Queue<FormulaRangeAddress>();
             ExecuteNextToken(depChain, f, false);
             var e=f._expressionStack.Pop();            
             SetValueToWorkbook(depChain, f, rd, e.Compile());
