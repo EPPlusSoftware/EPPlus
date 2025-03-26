@@ -39,23 +39,23 @@ namespace EPPlusTest.FormulaParsing
         public void Cleanup()
         {
         }
-        [TestMethod]
+        [TestMethod, Ignore]
         public void VerifySingleCell()
         {
             var path = _testInputPathOptional + "CalculationTests\\";
 
-            var xlFile = path + "1202_246_20210922_Formula Problem (2).xlsx";
+            var xlFile = path + "test.xlsx";
             string logFile = path + new FileInfo(xlFile).Name + ".log";
 
             using (var p = new ExcelPackage(xlFile))
             {
                 p.Workbook.ClearFormulaValues();
-                var ws = p.Workbook.Worksheets["Data"];
+                var ws = p.Workbook.Worksheets["Sheet1"];
                 //var ws = p.Workbook.Worksheets[0];
                 //ws.Calculate();
-                ws.Cells["D30"].Calculate();                
+                ws.Cells["A1"].Calculate();
 
-                //Assert.AreEqual(1, (double)ws.Cells["A1"].Value, 0.000001D);
+                Assert.AreEqual(0D, ws.Cells["A1"].Value);
             }
 
             //VerifyCalculationInPackage(xlFile, logFile);

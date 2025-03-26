@@ -1379,14 +1379,14 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                 }
             }
-            if (funcExp._function!=null && funcExp._function.ReturnsReference && result.Address!=null && result.Address.FromRow > 0)
-            {
-                f._expressionStack.Push(new RangeExpression(result.Address));
-            }
-            else
-            {
+            //if (funcExp._function!=null && funcExp._function.ReturnsReference && result.Address!=null && result.Address.FromRow > 0)
+            //{
+            //    f._expressionStack.Push(new RangeExpression(result.Address));
+            //}
+            //else
+            //{
                 PushResult(depChain._parsingContext, f, result);
-            }
+            //}
             return result;
         }
         private static void PushResult(ParsingContext context, RpnFormula f, CompileResult result)
@@ -1418,6 +1418,9 @@ namespace OfficeOpenXml.FormulaParsing
                     break;
                 case DataType.WebImage:
                     f._expressionStack.Push(new WebImageExpression(result, context));
+                    break;
+                case DataType.LocalImage:
+                    f._expressionStack.Push(new RangeExpression(result.Address));
                     break;
                 default:
                     //throw new InvalidOperationException($"Unhandled compile result for data type {result.DataType}");
