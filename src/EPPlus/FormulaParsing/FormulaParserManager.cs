@@ -172,7 +172,7 @@ namespace OfficeOpenXml.FormulaParsing
             var opt = options != null ? options : new ExcelCalculationOption();
             var dc=RpnFormulaExecution.Execute(range, opt);
             var result = new List<IFormulaCellInfo>();
-            foreach(var f in dc._depChain)
+            foreach(var f in dc.DependencyChain)
             {
                 ExcelCellBase.SplitCellId(f, out int sheetId, out int row, out int col);
                 var ws = range._workbook.GetWorksheetByIndexInList(sheetId);

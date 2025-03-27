@@ -827,11 +827,13 @@ namespace EPPlusTest.Issues
         {
             using var p = OpenTemplatePackage("s831.xlsx");
             var sheet = p.Workbook.Worksheets[0];
-            //var sw = new Stopwatch();
-            //sw.Start();
+            var sw = new Stopwatch();
+            sw.Start();
             p.Workbook.Calculate();
-            //p.Workbook.FormulaParser.
-            //Console.WriteLine(new DateTime(sw.ElapsedTicks).ToString("HH:mm:ss"));
+			//p.Workbook.FormulaParser.
+			GC.Collect();
+
+            Console.WriteLine(new DateTime(sw.ElapsedTicks).ToString("HH:mm:ss"));
         }
     }
 }

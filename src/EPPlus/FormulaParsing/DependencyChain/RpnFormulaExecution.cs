@@ -1,11 +1,13 @@
-﻿using OfficeOpenXml.Core.CellStore;
+﻿using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.Core.RangeQuadTree;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.CellPictures;
+using OfficeOpenXml.FormulaParsing.Ranges;
 using OfficeOpenXml.Utils;
 using System;
 using System.Collections.Generic;
@@ -14,9 +16,6 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using static OfficeOpenXml.ExcelAddressBase;
 using static OfficeOpenXml.ExcelWorksheet;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
-using OfficeOpenXml.RichData.RichValues;
-using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -750,26 +749,26 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                     }
                 }
-                depChain._depChain.Add(f.CellId);
+                depChain.DependencyChain.Add(f.CellId);
             }
         }
 
         private static void RecalculateDirtyCells(SimpleAddress[] dirtyRange, RpnOptimizedDependencyChain depChain, RangeHashset rd)
         {
             var dirtyCells = dirtyRange.ToList();
-            if (depChain.formulaRangeReferences.ContainsKey(depChain._parsingContext.CurrentWorksheet.IndexInList))
+            if (depChain.FormulaRangeReferences.ContainsKey(depChain._parsingContext.CurrentWorksheet.IndexInList))
             {
-                var qt = depChain.formulaRangeReferences[depChain._parsingContext.CurrentWorksheet.IndexInList];
+                var qt = depChain.FormulaRangeReferences[depChain._parsingContext.CurrentWorksheet.IndexInList];
                 int fromIx = int.MaxValue;
                 int toIx = int.MinValue;
                 foreach (var a in dirtyRange)
                 {
-                    var ir = qt.GetIntersectingRangeItems(new Core.RangeQuadTree.QuadRange(a.FromRow, a.FromCol, a.ToRow, a.ToCol));
+                    var ir = qt.GetIntersectingRangeItems(new QuadRange(a.FromRow, a.FromCol, a.ToRow, a.ToCol));
                     if (ir.Count > 0)
                     {
                         foreach (var r in ir.Select(x=>x.Value).Distinct())
                         {
-                            var ix = depChain._depChain.IndexOf(r);
+                            var ix = depChain.DependencyChain.IndexOf(r);
                             if (ix < 0) continue;
                             if(ix < fromIx)
                             {
@@ -795,7 +794,7 @@ namespace OfficeOpenXml.FormulaParsing
 
                     for (int i = fromIx; i <= toIx; i++)
                     {
-                        ExcelCellBase.SplitCellId(depChain._depChain[i], out int sheetId, out int row, out int col);
+                        ExcelCellBase.SplitCellId(depChain.DependencyChain[i], out int sheetId, out int row, out int col);
 
                         RpnFormula f = null;
                         var ws = depChain._parsingContext.Package.Workbook.GetWorksheetByIndexInList(sheetId);

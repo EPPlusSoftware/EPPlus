@@ -11,10 +11,10 @@ namespace OfficeOpenXml.FormulaParsing
     internal class RpnOptimizedDependencyChain
     {
         //internal List<RpnFormula> _formulas = new List<RpnFormula>();
-        internal List<ulong> _depChain = new List<ulong>();
+        internal List<ulong> DependencyChain { get; set; } = new List<ulong>();
+        internal Dictionary<int, QuadTree<ulong>> FormulaRangeReferences { get; set; } = new Dictionary<int, QuadTree<ulong>>();
         internal Stack<RpnFormula> _formulaStack=new Stack<RpnFormula>();
         internal Dictionary<int, RangeHashset> accessedRanges = new Dictionary<int, RangeHashset>();
-        internal Dictionary<int, QuadTree<ulong>> formulaRangeReferences = new Dictionary<int, QuadTree<ulong>>();
         internal HashSet<ulong> processedCells = new HashSet<ulong>();
         internal List<CircularReference> _circularReferences = new List<CircularReference>();
         internal ISourceCodeTokenizer _tokenizer;
@@ -22,7 +22,7 @@ namespace OfficeOpenXml.FormulaParsing
         internal ParsingContext _parsingContext;
         internal List<int> _startOfChain = new List<int>();
         internal bool HasDynamicArrayFormula=false;
-        internal Dictionary<int, Dictionary<string, CompileResult>> _expressionCache = new Dictionary<int, Dictionary<string, CompileResult>>();
+        internal Dictionary<int, Dictionary<string, CompileResult>> expressionCache = new Dictionary<int, Dictionary<string, CompileResult>>();
         internal bool HasAnyArrayFormula { get; set; } = false;
         public RpnOptimizedDependencyChain(ExcelWorkbook wb, ExcelCalculationOption options)
         {
@@ -49,7 +49,7 @@ namespace OfficeOpenXml.FormulaParsing
             foreach (var address in addresses)
             {
                 var ix = address.WorksheetIx; ;
-                if (formulaRangeReferences.TryGetValue(ix, out qr) == false)
+                if (FormulaRangeReferences.TryGetValue(ix, out qr) == false)
                 {
                     if (ix < 0)
                     {
@@ -67,7 +67,7 @@ namespace OfficeOpenXml.FormulaParsing
                             qr = new QuadTree<ulong>(ws.Dimension);
                         }
                     }
-                    formulaRangeReferences.Add(ix, qr);
+                    FormulaRangeReferences.Add(ix, qr);
                 }
                 qr.Add(new QuadRange(address), f.CellId);
             }
@@ -90,17 +90,17 @@ namespace OfficeOpenXml.FormulaParsing
         {
             var ix = ws == null ? -1 : ws.IndexInList;
 
-            if(!_expressionCache.TryGetValue(ix, out Dictionary<string, CompileResult> cache))
+            if(!expressionCache.TryGetValue(ix, out Dictionary<string, CompileResult> cache))
             {
                 cache = new Dictionary<string, CompileResult>();
-                _expressionCache.Add(ix, cache);
+                expressionCache.Add(ix, cache);
             }
             return cache;
         }
 
         internal void StartOfChain()
         {
-            _startOfChain.Add(_depChain.Count);
+            _startOfChain.Add(DependencyChain.Count);
         }
     }
 }
