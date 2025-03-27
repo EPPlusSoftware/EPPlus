@@ -53,6 +53,18 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal int NumberOfLambdaArgs { get; set; }
 
+        internal Stack<LambdaCalculationExpression> CurrentLambdaExpressions { get; set; } = new Stack<LambdaCalculationExpression>();
+
+        internal Stack<short> LambdaArgsAdded { get; set; } = new Stack<short>();
+
+        internal short CurrentLambdaArgsAdded
+        {
+            get
+            {
+                if (LambdaArgsAdded.Count == 0) return 0;
+                return LambdaArgsAdded.Peek();
+            }
+        }
         internal VariableStorageManager VariableStorage => _variableStorage;
 
         public void AddLambdaToken(int tokenIx)

@@ -139,6 +139,14 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         }
 
         /// <summary>
+        /// Indicates if the function is Executing a LAMBDA.
+        /// </summary>
+        public virtual bool ExecutesLambda
+        {
+            get { return false; }
+        }
+
+        /// <summary>
         /// Describes how the function works with input ranges and returning arrays.
         /// </summary>
         public virtual ExcelFunctionArrayBehaviour ArrayBehaviour

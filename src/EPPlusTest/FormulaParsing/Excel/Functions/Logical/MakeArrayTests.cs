@@ -64,5 +64,54 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
             Assert.AreEqual(5d, sheet.Cells["C2"].Value);
             Assert.AreEqual(6d, sheet.Cells["C3"].Value);
         }
+
+        [TestMethod]
+        public void MakeArray_Test4()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "MAKEARRAY(LAMBDA(a,b,a+b)(1,2),LAMBDA(x, x * 1)(LAMBDA(a, a)(3)),LAMBDA(r,c,r+c))";
+            sheet.Calculate();
+            Assert.AreEqual(2d, sheet.Cells["A1"].Value);
+            Assert.AreEqual(3d, sheet.Cells["A2"].Value);
+            Assert.AreEqual(4d, sheet.Cells["A3"].Value);
+            Assert.AreEqual(3d, sheet.Cells["B1"].Value);
+            Assert.AreEqual(4d, sheet.Cells["B2"].Value);
+            Assert.AreEqual(5d, sheet.Cells["B3"].Value);
+            Assert.AreEqual(4d, sheet.Cells["C1"].Value);
+            Assert.AreEqual(5d, sheet.Cells["C2"].Value);
+            Assert.AreEqual(6d, sheet.Cells["C3"].Value);
+        }
+
+
+        [TestMethod]
+        public void MakeArray_Test5()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "MAKEARRAY(3,LAMBDA(x, x)(LAMBDA(a, a)(3)),LAMBDA(r,c,r+c))";
+            sheet.Calculate();
+            Assert.AreEqual(3d, sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void MakeArray_ShouldReturnValueErrorIfWrongNumberOfArgsInLambda1()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "MAKEARRAY(LAMBDA(a,b,a+b)(1,2),3,LAMBDA(r,c,z,r+c+z))";
+            sheet.Calculate();
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
+        public void MakeArray_ShouldReturnValueErrorIfWrongNumberOfArgsInLambda2()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Formula = "MAKEARRAY(LAMBDA(a,b,a+b)(1,2),3,LAMBDA(r,r+1)";
+            sheet.Calculate();
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.Value), sheet.Cells["A1"].Value);
+        }
     }
 }

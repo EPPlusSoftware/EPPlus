@@ -145,6 +145,18 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
         }
 
         [TestMethod]
+        public void LetMethod_ShouldHandleMultipleExpressionsWhenAssigningVariable()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["B1"].Value = 1;
+            sheet.Cells["B2"].Value = 2;
+            sheet.Cells["A1"].Formula = "LET(x,B1 + 3, y, B2 + 1 - (2-1),x + 1-y)";
+            sheet.Calculate();
+            Assert.AreEqual(3d, sheet.Cells["A1"].Value);
+        }
+
+        [TestMethod]
         public void LetFunction_ComplexFormula()
         {
             using var package = new ExcelPackage();

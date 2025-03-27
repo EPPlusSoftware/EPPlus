@@ -472,6 +472,10 @@ namespace OfficeOpenXml.FormulaParsing
                     else
                     {
                         cr = f._expressionStack.Pop().Compile();
+                        if(cr.DataType == DataType.LambdaCalculation && cr.Result is LambdaCalculator lambdaCalc && lambdaCalc.IsReadyForCalc)
+                        {
+                            cr = lambdaCalc.Execute(depChain._parsingContext);
+                        }
                     }
                 }
 
@@ -983,6 +987,27 @@ namespace OfficeOpenXml.FormulaParsing
                     f._tokenIndex++;
                     continue;
                 }
+                if(s.Count > 0 && s.Peek().ExpressionType == ExpressionType.LambdaCalculation &&  s.Peek() is LambdaCalculationExpression lce2)
+                {
+                    if(f.CurrentLambdaExpressions.Count == 0 || f.CurrentLambdaExpressions.Peek().Id != lce2.Id)
+                    {
+                        lce2.BeginCalculation();
+                        f.CurrentLambdaExpressions.Push(lce2);
+                        f.LambdaArgsAdded.Push(0);
+                    }
+                }
+                var lce = f.CurrentLambdaExpressions.Count > 0 ? f.CurrentLambdaExpressions.Peek() : null;
+                if (lce != null && (f.LambdaArgsAdded.Count > 0 ? f.LambdaArgsAdded.Peek() : 0) >= lce.GetNumberOfVariables())
+                {
+                    var cr = lce.Compile();
+                    var calculator = cr.Result as LambdaCalculator;
+                    var res = calculator.Execute(depChain._parsingContext);
+                    s.Pop();
+                    PushResult(depChain._parsingContext, f, res);
+                    f.CurrentLambdaExpressions.Pop();
+                    f.LambdaArgsAdded.Pop();
+                    f.LastFuncWasLambda = false;
+                }
                 var t = f._tokens[f._tokenIndex];
                 switch (t.TokenType)
                 {
@@ -994,7 +1019,31 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.ParameterVariableDeclaration:
                     case TokenType.ParameterVariable:
                     case TokenType.CommaLambda:
-                        s.Push(f._expressions[f._tokenIndex]);
+                        if(lce != null)
+                        {
+                            var exp = f._expressions[f._tokenIndex];
+                            if (exp.ExpressionType == ExpressionType.LambdaVariableDeclaration || exp.ExpressionType == ExpressionType.Variable)
+                            {
+                                exp.Status |= ExpressionStatus.IsLambdaVariableDeclaration;
+                            }
+                            
+                            var cr = exp.Compile();
+                            if (cr.DataType == DataType.LambdaTokens)
+                            {
+                                s.Push(f._expressions[f._tokenIndex]);
+                            }
+                            else if(cr.DataType != DataType.LambdaVariableDeclaration)
+                            {
+                                lce.SetVariable(f.LambdaArgsAdded.Peek(), cr.Result, cr.DataType);
+                                var nLambdaArgsAdded = f.LambdaArgsAdded.Pop();
+                                f.LambdaArgsAdded.Push(++nLambdaArgsAdded);
+                            }
+                        }
+                        else
+                        {
+                            s.Push(f._expressions[f._tokenIndex]);
+                        }
+                       
                         break;
                     case TokenType.Negator:                        
                         s.Push(s.Pop().Negate());
@@ -1036,7 +1085,7 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         break;
                     case TokenType.Comma:
-                        if(f.LastFuncWasLambda & s.Count == f.NumberOfLambdaArgs + 1)
+                        if(f.LastFuncWasLambda && s.Count == f.NumberOfLambdaArgs + 1 && !f._funcStack.Peek().ExecutesLambda)
                         {
                             CompileResult lambdaResult = InvokeLambdaFunction(depChain, f);
                             if (lambdaResult != null)
@@ -1047,7 +1096,7 @@ namespace OfficeOpenXml.FormulaParsing
                         else if(f._funcStack.Count > 0)
                         {
                             var fexp = f._funcStack.Peek();
-                            if(fexp.IsLet && f._expressionStack.Count > 1 && !(f._expressionStack.First() is VariableExpression varExp && varExp.IsDeclaration))
+                            if(fexp.IsLet && f.CurrentLambdaArgsAdded == 0 && f._expressionStack.Count > 1 && !(f._expressionStack.First() is VariableExpression varExp && varExp.IsDeclaration))
                             {
                                 var exp1 = f._expressionStack.Pop();
                                 var exp2 = f._expressionStack.Pop();
@@ -1120,10 +1169,10 @@ namespace OfficeOpenXml.FormulaParsing
                             }
 
                             var r = ExecFunc(depChain, f, funcExp);
-                            if(funcExp.IsLambda && !(funcExp is LambdaNameFunctionExpression))
+                            if(funcExp.IsLambda && !(funcExp is LambdaNameFunctionExpression) && r.Result is LambdaCalculator clc)
                             {
                                 f.LastFuncWasLambda = true;
-                                f.NumberOfLambdaArgs = ((LambdaCalculator)r.Result).NumberOfVariables;
+                                f.NumberOfLambdaArgs = clc.NumberOfVariables;
                             }
                             else
                             {
@@ -1241,6 +1290,7 @@ namespace OfficeOpenXml.FormulaParsing
                     else
                     {
                         f._expressionStack.Push(new ErrorExpression(new CompileResult(eErrorType.Value), depChain._parsingContext));
+                        break;
                     }
                 }
             }
@@ -1373,6 +1423,10 @@ namespace OfficeOpenXml.FormulaParsing
                 var cr = args.First().Compile();
                 lc.SetVariableValue(0, cr.Result, cr.DataType);
                 c2 = lc.Execute(context);
+            }
+            else if(c1.Result is LambdaCalculator lc2)
+            {
+                c1 = lc2.Execute(context);
             }
 
             if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator op))

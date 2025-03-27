@@ -29,6 +29,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
     {
         public override int ArgumentMinLength => 3;
 
+        public override bool ExecutesLambda => true;
+
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var rows = ArgToInt(arguments, 0, out ExcelErrorValue e1);

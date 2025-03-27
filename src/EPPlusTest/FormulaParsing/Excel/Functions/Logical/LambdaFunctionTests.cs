@@ -162,7 +162,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.Logical
         {
             using var package = new ExcelPackage();
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
-            sheet.Cells["A1"].Formula = "LET(x,LAMBDA(x,x+1)(1),x+1)";
+            sheet.Cells["A1"].Formula = "LET(x,LAMBDA(x,y,x+1)(1,2),x+1)";
             sheet.Calculate();
             Assert.AreEqual(3d, sheet.Cells["A1"].Value);
         }

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
@@ -25,6 +26,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
     /// Represents a function argument passed to the Execute method of a <see cref="ExcelFunction"/> class.
     /// <see cref="ExcelFunction.Execute(IList{FunctionArgument}, ParsingContext)"/>
     /// </summary>
+    [DebuggerDisplay("DataType: {DataType}, Value: {Value}")]
     public class FunctionArgument
     {
         internal FunctionArgument(CompileResult result)

@@ -11,6 +11,7 @@
   06/12/2024         EPPlus Software AB       Initial release EPPlus 7.3
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         public LambdaCalculationExpression(CompileResult cr, ParsingContext context) : base(context)
         {
             _compileResult = cr;
+            Id = Guid.NewGuid();
         }
 
         private readonly CompileResult _compileResult;
@@ -34,6 +36,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             get;
             set;
         } = ExpressionStatus.CanCompile;
+
+        public Guid Id { get; private set; }
 
         public override CompileResult Compile()
         {
@@ -47,6 +51,31 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         public override Expression Negate()
         {
             throw new NotImplementedException();
+        }
+
+        public void SetVariable(int index, object val, DataType dt)
+        {
+            if(_compileResult.Result is LambdaCalculator calculator)
+            {
+                calculator.SetVariableValue(index, val, dt);
+            }
+        }
+
+        public int GetNumberOfVariables()
+        {
+            if(_compileResult.Result is LambdaCalculator lce)
+            {
+                return lce.NumberOfVariables;
+            }
+            return 0;
+        }
+
+        public void BeginCalculation()
+        {
+            if (_compileResult.Result is LambdaCalculator calculator)
+            {
+                calculator.BeginCalculation();
+            }
         }
     }
 }

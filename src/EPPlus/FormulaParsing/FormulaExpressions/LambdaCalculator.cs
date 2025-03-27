@@ -41,8 +41,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         private VariableStorageScope _scope;
         private readonly List<Token> _originalTokens;
         private List<Token> _currentTokens;
+        private int _nVariablesSet = 0;
 
-        public int NumberOfVariables => _variableIndexes.Count;
+        public int NumberOfVariables => _variables?.Count ?? 0;
+
+        public bool IsReadyForCalc => _nVariablesSet >= NumberOfVariables;
 
         public void BeginCalculation()
         {
@@ -71,6 +74,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     _currentTokens[ix] = new Token(tokenValue, tt);
                 }
             }
+            _nVariablesSet++;
         }
 
         public CompileResult Execute(ParsingContext ctx)
