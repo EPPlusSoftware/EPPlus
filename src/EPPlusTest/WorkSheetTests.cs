@@ -32,6 +32,7 @@ using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Vml;
 using OfficeOpenXml.Style;
+using OfficeOpenXml.Style.HeaderFooterTextFormat;
 using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
@@ -1600,9 +1601,38 @@ namespace EPPlusTest
         [TestMethod]
         public void HeaderFooterRichText()
         {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            //HFTextCollection hfc = new HFTextCollection(p.Workbook, HFTextCollection.Lanes.Left);
+            //hfc.ReadHeaderFooterFormat("&L&\"-,Bold\"this&\"-,Regular\" &\"-,Italic\"word&\"-,Regular\"\r\n            &K06-023horse");
+            //hfc.ReadHeaderFooterFormat("&L&\"-,Bold\"this&\"-,Regular\" &\"-,Italic\"word&\"-,Regular\"\r\n            &K06-049horse");
+            //string hfTtext = hfc.WriteHeaderFooterFormat();
+            //Assert.AreEqual("&L&\"-,Bold\"this&\"-,Regular\" &\"-,Italic\"word&\"-,Regular\"\r\n            &K06-049horse", hfTtext);
+        }
+        [TestMethod]
+        public void HeaderFooterTests()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+
+            HFText t = new HFText();
+            t.Text = "anotherString";
+            t.Italic = true;
+
+            ws.HeaderFooter.OddHeader.LeftAligned[0].Text = "mytest";
+            ws.HeaderFooter.OddHeader.LeftAligned[0].Bold = true;
+            var hfbold = ws.HeaderFooter.OddHeader.LeftAligned.WriteHeaderFooterFormat();
+
+            Assert.AreEqual("&\"-,Bold\"mytest", hfbold);
 
         }
+        [TestMethod]
+        public void HeaderFooterReadFromXlsx()
+        {
 
+        }
         [TestMethod, Ignore]
         public void NamedStyles()
         {

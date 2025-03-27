@@ -23,6 +23,7 @@ using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.Drawing.Interfaces;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using OfficeOpenXml.Style.HeaderFooterTextFormat;
 
 namespace OfficeOpenXml
 {    
@@ -91,6 +92,19 @@ namespace OfficeOpenXml
                     break;
             }
         }
+        private HFTextCollection _leftAligned = null;
+        public HFTextCollection LeftAligned
+        {
+            get
+            {
+                if(_leftAligned == null)
+                {
+                    _leftAligned = new HFTextCollection(_ws.Workbook, HFTextCollection.Lanes.Left);
+                    _leftAligned.Add(new HFText("&L"));
+                }
+                return _leftAligned;
+            }
+        }
         string _leftAlignedText = null;
 		/// <summary>
 		/// Get/set the text to appear on the left hand side of the header (or footer) on the worksheet.
@@ -99,15 +113,29 @@ namespace OfficeOpenXml
         {
             get
             {
+                _leftAlignedText = LeftAligned.WriteHeaderFooterFormat();
                 return _leftAlignedText;
-
 			}
             set
             {
                 _leftAlignedText = ValidateAndTrimText(value);
+                LeftAligned.ReadHeaderFooterFormat(_leftAlignedText);
             }
         }
-		string _centeredText = null;
+        private HFTextCollection _centered = null;
+        public HFTextCollection Centered
+        {
+            get
+            {
+                if (_centered == null)
+                {
+                    _centered = new HFTextCollection(_ws.Workbook, HFTextCollection.Lanes.Center);
+                    _centered.Add(new HFText("&C"));
+                }
+                return _centered;
+            }
+        }
+        string _centeredText = null;
 		/// <summary>
 		/// Get/set the text to appear in the center of the header (or footer) on the worksheet.
 		/// </summary>
@@ -115,15 +143,30 @@ namespace OfficeOpenXml
         {
 			get
 			{
-				return _centeredText;
+                _centeredText = Centered.WriteHeaderFooterFormat();
+                return _centeredText;
 
 			}
 			set
 			{
 				_centeredText = ValidateAndTrimText(value);
+                Centered.ReadHeaderFooterFormat((_centeredText));
 			}
 		}
-		string _rightAlignedText = null;
+        private HFTextCollection _rightAligned = null;
+        public HFTextCollection RightAligned
+        {
+            get
+            {
+                if (_rightAligned == null)
+                {
+                    _rightAligned = new HFTextCollection(_ws.Workbook, HFTextCollection.Lanes.Right);
+                    _rightAligned.Add(new HFText("&R"));
+                }
+                return _rightAligned;
+            }
+        }
+        string _rightAlignedText = null;
 		/// <summary>
 		/// Get/set the text to appear on the right hand side of the header (or footer) on the worksheet.
 		/// </summary>
@@ -131,12 +174,14 @@ namespace OfficeOpenXml
 		{
 			get
 			{
+                _rightAlignedText = RightAligned.WriteHeaderFooterFormat();
 				return _rightAlignedText;
 
 			}
 			set
 			{
 				_rightAlignedText = ValidateAndTrimText(value);
+                RightAligned.ReadHeaderFooterFormat(_rightAlignedText);
 			}
 		}
 
