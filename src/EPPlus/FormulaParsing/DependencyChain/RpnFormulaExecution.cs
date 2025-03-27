@@ -16,6 +16,7 @@ using static OfficeOpenXml.ExcelAddressBase;
 using static OfficeOpenXml.ExcelWorksheet;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.RichData.RichValues;
+using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -710,7 +711,7 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         else if ((cr.ResultType == CompileResultType.DynamicArray || 
                                  cr.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic || 
-                                 (f._flags & FormulaFlags.IsAllwaysDynamic) == FormulaFlags.IsAllwaysDynamic) &&
+                                 (f._flags & FormulaFlags.IsAlwaysDynamic) == FormulaFlags.IsAlwaysDynamic) &&
                                  f.CanBeDynamicArray)
                         {
                             var dirtyRange = ArrayFormulaOutput.FillDynamicArraySingleValue(f, cr, rd, depChain);
@@ -1109,7 +1110,7 @@ namespace OfficeOpenXml.FormulaParsing
                             var r = ExecFunc(depChain, f, funcExp);
                             if (r.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
                             {
-                                f._flags |= FormulaFlags.IsAllwaysDynamic;
+                                f._flags |= FormulaFlags.IsAlwaysDynamic;
                             }
                             if (r.Address!=null && returnAddresses)
                             {
@@ -1318,7 +1319,7 @@ namespace OfficeOpenXml.FormulaParsing
                 var result = op.Apply(c2, c1, context);
                 if (result.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
                 {
-                    f._flags |= FormulaFlags.IsAllwaysDynamic;
+                    f._flags |= FormulaFlags.IsAlwaysDynamic;
                 }
                 PushResult(context, f, result);
             }
@@ -1379,14 +1380,21 @@ namespace OfficeOpenXml.FormulaParsing
                     }
                 }
             }
-            //if (funcExp._function!=null && funcExp._function.ReturnsReference && result.Address!=null && result.Address.FromRow > 0)
-            //{
-            //    f._expressionStack.Push(new RangeExpression(result.Address));
-            //}
-            //else
-            //{
+            if (funcExp._function != null && funcExp._function.ReturnsReference && result.Address != null && result.Address.FromRow > 0)
+            {
+                if (result.Result is InMemoryRange) //the result is an output from a reference function. Use the result instead.
+                {
+                    f._expressionStack.Push(new RangeExpression(result, depChain._parsingContext));
+                }
+                else
+                {
+                    f._expressionStack.Push(new RangeExpression(result.Address));
+                }
+            }
+            else
+            {
                 PushResult(depChain._parsingContext, f, result);
-            //}
+            }
             return result;
         }
         private static void PushResult(ParsingContext context, RpnFormula f, CompileResult result)
@@ -1419,7 +1427,7 @@ namespace OfficeOpenXml.FormulaParsing
                 case DataType.WebImage:
                     f._expressionStack.Push(new WebImageExpression(result, context));
                     break;
-                case DataType.LocalImage:
+                case DataType.LocalImage:   //References to local images
                     f._expressionStack.Push(new RangeExpression(result.Address));
                     break;
                 default:

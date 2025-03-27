@@ -676,24 +676,42 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             var isCollapsed = false;
             var isParentFunctionNone = false;
-            var partentIsSingleItem = false;
+            int ix;
             for (int i = fromIndex; i < toIndex; i++)
             {
                 if (key[i] == PivotCalculationStore.SumLevelValue)
                 {
-                    if (isParentFunctionNone && partentIsSingleItem == false && isCollapsed == false && Keys[DataFields.IndexOf(datafield)].ContainsKey(key) && Keys[DataFields.IndexOf(datafield)][key].Select(x => x[i]).Distinct().Count() > 1)
+                    if (isParentFunctionNone)
                     {
-                        return true;
+                        if (Keys[DataFields.IndexOf(datafield)].ContainsKey(key))
+                        {
+                            var distKeys = Keys[DataFields.IndexOf(datafield)][key].Select(x => x[i]).Distinct();
+                            if (distKeys.Count() > 1)
+                            {
+                                return !isCollapsed;
+                            }
+                            else
+                            {
+                                ix = distKeys.First();
+                            }
+                        }
+                        else
+                        {
+                            return true;
+                        }
                     }
                     else
                     {
-                        partentIsSingleItem = true;
+                        continue;
                     }
-                    continue;
                 }
-                if (isCollapsed) return true;
+                else
+                {
+                    if (isCollapsed) return true;
+                    ix = key[i];
+                }
                 var field = Fields[keyFieldIndex[i]];
-                var item = field.Items.GetByCacheIndex(key[i]);
+                var item = field.Items.GetByCacheIndex(ix);
                 if (item != null && item.ShowDetails == false)
                 {
                     isCollapsed = true;

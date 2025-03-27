@@ -44,13 +44,13 @@ namespace EPPlusTest.FormulaParsing
         {
             var path = _testInputPathOptional + "CalculationTests\\";
 
-            var xlFile = path + "test.xlsx";
+            var xlFile = path + "test.xlsm";
             string logFile = path + new FileInfo(xlFile).Name + ".log";
 
             using (var p = new ExcelPackage(xlFile))
             {
                 p.Workbook.ClearFormulaValues();
-                var ws = p.Workbook.Worksheets["Sheet1"];
+                var ws = p.Workbook.Worksheets["sheet1"];
                 //var ws = p.Workbook.Worksheets[0];
                 //ws.Calculate();
                 ws.Cells["A1"].Calculate();
@@ -60,9 +60,7 @@ namespace EPPlusTest.FormulaParsing
 
             //VerifyCalculationInPackage(xlFile, logFile);
         }
-
         [TestMethod]
-
         public void VerifyCalculationInCalculateTestDirectory()
         {
             var path = _testInputPathOptional + "CalculationTests\\";

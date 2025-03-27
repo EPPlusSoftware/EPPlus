@@ -17,7 +17,7 @@ namespace OfficeOpenXml.FormulaParsing
     internal enum FormulaFlags : short
     {
         IsDynamic           = 1,
-        IsAllwaysDynamic    = 2,
+        IsAlwaysDynamic    = 2,
     }
     internal class RpnFormula
     {
