@@ -44,23 +44,22 @@ namespace EPPlusTest.FormulaParsing
         {
             var path = _testInputPathOptional + "CalculationTests\\";
 
-            var xlFile = path + "Test.xlsm";
+            var xlFile = path + "test.xlsm";
             string logFile = path + new FileInfo(xlFile).Name + ".log";
 
-            //using (var p = new ExcelPackage(xlFile))
-            //{
-            //    p.Workbook.ClearFormulaValues();
-            //    var ws = p.Workbook.Worksheets["Sheet1"];
-            //    //var ws = p.Workbook.Worksheets[0];
-            //    //ws.Calculate();
-            //    ws.Cells["A1"].Calculate();                
+            using (var p = new ExcelPackage(xlFile))
+            {
+                p.Workbook.ClearFormulaValues();
+                var ws = p.Workbook.Worksheets["sheet1"];
+                //var ws = p.Workbook.Worksheets[0];
+                //ws.Calculate();
+                ws.Cells["A1"].Calculate();
 
-            //    Assert.AreEqual(1, (double)ws.Cells["A1"].Value, 0.000001D);
-            //}
+                Assert.AreEqual(0D, ws.Cells["A1"].Value);
+            }
 
             //VerifyCalculationInPackage(xlFile, logFile);
         }
-
         [TestMethod]
         public void VerifyCalculationInCalculateTestDirectory()
         {

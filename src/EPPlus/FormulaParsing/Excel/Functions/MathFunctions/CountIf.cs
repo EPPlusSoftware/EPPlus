@@ -84,7 +84,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                             }
                             else
                             {
-                                if (ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(arg1))
+                                if (ConvertUtil.IsNumericOrDate(v, true, true) && ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(arg1))
                                 {
                                     result++;
                                 }
@@ -118,7 +118,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                         else
                         {
                             var v = cse.Value._value;
-                            if (string.IsNullOrEmpty(v?.ToString())==false && ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(arg1))
+                            if (ConvertUtil.IsNumericOrDate(v,true,true) && ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(arg1))
                             {
                                 result++;
                             }
@@ -163,7 +163,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 else
                 {
-                    if (ConvertUtil.GetValueDouble(range.Value) == ConvertUtil.GetValueDouble(arg1))
+                    if (range.Value != null && ConvertUtil.GetValueDouble(range.Value) == ConvertUtil.GetValueDouble(arg1))
                     {
                         result++;
                     }
