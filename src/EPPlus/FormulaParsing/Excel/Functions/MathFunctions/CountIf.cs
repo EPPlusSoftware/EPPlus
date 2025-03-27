@@ -163,7 +163,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 }
                 else
                 {
-                    if (ConvertUtil.GetValueDouble(range.Value) == ConvertUtil.GetValueDouble(arg1))
+                    if (range.Value != null && ConvertUtil.GetValueDouble(range.Value) == ConvertUtil.GetValueDouble(arg1))
                     {
                         result++;
                     }
