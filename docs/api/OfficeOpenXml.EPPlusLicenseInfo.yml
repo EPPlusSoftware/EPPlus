@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicenseInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EPPlusLicenseInfo
     path: ../src/EPPlus/EPPlusLicenseInfo.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicenseInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseNumber
     path: ../src/EPPlus/EPPlusLicenseInfo.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicenseInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseType
     path: ../src/EPPlus/EPPlusLicenseInfo.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicenseInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseValidFrom
     path: ../src/EPPlus/EPPlusLicenseInfo.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicenseInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseValidTo
     path: ../src/EPPlus/EPPlusLicenseInfo.cs
@@ -212,7 +212,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicenseInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberOfLicensedDevelopers
     path: ../src/EPPlus/EPPlusLicenseInfo.cs
@@ -249,7 +249,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicenseInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Status
     path: ../src/EPPlus/EPPlusLicenseInfo.cs

@@ -41,7 +41,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRangeRow
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -94,7 +94,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartRow
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -131,7 +131,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndRow
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -168,7 +168,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Collapsed
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -205,7 +205,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineLevel
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -242,7 +242,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Phonetic
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -279,7 +279,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -316,7 +316,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Height
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -353,7 +353,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CustomHeight
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -390,7 +390,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageBreak
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -427,7 +427,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -464,7 +464,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -501,7 +501,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -538,7 +538,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Range
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -575,7 +575,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -615,7 +615,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -654,7 +654,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -691,7 +691,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -725,7 +725,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -762,7 +762,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -796,7 +796,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -830,7 +830,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Group
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -862,7 +862,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Ungroup
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -894,7 +894,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CollapseChildren
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -929,7 +929,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExpandChildren
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -964,7 +964,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetVisibleOutlineLevel
     path: ../src/EPPlus/ExcelRangeRow.cs
@@ -1003,7 +1003,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteAll
     path: ../src/EPPlus/ExcelRangeRow.cs

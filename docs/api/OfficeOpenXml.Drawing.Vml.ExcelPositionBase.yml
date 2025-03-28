@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPositionBase
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Column
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Row
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnOff
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowOff
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
@@ -254,7 +254,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelPositionBase.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateXml
     path: ../src/EPPlus/Drawing/Vml/ExcelPositionBase.cs

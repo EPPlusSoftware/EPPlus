@@ -39,7 +39,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWorksheets
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -165,7 +165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -276,7 +276,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -318,7 +318,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -363,7 +363,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -420,7 +420,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DeleteAll
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -462,7 +462,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -498,7 +498,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -534,7 +534,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -570,7 +570,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -617,7 +617,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -661,7 +661,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -703,7 +703,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveBefore
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -742,7 +742,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveBefore
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -781,7 +781,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveAfter
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -820,7 +820,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveAfter
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -859,7 +859,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToStart
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -895,7 +895,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToStart
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -931,7 +931,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToEnd
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -967,7 +967,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveToEnd
     path: ../src/EPPlus/ExcelWorksheets.cs
@@ -1003,7 +1003,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorksheets.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelWorksheets.cs

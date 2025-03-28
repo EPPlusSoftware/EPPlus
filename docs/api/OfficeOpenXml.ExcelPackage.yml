@@ -77,7 +77,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPackage
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxColumns
     path: ../src/EPPlus/ExcelPackage.cs
@@ -162,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxRows
     path: ../src/EPPlus/ExcelPackage.cs
@@ -197,7 +197,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -265,7 +265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -301,7 +301,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -340,7 +340,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -379,7 +379,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -418,7 +418,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -460,7 +460,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -502,7 +502,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -541,7 +541,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -583,7 +583,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -619,7 +619,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -658,7 +658,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -697,7 +697,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/ExcelPackage.cs
@@ -739,7 +739,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Encryption
     path: ../src/EPPlus/ExcelPackage.cs
@@ -776,7 +776,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseContext
     path: ../src/EPPlus/ExcelPackage.cs
@@ -784,18 +784,18 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nThis property is obsolete in EPPlus 8, and will be removed in coming versions. \nPlease use the <xref href=\"OfficeOpenXml.ExcelPackage.License\" data-throw-if-not-resolved=\"false\"></xref> property to configure the license.\nsee https://epplussoftware.com/developers/licensenotsetexception\n"
+  summary: "\nThis property is obsolete in EPPlus 8, and will be removed in coming versions. \nPlease use the <xref href=\"OfficeOpenXml.ExcelPackage.License\" data-throw-if-not-resolved=\"false\"></xref> property to configure the license.\n<a href=\"https://epplussoftware.com/developers/licensenotsetexception\">https://epplussoftware.com/developers/licensenotsetexception</a>\n"
   example: []
   syntax:
     content: >-
-      [Obsolete("Please set the license using the License property from EPPlus 8 and later. For more info see http://epplussoftware.com/developers/licensenotsetexception")]
+      [Obsolete("Please use the static 'ExcelPackage.License' property to set the required license information from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licensenotsetexception.")]
 
       public static LicenseContext? LicenseContext { get; set; }
     parameters: []
     return:
       type: System.Nullable{OfficeOpenXml.LicenseContext}
     content.vb: >-
-      <Obsolete("Please set the license using the License property from EPPlus 8 and later. For more info see http://epplussoftware.com/developers/licensenotsetexception")>
+      <Obsolete("Please use the static 'ExcelPackage.License' property to set the required license information from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licensenotsetexception.")>
 
       Public Shared Property LicenseContext As LicenseContext?
   overload: OfficeOpenXml.ExcelPackage.LicenseContext*
@@ -804,7 +804,7 @@ items:
     ctor: System.ObsoleteAttribute.#ctor(System.String)
     arguments:
     - type: System.String
-      value: Please set the license using the License property from EPPlus 8 and later. For more info see http://epplussoftware.com/developers/licensenotsetexception
+      value: Please use the static 'ExcelPackage.License' property to set the required license information from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licensenotsetexception.
   modifiers.csharp:
   - public
   - static
@@ -827,15 +827,15 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: License
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 650
+    startLine: 661
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nUsed to set the license EPPlus uses.\n<xref href=\"OfficeOpenXml.EPPlusLicense.SetCommercial(System.String)\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization(System.String)\" data-throw-if-not-resolved=\"false\"></xref>\n<xref href=\"OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal(System.String)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\n<p>\nUsed to set the license EPPlus uses.\n</p>\n<p>\nFor use within a commercial organization. Requires a license key which can be purchased at <a href=\"https://epplussoftware.com\">https://epplussoftware.com</a>.<br />\n<xref href=\"OfficeOpenXml.EPPlusLicense.SetCommercial(System.String)\" data-throw-if-not-resolved=\"false\"></xref>\n</p>\n<p>\nFor use within a non-commercial organization. The document will be tagged with the Polyform Noncommercial License.<br />\n<xref href=\"OfficeOpenXml.EPPlusLicense.SetNonCommercialOrganization(System.String)\" data-throw-if-not-resolved=\"false\"></xref>\n</p>\n<p>\nFor personal non-commercial use. <br />\n<xref href=\"OfficeOpenXml.EPPlusLicense.SetNonCommercialPersonal(System.String)\" data-throw-if-not-resolved=\"false\"></xref>\n</p>\n"
   example: []
   syntax:
     content: public static EPPlusLicense License { get; }
@@ -866,11 +866,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Workbook
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 655
+    startLine: 666
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -903,11 +903,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Configure
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 681
+    startLine: 692
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -944,11 +944,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: InitializationErrors
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 688
+    startLine: 699
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -981,11 +981,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoAdjustDrawings
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 699
+    startLine: 710
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1018,11 +1018,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 795
+    startLine: 806
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1052,11 +1052,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Save
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 833
+    startLine: 844
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1084,11 +1084,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Save
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 962
+    startLine: 973
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1120,11 +1120,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 972
+    startLine: 983
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1156,11 +1156,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 982
+    startLine: 993
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1192,11 +1192,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 993
+    startLine: 1004
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1231,11 +1231,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1006
+    startLine: 1017
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1270,11 +1270,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1015
+    startLine: 1026
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1306,11 +1306,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAs
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1032
+    startLine: 1043
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1345,11 +1345,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: File
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1041
+    startLine: 1052
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1382,11 +1382,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Stream
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1060
+    startLine: 1071
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1419,11 +1419,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compression
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1071
+    startLine: 1082
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1456,11 +1456,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Compatibility
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1086
+    startLine: 1097
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1493,11 +1493,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Settings
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1100
+    startLine: 1111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1530,11 +1530,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MemorySettings
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1110
+    startLine: 1121
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1569,11 +1569,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArray
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1153
+    startLine: 1164
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1605,11 +1605,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArray
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1175
+    startLine: 1186
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1645,11 +1645,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1228
+    startLine: 1239
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1681,11 +1681,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1237
+    startLine: 1248
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1720,11 +1720,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackage.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SensibilityLabels
     path: ../src/EPPlus/ExcelPackage.cs
-    startLine: 1320
+    startLine: 1331
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1757,7 +1757,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -1799,7 +1799,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -1841,7 +1841,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -1886,7 +1886,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -1931,7 +1931,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -1979,7 +1979,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2027,7 +2027,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2069,7 +2069,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2114,7 +2114,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2153,7 +2153,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2195,7 +2195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2237,7 +2237,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2279,7 +2279,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2324,7 +2324,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2369,7 +2369,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2411,7 +2411,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveAsAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2456,7 +2456,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SensibilityLabelHandler
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2495,7 +2495,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArrayAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs
@@ -2536,7 +2536,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageAsync.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAsByteArrayAsync
     path: ../src/EPPlus/ExcelPackageAsync.cs

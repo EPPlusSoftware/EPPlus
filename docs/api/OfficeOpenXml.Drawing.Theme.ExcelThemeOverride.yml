@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Theme/ExcelThemeOverride.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelThemeOverride
     path: ../src/EPPlus/Drawing/Theme/ExcelThemeOverride.cs

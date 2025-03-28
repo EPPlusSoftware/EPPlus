@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EPPlusDecryptionInfo
     path: ../src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PackageStream
     path: ../src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ProtectionInformation
     path: ../src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Encryption/EPPlusDecryptionInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ActiveLabelId
     path: ../src/EPPlus/Encryption/EPPlusDecryptionInfo.cs

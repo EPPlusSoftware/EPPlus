@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationInt.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationInt
     path: ../src/EPPlus/DataValidation/ExcelDataValidationInt.cs
@@ -91,7 +91,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationInt.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidationInt.cs
@@ -133,7 +133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationInt.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clone
     path: ../src/EPPlus/DataValidation/ExcelDataValidationInt.cs

@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRowsCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRowsCollection
     path: ../src/EPPlus/ExcelRowsCollection.cs
@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRowsCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRowsCollection.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRowsCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExcelRowsCollection.cs

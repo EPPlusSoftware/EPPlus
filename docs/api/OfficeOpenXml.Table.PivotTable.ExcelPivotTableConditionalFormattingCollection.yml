@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormattingCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableConditionalFormattingCollection
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormattingCollection.cs
@@ -71,7 +71,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormattingCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormattingCollection.cs

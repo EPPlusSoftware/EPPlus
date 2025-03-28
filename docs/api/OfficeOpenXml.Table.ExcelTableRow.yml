@@ -31,7 +31,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTableRow
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -74,7 +74,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnCount
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -111,7 +111,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -148,7 +148,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsDeleted
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -222,7 +222,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RowRange
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -259,7 +259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFormula
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFormula
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -337,7 +337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -386,7 +386,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -429,7 +429,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -478,7 +478,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -521,7 +521,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetValue
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -567,7 +567,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetValue
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -613,7 +613,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetValues
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -665,7 +665,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/Table/ExcelTableRow.cs
@@ -697,7 +697,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/ExcelTableRow.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Table/ExcelTableRow.cs

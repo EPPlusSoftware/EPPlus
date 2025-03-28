@@ -27,6 +27,12 @@ namespace OfficeOpenXml
 
         }
     }
+    /// <summary>
+    /// An exception thrown when trying to set the obsolete property LicenseContext is set. <br/>
+    /// Please use the <see cref="ExcelPackage.License"/> instead. <br/>
+    /// To set the license, use <seealso cref="EPPlusLicense.SetCommercial(string)"/>, <seealso cref="EPPlusLicense.SetNonCommercialOrganization(string)"/> or <seealso cref="EPPlusLicense.SetNonCommercialPersonal(string)"/><br/>
+    /// For more information see <seealso href ="http://epplussoftware.com/developers/licensenotsetexception"/>
+    /// </summary>
     public class LicenseContextPropertyObsoleteException : Exception
     {
         internal LicenseContextPropertyObsoleteException(string message) : base(message)

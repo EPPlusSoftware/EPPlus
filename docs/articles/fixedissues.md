@@ -1,5 +1,5 @@
 # Features / Fixed issues - EPPlus 8
-## Version 8.0.0-rc
+## Version 8.0.1
 ### Features
 * EPPlus 8 will require a license key for commercial licenses.
 * Support for OLE objects (Linked or Embedded files).
@@ -20,15 +20,16 @@
 * Added a new rounding that is more true to Excels precision. You can switch between .Net and Excel precision with ParsingContext.
 * Added IsEmpty() method on ExcelRange. Can test for value, comments, threaded comments and formulas.
 * Override borders in Adjacent cells in BorderAround method.
+* Reduced memory consumption when calculating formulas.
 
-### Fixes since 8.0.0-beta
+### Fixes since 8.0.0-rc
 * Several fixes in the formula calculation, 
 	* Better expression caching
 	* Fixed column filter in GETPIVOTDATA.
 	* Fixed PERCENTRANKS functions.
 	* Fixed array handling in the IF function.
 	* Fixed some issues in the IMAGE function.
-	* Fixed an issue in the COUNTIF function when comparing numbers
+	* Fixed an issue in the COUNTIF function when comparing numbers.
 * Ole objects
 	* Added new properties ProgId, ExternalLink and Image to the ExcelOleObject
 	* Removed Removed ExcelOleObjectParameters.Extension and use extension from the file name.
@@ -46,8 +47,8 @@
 * Ensured SetImage method did not swap width and height when switching between .svg and .png.
 * Inserting and deleting cells now updates chart references. Ensuring charts continue pointing to the moved cells.
 * Fixed numerous issues with array formulas and CalculatedColumnFormulas in tables related to inserting and deleting.
+* Renamed missspelled DigitialSignatures to DigitalSignatures.
  
-
 # Features / Fixed issues - EPPlus 7
 ## Version 7.7.0
 * Reverted System.* and Microsoft.* references to 8.0.x for all target frameworks except .NET 9.

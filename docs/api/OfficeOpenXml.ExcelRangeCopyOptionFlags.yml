@@ -32,7 +32,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRangeCopyOptionFlags
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -75,7 +75,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeFormulas
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeValues
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -143,7 +143,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeStyles
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -177,7 +177,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeComments
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeThreadedComments
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -245,7 +245,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeHyperLinks
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -279,7 +279,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeMergedCells
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -313,7 +313,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeDataValidations
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -347,7 +347,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeConditionalFormatting
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -381,7 +381,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Transpose
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -415,7 +415,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeDrawings
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -449,7 +449,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeTables
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -483,7 +483,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludePivotTables
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -517,7 +517,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeHiddenCells
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -551,7 +551,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -585,7 +585,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeLocalCellPictures
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs
@@ -619,7 +619,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeCopyOptionFlags.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcludeWebPictures
     path: ../src/EPPlus/ExcelRangeCopyOptionFlags.cs

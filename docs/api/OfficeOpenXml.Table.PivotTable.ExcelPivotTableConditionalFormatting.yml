@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormatting.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotTableConditionalFormatting
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormatting.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormatting.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Areas
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormatting.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormatting.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConditionalFormatting
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormatting.cs
@@ -139,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormatting.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormatting.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormatting.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Scope
     path: ../src/EPPlus/Table/PivotTable/PivotArea/ConditionalFormats/ExcelPivotTableConditionalFormatting.cs

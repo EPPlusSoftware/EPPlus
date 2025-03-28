@@ -28,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelVmlDrawingSignatureLine
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -81,7 +81,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetupID
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -118,7 +118,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Signer
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Title
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -192,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Email
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -229,7 +229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SigningInstructions
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -266,7 +266,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowSignDate
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -303,7 +303,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowComments
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -340,7 +340,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: From
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -377,7 +377,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: To
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -414,7 +414,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_PIXEL
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -449,7 +449,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EMU_PER_POINT
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -484,7 +484,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSize
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
@@ -523,7 +523,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetSize
     path: ../src/EPPlus/Drawing/Vml/ExcelVmlDrawingSignatureLine.cs

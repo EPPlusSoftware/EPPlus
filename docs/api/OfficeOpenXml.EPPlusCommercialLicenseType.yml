@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusCommercialLicenseType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EPPlusCommercialLicenseType
     path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusCommercialLicenseType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Subscription
     path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusCommercialLicenseType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Perpetual
     path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
@@ -133,7 +133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusCommercialLicenseType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Package
     path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
@@ -167,7 +167,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusCommercialLicenseType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Custom
     path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
@@ -201,7 +201,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusCommercialLicenseType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PayAsYouGo
     path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
@@ -235,7 +235,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusCommercialLicenseType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Trial
     path: ../src/EPPlus/EPPlusCommercialLicenseType.cs
@@ -269,7 +269,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusCommercialLicenseType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TemporaryKey
     path: ../src/EPPlus/EPPlusCommercialLicenseType.cs

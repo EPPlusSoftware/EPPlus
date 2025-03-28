@@ -17,8 +17,6 @@ items:
   - OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetAddressDimensionAdjusted(System.Int32)
   - OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetEnumerator
   - OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNCells
-  - OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfColsDimension
-  - OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfRowsDimension
   - OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetOffset(System.Int32,System.Int32)
   - OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetOffset(System.Int32,System.Int32,System.Int32,System.Int32)
   - OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetValue(System.Int32,System.Int32)
@@ -44,7 +42,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeInfo
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -97,7 +95,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -132,7 +130,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -186,7 +184,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -225,7 +223,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -267,7 +265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -304,7 +302,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRef
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -343,7 +341,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -382,7 +380,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMulti
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -421,7 +419,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -460,7 +458,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsInMemoryRange
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -499,7 +497,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -538,7 +536,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -577,7 +575,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dimension
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -616,7 +614,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -651,7 +649,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -690,7 +688,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -727,7 +725,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -761,7 +759,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextCell
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -796,7 +794,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -834,7 +832,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -869,7 +867,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -908,7 +906,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Addresses
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -947,7 +945,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -991,7 +989,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -1035,7 +1033,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -1085,7 +1083,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
@@ -1129,89 +1127,29 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddressDimensionAdjusted
     path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 422
+    startLine: 427
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nGet the address adjusted inside the dimension of the worksheet.\n"
+  example: []
   syntax:
     content: public FormulaRangeAddress GetAddressDimensionAdjusted(int index = 0)
     parameters:
     - id: index
       type: System.Int32
+      description: The index of the address.
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+      description: The address adjusted within the dimension of the worksheet.
     content.vb: Public Function GetAddressDimensionAdjusted(index As Integer = 0) As FormulaRangeAddress
   overload: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetAddressDimensionAdjusted*
   implements:
   - OfficeOpenXml.FormulaParsing.IRangeInfo.GetAddressDimensionAdjusted(System.Int32)
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfRowsDimension
-  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfRowsDimension
-  id: GetNumberOfRowsDimension
-  parent: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo
-  langs:
-  - csharp
-  - vb
-  name: GetNumberOfRowsDimension()
-  nameWithType: RangeInfo.GetNumberOfRowsDimension()
-  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfRowsDimension()
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: GetNumberOfRowsDimension
-    path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 447
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Ranges
-  syntax:
-    content: public int GetNumberOfRowsDimension()
-    return:
-      type: System.Int32
-    content.vb: Public Function GetNumberOfRowsDimension As Integer
-  overload: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfRowsDimension*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfColsDimension
-  commentId: M:OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfColsDimension
-  id: GetNumberOfColsDimension
-  parent: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo
-  langs:
-  - csharp
-  - vb
-  name: GetNumberOfColsDimension()
-  nameWithType: RangeInfo.GetNumberOfColsDimension()
-  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfColsDimension()
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-      branch: release/epplus8-rc
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: GetNumberOfColsDimension
-    path: ../src/EPPlus/FormulaParsing/Ranges/RangeInfo.cs
-    startLine: 476
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.FormulaParsing.Ranges
-  syntax:
-    content: public int GetNumberOfColsDimension()
-    return:
-      type: System.Int32
-    content.vb: Public Function GetNumberOfColsDimension As Integer
-  overload: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfColsDimension*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -2521,13 +2459,3 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfRowsDimension*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfRowsDimension
-  name: GetNumberOfRowsDimension
-  nameWithType: RangeInfo.GetNumberOfRowsDimension
-  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfRowsDimension
-- uid: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfColsDimension*
-  commentId: Overload:OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfColsDimension
-  name: GetNumberOfColsDimension
-  nameWithType: RangeInfo.GetNumberOfColsDimension
-  fullName: OfficeOpenXml.FormulaParsing.Ranges.RangeInfo.GetNumberOfColsDimension

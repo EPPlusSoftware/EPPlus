@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/LicenseException.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseNotSetException
     path: ../src/EPPlus/LicenseException.cs

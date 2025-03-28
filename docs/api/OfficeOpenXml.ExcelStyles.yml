@@ -41,7 +41,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelStyles
     path: ../src/EPPlus/ExcelStyles.cs
@@ -89,7 +89,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormats
     path: ../src/EPPlus/ExcelStyles.cs
@@ -122,7 +122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fonts
     path: ../src/EPPlus/ExcelStyles.cs
@@ -155,7 +155,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fills
     path: ../src/EPPlus/ExcelStyles.cs
@@ -188,7 +188,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Borders
     path: ../src/EPPlus/ExcelStyles.cs
@@ -221,7 +221,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellStyleXfs
     path: ../src/EPPlus/ExcelStyles.cs
@@ -254,7 +254,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CellXfs
     path: ../src/EPPlus/ExcelStyles.cs
@@ -287,7 +287,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NamedStyles
     path: ../src/EPPlus/ExcelStyles.cs
@@ -320,7 +320,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableStyles
     path: ../src/EPPlus/ExcelStyles.cs
@@ -353,7 +353,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SlicerStyles
     path: ../src/EPPlus/ExcelStyles.cs
@@ -386,7 +386,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dxfs
     path: ../src/EPPlus/ExcelStyles.cs
@@ -419,7 +419,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateNamedStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -458,7 +458,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateNamedStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -500,7 +500,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreatePivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -539,7 +539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreatePivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -581,7 +581,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreatePivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -623,7 +623,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -662,7 +662,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -704,7 +704,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -746,7 +746,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableAndPivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -785,7 +785,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableAndPivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -827,7 +827,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableAndPivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -869,7 +869,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateTableAndPivotTableStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -911,7 +911,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateSlicerStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -950,7 +950,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateSlicerStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -992,7 +992,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateSlicerStyle
     path: ../src/EPPlus/ExcelStyles.cs
@@ -1034,7 +1034,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelStyles.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateXml
     path: ../src/EPPlus/ExcelStyles.cs

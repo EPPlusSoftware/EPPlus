@@ -627,7 +627,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// This property is obsolete in EPPlus 8, and will be removed in coming versions. 
         /// Please use the <see cref="License"/> property to configure the license.
-        /// See https://epplussoftware.com/developers/licensenotsetexception
+        /// <see href="https://epplussoftware.com/developers/licensenotsetexception" />
         /// </summary>
         [Obsolete("Please use the static 'ExcelPackage.License' property to set the required license information from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licensenotsetexception.")]
         public static LicenseContext? LicenseContext
@@ -647,7 +647,7 @@ namespace OfficeOpenXml
         /// Used to set the license EPPlus uses.
         /// </para>
         /// <para>
-        /// For use within a commercial organization. Requires a license key which can be purchased at https://epplussoftware.com.<br/>
+        /// For use within a commercial organization. Requires a license key which can be purchased at <see href="https://epplussoftware.com" />.<br/>
         /// <see cref="EPPlusLicense.SetCommercial(string)"/>
         /// </para>
         /// <para>

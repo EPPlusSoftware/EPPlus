@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPackageSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CultureSpecificBuildInNumberFormats
     path: ../src/EPPlus/ExcelPackageSettings.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DoGarbageCollectOnDispose
     path: ../src/EPPlus/ExcelPackageSettings.cs
@@ -140,7 +140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TextSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
@@ -177,7 +177,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ImageSettings
     path: ../src/EPPlus/ExcelPackageSettings.cs
@@ -214,7 +214,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyFiltersOnSave
     path: ../src/EPPlus/ExcelPackageSettings.cs
@@ -251,7 +251,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelPackageSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ImageFunctionService
     path: ../src/EPPlus/ExcelPackageSettings.cs

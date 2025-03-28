@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationWithFormula
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs
@@ -95,7 +95,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _workSheetName
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs
@@ -130,7 +130,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs
@@ -171,7 +171,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula.cs

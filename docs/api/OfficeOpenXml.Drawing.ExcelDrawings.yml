@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawings
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -145,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingXml
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -219,7 +219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -251,7 +251,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -295,7 +295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -339,7 +339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -376,7 +376,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -424,7 +424,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -466,7 +466,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddExtendedChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -508,7 +508,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSunburstChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -547,7 +547,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTreemapChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -586,7 +586,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBoxWhiskerChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -625,7 +625,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddHistogramChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -667,7 +667,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddWaterfallChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -706,7 +706,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddFunnelChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -745,7 +745,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRegionMapChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -784,7 +784,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddExtendedChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -829,7 +829,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -877,7 +877,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -934,7 +934,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -991,7 +991,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLineChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1033,7 +1033,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLineChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1078,7 +1078,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAreaChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1120,7 +1120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAreaChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1165,7 +1165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBarChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1207,7 +1207,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBarChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1252,7 +1252,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPieChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1294,7 +1294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPieChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1339,7 +1339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDoughnutChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1384,7 +1384,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDoughnutChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1426,7 +1426,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOfPieChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1468,7 +1468,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOfPieChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1513,7 +1513,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBubbleChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1555,7 +1555,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBubbleChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1600,7 +1600,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddScatterChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1645,7 +1645,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddScatterChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1687,7 +1687,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRadarChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1732,7 +1732,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRadarChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1774,7 +1774,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSurfaceChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1819,7 +1819,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSurfaceChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1861,7 +1861,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1906,7 +1906,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1954,7 +1954,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1999,7 +1999,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2047,7 +2047,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2089,7 +2089,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2134,7 +2134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2180,7 +2180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2229,7 +2229,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2275,7 +2275,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2324,7 +2324,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2367,7 +2367,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2413,7 +2413,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChartFromTemplate
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2455,7 +2455,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChartFromTemplate
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2500,7 +2500,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChartFromTemplate
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2542,7 +2542,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChartFromTemplate
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2587,7 +2587,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTextbox
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2629,7 +2629,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddShape
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2671,7 +2671,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTableSlicer
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2710,7 +2710,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddShape
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2752,7 +2752,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2801,7 +2801,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddButtonControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2840,7 +2840,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddCheckBoxControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2879,7 +2879,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRadioButtonControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2918,7 +2918,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddListBoxControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2957,7 +2957,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDropDownControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2996,7 +2996,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddGroupBoxControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3035,7 +3035,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLabelControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3074,7 +3074,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSpinButtonControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3113,7 +3113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddScrollBarControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3152,7 +3152,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOleObject
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3204,7 +3204,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOleObject
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3253,7 +3253,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOleObject
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3305,7 +3305,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOleObject
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3354,7 +3354,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOleObject
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3412,7 +3412,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOleObject
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3467,7 +3467,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3503,7 +3503,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3539,7 +3539,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3575,7 +3575,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -3607,7 +3607,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs

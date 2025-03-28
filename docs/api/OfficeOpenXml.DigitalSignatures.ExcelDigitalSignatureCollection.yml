@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDigitalSignatureCollection
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>.GetEnumerator
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
@@ -134,7 +134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
@@ -178,7 +178,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
@@ -217,7 +217,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
