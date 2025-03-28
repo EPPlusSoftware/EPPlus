@@ -60,7 +60,7 @@ namespace OfficeOpenXml.DigitalSignatures
         /// <summary>
         /// Reason for signing the document-
         /// </summary>
-        public string PurposeForSigning = "";
+        public string PurposeForSigning { get; set; } = "";
         /// <summary>
         /// Commitment Type.
         /// </summary>

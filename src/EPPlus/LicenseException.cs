@@ -27,6 +27,13 @@ namespace OfficeOpenXml
 
         }
     }
+    public class LicenseContextPropertyObsoleteException : Exception
+    {
+        internal LicenseContextPropertyObsoleteException(string message) : base(message)
+        {
+
+        }
+    }
     /// <summary>
     /// An exception thrown when the license key cannot be validated.
     /// </summary>
