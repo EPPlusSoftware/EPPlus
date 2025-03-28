@@ -208,6 +208,8 @@
     name: JsonTableExportSettings
   - uid: OfficeOpenXml.LicenseContext
     name: LicenseContext
+  - uid: OfficeOpenXml.LicenseContextPropertyObsoleteException
+    name: LicenseContextPropertyObsoleteException
   - uid: OfficeOpenXml.LicenseInformationException
     name: LicenseInformationException
   - uid: OfficeOpenXml.LicenseNotSetException

@@ -25,7 +25,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SignatureLineCollection
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -73,7 +73,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -117,7 +117,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetSignatureLineStamps
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -151,7 +151,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetSignatureLines
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -185,7 +185,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetSignatureLineById
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -260,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -292,7 +292,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -330,7 +330,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -362,7 +362,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
@@ -397,7 +397,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStamp
     path: ../src/EPPlus/Drawing/SignatureLine/SignatureLineCollection.cs

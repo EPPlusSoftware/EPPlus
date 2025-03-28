@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingGreaterThanOrEqual.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelConditionalFormattingGreaterThanOrEqual
     path: ../src/EPPlus/ConditionalFormatting/Contracts/IExcelConditionalFormattingGreaterThanOrEqual.cs

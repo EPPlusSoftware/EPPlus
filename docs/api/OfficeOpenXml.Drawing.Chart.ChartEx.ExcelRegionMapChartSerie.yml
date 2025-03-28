@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRegionMapChartSerie
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -90,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Attribution
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -127,7 +127,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Region
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -164,7 +164,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Language
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -201,7 +201,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ProjectionType
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -238,7 +238,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ViewedRegionType
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -275,7 +275,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Colors
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -312,7 +312,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RegionLableLayout
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
@@ -349,7 +349,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColorBy
     path: ../src/EPPlus/Drawing/Chart/ChartEx/ExcelRegionMapChartSerie.cs

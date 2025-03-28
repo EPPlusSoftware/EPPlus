@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RichData/RichDataReferenceValueError.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RichDataReferenceValueError
     path: ../src/EPPlus/RichData/RichDataReferenceValueError.cs
@@ -70,7 +70,7 @@ items:
   source:
     remote:
       path: src/EPPlus/RichData/RichDataReferenceValueError.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ReferenceType
     path: ../src/EPPlus/RichData/RichDataReferenceValueError.cs

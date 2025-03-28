@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelTextSettings
     path: ../src/EPPlus/ExcelTextSettings.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrimaryTextMeasurer
     path: ../src/EPPlus/ExcelTextSettings.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FallbackTextMeasurer
     path: ../src/EPPlus/ExcelTextSettings.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutofitScaleFactor
     path: ../src/EPPlus/ExcelTextSettings.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: textLengthThreshold
     path: ../src/EPPlus/ExcelTextSettings.cs
@@ -208,7 +208,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutofitRows
     path: ../src/EPPlus/ExcelTextSettings.cs
@@ -241,7 +241,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelTextSettings.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GenericTextMeasurer
     path: ../src/EPPlus/ExcelTextSettings.cs

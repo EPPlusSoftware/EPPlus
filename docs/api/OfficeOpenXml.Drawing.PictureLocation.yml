@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/PictureLocation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PictureLocation
     path: ../src/EPPlus/Drawing/Enums/PictureLocation.cs
@@ -62,7 +62,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/PictureLocation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: None
     path: ../src/EPPlus/Drawing/Enums/PictureLocation.cs
@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/PictureLocation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Embed
     path: ../src/EPPlus/Drawing/Enums/PictureLocation.cs
@@ -130,7 +130,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/PictureLocation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Link
     path: ../src/EPPlus/Drawing/Enums/PictureLocation.cs
@@ -164,7 +164,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/PictureLocation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LinkAndEmbed
     path: ../src/EPPlus/Drawing/Enums/PictureLocation.cs

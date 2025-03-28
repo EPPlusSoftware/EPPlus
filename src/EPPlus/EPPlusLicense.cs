@@ -16,7 +16,7 @@ namespace OfficeOpenXml
     {
         private static ExcelPackageConfiguration _configuration = new ExcelPackageConfiguration();
         static bool _licenseSet = false;
-        internal const string _versionDate = "2025-02-14";
+        internal const string _versionDate = "2025-03-28";
         /// <summary>
         /// The license key used for a commercial license.
         /// </summary>
@@ -38,7 +38,7 @@ namespace OfficeOpenXml
         /// </summary>
         public EPPlusLicenseType? LicenseType { get; private set; }
         /// <summary>
-        /// License information from the license key. If no license key has been set, this propery contains null.
+        /// License information from the license key. If no license key has been set, this property contains null.
         /// </summary>
         public EPPlusLicenseInfo LicenseInfo { get; internal set; }
         /// <summary>

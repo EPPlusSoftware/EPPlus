@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConditionScope
     path: ../src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Data
     path: ../src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Field
     path: ../src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/enums/ConditionScope.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Selection
     path: ../src/EPPlus/Table/PivotTable/enums/ConditionScope.cs

@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImageBase.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelImageReadOnly
     path: ../src/EPPlus/Drawing/ExcelImageBase.cs
@@ -64,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImageBase.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasImage
     path: ../src/EPPlus/Drawing/ExcelImageBase.cs
@@ -101,7 +101,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImageBase.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Drawing/ExcelImageBase.cs
@@ -138,7 +138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImageBase.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ImageBytes
     path: ../src/EPPlus/Drawing/ExcelImageBase.cs
@@ -175,7 +175,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImageBase.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bounds
     path: ../src/EPPlus/Drawing/ExcelImageBase.cs

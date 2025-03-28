@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelScatterChartSerie
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -96,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -135,7 +135,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasDataLabel
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -174,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Smooth
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Marker
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -248,7 +248,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasMarker
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
@@ -283,7 +283,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataPoints
     path: ../src/EPPlus/Drawing/Chart/ExcelScatterChartSerie.cs

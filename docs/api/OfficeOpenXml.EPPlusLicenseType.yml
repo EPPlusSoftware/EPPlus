@@ -18,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicenseType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EPPlusLicenseType
     path: ../src/EPPlus/EPPlusLicenseType.cs
@@ -51,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicenseType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Commercial
     path: ../src/EPPlus/EPPlusLicenseType.cs
@@ -85,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicenseType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NonCommercialPersonal
     path: ../src/EPPlus/EPPlusLicenseType.cs
@@ -119,7 +119,7 @@ items:
   source:
     remote:
       path: src/EPPlus/EPPlusLicenseType.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NonCommercialOrganization
     path: ../src/EPPlus/EPPlusLicenseType.cs

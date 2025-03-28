@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IFvProvider.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IFvProvider
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IFvProvider.cs
@@ -49,7 +49,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IFvProvider.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetFv
     path: ../src/EPPlus/FormulaParsing/Excel/Functions/Finance/Implementations/IFvProvider.cs

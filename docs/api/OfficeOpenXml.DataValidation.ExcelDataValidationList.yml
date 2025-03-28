@@ -19,7 +19,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationList.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationList
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationList.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowsOperator
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
@@ -129,7 +129,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationList.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
@@ -171,7 +171,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationList.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HideDropDown
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs
@@ -211,7 +211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationList.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidationList.cs

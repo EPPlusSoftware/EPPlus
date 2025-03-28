@@ -35,7 +35,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidation
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -129,7 +129,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -168,7 +168,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -207,7 +207,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Uid
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -246,7 +246,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -285,7 +285,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ValidationType
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -326,7 +326,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorStyle
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -365,7 +365,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ImeMode
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -404,7 +404,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowBlank
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -443,7 +443,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowInputMessage
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -482,7 +482,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ShowErrorMessage
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -521,7 +521,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ErrorTitle
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -560,7 +560,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Error
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -599,7 +599,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PromptTitle
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -638,7 +638,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Prompt
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -677,7 +677,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowsOperator
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -718,7 +718,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -758,7 +758,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: As
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -797,7 +797,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Operator
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs
@@ -834,7 +834,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidation.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OnFormulaChanged
     path: ../src/EPPlus/DataValidation/ExcelDataValidation.cs

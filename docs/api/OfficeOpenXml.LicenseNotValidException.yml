@@ -15,11 +15,11 @@ items:
   source:
     remote:
       path: src/EPPlus/LicenseException.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LicenseNotValidException
     path: ../src/EPPlus/LicenseException.cs
-    startLine: 42
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml

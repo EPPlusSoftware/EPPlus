@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPosition.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPosition
     path: ../src/EPPlus/Drawing/ExcelPosition.cs
@@ -68,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPosition.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Load
     path: ../src/EPPlus/Drawing/ExcelPosition.cs
@@ -103,7 +103,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelPosition.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateXml
     path: ../src/EPPlus/Drawing/ExcelPosition.cs

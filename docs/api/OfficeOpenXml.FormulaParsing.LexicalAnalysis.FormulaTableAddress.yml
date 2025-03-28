@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaTableAddress
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
@@ -123,7 +123,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
@@ -162,7 +162,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TableName
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
@@ -195,7 +195,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnName1
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
@@ -228,7 +228,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ColumnName2
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TablePart1
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
@@ -294,7 +294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: TablePart2
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
@@ -327,7 +327,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clone
     path: ../src/EPPlus/FormulaParsing/LexicalAnalysis/FormulaAddress.cs

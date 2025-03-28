@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSensibilityLabelCollection
     path: ../src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
@@ -63,7 +63,7 @@ items:
   source:
     remote:
       path: src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetActiveLabelById
     path: ../src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
@@ -99,7 +99,7 @@ items:
   source:
     remote:
       path: src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetActiveLabelById
     path: ../src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
@@ -144,7 +144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetActiveLabelByName
     path: ../src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
@@ -180,7 +180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Labels
     path: ../src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
@@ -217,7 +217,7 @@ items:
   source:
     remote:
       path: src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ProtectionInformation
     path: ../src/EPPlus/SensitivityLabels/ExcelSensibilityLabelCollection.cs

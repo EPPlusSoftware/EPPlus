@@ -40,7 +40,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EpplusExcelExternalRangeInfo
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -93,7 +93,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -101,7 +101,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
-  summary: "\nThe constructor\n"
+  summary: "\nThe constructor \n"
   example: []
   syntax:
     content: public EpplusExcelExternalRangeInfo(int externalReferenceIx, int worksheetIx, int fromRow, int fromCol, int toRow, int toCol, ParsingContext ctx)
@@ -147,7 +147,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -189,7 +189,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetNCells
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -226,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRef
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -265,7 +265,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -304,7 +304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsMulti
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -343,7 +343,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Size
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -382,7 +382,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsInMemoryRange
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -421,7 +421,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -460,7 +460,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -499,7 +499,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dimension
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -538,7 +538,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -573,7 +573,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -610,7 +610,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -647,7 +647,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -681,7 +681,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NextCell
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -716,7 +716,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -754,7 +754,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -786,7 +786,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -825,7 +825,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Addresses
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -864,7 +864,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -908,7 +908,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -952,7 +952,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetOffset
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -1002,7 +1002,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsHidden
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
@@ -1046,21 +1046,25 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-      branch: release/epplus8-rc
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetAddressDimensionAdjusted
     path: ../src/EPPlus/FormulaParsing/Ranges/EpplusExcelExternalRangeInfo.cs
-    startLine: 364
+    startLine: 369
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.Ranges
+  summary: "\nGet the address adjusted within the dimension of the worksheet.\n"
+  example: []
   syntax:
     content: public FormulaRangeAddress GetAddressDimensionAdjusted(int index)
     parameters:
     - id: index
       type: System.Int32
+      description: The address index.
     return:
       type: OfficeOpenXml.FormulaParsing.LexicalAnalysis.FormulaRangeAddress
+      description: The adjusted address.
     content.vb: Public Function GetAddressDimensionAdjusted(index As Integer) As FormulaRangeAddress
   overload: OfficeOpenXml.FormulaParsing.Ranges.EpplusExcelExternalRangeInfo.GetAddressDimensionAdjusted*
   implements:
