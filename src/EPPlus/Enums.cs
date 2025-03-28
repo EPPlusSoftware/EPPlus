@@ -170,10 +170,10 @@ namespace OfficeOpenXml
     }
     /// <summary>
     /// Obsolete: Specified the license EPPlus is used in versions prior to EPPlus 8.
-    /// Licensetype must be specified in order to use the library
+    /// License type must be specified in order to use the library
     /// <seealso cref="ExcelPackage.LicenseContext"/>
     /// </summary>
-    [Obsolete("Used in version Prior to EPPlus 8. Will be removed in coming versions.d")]
+    [Obsolete("Used in versions prior to EPPlus 8. Will be removed in coming versions.")]
     public enum LicenseContext
     {
         /// <summary>

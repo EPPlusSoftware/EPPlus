@@ -894,14 +894,6 @@ namespace OfficeOpenXml
         internal ExcelSignatureLineStamp GetSignatureLineStamp(Guid id)
         {
             return _signatureLinesWorkbook[id];
-            //foreach (var sig in _signatures)
-            //{
-            //    if (sig.SignatureLine != null && sig.SignatureLine.SetupID.Equals(id))
-            //    {
-            //        return sig;
-            //    }
-            //}
-            //return null;
         }
 
         internal ExcelDigitalSignatureCollection _digSig = null;
@@ -909,7 +901,7 @@ namespace OfficeOpenXml
         /// <summary>
         /// A collection of digital signatures for the workbook
         /// </summary>
-        public ExcelDigitalSignatureCollection DigitialSignatures
+        public ExcelDigitalSignatureCollection DigitalSignatures
         {
             get
             {
@@ -1709,7 +1701,7 @@ namespace OfficeOpenXml
             stream.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)compressionLevel;
             stream.PutNextEntry(fileName);
 
-            var signature = DigitialSignatures.GetSignatureByFileName(fileName);
+            var signature = DigitalSignatures.GetSignatureByFileName(fileName);
             signature.Save();
 
             var b = ((MemoryStream)signature._part.GetStream()).ToArray();
