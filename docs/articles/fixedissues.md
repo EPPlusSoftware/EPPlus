@@ -1,28 +1,27 @@
 # Features / Fixed issues - EPPlus 8
 ## Version 8.0.1
+### Important information
+EPPlus 8 will require a license key for commercial licenses.
 ### Features
-* EPPlus 8 will require a license key for commercial licenses.
 * Support for OLE objects (Linked or Embedded files).
 * Support for digital signing workbooks and signature lines.
 * In-cell pictures / support for the IMAGE function.
 * Sensitivity Label API to integrate with MIP (Microsoft Information Protection SDK).
 
 ### Minor features
-* Autofit columns optimaiztion.
+* Autofit columns optimization.
 * The Range Copy method now supports fills and the option to copy visible cells only.
-* EPPlus now rounds decimal numbers more true to Excels precision.
+* Reduced memory consumption when calculating formulas.
 * Added ExcelRange.IsEmpty method.
 * Shape adjustments points support.
 * ExcelRangeBase.BorderAround now override borders for adjacent cells.
 * InsertRange now returnes the new inserted range.
-* In-cell checkboxes now renders in the HTML export.
+* In-cell checkboxes now render in the HTML export.
 * Improved API for Tables to access data via column names.
-* Added a new rounding that is more true to Excels precision. You can switch between .Net and Excel precision with ParsingContext.
 * Added IsEmpty() method on ExcelRange. Can test for value, comments, threaded comments and formulas.
 * Override borders in Adjacent cells in BorderAround method.
-* Reduced memory consumption when calculating formulas.
 
-### Fixes since 8.0.0-rc
+### Fixes since 8.0.0-beta
 * Several fixes in the formula calculation, 
 	* Better expression caching
 	* Fixed column filter in GETPIVOTDATA.
