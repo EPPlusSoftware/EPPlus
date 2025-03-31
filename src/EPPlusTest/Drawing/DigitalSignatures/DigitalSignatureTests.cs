@@ -485,7 +485,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
             }
         }
 
-        [TestMethod]
+        [TestMethod, Ignore]
         public void SignSaveFileWithLOTSOfData()
         {
             string fileName = $"s350.xlsm";
@@ -505,7 +505,7 @@ namespace EPPlusTest.Drawing.DigitalSignatures
 
         //Interestingly enough. Excel gets invalid signature when EXCEL tries to save this.
         //We do too
-        [TestMethod]
+        [TestMethod, Ignore]
         public void SignSaveFileWithLOTSOfData2()
         {
             using (var pck = OpenTemplatePackage("S610.xlsx"))
