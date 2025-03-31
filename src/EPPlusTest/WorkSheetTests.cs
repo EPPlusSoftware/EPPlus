@@ -1631,7 +1631,14 @@ namespace EPPlusTest
         [TestMethod]
         public void HeaderFooterReadFromXlsx()
         {
+            using var p = OpenTemplatePackage("HheaderFooterTest.xlsx");
+            var ws = p.Workbook.Worksheets[0];
 
+            var l = ws.HeaderFooter.OddHeader.LeftAlignedText;
+            var c = ws.HeaderFooter.OddHeader.CenteredText;
+            var r = ws.HeaderFooter.OddHeader.RightAlignedText;
+
+            var l2 = ws.HeaderFooter.OddHeader.LeftAligned.WriteHeaderFooterFormat();
         }
         [TestMethod, Ignore]
         public void NamedStyles()

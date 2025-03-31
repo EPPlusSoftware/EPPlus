@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography.Pkcs;
 using System.Text;
+using System.Xml;
 namespace OfficeOpenXml.Style.HeaderFooterTextFormat
 {
     public class HFTextCollection : IEnumerable<HFText>
@@ -144,14 +145,16 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             HFText temp = new HFText();
             bool quoteTag = false;
             bool stop = false;
+            bool writeFormatCode = false;
             int i = 0;
             while (i < hfText.Length)
             {
-                if (hfText[i] == '&')
+                if (hfText[i] == '&' && !writeFormatCode)
                 {
                     i++;
                     switch (hfText[i])
                     {
+                        //Text Field
                         case 'L':
                             if (lane != Lanes.Left) stop = true;
                             break;
@@ -161,6 +164,41 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                         case 'R':
                             if (lane != Lanes.Right) stop = true;
                             break;
+                        //Constants
+                        case 'P':
+                            //Parse pagenumber se doc..
+                            temp.FormatCode = HFFormattingCodes.PageNumber;
+                            writeFormatCode = true;
+                            break;
+                        case 'N':
+                            temp.FormatCode = HFFormattingCodes.NumberOfPages;
+                            writeFormatCode = true;
+                            break;
+                        case 'A':
+                            temp.FormatCode = HFFormattingCodes.SheetName;
+                            writeFormatCode = true;
+                            break;
+                        case 'Z':
+                            temp.FormatCode = HFFormattingCodes.FilePath;
+                            writeFormatCode = true;
+                            break;
+                        case 'F':
+                            temp.FormatCode = HFFormattingCodes.FileName;
+                            writeFormatCode = true;
+                            break;
+                        case 'D':
+                            temp.FormatCode = HFFormattingCodes.CurrentDate;
+                            writeFormatCode = true;
+                            break;
+                        case 'T':
+                            temp.FormatCode = HFFormattingCodes.CurrentTime;
+                            writeFormatCode = true;
+                            break;
+                        case 'G':
+                            temp.FormatCode = HFFormattingCodes.Image;
+                            writeFormatCode = true;
+                            break;
+                        //Text Formating
                         case 'B':
                             temp.Bold = !temp.Bold;
                             break;
@@ -181,8 +219,8 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                             eThemeSchemeColor? theme = null;
                             double? tint = null;
                             temp.Color = GetColor(color, ref theme, ref tint );
-                            temp.theme = theme;
-                            temp.tint = tint;
+                            temp.Theme = theme;
+                            temp.Tint = tint;
                             i += 6;
                             break;
                         case 'O':
@@ -246,21 +284,24 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                 }
                 else
                 {
-                    while (true)
+                    if (!writeFormatCode)
                     {
-                        temp.Text += hfText[i];
-                        i++;
-                        if (i >= hfText.Length)
+                        while (true)
                         {
-                            break;
-                        }
-                        else if (hfText[i] == '&' && hfText[i + 1] == '&')
-                        {
+                            temp.Text += hfText[i];
                             i++;
-                        }
-                        else if (hfText[i] == '&' && hfText[i + 1] != '&')
-                        {
-                            break;
+                            if (i >= hfText.Length)
+                            {
+                                break;
+                            }
+                            else if (hfText[i] == '&' && hfText[i + 1] == '&')
+                            {
+                                i++;
+                            }
+                            else if (hfText[i] == '&' && hfText[i + 1] != '&')
+                            {
+                                break;
+                            }
                         }
                     }
                     HFText newText = new HFText
@@ -272,16 +313,20 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                         DoubleUnderline = temp.DoubleUnderline,
                         Shadow = temp.Shadow,
                         Color = temp.Color,
-                        theme = temp.theme,
-                        tint = temp.tint,
+                        Theme = temp.Theme,
+                        Tint = temp.Tint,
                         Outline = temp.Outline,
                         Striketrough = temp.Striketrough,
                         SuperScript = temp.SuperScript,
                         SubScript = temp.SubScript,
                         FontSize = temp.FontSize,
                         FontName = temp.FontName,
+                        FormatCode = temp.FormatCode,
                     };
                     _textCollection.Add(newText);
+                    writeFormatCode = false;
+                    temp.FormatCode = HFFormattingCodes.Text;
+                    temp.Text = "";
                     if (quoteTag)
                     {
                         temp = new HFText();
@@ -290,16 +335,42 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                 }
                 if (stop) break;
             }
+            if (writeFormatCode)
+            {
+                HFText newText = new HFText
+                {
+                    Text = temp.Text,
+                    Bold = temp.Bold,
+                    Italic = temp.Italic,
+                    Underline = temp.Underline,
+                    DoubleUnderline = temp.DoubleUnderline,
+                    Shadow = temp.Shadow,
+                    Color = temp.Color,
+                    Theme = temp.Theme,
+                    Tint = temp.Tint,
+                    Outline = temp.Outline,
+                    Striketrough = temp.Striketrough,
+                    SuperScript = temp.SuperScript,
+                    SubScript = temp.SubScript,
+                    FontSize = temp.FontSize,
+                    FontName = temp.FontName,
+                    FormatCode = temp.FormatCode,
+                };
+                _textCollection.Add(newText);
+            }
         }
 
         internal string WriteHeaderFooterFormat()
         {
-            string hfstring = "";
-            HFText prev = null;
-            foreach (HFText text in _textCollection)
+            string hfstring = _textCollection[0].Text;
+            for(int i = 1; i < _textCollection.Count; i++)
             {
-                hfstring += WriteHeaderFooter2(text, prev);
+                hfstring += WriteHeaderFooter2(_textCollection[i], _textCollection[i - 1]);
             }
+            //foreach (HFText text in _textCollection)
+            //{
+            //    hfstring += WriteHeaderFooter2(text, prev);
+            //}
             return hfstring;
         }
 
@@ -310,8 +381,9 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             {
                 var fontParts = new List<string> { current.FontName ?? "-" };
 
-                if (current.Bold) fontParts.Add("Bold");
-                if (current.Italic) fontParts.Add("Italic");
+                if (current.Bold && current.Italic) fontParts.Add("Bold Italic");
+                else if (current.Bold) fontParts.Add("Bold");
+                else if (current.Italic) fontParts.Add("Italic");
 
                 if (!current.Bold && !current.Italic)
                     fontParts.Add("Regular");
@@ -319,19 +391,78 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                 hfstring += $"&\"{string.Join(",", fontParts.ToArray())}\"";
             }
 
-            if (current.Underline) hfstring += "&U";
-            if (current.DoubleUnderline) hfstring += "&E";
+            if (current.Underline && !prev.Underline) hfstring += "&U";
+            else if(!current.Underline && prev.Underline) hfstring += "&U";
+
+            if (current.DoubleUnderline && !prev.DoubleUnderline) hfstring += "&E";
+            else if(!current.DoubleUnderline && prev.DoubleUnderline) hfstring += "&E";
+
+
             if (current.Shadow) hfstring += "&H";
 
-            if (current.theme != null) hfstring += $"&K{((int)current.theme).ToString("00")}{(current.tint >= 0 ? "+" : "-")}{Math.Abs((double)current.tint*100).ToString("000")}";
-            else if (current.Color != Color.Empty) hfstring += $"&K{current.Color.R:X2}{current.Color.G:X2}{current.Color.B:X2}";
+            if (current.GetThemeOrColorAsString() != prev.GetThemeOrColorAsString()) hfstring += current.GetThemeOrColorAsString();
 
             if (current.Outline) hfstring += "&O";
+
             if (current.Striketrough) hfstring += "&S";
+
             if (current.SuperScript) hfstring += "&X";
+
             if (current.SubScript) hfstring += "&Y";
-            if (current.FontSize != null) hfstring += "&" + current.FontSize + " ";
-            hfstring += current.Text;
+
+            if (current.FontSize != null && prev.FontSize != null)
+            {
+                if (current.FontSize != prev.FontSize)
+                {
+                    hfstring += "&" + current.FontSize;
+                    if (char.IsDigit(current.Text[0]))
+                    {
+                        hfstring += " ";
+                    }
+                }
+            }
+            else if (current.FontSize != null && prev.FontSize == null)
+            {
+                hfstring += "&" + current.FontSize;
+                if (char.IsDigit( current.Text[0]))
+                {
+                    hfstring += " ";
+                }
+            }
+
+            switch (current.FormatCode)
+            {
+                case HFFormattingCodes.PageNumber:
+                    hfstring += "&P";
+                    break;
+                case HFFormattingCodes.NumberOfPages:
+                    hfstring += "&N";
+                    break;
+                case HFFormattingCodes.SheetName:
+                    hfstring += "&A";
+                    break;
+                case HFFormattingCodes.FilePath:
+                    hfstring += "&Z";
+                    break;
+                case HFFormattingCodes.FileName:
+                    hfstring += "&F";
+                    break;
+                case HFFormattingCodes.CurrentDate:
+                    hfstring += "&D";
+                    break;
+                case HFFormattingCodes.CurrentTime:
+                    hfstring += "&T";
+                    break;
+                case HFFormattingCodes.Image:
+                    hfstring += "&G";
+                    if (current.Text == "&") hfstring += "&";
+                    hfstring += current.Text;
+                    break;
+                case HFFormattingCodes.Text:
+                    if (current.Text == "&") hfstring += "&";
+                    hfstring += current.Text;
+                    break;
+            }
             return hfstring;
         }
 
