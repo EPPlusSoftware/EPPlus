@@ -19,7 +19,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 
         public override CompileResult Compile()
         {
-            if (_addressInfo.FromRow < 1)
+            if (_addressInfo.FromRow < 1 || _addressInfo.FromCol < 1 ||
+                _addressInfo.ToRow < 1 || _addressInfo.ToCol < 1)
             {
                 return new CompileResult(eErrorType.Ref);
             }
