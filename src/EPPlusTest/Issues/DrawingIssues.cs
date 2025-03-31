@@ -110,12 +110,6 @@ namespace EPPlusTest.Issues
         {
             using var package = OpenPackage("CommentIssuePosition.xlsx", true);
             var ws = package.Workbook.Worksheets.Add("Sheet1");
-            //Add Comments using the range class
-            //var comment = ws.Cells["A3"].AddComment("Jan Källman:\r\n", "JK");
-            //comment.Font.Bold = true;
-            //var rt = comment.RichText.Add("This column contains the extensions.");
-            //rt.Bold = false;
-            //comment.AutoFit = true;
 
             //Add a comment using the Comment collection
             var comment = ws.Comments.Add(ws.Cells["B3"], "This column contains the size of the files.", "JK");
@@ -126,6 +120,8 @@ namespace EPPlusTest.Issues
             comment.To.Row = 8;
             comment.BackgroundColor = Color.White;
             comment.RichText.Add("\r\nTo format the numbers use the Numberformat-property like:\r\n");
+
+            Assert.AreEqual("7, 15, 3, 2, 16, 31, 8, 1", comment.Anchor);
 
             ws.Cells["B3:B42"].Style.Numberformat.Format = "#,##0";
 
