@@ -53,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             if (index == 0)
             {
-                IEnumerable<int> matchIndexes = GetMatchingIndiciesFromArguments(args);
+                IEnumerable<int> matchIndexes = GetMatchingIndiciesFromArguments(1, args);
                 addresses = EnqueueMatchingAddresses(args[0].Address, matchIndexes);
             }
         }

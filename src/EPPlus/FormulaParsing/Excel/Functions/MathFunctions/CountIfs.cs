@@ -36,11 +36,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            if (argumentIndex == 0)
-            {
-                return FunctionParameterInformation.AdjustParameterAddress;
-            }
-            if (argumentIndex % 2 == 0)
+            if (argumentIndex % 2 == 1)
             {
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
@@ -50,7 +46,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             if (index == 0)
             {
-                IEnumerable<int> matchIndexes = GetMatchingIndiciesFromArguments(args);
+                IEnumerable<int> matchIndexes = GetMatchingIndiciesFromArguments(0, args);
                 addresses = EnqueueMatchingAddresses(args[0].Address, matchIndexes);
             }
         }

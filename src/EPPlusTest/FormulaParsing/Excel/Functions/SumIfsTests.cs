@@ -239,7 +239,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions
             }
         }
         [TestMethod]
-        public void SumIfsShouldSumIfCircularReferenceOusideOfInCriteriaNotEquals()
+        public void SumIfsShouldSumIfCircularReferenceOutsideOfInCriteriaNotEquals()
         {
             using (var package = new ExcelPackage())
             {

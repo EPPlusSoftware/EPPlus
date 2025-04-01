@@ -139,12 +139,12 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
             return addresses;
         }
-        protected IEnumerable<int> GetMatchingIndiciesFromArguments(IList<CompileResult> args)
+        protected IEnumerable<int> GetMatchingIndiciesFromArguments(int argStartIx, IList<CompileResult> args)
         {
             //Return the addresses matching the criterias in the queu
             var argRanges = new List<RangeOrValue>();
             var criterias = new List<object>();
-            for (var ix = 1; ix < 31; ix += 2)
+            for (var ix = argStartIx; ix < 31; ix += 2)
             {
                 if (args.Count <= ix) break;
                 var arg = args[ix];
