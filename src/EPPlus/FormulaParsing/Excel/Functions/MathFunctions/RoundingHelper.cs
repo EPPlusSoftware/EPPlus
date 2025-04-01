@@ -11,8 +11,6 @@
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -145,7 +143,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 
         internal static double RoundToSignificantFig(double number, double nSignificantFigures)
         {
-            return RoundToSignificantFig(number, nSignificantFigures, true);
+            return GetSignificantFigures(number, (int)nSignificantFigures);//RoundToSignificantFig(number, nSignificantFigures, true);
         }
 
         internal static double RoundToSignificantFig(double number, double nSignificantFigures, bool awayFromMidpoint)
@@ -181,6 +179,22 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             double divideBy = System.Math.Pow(10, nFiguresDecimalPart + nLeadingZeroDecimals);
             var result = intVersion / divideBy;
             return isNegative ? result * -1 : result;
+        }
+
+        internal static double GetSignificantFigures(double number, int numberOfSignificantFigures)
+        {
+            if (number == 0.0) return 0.0;
+            else
+            {
+                double wholeNumberPart = Math.Floor(Math.Log10(Math.Abs(number)));
+                double adjust = Math.Pow(10, wholeNumberPart);
+                double product = adjust * Math.Round(number / adjust, numberOfSignificantFigures, MidpointRounding.AwayFromZero);
+                if ((int)wholeNumberPart >= numberOfSignificantFigures)
+                {
+                    return Math.Round(product, 0, MidpointRounding.AwayFromZero);
+                }
+                return (double)Decimal.Round((Decimal)product, Math.Min(numberOfSignificantFigures - (int)wholeNumberPart,28), MidpointRounding.AwayFromZero);
+            }
         }
 
         /// <summary>

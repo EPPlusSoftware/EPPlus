@@ -66,6 +66,26 @@ namespace OfficeOpenXml.Sorting
             return descending;
         }
 
+        private ExcelRangeBase GetSortRange(ExcelRangeBase range, ExcelWorksheet ws)
+        {
+            if (ws.Dimension == null) return null;
+            var dimension = ws.Dimension;
+            var fromRow = range._fromRow < dimension.Start.Row ? dimension.Start.Row : range._fromRow;
+            var toRow = range._toRow > dimension.End.Row ? dimension.End.Row : range._toRow;
+            return ws.Cells[fromRow, range._fromCol, toRow, range._toCol];
+        }
+
+        private void ClearRowsAfter(ExcelRangeBase range, int nRows)
+        {
+            var startCol = range._fromCol;
+            var endCol = range._toCol;
+            var ws = range.Worksheet;
+            for(var row = range.Start.Row + nRows; row <= range.End.Row; row++)
+            {
+                ws.Cells[row, startCol, row, endCol].Clear();
+            }
+        }
+
         public void Sort(
             ExcelRangeBase range, 
             int[] columns, 
@@ -83,12 +103,16 @@ namespace OfficeOpenXml.Sorting
             {
                 descending = CreateDefaultDescendingArray(columns);
             }
-            var sortItems = SortItemFactory.Create(range);
+            var ws = range.Worksheet;
+            var r = GetSortRange(range, ws);
+            if (r == null) return;
+            var sortItems = SortItemFactory.Create(r);
             var comp = new EPPlusSortComparer(columns, descending, customLists, culture ?? CultureInfo.CurrentCulture, compareOptions);
             sortItems.Sort(comp);
-            var wsd = new RangeWorksheetData(range);
+            var wsd = new RangeWorksheetData(r);
 
-            ApplySortedRange(range, sortItems, wsd);
+            ApplySortedRange(r, sortItems, wsd);
+            ClearRowsAfter(r, sortItems.Count);
         }
 
         public void SortLeftToRight(
@@ -121,6 +145,11 @@ namespace OfficeOpenXml.Sorting
         {
             //Sort the values and styles.
             var nColumnsInRange = range._toCol - range._fromCol + 1;
+            var dim = range.Worksheet.Dimension;
+            if(dim != null && nColumnsInRange > dim.End.Column)
+            {
+                nColumnsInRange = dim.End.Column;
+            }
             _worksheet._values.Clear(range._fromRow, range._fromCol, range._toRow - range._fromRow + 1, nColumnsInRange);
             for (var r = 0; r < sortItems.Count; r++)
             {
@@ -128,7 +157,6 @@ namespace OfficeOpenXml.Sorting
                 {
                     var row = range._fromRow + r;
                     var col = range._fromCol + c;
-                    //_worksheet._values.SetValueSpecial(row, col, SortSetValue, l[r].Items[c]);
                     _worksheet._values.SetValue(row, col, sortItems[r].Items[c]);
                     var addr = ExcelCellBase.GetAddress(sortItems[r].Row, range._fromCol + c);
                     //Move flags
@@ -137,14 +165,24 @@ namespace OfficeOpenXml.Sorting
                     HandleMetadata(wsd, row, col, addr);
 
                     //Move formulas
-                    HandleFormula(wsd, row, col, addr, sortItems[r].Row, col);
+                    HandleFormula(wsd, row, col, addr, sortItems[r].Row, col, range);
 
                     //Move hyperlinks
                     HandleHyperlink(wsd, row, col, addr);
 
                     //Move comments
                     HandleComment(wsd, row, col, addr);
+
+                    //Move threaded comments
+                    HandleThreadedComment(wsd, row, col, addr);
                 }
+            }
+            if(sortItems.Count < range.Rows)
+            {
+                var delFromRow = range._fromRow + sortItems.Count;
+                //Clear comments in the store, otherwise the clear of the range might delete comments that have been moved in the sort operation.
+                _worksheet._commentsStore.Delete(delFromRow, range._fromCol, range._toRow - delFromRow+1, nColumnsInRange, false);
+                _worksheet._threadedCommentsStore.Delete(delFromRow, range._fromCol, range._toRow - delFromRow + 1, nColumnsInRange, false);
             }
         }
 
@@ -152,6 +190,12 @@ namespace OfficeOpenXml.Sorting
         {
             //Sort the values and styles.
             var nRowsInRange = range._toRow - range._fromRow + 1;
+            var dim = range.Worksheet.Dimension;
+            if (dim != null && nRowsInRange > dim.End.Row)
+            {
+                nRowsInRange = dim.End.Row;
+            }
+
             _worksheet._values.Clear(range._fromRow, range._fromCol, range._toRow - range._fromRow + 1, range._toCol);
             for (var c = 0; c < sortItems.Count; c++)
             {
@@ -168,14 +212,24 @@ namespace OfficeOpenXml.Sorting
                     HandleMetadata(wsd, row, col, addr);
 
                     //Move formulas
-                    HandleFormula(wsd, row, col, addr, row, sortItems[c].Column);
+                    HandleFormula(wsd, row, col, addr, row, sortItems[c].Column, range);
 
                     //Move hyperlinks
                     HandleHyperlink(wsd, row, col, addr);
 
                     //Move comments
                     HandleComment(wsd, row, col, addr);
+
+                    //Move threaded comments
+                    HandleThreadedComment(wsd, row, col, addr);
                 }
+            }
+            if (sortItems.Count < range.Columns)
+            {
+                var delFromCol = range._fromCol + sortItems.Count;
+                //Clear comments in the store, otherwise the clear of the range might delete comments that have been moved in the sort operation.
+                _worksheet._commentsStore.Delete(range._fromRow, delFromCol, nRowsInRange, range._toCol - delFromCol + 1, false);
+                _worksheet._threadedCommentsStore.Delete(range._fromRow, delFromCol, nRowsInRange, range._toCol - delFromCol + 1, false);
             }
         }
 
@@ -193,6 +247,10 @@ namespace OfficeOpenXml.Sorting
             {
                 _worksheet._metadataStore.SetValue(row, col, wsd.Metadata[addr]);
             }
+            else
+            {
+                _worksheet._metadataStore.Clear(row, col, 1, 1);
+            }
         }
 
         private void HandleFlags(RangeWorksheetData wsd, int row, int col, string addr)
@@ -200,6 +258,10 @@ namespace OfficeOpenXml.Sorting
             if (wsd.Flags.ContainsKey(addr))
             {
                 _worksheet._flags.SetValue(row, col, wsd.Flags[addr]);
+            }
+            else
+            {
+                _worksheet._flags.Clear(row, col, 1, 1);
             }
         }
 
@@ -209,22 +271,36 @@ namespace OfficeOpenXml.Sorting
             {
                 var i = wsd.Comments[addr];
                 _worksheet._commentsStore.SetValue(row, col, i);
-                var comment = _worksheet._comments[i];
+                var comment = _worksheet._comments._list[i];
                 comment.Reference = ExcelCellBase.GetAddress(row, col);
+            }
+            else
+            {
+                _worksheet._commentsStore.Clear(row, col, 1, 1);
             }
         }
 
-        private void HandleFormula(RangeWorksheetData wsd, int row, int col, string addr, int initialRow, int initialCol)
+        private void HandleThreadedComment(RangeWorksheetData wsd, int row, int col, string addr)
+        {
+            if (wsd.ThreadedComments.ContainsKey(addr))
+            {
+                var i = wsd.ThreadedComments[addr];
+                _worksheet._threadedCommentsStore.SetValue(row, col, i);
+                var threadedComment = _worksheet._threadedComments._threads[i];
+                threadedComment.SetAddress(ExcelCellBase.GetAddress(row, col));
+            }
+        }
+
+        private void HandleFormula(RangeWorksheetData wsd, int row, int col, string addr, int initialRow, int initialCol, ExcelRangeBase rangeToSort)
         {
             if (wsd.Formulas.ContainsKey(addr))
             {
-                _worksheet._formulas.SetValue(row, col, wsd.Formulas[addr]);
                 if(wsd.Formulas[addr] is string)
                 {
                     var formula = wsd.Formulas[addr].ToString();
                     var newFormula = initialRow != row ?
-                        AddressUtility.ShiftAddressRowsInFormula(string.Empty, formula, initialRow, row - initialRow) :
-                        AddressUtility.ShiftAddressColumnsInFormula(string.Empty, formula, initialCol, col - initialCol);
+                        AddressUtility.ShiftAddressRowsInFormula(rangeToSort, formula, 1, row - initialRow) :
+                        AddressUtility.ShiftAddressColumnsInFormula(rangeToSort, formula, 1, col - initialCol);
                     _worksheet._formulas.SetValue(row, col, newFormula);
                 }
                 else if (wsd.Formulas[addr] is int)
@@ -232,16 +308,15 @@ namespace OfficeOpenXml.Sorting
                     int sfIx = (int)wsd.Formulas[addr];
                     var startAddr = new ExcelAddress(_worksheet._sharedFormulas[sfIx].Address);
                     var f = _worksheet._sharedFormulas[sfIx];
-                    if (startAddr._fromRow > row)
-                    {
-                        f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, f.StartCol);
-                        f.Address = ExcelCellBase.GetAddress(row, startAddr._fromCol, startAddr._toRow, startAddr._toCol);
-                    }
-                    else if (startAddr._toRow < row)
-                    {
-                        f.Address = ExcelCellBase.GetAddress(startAddr._fromRow, startAddr._fromCol, row, startAddr._toCol);
-                    }
+
+                    f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, col);
+                    f.Address = ExcelCellBase.GetAddress(row, col, row, col);
+                    _worksheet._formulas.SetValue(row, col, wsd.Formulas[addr]);
                 }
+            }
+            else
+            {
+                _worksheet._formulas.Clear(row, col, 1, 1);
             }
         }
 

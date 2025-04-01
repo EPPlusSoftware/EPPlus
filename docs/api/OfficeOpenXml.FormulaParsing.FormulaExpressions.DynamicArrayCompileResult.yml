@@ -20,12 +20,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DynamicArrayCompileResult
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 483
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -86,12 +86,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 493
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+    startLine: 32
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -131,12 +131,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 504
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+    startLine: 43
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -173,12 +173,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 513
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -212,12 +212,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 521
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -248,12 +248,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 529
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+    startLine: 68
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -284,12 +284,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ResultType
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 536
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/DynamicArrayCompileResult.cs
+    startLine: 75
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions

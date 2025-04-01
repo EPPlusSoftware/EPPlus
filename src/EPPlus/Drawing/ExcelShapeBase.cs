@@ -10,7 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using OfficeOpenXml.Drawing.Style;
+using OfficeOpenXml.Core;
+using OfficeOpenXml.Drawing.Shape;
 using OfficeOpenXml.Drawing.Style.Effect;
 using OfficeOpenXml.Drawing.Style.ThreeD;
 using OfficeOpenXml.Style;
@@ -18,9 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
 using System.Xml;
-using static OfficeOpenXml.FormulaParsing.Excel.Functions.Engineering.Conversions;
 
 namespace OfficeOpenXml.Drawing
 {
@@ -48,8 +47,11 @@ namespace OfficeOpenXml.Drawing
         private string _textVerticalPath = "{0}xdr:txBody/a:bodyPr/@vert";
         private string _fontPath = "{0}xdr:txBody/a:p/a:pPr/a:defRPr";
         private string _textBodyPath = "{0}xdr:txBody/a:bodyPr";
+        private string _presetGeometryPath = "{0}xdr:spPr/a:prstGeom/a:avLst";
 
-		internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null) :
+        private Dictionary<string, ShapeGuidePoint> _adjustmentPoints = null;
+
+        internal ExcelShapeBase(ExcelDrawings drawings, XmlNode node, string topPath, string nvPrPath, ExcelGroupShape parent=null) :
             base(drawings, node, topPath, nvPrPath, parent)
         {
             Init(string.IsNullOrEmpty(_topPath) ? "" : _topPath + "/");
@@ -75,6 +77,7 @@ namespace OfficeOpenXml.Drawing
             _textVerticalPath = string.Format(_textVerticalPath, topPath);
             _fontPath = string.Format(_fontPath, topPath);
             _textBodyPath = string.Format(_textBodyPath, topPath);
+            _presetGeometryPath = string.Format(_presetGeometryPath, topPath);
             AddSchemaNodeOrder(SchemaNodeOrder, new string[] { "nvSpPr", "spPr", "txSp", "style", "txBody", "hlinkClick", "hlinkHover", "xfrm", "custGeom", "prstGeom", "noFill", "solidFill", "blipFill", "gradFill", "pattFill", "grpFill", "ln", "effectLst", "effectDag", "scene3d", "sp3d", "pPr", "r", "br", "fld", "endParaRPr", "lnRef", "fillRef", "effectRef", "fontRef" });
         }
         /// <summary>
@@ -395,7 +398,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return GetXmlNodeAngel(_rotationPath);
+                return GetXmlNodeAngle(_rotationPath);
             }
             set
             {
@@ -458,6 +461,73 @@ namespace OfficeOpenXml.Drawing
                 }
                 return _textBody;
             }
+        }
+
+        /// <summary>
+        /// Get a list of available adjustment point names.
+        /// </summary>
+        /// <returns></returns>
+        public EPPlusReadOnlyList<string> GetAdjustmentPointsNames()
+        {
+            if (_adjustmentPoints == null || _adjustmentPoints.Count == 0)
+            {
+                _adjustmentPoints = ShapeGuidesFactory.GetAdjustmentPoints(Style);
+                if(_adjustmentPoints == null)
+                    return new EPPlusReadOnlyList<string>();
+            }
+            EPPlusReadOnlyList<string> strings = new EPPlusReadOnlyList<string>();
+            strings._list = _adjustmentPoints.Keys.ToList();
+            return strings;
+        }
+
+        /// <summary>
+        /// Adjust the named point with value.
+        /// </summary>
+        /// <param name="name">The name of the adjustment point. Use GetShapeGuideNames for a list of possible shape guides to adjust.</param>
+        /// <param name="value">The value to set for the shape guide. Value is different from shape to shape. Some shapes clamp the value and some are free.</param>
+        /// <exception cref="Exception"></exception>
+        public void SetAdjustmentPoint(string name, int value)
+        {
+            if (_adjustmentPoints == null || _adjustmentPoints.Count == 0)
+            {
+                _adjustmentPoints = ShapeGuidesFactory.GetAdjustmentPoints(Style);
+                if(_adjustmentPoints == null)
+                {
+                    throw new InvalidOperationException("Shape does not contain any adjustment points");
+                }
+            }
+            _adjustmentPoints[name].Value = value;
+            foreach (KeyValuePair<string, ShapeGuidePoint> guide in _adjustmentPoints)
+            {
+                //create xml node
+                var gd = TopNode.SelectSingleNode(_presetGeometryPath + "/a:gd[@name =\"{guide.Key}\"]", NameSpaceManager);
+                if (gd == null)
+                {
+                    gd = TopNode.OwnerDocument.CreateElement("gd", NameSpaceManager.LookupNamespace("a"));
+                    ((XmlElement)gd).SetAttribute("name", guide.Key);
+                    ((XmlElement)gd).SetAttribute("fmla", guide.Value.fmlaValue);
+                    var parent = TopNode.SelectSingleNode(_presetGeometryPath, NameSpaceManager);
+                    parent.AppendChild(gd);
+                }
+                else
+                {
+                    gd.Attributes["fmla"].Value = _adjustmentPoints[name].fmlaValue;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Remove all the shapes adjustments.
+        /// </summary>
+        public void RemoveAdjustmentPoints()
+        {
+            foreach (var point in _adjustmentPoints)
+            {
+                var gd = TopNode.SelectSingleNode(_presetGeometryPath + "a:gd[@name =\"{point.Key}\"]", NameSpaceManager);
+                var parent = gd.ParentNode;
+                parent.RemoveChild(gd);
+            }
+            _adjustmentPoints.Clear();
         }
 
         internal override void CellAnchorChanged()

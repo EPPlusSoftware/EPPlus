@@ -13,22 +13,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System.Globalization;
-using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Exceptions;
-using System.Collections;
-using static OfficeOpenXml.FormulaParsing.EpplusExcelDataProvider;
-using static OfficeOpenXml.FormulaParsing.ExcelDataProvider;
 using OfficeOpenXml.Compatibility;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System.Runtime.CompilerServices;
-using Utils = OfficeOpenXml.Utils;
-using OfficeOpenXml.FormulaParsing.Ranges;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions
 {
@@ -194,72 +186,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
                 return arg == null ? null : arg.Value;
             }
         }
-        /// <summary>
-        /// This functions validates that the supplied <paramref name="arguments"/> contains at least
-        /// (the value of) <paramref name="minLength"/> elements. If one of the arguments is an
-        /// <see cref="IRangeInfo">Excel range</see> the number of cells in
-        /// that range will be counted as well.
-        /// </summary>
-        /// <param name="arguments"></param>
-        /// <param name="minLength"></param>
-        /// <param name="errorTypeToThrow">The <see cref="eErrorType"/> of the <see cref="ExcelErrorValueException"/> that will be thrown if <paramref name="minLength"/> is not met.</param>
-        [Obsolete("Don't use this method from EPPlus 7.x and up. Use property ArgumentMinLength instead.")]
-        protected void ValidateArguments(IEnumerable<FunctionArgument> arguments, int minLength,
-                                         eErrorType errorTypeToThrow)
-        {
-            Require.That(arguments).Named("arguments").IsNotNull();
-            ThrowExcelErrorValueExceptionIf(() =>
-                {
-                    var nArgs = 0;
-                    if (arguments.Any())
-                    {
-                        foreach (var arg in arguments)
-                        {
-                            nArgs++;
-                            if (nArgs >= minLength) return false;
-                            if (arg.IsExcelRange)
-                            {
-                                nArgs += arg.ValueAsRangeInfo.GetNCells();
-                                if (nArgs >= minLength) return false;
-                            }
-                        }
-                    }
-                    return true;
-                }, errorTypeToThrow);
-        }
 
-        /// <summary>
-        /// This functions validates that the supplied <paramref name="arguments"/> contains at least
-        /// (the value of) <paramref name="minLength"/> elements. If one of the arguments is an
-        /// <see cref="IRangeInfo">Excel range</see> the number of cells in
-        /// that range will be counted as well.
-        /// </summary>
-        /// <param name="arguments"></param>
-        /// <param name="minLength"></param>
-        /// <exception cref="ArgumentException"></exception>
-        [Obsolete("Don't use this method from EPPlus 7.x and up. Use property ArgumentMinLength instead.")]
-        protected void ValidateArguments(IEnumerable<FunctionArgument> arguments, int minLength)
-        {
-            Require.That(arguments).Named("arguments").IsNotNull();
-            ThrowArgumentExceptionIf(() =>
-                {
-                    var nArgs = 0;
-                    if (arguments.Any())
-                    {
-                        foreach (var arg in arguments)
-                        {
-                            nArgs++;
-                            if (nArgs >= minLength) return false;
-                            if (arg.IsExcelRange)
-                            {
-                                nArgs += arg.ValueAsRangeInfo.GetNCells();
-                                if (nArgs >= minLength) return false;
-                            }
-                        }
-                    }
-                    return true;
-                }, "Expecting at least {0} arguments", minLength.ToString());
-        }
         /// <summary>
         /// Returns a string representation of an arguments address.
         /// </summary>
@@ -363,7 +290,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
         protected string ArgToString(IList<FunctionArgument> arguments, int index)
         {
             var obj = arguments[index].ValueFirst;
-            return obj != null ? obj.ToString() : string.Empty;
+            return obj != null ? obj.ToString() : null;
         }
 
         /// <summary>

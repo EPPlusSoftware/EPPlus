@@ -32,7 +32,7 @@ namespace OfficeOpenXml.Drawing
        /// <summary>
        /// Degree of perspective 
        /// </summary>
-       public decimal Perspective
+       public double Perspective
        {
            get
            {
@@ -47,11 +47,11 @@ namespace OfficeOpenXml.Drawing
        /// <summary>
        /// Rotation X-axis
        /// </summary>
-       public decimal RotX
+       public double RotX
        {
            get
            {
-               return GetXmlNodeDecimal(rotXPath);
+               return GetXmlNodeDouble(rotXPath);
            }
            set
            {
@@ -63,11 +63,11 @@ namespace OfficeOpenXml.Drawing
        /// <summary>
        /// Rotation Y-axis
        /// </summary>
-       public decimal RotY
+       public double RotY
        {
            get
            {
-               return GetXmlNodeDecimal(rotYPath);
+               return GetXmlNodeDouble(rotYPath);
            }
            set
            {

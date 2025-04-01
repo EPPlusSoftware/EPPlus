@@ -12,14 +12,12 @@
  *************************************************************************************************/
 using System.Linq;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
-using System.Runtime.Serialization.Formatters;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
@@ -38,7 +36,6 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         protected IList<int> _arguments;
         internal int _argPos=0;
         internal ExpressionCondition _latestConditionValue = ExpressionCondition.None;
-        internal CompileResult _cachedResult;
         internal int _negate = 0;
         internal FunctionExpression(string tokenValue, ParsingContext ctx, int pos) : base(ctx)
         {
@@ -178,11 +175,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         internal string GetExpressionKey(RpnFormula f)
         {
             var key = new StringBuilder();
-            for (int i=_startPos;i<_endPos;i++)
+            for (int i = _startPos; i < _endPos; i++)
             {
-                if (f._expressions.TryGetValue(i, out Expression e ))
+                if (f._expressions.TryGetValue(i, out Expression e))
                 {
-                    if(e.ExpressionType==ExpressionType.Function)
+                    if (e.ExpressionType == ExpressionType.Function)
                     {
                         var fe = (FunctionExpression)e;
                         if (fe._function != null && fe._function.IsVolatile) return null;
@@ -190,18 +187,19 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     }
                     else
                     {
-                        if(e.ExpressionType == ExpressionType.CellAddress)
+                        if (e.ExpressionType == ExpressionType.CellAddress)
                         {
                             var fa = e.GetAddress()[0];
                             var adr = ExcelCellBase.GetAddress(fa.FromRow, fa.FromCol, fa.ToRow, fa.ToCol);
                             key.Append(adr);
                         }
-                        else if(e.ExpressionType == ExpressionType.NameValue)
+                        else if (e.ExpressionType == ExpressionType.NameValue)
                         {
                             var ne = (NamedValueExpression)e;
-                            if(ne._name!=null && ne.IsRelative)
+                            if (ne._name != null && ne.IsRelative)
                             {
-                                key.Append($"{f._tokens[i].Value},{f._ws?.IndexInList},{f._row},{f._column}");
+                                //key.Append($"{f._tokens[i].Value},{f._ws?.IndexInList},{f._row},{f._column}");
+                                return null;
                             }
                             else
                             {
@@ -211,7 +209,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         else
                         {
                             var fa = e.GetAddress();
-                            if(fa==null)
+                            if (fa == null)
                             {
                                 key.Append(f._tokens[i].Value);
                             }

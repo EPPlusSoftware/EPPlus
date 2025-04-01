@@ -5,7 +5,7 @@ using OfficeOpenXml.Style;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Drawing.Printing;
+using System.Data.Common;
 using System.Globalization;
 using System.Linq;
 
@@ -347,6 +347,7 @@ namespace OfficeOpenXml
         /// </summary>
         public IEnumerator<ExcelRangeRow> GetEnumerator()
         {
+            Reset();
             return this;
         }
 
@@ -355,17 +356,81 @@ namespace OfficeOpenXml
         /// </summary>
         IEnumerator IEnumerable.GetEnumerator()
         {
+            Reset();
             return this;
         }
 
         CellStoreValue _cs;
-        int enumRow = -1;
+        int enumRow = 1;
         int enumCol = -1;
         int minCol=-1;
+        //Neccesary for if column indicies are changed during iteration
+        ColumnIndex<ExcelValue> firstColIndex;
+
+        //int cellStoreVersionNr;
+
+        bool MoveNextRow()
+        {
+            if (_cs.ColumnCount > 0)
+            {
+                if (enumRow < EndRow)
+                {
+                    //TODO: check if Cellstore has changed since start of iteration. And throw
+
+                    var endColumn = _cs._columnIndex[_cs.ColumnCount - 1].Index;
+
+                    if (firstColIndex == null)
+                    {
+                        //First iteration, find first value if it exists
+                        enumCol = -1;
+                        if (enumRow <= 0)
+                        {
+                            enumRow = -1;
+                        }
+                    }
+                    else
+                    {
+                        //Reset column
+                        enumCol = firstColIndex.Index;
+                    }
+
+                    var previousEnumRow = enumRow;
+
+                    bool nextCellIsFound = true;
+
+                    //Because column is reset, if e.g. cell 7,2 is found being reset to 7,0 may cause the same cell to be found.
+                    //To avoid this returning a faulty true on the next ROW rather than cell. We look for cells until we've found a new row.
+                    while(enumRow == previousEnumRow && nextCellIsFound)
+                    {
+                        nextCellIsFound = _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow, endColumn);
+                    }
+
+                    if (nextCellIsFound && firstColIndex == null)
+                    {
+                        var colindex = _cs.GetColumnIndex(enumCol);
+                        if (_cs.GetValue(enumRow, colindex.Index)._value != null)
+                        {
+                            firstColIndex = _cs.GetColumnIndex(enumCol);
+                        }
+                    }
+
+                    //Fixes row missmatch possible on first iteration
+                    if (enumRow == 0)
+                    {
+                        enumRow++;
+                    }
+
+                    return nextCellIsFound;
+                }
+            }
+            return false;
+        }
+
         /// <summary>
         /// Iterate to the next row
         /// </summary>
         /// <returns>False if no more row exists</returns>
+        /// Returns true if finds next row to move to. False if there is none.
         public bool MoveNext()
         {
             if (minCol < 0)
@@ -373,8 +438,8 @@ namespace OfficeOpenXml
                 if (_cs == null) Reset();
                 if (minCol < 0) return false;
             }
-            enumCol = -1;
-            return _cs.NextCell(ref enumRow, ref enumCol, enumRow, minCol, _toRow,0);
+
+            return MoveNextRow();
         }
 
         /// <summary>
@@ -382,6 +447,7 @@ namespace OfficeOpenXml
         /// </summary>
         public void Reset()
         {
+            firstColIndex = null;
             _cs = _worksheet._values;
             enumRow = _fromRow - 1;
             minCol = 0;
@@ -488,6 +554,26 @@ namespace OfficeOpenXml
                 maxRow = Math.Max(_worksheet.Dimension.End.Row, _worksheet._values.GetLastRow(0));
             }
             return _toRow > maxRow + 1 ? maxRow + 1 : _toRow; // +1 if the last row has outline level 1 then +1 is outline level 0.
+        }
+
+        /// <summary>
+        /// Delete all rows that match the predicate
+        /// </summary>
+        /// <param name="match"></param>
+        public void DeleteAll(Predicate<ExcelRow> match)
+        {
+            List<int> toDelete = new();
+            for (int i = EndRow; i >= StartRow; i--)
+            {
+                var currentRow = _worksheet.Row(i);
+                if (currentRow != null)
+                {
+                    if (match(currentRow))
+                    {
+                        _worksheet.DeleteRow(i);
+                    }
+                }
+            }
         }
 
         private RowInternal GetRow(int row)

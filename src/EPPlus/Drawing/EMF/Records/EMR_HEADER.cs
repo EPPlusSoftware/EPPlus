@@ -22,7 +22,13 @@ namespace OfficeOpenXml.Drawing.EMF
 {
     internal class EMR_HEADER : EMR_RECORD
     {
+        /// <summary>
+        ///  Bounds in logical units (LU) (LU is equivalent to pixels if MapMode defined by EMR_SETMAPMODE is MM_Text.)
+        /// </summary>
         internal RectLObject Bounds;             //16
+        /// <summary>
+        /// Frame in 0.1 mm units
+        /// </summary>
         internal RectLObject Frame;              //16
         internal byte[] RecordSignature;    //4
         internal byte[] Version;            //4
@@ -42,6 +48,15 @@ namespace OfficeOpenXml.Drawing.EMF
         internal byte[] MicroMetersY;       //4
 
         internal string DescriptionString;
+        internal void SetDescriptionString(string text)
+        {
+            text = text + "\0";
+            DescriptionString = text;
+            offDescription = headerSize;
+            nDescription = (uint)DescriptionString.Length;
+            Size += nDescription * 2;
+        }
+
         internal byte[] PixelFormatDescriptor;
 
         internal string headerType = "Emf_MetafileHeader";
@@ -51,12 +66,14 @@ namespace OfficeOpenXml.Drawing.EMF
         internal float inchesY;
         internal float Ppi;
 
+        internal double MilimetersPerPixelX;
+        internal double MilimetersPerPixelY;
+
         internal EMR_HEADER(BinaryReader br, uint TypeValue) : base(br, TypeValue)
         {
             if (Size >= 84)
             {
                 headerSize = Size;
-
 
                 Bounds = new RectLObject(br);
                 Frame = new RectLObject(br);
@@ -139,6 +156,8 @@ namespace OfficeOpenXml.Drawing.EMF
                 var cy = BitConverter.ToUInt32(Device, 4);
 
                 Ppi = cx / inchesX;
+                MilimetersPerPixelX = cxMili / (double)cx;
+                MilimetersPerPixelY = cyMili / (double)cy;
             }
             else
             {
@@ -216,6 +235,10 @@ namespace OfficeOpenXml.Drawing.EMF
             bw.Write(bOpenGL);
             bw.Write(MicroMetersX);
             bw.Write(MicroMetersY);
+            if(string.IsNullOrEmpty(DescriptionString) == false)
+            {
+                bw.Write(BinaryHelper.GetByteArray(DescriptionString, Encoding.Unicode));
+            }
         }
 
     }

@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Xml;
 using OfficeOpenXml.Drawing.Chart.DataLabling;
 
@@ -23,19 +24,19 @@ namespace OfficeOpenXml.Drawing.Chart
     public class ExcelChartDataLabelStandard : ExcelChartDataLabel
     {
         Guid _guidId;
+        string extPath = "c:extLst/c:ext";
 
         internal ExcelChartDataLabelStandard(ExcelChart chart, XmlNamespaceManager ns, XmlNode node, string nodeName, string[] schemaNodeOrder)
            : base(chart, ns, node, nodeName, "c")
         {
+
+            NameSpaceManager.AddNamespace("c15", ExcelPackage.schemaChart2012);
             if (nodeName == "dLbl" || nodeName == "")
             {
                 SchemaNodeOrder = LabelNodeHolder.DataLabel.NodeOrder;
 
                 TopNode = node;
-                
-                var extPath = "c:extLst/c:ext";
 
-                NameSpaceManager.AddNamespace("c15", ExcelPackage.schemaChart2012);
                 NameSpaceManager.AddNamespace("c16", ExcelPackage.schemaChart2014);
 
                 XmlElement el = (XmlElement)CreateNode($"{extPath}");
@@ -64,7 +65,12 @@ namespace OfficeOpenXml.Drawing.Chart
                     topNode.InnerXml = "<c:showLegendKey val=\"0\" /><c:showVal val=\"0\" /><c:showCatName val=\"0\" /><c:showSerName val=\"0\" /><c:showPercent val=\"0\" /><c:showBubbleSize val=\"0\" /> <c:separator>\r\n</c:separator><c:showLeaderLines val=\"0\" />";
                 }
                 TopNode = topNode;
+
                 SchemaNodeOrder = LabelNodeHolder.DataLabels.NodeOrder;
+
+                XmlElement el = (XmlElement)CreateNode($"{extPath}");
+                el.SetAttribute("xmlns:c15", ExcelPackage.schemaChart2012);
+                SetXmlNodeString($"{extPath}/@uri", "{CE6537A1-D6FC-4f65-9D91-7224C49458BB}");
             }
         }
 
@@ -154,6 +160,8 @@ namespace OfficeOpenXml.Drawing.Chart
             }
         }
         const string showLeaderLinesPath = "c:showLeaderLines/@val";
+        const string showLeaderLinesPathExt = "c:extLst/c:ext/c15:showLeaderLines/@val";
+
         /// <summary>
         /// Show the leader lines
         /// </summary>
@@ -163,7 +171,16 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if(TopNode.LocalName == "dLbl")
                 {
-                    return GetXmlNodeBool(showLeaderLinesPath, TopNode.ParentNode);
+                    var pNode = TopNode.ParentNode;
+                    var showLeaderLines = pNode.SelectSingleNode(showLeaderLinesPathExt, NameSpaceManager);
+                    if (showLeaderLines != null)
+                    {
+                        return GetXmlNodeBool(showLeaderLinesPathExt, pNode);
+                    }
+                    else
+                    {
+                        return GetXmlNodeBool(showLeaderLinesPath, pNode);
+                    }
                 }
                 return GetXmlNodeBool(showLeaderLinesPath);
             }
@@ -171,7 +188,13 @@ namespace OfficeOpenXml.Drawing.Chart
             {
                 if (TopNode.LocalName == "dLbl")
                 {
-                    SetXmlNodeString(TopNode.ParentNode, showBubbleSizePath, value ? "1" : "0");
+                    var pNode = TopNode.ParentNode;
+
+                    if(pNode.SelectSingleNode(showLeaderLinesPathExt, NameSpaceManager) == null)
+                    {
+                        CreateNode(pNode, showLeaderLinesPathExt);
+                    }
+                    SetXmlNodeString(pNode, showLeaderLinesPathExt, value ? "1" : "0");
                 }
                 else
                 {

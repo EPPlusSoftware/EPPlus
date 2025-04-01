@@ -10,6 +10,8 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using System;
 using System.Drawing;
 
 namespace OfficeOpenXml.Style
@@ -164,17 +166,25 @@ namespace OfficeOpenXml.Style
 
         private void SetBorderAroundStyle(ExcelBorderStyle Style, ExcelAddressBase addr, bool overrideNeigbourCellBorder = false)
         {
+            if (overrideNeigbourCellBorder)
+            {
+                var fromRow1 = addr._fromRow - 1;
+                var toRow1 = addr._toRow + 1;
+                var fromCol1 = addr._fromCol - 1;
+                var toCol1 = addr._toCol + 1;
+                if(fromRow1 > 0)
+                    _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderBottom, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(fromRow1, addr._fromCol, fromRow1, addr._toCol).Address));
+                if(toRow1 < ExcelPackage.MaxRows)
+                    _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderTop, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(toRow1, addr._fromCol, toRow1, addr._toCol).Address));
+                if(fromCol1 > 0)
+                    _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderRight, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(addr._fromRow, fromCol1, addr._toRow, fromCol1).Address));
+                if(toCol1 < ExcelPackage.MaxColumns)
+                    _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderLeft, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(addr._fromRow, toCol1, addr._toRow, toCol1).Address));
+            }
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderTop, eStyleProperty.Style, Style, _positionID, new ExcelAddress(addr._fromRow, addr._fromCol, addr._fromRow, addr._toCol).Address));
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderBottom, eStyleProperty.Style, Style, _positionID, new ExcelAddress(addr._toRow, addr._fromCol, addr._toRow, addr._toCol).Address));
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderLeft, eStyleProperty.Style, Style, _positionID, new ExcelAddress(addr._fromRow, addr._fromCol, addr._toRow, addr._fromCol).Address));
             _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderRight, eStyleProperty.Style, Style, _positionID, new ExcelAddress(addr._fromRow, addr._toCol, addr._toRow, addr._toCol).Address));
-            if (overrideNeigbourCellBorder)
-            {
-                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderBottom, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(addr._fromRow-1, addr._fromCol, addr._fromRow-1, addr._toCol).Address));
-                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderTop, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(addr._toRow+1, addr._fromCol, addr._toRow+1, addr._toCol).Address));
-                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderRight, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(addr._fromRow, addr._fromCol-1, addr._toRow, addr._fromCol-1).Address));
-                _ChangedEvent(this, new StyleChangeEventArgs(eStyleClass.BorderLeft, eStyleProperty.Style, ExcelBorderStyle.None, _positionID, new ExcelAddress(addr._fromRow, addr._toCol+1, addr._toRow, addr._toCol+1).Address));
-            }
         }
     }
 }

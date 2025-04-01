@@ -52,6 +52,17 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
                 rangeLookup = ArgToBool(arguments, 3);
             }
             var index = -1;
+
+            if (lookupIndex > lookupRange.Size.NumberOfRows)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Ref);
+            }
+
+            if (lookupIndex <= 0)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
+
             if (!rangeLookup)
             {
                 var scanner = new XlookupScanner(searchedValue, lookupRange, LookupSearchMode.StartingAtFirst, LookupMatchMode.ExactMatchWithWildcard, LookupRangeDirection.Horizontal);

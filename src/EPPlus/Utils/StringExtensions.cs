@@ -1,4 +1,7 @@
-﻿namespace OfficeOpenXml.Utils
+﻿using OfficeOpenXml.VBA;
+using System.Text;
+
+namespace OfficeOpenXml.Utils
 {
     internal static class StringExtensions
     {

@@ -23,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelColorXml
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -72,7 +72,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Auto
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -109,7 +109,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Theme
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -146,7 +146,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Tint
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -157,11 +157,11 @@ items:
   summary: "\nThe Tint value for the color\n"
   example: []
   syntax:
-    content: public decimal Tint { get; set; }
+    content: public double Tint { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property Tint As Decimal
+      type: System.Double
+    content.vb: Public Property Tint As Double
   overload: OfficeOpenXml.Style.XmlAccess.ExcelColorXml.Tint*
   modifiers.csharp:
   - public
@@ -183,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Rgb
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -220,7 +220,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Indexed
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -257,7 +257,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -293,7 +293,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -329,7 +329,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetColor
     path: ../src/EPPlus/Style/XmlAccess/ExcelColorXml.cs
@@ -769,13 +769,13 @@ references:
   name: Tint
   nameWithType: ExcelColorXml.Tint
   fullName: OfficeOpenXml.Style.XmlAccess.ExcelColorXml.Tint
-- uid: System.Decimal
-  commentId: T:System.Decimal
+- uid: System.Double
+  commentId: T:System.Double
   parent: System
   isExternal: true
-  name: Decimal
-  nameWithType: Decimal
-  fullName: System.Decimal
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
 - uid: OfficeOpenXml.Style.XmlAccess.ExcelColorXml.Rgb*
   commentId: Overload:OfficeOpenXml.Style.XmlAccess.ExcelColorXml.Rgb
   name: Rgb

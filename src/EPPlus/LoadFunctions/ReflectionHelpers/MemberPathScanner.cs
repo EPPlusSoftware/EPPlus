@@ -60,7 +60,17 @@ namespace OfficeOpenXml.LoadFunctions.ReflectionHelpers
             // Always ignore complex type members not decorated with the
             // EpplusNestedTableColumn attribute.
             if (member.HasAttributeOfType<EpplusNestedTableColumnAttribute>()) return true;
-            return member.GetMemberType().IsComplexType() == false;
+            var t = member.GetMemberType();
+            // Check if t is an IEnumerable<> of a non-complex type
+            if (t.IsGenericType && t.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
+            {
+                var genericType = t.GetGenericArguments()[0];
+                if (!genericType.IsComplexType() || typeof(Uri).IsAssignableFrom(t))
+                {
+                    return true;
+                }
+            }
+            return t.IsComplexType() == false || typeof(Uri).IsAssignableFrom(t);
         }
 
         private void Scan(Type type, MemberPath path = null)

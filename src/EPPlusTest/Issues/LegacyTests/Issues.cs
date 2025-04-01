@@ -26,6 +26,7 @@
  *******************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *******************************************************************************/
+using EPPlusTest.Properties;
 using EPPlusTest.Table;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -39,6 +40,7 @@ using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.Drawing.Slicer;
 using OfficeOpenXml.Drawing.Style.Coloring;
 using OfficeOpenXml.FormulaParsing;
+using OfficeOpenXml.FormulaParsing.Logging;
 using OfficeOpenXml.Sparkline;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Table;
@@ -613,6 +615,19 @@ namespace EPPlusTest
                 Assert.AreEqual(1, result, string.Format("Expected 1, got {0}", result));
             }
         }
+
+        [TestMethod]
+        public void s828()
+        {
+            using var p = OpenTemplatePackage("s828.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var start = DateTime.Now;
+            ws.Calculate();
+            var end = DateTime.Now;
+            TimeSpan span = end - start;
+        }
+
+
         [TestMethod]
         public void Issue63() // See https://github.com/JanKallman/EPPlus/issues/63
         {
@@ -774,7 +789,7 @@ namespace EPPlusTest
             var pck = OpenPackage("sheetname_pbl.xlsx", true);
             var ws = pck.Workbook.Worksheets.Add("Deal's History");
             var a = ws.Cells["A:B"];
-            ws.AutoFilterAddress = ws.Cells["A1:C3"];
+            ws.AutoFilter.Address = ws.Cells["A1:C3"];
             pck.Workbook.Names.Add("Test", ws.Cells["B1:D2"]);
             var name = a.WorkSheetName;
 
@@ -3040,13 +3055,6 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
-        public void CheckEnvironment()
-        {
-#pragma warning disable CA1416 // Validate platform compatibility
-            System.Drawing.Graphics.FromHwnd(IntPtr.Zero);
-#pragma warning restore CA1416 // Validate platform compatibility
-        }
-        [TestMethod]
         public void Issue592()
         {
             using (var p = OpenTemplatePackage("I592.xlsx"))
@@ -3211,6 +3219,19 @@ namespace EPPlusTest
             }
         }
         [TestMethod]
+        public void s314OpenClose()
+        {
+            using (var p = OpenTemplatePackage("SlicerIssue.xlsx"))
+            {
+                //var drawings =  p.Workbook.Worksheets[0].Drawings;
+                p.Workbook.Worksheets.Add("aWs");
+
+                //var table = p.Workbook.Worksheets[0].PivotTables;
+
+                SaveWorkbook("SlicerIssueOpenClose.xlsx", p);
+            }
+        }
+                [TestMethod]
         public void i620()
         {
             using (var p = OpenTemplatePackage("i621.xlsx"))
@@ -3350,7 +3371,7 @@ namespace EPPlusTest
                 SaveWorkbook("i676.xlsx", p);
             }
         }
-        [TestMethod, Ignore]
+        [TestMethod]
         public void s350()
         {
             using (var p = OpenTemplatePackage("s350.xlsm"))
@@ -6054,7 +6075,6 @@ namespace EPPlusTest
         {
             var sheetName = "披露表(国资)";
 
-            ExcelPackage.LicenseContext = LicenseContext.Commercial;
             using (var p = OpenTemplatePackage("s569source.xlsx"))
             {
                 var SourceWB = p.Workbook;
@@ -6250,6 +6270,57 @@ namespace EPPlusTest
             }
         }
 
-        
+        [TestMethod]
+        public void s789_Issues()
+        {
+            using (var package = OpenTemplatePackage("789_issue.xlsx"))
+            {
+                var originalWs = package.Workbook.Worksheets[0];
+
+                var drawing = originalWs.PivotTables;
+                //ptSlicer.Cache.Data.SortOrder = eSortOrder.Ascending;
+                //ptSlicer.Cache.Data.UpdateItemsXml();
+
+                var ws = package.Workbook.Worksheets.Add("newWs");
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s789_IssuesNoAccessDrawing()
+        {
+            using (var package = OpenTemplatePackage("789_issue.xlsx"))
+            {
+                var originalWs = package.Workbook.Worksheets[0];
+
+                var ws = package.Workbook.Worksheets.Add("newWs");
+                SaveWorkbook("789_issue_only_ws.xlsx", package);
+               //SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void s830()
+        {
+            using var p = new ExcelPackage();
+            var ws1 = p.Workbook.Worksheets.Add("Red");
+            ws1.TabColor = Color.Red;
+            var ws2 = p.Workbook.Worksheets.Add("White");
+            ws2.TabColor = Color.White;
+            var ws3 = p.Workbook.Worksheets.Add("Blue");
+            ws3.TabColor = Color.Blue;
+
+            p.SaveAs("C:\\epplusTest\\Testoutput\\tabcolor830.xlsx");
+        }
+
+        [TestMethod]
+        public void s830_ChangeColor()
+        {
+            using var p = OpenTemplatePackage("TabColorBig.xlsx");
+            var ws1 = p.Workbook.Worksheets[0];
+            Color k = ws1.TabColor;
+            ws1.TabColor = Color.Empty;
+
+            SaveAndCleanup(p);
+        }
     }
 }

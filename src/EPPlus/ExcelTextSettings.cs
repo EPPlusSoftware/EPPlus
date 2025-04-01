@@ -13,7 +13,6 @@
 using OfficeOpenXml.Core.Worksheet.Core.Worksheet.Fonts.GenericMeasurements;
 using OfficeOpenXml.Core.Worksheet.Fonts.GenericFontMetrics;
 using OfficeOpenXml.Interfaces.Drawing.Text;
-using OfficeOpenXml.SystemDrawing.Text;
 using System;
 
 namespace OfficeOpenXml
@@ -25,39 +24,7 @@ namespace OfficeOpenXml
     {
         internal ExcelTextSettings()
         {
-            if(Environment.OSVersion.Platform==PlatformID.Unix ||
-               Environment.OSVersion.Platform==PlatformID.MacOSX)
-            {
-                PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
-                try
-                {
-                    FallbackTextMeasurer = new SystemDrawingTextMeasurer();
-                }
-                catch
-                {
-                    FallbackTextMeasurer = null;
-                }
-            }
-            else
-            {
-                try
-                {
-                    var m = new SystemDrawingTextMeasurer();
-                    if (m.ValidForEnvironment())
-                    {
-                        PrimaryTextMeasurer = m;
-                        FallbackTextMeasurer = new GenericFontMetricsTextMeasurer();
-                    }
-                    else
-                    {
-                        PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
-                    }
-                }
-                catch
-                {
-                    PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
-                }
-            }
+            PrimaryTextMeasurer = new GenericFontMetricsTextMeasurer();
             AutofitScaleFactor = 1f;
         }
 
@@ -75,6 +42,15 @@ namespace OfficeOpenXml
         /// All measurements of texts will be multiplied with this value. Default is 1.
         /// </summary>
         public float AutofitScaleFactor { get; set; }
+        /// <summary>
+        /// A percentage of the widest text. Since charaters in different fonts have different widths we use this threshold remove characters from the longer string for comparing to the current text.
+        /// This is so we can skip obvious shorter strings and save time on calculating it's actual width.
+        /// </summary>
+        public double textLengthThreshold = 0.5d;
+        /// <summary>
+        /// The ammount of rows to check for when autofitting, starts from top. A value set to 0 or lower means checking all rows in the column.
+        /// </summary>
+        public int AutofitRows = 5000;
         /// <summary>
         /// Returns an instance of the internal generic text measurer
         /// </summary>

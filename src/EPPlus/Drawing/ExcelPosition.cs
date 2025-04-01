@@ -10,6 +10,7 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.Drawing.Vml;
 using System.Xml;
 
 namespace OfficeOpenXml.Drawing
@@ -20,19 +21,19 @@ namespace OfficeOpenXml.Drawing
     public class ExcelPosition : XmlHelper
     {
         internal delegate void SetWidthCallback();
-        XmlNode _node;
-        XmlNamespaceManager _ns;
         SetWidthCallback _setWidthCallback;
         internal ExcelPosition(XmlNamespaceManager ns, XmlNode node, SetWidthCallback setWidthCallback) :
             base(ns, node)
         {
-            _node = node;
-            _ns = ns;
             _setWidthCallback = setWidthCallback;
             Load();
         }
         const string colPath = "xdr:col";
-        int _column, _row, _columnOff, _rowOff;        
+        const string rowPath = "xdr:row";
+        const string colOffPath = "xdr:colOff";
+        const string rowOffPath = "xdr:rowOff";
+
+        internal int _column, _row, _columnOff, _rowOff;
         /// <summary>
         /// The column
         /// </summary>
@@ -48,7 +49,6 @@ namespace OfficeOpenXml.Drawing
                 _setWidthCallback?.Invoke();
             }
         }
-        const string rowPath = "xdr:row";
         /// <summary>
         /// The row
         /// </summary>
@@ -64,7 +64,7 @@ namespace OfficeOpenXml.Drawing
                 _setWidthCallback?.Invoke();
             }
         }
-        const string colOffPath = "xdr:colOff";
+
         /// <summary>
         /// Column Offset in EMU
         /// ss
@@ -84,7 +84,7 @@ namespace OfficeOpenXml.Drawing
                 _setWidthCallback?.Invoke();
             }
         }
-        const string rowOffPath = "xdr:rowOff";
+
         /// <summary>
         /// Row Offset in EMU
         /// 
@@ -104,11 +104,12 @@ namespace OfficeOpenXml.Drawing
                 _setWidthCallback?.Invoke();
             }
         }
+
         /// <summary>
         /// Load xml data
         /// </summary>
         public void Load()
-        {            
+        {
             _column = GetXmlNodeInt(colPath);
             _columnOff = GetXmlNodeInt(colOffPath);
             _row = GetXmlNodeInt(rowPath);

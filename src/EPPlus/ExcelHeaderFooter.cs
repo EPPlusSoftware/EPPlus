@@ -181,32 +181,16 @@ namespace OfficeOpenXml
 
             var imgBytes=new byte[PictureStream.Length];
             PictureStream.Seek(0, SeekOrigin.Begin);
-            PictureStream.Read(imgBytes,0, imgBytes.Length);
+            var r = PictureStream.Read(imgBytes,0, imgBytes.Length);
             var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, null, pictureType);
 
             return AddImage(id, ii);
         }
-#if NETFULL
-        /// <summary>
-        /// Inserts a picture at the end of the text in the header or footer
-        /// </summary>
-        /// <param name="Picture">The image object containing the Picture</param>
-        /// <param name="Alignment">Alignment. The image object will be inserted at the end of the Text.</param>
-        [Obsolete("This method is deprecated and is removed .NET standard/core. Please use overloads not referencing System.Drawing.Image")]
-        public ExcelVmlDrawingPicture InsertPicture(Image Picture, PictureAlignment Alignment)
-        {
-            var b = ImageUtils.GetImageAsByteArray(Picture, out ePictureType type);
-            using (var ms = new MemoryStream(b))
-            {
-                return InsertPicture(ms, type, Alignment);
-            }
-        }
-#endif
+
         private ExcelVmlDrawingPicture AddImage(string id, ImageInfo ii)
         {
-            
-            double width = ii.Bounds.Width * 72 / ii.Bounds.HorizontalResolution,      //Pixel --> Points
-                   height = ii.Bounds.Height * 72 / ii.Bounds.VerticalResolution;      //Pixel --> Points
+            double width = ImageUtil.PixelToPointConversion(ii.Bounds.Width, ii.Bounds.HorizontalResolution),
+                   height = ImageUtil.PixelToPointConversion(ii.Bounds.Height, ii.Bounds.VerticalResolution);
             //Add VML-drawing            
             return _ws.HeaderFooter.Pictures.Add(id, ii.Uri, "", width, height);
         }

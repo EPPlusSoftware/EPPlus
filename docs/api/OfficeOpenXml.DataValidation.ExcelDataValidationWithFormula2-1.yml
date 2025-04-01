@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDataValidationWithFormula2
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
@@ -64,7 +64,6 @@ items:
   - OfficeOpenXml.DataValidation.ExcelDataValidation.Prompt
   - OfficeOpenXml.DataValidation.ExcelDataValidation.AllowsOperator
   - OfficeOpenXml.DataValidation.ExcelDataValidation.As
-  - OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
   - OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
   - OfficeOpenXml.DataValidation.ExcelDataValidation.OnFormulaChanged
   - System.Object.Equals(System.Object)
@@ -99,7 +98,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula2
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
@@ -140,7 +139,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Validate
     path: ../src/EPPlus/DataValidation/ExcelDataValidationWithFormula2.cs
@@ -337,12 +336,6 @@ references:
   name: As
   nameWithType: ExcelDataValidation.As
   fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.As
-- uid: OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
-  commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
-  parent: OfficeOpenXml.DataValidation.ExcelDataValidation
-  name: IsStale
-  nameWithType: ExcelDataValidation.IsStale
-  fullName: OfficeOpenXml.DataValidation.ExcelDataValidation.IsStale
 - uid: OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
   commentId: P:OfficeOpenXml.DataValidation.ExcelDataValidation.Operator
   parent: OfficeOpenXml.DataValidation.ExcelDataValidation

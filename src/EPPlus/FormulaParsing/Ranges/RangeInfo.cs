@@ -14,6 +14,7 @@ using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -22,6 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
     /// <summary>
     /// EPPlus implementation of the <see cref="IRangeInfo"/> interface
     /// </summary>
+    [DebuggerDisplay("ExcelRange: {GetAddresses()}")]
     public class RangeInfo : IRangeInfo
     {
         internal ExcelWorksheet _ws;
@@ -78,7 +80,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         /// <param name="ctx">Parsing context</param>
         public RangeInfo(ExcelWorksheet ws, ParsingContext ctx)
         {
-            _addresses = [new FormulaRangeAddress(ctx) { WorksheetIx = (short)ws.PositionId }];
+            _addresses = [new FormulaRangeAddress(ctx) { WorksheetIx = (short)ws.IndexInList }];
         }
 
         /// <summary>
@@ -100,7 +102,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 _addresses = [
                     new FormulaRangeAddress(ctx, address)
                 {
-                    WorksheetIx = (short)ws.PositionId,
+                    WorksheetIx = (short)ws.IndexInList,
                 }
                 ];
             }
@@ -112,7 +114,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 {
                     _addresses[i++] = new FormulaRangeAddress(ctx, a)
                     {
-                        WorksheetIx = (short)ws.PositionId,
+                        WorksheetIx = (short)ws.IndexInList,
                     };
                 }
             }
@@ -395,6 +397,59 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 return false;
             }
 
+        }
+
+        // used in DebuggerDisplay attribute only
+        internal string GetAddresses()
+        {
+            var sb = new StringBuilder();
+            if(Addresses != null)
+            {
+                foreach(var address in Addresses)
+                {
+                    sb.Append(address.ToString());
+                    sb.Append(", ");
+                }
+                var result = sb.ToString();
+                result = result.TrimEnd(' ');
+                return result.TrimEnd(',');
+            }
+            if(Address != null)
+            {
+                return Address.ToString();
+            }
+            return "<No address>";
+        }
+        /// <summary>
+        /// Get the address adjusted inside the dimension of the worksheet.
+        /// </summary>
+        /// <param name="index">The index of the address.</param>
+        /// <returns>The address adjusted within the dimension of the worksheet.</returns>
+        public FormulaRangeAddress GetAddressDimensionAdjusted(int index=0)
+        {
+            if (index >= Addresses.Length) return null;
+            var a = Addresses[index];
+            if (Worksheet?.Dimension!=null)
+            {
+                var d = Worksheet?.Dimension;
+                if (d._fromRow > a.FromRow || d._toRow < a.ToRow ||
+                    d._fromCol > a.FromCol || d._toCol < a.ToCol)
+                {
+                    return new FormulaRangeAddress(null, 0,
+                        Math.Max(d._fromRow, a.FromRow),
+                        Math.Max(d._fromCol, a.FromCol),
+                        Math.Min(d._toRow, a.ToRow),
+                        Math.Min(d._toCol, a.ToCol));
+                }
+                else
+                {
+                    return a;
+                }
+            }
+            else
+            {
+                return a;
+            }
         }
     }
 }

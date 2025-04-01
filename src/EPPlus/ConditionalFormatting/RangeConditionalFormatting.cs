@@ -537,7 +537,6 @@ namespace OfficeOpenXml.ConditionalFormatting
             }
             return retList;
         }
-
         #endregion Public Methods
     }
 }

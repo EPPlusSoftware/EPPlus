@@ -13,6 +13,7 @@
 using OfficeOpenXml.Drawing.Chart;
 using OfficeOpenXml.Drawing.Chart.ChartEx;
 using OfficeOpenXml.Drawing.Controls;
+using OfficeOpenXml.Drawing.OleObject;
 using OfficeOpenXml.Drawing.Slicer;
 using System;
 
@@ -108,6 +109,17 @@ namespace OfficeOpenXml.Drawing
                     _controlAsType = new ExcelControlAsType(_drawing);
                 }
                 return _controlAsType;
+            }
+        }
+        /// <summary>
+        /// Helps to cast drawings to an Ole object. If the drawing is not an Ole object null will be returned.
+        /// </summary>
+        /// <returns></returns>
+        public ExcelOleObject OleObject
+        {
+            get
+            {
+                return _drawing as ExcelOleObject;
             }
         }
     }

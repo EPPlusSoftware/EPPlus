@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -101,7 +100,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         /// <returns></returns>
         protected double RoundResult(double number, int sign)
         {
-            return RoundingHelper.RoundToSignificantFig(number, sign, false);
+            //return RoundingHelper.RoundToSignificantFig(number, sign, false);
+            var mult = Math.Pow(10, sign);
+            return Math.Truncate((number * mult)) / mult;
         }
     }
 }

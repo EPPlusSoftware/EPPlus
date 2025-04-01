@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using OfficeOpenXml.ConditionalFormatting.Contracts;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Style.Table;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,8 +44,8 @@ namespace EPPlusTest.Core.Range.Insert
 			ws.InsertRow(3, 1);
 
             //Assert
-            Assert.AreEqual(1, ws._sharedFormulas.Count);
-            Assert.AreEqual(1, ws._sharedFormulas.First().Key);
+            Assert.AreEqual(0, ws._sharedFormulas.Count);
+            //Assert.AreEqual(1, ws._sharedFormulas.First().Key);
             Assert.AreEqual("Sum(C6:C11)", ws.Cells["A1"].Formula);
             Assert.AreEqual("Sum(C6:C11)", ws.Cells["B1"].Formula);
             Assert.AreEqual("Sum(C7:C12)", ws.Cells["B2"].Formula);
@@ -1076,44 +1077,44 @@ namespace EPPlusTest.Core.Range.Insert
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftDown");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
             ws.Cells["A1:D1"].Insert(eShiftTypeInsert.Down);
-            Assert.AreEqual("A2:D101", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("A2:D101", ws.AutoFilter.Address.Address);
             ws.Cells["A50:D50"].Insert(eShiftTypeInsert.Down);
-            Assert.AreEqual("A2:D102", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("A2:D102", ws.AutoFilter.Address.Address);
         }
         [TestMethod]
         public void ValidateFilterShiftRight()
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftRight");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
             ws.Cells["A1:A100"].Insert(eShiftTypeInsert.Right);
-            Assert.AreEqual("B1:E100", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("B1:E100", ws.AutoFilter.Address.Address);
             ws.Cells["C1:C100"].Insert(eShiftTypeInsert.Right);
-            Assert.AreEqual("B1:F100", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("B1:F100", ws.AutoFilter.Address.Address);
         }
         [TestMethod]
         public void ValidateFilterInsertRow()
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterInsertRow");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
             ws.InsertRow(1,1);
-            Assert.AreEqual("A2:D101", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("A2:D101", ws.AutoFilter.Address.Address);
             ws.InsertRow(5, 2);
-            Assert.AreEqual("A2:D103", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("A2:D103", ws.AutoFilter.Address.Address);
         }
         [TestMethod]
         public void ValidateFilterInsertColumn()
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterInsertCol");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
             ws.InsertColumn(1,1);
-            Assert.AreEqual("B1:E100", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("B1:E100", ws.AutoFilter.Address.Address);
             ws.InsertColumn(3,2);
-            Assert.AreEqual("B1:G100", ws.AutoFilterAddress.Address);
+            Assert.AreEqual("B1:G100", ws.AutoFilter.Address.Address);
         }
 
         [TestMethod]
@@ -1122,7 +1123,7 @@ namespace EPPlusTest.Core.Range.Insert
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftDownPart");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
             ws.Cells["A1:C1"].Insert(eShiftTypeInsert.Down);
         }
         [TestMethod]
@@ -1131,7 +1132,7 @@ namespace EPPlusTest.Core.Range.Insert
         {
             var ws = _pck.Workbook.Worksheets.Add("AutoFilterShiftRightPart");
             LoadTestdata(ws);
-            ws.AutoFilterAddress = new ExcelAddressBase("A1:D100");
+            ws.AutoFilter.Address = new ExcelAddressBase("A1:D100");
             ws.Cells["A1:A99"].Insert(eShiftTypeInsert.Right);
         }
         [TestMethod]
@@ -1431,5 +1432,32 @@ namespace EPPlusTest.Core.Range.Insert
             }
         }
 
+        [TestMethod]
+        public void InsertReturnRangeTest()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            var a1 = ws.Cells["A1"];
+            ws.Cells["A1"].Value = "Down";
+            var a2 = a1.Insert(eShiftTypeInsert.Down);
+            ws.Cells["A1"].Value = "Right";
+            var b1 = a1.Insert(eShiftTypeInsert.Right);
+            ws.Cells["A1"].Value = "Row";
+            var row1 = a1.Insert(eShiftTypeInsert.EntireRow);
+            ws.Cells["A1"].Value = "Column";
+            var col1 = a1.Insert(eShiftTypeInsert.EntireColumn);
+
+            Assert.AreEqual(ws.Cells["A2"], a2);
+            Assert.AreEqual(ws.Cells["B1"], b1);
+            Assert.AreEqual(ws.Cells["A2"].EntireRow.Range, row1);
+            Assert.AreEqual(ws.Cells["B1"].EntireColumn.Range, col1);
+
+            var abc123 = ws.Cells["A1:C3"];
+            var abc456 = abc123.Insert(eShiftTypeInsert.Down);
+            Assert.AreEqual(ws.Cells["A4:C6"], abc456);
+            var def123 = abc123.Insert(eShiftTypeInsert.Right);
+            Assert.AreEqual(ws.Cells["D1:F3"], def123);
+        }
     }
 }

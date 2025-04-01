@@ -21,7 +21,6 @@ namespace EPPlusTest.GlobalConfiguration
 
                 try
                 {
-                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                     ExcelPackage.Configure(x => { 
                         x.SuppressInitializationExceptions = true;
                         x.JsonConfigFileName = "asdf";
@@ -45,7 +44,6 @@ namespace EPPlusTest.GlobalConfiguration
         {
             lock(typeof(ExcelPackage))
             {
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
                 ExcelPackage.Configure(x => { 
                     x.SuppressInitializationExceptions = false;
                     x.JsonConfigFileName = "asdf";

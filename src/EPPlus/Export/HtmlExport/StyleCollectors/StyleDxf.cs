@@ -29,10 +29,16 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         public IFill Fill { get; } = null;
         public IFont Font { get; } = null;
         public IBorder Border { get; } = null;
+        public INumberFormat NumberFormat { get; } = null;
 
-        public StyleDxf(ExcelDxfStyleConditionalFormatting style)
+        public bool CheckBox { get; }
+
+        public int StyleId;
+
+        public StyleDxf(ExcelDxfStyleConditionalFormatting style, int styleId)
         {
             _style = style;
+            StyleId = styleId;
 
             if (style.Fill != null)
             {
@@ -46,6 +52,12 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             {
                 Border = new BorderDxf(style.Border);
             }
+            if (style.NumberFormat != null && style.NumberFormat.HasValue)
+            {
+                NumberFormat = new NumberFormatDxf(style.NumberFormat, styleId);
+            }
+
+            CheckBox = false;
         }
 
         public StyleDxf(ExcelDxfStyleLimitedFont style)

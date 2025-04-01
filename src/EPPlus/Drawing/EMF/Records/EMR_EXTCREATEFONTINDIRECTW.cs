@@ -20,8 +20,8 @@ namespace OfficeOpenXml.Drawing.EMF
     {
         internal uint ihFonts;
         internal LogFont elw = null;
-        ExcelFont excelFont;
-        bool isExDv = false;
+        //ExcelFont excelFont;
+        //bool isExDv = false;
 
         internal EMR_EXTCREATEFONTINDIRECTW(LogFontExDv elw)
         {
@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Drawing.EMF
             if (sizeOfVariableObject > 320)//Size of a LogFontPanose object
             {
                 elw = new LogFontExDv(br);
-                isExDv = true;
+                //isExDv = true;
             }
             else if (sizeOfVariableObject == 320)
             {
@@ -55,6 +55,12 @@ namespace OfficeOpenXml.Drawing.EMF
             {
                 throw new InvalidOperationException("Corrupt file. The 'elw' field of a EXTCREATEFONTINDIRECTW object cannot be smaller than 320 bytes");
             }
+            //excelFont.Family = (int)elw.PitchAndFamily;
+            //excelFont.
+
+            //font.Style = MeasurementFontStyles.Regular;
+            //font.FontFamily = elw.FaceName;
+            //font.Size = 
         }
 
         internal override void WriteBytes(BinaryWriter bw)

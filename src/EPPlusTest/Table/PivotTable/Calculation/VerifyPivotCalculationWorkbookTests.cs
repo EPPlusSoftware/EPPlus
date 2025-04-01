@@ -1,11 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml.Table.PivotTable;
 using OfficeOpenXml.Table.PivotTable.Calculation;
-using OfficeOpenXml.Table.PivotTable.Calculation.Functions;
 using System.Collections.Generic;
 using OfficeOpenXml;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using System;
 namespace EPPlusTest.Table.PivotTable.Calculation
 {
     [TestClass]
@@ -69,7 +67,6 @@ namespace EPPlusTest.Table.PivotTable.Calculation
             Assert.AreEqual(3727.881, GetPtData(pt, 1));
             Assert.AreEqual(9689.13, GetPtData(pt, 2));
             Assert.AreEqual(9895964.00, GetPtData(pt, 3));
-
         }
         [TestMethod]
         public void VerifyCalculationPivotTable4()
@@ -180,7 +177,16 @@ namespace EPPlusTest.Table.PivotTable.Calculation
 
 			return pt.GetPivotData(pt.DataFields[datafield].Name, l);
 		}
-
+        [TestMethod]
+        public void ValidatePivotCalculationColumnFilters()
+        {
+            using (var p = OpenTemplatePackage("PivotTableCalculation.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[3];
+                ws.PivotTables.Calculate(false);
+                Assert.AreEqual(8846134.39, ws.PivotTables[0].CalculatedData.GetValue(0));
+            }
+        }
         private bool GetSubTotalFunctionFromString(string value, out eSubTotalFunctions function)
         {
             switch(value.ToLower())

@@ -87,6 +87,28 @@ namespace OfficeOpenXml.Drawing.OleObject
                 return _to;
             }
         }
+        public bool MoveWithCells
+        {
+            get
+            {
+                return GetXmlNodeBool("d:objectPr/d:anchor/@moveWithCells");
+            }
+            set
+            {
+                SetXmlNodeBool("d:objectPr/d:anchor/@moveWithCells", value, false);
+            }
+        }
+        public bool SizeWithCells
+        {
+            get
+            {
+                return GetXmlNodeBool("d:objectPr/d:anchor/@sizeWithCells");
+            }
+            set
+            {
+                SetXmlNodeBool("d:objectPr/d:anchor/@sizeWithCells", value, false);
+            }
+        }
 
         internal bool AutoLoad
         {

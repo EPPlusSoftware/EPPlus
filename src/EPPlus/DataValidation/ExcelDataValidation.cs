@@ -205,14 +205,6 @@ namespace OfficeOpenXml.DataValidation
             }
         }
 
-        /// <summary>
-        /// Indicates whether this instance is stale, see https://github.com/EPPlusSoftware/EPPlus/wiki/Data-validation-Exceptions
-        /// DEPRECATED as of Epplus 6.2.
-        /// This as validations can no longer be stale since all attributes are now always fresh and held in the system.
-        /// </summary>
-        [Obsolete]
-        public bool IsStale { get; } = false;
-
         string operatorString = null;
         /// <summary>
         /// Operator for comparison between the entered value and Formula/Formulas.
@@ -323,10 +315,10 @@ namespace OfficeOpenXml.DataValidation
 
             imeModeString = xr.GetAttribute("imeMode");
 
-            AllowBlank = xr.GetAttribute("allowBlank") == "1" ? true : false;
+            AllowBlank = xr.GetAttribute("allowBlank") == "1" || xr.GetAttribute("allowBlank") == "true" ? true : false;
 
-            ShowInputMessage = xr.GetAttribute("showInputMessage") == "1" ? true : false;
-            ShowErrorMessage = xr.GetAttribute("showErrorMessage") == "1" ? true : false;
+            ShowInputMessage = xr.GetAttribute("showInputMessage") == "1" || xr.GetAttribute("showInputMessage") == "true" ? true : false;
+            ShowErrorMessage = xr.GetAttribute("showErrorMessage") == "1" || xr.GetAttribute("showErrorMessage") == "true" ? true : false;
 
             ErrorTitle = xr.GetAttribute("errorTitle");
             Error = xr.GetAttribute("error");

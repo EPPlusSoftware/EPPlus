@@ -55,20 +55,82 @@ namespace EPPlusTest.Drawing.Chart
             SaveAndCleanup(_pck);
         }
 
+        [TestMethod]
+        public void ReadingDataLabel()
+        {
+            using (var p = OpenTemplatePackage("leaderlinesSome.xlsx"))
+            {
+                var cSheet = p.Workbook.Worksheets[0];
+
+                var aChart = cSheet.Drawings[0].As.Chart.BarChart;
+
+                for (int i = 0; i < aChart.Series.Count; i++)
+                {
+                    var label = aChart.Series[i].DataLabel;
+
+                    if (label.DataLabels.Count > 0)
+                    {
+                        var labelIndividual = label.DataLabels[0];
+
+                        if(i > 0 && i< 3)
+                        {
+                            Assert.AreEqual(true, labelIndividual.ShowLeaderLines);
+                        }
+                        else
+                        {
+                            Assert.AreEqual(false, labelIndividual.ShowLeaderLines);
+                        }
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
+        public void ReadingMultipleSeriesMultipleLabels()
+        {
+            using (var p = OpenTemplatePackage("3StackedColumns.xlsx"))
+            {
+                var cSheet = p.Workbook.Worksheets[0];
+
+                var aChart = cSheet.Drawings[0].As.Chart.BarChart;
+
+                for (int i = 0; i < aChart.Series.Count; i++)
+                {
+                    var label = aChart.Series[i].DataLabel;
+
+                    for(int j = 0; j < label.DataLabels.Count; j++)
+                    {
+                        //Ensure individual labels return correctly
+                        Assert.AreEqual(true, label.DataLabels[j].ShowLeaderLines);
+                    }
+
+                    //Ensure parent label returns correctly
+                    Assert.AreEqual(label.ShowLeaderLines, false);
+                }
+            }
+        }
+
         // s679
         //Manual layout when labels are atop eachother
         [TestMethod]
         public void AddingManualLayout()
         {
+            //Get the bar chart from drawings
             var bChart = cSheet.Drawings[0].As.Chart.BarChart;
 
+            //Remove gridlines to see our numbers clearer.
             bChart.XAxis.RemoveGridlines(true, true);
             bChart.YAxis.RemoveGridlines(true, true);
 
             for (int i = 0; i < bChart.Series.Count; i++)
             {
-                var label = bChart.Series[i].DataLabel.DataLabels.Add(0);
-                AdjustDataLabelItem(ref label);
+                var genLabel = bChart.Series[i].DataLabel;
+                //Add a new datalabel, all others will still adhere to the rules of genLabel
+                var label = genLabel.DataLabels.Add(0);
+
+                label.Layout.ManualLayout.Left = -30;
+
+                //Spacing out clumped up labels
                 if (i == 3 || i == 2)
                 {
                     label.Layout.ManualLayout.Top = 5;
@@ -320,6 +382,57 @@ namespace EPPlusTest.Drawing.Chart
                 sChart.Series[2].DataLabel.DataLabels.Add(1);
 
                 SaveAndCleanup(pck);
+            }
+        }
+
+        [TestMethod]
+        public void NormalBarChart()
+        {
+            var ws = _pck.Workbook.Worksheets.Add("ManualLayoutColumnsClustered");
+
+            //Create some values
+            ws.Cells["A1:A2"].Value = 5;
+            ws.Cells["B1:B2"].Value = 10;
+
+            //Create a column chart
+            var sChart = ws.Drawings.AddBarChart("ColumnChart", eBarChartType.ColumnClustered);
+
+            //Add series (clustered columns) to the chart. In this case 2 per series
+            var s1 = sChart.Series.Add(ws.Cells["A1:A2"]);
+            var s2 = sChart.Series.Add(ws.Cells["B1:B2"]);
+
+            //Add a general datalabel
+            var label = s1.DataLabel;
+            label.ShowValue = true;
+
+            //Add a specific datalabel to the first column in the cluster
+            var dl = label.DataLabels.Add(0);
+
+            //Offset the data label 10% of the charts width to the left
+            //AKA Remove 10 from x coordinate
+            dl.Layout.ManualLayout.Left = -10;
+
+            //Offset the data label 10% of the charts height to the top
+            //AKA remove 10 from y coordinate
+            dl.Layout.ManualLayout.Top = -10;
+        }
+
+
+        [TestMethod]
+        public void ReadChart()
+        {
+            using (ExcelPackage p = OpenTemplatePackage("leaderlinesSome.xlsx"))
+            {
+                var wb = p.Workbook;
+                var ws = p.Workbook.Worksheets[0];
+
+                var aChart = ws.Drawings[0].As.Chart.BarChart;
+
+                var label = aChart.Series[1].DataLabel.DataLabels[0];
+                var label2 = aChart.Series[3].DataLabel.DataLabels[0];
+
+                label2.ShowLeaderLines = true;
+                SaveAndCleanup(p);
             }
         }
     }

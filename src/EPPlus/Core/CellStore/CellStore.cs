@@ -53,8 +53,9 @@ namespace OfficeOpenXml.Core.CellStore
         internal ColumnIndex<T>[] _columnIndex;
         internal int ColumnCount;
         public bool IsReadonly { get; set; }
+
         /// <summary>
-        /// For internal use only. 
+        /// For internal use only.
         /// Must be set before any instance of the CellStore is created.
         /// </summary>
         public CellStore()
@@ -255,7 +256,7 @@ namespace OfficeOpenXml.Core.CellStore
             }
             return c;
         }
-        internal T GetValue(int Row, int Column)
+        internal virtual T GetValue(int Row, int Column)
         {
             lock (_syncRoot)
             {
@@ -299,7 +300,7 @@ namespace OfficeOpenXml.Core.CellStore
                 }
             }
         }
-        internal void SetValue(int row, int column, T value)
+        internal virtual void SetValue(int row, int column, T value)
         {
             lock (_syncRoot)
             {
@@ -457,15 +458,15 @@ namespace OfficeOpenXml.Core.CellStore
             return (row >= column._pages[pagePos].MinIndex && row <= column._pages[pagePos].MaxIndex);
         }
 
-        internal void Clear(int fromRow, int fromCol, int rows, int columns)
+        internal virtual void Clear(int fromRow, int fromCol, int rows, int columns)
         {
             Delete(fromRow, fromCol, rows, columns, false);
         }
-        internal void Delete(int fromRow, int fromCol, int rows, int columns)
+        internal virtual void Delete(int fromRow, int fromCol, int rows, int columns)
         {
             Delete(fromRow, fromCol, rows, columns, true);
         }
-        internal void Delete(int fromRow, int fromCol, int rows, int columns, bool shift)
+        internal virtual void Delete(int fromRow, int fromCol, int rows, int columns, bool shift)
         {
             if (rows == 0)
             {
@@ -1078,7 +1079,7 @@ namespace OfficeOpenXml.Core.CellStore
             AddPage(columnIndex, nextPage, pagePos + 1);
         }
 
-        private static void ResizePageCollectionIfNecessery(ColumnIndex<T> columnIndex)
+        private static void ResizePageCollectionIfNecessary(ColumnIndex<T> columnIndex)
         {
             if (columnIndex.PageCount  >= columnIndex._pages.Length)
             {
@@ -1132,7 +1133,7 @@ namespace OfficeOpenXml.Core.CellStore
         /// <param name="pos">Position</param>
         private void AddPage(ColumnIndex<T> column, int pos)
         {
-            ResizePageCollectionIfNecessery(column);
+            ResizePageCollectionIfNecessary(column);
 
             if (pos < column.PageCount)
             {
@@ -1185,6 +1186,10 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     return false;
                 }
+                if (row > maxRow)
+                {
+                    return false;
+                }
                 if (maxColPos >= ColumnCount)
                 {
                     maxColPos = ColumnCount - 1;
@@ -1204,6 +1209,12 @@ namespace OfficeOpenXml.Core.CellStore
                     else
                     {
                         var r = GetNextCell(ref row, ref c, minColPos, maxRow, maxColPos);
+
+                        if(c >= ColumnCount)
+                        {
+                            return false;
+                        }
+
                         col = _columnIndex[c].Index;
                         return r;
                     }
@@ -1259,6 +1270,15 @@ namespace OfficeOpenXml.Core.CellStore
             }
             return false;
         }
+        /// <summary>
+        /// Get the current or previous cell 
+        /// </summary>
+        /// <param name="row">The row</param>
+        /// <param name="col">The column</param>
+        /// <param name="minRow">The minimum row in the span.</param>
+        /// <param name="maxRow">The maximum row in the span.</param>
+        /// <param name="maxColPos">The maximum col position.</param>
+        /// <returns></returns>
         internal bool PrevCellByColumn(ref int row, ref int col, int minRow, int maxRow, int maxColPos)
         {
             lock (_syncRoot)
@@ -1267,7 +1287,7 @@ namespace OfficeOpenXml.Core.CellStore
                 maxColPos = Math.Min(maxColPos, ColumnCount - 1);
                 while (c >= 0)
                 {
-                    var r = _columnIndex[c].GetPrevRow(row);
+                    var r = _columnIndex[c].GetPrevRow(row+1);
                     if (r == row)
                     {
                         col = _columnIndex[c].Index;
@@ -1288,6 +1308,11 @@ namespace OfficeOpenXml.Core.CellStore
         }
         internal bool GetNextCell(ref int row, ref int colPos, int startColPos, int endRow, int endColPos)
         {
+            if (row > endRow)
+            {
+                return false;
+            }
+
             if (ColumnCount == 0)
             {
                 return false;
@@ -1356,7 +1381,7 @@ namespace OfficeOpenXml.Core.CellStore
 
                             if (minRow == int.MaxValue || minRow > endRow)
                             {
-                                return false;
+                                    return false;
                             }
                             else
                             {
@@ -1498,7 +1523,7 @@ namespace OfficeOpenXml.Core.CellStore
                 {
                     if (--colPos >= startColPos)
                     {
-                        var r = _columnIndex[colPos].GetNextRow(row);
+                        var r = _columnIndex[colPos].GetPrevRow(row + 1);
                         if (r == row) //Exists next Row
                         {
                             return true;
@@ -1506,58 +1531,45 @@ namespace OfficeOpenXml.Core.CellStore
                         else
                         {
                             int minRow, minCol;
-                            if (r > row && r >= startRow)
+                            if (r < row && r >= startRow)
                             {
                                 minRow = r;
                                 minCol = colPos;
                             }
                             else
                             {
-                                minRow = int.MaxValue;
+                                minRow = int.MinValue;
                                 minCol = 0;
                             }
 
                             var c = colPos - 1;
                             if (c >= startColPos)
                             {
-                                while (c >= startColPos)
+                                while (c != colPos)
                                 {
-                                    r = _columnIndex[c].GetNextRow(row);
+                                    r = _columnIndex[c].GetPrevRow(row + 1);
                                     if (r == row) //Exists next Row
                                     {
                                         colPos = c;
                                         return true;
                                     }
-                                    if (r > row && r < minRow && r >= startRow)
+                                    if (r <= row && r > minRow && r >= startRow)
                                     {
                                         minRow = r;
                                         minCol = c;
                                     }
                                     c--;
+                                    if(c < startColPos)
+                                    {
+                                        c = endColPos;
+                                        row--;
+                                        if (row < 0) return false;
+                                    }
                                 }
                             }
-                            if (row > startRow)
+                            if(minRow==int.MinValue)
                             {
-                                c = endColPos;
-                                row--;
-                                while (c > colPos)
-                                {
-                                    r = _columnIndex[c].GetNextRow(row);
-                                    if (r == row) //Exists next Row
-                                    {
-                                        colPos = c;
-                                        return true;
-                                    }
-                                    if (r > row && r < minRow && r >= startRow)
-                                    {
-                                        minRow = r;
-                                        minCol = c;
-                                    }
-                                    c--;
-                                }
-                            }
-                            if (minRow == int.MaxValue || startRow < minRow)
-                            {
+                                row = 0;
                                 return false;
                             }
                             else

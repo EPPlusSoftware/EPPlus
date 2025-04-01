@@ -12,9 +12,11 @@ items:
   - OfficeOpenXml.ExcelRangeColumn.CollapseChildren(System.Boolean)
   - OfficeOpenXml.ExcelRangeColumn.Collapsed
   - OfficeOpenXml.ExcelRangeColumn.Current
+  - OfficeOpenXml.ExcelRangeColumn.DeleteAll(System.Predicate{OfficeOpenXml.ExcelColumn})
   - OfficeOpenXml.ExcelRangeColumn.Dispose
   - OfficeOpenXml.ExcelRangeColumn.EndColumn
   - OfficeOpenXml.ExcelRangeColumn.ExpandChildren(System.Boolean)
+  - OfficeOpenXml.ExcelRangeColumn.GetColumn(System.Int32,System.Boolean)
   - OfficeOpenXml.ExcelRangeColumn.GetEnumerator
   - OfficeOpenXml.ExcelRangeColumn.Group
   - OfficeOpenXml.ExcelRangeColumn.Hidden
@@ -43,11 +45,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRangeColumn
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 93
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -96,11 +98,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StartColumn
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 106
+    startLine: 105
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -133,11 +135,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EndColumn
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 116
+    startLine: 115
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -170,11 +172,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Collapsed
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 126
+    startLine: 125
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -207,11 +209,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Group
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 140
+    startLine: 139
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -239,11 +241,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UnGroup
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 148
+    startLine: 147
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -271,11 +273,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CollapseChildren
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 157
+    startLine: 156
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -306,11 +308,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExpandChildren
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 179
+    startLine: 178
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -341,11 +343,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetVisibleOutlineLevel
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 202
+    startLine: 201
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -380,11 +382,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OutlineLevel
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 224
+    startLine: 223
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -417,11 +419,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Phonetic
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 238
+    startLine: 237
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -454,11 +456,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BestFit
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 253
+    startLine: 252
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -491,11 +493,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hidden
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 268
+    startLine: 267
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -528,11 +530,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Width
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 282
+    startLine: 281
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -565,11 +567,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PageBreak
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 304
+    startLine: 303
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -602,11 +604,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 320
+    startLine: 319
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -639,11 +641,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 333
+    startLine: 332
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -676,11 +678,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 348
+    startLine: 347
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -713,11 +715,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 362
+    startLine: 361
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -753,11 +755,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 372
+    startLine: 371
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -792,11 +794,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 389
+    startLine: 388
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -825,11 +827,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 403
+    startLine: 402
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -862,11 +864,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFit
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 418
+    startLine: 417
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -888,6 +890,48 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ExcelRangeColumn.GetColumn(System.Int32,System.Boolean)
+  commentId: M:OfficeOpenXml.ExcelRangeColumn.GetColumn(System.Int32,System.Boolean)
+  id: GetColumn(System.Int32,System.Boolean)
+  parent: OfficeOpenXml.ExcelRangeColumn
+  langs:
+  - csharp
+  - vb
+  name: GetColumn(Int32, Boolean)
+  nameWithType: ExcelRangeColumn.GetColumn(Int32, Boolean)
+  fullName: OfficeOpenXml.ExcelRangeColumn.GetColumn(System.Int32, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeColumn.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetColumn
+    path: ../src/EPPlus/ExcelRangeColumn.cs
+    startLine: 427
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nGets the column.\n"
+  example: []
+  syntax:
+    content: protected ExcelColumn GetColumn(int col, bool ignoreFromCol = true)
+    parameters:
+    - id: col
+      type: System.Int32
+      description: ''
+    - id: ignoreFromCol
+      type: System.Boolean
+      description: ''
+    return:
+      type: OfficeOpenXml.ExcelColumn
+      description: ''
+    content.vb: Protected Function GetColumn(col As Integer, ignoreFromCol As Boolean = True) As ExcelColumn
+  overload: OfficeOpenXml.ExcelRangeColumn.GetColumn*
+  modifiers.csharp:
+  - protected
+  modifiers.vb:
+  - Protected
 - uid: OfficeOpenXml.ExcelRangeColumn.Range
   commentId: P:OfficeOpenXml.ExcelRangeColumn.Range
   id: Range
@@ -902,11 +946,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Range
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 544
+    startLine: 549
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -939,11 +983,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 555
+    startLine: 560
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -976,11 +1020,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 563
+    startLine: 569
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1010,11 +1054,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 572
+    startLine: 579
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1047,11 +1091,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 612
+    startLine: 629
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1067,6 +1111,45 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: OfficeOpenXml.ExcelRangeColumn.DeleteAll(System.Predicate{OfficeOpenXml.ExcelColumn})
+  commentId: M:OfficeOpenXml.ExcelRangeColumn.DeleteAll(System.Predicate{OfficeOpenXml.ExcelColumn})
+  id: DeleteAll(System.Predicate{OfficeOpenXml.ExcelColumn})
+  parent: OfficeOpenXml.ExcelRangeColumn
+  langs:
+  - csharp
+  - vb
+  name: DeleteAll(Predicate<ExcelColumn>)
+  nameWithType: ExcelRangeColumn.DeleteAll(Predicate<ExcelColumn>)
+  fullName: OfficeOpenXml.ExcelRangeColumn.DeleteAll(System.Predicate<OfficeOpenXml.ExcelColumn>)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/ExcelRangeColumn.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DeleteAll
+    path: ../src/EPPlus/ExcelRangeColumn.cs
+    startLine: 688
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nDelete all columns that match the predicate\n"
+  example: []
+  syntax:
+    content: public void DeleteAll(Predicate<ExcelColumn> match)
+    parameters:
+    - id: match
+      type: System.Predicate{OfficeOpenXml.ExcelColumn}
+      description: ''
+    content.vb: Public Sub DeleteAll(match As Predicate(Of ExcelColumn))
+  overload: OfficeOpenXml.ExcelRangeColumn.DeleteAll*
+  nameWithType.vb: ExcelRangeColumn.DeleteAll(Predicate(Of ExcelColumn))
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+  fullName.vb: OfficeOpenXml.ExcelRangeColumn.DeleteAll(System.Predicate(Of OfficeOpenXml.ExcelColumn))
+  name.vb: DeleteAll(Predicate(Of ExcelColumn))
 - uid: OfficeOpenXml.ExcelRangeColumn.Dispose
   commentId: M:OfficeOpenXml.ExcelRangeColumn.Dispose
   id: Dispose
@@ -1081,11 +1164,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeColumn.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelRangeColumn.cs
-    startLine: 670
+    startLine: 707
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1783,6 +1866,17 @@ references:
   name: AutoFit
   nameWithType: ExcelRangeColumn.AutoFit
   fullName: OfficeOpenXml.ExcelRangeColumn.AutoFit
+- uid: OfficeOpenXml.ExcelRangeColumn.GetColumn*
+  commentId: Overload:OfficeOpenXml.ExcelRangeColumn.GetColumn
+  name: GetColumn
+  nameWithType: ExcelRangeColumn.GetColumn
+  fullName: OfficeOpenXml.ExcelRangeColumn.GetColumn
+- uid: OfficeOpenXml.ExcelColumn
+  commentId: T:OfficeOpenXml.ExcelColumn
+  parent: OfficeOpenXml
+  name: ExcelColumn
+  nameWithType: ExcelColumn
+  fullName: OfficeOpenXml.ExcelColumn
 - uid: OfficeOpenXml.ExcelRangeColumn.Range*
   commentId: Overload:OfficeOpenXml.ExcelRangeColumn.Range
   name: Range
@@ -1971,6 +2065,92 @@ references:
   - name: (
     nameWithType: (
     fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: OfficeOpenXml.ExcelRangeColumn.DeleteAll*
+  commentId: Overload:OfficeOpenXml.ExcelRangeColumn.DeleteAll
+  name: DeleteAll
+  nameWithType: ExcelRangeColumn.DeleteAll
+  fullName: OfficeOpenXml.ExcelRangeColumn.DeleteAll
+- uid: System.Predicate{OfficeOpenXml.ExcelColumn}
+  commentId: T:System.Predicate{OfficeOpenXml.ExcelColumn}
+  parent: System
+  definition: System.Predicate`1
+  name: Predicate<ExcelColumn>
+  nameWithType: Predicate<ExcelColumn>
+  fullName: System.Predicate<OfficeOpenXml.ExcelColumn>
+  nameWithType.vb: Predicate(Of ExcelColumn)
+  fullName.vb: System.Predicate(Of OfficeOpenXml.ExcelColumn)
+  name.vb: Predicate(Of ExcelColumn)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: OfficeOpenXml.ExcelColumn
+    name: ExcelColumn
+    nameWithType: ExcelColumn
+    fullName: OfficeOpenXml.ExcelColumn
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: OfficeOpenXml.ExcelColumn
+    name: ExcelColumn
+    nameWithType: ExcelColumn
+    fullName: OfficeOpenXml.ExcelColumn
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Predicate`1
+  commentId: T:System.Predicate`1
+  isExternal: true
+  name: Predicate<T>
+  nameWithType: Predicate<T>
+  fullName: System.Predicate<T>
+  nameWithType.vb: Predicate(Of T)
+  fullName.vb: System.Predicate(Of T)
+  name.vb: Predicate(Of T)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )

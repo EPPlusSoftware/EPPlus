@@ -417,6 +417,35 @@ namespace OfficeOpenXml
         }
         #endregion
         #region Delete Worksheet
+
+        /// <summary>
+        /// Deletes all worksheets that matches the Predicate from the collection of worksheets
+        /// </summary>
+        /// <param name="match"></param>
+        /// <exception cref="ArgumentException"></exception>
+        public void DeleteAll(Predicate<ExcelWorksheet> match)
+        {
+            if (match == null)
+            {
+                throw new ArgumentException ("Cannot delete worksheets with predicate 'null'");
+            }
+
+            int currentIndex = 0;
+
+            // Find the first item which needs to be removed.
+            while (currentIndex < Count && !match(_worksheets[currentIndex])) currentIndex++;
+            if (currentIndex >= Count) return;
+
+            while (currentIndex < _worksheets._items.Count())
+            {
+                if(match(_worksheets._items[currentIndex]))
+                {
+                    Delete(_worksheets._items[currentIndex].PositionId);
+                }
+                currentIndex++;
+            }
+        }
+
         /// <summary>
         /// Deletes a worksheet from the collection
         /// </summary>
@@ -472,8 +501,8 @@ namespace OfficeOpenXml
                 _pck.Workbook.VbaProject.Modules.Remove(worksheet.CodeModule);
             }
 
-            _worksheets.RemoveAndShift(Index - _pck._worksheetAdd);
-            ReindexWorksheetDictionary();
+            _worksheets.RemoveAndShift(Index - _pck._worksheetAdd); 
+            ReindexWorksheetPosition(Index);
             //If the active sheet is deleted, set the next visible sheet as active.
             //If none are visible start going backwards until one isn't.
             if (_pck.Workbook.Worksheets.Count > 0)
@@ -560,6 +589,13 @@ namespace OfficeOpenXml
                 worksheets.Add(index++, entry);
             }
             _worksheets = worksheets;
+        }
+        internal void ReindexWorksheetPosition(int wsIndex)
+        {
+            for(int i= 0; i<_worksheets.Count;i++)
+            {
+                _worksheets[i].PositionId = i + _pck._worksheetAdd;
+            }
         }
 
 #if Core
@@ -662,6 +698,7 @@ namespace OfficeOpenXml
             return worksheet;
         }
         internal bool _areDrawingsLoaded = false;
+        internal bool _areVmlDrawingsLoaded = false;
         //#region Move worksheet functions
         /// <summary>
         /// Moves the source worksheet to the position before the target worksheet

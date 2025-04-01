@@ -10,15 +10,19 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System.Collections.Generic;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.FormulaParsing.Logging;
-using NvProvider = OfficeOpenXml.FormulaParsing.NameValueProvider;
-using System;
 using OfficeOpenXml.ExternalReferences;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
 using OfficeOpenXml.FormulaParsing.Excel;
+using OfficeOpenXml.FormulaParsing.ExcelUtilities;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions.FunctionCompilers;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
+using OfficeOpenXml.FormulaParsing.Logging;
+using System.Collections.Generic;
+using NvProvider = OfficeOpenXml.FormulaParsing.NameValueProvider;
+using OfficeOpenXml.Utils.RemoteCalls;
+
+#if (!NET35)
+using System.Threading.Tasks;
+#endif
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -140,10 +144,13 @@ namespace OfficeOpenXml.FormulaParsing
             {
                 if(Package != null && CurrentCell.WorksheetIx>=0 && CurrentCell.WorksheetIx < Package.Workbook.Worksheets.Count)
                 {
-                    return Package.Workbook.Worksheets[CurrentCell.WorksheetIx];
+                    return Package.Workbook.GetWorksheetByIndexInList(CurrentCell.WorksheetIx);
                 }
                 return null;
             }
         }
+
+        internal RemoteCallManager RemoteCallManager { get;  }= new RemoteCallManager();
     }
+
 }

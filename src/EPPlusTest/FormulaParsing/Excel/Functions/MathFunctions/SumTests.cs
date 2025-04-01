@@ -1,10 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OfficeOpenXml;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -142,6 +139,57 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.MathFunctions
                 var a4val = sheet.Cells["A4"].Value;
                 Assert.AreEqual(1d,a4val);
             }
+        }
+
+
+        [TestMethod, Ignore("There are floating point issues where Excel handles special cases when result i near 0. See comment in the test for more info.")]
+        public void SumPrecisionTest()
+        {
+            /*
+            It appears that when the result of a calculation nears 0, Excel does round the number to 0.
+            https://learn.microsoft.com/en-us/office/troubleshoot/excel/floating-point-arithmetic-inaccurate-result
+
+            It rounds if the last operation in a calculation is a subtraction or addition and if the result is near 0.
+            Some guesses is that near zero means 1E-15 or less?
+            It seems to be a bit consistent when it rounds using addition or subtraction
+            putting an addition expression in parentesis and it will not round the result to 0.
+            */
+
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            ws.Cells["A2"].Value = 0.2;
+            ws.Cells["B2"].Value = 21.9;
+            ws.Cells["D2"].Value = 22.1;
+            ws.Cells["E2"].Formula = "D2-SUM(A2:B2)";
+
+            ws.Cells["A3"].Value = 0.2;
+            ws.Cells["B3"].Value = -21.9;
+            ws.Cells["E3"].Formula = "SUM(A3:B3)";
+
+            ws.Cells["A4"].Value = -0.2;
+            ws.Cells["B4"].Value = -21.9;
+            ws.Cells["D4"].Value = -22.1;
+            ws.Cells["E4"].Formula = "D4-SUM(A4:B4)";
+
+
+            ws.Cells["A5"].Value = -0.2;
+            ws.Cells["B5"].Value = 21.9;
+            ws.Cells["D5"].Value = -22.1;
+            ws.Cells["E5"].Formula = "D5-SUM(A5:B5)";
+
+            p.Workbook.Calculate();
+
+            Assert.AreEqual(0d, RoundingHelper.GetSignificantFigures( (double)ws.Cells["E2"].Value, 15));
+            Assert.AreEqual(-21.7d, ws.Cells["E3"].Value);
+            Assert.AreEqual(0d, ws.Cells["E4"].Value);
+            Assert.AreEqual(-43.8, ws.Cells["E5"].Value);
+
+            var r = RoundingHelper.GetSignificantFigures(-123456.0987654321d, 15);
+            Assert.AreEqual(-123456.098765432, r);
+
+            var r2 = RoundingHelper.GetSignificantFigures(0.000111111111111173d, 15);
+            Assert.AreEqual(0.000111111111111173, r2);
         }
     }
 }

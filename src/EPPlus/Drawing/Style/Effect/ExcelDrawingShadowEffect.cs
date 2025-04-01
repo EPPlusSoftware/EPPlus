@@ -50,7 +50,7 @@ namespace OfficeOpenXml.Drawing.Style.Effect
         {
             get
             {
-                return GetXmlNodeAngel(_directionPath);
+                return GetXmlNodeAngle(_directionPath);
             }
             set
             {

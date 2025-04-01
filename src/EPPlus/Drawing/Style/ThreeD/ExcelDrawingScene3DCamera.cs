@@ -66,7 +66,7 @@ namespace OfficeOpenXml.Drawing.Style.ThreeD
         {
             get
             {
-                return GetXmlNodeAngel(_fieldOfViewAnglePath, 0);
+                return GetXmlNodeAngle(_fieldOfViewAnglePath, 0);
             }
             set
             {

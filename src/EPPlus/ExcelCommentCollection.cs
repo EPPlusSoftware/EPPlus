@@ -159,6 +159,12 @@ namespace OfficeOpenXml
         /// <returns>The comment</returns>
         public ExcelComment Add(ExcelRangeBase cell, string Text, string author = null)
         {
+            //Check no other base comment already on the cell
+            if (cell._worksheet._commentsStore.Exists(cell._fromRow, cell._fromCol))
+            {
+                throw (new InvalidOperationException(string.Format("Cell {0} already contains a comment.", new ExcelCellAddress(cell._fromRow, cell._fromCol).Address)));
+            }
+
             if (string.IsNullOrEmpty(author))
             {
 #if Core
@@ -168,7 +174,6 @@ namespace OfficeOpenXml
 #endif
                 if (string.IsNullOrEmpty(author))
                 {
-
                     author = "Anonymous";
                 }
             }
@@ -265,6 +270,7 @@ namespace OfficeOpenXml
                 {
                     address = address.DeleteRow(fromRow, rows);
                 }
+
                 if(address==null || address.Address=="#REF!")
                 {
                     deletedComments.Add(comment);

@@ -27,7 +27,6 @@ using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Utilities;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
-using OfficeOpenXml.ConditionalFormatting;
 namespace OfficeOpenXml.Utils
 {
     internal static class ConvertUtil
@@ -417,18 +416,19 @@ namespace OfficeOpenXml.Utils
         {
             if (Regex.IsMatch(t, "(_x[0-9A-F]{4,4}_)"))
             {
-                var match = Regex.Match(t, "(_x[0-9A-F]{4,4}_)");
+                var matches = Regex.Matches(t, "(_x[0-9A-F]{4,4})");
                 int indexAdd = 0;
-                while (match.Success)
+                foreach(Match m in  matches) 
                 {
-                    t = t.Insert(match.Index + indexAdd, "_x005F");
+                    t = t.Insert(m.Index + indexAdd, "_x005F");
                     indexAdd += 6;
-                    match = match.NextMatch();
                 }
             }
             for (int i = 0; i < t.Length; i++)
             {
-                if (t[i] <= 0x1f && ((t[i] != '\n' && encodeTabLF == false) || encodeTabLF)) //Not Tab, CR or LF
+                if (t[i] <= 0x1f && 
+                    ((t[i] != '\n' && t[i] != '\r' && t[i] != '\t' && encodeTabLF == false) ||  //Not Tab, CR or LF
+                    encodeTabLF)) 
                 {
                     sb.AppendFormat("_x00{0}_", (t[i] <= 0xf ? "0" : "") + ((int)t[i]).ToString("X"));
                 }
@@ -466,37 +466,64 @@ namespace OfficeOpenXml.Utils
         }
         internal static string ExcelDecodeString(string t)
         {
-            var match = Regex.Match(t, "(_x005F|_x[0-9A-Fa-f]{4,4}_)");
-            if (!match.Success) return t;
-
-            var useNextValue = false;
-            var ret = new StringBuilder();
-            var prevIndex = 0;
-            while (match.Success)
+            if (string.IsNullOrEmpty(t)) return t;
+            var ret=new StringBuilder();
+            var ix = 0;
+            for(var i=0;i<t.Length;i++)
             {
-                if (prevIndex < match.Index) ret.Append(t.Substring(prevIndex, match.Index - prevIndex));
-                if (!useNextValue && match.Value == "_x005F")
+                var c = t[i];
+                if(c=='\r')
                 {
-                    useNextValue = true;
+                    ret.Append('\n');
+                    if (i+1 < t.Length && t[i + 1]=='\n')
+                    {
+                        i++;
+                    }
                 }
                 else
                 {
-                    if (useNextValue)
+                    if(Matches(c, ref ix))
                     {
-                        ret.Append(match.Value);
-                        useNextValue = false;
+                        if(ix==7)
+                        {
+                            var encoded = t.Substring(i - 4, 4);
+                            ret.Append((char)int.Parse(encoded, NumberStyles.AllowHexSpecifier));
+                            ix = 0;
+                        }
                     }
                     else
                     {
-                        ret.Append((char)int.Parse(match.Value.Substring(2, 4), NumberStyles.AllowHexSpecifier));
+                        if(ix>0)
+                        {
+                            ret.Append(t.Substring(i - ix, ix+1));
+                            ix = 0;
+                        }
+                        else
+                        {
+                            ret.Append(c);
+                        }
                     }
                 }
-                prevIndex = match.Index + match.Length;
-                match = match.NextMatch();
             }
-            ret.Append(t.Substring(prevIndex, t.Length - prevIndex));
             return ret.ToString();
         }
+
+        private static bool Matches(char c, ref int ix)
+        {
+            if((ix==0 && c=='_') ||
+               (ix==1 && c=='x') || 
+               (ix>=2 && ix <= 5 && ((c >='0' && c<='9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'))) ||
+               (c == '_' && ix == 6))
+            {
+                ix++;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         /// <summary>
         ///     Convert cell value to desired type, including nullable structs.
         ///     When converting blank string to nullable struct (e.g. ' ' to int?) null is returned.
@@ -528,7 +555,7 @@ namespace OfficeOpenXml.Utils
         {
             var conversion = new TypeConvertUtil<T>(value);
 
-            if(value == null || (conversion.ReturnType.IsNullable && conversion.Value.IsEmptyString))
+            if (value == null || (conversion.ReturnType.IsNullable && conversion.Value.IsEmptyString))
             {
                 return default;
             }
@@ -540,13 +567,72 @@ namespace OfficeOpenXml.Utils
             {
                 return (T)conversion.ConvertToReturnType();
             }
-            else if (conversion.ReturnType.IsDateTime && conversion.TryGetDateTime(out object returnDate))
+            else if (conversion.ReturnType.IsDateTime)
             {
-                return (T)returnDate;
+                DateTime? dt=null;
+                if(conversion.TryGetDateTime(out object returnDate))
+                {
+                    dt = (DateTime)returnDate;
+                }
+#if(NET8_0_OR_GREATER)
+                else if (value is DateOnly dateOnly)
+                {
+                    dt = dateOnly.ToDateTime(TimeOnly.MinValue);
+                }
+
+                if (conversion.ReturnType.Type == typeof(DateOnly))
+                {
+                    if (dt.HasValue)
+                    {
+                        return (T)(object)DateOnly.FromDateTime(dt.Value);
+                    }
+                    else
+                    {
+                        return (T)(object)DateOnly.FromDateTime((DateTime)value);
+                    }
+                }
+#endif  
+                if (dt != null)
+                {
+                    return (T)(object)dt;
+                }
             }
-            else if (conversion.ReturnType.IsTimeSpan && conversion.TryGetTimeSpan(out object ts))
+            else if (conversion.ReturnType.IsTimeSpan)
             {
-                return (T)ts;
+                TimeSpan? ts=null;
+                if (value is DateTime dt)
+                {                    
+                    ts = new TimeSpan((long)(dt.ToOADate() * TimeSpan.TicksPerDay));
+                }
+#if (NET8_0_OR_GREATER)
+                else if (value is TimeOnly timeOnly)
+                {
+                    ts = timeOnly.ToTimeSpan();
+                }
+                else if (value is DateOnly dateOnly)
+                {
+                    ts=new TimeSpan((long)dateOnly.ToDateTime(TimeOnly.MinValue).ToOADate() * TimeSpan.TicksPerDay);
+                }
+#endif
+                else if (conversion.TryGetTimeSpan(out object tso))
+                {
+                    ts = (TimeSpan)tso;
+                }
+
+#if (NET8_0_OR_GREATER)
+                if (conversion.ReturnType.Type == typeof(TimeOnly))
+                {
+                    if (ts.HasValue == false && value is TimeSpan tsc)
+                    {
+                        ts = tsc;
+                    }
+                    return (T)(object)TimeOnly.FromTimeSpan(new TimeSpan(ts.Value.Ticks - ts.Value.Days*TimeSpan.TicksPerDay));
+                }
+#endif
+                if (ts.HasValue)
+                {
+                    return (T)(object)ts;
+                }
             }
             if(returnDefaultIfException)
             {

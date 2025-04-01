@@ -7,8 +7,10 @@ items:
   children:
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.DynamicArray
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.DynamicArray_AlwaysSetCellAsDynamic
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.LocalImage
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.Normal
   - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.RangeAddress
+  - OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.WebImage
   langs:
   - csharp
   - vb
@@ -18,12 +20,12 @@ items:
   type: Enum
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompileResultType
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 32
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+    startLine: 17
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -51,12 +53,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Normal
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 37
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+    startLine: 22
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -85,12 +87,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeAddress
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 41
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+    startLine: 26
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -119,12 +121,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DynamicArray
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 45
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+    startLine: 30
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -153,12 +155,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-      branch: fix/comments-and-warings
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DynamicArray_AlwaysSetCellAsDynamic
-    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResult.cs
-    startLine: 49
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+    startLine: 34
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
@@ -166,6 +168,74 @@ items:
   example: []
   syntax:
     content: DynamicArray_AlwaysSetCellAsDynamic = 3
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.LocalImage
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.LocalImage
+  id: LocalImage
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  langs:
+  - csharp
+  - vb
+  name: LocalImage
+  nameWithType: CompileResultType.LocalImage
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.LocalImage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: LocalImage
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+    startLine: 38
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nA compile result containing a local image or a reference to a local image\n"
+  example: []
+  syntax:
+    content: LocalImage = 4
+    return:
+      type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.WebImage
+  commentId: F:OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.WebImage
+  id: WebImage
+  parent: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
+  langs:
+  - csharp
+  - vb
+  name: WebImage
+  nameWithType: CompileResultType.WebImage
+  fullName: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType.WebImage
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: WebImage
+    path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing.FormulaExpressions
+  summary: "\nA compile result containing a web image or a reference to a web image\n"
+  example: []
+  syntax:
+    content: WebImage = 5
     return:
       type: OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResultType
   modifiers.csharp:

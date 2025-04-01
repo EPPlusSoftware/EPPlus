@@ -156,13 +156,11 @@ namespace OfficeOpenXml.Table.PivotTable
                 AppendSharedItems(shNode);
             }
             var noTypes = GetNoOfTypes(flags);
-            if (noTypes > 1 && 
-                flags != (DataTypeFlags.Int | DataTypeFlags.Number) &&
-                flags != (DataTypeFlags.Float | DataTypeFlags.Number) &&
-                flags != (DataTypeFlags.Int | DataTypeFlags.Float | DataTypeFlags.Number) &&
-                flags != (DataTypeFlags.Int | DataTypeFlags.Number | DataTypeFlags.Empty) &&
-                flags != (DataTypeFlags.Float | DataTypeFlags.Number | DataTypeFlags.Empty) &&
-                flags != (DataTypeFlags.Int | DataTypeFlags.Float | DataTypeFlags.Number | DataTypeFlags.Empty) &&
+            var checkFlags = flags & (~(DataTypeFlags.Empty | DataTypeFlags.Error));
+            if (noTypes > 1 &&
+                checkFlags != (DataTypeFlags.Int | DataTypeFlags.Number) &&
+                checkFlags != (DataTypeFlags.Float | DataTypeFlags.Number) &&
+                checkFlags != (DataTypeFlags.Int | DataTypeFlags.Float | DataTypeFlags.Number) &&
                 SharedItems.Count > 1)
             {
                 shNode.SetAttribute("containsMixedTypes", "1");
@@ -365,7 +363,7 @@ namespace OfficeOpenXml.Table.PivotTable
             int types = 0;
             foreach (DataTypeFlags v in Enum.GetValues(typeof(DataTypeFlags)))
             {
-                if (v!=DataTypeFlags.Empty && (flags & v)==v)
+                if (v!=DataTypeFlags.Empty && v != DataTypeFlags.Error && (flags & v)==v)
                 {
                     types++;
                 }
@@ -607,7 +605,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 else if (c.LocalName == "n")
                 {
-                    if (ConvertUtil.TryParseNumericString(c.Attributes["v"].Value, out double num))
+                    if (ConvertUtil.TryParseNumericString(c.Attributes["v"].Value, out double num, CultureInfo.InvariantCulture))
                     {
                         items.Add(num);
                     }
@@ -646,7 +644,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 var key = items[items.Count - 1];
                 if (cacheLookup.TryGetValue(key, out int index))
                 {
-                    //items._list.Remove(key);
                     _duplicateCacheItems.Add(items.Count - 1, index);
                 }
                 else
@@ -885,16 +882,18 @@ namespace OfficeOpenXml.Table.PivotTable
         private void UpdateGroupItems()
         {
 			foreach (var pt in _cache._pivotTables)
-            {                
-                if ((pt.Fields[Index].IsRowField ||
-                     pt.Fields[Index].IsColumnField ||
-                     pt.Fields[Index].IsPageField || pt.Fields[Index].Cache.HasSlicer) )
+            {
+                var fld = pt.Fields[Index];
+                if ((fld.IsRowField ||
+                     fld.IsColumnField ||
+                     fld.IsPageField || fld.Cache.HasSlicer) )
                 {
-                    pt.Fields[Index].UpdateGroupItems(this, true);					
+                    fld.UpdateGroupItems(this);
+                    fld.Items.MatchValueToIndex();
 				}
                 else
                 {
-                    pt.Fields[Index].DeleteNode("d:items");
+                    fld.DeleteNode("d:items");
                 }
             }
         }
@@ -935,13 +934,19 @@ namespace OfficeOpenXml.Table.PivotTable
             {
                 UpdatePivotItemsFromSharedItems(siHs);
             }
+
             SharedItems._list = siHs.ToList();
 			UpdateCacheLookupFromItems(SharedItems._list, ref _cacheLookup);
 			if (HasSlicer)
 			{
 				UpdateSlicers();
 			}
-		}
+            //Match items in pivot tables.
+            foreach (var pt in _cache._pivotTables)
+            {
+                pt.Fields[Index].Items.MatchValueToIndex();
+            }
+        }
 
         private void UpdatePivotItemsFromSharedItems(HashSet<object> siHs)
         {
@@ -955,15 +960,18 @@ namespace OfficeOpenXml.Table.PivotTable
                 var hasFilter = list.Any(x => x.Hidden);
                 for (var ix = 0; ix < list.Count; ix++)
                 {
-                    var v = list[ix].Value ?? ExcelPivotTable.PivotNullValue;
-                    if (!siHs.Contains(v) || existingItems.Contains(v))
+                    if (list[ix].Type == eItemType.Data)
                     {
-                        list.RemoveAt(ix);
-                        ix--;
-                    }
-                    else
-                    {
-                        existingItems.Add(v);
+                        var v = list[ix].Value ?? ExcelPivotTable.PivotNullValue;
+                        if (!siHs.Contains(v) || existingItems.Contains(v))
+                        {
+                            list.RemoveAt(ix);
+                            ix--;
+                        }
+                        else
+                        {
+                            existingItems.Add(v);
+                        }
                     }
                 }
                 var hasSubTotalSubt = list.Count > 0 && list[list.Count - 1].Type == eItemType.Default ? 1 : 0;
@@ -1099,38 +1107,4 @@ namespace OfficeOpenXml.Table.PivotTable
 		}
 
 	}
-
-    internal class CacheComparer : IEqualityComparer<object>
-    {
-        public new bool Equals(object x, object y)
-        {
-			x = GetCaseInsensitiveValue(x);
-            y = GetCaseInsensitiveValue(y);
-			return x.Equals(y);           
-		}
-
-        private static object GetCaseInsensitiveValue(object x)
-        {
-            if (x == null || x.Equals(ExcelPivotTable.PivotNullValue)) return ExcelPivotTable.PivotNullValue;
-
-			if (x is string sx)
-            {
-				return sx.ToLower();
-			}
-            else if (x is char cx)
-            {
-                return char.ToLower(cx).ToString();
-            }
-            if(ConvertUtil.IsExcelNumeric(x))
-            {
-                return ConvertUtil.GetValueDouble(x).ToString(CultureInfo.InvariantCulture);
-            }
-            return x.ToString().ToLower();
-        }
-
-        public int GetHashCode(object obj)
-        {
-            return GetCaseInsensitiveValue(obj).GetHashCode();
-        }
-    }
 }

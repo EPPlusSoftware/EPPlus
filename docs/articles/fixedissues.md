@@ -1,11 +1,138 @@
 # Features / Fixed issues - EPPlus 8
-## Version 8.0.0
+## Version 8.0.1
+### Important information
+EPPlus 8 will require a license key for commercial licenses.
 ### Features
+* Support for OLE objects (Linked or Embedded files).
+* Support for digital signing workbooks and signature lines.
+* In-cell pictures / support for the IMAGE function.
+* Sensitivity Label API to integrate with MIP (Microsoft Information Protection SDK).
+
+### Minor features
+* Autofit columns optimization.
+* The Range Copy method now supports fills and the option to copy visible cells only.
+* Reduced memory consumption when calculating formulas.
+* Added ExcelRange.IsEmpty method.
+* Shape adjustments points support.
+* ExcelRangeBase.BorderAround now override borders for adjacent cells.
+* InsertRange now returnes the new inserted range.
+* In-cell checkboxes now render in the HTML export.
+* Improved API for Tables to access data via column names.
+* Added IsEmpty() method on ExcelRange. Can test for value, comments, threaded comments and formulas.
 * Override borders in Adjacent cells in BorderAround method.
 
-### Fixed issues
-
+### Fixes since 8.0.0-beta
+* Several fixes in the formula calculation, 
+	* Better expression caching
+	* Fixed column filter in GETPIVOTDATA.
+	* Fixed PERCENTRANKS functions.
+	* Fixed array handling in the IF function.
+	* Fixed some issues in the IMAGE function.
+	* Fixed an issue in the COUNTIF function when comparing numbers.
+* Ole objects
+	* Added new properties ProgId, ExternalLink and Image to the ExcelOleObject
+	* Removed Removed ExcelOleObjectParameters.Extension and use extension from the file name.
+	* Fixed issue with duplicate images.
+* Added DeleteAll method with predicate to ExcelWorkbook, ExcelRange, ExcelRangeRow and ExcelRangeColumn
+* Adding EMZ image files did not work in streams.
+* Removed several methods and properties marked as obsolete.
+* Changed several properties and methods from decimal to double. See breaking changes.
+* Fixed some issues with rich data and in-cell images.
+* GenericImageReader sometimes returned an invalid DPI.
+* Fixed support for .tif files.
+* Fixed images corrupting files in rare cases.
+* Ensured ungrouping the last drawing in a group deletes the group shape.
+* Ensured valid xml for leader lines in charts.
+* Ensured SetImage method did not swap width and height when switching between .svg and .png.
+* Inserting and deleting cells now updates chart references. Ensuring charts continue pointing to the moved cells.
+* Fixed numerous issues with array formulas and CalculatedColumnFormulas in tables related to inserting and deleting.
+* Renamed missspelled DigitialSignatures to DigitalSignatures.
+ 
 # Features / Fixed issues - EPPlus 7
+## Version 7.7.0
+* Reverted System.* and Microsoft.* references to 8.0.x for all target frameworks except .NET 9.
+* LoadFromArray and LoadFromDataTable of the ExcelRangeBase class did not clear existing formulas before populating the range.
+* Fixed a rare issue when copying images between named ranges.
+* When sorting a range with formulas, the formulas addresses were sometimes updated incorrectly.
+* GetAsByteArrayAsync could not be called more than once.
+
+## Version 7.6.1
+* Pivot caches with error values in the source data were not handled correctly.
+* Timespan was not correctly converted in the GetValue<T> function.
+* The ExcelWorksheet.DimensionByValue property sometimes threw an unhandled exception.
+* The FIND function did not handle empty cells correctly in all cases.
+* Range sorting did not handle threaded comments.
+* Table.AddRows incorrectly shifted the first row if a table contained 1 row and had no header.* 
+
+## Version 7.6.0
+* Added target framework .NET 9. 
+* Removed out of support frameworks, .NET 6 and .NET 7.
+* Fixed an issue handling formulas when sorting a range.
+* Insert row in table caused corrupt workbook.
+* A workbook could lose styles if the ExcelPackage.FullPrecision property was set.
+* When copying a worksheet, drawings would be resized after inserting rows. This was caused by drawings being copied before styles and therefore drawings would not be aware of any styles.
+* Set Active Tab did not work correctly, if 'CompatibilitySettings.IsWorksheet1Based' was set to true.
+* Fixed "Part already exist" error when copying images between workbooks that already have images.
+* Fixed another issue when copying ExcelPicture’s between workbooks.
+* Iteration of worksheets indexed incorrectly in rare cases. EPPlus now throws an InvalidOperationException, if the collection has been altered under an enumerable operation.
+
+## Version 7.5.3
+* Improved COUNTIF performance, if full column addresses was used.
+* If having a workbook with no reference to a font in the styles.xml, caused an corrupt workbook.
+* ZipEntry's containing the zip data descriptor header could result in a BadReadException.
+* Added null as valid GetByValue for pivot table field items.
+* Added support for [h]:mm number format.
+* Improved sorting for pivot table slicer cache.
+* Fixed comment indices when sorting cells after deleting a row.
+* Fixed bug where adding a comment via ExcelWorksheet.Cells.AddComment and then adding a comment to the same cell via  ExcelWorksheet.Comments.Add would generate corrupt workbook.
+* Added Drawings.AddTextBox for easier creation of textboxes
+* Sheet protection style properties was not set correctly in some cases.
+* Renaming a worksheet could causes formulas to become corrupt, if the name contained spaces or other reserved characters.
+* Inserting into a cell range, shifting right, could cause conditional formatting to move incorrectly.
+* The LoadFromCollection method did not load ExcelHyperLink types as hyperlinks, if the 'members' argument was used.
+* Formula did not calculate when using named ranges to access a spreadsheet.
+* Fixed incorrect handling of multi-char delimiters and escape characters in TEXTBEFORE and TEXTAFTER
+* The VLOOKUP and HLOOKUP function did not return #REF! if the lookup address was out of bounds.
+* Inserting a row in a shared formula sometimes updated the addresses incorrectly.
+* Fixed an issue with the Save dialog in Excel showing when closing an unchanged workbook.
+* When inserting rows/columns, EPPlus incorrectly set a #REF! value if a function was used with a colon to create an address.
+
+## Version 7.5.2
+* Pivot tables with blanks could cause the pivot table to become corrupt.
+* Fixed error handling in the TEXTJOIN, TEXTSPLIT and CONCAT functions.
+* EPPlus throw an Exception when trying to delete the last column in a worksheet.
+* ExcelColor.LookupColor() returned an unexpected color code for empty colors. LookupColor()  will now returns an empty string for empty colors. 
+* DimensionByValue throw an System.ArgumentException: 'Column out of range' in some cases.
+* When having a column style on a column that spans multiple columns only the first is considered when reading a package.
+* XLOOKUP now returns emtpy string instead of #N/A when the third argument is an empty string.
+* ToDataTable did no return rich text cells correctly
+* ExcelWorksheets.MoveToStart did not always work correctly if IsWorksheets1Based was set.
+* Reading boolean properties of data validations saved in LibreOffice was not correctly read.
+* Adding a pivot table page field could crash in some cases.
+* Linked images crashed on read if the link attribute was empty.
+* Fixed "Worksheet position out of range" exception when calculating a formula having IsWorksheets1Based set.
+
+## Version 7.5.1
+* Style set on column/row level did not save on cells with a value and styleId is 0.
+* Fix for inserting rows after array formulas when referring to worksheets with '#' as part of the worksheet name.
+* Pivottable Field.Names on a field with rich text now returns the text content instead of OfficeOpenXml.Style.ExcelRichTextCollection
+* Fixed .ToDataTable not reading rich text correctly in rare cases.
+* ExcelPicture.Image.SetImage(" can now correctly be set to a .svg even if the original ExcelPicture was not created with a .svg file. And vice versa for other file formats.
+* Fixed reference mismatches in some cases after removing and adding a picture multiple times. When referring to the same picture with multiple ExcelPicture's.
+* Files created in the /media zipped subfolder now have the correct name index for a given workbook. Even if other workbooks in the same session reference the same image/images.
+* Shared formulas failed to calculate if a worksheet was copied.
+* Formulas referencing a deleted worksheet was not calculated correctly.
+
+## Version 7.5.0
+### Fixed issues and minor features
+ * Added signatures to the EPPlus.dll's and the EPPlus Nuget package.
+ * Added new properties RepeatItemLabels and InsertBlankRow to ExcelPivotTableField
+ * A NullReferenceException was sometimes thrown when saving line charts with droplines.
+ * Fix for cells with null values and no style id getting incorrect styling.
+ * Fixed an issue where two VLOOKUPs on the same worksheet intersected the same range. (kolla ev. #1671 för bättre beskrivning, tror det var du som fixade den).
+ * Added AllowDuplicateColumnNames to ToDataTableOptions. This allows the exported range in the ToDataTable method to have duplicate column names.
+ * EPPlus encoded CR and TAB characters in the shared string to _0x000D_ and _0x000A_, which was not necessary. 
+ * NullReferenceException thrown in some cases when saving a line chart with droplines
 
 ## Version 7.4.2
 * Added support the array attribute on table column formulas.

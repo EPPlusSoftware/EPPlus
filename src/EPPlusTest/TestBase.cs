@@ -62,6 +62,10 @@ namespace EPPlusTest
         protected static string _testInputPath = AppContext.BaseDirectory + "\\workbooks\\";
         protected static string _testInputPathOptional = @"c:\epplusTest\workbooks\";
         protected static string _imagePath = @"c:\epplusTest\images\";
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
         public TestContext TestContext { get; set; }
         
         public static void InitBase()
@@ -212,8 +216,10 @@ namespace EPPlusTest
 				{
                     return t;
 				}
-			}
-			return null;
+
+                Assert.Inconclusive($"Template File {name} does not exist in path {_testInputPath} or {_worksheetPath}");
+            }
+            return null;
 		}
         protected static FileInfo GetOutputFile(string subPath, string fileName)
         {
@@ -467,8 +473,6 @@ namespace EPPlusTest
                 Assert.IsNotNull(r.Value);
             }
         }
-
-
         protected void AssertNoChange(ExcelRangeBase range)
         {
             foreach (var r in range)

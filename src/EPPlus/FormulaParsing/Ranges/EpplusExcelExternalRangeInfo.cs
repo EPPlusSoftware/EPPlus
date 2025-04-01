@@ -38,7 +38,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         ICellInfo _cell;
 
         /// <summary>
-        /// The constructor
+        /// The constructor 
         /// </summary>
         /// <param name="externalReferenceIx">Index of the external workbook</param>
         /// <param name="worksheetIx">The external worksheet index/id</param>
@@ -361,8 +361,17 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             return false;
         }
-    }
 
+        /// <summary>
+        /// Get the address adjusted within the dimension of the worksheet.
+        /// </summary>
+        /// <param name="index">The address index.</param>
+        /// <returns>The adjusted address.</returns>
+        public FormulaRangeAddress GetAddressDimensionAdjusted(int index)
+        {
+            return _address;
+        }
+    }
     /// <summary>
     /// Provides information about an external cell in an external range.
     /// </summary>

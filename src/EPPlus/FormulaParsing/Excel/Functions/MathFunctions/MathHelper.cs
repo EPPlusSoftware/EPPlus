@@ -197,5 +197,9 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             return a * b / GreatestCommonDevisor(a, b);
         }
+        public static double TruncateDouble(double value)
+        {
+            return (double)decimal.Truncate((decimal)value);
+        }
     }
 }

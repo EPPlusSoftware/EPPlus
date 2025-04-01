@@ -89,23 +89,29 @@ namespace OfficeOpenXml.Drawing.Vml
         {
             string anchor = GetXmlNodeString("x:Anchor");
             string[] numbers = anchor.Split(',');
-            if (numbers.Length == 8)
+            var size = numbers.Length;
+            Array.Resize<string>(ref numbers, 8);
+
+            for (int i = 0; i < 8; i++)
             {
-                numbers[_startPos + pos] = value.ToString();
-            }
-            else
-            {
-                var size = numbers.Length;
-                Array.Resize<string>(ref numbers, 8);
-                for (int i = 0; i < 8; i++)
+                if (_startPos + pos == i)
                 {
-                    if(string.IsNullOrEmpty(numbers[i]))
+                    numbers[i] = value.ToString();
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(numbers[i]))
                     {
                         numbers[i] = "0";
                     }
+                    else
+                    {
+                        numbers[i] = numbers[i].Trim();
+                    }
                 }
             }
-            SetXmlNodeString("x:Anchor", string.Join(",",numbers));
+
+            SetXmlNodeString("x:Anchor", string.Join(", ",numbers));
         }
 
         private int GetNumber(int pos)

@@ -505,7 +505,6 @@ namespace OfficeOpenXml
         {
             if (isSelected)
             {
-                SheetViewElement.SetAttribute("tabSelected", "1");
                 if (!allowMultiple)
                 {
                     //    // ensure no other worksheet has its tabSelected attribute set to 1
@@ -513,10 +512,11 @@ namespace OfficeOpenXml
                         sheet.View.TabSelected = false;
 
                 }
+                SheetViewElement.SetAttribute("tabSelected", "1");
                 XmlElement bookView = _worksheet.Workbook.WorkbookXml.SelectSingleNode("//d:workbookView", _worksheet.NameSpaceManager) as XmlElement;
                 if (bookView != null)
                 {
-                    bookView.SetAttribute("activeTab", (_worksheet.PositionId).ToString());
+                    bookView.SetAttribute("activeTab", (_worksheet.IndexInList).ToString());
                 }
             }
             else
@@ -898,10 +898,10 @@ namespace OfficeOpenXml
             }
         }
 
-        private decimal GetVisibleColumnWidth(int topCol, int cols)
+        private double GetVisibleColumnWidth(int topCol, int cols)
         {
-            decimal mdw = _worksheet.Workbook.MaxFontWidth;
-            decimal width = 0;
+            double mdw = _worksheet.Workbook.MaxFontWidth;
+            double width = 0;
             for (var c = 0; c < cols; c++)
             {
                 width += _worksheet.GetColumnWidthPixels(topCol + c, mdw);

@@ -85,14 +85,14 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             var sheet = package.Workbook.Worksheets.Add("Sheet1");
             sheet.Cells["A1"].Value = "Scott Mats Jimmy Cameron Luther Josh";
             sheet.Cells["D3"].Formula = "TEXTBEFORE(A1, \" \", 6,, 1)";
-            sheet.Cells["D4"].Formula = "TEXTBEFORE(A1, \" \", -6,, 1)";
+            sheet.Cells["D4"].Formula = "TEXTBEFORE(A1, \" \", -5,, 0)";
             sheet.Cells["D5"].Formula = "TEXTBEFORE(A1, \" \", -2,, 1)";
             sheet.Cells["D6"].Formula = "TEXTBEFORE(A1, \" \", 2,, 1)";
             sheet.Cells["D7"].Formula = "TEXTBEFORE(A1, \" \", 7,, 1)";
             sheet.Cells["D8"].Formula = "TEXTBEFORE(A1, \" \", 7,, 1)";
             sheet.Calculate();
             Assert.AreEqual("Scott Mats Jimmy Cameron Luther Josh", sheet.Cells["D3"].Value);
-            Assert.AreEqual("Scott Mats Jimmy Cameron Luther Josh", sheet.Cells["D4"].Value);
+            Assert.AreEqual("Scott", sheet.Cells["D4"].Value);
             Assert.AreEqual("Scott Mats Jimmy Cameron", sheet.Cells["D5"].Value);
             Assert.AreEqual("Scott Mats", sheet.Cells["D6"].Value);
             Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["D7"].Value);
@@ -171,6 +171,63 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.TextFunctions
             Assert.AreEqual("Test", sheet.Cells["D9"].Value);
             Assert.AreEqual("Scott,Mats-Jimmy-Cameron", sheet.Cells["D10"].Value);
             SaveAndCleanup(package);
+        }
+
+        [TestMethod]
+        public void TextBeforeIssue1763()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("sheet.xlsx");
+            sheet.Cells["a1"].Formula = "TEXTBEFORE(\"Red riding hood’s, red hood\", \"hood\")";
+            sheet.Cells["a1"].Calculate();
+            var a1 = sheet.Cells["a1"].Value;
+            Assert.AreEqual("Red riding ", a1);
+        }
+
+        [TestMethod]
+        public void TextBeforeIssue1763_2()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("sheet.xlsx");
+            sheet.Cells["a1"].Formula = "TEXTBEFORE(\"Red riding hood’s, red hood\", \"\")";
+            sheet.Cells["a1"].Calculate();
+            var a1 = sheet.Cells["a1"].Value;
+            Assert.AreEqual("", a1);
+        }
+
+        [TestMethod]
+        public void TextBeforeIssue1763_3()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("sheet.xlsx");
+            sheet.Cells["a1"].Formula = "TEXTBEFORE(\"Red riding hood’s, red hood\", { \"ö\", \"hood\" })";
+            sheet.Cells["a1"].Calculate();
+            var a1 = sheet.Cells["a1"].Value;
+            Assert.AreEqual("Red riding ", a1);
+        }
+
+        [TestMethod]
+        public void TextBeforeShouldOutputDynamicRange()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = "abc def ghi";
+            sheet.Cells["A2"].Value = "a def g";
+            sheet.Cells["A3"].Formula = "TEXTBEFORE(A1:A2, \"def\")";
+            sheet.Calculate();
+            Assert.AreEqual("abc ", sheet.Cells["A3"].Value);
+            Assert.AreEqual("a ", sheet.Cells["A4"].Value);
+        }
+
+        [TestMethod]
+        public void TextBefore_InstanceNumOutOfRange()
+        {
+            using var package = new ExcelPackage();
+            var sheet = package.Workbook.Worksheets.Add("Sheet1");
+            sheet.Cells["A1"].Value = "abc def ghi";
+            sheet.Cells["A3"].Formula = "TEXTBEFORE(A1, \"def\", 2)";
+            sheet.Calculate();
+            Assert.AreEqual(ExcelErrorValue.Create(eErrorType.NA), sheet.Cells["A3"].Value);
         }
     }
 }

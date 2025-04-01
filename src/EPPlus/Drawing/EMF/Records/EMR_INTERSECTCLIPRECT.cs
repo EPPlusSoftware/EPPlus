@@ -25,6 +25,7 @@ namespace OfficeOpenXml.Drawing.EMF
 
         internal EMR_INTERSECTCLIPRECT()
         {
+            Size = 24;
             Type = RECORD_TYPES.EMR_INTERSECTCLIPRECT;
             Clip = new RectLObject();
         }

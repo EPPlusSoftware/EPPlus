@@ -4,6 +4,8 @@ using System.Xml;
 using System.Linq;
 using System;
 using System.IO;
+using OfficeOpenXml.Table.PivotTable;
+
 namespace EPPlusTest.Issues
 {
     [TestClass]
@@ -48,12 +50,12 @@ namespace EPPlusTest.Issues
                 foreach (ExcelWorksheet worksheet in p.Workbook.Worksheets)
                 {
                     foreach (var table in worksheet.PivotTables)
-                    {                        
+                    {
                         table.Calculate(refreshCache: true);
                     }
                 }
 
-                SaveWorkbook("s692-2.xlsx",p);
+                SaveWorkbook("s692-2.xlsx", p);
             }
         }
         [TestMethod]
@@ -61,25 +63,24 @@ namespace EPPlusTest.Issues
         {
             using (ExcelPackage p = OpenTemplatePackage("s713.xlsx"))
             {
-               ExcelWorkbook workbook = p.Workbook;
-               workbook.Worksheets.Delete("pivot");
+                ExcelWorkbook workbook = p.Workbook;
+                workbook.Worksheets.Delete("pivot");
 
                 var ns = new XmlNamespaceManager(new NameTable());
                 ns.AddNamespace("d", @"http://schemas.openxmlformats.org/spreadsheetml/2006/main");
 
-                var node = workbook.WorkbookXml.SelectSingleNode("//d:pivotCaches", ns); 
+                var node = workbook.WorkbookXml.SelectSingleNode("//d:pivotCaches", ns);
                 if (node != null && node.ChildNodes.Count == 0)
                 {
                     node.ParentNode.RemoveChild(node);
                 }
 
-               SaveAndCleanup(p);
+                SaveAndCleanup(p);
             }
         }
         [TestMethod]
         public void i1554()
         {
-            ExcelPackage.LicenseContext = LicenseContext.Commercial;
             using (var package = OpenTemplatePackage("i1554.xlsx"))
             {
                 AddTableRow(package, 0);
@@ -93,7 +94,7 @@ namespace EPPlusTest.Issues
                 cf.Refresh();
                 Assert.IsTrue(cf.SharedItems[0] is DateTime);
                 Assert.IsTrue(cf.SharedItems[1] is DateTime);
-                SaveWorkbook("i1554-SecondDate.xlsx",package);
+                SaveWorkbook("i1554-SecondDate.xlsx", package);
             }
         }
         private static void AddTableRow(ExcelPackage package, int days)
@@ -184,7 +185,7 @@ namespace EPPlusTest.Issues
 
                 var ws2 = workbook.Worksheets["High Level Summary"];
                 var pt = ws2.PivotTables[0];
-                var slicer1 =ws2.Drawings[0].As.Slicer.PivotTableSlicer;
+                var slicer1 = ws2.Drawings[0].As.Slicer.PivotTableSlicer;
 
                 Assert.AreEqual(pt.Fields[0].Items.Count, 5);
                 Assert.AreEqual(4, slicer1.Cache.Data.Items.Count);
@@ -204,6 +205,126 @@ namespace EPPlusTest.Issues
                 Assert.AreEqual(true, slicer1.Cache.Data.Items[5].Hidden);
 
                 SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void i1713()
+        {
+            using (var package = OpenTemplatePackage("i1713.xlsx"))
+            {
+                var dataSheet = package.Workbook.Worksheets["ReportData"];
+                var pivotSheet = package.Workbook.Worksheets["Pivot"];
+                dataSheet.Calculate();
+                //create pivot table
+                var pivotDataRange = dataSheet.Cells[3, 1, 28, 20];
+                var pivotTable = pivotSheet.PivotTables.Add(pivotSheet.Cells["C3"], pivotDataRange, "TestPivotTable");
+
+                pivotTable.Compact = false;
+                (from pf in pivotTable.Fields
+                 select pf).ToList().ForEach(f =>
+                 {
+                     f.Compact = false;
+                     f.Outline = false;
+                     f.SubtotalTop = false;
+                     f.SubTotalFunctions = eSubTotalFunctions.None;
+                 });
+
+                //add row fields to pivot table
+                var rowField1 = pivotTable.Fields["Group1"];
+                pivotTable.RowFields.Add(rowField1);
+
+                var dataField2 = pivotTable.Fields["ID2"];
+                var f2 = pivotTable.DataFields.Add(dataField2);
+                f2.Name = "Count";
+                f2.Function = DataFieldFunctions.Count;
+
+                pivotTable.DataOnRows = false;
+
+                //page field will crush pivot table
+                var field = pivotTable.Fields["Data_Missing"];
+                var pagef = pivotTable.PageFields.Add(field);
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void s744()
+        {
+            using (var p = OpenTemplatePackage("s744.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s744_2()
+        {
+            using (var p = OpenTemplatePackage("s744-2.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                SaveAndCleanup(p); 
+            }
+        }
+        [TestMethod]
+        public void s744_3()
+        {
+            using (var p = OpenTemplatePackage("FilterClearingExample.xlsx"))
+            {
+                ExcelWorkbook workbook = p.Workbook;
+                p.Workbook.Worksheets[0].PivotTables[0].Calculate();
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void s789()
+        {
+            using (var package = OpenTemplatePackage("s789.xlsx"))
+            {
+                var wb = package.Workbook;
+                foreach (var ws in package.Workbook.Worksheets)
+                {
+                    foreach (var pTable in ws.PivotTables)
+                    {
+                        foreach (var field in pTable.Fields)
+                        {
+                        }
+                    }
+                }
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void SlicerPivot()
+        {
+            using (var package = OpenTemplatePackage("Slicer_Empty.xlsx"))
+            {
+                var wb = package.Workbook;
+                foreach (var ws in package.Workbook.Worksheets)
+                {
+                    foreach (var pTable in ws.PivotTables)
+                    {
+                        foreach (var field in pTable.Fields)
+                        {
+
+                        }
+                    }
+                }
+
+                SaveAndCleanup(package);
+            }
+        }
+        [TestMethod]
+        public void PivotCacheIssue()
+        {
+            using (var package = OpenTemplatePackage("Issues\\PivotCache\\Sample.xlsx"))
+            {
+                var wb = package.Workbook;
+                foreach (var ws in wb.Worksheets)
+                {
+                    if (ws.PivotTables.Any()) Console.WriteLine(ws.Name);
+                }
+                SaveWorkbook("SampleNew.xlsx", package);
             }
         }
     }

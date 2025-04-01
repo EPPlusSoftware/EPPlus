@@ -14,6 +14,8 @@ using OfficeOpenXml.ConditionalFormatting;
 using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.DataValidation;
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using OfficeOpenXml.Metadata;
 using OfficeOpenXml.Style;
 using OfficeOpenXml.Style.Dxf;
@@ -53,8 +55,8 @@ namespace OfficeOpenXml.Core
         private readonly bool _sameWorkbook;
 		private ExcelMetadata _sourceMd, _destMd;
 		Dictionary<ulong, CopiedCell> _copiedCells=new Dictionary<ulong, CopiedCell>();
-        int _sourceDaIx = -1;
-        int _destDaIx = -1;
+        uint? _sourceDaIx = default;
+        uint? _destDaIx;
         internal RangeCopyHelper(ExcelRangeBase sourceRange, ExcelRangeBase destination, ExcelRangeCopyOptionFlags copyOptions)
         {
             _sourceRange = sourceRange;
@@ -63,7 +65,7 @@ namespace OfficeOpenXml.Core
 			_copyOptions = copyOptions;
         }
         internal void Copy()
-        {
+        {            
             if(EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHiddenCells))
             {
                 UpdateHiddenDictionaries();
@@ -99,6 +101,12 @@ namespace OfficeOpenXml.Core
                 rowAdder = 0;
                 colAdder += colIncrement;
             }
+            if(!EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeLocalCellPictures) || !EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeWebPictures))
+            {
+                var richDataHelper = new RichDataCopyHelper(_sourceRange, _destinationRange);
+                richDataHelper.Copy(_copyOptions);
+            }
+           
             
             if (EnumUtil.HasNotFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeDataValidations))
             {
@@ -152,16 +160,28 @@ namespace OfficeOpenXml.Core
         {
             var ws = _sourceRange.Worksheet;
             _columnsIsHidden = [];
-            for (int c = _sourceRange._fromCol; c <= _sourceRange._toCol; c++)
-            {
-                var col = ws.Columns[c];
-                _columnsIsHidden.Add(c, col==null ? false : col.Hidden || col.Width==0);
-            }
             _rowIsHidden = [];
-            for (int r=_sourceRange._fromRow;r<=_sourceRange._toRow;r++)
+            var cse = new CellStoreEnumerator<ExcelValue>(ws._values, 0, _sourceRange._fromCol, 0, _sourceRange._toCol);
+            foreach(var c in cse)
             {
-                var ri = ws.GetValueInner(r, 0) as RowInternal;
-                _rowIsHidden.Add(r, ri==null? false:ri.Hidden || ri.Height==0);
+                var col = c._value as ExcelColumn;
+                if(col.Hidden || col.Width == 0)
+                {
+                    for(int i=col.ColumnMin; i<=col.ColumnMax; i++)
+                    {
+                        _columnsIsHidden.Add(i);
+                    }
+                }
+            }
+
+            var cseRow = new CellStoreEnumerator<ExcelValue>(ws._values, _sourceRange._fromRow, 0, _sourceRange._toRow, 0);
+            foreach (var r in cseRow)
+            {
+                var row = r._value as RowInternal;
+                if (row.Hidden || row.Height == 0)
+                {
+                    _rowIsHidden.Add(cseRow.Row);
+                }
             }
         }
 
@@ -352,14 +372,14 @@ namespace OfficeOpenXml.Core
         {
             if(EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHiddenCells))
             {
-                foreach(var kv in _rowIsHidden.Where(x=>x.Value).OrderByDescending(x=>x.Key))
+                foreach(var kv in _rowIsHidden.OrderByDescending(x=>x))
                 {
-                    inAddress = inAddress.DeleteRow(kv.Key, 1);
+                    inAddress = inAddress.DeleteRow(kv, 1);
                     if (inAddress == null) return "";
                 }
-                foreach (var kv in _columnsIsHidden.Where(x => x.Value).OrderByDescending(x => x.Key))
+                foreach (var kv in _columnsIsHidden.OrderByDescending(x => x))
                 {
-                    inAddress = inAddress.DeleteColumn(kv.Key, 1);
+                    inAddress = inAddress.DeleteColumn(kv, 1);
                     if (inAddress == null) return "";
                 }
             }
@@ -404,9 +424,8 @@ namespace OfficeOpenXml.Core
                 AddThreadedComments(worksheet);
             }
         }
-        Dictionary<int, bool> _rowIsHidden;
-        Dictionary<int, bool> _columnsIsHidden;
-
+        HashSet<int> _rowIsHidden;
+        HashSet<int> _columnsIsHidden;
         private void AddValuesFormulasAndStyles(ExcelWorksheet worksheet, bool includeStyles, Dictionary<int, int> styleCashe)
         {
             int styleId = 0;
@@ -420,8 +439,9 @@ namespace OfficeOpenXml.Core
             if (includeValues == false && includeHyperlinks == false && includeFormulas == false) return;
             var excludeHiddenCells = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.ExcludeHiddenCells);
             var cse = new CellStoreEnumerator<ExcelValue>(worksheet._values,  _sourceRange._fromRow, _sourceRange._fromCol, _sourceRange._toRow, _sourceRange._toCol);
-            int pRow = _sourceRange._fromRow, pCol = _sourceRange._fromCol;
+            int pRow = _sourceRange._fromRow;
             int destRow=0, destCol=0;
+            var colPos = GetColPositions(excludeHiddenCells);
             while (cse.Next())
             {
                 var sourceRow = cse.Row;
@@ -431,7 +451,6 @@ namespace OfficeOpenXml.Core
                     if(IsCellHidden(worksheet, sourceRow, sourceCol))
                     {
                         pRow = sourceRow;
-                        pCol = sourceCol;
                         continue;
                     }
                     prevRow = sourceRow;
@@ -440,14 +459,10 @@ namespace OfficeOpenXml.Core
                 if (pRow < sourceRow)
                 {
                     destRow += sourceRow - pRow;
-                    destCol = 0;
                 }
-                else if (pCol < sourceCol)
-                {
-                    destCol+=sourceCol-pCol;
-                }
+                destCol = colPos[sourceCol];
+
                 pRow = sourceRow;
-                pCol = sourceCol;
                 var transpose = EnumUtil.HasFlag(_copyOptions, ExcelRangeCopyOptionFlags.Transpose);
                 var cell = new CopiedCell
                 {
@@ -522,30 +537,48 @@ namespace OfficeOpenXml.Core
             }
         }
 
-        private bool IsCellHidden(ExcelWorksheet worksheet, int sourceRow, int sourceCol)
+        private Dictionary<int, int> GetColPositions(bool excludeHiddenCells)
         {
-            if (_rowIsHidden.TryGetValue(sourceRow, out bool rowIsHidden) == false)
+            var ret = new Dictionary<int, int>();
+            var pos = 0;
+            GetSourceColsDimension(out int fromCol, out int toCol);
+            if(fromCol == 0) return ret;
+            var startCol = fromCol - _sourceRange._fromCol;
+            for (int c = fromCol; c <= toCol; c++)
             {
-                rowIsHidden = worksheet.GetValueInner(sourceRow, 0) is RowInternal r ? r.Hidden || r.Height == 0 : false;
-                _rowIsHidden.Add(sourceRow, rowIsHidden);
+                if (excludeHiddenCells == false || _columnsIsHidden.Contains(c) == false)
+                {
+                    ret.Add(c, startCol + pos++);
+                }
             }
-            if (rowIsHidden)
+            return ret;
+        }
+
+        private void GetSourceColsDimension(out int fromCol, out int toCol)
+        {
+            var dim = _sourceRange.Worksheet.Dimension;
+            if (dim == null)
             {
-                return true;
+                fromCol = toCol = 0;
             }
             else
             {
-                if (_columnsIsHidden.TryGetValue(sourceCol, out bool colIsHidden) == false)
-                {
-                    colIsHidden = worksheet.GetValueInner(0, sourceCol) is ExcelColumn c ? c.Hidden || c.Width == 0 : false;
-                    _columnsIsHidden.Add(sourceCol, colIsHidden);
-                }
-                if (colIsHidden == true)
-                {
-                    return true;
-                }
+                fromCol = _sourceRange._fromCol > dim._fromCol ? _sourceRange._fromCol : dim._fromCol;
+                toCol = _sourceRange._toCol < dim._toCol ? _sourceRange._toCol : dim._toCol;
+            }
+        }
+
+        private bool IsCellHidden(ExcelWorksheet worksheet, int sourceRow, int sourceCol)
+        {
+            if (_rowIsHidden.Contains(sourceRow))
+            {
+                return true;
             }
 
+            if (_columnsIsHidden.Contains(sourceCol))
+            {
+                return true;
+            }
             return false;
         }
 
@@ -693,40 +726,44 @@ namespace OfficeOpenXml.Core
             }
         }
 
-		private void CopyMetaDataToNewPackage(CopiedCell cell)
-		{
-            if(cell.MetaData.cm > 0)
+        private void CopyMetaDataToNewPackage(CopiedCell cell)
+        {
+            // TODO: we need to test and adjust this after having changed Metadata indexes to Id:s
+            if (cell.MetaData.cm > 0)
             {
-                if(_sourceDaIx==-1)
+                if (_sourceDaIx == -1)
                 {
                     _sourceMd = _sourceRange.Worksheet.Workbook.Metadata;
-					_destMd = _destinationRange.Worksheet.Workbook.Metadata;
-                    _sourceMd.GetDynamicArrayIndex(out _sourceDaIx);
-				}
+                    _destMd = _destinationRange.Worksheet.Workbook.Metadata;
+                    //_sourceMd.GetDynamicArrayIndex(out _sourceDaIx);
+                }
 
-				var md = cell.MetaData;
-				if (cell.MetaData.cm == _sourceDaIx)
+                var md = cell.MetaData;
+                if (cell.MetaData.cm == _sourceDaIx)
                 {
-                    if(_destDaIx < 0)
+                    if (_destDaIx < 0)
                     {
-						_destMd.GetDynamicArrayIndex(out _destDaIx);
-					}
-                    md.cm = _destDaIx;
+                        //_destMd.GetDynamicArrayIndex(out _destDaIx);
+                        _destMd.GetDynamicArrayId(out uint destDaId);
+                        _destDaIx = destDaId;
+
+                    }
+                    md.cm = _destDaIx ?? 0u;
                     cell.MetaData = md;
-				}
+                }
                 else
                 {
-					cell.MetaData = default;
-				}
-			}
+                    cell.MetaData = default;
+                }
+            }
             else
             {
                 //We don't copy value meta data. Errors are handled on save for rich data types like #CALC and #SPILL, via the error values. Rich Data - DataTypes are currently not supported.
                 cell.MetaData = default;
             }
-		}
+        }
 
-		private static void CopyComment(ExcelRangeBase destination, CopiedCell cell)
+        private static void CopyComment(ExcelRangeBase destination, CopiedCell cell)
         {
             var c = destination.Worksheet.Cells[cell.Row, cell.Column].AddComment(cell.Comment.Text, cell.Comment.Author);
             var offsetCol = c.Column - cell.Comment.Column;

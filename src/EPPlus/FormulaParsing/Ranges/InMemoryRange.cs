@@ -11,12 +11,9 @@
   05/31/2022         EPPlus Software AB           EPPlus 6.1
  *************************************************************************************************/
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.LoadFunctions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.Ranges
 {
@@ -44,7 +41,7 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
         {
             if (address?._context != null)
             {
-                _ws = address._context.Package.Workbook.Worksheets[address._context.CurrentCell.WorksheetIx];
+                _ws = address._context.Package.Workbook.GetWorksheetByIndexInList(address._context.CurrentCell.WorksheetIx);
             }
             _address = address;
             _cells = new ICellInfo[rangeDef.NumberOfRows, rangeDef.NumberOfCols];
@@ -362,6 +359,16 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
                 ir.SetValue(r, 0, values[r]);
             }
             return ir;
+        }
+
+        /// <summary>
+        /// Get the address adjusted inside the dimension of the worksheet. Not applicable on InMemoryRange's, as no addresses us used.
+        /// </summary>
+        /// <param name="index">Not applicable on InMemoryRange's.</param>
+        /// <returns>The address.</returns>
+        public FormulaRangeAddress GetAddressDimensionAdjusted(int index)
+        {
+            return _address;
         }
     }
 }

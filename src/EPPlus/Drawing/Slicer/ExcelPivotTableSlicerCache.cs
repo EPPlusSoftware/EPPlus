@@ -49,7 +49,7 @@ namespace OfficeOpenXml.Drawing.Slicer
             PivotTables.Add(_field.PivotTable);           
             CreateWorkbookReference(wb, ExtLstUris.WorkbookSlicerPivotTableUri);
             SlicerCacheXml.Save(Part.GetStream());
-            Data.Items.Refresh();
+            Data.Items.Refresh();            
         }
         /// <summary>
         /// Init must be called before accessing any properties as it sets several properties.

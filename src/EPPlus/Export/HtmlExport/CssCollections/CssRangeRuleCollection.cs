@@ -105,6 +105,23 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}al ", "text-align", "left");
             _ruleCollection.AddRule($".{_settings.StyleClassPrefix}ar ", "text-align", "right");
 
+           
+            if (_ranges.Any(x => x.Style.Checkbox == true))
+            {
+                //Checkbox classes
+                _ruleCollection.AddRule($"input[type=checkbox].{_settings.StyleClassPrefix}checkbox", "outline", "0.15rem solid");
+                _ruleCollection.Last().AddDeclaration("outline-offset", "-0.1rem");
+                _ruleCollection.Last().AddDeclaration("outline-color", "currentColor");
+                _ruleCollection.Last().AddDeclaration("accent-color", "currentColor");
+
+                if (_settings.CheckboxesEnabled == false)
+                {
+                    _ruleCollection.Last().AddDeclaration("pointer-events", "none");
+                }
+
+                _ruleCollection.AddRule($"input[type=checkbox].{_settings.StyleClassPrefix}checkbox:hover", "outline-color", "hwb(from currentcolor h w b / 0.6)");
+            }
+
             AddWorksheetDimensions();
             AddImageAlignment();
         }
@@ -137,7 +154,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             {
                 var clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1) + " ";
                 CssRule widthRule = new CssRule(clsName, int.MaxValue);
-                widthRule.AddDeclaration("width", $"{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px");
+                widthRule.AddDeclaration("width", $"{ExcelColumn.ColumnWidthToPixels(ws.DefaultColWidth, ws.Workbook.MaxFontWidth)}px");
 
                 clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1) + " ";
                 CssRule heightRule = new CssRule(clsName, int.MaxValue);
@@ -162,7 +179,13 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             }
             if (style.Font != null && style.Font.HasValue && _context.Exclude.Font != eFontExclude.All)
             {
-                translators.Add(new CssFontTranslator(style.Font, ns.Style.Font));
+                translators.Add(new CssFontTranslator(style.Font, ns.Style.Font, style.CheckBox));
+            }
+            if (style.NumberFormat != null && style.NumberFormat.HasValue)
+            {
+                //TODO: possibly ensure to only apply one color attribute.
+                //Currently Numberformat AND Font can decide text color. Numberformat "wins" because written last.
+                translators.Add(new CssNumberFormatTranslator(style.NumberFormat));
             }
 
             if (styleList.Count > 1)

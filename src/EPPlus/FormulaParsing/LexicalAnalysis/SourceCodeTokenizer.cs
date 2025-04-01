@@ -193,7 +193,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 							if (current.Length == 0)
 							{
                                 l.Add(_charTokens['\'']);
-							}
+                            }
 							else
 							{
 								current.Append(c);
@@ -241,8 +241,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
                     }
                     else if (isInString == 0 && _charTokens.ContainsKey(c) && (flags & statFlags.isExponential) == 0)
                     {
-                        
-                        if (c == '!' && current.Length > 0 && current[0] == '#')
+                        if (c == '!' && current.Length > 0 && current[0] == '#' && current[current.Length - 1] != '\'')
                         {
                             var currentString = current.ToString();
                             if (currentString.Equals("#NUM", StringComparison.OrdinalIgnoreCase))

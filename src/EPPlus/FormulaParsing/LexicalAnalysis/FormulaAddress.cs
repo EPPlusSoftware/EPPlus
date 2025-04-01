@@ -10,6 +10,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using System.Linq;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.FormulaParsing.Ranges;
+using System.Diagnostics;
 
 namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
 {
@@ -204,6 +205,14 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
             }
         }
 
+        public bool IsSingleCell 
+        { 
+            get
+            {
+                return StartRow==EndRow && StartCol==EndCol;
+            }
+        }
+
         internal SharedFormula Clone()
         {
             var sh = new SharedFormula(_ws, StartRow, StartCol, EndRow, EndCol, Formula);
@@ -240,6 +249,10 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
         internal RpnFormula GetRpnFormula(RpnOptimizedDependencyChain depChain, int row, int col)
         {
             depChain._parsingContext.CurrentCell = new FormulaCellAddress(_ws.IndexInList, row, col);
+            if(RpnTokens==null)
+            {
+                SetFormula(_ws, Formula);
+            }
             if (_compiledExpressions == null)
             {
                 _compiledExpressions = FormulaExecutor.CompileExpressions(ref RpnTokens, depChain._parsingContext);
@@ -531,6 +544,7 @@ namespace OfficeOpenXml.FormulaParsing.LexicalAnalysis
     /// <summary>
     /// Represents a range address
     /// </summary>
+    [DebuggerDisplay("Address: {ToString()}")]
     public class FormulaRangeAddress : FormulaAddressBase, IAddressInfo, IComparable<FormulaRangeAddress>
     {
         internal ParsingContext _context;

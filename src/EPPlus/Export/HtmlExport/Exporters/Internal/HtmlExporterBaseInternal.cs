@@ -22,6 +22,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime;
+using static OfficeOpenXml.Export.HtmlExport.ColumnDataTypeManager;
 
 namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 {
@@ -69,7 +71,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
 
             var ws = _range.Worksheet;
             var mdw = _range.Worksheet.Workbook.MaxFontWidth;
-            var defColWidth = ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), mdw);
+            var defColWidth = ExcelColumn.ColumnWidthToPixels(ws.DefaultColWidth, mdw);
 
             foreach (var c in _columns)
             {
@@ -341,6 +343,40 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
                 }
                 hyperlink.Content = GetCellText(cell, settings);
                 element.AddChildElement(hyperlink);
+            }
+        }
+
+        protected void AddContent(ExcelRangeBase cell, HTMLElement contentElement)
+        {
+            if (cell.Style.Checkbox)
+            {
+                if (cell.Value == null || HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value) == HtmlDataTypes.Boolean)
+                {
+                    var childHtml = new HTMLElement("input");
+                    childHtml.AddAttribute("type", "checkbox");
+
+                    if (cell.Value != null)
+                    {
+                        var str = cell.Value.ToString();
+
+                        if (bool.TryParse(str, out bool res))
+                        {
+                            if (res)
+                            {
+                                childHtml.AddAttributeValueLess("checked");
+                            }
+                        }
+                    }
+                    contentElement.AddChildElement(childHtml);
+                }
+                else
+                {
+                    contentElement.Content = GetCellText(cell, Settings);
+                }
+            }
+            else
+            {
+                contentElement.Content = GetCellText(cell, Settings);
             }
         }
 
@@ -616,6 +652,33 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             var classString = AttributeTranslator.GetClassAttributeFromStyle(cell, isHeader, settings, imageCellClassName, content);
             var stylesAndExtras = AttributeTranslator.GetConditionalFormattings(cell, settings, content, ref classString);
 
+            if (cell.Style.Checkbox)
+            {
+                if (cell.Value == null || HtmlRawDataProvider.GetHtmlDataTypeFromValue(cell.Value) == HtmlDataTypes.Boolean)
+                {
+                    var childHtml = new HTMLElement("input");
+                    childHtml.AddAttribute("type", "checkbox");
+                    childHtml.AddAttribute("class", $"{settings.StyleClassPrefix}checkbox");
+
+                    if (cell.Value != null)
+                    {
+                        var str = cell.Value.ToString();
+
+                        if (bool.TryParse(str, out bool res))
+                        {
+                            if (res)
+                            {
+                                childHtml.AddAttributeValueLess("checked");
+                            }
+                        }
+                    }
+                    //Hide content text if node has it
+                    element.AddAttribute("style", "font-size: 0px; text-align:center;");
+
+                    element.AddChildElement(childHtml);
+                }
+            }
+
             valueElement = element;
 
             if (!string.IsNullOrEmpty(classString))
@@ -660,6 +723,7 @@ namespace OfficeOpenXml.Export.HtmlExport.Exporters.Internal
             GetClassData(element, true, image, cell, settings, content, out HTMLElement contentElement);
 
             AddImage(contentElement, settings, image, cell.Value);
+
             if (cell.IsRichText)
             {
                 contentElement.Content = cell.RichText.HtmlText;

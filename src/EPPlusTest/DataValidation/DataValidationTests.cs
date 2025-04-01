@@ -944,19 +944,19 @@ namespace EPPlusTest.DataValidation
 
                 sheet.InsertRow(9, 5);
 
-                Assert.AreEqual(topValidation, sheet.DataValidations._validationsRD.GetValuesFromRange(5, 8, 5, 8)[0]);
-                Assert.AreEqual(midValidation, sheet.DataValidations._validationsRD.GetValuesFromRange(15, 8, 15, 8)[0]);
-                Assert.AreEqual(midValidation2, sheet.DataValidations._validationsRD.GetValuesFromRange(15, 7, 15, 7)[0]);
-                Assert.AreEqual(bottomValidation, sheet.DataValidations._validationsRD.GetValuesFromRange(25, 8, 25, 8)[0]);
+                Assert.AreEqual(topValidation, (IExcelDataValidationDecimal)sheet.DataValidations._validationsRD.GetValuesFromRange(5, 8, 5, 8)[0]);
+                Assert.AreEqual(midValidation, (IExcelDataValidationDecimal)sheet.DataValidations._validationsRD.GetValuesFromRange(15, 8, 15, 8)[0]);
+                Assert.AreEqual(midValidation2, (IExcelDataValidationDecimal)sheet.DataValidations._validationsRD.GetValuesFromRange(15, 7, 15, 7)[0]);
+                Assert.AreEqual(bottomValidation, (IExcelDataValidationDecimal)sheet.DataValidations._validationsRD.GetValuesFromRange(25, 8, 25, 8)[0]);
 
                 Assert.AreEqual("B1", topValidation.Formula.ExcelFormula);
                 Assert.AreEqual("H14", midValidation.Formula.ExcelFormula);
                 Assert.AreEqual("D16", bottomValidation.Formula.ExcelFormula);
 
                 sheet.InsertRow(16, 50);
-                Assert.AreEqual(midValidation, sheet.DataValidations._validationsRD.GetValuesFromRange(15, 8, 15, 8)[0]);
-                Assert.AreEqual(midValidation2, sheet.DataValidations._validationsRD.GetValuesFromRange(15, 7, 15, 7)[0]);
-                Assert.AreEqual(bottomValidation, sheet.DataValidations._validationsRD.GetValuesFromRange(75, 8, 75, 8)[0]);
+                Assert.AreEqual(midValidation, (IExcelDataValidationDecimal)sheet.DataValidations._validationsRD.GetValuesFromRange(15, 8, 15, 8)[0]);
+                Assert.AreEqual(midValidation2, (IExcelDataValidationDecimal)sheet.DataValidations._validationsRD.GetValuesFromRange(15, 7, 15, 7)[0]);
+                Assert.AreEqual(bottomValidation, (IExcelDataValidationDecimal)sheet.DataValidations._validationsRD.GetValuesFromRange(75, 8, 75, 8)[0]);
 
                 Assert.AreEqual("B1", topValidation.Formula.ExcelFormula);
                 Assert.AreEqual("H14", midValidation.Formula.ExcelFormula);
@@ -964,10 +964,10 @@ namespace EPPlusTest.DataValidation
 
                 sheet.DeleteRow(9);
 
-                Assert.AreEqual(topValidation, sheet.DataValidations._validationsRD.GetValuesFromRange(5, 8, 5, 8)[0]);
-                Assert.AreEqual(midValidation, sheet.DataValidations._validationsRD.GetValuesFromRange(14, 8, 14, 8)[0]);
-                Assert.AreEqual(midValidation2, sheet.DataValidations._validationsRD.GetValuesFromRange(14, 7, 14, 7)[0]);
-                Assert.AreEqual(bottomValidation, sheet.DataValidations._validationsRD.GetValuesFromRange(74, 8, 74, 8)[0]);
+                Assert.AreEqual(topValidation, (IExcelDataValidationDecimal)sheet.DataValidations._validationsRD.GetValuesFromRange(5, 8, 5, 8)[0]);
+                Assert.AreEqual(midValidation, (IExcelDataValidationDecimal)sheet.DataValidations._validationsRD.GetValuesFromRange(14, 8, 14, 8)[0]);
+                Assert.AreEqual(midValidation2, (IExcelDataValidationDecimal)sheet.DataValidations._validationsRD.GetValuesFromRange(14, 7, 14, 7)[0]);
+                Assert.AreEqual(bottomValidation, (IExcelDataValidationDecimal)sheet.DataValidations._validationsRD.GetValuesFromRange(74, 8, 74, 8)[0]);
 
                 Assert.AreEqual("B1", topValidation.Formula.ExcelFormula);
                 Assert.AreEqual("H13", midValidation.Formula.ExcelFormula);
@@ -1007,15 +1007,15 @@ namespace EPPlusTest.DataValidation
 
                 sheet.InsertRow(16, 50);
 
-                Assert.AreEqual(topValidation, sheet.DataValidations._validationsRD.GetValuesFromRange(16, 7, 20, 7)[0]);
-                Assert.AreEqual(midValidation, sheet.DataValidations._validationsRD.GetValuesFromRange(16, 8, 25, 8)[0]);
+                Assert.AreEqual(topValidation, (IExcelDataValidationList)sheet.DataValidations._validationsRD.GetValuesFromRange(16, 7, 20, 7)[0]);
+                Assert.AreEqual(midValidation, (IExcelDataValidationList)sheet.DataValidations._validationsRD.GetValuesFromRange(16, 8, 25, 8)[0]);
 
                 Assert.AreEqual("G4:G105", topValidation.Formula.ExcelFormula);
                 Assert.AreEqual("H15:H80", midValidation.Formula.ExcelFormula);
 
                 sheet.DeleteRow(9);
 
-                Assert.AreEqual(topValidation, sheet.DataValidations._validationsRD.GetValuesFromRange(104, 7, 104, 7)[0]);
+                Assert.AreEqual(topValidation, (IExcelDataValidationList)sheet.DataValidations._validationsRD.GetValuesFromRange(104, 7, 104, 7)[0]);
                 Assert.AreEqual(0, sheet.DataValidations._validationsRD.GetValuesFromRange(80, 8, 80, 8).Count);
 
                 Assert.AreEqual("G4:G104", topValidation.Formula.ExcelFormula);
@@ -1241,6 +1241,18 @@ namespace EPPlusTest.DataValidation
 
                 Assert.IsNull(readValidation.Formula.Value);
                 Assert.IsNull(readValidation.Formula2.Value);
+            }
+        }
+
+        [TestMethod]
+        public void Issue1714()
+        {
+            using var p = OpenTemplatePackage("DataValidationIssue1714.xlsx");
+            foreach (var v in p.Workbook.Worksheets[0].DataValidations)
+            {
+                Assert.IsTrue(v.AllowBlank);
+                Assert.IsFalse(v.ShowInputMessage);
+                Assert.IsTrue(v.ShowErrorMessage);
             }
         }
     }

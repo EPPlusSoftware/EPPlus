@@ -9,6 +9,7 @@ items:
   - OfficeOpenXml.Drawing.eDrawingType.Control
   - OfficeOpenXml.Drawing.eDrawingType.Drawing
   - OfficeOpenXml.Drawing.eDrawingType.GroupShape
+  - OfficeOpenXml.Drawing.eDrawingType.OleObject
   - OfficeOpenXml.Drawing.eDrawingType.Picture
   - OfficeOpenXml.Drawing.eDrawingType.Shape
   - OfficeOpenXml.Drawing.eDrawingType.Slicer
@@ -22,7 +23,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: eDrawingType
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -55,7 +56,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Drawing
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -63,7 +64,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
-  summary: "\nA unspecified drawing\n"
+  summary: "\nAn unspecified drawing\n"
   example: []
   syntax:
     content: Drawing = 0
@@ -89,7 +90,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Shape
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -123,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Picture
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -157,7 +158,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Chart
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -191,7 +192,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Slicer
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -225,7 +226,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Control
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -259,7 +260,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Enums/eDrawingType.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GroupShape
     path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
@@ -271,6 +272,40 @@ items:
   example: []
   syntax:
     content: GroupShape = 6
+    return:
+      type: OfficeOpenXml.Drawing.eDrawingType
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.Drawing.eDrawingType.OleObject
+  commentId: F:OfficeOpenXml.Drawing.eDrawingType.OleObject
+  id: OleObject
+  parent: OfficeOpenXml.Drawing.eDrawingType
+  langs:
+  - csharp
+  - vb
+  name: OleObject
+  nameWithType: eDrawingType.OleObject
+  fullName: OfficeOpenXml.Drawing.eDrawingType.OleObject
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/Drawing/Enums/eDrawingType.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: OleObject
+    path: ../src/EPPlus/Drawing/Enums/eDrawingType.cs
+    startLine: 42
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing
+  summary: "\nAn Ole Object drawing\n"
+  example: []
+  syntax:
+    content: OleObject = 7
     return:
       type: OfficeOpenXml.Drawing.eDrawingType
   modifiers.csharp:

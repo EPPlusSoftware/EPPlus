@@ -8,24 +8,28 @@
  *************************************************************************************************
   Date               Author                       Change
  *************************************************************************************************
-  01/27/2020         EPPlus Software AB       Initial release EPPlus 5
+  07/25/2024         EPPlus Software AB       EPPlus 7
  *************************************************************************************************/
-using OfficeOpenXml.Utils;
+using OfficeOpenXml.RichData.IndexRelations;
+using OfficeOpenXml.RichData.IndexRelations.EventArguments;
 using OfficeOpenXml.Utils.Extensions;
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 
 namespace OfficeOpenXml.Metadata
 {
-    internal partial class ExcelMetadataType
+    internal partial class ExcelMetadataType : IndexEndpoint
     {
-        public ExcelMetadataType()
+        public ExcelMetadataType(RichDataIndexStore store)
+            : base(store, RichDataEntities.MetadataType)
         {
 
         }
-        public ExcelMetadataType(XmlReader xr) 
+        public ExcelMetadataType(XmlReader xr, RichDataIndexStore store) 
+            : base(store, RichDataEntities.MetadataType)
         {
             Name = xr.GetAttribute("name");            
             MinSupportedVersion = int.Parse(xr.GetAttribute("minSupportedVersion"));
@@ -104,6 +108,27 @@ namespace OfficeOpenXml.Metadata
             set
             {
                 _flags = value;
+            }
+        }
+
+        public override void OnConnectedEntityDeleted(ConnectedEntityDeletedEventArgs e)
+        {
+            base.OnConnectedEntityDeleted(e);
+            if(e.DeletedEntity.EntityType == RichDataEntities.ValueMetadataRecord)
+            {
+                var rels = GetIncomingRelations(x => x.From.EntityType == RichDataEntities.ValueMetadataRecord);
+                if (rels.Count(x => !x.Deleted) == 0)
+                {
+                    DeleteMe(e.RelationDeletions);
+                }
+            }
+            else if(e.DeletedEntity.EntityType == RichDataEntities.CellMetadataRecord)
+            {
+                var rels = GetIncomingRelations(x => x.From.EntityType == RichDataEntities.CellMetadataRecord);
+                if (rels.Count(x => !x.Deleted) == 0)
+                {
+                    DeleteMe(e.RelationDeletions);
+                }
             }
         }
     }

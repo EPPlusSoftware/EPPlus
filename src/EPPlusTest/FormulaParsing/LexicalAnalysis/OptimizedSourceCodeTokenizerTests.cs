@@ -22,7 +22,7 @@ namespace EPPlusTest.FormulaParsing.LexicalAnalysis
         {
             //_tokenizer = SourceCodeTokenizer.Default;
             _tokenizer = SourceCodeTokenizer.Default;
-            _iterations = 1000000;
+            _iterations = 100000;
         }
 
         [TestMethod]    

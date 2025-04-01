@@ -278,18 +278,6 @@ namespace EPPlusTest.Properties {
             }
         }
 
-        internal static System.Drawing.Bitmap Pattern1Jpeg
-        {
-            get
-            {
-                string path = AppContext.BaseDirectory;
-                while (!Directory.Exists(path + "\\Resources"))
-                {
-                    path = new DirectoryInfo(path + "\\..").FullName;
-                }
-                return (Bitmap)Image.FromFile(path + "\\Resources\\Pattern1.jpeg");
-            }
-        }
         internal static MemoryStream CodeTif
         {
             get

@@ -8,9 +8,10 @@ EPPlus 5, 6 and 7 are automatically scanned for vulnerabilities and static code 
 
 | Version | Supported          | Comment            | Deprecation date |
 | ------- | ------------------ | ------------------ |----|
+| 8.x.x   | :white_check_mark: |                    ||
 | 7.x.x   | :white_check_mark: |                    ||
 | 6.x.x   | :white_check_mark: |                    |2025-12-31|
-| 5.x.x   | :white_check_mark: |                    |2024-12-31|
+| 5.x.x   | :x:                |Deprecated/unsupported versions              |2024-12-31|
 | < 4.3   | :x:                |Deprecated/unsupported versions|2020-12-31|
 
 ## Security update policy
@@ -19,6 +20,9 @@ Security patches will be provided via new revisions released in our public Nuget
 ## Reporting a Vulnerability
 
 Create an issue in our [issue tracker](https://github.com/EPPlusSoftware/EPPlus/issues), describe the vulnerability (including relevant links) and what version of EPPlus that is affected.
+
+## Code signing 
+Since version 7.5 the EPPlus Nuget package and the EPPlus libraries/dll:s are digitally signed by EPPlus Software AB.
 
 ## See also
 - [EPPlus versioning](https://github.com/EPPlusSoftware/EPPlus/wiki/Releases-versioning)

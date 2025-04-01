@@ -26,11 +26,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalLinksCollection
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-    startLine: 26
+    startLine: 27
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -74,11 +74,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-    startLine: 43
+    startLine: 44
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -112,11 +112,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-    startLine: 52
+    startLine: 53
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -147,11 +147,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-    startLine: 59
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -184,11 +184,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-    startLine: 65
+    startLine: 66
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -228,11 +228,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddExternalWorkbook
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-    startLine: 77
+    startLine: 78
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -267,11 +267,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveAt
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-    startLine: 130
+    startLine: 131
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -303,11 +303,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-    startLine: 142
+    startLine: 143
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -339,11 +339,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-    startLine: 164
+    startLine: 179
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -371,11 +371,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Directories
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-    startLine: 181
+    startLine: 196
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -408,11 +408,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadWorkbooks
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-    startLine: 190
+    startLine: 205
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -443,11 +443,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UpdateCaches
     path: ../src/EPPlus/ExternalReferences/ExcelExternalLinksCollection.cs
-    startLine: 304
+    startLine: 327
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences

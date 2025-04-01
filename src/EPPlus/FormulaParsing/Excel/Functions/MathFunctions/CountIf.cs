@@ -12,9 +12,9 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.Utilities;
@@ -52,56 +52,146 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             _expressionEvaluator = new ExpressionEvaluator(context);
             var range = arguments[0];
-            var criteria = arguments[1].ValueFirst?.ToString() ?? default;
+            var arg1 = arguments[1].ValueFirst??0;
+            string criteria = null;
+            bool isString = false;
+            bool isEmptyCriteria = false;
+            if (arg1 is string s)
+            {
+                criteria = s;
+                isString = true;
+                isEmptyCriteria = criteria == string.Empty || criteria.Trim() == "=";
+            }
             double result = 0d;
             if (range.IsExcelRange)
             {
                 var rangeInfo = range.ValueAsRangeInfo;
-                int fromRow, toRow,fromCol, toCol;
-                if(rangeInfo.Address==null)
+                if (rangeInfo.Address.FromRow <= 0)
                 {
-                    fromRow = fromCol = 0;
-                    toRow = rangeInfo.Size.NumberOfRows-1;
-                    toCol = rangeInfo.Size.NumberOfCols-1;
+                    var toRow = rangeInfo.Size.NumberOfRows;
+                    var toCol = rangeInfo.Size.NumberOfCols;
+                    for (int r = 0; r < toRow; r++)
+                    {
+                        for (int c = 0; c < toCol; c++)
+                        {
+                            var v = rangeInfo.GetValue(r, c);
+                            if (isString)
+                            {
+                                if (Evaluate(v, criteria))
+                                {
+                                    result++;
+                                }
+                            }
+                            else
+                            {
+                                if (ConvertUtil.IsNumericOrDate(v, true, true) && ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(arg1))
+                                {
+                                    result++;
+                                }
+                            }
+                        }
+                    }
                 }
                 else
                 {
-                    fromRow = rangeInfo.Address.FromRow;
-                    toRow = rangeInfo.Address.ToRow;
-                    fromCol = rangeInfo.Address.FromCol;
-                    toCol = rangeInfo.Address.ToCol;
-                }
-                for (int row = fromRow; row <= toRow; row++)
-                {
-                    for (int col = fromCol; col <= toCol; col++)
+                    var emptyCells = 0;
+                    var cse = new CellStoreEnumerator<ExcelValue>(rangeInfo.Worksheet._values, rangeInfo.Address.ToExcelAddressBase());
+                    int row = range.Address.FromRow;
+                    int col = range.Address.FromCol;
+                    int add = 1;
+                    foreach (var c in cse)
                     {
-                        var v = rangeInfo.GetValue(row, col);
-                        if (Evaluate(v, criteria))
+                        if (isEmptyCriteria)
+                        {
+                            emptyCells += CalculateEmptyCells(row, col, cse.Row, cse.Column, cse, add);
+                        }
+
+                        row = cse.Row;
+                        col = cse.Column;
+                        if (isString)
+                        {
+                            if (Evaluate(cse.Value._value, criteria))
+                            {
+                                result++;
+                            }
+                        }
+                        else
+                        {
+                            var v = cse.Value._value;
+                            if (ConvertUtil.IsNumericOrDate(v,true,true) && ConvertUtil.GetValueDouble(v) == ConvertUtil.GetValueDouble(arg1))
+                            {
+                                result++;
+                            }
+                        }
+                        add = 0;
+                    }
+
+                    if (isEmptyCriteria) //Check for null values
+                    {
+                        result += emptyCells + CalculateEmptyCells(row, col, cse._endRow, cse._endCol, cse, 1);
+                    }
+                }
+            }
+            else if (range.Value is IEnumerable<FunctionArgument>)
+            {
+                foreach (var arg in (IEnumerable<FunctionArgument>)range.Value)
+                {
+                    if (isString)
+                    {
+                        if (Evaluate(arg.Value, criteria))
+                        {
+                            result++;
+                        }
+                    }
+                    else
+                    {
+                        if (ConvertUtil.GetValueDouble(arg.Value) == ConvertUtil.GetValueDouble(arg1))
                         {
                             result++;
                         }
                     }
                 }
             }
-            else if (range.Value is IEnumerable<FunctionArgument>)
+            else
             {
-                foreach (var arg in (IEnumerable<FunctionArgument>) range.Value)
+                if(isString)
+                { 
+                    if (Evaluate(range.Value, criteria))
+                    {
+                        result++;
+                    }
+                }
+                else
                 {
-                    if(Evaluate(arg.Value, criteria))
+                    if (range.Value != null && ConvertUtil.GetValueDouble(range.Value) == ConvertUtil.GetValueDouble(arg1))
                     {
                         result++;
                     }
                 }
             }
-            else
-            {
-                if (Evaluate(range.Value, criteria))
-                {
-                    result++;
-                }
-            }
             return CreateResult(result, DataType.Integer);
         }
+
+        private int CalculateEmptyCells(int row, int col, int nextRow, int nextCol, CellStoreEnumerator<ExcelValue> cse, int add)
+        {
+            if(row == nextRow)
+            {
+                if(col < cse._endCol && col < nextCol+1)
+                {
+                    return nextCol - col;
+                }
+                return 0;
+            }
+            else
+            {
+                var rows = nextRow - row-1;
+                var cells = cse._endCol - col + add;               //Add a cell for the first item in a range. 
+                cells += nextCol - cse._startCol;
+                cells += rows * (cse._endCol - cse._startCol + 1);
+                return cells;
+            }
+        }
+
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
             if (argumentIndex == 1)

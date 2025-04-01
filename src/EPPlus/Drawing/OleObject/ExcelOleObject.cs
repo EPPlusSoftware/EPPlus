@@ -21,8 +21,10 @@ using OfficeOpenXml.Packaging;
 using OfficeOpenXml.Utils;
 using System.IO;
 using System.Text;
-using OfficeOpenXml.Utils.Extensions;
 using OfficeOpenXml.Drawing.OleObject.Structures;
+using System.Text.RegularExpressions;
+using System.Globalization;
+using System.Linq;
 
 namespace OfficeOpenXml.Drawing.OleObject
 {
@@ -42,7 +44,8 @@ namespace OfficeOpenXml.Drawing.OleObject
         internal XmlDocument _linkedOleObjectXml;
         internal string _linkedObjectFilepath;
         internal ImageInfo _mediaImage;
-        internal static int ExternalLinkId = 1;
+        internal int _externalLinkIndex;
+        private static long _maxFileSize = 2L * 1024 * 1024 * 1024;
 
         /// <summary>
         /// True: File is displayed as Icon.
@@ -53,7 +56,48 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// True: File is linked. False: File is embedded.
         /// </summary>
         public readonly bool IsExternalLink;
-
+        /// <summary>
+        /// If the Ole object is linked, this property contains the external link object.
+        /// </summary>
+        public ExcelExternalOleLink ExternalLink 
+        { 
+            get
+            {
+                return _externalLink;
+            }
+        }
+        /// <summary>
+        /// The progid for the ole object.
+        /// </summary>x
+        public string ProgId
+        {
+            get
+            {
+                return _oleObject.ProgId;
+            }
+        }
+        ExcelImageReadOnly _image = null;
+        /// <summary>
+        /// The icon bitmap used to display the ole object. 
+        /// Must be a .bmp or .emf image.
+        /// </summary>
+        public ExcelImageReadOnly Image
+        {
+            get
+            {
+                if (_image == null)
+                {
+                    _image = new ExcelImageReadOnly();
+                    var ms = ((MemoryStream)_mediaImage.Part.GetStream());
+                    var pt = ImageReader.GetPictureType(ms, false);
+                    if (pt != null)
+                    {
+                        _image.SetImage(ms.ToArray(), pt.Value, false);
+                    }
+                }
+                return _image;
+            }
+        }
         /// <summary>
         /// Returns the drawing type of this object.
         /// </summary>
@@ -64,7 +108,7 @@ namespace OfficeOpenXml.Drawing.OleObject
                 return eDrawingType.OleObject;
             }
         }
-
+        
         internal string LegacySpId
         {
             get
@@ -90,7 +134,7 @@ namespace OfficeOpenXml.Drawing.OleObject
         }
 
         /// <summary>
-        /// Constructor for loading exsisting Ole Object.
+        /// Constructor for loading existing Ole Object.
         /// </summary>
         internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, OleObjectInternal oleObject, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
@@ -107,7 +151,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             var uri = UriHelper.ResolvePartUri(rel.SourceUri, rel.TargetUri);
             var emfStream = (MemoryStream)_worksheet._package.ZipPackage.GetPart(uri).GetStream();
             byte[] image = emfStream.ToArray();
-            _mediaImage = _worksheet._package.PictureStore.AddImage(image, null, ePictureType.Emf);
+            _mediaImage = _worksheet._package.PictureStore.LoadImage(image, uri, _worksheet._package.ZipPackage.GetPart(uri));
             if (IsExternalLink)
             {
                 IsExternalLink = false;
@@ -128,25 +172,24 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// <param name="name"></param>
         /// <param name="olePath"></param>
         /// <param name="parameters"></param>
-        /// <param name="iconPath"></param>
         /// <param name="parent"></param>
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, string olePath, ExcelOleObjectParameters parameters, string iconPath = null, ExcelGroupShape parent = null)
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, string olePath, ExcelOleObjectParameters parameters, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
-            byte[] oleData = File.ReadAllBytes(olePath);
-            parameters.Extension = Path.GetExtension(olePath);
-            byte[] iconData;
-            if(string.IsNullOrEmpty(iconPath))
+            byte[] oleData = null;
+            if (parameters.LinkToFile == false)
             {
-                iconData = null;
+                oleData = File.ReadAllBytes(olePath);
             }
-            else
+            parameters.OlePath= olePath;
+            byte[] iconData = null;
+            if (parameters.Icon != null)
             {
-                iconData = File.ReadAllBytes(iconPath);
+                iconData = parameters.Icon.ImageBytes;
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;
-            CreateOleObject(drawings, node, Name, oleData, parameters, iconData, parent);
+            CreateOleObject(drawings, node, name, oleData, parameters, iconData, parent);
         }
 
         /// <summary>
@@ -157,38 +200,32 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// <param name="name"></param>
         /// <param name="oleInfo"></param>
         /// <param name="parameters"></param>
-        /// <param name="iconInfo"></param>
         /// <param name="parent"></param>
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, FileInfo oleInfo, ExcelOleObjectParameters parameters, FileInfo iconInfo = null, ExcelGroupShape parent = null)
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, FileInfo oleInfo, ExcelOleObjectParameters parameters, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             byte[] oleData = null;
-            parameters.Extension = string.IsNullOrEmpty(parameters.Extension) ? oleInfo.Extension : parameters.Extension;
             parameters.OlePath = oleInfo.FullName;
             if (parameters.LinkToFile == false)
             {
+                if (oleInfo.Length > _maxFileSize)
+                {
+                    throw new IOException("The file is too long.This operation is currently limited to supporting files less than 2 gigabytes in size.");
+                }
                 using FileStream oleFs = oleInfo.OpenRead();
                 {
                     oleData = new byte[oleFs.Length];
-                    oleFs.Read(oleData, 0, oleData.Length);
+                    var r = oleFs.Read(oleData, 0, oleData.Length);
                 }
             }
-            byte[] iconData;
-            if (iconInfo == null)
+            byte[] iconData = null;
+            if (parameters.Icon != null)
             {
-                iconData = null;
-            }
-            else
-            {
-                using FileStream icoFs = oleInfo.OpenRead();
-                {
-                    iconData = new byte[icoFs.Length];
-                    icoFs.Read(iconData, 0, iconData.Length);
-                }
+                iconData = parameters.Icon.ImageBytes;
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;
-            CreateOleObject(drawings, node, Name, oleData, parameters, iconData, parent);
+            CreateOleObject(drawings, node, name, oleData, parameters, iconData, parent);
         }
 
         /// <summary>
@@ -199,24 +236,34 @@ namespace OfficeOpenXml.Drawing.OleObject
         /// <param name="name"></param>
         /// <param name="oleStream"></param>
         /// <param name="parameters"></param>
-        /// <param name="iconStream"></param>
         /// <param name="parent"></param>
-        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, Stream oleStream, ExcelOleObjectParameters parameters, Stream iconStream = null, ExcelGroupShape parent = null)
+        internal ExcelOleObject(ExcelDrawings drawings, XmlNode node, string name, Stream oleStream, ExcelOleObjectParameters parameters, ExcelGroupShape parent = null)
             : base(drawings, node, "xdr:sp", "xdr:nvSpPr/xdr:cNvPr", parent)
         {
             byte[] oleData = new byte[oleStream.Length];
             oleStream.Seek(0, SeekOrigin.Begin);
-            oleStream.Read(oleData, 0, (int)oleStream.Length);
-            byte[] iconData = null;
-            if (iconStream != null)
+            var r = oleStream.Read(oleData, 0, (int)oleStream.Length);
+            if (oleData.Length > _maxFileSize)
             {
-                iconData = new byte[iconStream.Length];
-                iconStream.Seek(0, SeekOrigin.Begin);
-                iconStream.Read(iconData, 0, (int)iconStream.Length);
+                throw new IOException("The file is too long.This operation is currently limited to supporting files less than 2 gigabytes in size.");
+            }
+            byte[] iconData = null;
+            if (parameters.Icon != null)
+            {
+                iconData = parameters.Icon.ImageBytes;
             }
             IsExternalLink = parameters.LinkToFile;
             DisplayAsIcon = parameters.DisplayAsIcon;
-            CreateOleObject(drawings, node, Name, oleData, parameters, iconData, parent);
+            CreateOleObject(drawings, node, name, oleData, parameters, iconData, parent);
+        }
+
+        internal void UpdateExternalLinkIndex()
+        {
+            _externalLinkIndex -= 1;
+            var val = string.Format("[{0}]!''''", _externalLinkIndex);
+            _oleObject.TopNode.Attributes["link"].Value = val;
+            var fb = _oleObject.TopNode.ParentNode.ParentNode.SelectSingleNode("mc:Fallback/d:oleObject", NameSpaceManager);
+            fb.Attributes["link"].Value = val;
         }
 
         internal void CreateOleObject(ExcelDrawings drawings, XmlNode node, string name, byte[] oleData, ExcelOleObjectParameters parameters, byte[] iconData = null, ExcelGroupShape parent = null)
@@ -226,7 +273,8 @@ namespace OfficeOpenXml.Drawing.OleObject
             string oleObjectNode = "";
             if (parameters.ProgId == null)
             {
-                parameters.ProgId = GetProgId(parameters.Extension);
+                var extension = new FileInfo(parameters.OlePath).Extension;
+                parameters.ProgId = GetProgId(extension);
             }
             if (IsExternalLink)
             {
@@ -234,14 +282,14 @@ namespace OfficeOpenXml.Drawing.OleObject
                 {
                     throw new Exception("Linked files requires a string file path argument.");
                 }
-                CreateLinkToObject(parameters.OlePath, parameters.ProgId);
+                CreateLinkToObject(parameters.OlePath, parameters.ProgId, _oleObjectPart);
                 if (DisplayAsIcon)
                 {
-                    oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" oleUpdate=\"OLEUPDATE_ONCALL\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", parameters.ProgId, ExternalLinkId, _id);
+                    oleObjectNode = string.Format("<d:oleObject dvAspect=\"DVASPECT_ICON\" oleUpdate=\"OLEUPDATE_ONCALL\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", parameters.ProgId, _externalLinkIndex, _id);
                 }
                 else
                 {
-                    oleObjectNode = string.Format("<oleObject oleUpdate=\"OLEUPDATE_ALWAYS\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", parameters.ProgId, ExternalLinkId, _id);
+                    oleObjectNode = string.Format("<d:oleObject oleUpdate=\"OLEUPDATE_ALWAYS\" progId=\"{0}\" link=\"[{1}]!''''\" shapeId=\"{2}\">", parameters.ProgId, _externalLinkIndex, _id);
                 }
             }
             else
@@ -249,11 +297,11 @@ namespace OfficeOpenXml.Drawing.OleObject
                 relId = CreateEmbeddedObject(name, parameters, oleData);
                 if (DisplayAsIcon)
                 {
-                    oleObjectNode = string.Format("<oleObject dvAspect=\"DVASPECT_ICON\" progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStructures.CompObj.Reserved1.String, _id, relId);
+                    oleObjectNode = string.Format("<d:oleObject dvAspect=\"DVASPECT_ICON\" progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStructures.CompObj.Reserved1.String, _id, relId);
                 }
                 else
                 {
-                    oleObjectNode = string.Format("<oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStructures.CompObj.Reserved1.String, _id, relId);
+                    oleObjectNode = string.Format("<d:oleObject progId=\"{0}\" shapeId=\"{1}\" r:id=\"{2}\">", _oleDataStructures.CompObj.Reserved1.String, _id, relId);
                 }
 
             }
@@ -266,6 +314,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             else if (iconExt == ".bmp")
             {
                 byte[] image = OleObjectIcon.DefaultIcon;
+                var ext = new FileInfo(parameters.OlePath).Extension;
                 EmfImage emf = new EmfImage();
                 emf.Read(image);
                 if (iconData != null)
@@ -274,7 +323,6 @@ namespace OfficeOpenXml.Drawing.OleObject
                 }
                 else
                 {
-                    var ext = parameters.Extension;
                     if (ext != null)
                     {
                         if (ext.Contains("docx"))
@@ -287,54 +335,99 @@ namespace OfficeOpenXml.Drawing.OleObject
                             emf.ChangeImage(OleObjectIcon.PDF_Icon_Bitmap);
                     }
                 }
-                if (parameters.OlePath == null)
-                {
-                    emf.SetNewTextInDefaultEMFImage(name + parameters.Extension);
-                }
-                else
-                {
-                    emf.SetNewTextInDefaultEMFImage(Path.GetFileName(parameters.OlePath));
-                }
+                emf.SetNewTextInDefaultEMFImage(Path.GetFileName(parameters.OlePath));
                 image = emf.GetBytes();
                 //Add image to Picture Store
                 _mediaImage = _worksheet._package.PictureStore.AddImage(image, null, ePictureType.Emf);
                 
             }
-            var imgRelId = _mediaImage.Part.CreateRelationship(_mediaImage.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
+            var imgRelId = _worksheet.Part.CreateRelationship(_mediaImage.Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/image");
             //Create drawings xml
             XmlElement spElement = CreateShapeNode();
             spElement.InnerXml = CreateOleObjectDrawingNode(name);
-            CreateClientData();
+            CreateClientData(false);
             From.Column = 0;  From.ColumnOff = 0;
             From.Row = 0;     From.RowOff = 0;
             To.Column = 1;    To.ColumnOff = 304800;
             To.Row = 3;       To.RowOff = 114300;
             //Create vml
-            _vml = drawings.Worksheet.VmlDrawings.AddOlePicture(this.Id.ToString(), imgRelId.TargetUri);
+            _vml = drawings.Worksheet.VmlDrawings.AddOlePicture(this.Id.ToString(), _mediaImage.Uri);
             _vmlProp = XmlHelperFactory.Create(_vml.NameSpaceManager, _vml.GetNode("x:ClientData"));
             //Create worksheet xml
             var wsNode = _worksheet.CreateOleContainerNode();
             StringBuilder sb = new StringBuilder();
+            sb.Append("<dummyNode xmlns:d=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\">");
             sb.Append("<mc:AlternateContent xmlns:mc=\"http://schemas.openxmlformats.org/markup-compatibility/2006\" xmlns:xdr=\"http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing\" xmlns:x14=\"http://schemas.microsoft.com/office/spreadsheetml/2009/9/main\">");
             sb.Append("<mc:Choice Requires=\"x14\">");
             //Create object node
             sb.Append(oleObjectNode);
             if(IsExternalLink)
-                sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\" dde=\"1\">", imgRelId.Id);
+                sb.AppendFormat("<d:objectPr defaultSize=\"0\" r:id=\"{0}\" dde=\"1\">", imgRelId.Id);
             else
-                sb.AppendFormat("<objectPr defaultSize=\"0\" r:id=\"{0}\">", imgRelId.Id);
-            sb.Append("<anchor moveWithCells=\"1\">");
-            sb.AppendFormat("<from><xdr:col>{0}</xdr:col><xdr:colOff>{1}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></from>", From.Column, From.ColumnOff, From.Row, From.RowOff);
-            sb.AppendFormat("<to><xdr:col>{0}</xdr:col><xdr:colOff>{1}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></to>", To.Column, To.ColumnOff, To.Row, To.RowOff);
-            sb.Append("</anchor></objectPr></oleObject>");
+                sb.AppendFormat("<d:objectPr defaultSize=\"0\" r:id=\"{0}\">", imgRelId.Id);
+            sb.Append("<d:anchor moveWithCells=\"1\">");
+            sb.AppendFormat("<d:from><xdr:col>{0}</xdr:col><xdr:colOff>{1}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></d:from>", From.Column, From.ColumnOff, From.Row, From.RowOff);
+            sb.AppendFormat("<d:to><xdr:col>{0}</xdr:col><xdr:colOff>{1}</xdr:colOff><xdr:row>{2}</xdr:row><xdr:rowOff>{3}</xdr:rowOff></d:to>", To.Column, To.ColumnOff, To.Row, To.RowOff);
+            sb.Append("</d:anchor></d:objectPr></d:oleObject>");
             sb.Append("</mc:Choice>");
             //fallback
             sb.AppendFormat("<mc:Fallback>");
-            sb.Append(oleObjectNode + "</oleObject>");
-            sb.Append("</mc:Fallback></mc:AlternateContent>");
-            wsNode.InnerXml = sb.ToString();
-            var oleObjectXmlNode = wsNode.GetChildAtPosition(0).GetChildAtPosition(0);
-            _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectXmlNode);
+            sb.Append(oleObjectNode + "</d:oleObject>");
+            sb.Append("</mc:Fallback></mc:AlternateContent></dummyNode>");
+            XmlDocument tempDoc = new XmlDocument();
+            tempDoc.LoadXml(sb.ToString());
+            XmlNode tempNode = tempDoc.DocumentElement.FirstChild;
+            var importedNode = wsNode.OwnerDocument.ImportNode(tempNode, true);
+            var oleObjectXmlNode = wsNode.AppendChild(importedNode); //Tom xmlns i oleObject och i fallback/oleObject...
+            _oleObject = new OleObjectInternal(_worksheet.NameSpaceManager, oleObjectXmlNode.FirstChild.FirstChild);
+        }
+        
+        internal void UpdateXml()
+        {
+            _oleObject.From.Column = From.Column;
+            _oleObject.From.ColumnOff = From.ColumnOff;
+            _oleObject.From.Row = From.Row;
+            _oleObject.From.RowOff = From.RowOff;
+            _oleObject.From.UpdateXml();
+            _oleObject.To.Column = To.Column;
+            _oleObject.To.ColumnOff = To.ColumnOff;
+            _oleObject.To.Row = To.Row;
+            _oleObject.To.RowOff = To.RowOff;
+            _oleObject.To.UpdateXml();
+        }
+
+        internal eEditAs GetCellAnchorFromWorksheetXml()
+        {
+            if (_oleObject.MoveWithCells && _oleObject.SizeWithCells)
+            {
+                return eEditAs.TwoCell;
+            }
+            else if (_oleObject.MoveWithCells)
+            {
+                return eEditAs.OneCell;
+            }
+            else
+            {
+                return eEditAs.Absolute;
+            }
+        }
+        internal void SetCellAnchor(eEditAs value)
+        {
+            switch (value)
+            {
+                case eEditAs.Absolute:
+                    _oleObject.MoveWithCells = false;
+                    _oleObject.SizeWithCells = false;
+                    break;
+                case eEditAs.OneCell:
+                    _oleObject.MoveWithCells = true;
+                    _oleObject.SizeWithCells = false;
+                    break;
+                default:
+                    _oleObject.MoveWithCells = true;
+                    _oleObject.SizeWithCells = true;
+                    break;
+            }
         }
 
         private string CreateOleObjectDrawingNode(string name)
@@ -385,12 +478,26 @@ namespace OfficeOpenXml.Drawing.OleObject
                 var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
                 _oleObjectPart = _worksheet._package.ZipPackage.GetPart(oleObj);
                 var oleStream = (MemoryStream)_oleObjectPart.GetStream(FileMode.Open, FileAccess.Read);
-                _document = new CompoundDocument(oleStream);
+                _document = new CompoundDocument(oleStream, false);
             }
             else if(oleRel != null && ( oleRel.TargetUri.ToString().Contains(".docx") || oleRel.TargetUri.ToString().Contains(".pptx") || oleRel.TargetUri.ToString().Contains(".xlsx")))
             {
                 var oleObj = UriHelper.ResolvePartUri(oleRel.SourceUri, oleRel.TargetUri);
                 _oleObjectPart = _worksheet._package.ZipPackage.GetPart(oleObj);
+            }
+            //Check for selfreferencing external links
+            var wb = _worksheet.Workbook;
+            foreach (var el in wb.ExternalLinks)
+            {
+                if(el is ExcelExternalOleLink)
+                {
+                    var eol = el as ExcelExternalOleLink;
+                    if(eol.OleItems.Count > 0 && eol.OleItems[0].Name.Contains(Name))
+                    {
+                        _externalLink = eol;
+                        _externalLinkIndex = eol.Index;
+                    }
+                }
             }
         }
 
@@ -408,9 +515,15 @@ namespace OfficeOpenXml.Drawing.OleObject
                     {
                         _externalLink = el as ExcelExternalOleLink;
                         _linkedOleObjectXml = _externalLink.ExternalOleXml;
-                        _linkedObjectFilepath = _externalLink.Relation.TargetUri.OriginalString;
-                        int linkId = int.Parse(splitFilename[0]);
-                        ExternalLinkId = linkId > ExternalLinkId ? linkId : ExternalLinkId;
+                        if (_externalLink.Relation.Target == null)
+                        {
+                            _linkedObjectFilepath = _externalLink.Relation.TargetUri.OriginalString;
+                        }
+                        else
+                        {
+                            _linkedObjectFilepath = _externalLink.Relation.Target;
+                        }
+                        _externalLinkIndex = int.Parse(splitFilename[0]);
                         break;
                     }
                 }
@@ -422,8 +535,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             string relId = "";
             _oleDataStructures = new OleObjectDataStructures();
             _document = new CompoundDocument();
+            var extension = new FileInfo(parameters.OlePath).Extension;
             Guid ClsId = OleObjectGUIDCollection.keyValuePairs["Package"];
-            if (parameters.Extension == ".pdf")
+            if (extension == ".pdf")
             {
                 Ole.CreateOleObject(_oleDataStructures, IsExternalLink);
                 Ole.CreateOleDataStream(_oleDataStructures, _document, IsExternalLink);
@@ -433,22 +547,22 @@ namespace OfficeOpenXml.Drawing.OleObject
                 OleDataFile.CreateDataFileDataStream(_document, OleDataFile.CONTENTS_STREAM_NAME, oleData);
                 ClsId = OleObjectGUIDCollection.keyValuePairs["PDF"];
             }
-            else if (parameters.Extension == ".odp" || parameters.Extension == ".odt" || parameters.Extension == ".ods")
+            else if (extension == ".odp" || extension == ".odt" || extension == ".ods")
             {
                 string UserType = "", Reserved = "", key = "";
-                if (parameters.Extension == ".odp")
+                if (extension == ".odp")
                 {
                     UserType = "OpenDocument Presentation";
                     Reserved = "PowerPoint.OpenDocumentPresentation.12";
                     key = "ODP";
                 }
-                else if (parameters.Extension == ".odt")
+                else if (extension == ".odt")
                 {
                     UserType = "OpenDocument Text";
                     Reserved = "Word.OpenDocumentText.12";
                     key = "ODT";
                 }
-                else if (parameters.Extension == ".ods")
+                else if (extension == ".ods")
                 {
                     UserType = "OpenDocument Spreadsheet";
                     Reserved = "Excel.OpenDocumentSpreadsheet.12";
@@ -462,36 +576,32 @@ namespace OfficeOpenXml.Drawing.OleObject
                 CompObj.CreateCompObjDataStream(_oleDataStructures, _document);
                 ClsId = OleObjectGUIDCollection.keyValuePairs[key];
             }
-            else if (parameters.Extension == ".docx" || parameters.Extension == ".pptx" || parameters.Extension == ".xlsx")
+            else if (extension == ".docx" || extension == ".pptx" || extension == ".xlsx")
             {
                 //Embedd as is
                 string oleName = "";
                 string contentType = "";
-                string ext = "";
-                if (parameters.Extension == ".docx")
+                if (extension == ".docx")
                 {
                     oleName = "Microsoft_Word_Document";
                     contentType = ContentTypes.contentTypeOleDocx;
                     CompObj.CreateCompObjObject(_oleDataStructures, "Document", "Document");
-                    ext = "docx";
                 }
-                else if (parameters.Extension == ".xlsx")
+                else if (extension == ".xlsx")
                 {
                     oleName = "Microsoft_Excel_Worksheet";
                     contentType = ContentTypes.contentTypeOleXlsx;
                     CompObj.CreateCompObjObject(_oleDataStructures, "Worksheet", "Worksheet");
-                    ext = "xlsx";
                 }
-                else if (parameters.Extension == ".pptx")
+                else if (extension == ".pptx")
                 {
                     oleName = "Microsoft_PowerPoint_Presentation";
                     contentType = ContentTypes.contentTypeOlePptx;
                     CompObj.CreateCompObjObject(_oleDataStructures, "Presentation", "Presentation");
-                    ext = "pptx";
                 }
                 int newID = 1;
-                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + oleName + "{0}" + parameters.Extension, ref newID);
-                _oleObjectPart = _worksheet._package.ZipPackage.CreatePart(Uri, contentType, CompressionLevel.None, ext);
+                var Uri = GetNewUri(_worksheet._package.ZipPackage, "/xl/embeddings/" + oleName + "{0}" + extension, ref newID);
+                _oleObjectPart = _worksheet._package.ZipPackage.CreatePart(Uri, contentType, CompressionLevel.None, extension.Substring(1));
                 var rel = _worksheet.Part.CreateRelationship(Uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/package");
                 relId = rel.Id;
                 MemoryStream ms = (MemoryStream)_oleObjectPart.GetStream(FileMode.Create, FileAccess.Write);
@@ -500,18 +610,9 @@ namespace OfficeOpenXml.Drawing.OleObject
             }
             else
             {
-                string oleName = "";
-                if(parameters.OlePath == null)
-                {
-                    oleName = name + parameters.Extension;
-                }
-                else
-                {
-                    oleName = parameters.OlePath;
-                }
                 CompObj.CreateCompObjObject(_oleDataStructures, "OLE Package", "Package");
                 CompObj.CreateCompObjDataStream(_oleDataStructures, _document);
-                Ole10Native.CreateOle10NativeObject(oleData, oleName, _oleDataStructures);
+                Ole10Native.CreateOle10NativeObject(oleData, parameters.OlePath, _oleDataStructures);
                 Ole10Native.CreateOle10NativeDataStream(_oleDataStructures, _document);
                 ClsId = OleObjectGUIDCollection.keyValuePairs["Package"];
             }
@@ -529,16 +630,17 @@ namespace OfficeOpenXml.Drawing.OleObject
             return relId;
         }
 
-        private void CreateLinkToObject(string filePath, string progId)
+        private void CreateLinkToObject(string filePath, string progId, ZipPackagePart part, bool writeItem = true)
         {
             var wb = _worksheet.Workbook;
             //create externalLink xml part
-            Uri uri = GetNewUri(wb._package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml", ref ExternalLinkId);
-            _oleObjectPart = wb._package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
+            int i = wb.ExternalLinks.Count+1;
+            Uri uri = GetNewUri(wb._package.ZipPackage, "/xl/externalLinks/externalLink{0}.xml", ref i);
+            part = wb._package.ZipPackage.CreatePart(uri, ContentTypes.contentTypeExternalLink);
             var rel = wb.Part.CreateRelationship(uri, TargetMode.Internal, ExcelPackage.schemaRelationships + "/externalLink");
             //Create relation to external file
             _linkedObjectFilepath = "file:///" + filePath;
-            var fileRel = _oleObjectPart.CreateRelationship(_linkedObjectFilepath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
+            var fileRel = part.CreateRelationship(_linkedObjectFilepath, TargetMode.External, ExcelPackage.schemaRelationships + "/oleObject");
             //Create externalLink xml
             var xml = new StringBuilder();
             xml.Append("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>");
@@ -547,19 +649,56 @@ namespace OfficeOpenXml.Drawing.OleObject
             xml.Append(" xmlns:xxl21=\"http://schemas.microsoft.com/office/spreadsheetml/2021/extlinks2021\">");
             xml.Append("<oleLink xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"");
             xml.AppendFormat(" r:id=\"{0}\" progId=\"{1}\">", fileRel.Id, progId);
-            if (DisplayAsIcon)
-                xml.AppendFormat("<oleItems><oleItem name=\"{0}\" icon=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1");
-            else
-                xml.AppendFormat("<oleItems><oleItem name=\"{0}\" advise=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1");
-            xml.Append("</oleItems></oleLink></externalLink>");
+            if (writeItem)
+            {
+                xml.Append("<oleItems>");
+                if (DisplayAsIcon)
+                {
+                    xml.AppendFormat("<oleItem name=\"{0}\" icon=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1");
+                }
+                else
+                {
+                    xml.AppendFormat("<oleItem name=\"{0}\" advise=\"{1}\" preferPic=\"{2}\"/>", "\'", "1", "1");
+                }
+                xml.Append("</oleItems>");
+            }
+            xml.Append("</oleLink></externalLink>");
             _linkedOleObjectXml = new XmlDocument();
             _linkedOleObjectXml.LoadXml(xml.ToString());
-            _linkedOleObjectXml.Save(_oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+            _linkedOleObjectXml.Save(part.GetStream(FileMode.Create, FileAccess.Write));
             //create/write wb xml external link node
             var er = (XmlElement)wb.CreateNode("d:externalReferences/d:externalReference", false, true);
             er.SetAttribute("id", ExcelPackage.schemaRelationships, rel.Id);
             //Add the externalLink to externalLink collection
-            _externalLink = wb.ExternalLinks[wb.ExternalLinks.GetExternalLink(filePath, fileRel)] as ExcelExternalOleLink;
+            _externalLink = new ExcelExternalOleLink(wb,fileRel.Id,progId,DisplayAsIcon,part, er, writeItem);
+            wb.ExternalLinks.AddInternal(_externalLink);
+            //_externalLink = wb.ExternalLinks[wb.ExternalLinks.GetExternalLink(filePath, fileRel)] as ExcelExternalOleLink;
+            _externalLinkIndex = _externalLink.Index;
+        }
+
+        internal void SaveExternalLink()
+        {
+            var wb = _worksheet.Workbook;
+            var index = wb.ExternalLinks.GetIndex(_externalLink);
+            var el = _externalLink.Part.Uri.ToString();
+            var match = Regex.Match(el, @"\d+");
+            //Update worksheet.
+            var oleNodes = _worksheet.WorksheetXml.SelectNodes("oleObjects/mc:AlternateContent");
+            foreach ( XmlElement oleNode in oleNodes )
+            {
+                var ole = oleNode.SelectSingleNode("<mc:Choice/oleObject");
+                if (ole.Attributes["link"].Value.ToString().Contains(match.Value))
+                {
+                    string link = string.Format("[{0}]!''''", index);
+                    ole.Attributes["link"].Value = link;
+                    var fb = oleNode.SelectSingleNode("<mc:Fallback/oleObject");
+                    fb.Attributes["link"].Value = link;
+                }
+            }
+            //Update contenttypes
+            //Uppdate workbook rel
+            //update externallink name
+            //uppdate externallink rel name
         }
 
         private string GetProgId(string extension)
@@ -591,12 +730,11 @@ namespace OfficeOpenXml.Drawing.OleObject
                 return ".bmp";
             using MemoryStream ms = new MemoryStream(iconData);
             using BinaryReader br = new BinaryReader(ms);
-            string sign;
             if (ImageReader.IsEmf(br))
             {
                 return ".emf";
             }
-            else if (ImageReader.IsBmp(br, out sign))
+            else if (ImageReader.IsBmp(br, out string sign))
             {
                 return ".bmp";
             }
@@ -604,16 +742,129 @@ namespace OfficeOpenXml.Drawing.OleObject
             {
                 throw new Exception("Invalid file format for Icon. Supported formats are .EMF, .BMP");
             }
-        } 
+        }
+
+        /// <summary>
+        /// Get the byte array of the embedded OLE object.
+        /// </summary>
+        /// <returns>The byte array of embedded OLE object.</returns>
+        public byte[] GetEmbeddedObjectBytes()
+        {
+            if (IsExternalLink)
+            {
+                return null;
+            }
+            if (_oleDataStructures == null)
+            {
+                _oleDataStructures = new OleObjectDataStructures();
+            }
+            if (_document != null)
+            {
+                if (_document.Storage.DataStreams.ContainsKey(Ole10Native.OLE10NATIVE_STREAM_NAME))
+                {
+                    _oleDataStructures.OleNative = new OleObjectDataStructures.OleNativeStream();
+                    Ole10Native.ReadOle10Native(_oleDataStructures, _document.Storage.DataStreams[Ole10Native.OLE10NATIVE_STREAM_NAME].Stream);
+                    return _oleDataStructures.OleNative.NativeData;
+                }
+                else if (_document.Storage.DataStreams.ContainsKey(OleDataFile.CONTENTS_STREAM_NAME))
+                {
+                    OleDataFile.ReadDataFileObject(_oleDataStructures, _document.Storage.DataStreams[OleDataFile.CONTENTS_STREAM_NAME].Stream);
+                }
+                else if (_document.Storage.DataStreams.ContainsKey(OleDataFile.EMBEDDEDODF_STREAM_NAME))
+                {
+                    OleDataFile.ReadDataFileObject(_oleDataStructures, _document.Storage.DataStreams[OleDataFile.EMBEDDEDODF_STREAM_NAME].Stream);
+                }
+                else if (_oleDataStructures.DataFile == null)
+                {
+                    var streamName = GetCustomDataStreamName();
+                    if (string.IsNullOrEmpty(streamName) == false)
+                    { 
+                        OleDataFile.ReadDataFileObject(_oleDataStructures, _document.Storage.DataStreams[streamName].Stream);
+                    }
+                }
+                return _oleDataStructures.DataFile;
+            }
+            else
+            {
+                MemoryStream ms = (MemoryStream)_oleObjectPart.GetStream(FileMode.Open, FileAccess.Read);
+                byte[] oleBytes = new byte[ms.Length];
+                ms.Seek(0, SeekOrigin.Begin);
+                ms.Read(oleBytes, 0, (int)ms.Length);
+                return oleBytes;
+            }
+        }
+
+        private string GetCustomDataStreamName()
+        {
+            if(_document.Storage.DataStreams.Count <= 3)
+            {
+                var stream =  _document.Storage.DataStreams.FirstOrDefault(x => !x.Key.StartsWith("\u0001"));
+                if(stream.Value != null)
+                {
+                    return stream.Key;
+                }
+            }
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Creates a link to the embedded Ole Package. Used for accessing contents in embedded xlsx files.
+        /// </summary>
+        /// <exception cref="InvalidOperationException"></exception>
+        public void CreateLinkToEmbeddedPackage()
+        {
+            if (IsExternalLink ||( _oleObject.ProgId != "Worksheet" && _oleObject.ProgId != "Excel.Sheet.12"))
+            {
+                throw new InvalidOperationException("This method is only for embedded Ole Objects.");
+            }
+            if (_externalLink == null)
+            {
+                ZipPackagePart part = null;
+                CreateLinkToObject(_worksheet._package.File.FullName, GetProgId(".xlsx"), part, false);
+            }
+        }
+
+        /// <summary>
+        /// Get the workbook of the embedded xlsx object.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public ExcelPackage GetEmbeddedPackage()
+        {
+            if (IsExternalLink || (_oleObject.ProgId != "Worksheet" && _oleObject.ProgId != "Excel.Sheet.12"))
+            {
+                throw new InvalidOperationException("Invalid Ole Object. Only support excel workbooks.");
+            }
+            if (_externalLink == null)
+            {
+                ZipPackagePart part = null;
+                CreateLinkToObject(_worksheet._package.File.FullName, GetProgId(".xlsx"), part, false);
+            }
+            var xlsx = GetEmbeddedObjectBytes();
+            var ms = new MemoryStream(xlsx);
+            return new ExcelPackage(ms);
+        }
+
+        /// <summary>
+        /// Overwrites the current package with the new package in Ole Object.
+        /// </summary>
+        /// <param name="package">The new package.</param>
+        public void SetEmbeddedPackage(ExcelPackage package)
+        {
+            var xlsx = package.GetAsByteArray();
+            MemoryStream ms = (MemoryStream)_oleObjectPart.GetStream(FileMode.Create, FileAccess.Write);
+            ms.Write(xlsx, 0, xlsx.Length);
+        }
+
 
         internal override void DeleteMe()
         {
-            if (IsExternalLink)
+            if (IsExternalLink || _externalLink != null)
             {
                 //delete externalReferences
                 _worksheet.Workbook.ExternalLinks.Remove(_externalLink);
             }
-            else
+            if(!IsExternalLink)
             {
                 //Delete embeddings
                 _worksheet._package.ZipPackage.DeletePart(_oleObjectPart.Uri);
@@ -623,7 +874,7 @@ namespace OfficeOpenXml.Drawing.OleObject
             //Delete worksheet & Internal Representation
             _oleObject.DeleteMe();
             //delete media
-            _worksheet._package.ZipPackage.DeletePart(_mediaImage.Uri);
+            _worksheet._package.PictureStore.RemoveReference(_mediaImage.Uri);
             //Delete drawing
             base.DeleteMe();
         }

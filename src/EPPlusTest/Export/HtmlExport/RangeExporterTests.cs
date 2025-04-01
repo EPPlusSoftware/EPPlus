@@ -62,9 +62,8 @@ namespace EPPlusTest.Export.HtmlExport
                 exporter.Settings.SetRowHeight = true;
                 exporter.Settings.Culture = new CultureInfo("us-en");
                 var result = exporter.GetSinglePage();
-                Assert.AreEqual(
-                    "<!DOCTYPE html><html><head><style type=\"text/css\">* {margin:0; padding:0;}table.epplus-table{font-family:Calibri;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}.epp-dcw {width:64px;}.epp-drh {height:20px;}</style></head><body><table class=\"epplus-table\"><colgroup><col class=\"epp-dcw\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/></colgroup><thead><tr class=\"epp-drh\"><th data-datatype=\"string\" class=\"epp-al\">Name</th><th data-datatype=\"number\" class=\"epp-al\">Age</th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody><tr class=\"epp-drh\"><td>John Doe</td><td data-value=\"23\" class=\"epp-ar\">23</td><td></td></tr><tr class=\"epp-drh\"><td></td><td></td><td></td></tr></tbody></table></body></html>",
-                    result);
+                var expected = "<!DOCTYPE html><html><head><style type=\"text/css\">* {margin:0; padding:0;}table.epplus-table{font-family:Aptos Narrow;font-size:11pt;border-spacing:0;border-collapse:collapse;word-wrap:break-word;white-space:nowrap;}.epp-hidden {display:none;}.epp-al {text-align:left;}.epp-ar {text-align:right;}.epp-dcw {width:64px;}.epp-drh {height:20px;}</style></head><body><table class=\"epplus-table\"><colgroup><col style=\"width:72px\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/><col class=\"epp-dcw\" span=\"1\"/></colgroup><thead><tr class=\"epp-drh\"><th data-datatype=\"string\" class=\"epp-al\">Name</th><th data-datatype=\"number\" class=\"epp-al\">Age</th><th data-datatype=\"string\" class=\"epp-al\"></th></tr></thead><tbody><tr class=\"epp-drh\"><td>John Doe</td><td data-value=\"23\" class=\"epp-ar\">23</td><td></td></tr><tr class=\"epp-drh\"><td></td><td></td><td></td></tr></tbody></table></body></html>";
+                Assert.AreEqual(expected, result);
             }
         }
 
@@ -73,6 +72,7 @@ namespace EPPlusTest.Export.HtmlExport
         {
             using (var package = OpenPackage("HtmlPatternStylesCells.xlsx", true))
             {
+                package.Workbook.DefaultThemeVersion = 166925;
                 var sheet = package.Workbook.Worksheets.Add("PatternStyle");
                 sheet.Cells["A1"].Value = "Name";
                 sheet.Cells["B1"].Value = "Age";
@@ -142,7 +142,7 @@ namespace EPPlusTest.Export.HtmlExport
                 var resultAsync = await exporter.GetSinglePageAsync();
                 SaveAndCleanup(package);
                 Assert.AreEqual(result, resultAsync);
-
+                
             }
         }
         [TestMethod]
@@ -555,6 +555,34 @@ namespace EPPlusTest.Export.HtmlExport
             exporter.Settings.SetColumnWidth = true;
             exporter.Settings.HeaderRows = headerRows;
             File.WriteAllText("c:\\temp\\" + sheet.Name + ".html", exporter.GetSinglePage());
+        }
+
+        [TestMethod]
+        public void NumberFormatColorShouldCreateCssColor()
+        {
+            using (var package = OpenPackage("html_numfRed_text.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var aNewWs = wb.Worksheets.Add("NewWs"); 
+
+                var range = aNewWs.Cells["A1:A5"];
+                range.Formula = "ROW()";
+                range.Style.Numberformat.Format = "[Red]-#";
+
+                //Ensure numberformat color takes priority as in Excel
+                range.Style.Font.Color.SetColor(Color.Green);
+
+                wb.Calculate();
+
+                var exporter = range.CreateHtmlExporter();
+                var page = exporter.GetSinglePage();
+
+                var path = GetOutputFile("", "numfRed.html").FullName;
+
+                File.WriteAllText(path, page);
+
+                SaveAndCleanup(package);
+            }
         }
     }
 }

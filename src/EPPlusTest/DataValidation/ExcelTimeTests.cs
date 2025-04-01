@@ -37,11 +37,11 @@ namespace EPPlusTest.DataValidation
     public class ExcelTimeTests
     {
         private ExcelTime _time;
-        private readonly decimal SecondsPerHour = 3600;
+        private readonly double SecondsPerHour = 3600;
        // private readonly decimal HoursPerDay = 24;
-        private readonly decimal SecondsPerDay = 3600 * 24;
+        private readonly double SecondsPerDay = 3600 * 24;
 
-        private decimal Round(decimal value)
+        private double Round(double value)
         {
             return Math.Round(value, ExcelTime.NumberOfDecimals);
         }
@@ -114,7 +114,7 @@ namespace EPPlusTest.DataValidation
         public void ExcelTimeTests_ToExcelTime_MinuteIsSet()
         {
             // Arrange
-            decimal expected = SecondsPerHour + (20M * 60M);
+            double expected = SecondsPerHour + (20d * 60d);
             // Act
             _time.Hour = 1;
             _time.Minute = 20;
@@ -127,7 +127,7 @@ namespace EPPlusTest.DataValidation
         public void ExcelTimeTests_ToExcelTime_SecondIsSet()
         {
             // Arrange
-            decimal expected = SecondsPerHour + (20M * 60M) + 10M;
+            double expected = SecondsPerHour + (20d * 60d) + 10d;
             // Act
             _time.Hour = 1;
             _time.Minute = 20;
@@ -141,7 +141,7 @@ namespace EPPlusTest.DataValidation
         public void ExcelTimeTests_ConstructorWithValue_ShouldSetHour()
         {
             // Arrange
-            decimal value = 3660M/(decimal)SecondsPerDay;
+            double value = 3660d / SecondsPerDay;
 
             // Act
             var time = new ExcelTime(value);
@@ -154,7 +154,7 @@ namespace EPPlusTest.DataValidation
         public void ExcelTimeTests_ConstructorWithValue_ShouldSetMinute()
         {
             // Arrange
-            decimal value = 3660M / (decimal)SecondsPerDay;
+            double value = 3660d / SecondsPerDay;
 
             // Act
             var time = new ExcelTime(value);
@@ -167,7 +167,7 @@ namespace EPPlusTest.DataValidation
         public void ExcelTimeTests_ConstructorWithValue_ShouldSetSecond()
         {
             // Arrange
-            decimal value = 3662M / (decimal)SecondsPerDay;
+            double value = 3662d / SecondsPerDay;
 
             // Act
             var time = new ExcelTime(value);
@@ -179,8 +179,8 @@ namespace EPPlusTest.DataValidation
         [TestMethod]
         public void ExcelTimeTests_HourRoundingCheck()
         {
-            decimal hour1 = decimal.Parse("0.416666666666667",CultureInfo.InvariantCulture);
-            decimal hour2 = decimal.Parse("0.458333333333333",CultureInfo.InvariantCulture);
+            double hour1 = double.Parse("0.416666666666667",CultureInfo.InvariantCulture);
+            double hour2 = double.Parse("0.458333333333333",CultureInfo.InvariantCulture);
 
             var time1 = new ExcelTime(hour1);
             var time2 = new ExcelTime(hour2);

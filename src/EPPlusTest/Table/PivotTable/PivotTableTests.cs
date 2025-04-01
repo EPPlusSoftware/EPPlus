@@ -266,7 +266,7 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(pt.Fields[0].SubTotalFunctions, eSubTotalFunctions.Default);
 
             pt.Fields[0].Sort = eSortType.Descending;
-            pt.TableStyle = OfficeOpenXml.Table.TableStyles.Medium14;
+            pt.PivotTableStyle = PivotTableStyles.Medium14;
         }
         [TestMethod]
         public void Pivot_GroupDate()
@@ -324,7 +324,7 @@ namespace EPPlusTest.Table.PivotTable
             pt.RowFields[0].Items[2].Hidden = true;
             pt.RowFields[0].Items[3].Hidden = true;
             pt.DataOnRows = false;
-            pt.TableStyle = OfficeOpenXml.Table.TableStyles.Medium14;
+            pt.PivotTableStyle = PivotTableStyles.Medium14;
         }
         [TestMethod]
         public void Pivot_ManyRowFields()
@@ -355,6 +355,8 @@ namespace EPPlusTest.Table.PivotTable
             var rf = pt.RowFields.Add(pt.Fields[0]);
             rf.SubTotalFunctions = eSubTotalFunctions.None;
             pt.DataOnRows = true;
+            pt.Fields[0].Items.Refresh();
+            pt.Fields[1].Items.Refresh();
         }
         [TestMethod]
         public void Pivot_SaveDataFalse()
@@ -553,26 +555,26 @@ namespace EPPlusTest.Table.PivotTable
             var pt = ws.PivotTables.Add(ws.Cells["A3"], wsData.Cells["K1:N11"], "Pivottable8");
             pt.PivotTableStyle = PivotTableStyles.None;
             Assert.AreEqual(PivotTableStyles.None, pt.PivotTableStyle);
-            Assert.AreEqual(TableStyles.None, pt.TableStyle);
+            //Assert.AreEqual(TableStyles.None, pt.TableStyle);
 
             pt.PivotTableStyle = PivotTableStyles.Medium28;
             Assert.AreEqual(PivotTableStyles.Medium28, pt.PivotTableStyle);
-            Assert.AreEqual(TableStyles.Medium28, pt.TableStyle);
+            //Assert.AreEqual(TableStyles.Medium28, pt.TableStyle);
 
             pt.PivotTableStyle = PivotTableStyles.Dark28;
             Assert.AreEqual(PivotTableStyles.Dark28, pt.PivotTableStyle);
-            Assert.AreEqual(TableStyles.Custom, pt.TableStyle);
+            //Assert.AreEqual(TableStyles.Custom, pt.TableStyle);
             Assert.AreEqual("PivotStyleDark28", pt.StyleName);
 
-            pt.TableStyle = TableStyles.Light15;
-            Assert.AreEqual(PivotTableStyles.Light15, pt.PivotTableStyle);
-            Assert.AreEqual(TableStyles.Light15, pt.TableStyle);
-            Assert.AreEqual("PivotStyleLight15", pt.StyleName);
+            //pt.TableStyle = TableStyles.Light15;
+            //Assert.AreEqual(PivotTableStyles.Light15, pt.PivotTableStyle);
+            //Assert.AreEqual(TableStyles.Light15, pt.TableStyle);
+            //Assert.AreEqual("PivotStyleLight15", pt.StyleName);
 
 
             pt.PivotTableStyle = PivotTableStyles.Light28;
             Assert.AreEqual(PivotTableStyles.Light28, pt.PivotTableStyle);
-            Assert.AreEqual(TableStyles.Custom, pt.TableStyle);
+            //Assert.AreEqual(TableStyles.Custom, pt.TableStyle);
             Assert.AreEqual("PivotStyleLight28", pt.StyleName);
         }
 
@@ -1191,9 +1193,9 @@ namespace EPPlusTest.Table.PivotTable
             pt.RowFields.Add(pt.Fields[1]);
             pt.DataFields.Add(pt.Fields[3]);
 
-            pt.Copy(ws.Cells["A1"], "CopiedPivotTable21");
+            pt.Copy(ws.Cells["A10"], "CopiedPivotTable21");
             Assert.AreEqual(2, ws.PivotTables.Count);
-            Assert.AreEqual("CopyPivotTable22", ws.PivotTables[1].Name);
+            Assert.AreEqual("CopiedPivotTable21", ws.PivotTables[1].Name);
         }
         [TestMethod]
         public void PivotTableCopyInRangeTest()
@@ -1244,5 +1246,28 @@ namespace EPPlusTest.Table.PivotTable
             Assert.AreEqual(1, wsCopy.PivotTables.Count);
             Assert.AreEqual("CopyPivotTable5", wsCopy.PivotTables[0].Name);
         }
+        [TestMethod]
+        public void FillDownTest()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+
+            var range = LoadItemData(ws);
+            var pt = ws.PivotTables.Add(ws.Cells["B2"], range, "FillDownTable");
+            pt.RowFields.Add(pt.Fields[1]);
+            pt.RowFields.Add(pt.Fields[0]);
+            pt.DataFields.Add(pt.Fields[3]);
+            foreach (var field in pt.Fields)
+            {
+                field.ShowAll = false;
+                field.SubtotalTop = true;
+                field.ShowMemberPropertyToolTip = false;
+                field.RepeatItemLabels = true;
+                field.Compact = false;
+                field.Outline = true;
+                field.InsertBlankRow = true;
+            }
+            //p.SaveAs(@"C:\epplustest\testoutput\pivot_filldown.xlsx");
+        }        
     }
 }

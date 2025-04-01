@@ -185,7 +185,7 @@ namespace EPPlusTest.Drawing.Chart.Styling
         {
             var chart = ws.Drawings.AddScatterChart(name, type);
             chart.SetPosition(row, 0, col, 0);
-            chart.To.Column = col+12;
+            chart.To.Column = col + 12;
             chart.To.ColumnOff = 0;
             chart.To.Row = row + 18;
             chart.To.RowOff = 0;

@@ -10,6 +10,7 @@ items:
   - OfficeOpenXml.Drawing.Vml.eVmlAspectRatio
   - OfficeOpenXml.Drawing.Vml.eVmlFillType
   - OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+  - OfficeOpenXml.Drawing.Vml.ExcelPositionBase
   - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
   - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBaseCollection
   - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBorder
@@ -22,6 +23,7 @@ items:
   - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPictureCollection
   - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPictureFill
   - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+  - OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
   - OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
   - OfficeOpenXml.Drawing.Vml.VmlGradiantColor
   langs:
@@ -70,6 +72,12 @@ references:
   name: eVmlGradientMethod
   nameWithType: eVmlGradientMethod
   fullName: OfficeOpenXml.Drawing.Vml.eVmlGradientMethod
+- uid: OfficeOpenXml.Drawing.Vml.ExcelPositionBase
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelPositionBase
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelPositionBase
+  nameWithType: ExcelPositionBase
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelPositionBase
 - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
   commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingBase
   parent: OfficeOpenXml.Drawing.Vml
@@ -141,6 +149,12 @@ references:
   name: ExcelVmlDrawingPosition
   nameWithType: ExcelVmlDrawingPosition
   fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingPosition
+- uid: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
+  parent: OfficeOpenXml.Drawing.Vml
+  name: ExcelVmlDrawingSignatureLine
+  nameWithType: ExcelVmlDrawingSignatureLine
+  fullName: OfficeOpenXml.Drawing.Vml.ExcelVmlDrawingSignatureLine
 - uid: OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
   commentId: T:OfficeOpenXml.Drawing.Vml.ExcelVmlMeasurementUnit
   parent: OfficeOpenXml.Drawing.Vml

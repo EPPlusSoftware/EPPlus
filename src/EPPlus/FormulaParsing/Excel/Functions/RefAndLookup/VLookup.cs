@@ -43,13 +43,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
         }));
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
-            var searchedValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead
+            var searchedValue = arguments[0].Value ?? 0;     //If Search value is null, we should search for 0 instead.
             var arg1 = arguments[1];
             if (arg1.DataType == DataType.ExcelError) return CompileResult.GetErrorResult(((ExcelErrorValue)arg1.Value).Type);
 
             var lookupRange = arg1.ValueAsRangeInfo;
             var lookupIndex = ArgToInt(arguments, 2, out ExcelErrorValue e1);
             if (e1 != null) return CompileResult.GetErrorResult(e1.Type);
+
+            if (lookupIndex > lookupRange.Size.NumberOfCols)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Ref);
+            }
+
+            if (lookupIndex <= 0)
+            {
+                return CompileResult.GetErrorResult(eErrorType.Value);
+            }
+
             var rangeLookup = true;
             if(arguments.Count > 3)
             {
@@ -67,6 +78,16 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup
             }
             else
             {
+                //Handle mixed types for rangeLookup here?
+                //if (arguments[0].DataType == DataType.String)
+                //{
+
+                //}
+                //else
+                //{
+
+                //}
+
                 index = LookupBinarySearch.BinarySearch(searchedValue, lookupRange, true, new LookupComparer(LookupMatchMode.ExactMatchReturnNextSmaller), LookupRangeDirection.Vertical);
                 index = LookupBinarySearch.GetMatchIndex(index, lookupRange, LookupMatchMode.ExactMatchReturnNextSmaller, true);
                 if (index < 0)

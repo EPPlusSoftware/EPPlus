@@ -142,48 +142,62 @@ namespace OfficeOpenXml.Table
 		}
 
 
-		private void SetStyle(ExcelRangeBase headerRange, eStyleClass styleClass, eStyleProperty styleProperty, object value)
+		private void SetStyle(ExcelRangeBase range, eStyleClass styleClass, eStyleProperty styleProperty, object value)
         {
             switch(styleClass)
             {
                 case eStyleClass.Fill:
-                    SetStyleFill(headerRange, styleProperty, value);
+                    SetStyleFill(range, styleProperty, value);
                     break;
                 case eStyleClass.FillPatternColor:
-                    SetStyleColor(headerRange.Style.Fill.PatternColor, styleProperty, value);
+                    SetStyleColor(range.Style.Fill.PatternColor, styleProperty, value);
                     break;
                 case eStyleClass.FillBackgroundColor:
-                    SetStyleColor(headerRange.Style.Fill.BackgroundColor, styleProperty, value);
+                    SetStyleColor(range.Style.Fill.BackgroundColor, styleProperty, value);
                     break;
                 case eStyleClass.GradientFill:
-                    SetStyleGradient(headerRange, styleProperty, value);
+                    SetStyleGradient(range, styleProperty, value);
                     break;
                 case eStyleClass.FillGradientColor1:
-                    SetStyleColor(headerRange.Style.Fill.Gradient.Color1, styleProperty, value);
+                    SetStyleColor(range.Style.Fill.Gradient.Color1, styleProperty, value);
                     break;
                 case eStyleClass.FillGradientColor2:
-                    SetStyleColor(headerRange.Style.Fill.Gradient.Color2, styleProperty, value);
+                    SetStyleColor(range.Style.Fill.Gradient.Color2, styleProperty, value);
                     break;
                 case eStyleClass.BorderTop:
-                    SetStyleBorder(headerRange.Style.Border.Top, styleProperty, value);
+                    SetStyleBorder(range.Style.Border.Top, styleProperty, value);
                     break;
                 case eStyleClass.BorderBottom:
-                    SetStyleBorder(headerRange.Style.Border.Bottom, styleProperty, value);
+                    SetStyleBorder(range.Style.Border.Bottom, styleProperty, value);
                     break;
                 case eStyleClass.BorderLeft:
-                    SetStyleBorder(headerRange.Style.Border.Left, styleProperty, value);
+                    SetStyleBorder(range.Style.Border.Left, styleProperty, value);
                     break;
                 case eStyleClass.BorderRight:
-                    SetStyleBorder(headerRange.Style.Border.Right, styleProperty, value);
+                    SetStyleBorder(range.Style.Border.Right, styleProperty, value);
                     break;
                 case eStyleClass.Font:
-                    SetStyleFont(headerRange, styleProperty, value);
+                    SetStyleFont(range, styleProperty, value);
                     break;
                 case eStyleClass.Numberformat:
-                    SetStyleNumberFormat(headerRange, styleProperty, value);
+                    SetStyleNumberFormat(range, styleProperty, value);
+                    break;
+                case eStyleClass.Style:
+                    SetStyleStyle(range, styleProperty, value);
                     break;
             }
         }
+
+        private void SetStyleStyle(ExcelRangeBase range, eStyleProperty styleProperty, object value)
+        {
+            switch (styleProperty)
+            {
+                case eStyleProperty.Checkbox:                    
+                    range.Style.Checkbox = (bool)value;
+                    break;
+            }
+        }
+
         private void SetStyleNumberFormat(ExcelRangeBase range, eStyleProperty styleProperty, object value)
         {
             switch (styleProperty)
@@ -273,7 +287,7 @@ namespace OfficeOpenXml.Table
                     color.SetColor((ExcelIndexedColor)value);
                     break;
                 case eStyleProperty.Tint:
-                    color.Tint = (decimal)value;
+                    color.Tint = (double)value;
                     break;
             }
         }

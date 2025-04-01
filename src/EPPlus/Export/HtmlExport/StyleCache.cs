@@ -20,7 +20,14 @@ namespace OfficeOpenXml.Export.HtmlExport
         {
         }
 
-        internal bool IsAdded(string key, out int id)
+        /// <summary>
+        /// Returns true if key already existed
+        /// Returns false if key could not be found and had to be created.
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        internal bool GetOrCreateId(string key, out int id)
         {
             if (ContainsKey(key))
             {

@@ -73,6 +73,14 @@ namespace OfficeOpenXml.Core.Worksheet
 
             ExcelWorksheet targetWorksheet = new ExcelWorksheet(nsm, pck, relID, uriWorksheet, name, sheetID, targetWorksheets.Count + pck._worksheetAdd, eWorkSheetHidden.Visible);
 
+            if(sourceWorksheet.SheetUid.HasValue)
+            {
+                targetWorksheet.SheetUid = Guid.NewGuid();
+            }
+
+            //Copy all cells and styles if the worksheet is from another workbook.
+            CloneCellsAndStyles(sourceWorksheet, targetWorksheet);
+
             //Copy comments
             if (sourceWorksheet.ThreadedComments.Count > 0)
             {
@@ -86,6 +94,11 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 CopyVmlDrawing(sourceWorksheet, targetWorksheet);
             }
+
+            // Copy cell- and web pictures (rich data)
+            var richDataCopyHelper = new RichDataCopyHelper(sourceWorksheet.Cells, targetWorksheet.Cells);
+            richDataCopyHelper.Copy();
+
 
             //Copy HeaderFooter
             CopyHeaderFooterPictures(sourceWorksheet, targetWorksheet);
@@ -105,6 +118,7 @@ namespace OfficeOpenXml.Core.Worksheet
             {
                 CopyPivotTable(sourceWorksheet, targetWorksheet);
             }
+
             if (sourceWorksheet.Names.Count > 0)
             {
                 CopySheetNames(sourceWorksheet, targetWorksheet);
@@ -124,8 +138,11 @@ namespace OfficeOpenXml.Core.Worksheet
                 }
             }
 
-            //Copy all cells and styles if the worksheet is from another workbook.
-            CloneCellsAndStyles(sourceWorksheet, targetWorksheet);
+            //Copy dfx styles used in conditional formatting.
+            if (!(sourceWorksheet.Workbook == targetWorksheet.Workbook))
+            {
+                CopyDxfStyles(sourceWorksheet, targetWorksheet);
+            }
 
             //Copy the VBA code
 
@@ -254,12 +271,6 @@ namespace OfficeOpenXml.Core.Worksheet
                         added.SetStyleInner(row, col, s);
                     }
                 }
-            }
-
-            //Copy dfx styles used in conditional formatting.
-            if (!sameWorkbook)
-            {                
-                CopyDxfStyles(Copy, added);
             }
 
             added._package.DoAdjustDrawings = doAdjust;
@@ -738,7 +749,7 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyVmlDrawing(ExcelWorksheet origSheet, ExcelWorksheet newSheet)
         {
-            var xml = origSheet.VmlDrawings.VmlDrawingXml.OuterXml;
+            var xml = origSheet.VmlDrawings.GetOuterXmlWithoutSignatureLines();
             var vmlUri = new Uri(string.Format("/xl/drawings/vmlDrawing{0}.vml", newSheet.SheetId), UriKind.Relative);
             var part = newSheet._package.ZipPackage.CreatePart(vmlUri, "application/vnd.openxmlformats-officedocument.vmlDrawing", newSheet._package.Compression);
             var streamDrawing = new StreamWriter(part.GetStream(FileMode.Create, FileAccess.Write));
@@ -809,13 +820,22 @@ namespace OfficeOpenXml.Core.Worksheet
 
         internal static void CopyVmlRelations(ExcelWorksheet Copy, ExcelWorksheet added)
         {
+            //Excel does not copy signature lines we shouldn'te either.
+            if (added.SignatureLines.Count() > 0)
+            {
+                added.SignatureLines.Clear();
+            }
+
             if (Copy._vmlDrawings.Part == null) return;
             foreach (var r in Copy._vmlDrawings.Part.GetRelationships())
             {
-                var newRel = added.VmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
-                if (newRel.Id != r.Id) //Make sure the id's are the same.
+                if (added._vmlDrawings != null)
                 {
-                    newRel.Id = r.Id;
+                    var newRel = added.VmlDrawings.Part.CreateRelationship(r.TargetUri, r.TargetMode, r.RelationshipType);
+                    if (newRel.Id != r.Id) //Make sure the id's are the same.
+                    {
+                        newRel.Id = r.Id;
+                    }
                 }
                 if (Copy.Workbook != added.Workbook)
                 {

@@ -14,6 +14,7 @@ items:
   - OfficeOpenXml.ExcelWorkbook.CreateVBAProject
   - OfficeOpenXml.ExcelWorkbook.Date1904
   - OfficeOpenXml.ExcelWorkbook.DefaultThemeVersion
+  - OfficeOpenXml.ExcelWorkbook.DigitalSignatures
   - OfficeOpenXml.ExcelWorkbook.Dispose
   - OfficeOpenXml.ExcelWorkbook.ExternalLinks
   - OfficeOpenXml.ExcelWorkbook.FormulaParserManager
@@ -44,11 +45,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelWorkbook
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 70
+    startLine: 73
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -99,11 +100,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheets
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 610
+    startLine: 643
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -136,11 +137,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateHtmlExporter
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 639
+    startLine: 672
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -181,11 +182,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Names
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 665
+    startLine: 698
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -218,11 +219,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalLinks
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 677
+    startLine: 710
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -255,11 +256,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaParserManager
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 709
+    startLine: 741
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -292,11 +293,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreadedCommentPersons
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 724
+    startLine: 756
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -329,22 +330,22 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MaxFontWidth
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 739
+    startLine: 771
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
-  summary: "\nMax font width for the workbook\n<remarks>This method uses GDI. If you use Azure or another environment that does not support GDI, you have to set this value manually if you don&apos;t use the standard Calibri font</remarks>\n"
+  summary: "\nMax font width for the workbook, used in the calculation of column widths.\n<remarks>This property uses the static <xref href=\"OfficeOpenXml.FontSize.FontWidths\" data-throw-if-not-resolved=\"false\"></xref> dictionary to get the max font width /></remarks>\n"
   example: []
   syntax:
-    content: public decimal MaxFontWidth { get; set; }
+    content: public double MaxFontWidth { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property MaxFontWidth As Decimal
+      type: System.Double
+    content.vb: Public Property MaxFontWidth As Double
   overload: OfficeOpenXml.ExcelWorkbook.MaxFontWidth*
   modifiers.csharp:
   - public
@@ -366,11 +367,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Protection
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 805
+    startLine: 840
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -403,11 +404,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: View
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 821
+    startLine: 856
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -440,11 +441,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: VbaProject
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 838
+    startLine: 873
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -457,6 +458,43 @@ items:
       type: OfficeOpenXml.VBA.ExcelVbaProject
     content.vb: Public ReadOnly Property VbaProject As ExcelVbaProject
   overload: OfficeOpenXml.ExcelWorkbook.VbaProject*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.ExcelWorkbook.DigitalSignatures
+  commentId: P:OfficeOpenXml.ExcelWorkbook.DigitalSignatures
+  id: DigitalSignatures
+  parent: OfficeOpenXml.ExcelWorkbook
+  langs:
+  - csharp
+  - vb
+  name: DigitalSignatures
+  nameWithType: ExcelWorkbook.DigitalSignatures
+  fullName: OfficeOpenXml.ExcelWorkbook.DigitalSignatures
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/ExcelWorkbook.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: DigitalSignatures
+    path: ../src/EPPlus/ExcelWorkbook.cs
+    startLine: 903
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nA collection of digital signatures for the workbook\n"
+  example: []
+  syntax:
+    content: public ExcelDigitalSignatureCollection DigitalSignatures { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+    content.vb: Public ReadOnly Property DigitalSignatures As ExcelDigitalSignatureCollection
+  overload: OfficeOpenXml.ExcelWorkbook.DigitalSignatures*
   modifiers.csharp:
   - public
   - get
@@ -477,11 +515,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RemoveVBAProject
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 859
+    startLine: 931
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -509,11 +547,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateVBAProject
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 872
+    startLine: 944
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -541,11 +579,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalculateAllPivotTables
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 888
+    startLine: 960
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -577,11 +615,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WorkbookXml
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 937
+    startLine: 1012
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -614,11 +652,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CodeModule
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 968
+    startLine: 1043
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -651,11 +689,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Date1904
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 992
+    startLine: 1067
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -688,11 +726,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StylesXml
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1062
+    startLine: 1137
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -725,11 +763,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Styles
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1112
+    startLine: 1187
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -762,11 +800,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Properties
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1129
+    startLine: 1204
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -799,11 +837,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CalcMode
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1149
+    startLine: 1224
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -836,11 +874,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullCalcOnLoad
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1188
+    startLine: 1263
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -873,11 +911,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThemeManager
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1204
+    startLine: 1279
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -910,11 +948,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DefaultThemeVersion
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1219
+    startLine: 1294
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -947,11 +985,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullPrecision
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1242
+    startLine: 1317
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -984,11 +1022,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulas
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1704
+    startLine: 1856
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1016,11 +1054,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulaValues
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1716
+    startLine: 1868
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1048,11 +1086,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1792
+    startLine: 1944
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1082,11 +1120,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasLoadedPivotTables
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 1822
+    startLine: 1974
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1119,11 +1157,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelWorkbook.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: NumberFormatToTextHandler
     path: ../src/EPPlus/ExcelWorkbook.cs
-    startLine: 2036
+    startLine: 2206
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml
@@ -1869,18 +1907,21 @@ references:
   name: OfficeOpenXml.ThreadedComments
   nameWithType: OfficeOpenXml.ThreadedComments
   fullName: OfficeOpenXml.ThreadedComments
+- uid: OfficeOpenXml.FontSize.FontWidths
+  commentId: F:OfficeOpenXml.FontSize.FontWidths
+  isExternal: true
 - uid: OfficeOpenXml.ExcelWorkbook.MaxFontWidth*
   commentId: Overload:OfficeOpenXml.ExcelWorkbook.MaxFontWidth
   name: MaxFontWidth
   nameWithType: ExcelWorkbook.MaxFontWidth
   fullName: OfficeOpenXml.ExcelWorkbook.MaxFontWidth
-- uid: System.Decimal
-  commentId: T:System.Decimal
+- uid: System.Double
+  commentId: T:System.Double
   parent: System
   isExternal: true
-  name: Decimal
-  nameWithType: Decimal
-  fullName: System.Decimal
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
 - uid: OfficeOpenXml.ExcelWorkbook.Protection*
   commentId: Overload:OfficeOpenXml.ExcelWorkbook.Protection
   name: Protection
@@ -1919,6 +1960,22 @@ references:
   name: OfficeOpenXml.VBA
   nameWithType: OfficeOpenXml.VBA
   fullName: OfficeOpenXml.VBA
+- uid: OfficeOpenXml.ExcelWorkbook.DigitalSignatures*
+  commentId: Overload:OfficeOpenXml.ExcelWorkbook.DigitalSignatures
+  name: DigitalSignatures
+  nameWithType: ExcelWorkbook.DigitalSignatures
+  fullName: OfficeOpenXml.ExcelWorkbook.DigitalSignatures
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  commentId: T:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+  parent: OfficeOpenXml.DigitalSignatures
+  name: ExcelDigitalSignatureCollection
+  nameWithType: ExcelDigitalSignatureCollection
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection
+- uid: OfficeOpenXml.DigitalSignatures
+  commentId: N:OfficeOpenXml.DigitalSignatures
+  name: OfficeOpenXml.DigitalSignatures
+  nameWithType: OfficeOpenXml.DigitalSignatures
+  fullName: OfficeOpenXml.DigitalSignatures
 - uid: OfficeOpenXml.ExcelWorkbook.RemoveVBAProject*
   commentId: Overload:OfficeOpenXml.ExcelWorkbook.RemoveVBAProject
   name: RemoveVBAProject

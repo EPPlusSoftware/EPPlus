@@ -10,10 +10,7 @@
  *************************************************************************************************
   27/07/2023         EPPlus Software AB         Implemented function
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Operators
 {

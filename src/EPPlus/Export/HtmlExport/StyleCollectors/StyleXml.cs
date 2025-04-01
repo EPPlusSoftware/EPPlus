@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
                    _style.VerticalAlignment != ExcelVerticalAlignment.Bottom ||
                    _style.TextRotation != 0 ||
                    _style.Indent > 0 ||
-                   _style.WrapText;
+                   _style.WrapText || _style.NumberFormatId > 0;
             }
         }
 
@@ -48,6 +48,10 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         public IBorder Border { get; } = null;
 
         public IFont Font { get; } = null;
+
+        public INumberFormat NumberFormat { get; } = null;
+
+        public bool CheckBox { get; }
 
         public StyleXml(ExcelXfs style)        
         {
@@ -65,12 +69,18 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             {
                 Border = new BorderXml(style.Border);
             }
+            if(style.NumberFormatId >= 0)
+            {
+                NumberFormat = new NumberFormatXml(style.Numberformat);
+            }
+
+            CheckBox = style.Checkbox;
         }
 
         internal string GetStyleKey()
         {
             var fbfKey = ((ulong)(uint)_style.FontId << 32 | (uint)_style.BorderId << 16 | (uint)_style.FillId);
-            return fbfKey.ToString() + "|" + ((int)_style.HorizontalAlignment).ToString() + "|" + ((int)_style.VerticalAlignment).ToString() + "|" + _style.Indent.ToString() + "|" + _style.TextRotation.ToString() + "|" + (_style.WrapText ? "1" : "0");
+            return fbfKey.ToString() + "|" + ((int)_style.HorizontalAlignment).ToString() + "|" + ((int)_style.VerticalAlignment).ToString() + "|" + _style.Indent.ToString() + "|" + _style.TextRotation.ToString() + "|" + (_style.WrapText ? "1" : "0") + "|" + (_style.Checkbox? "1" : "0"); 
         }
     }
 }

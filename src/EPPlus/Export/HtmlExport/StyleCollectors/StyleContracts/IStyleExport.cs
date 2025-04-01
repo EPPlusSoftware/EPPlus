@@ -1,5 +1,7 @@
 ﻿
 
+using OfficeOpenXml.LoadFunctions;
+
 namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
 {
     /// <summary>
@@ -10,6 +12,8 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
         internal string StyleKey { get; }
 
         internal bool HasStyle { get; }
+
+        internal bool CheckBox { get; }
 
         /// <summary>
         /// Fill
@@ -25,5 +29,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors.StyleContracts
         /// Border
         /// </summary>
         internal IBorder Border { get; }
+
+        internal INumberFormat NumberFormat { get; }
     }
 }

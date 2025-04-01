@@ -19,11 +19,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelAutoFilter.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelAutoFilter
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
-    startLine: 21
+    startLine: 20
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -65,11 +65,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelAutoFilter.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ApplyFilter
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
-    startLine: 62
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -101,11 +101,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelAutoFilter.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Address
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
-    startLine: 96
+    startLine: 95
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -138,11 +138,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelAutoFilter.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Columns
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
-    startLine: 146
+    startLine: 145
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter
@@ -175,11 +175,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Filter/ExcelAutoFilter.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearAll
     path: ../src/EPPlus/Filter/ExcelAutoFilter.cs
-    startLine: 157
+    startLine: 156
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Filter

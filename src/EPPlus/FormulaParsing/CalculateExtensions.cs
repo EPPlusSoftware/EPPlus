@@ -77,7 +77,7 @@ namespace OfficeOpenXml
             var dc=RpnFormulaExecution.Execute(workbook, options);
             if (workbook.FormulaParser.Logger != null)
             {
-                var msg = string.Format("Calculation done...number of cells parsed: {0}", dc._formulas.Count);
+                var msg = string.Format("Calculation done...number of cells parsed: {0}", dc.processedCells.Count);
                 workbook.FormulaParser.Logger.Log(msg);
             }
         }

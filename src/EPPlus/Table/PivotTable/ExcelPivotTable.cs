@@ -172,6 +172,9 @@ namespace OfficeOpenXml.Table.PivotTable
                     DataFields.AddInternal(dataField);
                 }
             }
+            DeleteNode("d:rowItems");
+            DeleteNode("d:colItems");
+            Styles = new ExcelPivotTableAreaStyleCollection(this);
             ConditionalFormattings = new ExcelPivotTableConditionalFormattingCollection(this);
         }
 
@@ -287,15 +290,15 @@ namespace OfficeOpenXml.Table.PivotTable
             string xml = string.Format("<pivotTableDefinition xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\" name=\"{0}\" dataOnRows=\"1\" applyNumberFormats=\"0\" applyBorderFormats=\"0\" applyFontFormats=\"0\" applyPatternFormats=\"0\" applyAlignmentFormats=\"0\" applyWidthHeightFormats=\"1\" dataCaption=\"Data\"  createdVersion=\"6\" updatedVersion=\"6\" showMemberPropertyTips=\"0\" useAutoFormatting=\"1\" itemPrintTitles=\"1\" indent=\"0\" compact=\"0\" compactData=\"0\" gridDropZones=\"1\">",
                 ConvertUtil.ExcelEscapeString(name));
 
-            xml += string.Format("<location ref=\"{0}\" firstHeaderRow=\"1\" firstDataRow=\"1\" firstDataCol=\"1\" /> ", address.FirstAddress);
+            xml += string.Format("<location ref=\"{0}\" firstHeaderRow=\"1\" firstDataRow=\"1\" firstDataCol=\"1\"/> ", address.FirstAddress);
             xml += string.Format("<pivotFields count=\"{0}\">", fields);
             for (int col = 0; col < fields; col++)
             {
-                xml += "<pivotField showAll=\"0\" />"; //compact=\"0\" outline=\"0\" subtotalTop=\"0\" includeNewItemsInFilter=\"1\"     
+                xml += "<pivotField showAll=\"0\"/>"; //compact=\"0\" outline=\"0\" subtotalTop=\"0\" includeNewItemsInFilter=\"1\"     
             }
 
             xml += "</pivotFields>";
-            xml += "<pivotTableStyleInfo name=\"PivotStyleMedium9\" showRowHeaders=\"1\" showColHeaders=\"1\" showRowStripes=\"0\" showColStripes=\"0\" showLastColumn=\"1\" />";
+            xml += "<pivotTableStyleInfo name=\"PivotStyleMedium9\" showRowHeaders=\"1\" showColHeaders=\"1\" showRowStripes=\"0\" showColStripes=\"0\" showLastColumn=\"1\"/>";
             xml += $"<extLst><ext xmlns:xpdl=\"http://schemas.microsoft.com/office/spreadsheetml/2016/pivotdefaultlayout\" uri=\"{ExtLstUris.PivotTableDefinition16Uri}\"><xpdl:pivotTableDefinition16/></ext></extLst>";
             xml += "</pivotTableDefinition>";
             return xml;
@@ -478,14 +481,28 @@ namespace OfficeOpenXml.Table.PivotTable
                         }
                         else
                         {
-                            var v = fieldItemSelection[j].Value;
+                            var v = fieldItemSelection[j].Value ?? PivotNullValue;
                             if (cache.ContainsKey(v))
                             {
                                 key[i] = cache[v];
                             }
                             else
                             {
-                                return ErrorValues.RefError;
+                                if(v != null && bool.TryParse(v.ToString(), out bool b))
+                                {
+                                    if(cache.ContainsKey(b))
+                                    {
+                                        key[i] = cache[b];
+                                    }
+                                    else
+                                    {
+                                        return ErrorValues.RefError;
+                                    }
+                                }
+                                else
+                                {
+                                    return ErrorValues.RefError;
+                                }
                             }
                         }
                         break;
@@ -500,7 +517,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     if (GetMatchingCount(uniqueItems, key, dataField.Field.PivotTable.RowFields.Count, out int[] newKey) == 1)
                     {
-                        //key = PivotTableCalculation.GetKeyWithParentLevel(key, newKey, dataField.Field.PivotTable.RowFields.Count);
                         key = newKey;
                     }
                     else
@@ -515,7 +531,6 @@ namespace OfficeOpenXml.Table.PivotTable
                     {
                         if (GetMatchingCount(uniqueItems, key, RowFields.Count, out int[] newKey) == 1)
                         {
-                            //key = PivotTableCalculation.GetKeyWithParentLevel(key, newKey, dataField.Field.PivotTable.RowFields.Count);
                             key = newKey;
                         }
                         else
@@ -661,19 +676,42 @@ namespace OfficeOpenXml.Table.PivotTable
         {
             var isCollapsed = false;
             var isParentFunctionNone = false;
+            int ix;
             for (int i = fromIndex; i < toIndex; i++)
             {
                 if (key[i] == PivotCalculationStore.SumLevelValue)
                 {
-                    if (isParentFunctionNone && isCollapsed == false && Keys[DataFields.IndexOf(datafield)].ContainsKey(key) && Keys[DataFields.IndexOf(datafield)][key].Count > 1)
+                    if (isParentFunctionNone)
                     {
-                        return true;
+                        if (Keys[DataFields.IndexOf(datafield)].ContainsKey(key))
+                        {
+                            var distKeys = Keys[DataFields.IndexOf(datafield)][key].Select(x => x[i]).Distinct();
+                            if (distKeys.Count() > 1)
+                            {
+                                return !isCollapsed;
+                            }
+                            else
+                            {
+                                ix = distKeys.First();
+                            }
+                        }
+                        else
+                        {
+                            return true;
+                        }
                     }
-                    continue;
+                    else
+                    {
+                        continue;
+                    }
                 }
-                if (isCollapsed) return true;
+                else
+                {
+                    if (isCollapsed) return true;
+                    ix = key[i];
+                }
                 var field = Fields[keyFieldIndex[i]];
-                var item = field.Items.GetByCacheIndex(key[i]);
+                var item = field.Items.GetByCacheIndex(ix);
                 if (item != null && item.ShowDetails == false)
                 {
                     isCollapsed = true;
@@ -1467,21 +1505,6 @@ namespace OfficeOpenXml.Table.PivotTable
                 {
                     try
                     {
-                        if (Enum.GetNames(typeof(TableStyles)).Any(x => x.Equals(value.Substring(10, value.Length - 10), StringComparison.OrdinalIgnoreCase)))
-                        {
-                            _tableStyle = (TableStyles)Enum.Parse(typeof(TableStyles), value.Substring(10, value.Length - 10), true);
-                        }
-                        else
-                        {
-                            _tableStyle = TableStyles.Custom;
-                        }
-                    }
-                    catch
-                    {
-                        _tableStyle = TableStyles.Custom;
-                    }
-                    try
-                    {
                         _pivotTableStyle = (PivotTableStyles)Enum.Parse(typeof(PivotTableStyles), value.Substring(10, value.Length - 10), true);
                     }
                     catch
@@ -1492,13 +1515,11 @@ namespace OfficeOpenXml.Table.PivotTable
                 }
                 else if (value == "None")
                 {
-                    _tableStyle = TableStyles.None;
                     _pivotTableStyle = PivotTableStyles.None;
                     value = "";
                 }
                 else
                 {
-                    _tableStyle = TableStyles.Custom;
                     _pivotTableStyle = PivotTableStyles.Custom;
                 }
                 SetXmlNodeString(STYLENAME_PATH, value, true);
@@ -1579,26 +1600,7 @@ namespace OfficeOpenXml.Table.PivotTable
                 SetXmlNodeBool(SHOWROWSTRIPES_PATH, value);
             }
         }
-        TableStyles _tableStyle = Table.TableStyles.Medium6;
-        /// <summary>
-        /// The table style. If this property is Custom, the style from the StyleName propery is used.
-        /// </summary>
-        [Obsolete("Use the PivotTableStyle property for more options")]
-        public TableStyles TableStyle
-        {
-            get
-            {
-                return _tableStyle;
-            }
-            set
-            {
-                _tableStyle = value;
-                if (value != TableStyles.Custom)
-                {
-                    StyleName = "PivotStyle" + value.ToString();
-                }
-            }
-        }
+
         PivotTableStyles _pivotTableStyle = PivotTableStyles.Medium6;
         /// <summary>
         /// The pivot table style. If this property is Custom, the style from the StyleName propery is used.
@@ -1753,7 +1755,7 @@ namespace OfficeOpenXml.Table.PivotTable
                         name = df.Function.ToString() + " of " + df.Field.Name; //Name must be set or Excel will crash on rename.
                     }
 
-                    //Make sure name is unique
+
                     var newName = name;
                     var i = 2;
                     while (DataFields.ExistsDfName(newName, df))

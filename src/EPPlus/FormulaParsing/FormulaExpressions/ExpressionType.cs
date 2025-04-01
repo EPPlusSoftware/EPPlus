@@ -22,7 +22,7 @@ namespace OfficeOpenXml
         Constant,
         Enumerable,
         Variable,
-        //ExcelRange,
+        WebImage,
         Group,
         ValueError,
         Function,

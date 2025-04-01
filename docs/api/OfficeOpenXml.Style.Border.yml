@@ -5,8 +5,8 @@ items:
   id: Border
   parent: OfficeOpenXml.Style
   children:
-  - OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle)
-  - OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Drawing.Color)
+  - OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Boolean)
+  - OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Drawing.Color,System.Boolean)
   - OfficeOpenXml.Style.Border.Bottom
   - OfficeOpenXml.Style.Border.Diagonal
   - OfficeOpenXml.Style.Border.DiagonalDown
@@ -24,11 +24,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Style/ExcelBorder.cs
-    startLine: 23
+    startLine: 21
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -72,11 +72,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Left
     path: ../src/EPPlus/Style/ExcelBorder.cs
-    startLine: 33
+    startLine: 31
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -109,11 +109,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Right
     path: ../src/EPPlus/Style/ExcelBorder.cs
-    startLine: 43
+    startLine: 41
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -146,11 +146,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Top
     path: ../src/EPPlus/Style/ExcelBorder.cs
-    startLine: 53
+    startLine: 51
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -183,11 +183,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Bottom
     path: ../src/EPPlus/Style/ExcelBorder.cs
-    startLine: 63
+    startLine: 61
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -220,11 +220,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Diagonal
     path: ../src/EPPlus/Style/ExcelBorder.cs
-    startLine: 73
+    startLine: 71
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -257,11 +257,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DiagonalUp
     path: ../src/EPPlus/Style/ExcelBorder.cs
-    startLine: 83
+    startLine: 81
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -294,11 +294,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DiagonalDown
     path: ../src/EPPlus/Style/ExcelBorder.cs
-    startLine: 104
+    startLine: 102
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
@@ -317,68 +317,71 @@ items:
   - set
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle)
-  commentId: M:OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle)
-  id: BorderAround(OfficeOpenXml.Style.ExcelBorderStyle)
+- uid: OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Boolean)
+  commentId: M:OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Boolean)
+  id: BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Boolean)
   parent: OfficeOpenXml.Style.Border
   langs:
   - csharp
   - vb
-  name: BorderAround(ExcelBorderStyle)
-  nameWithType: Border.BorderAround(ExcelBorderStyle)
-  fullName: OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle)
+  name: BorderAround(ExcelBorderStyle, Boolean)
+  nameWithType: Border.BorderAround(ExcelBorderStyle, Boolean)
+  fullName: OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle, System.Boolean)
   type: Method
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BorderAround
     path: ../src/EPPlus/Style/ExcelBorder.cs
-    startLine: 130
+    startLine: 129
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
   summary: "\nSet the border style around the range.\n"
   example: []
   syntax:
-    content: public void BorderAround(ExcelBorderStyle Style)
+    content: public void BorderAround(ExcelBorderStyle Style, bool overrideNeigbourCellBorder = true)
     parameters:
     - id: Style
       type: OfficeOpenXml.Style.ExcelBorderStyle
       description: The border style
-    content.vb: Public Sub BorderAround(Style As ExcelBorderStyle)
+    - id: overrideNeigbourCellBorder
+      type: System.Boolean
+      description: Set to true to override the border of adjacent cells.
+    content.vb: Public Sub BorderAround(Style As ExcelBorderStyle, overrideNeigbourCellBorder As Boolean = True)
   overload: OfficeOpenXml.Style.Border.BorderAround*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Drawing.Color)
-  commentId: M:OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Drawing.Color)
-  id: BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Drawing.Color)
+- uid: OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Drawing.Color,System.Boolean)
+  commentId: M:OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Drawing.Color,System.Boolean)
+  id: BorderAround(OfficeOpenXml.Style.ExcelBorderStyle,System.Drawing.Color,System.Boolean)
   parent: OfficeOpenXml.Style.Border
   langs:
   - csharp
   - vb
-  name: BorderAround(ExcelBorderStyle, Color)
-  nameWithType: Border.BorderAround(ExcelBorderStyle, Color)
-  fullName: OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle, System.Drawing.Color)
+  name: BorderAround(ExcelBorderStyle, Color, Boolean)
+  nameWithType: Border.BorderAround(ExcelBorderStyle, Color, Boolean)
+  fullName: OfficeOpenXml.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle, System.Drawing.Color, System.Boolean)
   type: Method
   source:
     remote:
       path: src/EPPlus/Style/ExcelBorder.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: BorderAround
     path: ../src/EPPlus/Style/ExcelBorder.cs
-    startLine: 139
+    startLine: 140
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Style
   summary: "\nSet the border style around the range.\n"
   example: []
   syntax:
-    content: public void BorderAround(ExcelBorderStyle Style, Color Color)
+    content: public void BorderAround(ExcelBorderStyle Style, Color Color, bool overrideNeigbourCellBorder = true)
     parameters:
     - id: Style
       type: OfficeOpenXml.Style.ExcelBorderStyle
@@ -386,7 +389,10 @@ items:
     - id: Color
       type: System.Drawing.Color
       description: The color of the border
-    content.vb: Public Sub BorderAround(Style As ExcelBorderStyle, Color As Color)
+    - id: overrideNeigbourCellBorder
+      type: System.Boolean
+      description: Set to true to override the border of adjacent cells.
+    content.vb: Public Sub BorderAround(Style As ExcelBorderStyle, Color As Color, overrideNeigbourCellBorder As Boolean = True)
   overload: OfficeOpenXml.Style.Border.BorderAround*
   modifiers.csharp:
   - public

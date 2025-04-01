@@ -139,8 +139,8 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
             else if (_streamMode != StreamMode.Writer)
                 throw new ZlibException("Cannot Write after Reading.");
 
-            if (count == 0)
-                return;
+            //if (count == 0)
+            //    return;
 
             // first reference of z property will initialize the private var _z
             z.InputBuffer = buffer;
@@ -406,12 +406,17 @@ namespace OfficeOpenXml.Packaging.Ionic.Zlib
                 totalBytesRead += n;
             }
             if ((header[3] & 0x08) == 0x08)
+            {
                 _GzipFileName = ReadZeroTerminatedString();
+            }
             if ((header[3] & 0x10) == 0x010)
+            {
                 _GzipComment = ReadZeroTerminatedString();
+            }
             if ((header[3] & 0x02) == 0x02)
-                Read(_buf1, 0, 1); // CRC16, ignore
-
+            {
+                var r = Read(_buf1, 0, 1); // CRC16, ignore
+            }
             return totalBytesRead;
         }
 

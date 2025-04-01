@@ -55,7 +55,7 @@ namespace EPPlusTest.Filter
             LoadTestdata(ws);
             SetDateValues(ws);
 
-            ws.AutoFilterAddress = ws.Cells["A1:D100"];
+            ws.AutoFilter.Address = ws.Cells["A1:D100"];
             var col=ws.AutoFilter.Columns.AddDynamicFilterColumn(1);
             col.Type = eDynamicFilterType.AboveAverage;
             ws.AutoFilter.ApplyFilter();    
@@ -72,7 +72,7 @@ namespace EPPlusTest.Filter
             LoadTestdata(ws);
             SetDateValues(ws);
 
-            ws.AutoFilterAddress = ws.Cells["A1:D100"];
+            ws.AutoFilter.Address = ws.Cells["A1:D100"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(1);
             col.Type = eDynamicFilterType.BelowAverage;
             ws.AutoFilter.ApplyFilter();
@@ -92,7 +92,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.Yesterday;
             ws.AutoFilter.ApplyFilter();
@@ -113,7 +113,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.Today;
             ws.AutoFilter.ApplyFilter();
@@ -134,7 +134,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.Tomorrow;
             ws.AutoFilter.ApplyFilter();
@@ -158,7 +158,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.LastWeek;
             ws.AutoFilter.ApplyFilter();
@@ -182,7 +182,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.ThisWeek;
             ws.AutoFilter.ApplyFilter();
@@ -205,7 +205,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.NextWeek;
             ws.AutoFilter.ApplyFilter();
@@ -230,7 +230,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.LastMonth;
             ws.AutoFilter.ApplyFilter();
@@ -254,7 +254,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
             //Act
-            ws.AutoFilterAddress = ws.Cells["A1:D500"];
+            ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.ThisMonth;
             ws.AutoFilter.ApplyFilter();
@@ -278,7 +278,7 @@ namespace EPPlusTest.Filter
             LoadTestdata(ws, 500, 1, 1, false, false, startDate);
 
             //Act
-            ws.AutoFilterAddress = ws.Cells["A1:D500"];
+            ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.NextMonth;
             ws.AutoFilter.ApplyFilter();
@@ -302,14 +302,14 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.M1;
             ws.AutoFilter.ApplyFilter();
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 1, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 1, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -327,14 +327,14 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.M2;
             ws.AutoFilter.ApplyFilter();
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 2, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 2, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -353,14 +353,14 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D600"];
+			ws.AutoFilter.Address = ws.Cells["A1:D600"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.M3;
             ws.AutoFilter.ApplyFilter();
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 3, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 3, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -379,14 +379,14 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D600"];
+			ws.AutoFilter.Address = ws.Cells["A1:D600"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.M4;
             ws.AutoFilter.ApplyFilter();
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 4, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 4, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -405,14 +405,14 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D700"];
+			ws.AutoFilter.Address = ws.Cells["A1:D700"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.M5;
             ws.AutoFilter.ApplyFilter();
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 5, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 5, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -431,14 +431,14 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D700"];
+			ws.AutoFilter.Address = ws.Cells["A1:D700"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.M6;
             ws.AutoFilter.ApplyFilter();
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 6, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 6, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -456,14 +456,14 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D700"];
+			ws.AutoFilter.Address = ws.Cells["A1:D700"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.M7;
             ws.AutoFilter.ApplyFilter();
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 7, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 7, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -481,14 +481,14 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D800"];
+			ws.AutoFilter.Address = ws.Cells["A1:D800"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.M8;
             ws.AutoFilter.ApplyFilter();
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 8, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 8, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -506,14 +506,14 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D800"];
+			ws.AutoFilter.Address = ws.Cells["A1:D800"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.M9;
             ws.AutoFilter.ApplyFilter();
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 9, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 9, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -531,14 +531,14 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D800"];
+			ws.AutoFilter.Address = ws.Cells["A1:D800"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.M10;
             ws.AutoFilter.ApplyFilter();
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 10, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 10, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -556,14 +556,14 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D800"];
+			ws.AutoFilter.Address = ws.Cells["A1:D800"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.M11;
             ws.AutoFilter.ApplyFilter();
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 11, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 11, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -581,14 +581,14 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D900"];
+			ws.AutoFilter.Address = ws.Cells["A1:D900"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.M12;
             ws.AutoFilter.ApplyFilter();
 
 
             //Assert
-            var dt = DateTime.Today.AddMonths(1);
+            var dt = DateTime.Today;
             var startRow = GetRowFromDate(new DateTime(dt.Year, 12, 1), date);
             var endRow = GetRowFromDate(new DateTime(dt.Year, 12, 1).AddMonths(1).AddDays(-1), date);
             //Will only verify this year
@@ -609,7 +609,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.LastQuarter;
             ws.AutoFilter.ApplyFilter();
@@ -636,7 +636,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act   
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.ThisQuarter;
             ws.AutoFilter.ApplyFilter();
@@ -660,7 +660,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 600, 1, 1, false, false, date);
 
             //Act   
-            ws.AutoFilterAddress = ws.Cells["A1:D600"];
+            ws.AutoFilter.Address = ws.Cells["A1:D600"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.NextQuarter;
             ws.AutoFilter.ApplyFilter();
@@ -684,7 +684,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 600, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.Q1;
             ws.AutoFilter.ApplyFilter();
@@ -709,7 +709,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 600, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.Q2;
             ws.AutoFilter.ApplyFilter();
@@ -734,7 +734,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 600, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.Q3;
             ws.AutoFilter.ApplyFilter();
@@ -759,7 +759,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 600, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.Q4;
             ws.AutoFilter.ApplyFilter();
@@ -787,7 +787,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.LastYear;
             ws.AutoFilter.ApplyFilter();
@@ -810,7 +810,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.ThisYear;
             ws.AutoFilter.ApplyFilter();
@@ -835,7 +835,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.NextYear;
             ws.AutoFilter.ApplyFilter();
@@ -860,7 +860,7 @@ namespace EPPlusTest.Filter
 			LoadTestdata(ws, 500, 1, 1, false, false, date);
 
 			//Act
-			ws.AutoFilterAddress = ws.Cells["A1:D500"];
+			ws.AutoFilter.Address = ws.Cells["A1:D500"];
             var col = ws.AutoFilter.Columns.AddDynamicFilterColumn(0);
             col.Type = eDynamicFilterType.YearToDate;
             ws.AutoFilter.ApplyFilter();

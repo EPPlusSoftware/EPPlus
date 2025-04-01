@@ -19,6 +19,10 @@ using System.Xml;
 using OfficeOpenXml.Utils;
 using OfficeOpenXml.Packaging.Ionic.Zip;
 using OfficeOpenXml.Constants;
+using OfficeOpenXml.DigitalSignatures;
+using System.Security.Cryptography;
+using System.Drawing;
+using System.Globalization;
 
 namespace OfficeOpenXml.Packaging
 {
@@ -96,6 +100,10 @@ namespace OfficeOpenXml.Packaging
                         {
                             ExtractEntryToPart(_zip, e);
                         }                            
+                    }
+                    else if (e.FileName.StartsWith("_xmlsignatures/origin"))
+                    {
+                        ExtractEntryToPart(_zip, e);
                     }
                     e = _zip.GetNextEntry();
                 }
@@ -261,6 +269,10 @@ namespace OfficeOpenXml.Packaging
                 throw (new InvalidOperationException("Part does not exist."));
             }
         }
+        internal ZipPackagePart GetPartByContentType(string contentType)
+        {
+            return Parts.FirstOrDefault(x => x.Value.ContentType==contentType).Value;
+        }
 
         internal string GetUriKey(string uri)
         {
@@ -300,18 +312,87 @@ namespace OfficeOpenXml.Packaging
             {
                 rels.Remove(rels.First().Id);
             }
-            rels=null;
+            rels = null;
             _contentTypes.Remove(GetUriKey(Uri.OriginalString));
             //remove all relations
             Parts.Remove(GetUriKey(Uri.OriginalString));
             
         }
+
+        internal DigSigManifestContext XmlManifest = null;
+        internal DigitalSignatureHashAlgorithm hashAlgorithm = DigitalSignatureHashAlgorithm.SHA1;
+
+        private void CreateXmlManifest(Stream stream, long bufferSize)
+        {
+            if(Enum.IsDefined(typeof(DigitalSignatureHashAlgorithm),hashAlgorithm) == false)
+            {
+                throw new InvalidOperationException($"Cannot save. Value '{hashAlgorithm}' is undefined for enum {typeof(DigitalSignatureHashAlgorithm)}\n " +
+                    $"if the file was Read it may contain unknown algorithm. Please use SetDigestMethod on signatures");
+            }
+
+            XmlManifest = new DigSigManifestContext(hashAlgorithm);
+
+            stream.Seek(0, SeekOrigin.Begin);
+            var inputStream = new ZipInputStream(stream, true);
+
+            //Buffer is not cleared between entries as only the relevant size of it will be written to the parts.
+            var buffer = new byte[bufferSize];
+
+            var e = inputStream.GetNextEntry();
+            if (e == null)
+            {
+                throw (new InvalidDataException("The file is not a valid Package file. If the file is encrypted, please supply the password in the constructor."));
+            }
+            var startPos = inputStream.Position;
+
+            while (e != null)
+            {
+                startPos = inputStream.Position;
+                if (e.UncompressedSize > 0)
+                {
+                    if (e.FileName.StartsWith("_rels", StringComparison.OrdinalIgnoreCase) || e.FileName.StartsWith("xl", StringComparison.OrdinalIgnoreCase))
+                    {
+                        GetDirSeparator(e);
+                        var uri = new Uri(GetUriKey(e.FileName), UriKind.Relative);
+                        var r = inputStream.Read(buffer, 0, (int)e.UncompressedSize);
+
+                        if (e.FileName.EndsWith(".rels", StringComparison.OrdinalIgnoreCase))
+                        {
+                            var relUri = GetUriKey(e.FileName) + "?ContentType=" + ExcelPackage.schemaRelsExtension;
+                            XmlManifest.AddPart(relUri, ePartType.RelPart, buffer, (int)e.UncompressedSize);
+                        }
+                        else
+                        {
+                            var part = GetPart(uri);
+                            var origUri = part.Uri.OriginalString;
+                            var contentType = part.ContentType;
+                            var uriQuery = origUri + "?ContentType=" + contentType;
+
+                            XmlManifest.AddPartHashOnly(uriQuery, ePartType.Part, buffer, (int)e.UncompressedSize);
+                        }
+                    }
+                }
+
+                //Assume last entry name since inputStream cannot read last entry of an open outputstream
+                if (e.FileName.StartsWith("_xmlsignatures/origin"))
+                {
+                    e = null;
+                    continue;
+                }
+
+                e = inputStream.GetNextEntry();
+            }
+
+            inputStream.Close();
+            stream.Position = stream.Length;
+        }
+
         internal void Save(Stream stream)
         {
             var enc = Encoding.UTF8;
             ZipOutputStream os = new ZipOutputStream(stream, true);
             os.EnableZip64 = Zip64Option.AsNecessary;
-            os.CompressionLevel = (OfficeOpenXml.Packaging.Ionic.Zlib.CompressionLevel)_compression;            
+            os.CompressionLevel = (Ionic.Zlib.CompressionLevel)_compression;            
 
             /**** ContentType****/
             var entry = os.PutNextEntry("[Content_Types].xml");
@@ -321,7 +402,10 @@ namespace OfficeOpenXml.Packaging
             _rels.WriteZip(os, $"_rels/.rels");
             List<ZipPackagePart> saveAfterParts = new List<ZipPackagePart>();
             var partsToSave = Parts.Values.ToList();
-            for(int i=0;i < partsToSave.Count;i++)            
+            List<ZipPackagePart> digSigParts = new List<ZipPackagePart>();
+            ZipPackagePart digSigOriginPart = null;
+
+            for (int i=0;i < partsToSave.Count;i++)            
             {
                 var part = partsToSave[i];
                 //Shared strings, metadata and rich data must be saved after the cells have been saved as references to are updated while saving the worksheets.
@@ -337,7 +421,18 @@ namespace OfficeOpenXml.Packaging
                 }
                 else
                 {
-                    part.WriteZip(os);
+                    if (part.ContentType == ContentTypes.xmlSignatures)
+                    {
+                        digSigParts.Add(part);
+                    }
+                    else if (part.ContentType == ContentTypes.signatureOrigin)
+                    {
+                        digSigOriginPart = part;
+                    }
+                    else
+                    {
+                        part.WriteZip(os);
+                    }
                 }
             }
 
@@ -354,10 +449,26 @@ namespace OfficeOpenXml.Packaging
             {
                 part.WriteZip(os);
             }
+
+            if(digSigOriginPart != null)
+            {
+                if (digSigParts.Count > 0)
+                {
+                    digSigOriginPart.WriteZip(os);
+                    CreateXmlManifest(stream, os._largestEntrySize);
+                    //CreateDigitalSignatureManifest(stream);
+
+                    foreach (var part in digSigParts)
+                    {
+                        //Add last entry
+                        part.WriteZip(os);
+                    }
+                }
+            }
+
             os.Flush();
-            
             os.Close();
-            os.Dispose();  
+            //os.Dispose();  
             
             //return ms;
         }
@@ -400,7 +511,6 @@ namespace OfficeOpenXml.Packaging
             }
             _zip?.Dispose();
         }
-
         CompressionLevel _compression = CompressionLevel.Default;
         /// <summary>
         /// Compression level

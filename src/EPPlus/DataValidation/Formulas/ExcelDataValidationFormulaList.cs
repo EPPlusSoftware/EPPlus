@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using OfficeOpenXml.DataValidation.Events;
 using OfficeOpenXml.DataValidation.Formulas.Contracts;
+using OfficeOpenXml.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;

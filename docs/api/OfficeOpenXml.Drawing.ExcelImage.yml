@@ -10,9 +10,6 @@ items:
   - OfficeOpenXml.Drawing.ExcelImage.#ctor(System.IO.FileInfo)
   - OfficeOpenXml.Drawing.ExcelImage.#ctor(System.IO.Stream,OfficeOpenXml.Drawing.ePictureType)
   - OfficeOpenXml.Drawing.ExcelImage.#ctor(System.String)
-  - OfficeOpenXml.Drawing.ExcelImage.Bounds
-  - OfficeOpenXml.Drawing.ExcelImage.HasImage
-  - OfficeOpenXml.Drawing.ExcelImage.ImageBytes
   - OfficeOpenXml.Drawing.ExcelImage.SetImage(OfficeOpenXml.Drawing.ExcelImage)
   - OfficeOpenXml.Drawing.ExcelImage.SetImage(System.Byte[],OfficeOpenXml.Drawing.ePictureType)
   - OfficeOpenXml.Drawing.ExcelImage.SetImage(System.IO.FileInfo)
@@ -21,7 +18,6 @@ items:
   - OfficeOpenXml.Drawing.ExcelImage.SetImageAsync(System.IO.FileInfo)
   - OfficeOpenXml.Drawing.ExcelImage.SetImageAsync(System.IO.Stream,OfficeOpenXml.Drawing.ePictureType)
   - OfficeOpenXml.Drawing.ExcelImage.SetImageAsync(System.String)
-  - OfficeOpenXml.Drawing.ExcelImage.Type
   langs:
   - csharp
   - vb
@@ -32,7 +28,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
@@ -43,11 +39,18 @@ items:
   summary: "\nRepresents an image \n"
   example: []
   syntax:
-    content: public class ExcelImage
-    content.vb: Public Class ExcelImage
+    content: 'public class ExcelImage : ExcelImageReadOnly'
+    content.vb: >-
+      Public Class ExcelImage
+          Inherits ExcelImageReadOnly
   inheritance:
   - System.Object
+  - OfficeOpenXml.Drawing.ExcelImageReadOnly
   inheritedMembers:
+  - OfficeOpenXml.Drawing.ExcelImageReadOnly.HasImage
+  - OfficeOpenXml.Drawing.ExcelImageReadOnly.Type
+  - OfficeOpenXml.Drawing.ExcelImageReadOnly.ImageBytes
+  - OfficeOpenXml.Drawing.ExcelImageReadOnly.Bounds
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -75,11 +78,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 42
+    startLine: 35
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -107,11 +110,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 50
+    startLine: 43
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -143,11 +146,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 58
+    startLine: 51
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -179,11 +182,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 67
+    startLine: 60
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -218,11 +221,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 76
+    startLine: 69
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -246,154 +249,6 @@ items:
   - Public
   fullName.vb: OfficeOpenXml.Drawing.ExcelImage.ExcelImage(System.Byte(), OfficeOpenXml.Drawing.ePictureType)
   name.vb: ExcelImage(Byte(), ePictureType)
-- uid: OfficeOpenXml.Drawing.ExcelImage.HasImage
-  commentId: P:OfficeOpenXml.Drawing.ExcelImage.HasImage
-  id: HasImage
-  parent: OfficeOpenXml.Drawing.ExcelImage
-  langs:
-  - csharp
-  - vb
-  name: HasImage
-  nameWithType: ExcelImage.HasImage
-  fullName: OfficeOpenXml.Drawing.ExcelImage.HasImage
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: HasImage
-    path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 83
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing
-  summary: "\nIf this object contains an image.\n"
-  example: []
-  syntax:
-    content: public bool HasImage { get; }
-    parameters: []
-    return:
-      type: System.Boolean
-    content.vb: Public ReadOnly Property HasImage As Boolean
-  overload: OfficeOpenXml.Drawing.ExcelImage.HasImage*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: OfficeOpenXml.Drawing.ExcelImage.Type
-  commentId: P:OfficeOpenXml.Drawing.ExcelImage.Type
-  id: Type
-  parent: OfficeOpenXml.Drawing.ExcelImage
-  langs:
-  - csharp
-  - vb
-  name: Type
-  nameWithType: ExcelImage.Type
-  fullName: OfficeOpenXml.Drawing.ExcelImage.Type
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Type
-    path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 93
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing
-  summary: "\nThe type of image.\n"
-  example: []
-  syntax:
-    content: public ePictureType? Type { get; }
-    parameters: []
-    return:
-      type: System.Nullable{OfficeOpenXml.Drawing.ePictureType}
-    content.vb: Public ReadOnly Property Type As ePictureType?
-  overload: OfficeOpenXml.Drawing.ExcelImage.Type*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: OfficeOpenXml.Drawing.ExcelImage.ImageBytes
-  commentId: P:OfficeOpenXml.Drawing.ExcelImage.ImageBytes
-  id: ImageBytes
-  parent: OfficeOpenXml.Drawing.ExcelImage
-  langs:
-  - csharp
-  - vb
-  name: ImageBytes
-  nameWithType: ExcelImage.ImageBytes
-  fullName: OfficeOpenXml.Drawing.ExcelImage.ImageBytes
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: ImageBytes
-    path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 102
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing
-  summary: "\nThe image as a byte array.\n"
-  example: []
-  syntax:
-    content: public byte[] ImageBytes { get; }
-    parameters: []
-    return:
-      type: System.Byte[]
-    content.vb: Public ReadOnly Property ImageBytes As Byte()
-  overload: OfficeOpenXml.Drawing.ExcelImage.ImageBytes*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: OfficeOpenXml.Drawing.ExcelImage.Bounds
-  commentId: P:OfficeOpenXml.Drawing.ExcelImage.Bounds
-  id: Bounds
-  parent: OfficeOpenXml.Drawing.ExcelImage
-  langs:
-  - csharp
-  - vb
-  name: Bounds
-  nameWithType: ExcelImage.Bounds
-  fullName: OfficeOpenXml.Drawing.ExcelImage.Bounds
-  type: Property
-  source:
-    remote:
-      path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: Bounds
-    path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 110
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing
-  summary: "\nThe image bounds and resolution\n"
-  example: []
-  syntax:
-    content: public ExcelImageInfo Bounds { get; }
-    parameters: []
-    return:
-      type: OfficeOpenXml.Drawing.ExcelImageInfo
-    content.vb: Public ReadOnly Property Bounds As ExcelImageInfo
-  overload: OfficeOpenXml.Drawing.ExcelImage.Bounds*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: OfficeOpenXml.Drawing.ExcelImage.SetImage(System.String)
   commentId: M:OfficeOpenXml.Drawing.ExcelImage.SetImage(System.String)
   id: SetImage(System.String)
@@ -408,11 +263,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 119
+    startLine: 77
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -444,11 +299,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 137
+    startLine: 95
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -480,11 +335,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 156
+    startLine: 114
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -524,11 +379,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 165
+    startLine: 124
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -565,11 +420,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImage
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 179
+    startLine: 139
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -606,11 +461,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImageAsync
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 204
+    startLine: 165
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -648,11 +503,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImageAsync
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 227
+    startLine: 189
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -687,11 +542,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelImage.cs
-      branch: fix/comments-and-warings
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetImageAsync
     path: ../src/EPPlus/Drawing/ExcelImage.cs
-    startLine: 240
+    startLine: 202
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -725,6 +580,36 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: OfficeOpenXml.Drawing.ExcelImageReadOnly
+  commentId: T:OfficeOpenXml.Drawing.ExcelImageReadOnly
+  parent: OfficeOpenXml.Drawing
+  name: ExcelImageReadOnly
+  nameWithType: ExcelImageReadOnly
+  fullName: OfficeOpenXml.Drawing.ExcelImageReadOnly
+- uid: OfficeOpenXml.Drawing.ExcelImageReadOnly.HasImage
+  commentId: P:OfficeOpenXml.Drawing.ExcelImageReadOnly.HasImage
+  parent: OfficeOpenXml.Drawing.ExcelImageReadOnly
+  name: HasImage
+  nameWithType: ExcelImageReadOnly.HasImage
+  fullName: OfficeOpenXml.Drawing.ExcelImageReadOnly.HasImage
+- uid: OfficeOpenXml.Drawing.ExcelImageReadOnly.Type
+  commentId: P:OfficeOpenXml.Drawing.ExcelImageReadOnly.Type
+  parent: OfficeOpenXml.Drawing.ExcelImageReadOnly
+  name: Type
+  nameWithType: ExcelImageReadOnly.Type
+  fullName: OfficeOpenXml.Drawing.ExcelImageReadOnly.Type
+- uid: OfficeOpenXml.Drawing.ExcelImageReadOnly.ImageBytes
+  commentId: P:OfficeOpenXml.Drawing.ExcelImageReadOnly.ImageBytes
+  parent: OfficeOpenXml.Drawing.ExcelImageReadOnly
+  name: ImageBytes
+  nameWithType: ExcelImageReadOnly.ImageBytes
+  fullName: OfficeOpenXml.Drawing.ExcelImageReadOnly.ImageBytes
+- uid: OfficeOpenXml.Drawing.ExcelImageReadOnly.Bounds
+  commentId: P:OfficeOpenXml.Drawing.ExcelImageReadOnly.Bounds
+  parent: OfficeOpenXml.Drawing.ExcelImageReadOnly
+  name: Bounds
+  nameWithType: ExcelImageReadOnly.Bounds
+  fullName: OfficeOpenXml.Drawing.ExcelImageReadOnly.Bounds
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -1074,120 +959,6 @@ references:
   - name: ()
     nameWithType: ()
     fullName: ()
-- uid: OfficeOpenXml.Drawing.ExcelImage.HasImage*
-  commentId: Overload:OfficeOpenXml.Drawing.ExcelImage.HasImage
-  name: HasImage
-  nameWithType: ExcelImage.HasImage
-  fullName: OfficeOpenXml.Drawing.ExcelImage.HasImage
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  name: Boolean
-  nameWithType: Boolean
-  fullName: System.Boolean
-- uid: OfficeOpenXml.Drawing.ExcelImage.Type*
-  commentId: Overload:OfficeOpenXml.Drawing.ExcelImage.Type
-  name: Type
-  nameWithType: ExcelImage.Type
-  fullName: OfficeOpenXml.Drawing.ExcelImage.Type
-- uid: System.Nullable{OfficeOpenXml.Drawing.ePictureType}
-  commentId: T:System.Nullable{OfficeOpenXml.Drawing.ePictureType}
-  parent: System
-  definition: System.Nullable`1
-  name: Nullable<ePictureType>
-  nameWithType: Nullable<ePictureType>
-  fullName: System.Nullable<OfficeOpenXml.Drawing.ePictureType>
-  nameWithType.vb: Nullable(Of ePictureType)
-  fullName.vb: System.Nullable(Of OfficeOpenXml.Drawing.ePictureType)
-  name.vb: Nullable(Of ePictureType)
-  spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: OfficeOpenXml.Drawing.ePictureType
-    name: ePictureType
-    nameWithType: ePictureType
-    fullName: OfficeOpenXml.Drawing.ePictureType
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: OfficeOpenXml.Drawing.ePictureType
-    name: ePictureType
-    nameWithType: ePictureType
-    fullName: OfficeOpenXml.Drawing.ePictureType
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Nullable`1
-  commentId: T:System.Nullable`1
-  isExternal: true
-  name: Nullable<T>
-  nameWithType: Nullable<T>
-  fullName: System.Nullable<T>
-  nameWithType.vb: Nullable(Of T)
-  fullName.vb: System.Nullable(Of T)
-  name.vb: Nullable(Of T)
-  spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: OfficeOpenXml.Drawing.ExcelImage.ImageBytes*
-  commentId: Overload:OfficeOpenXml.Drawing.ExcelImage.ImageBytes
-  name: ImageBytes
-  nameWithType: ExcelImage.ImageBytes
-  fullName: OfficeOpenXml.Drawing.ExcelImage.ImageBytes
-- uid: OfficeOpenXml.Drawing.ExcelImage.Bounds*
-  commentId: Overload:OfficeOpenXml.Drawing.ExcelImage.Bounds
-  name: Bounds
-  nameWithType: ExcelImage.Bounds
-  fullName: OfficeOpenXml.Drawing.ExcelImage.Bounds
-- uid: OfficeOpenXml.Drawing.ExcelImageInfo
-  commentId: T:OfficeOpenXml.Drawing.ExcelImageInfo
-  parent: OfficeOpenXml.Drawing
-  name: ExcelImageInfo
-  nameWithType: ExcelImageInfo
-  fullName: OfficeOpenXml.Drawing.ExcelImageInfo
 - uid: OfficeOpenXml.Drawing.ExcelImage.SetImage*
   commentId: Overload:OfficeOpenXml.Drawing.ExcelImage.SetImage
   name: SetImage
