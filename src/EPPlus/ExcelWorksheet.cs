@@ -988,10 +988,10 @@ namespace OfficeOpenXml
                 if (col == "")
                 {
                     double tint = GetXmlNodeDouble(tabColorPath + "/@tint");
-                    eThemeSchemeColor theme = (eThemeSchemeColor)GetXmlNodeInt(tabColorPath + "/@theme");
+                    eThemeSchemeColor? theme = (eThemeSchemeColor?)GetXmlNodeIntNull(tabColorPath + "/@theme");
                     int indexed = GetXmlNodeInt(tabColorPath + "/@indexed");
                     bool auto = GetXmlNodeBool(tabColorPath + "/@auto");
-                    if (tint == double.NaN)
+                    if (double.IsNaN(tint))
                     {
                         return Color.Empty;
                     }

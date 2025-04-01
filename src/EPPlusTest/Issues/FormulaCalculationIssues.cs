@@ -819,5 +819,34 @@ namespace EPPlusTest.Issues
 
 			SaveAndCleanup(p);
         }
+        [TestMethod]
+        public void i1930()
+        {
+            using var p = OpenPackage("i1930.xlsx");
+            var ws = p.Workbook.Worksheets.Add("Sheet1");
+
+            LoadTestdata(ws);
+
+            ws.Cells["G1"].Formula = "LET(var1,Table1[[#This Row],[Col1]],var2, Table1[[#This Row],[Col2]],var1 + var2);";
+
+        }
+        [TestMethod]
+        public void LetTwice()
+        {
+            using (var pck = OpenPackage("LetFunction_Twice.xlsx", true))
+            {
+                var sheet = pck.Workbook.Worksheets.Add("LET params");
+                var table = sheet.Tables.Add(sheet.Cells["D1:E10"], "Table1");
+                sheet.Cells["D2:D10"].FillNumber(1, 1);
+                sheet.Cells["E2:E10"].FillNumber(2, 2);
+                table.SyncColumnNames(OfficeOpenXml.Table.ApplyDataFrom.ColumnNamesToCells);
+                sheet.Cells["A2"].Formula = "LET(var1, Table1[[#This Row],[Column1]], var2, Table1[[#This Row],[Column2]], var1 + var2)";
+                sheet.Cells["A3"].Formula = "LET(var1, Table1[[#This Row],[Column1]], var2, Table1[[#This Row],[Column2]], var1 + var2)";
+                sheet.Calculate();
+                Assert.AreEqual(3D, sheet.Cells["A2"].Value);
+                Assert.AreEqual(6D, sheet.Cells["A3"].Value);
+                SaveAndCleanup(pck);
+            }
+        }
     }
 }
