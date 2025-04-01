@@ -840,13 +840,13 @@ namespace EPPlusTest.Issues
                 sheet.Cells["D2:D10"].FillNumber(1, 1);
                 sheet.Cells["E2:E10"].FillNumber(2, 2);
                 table.SyncColumnNames(OfficeOpenXml.Table.ApplyDataFrom.ColumnNamesToCells);
-                sheet.Cells["A2:A3"].Formula = "LET(var1, Table1[[#This Row],[Column1]], var2, Table1[[#This Row],[Column2]], var1 + var2)";
+                sheet.Cells["A2"].Formula = "LET(var1, Table1[[#This Row],[Column1]], var2, Table1[[#This Row],[Column2]], var1 + var2)";
+                sheet.Cells["A3"].Formula = "LET(var1, Table1[[#This Row],[Column1]], var2, Table1[[#This Row],[Column2]], var1 + var2)";
                 sheet.Calculate();
                 Assert.AreEqual(3D, sheet.Cells["A2"].Value);
                 Assert.AreEqual(6D, sheet.Cells["A3"].Value);
                 SaveAndCleanup(pck);
             }
         }
-
     }
 }
