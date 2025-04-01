@@ -1637,9 +1637,13 @@ namespace EPPlusTest
             var l = ws.HeaderFooter.OddHeader.LeftAlignedText;
             var c = ws.HeaderFooter.OddHeader.CenteredText;
             var r = ws.HeaderFooter.OddHeader.RightAlignedText;
+            Assert.AreEqual("&L&N &D V&\"-,Bold\"ä&K08-020n&K01+000s&\"-,Bold Italic\"t&\"-,Regular\"er", l);
+            Assert.AreEqual("&C&NC&\"Alef,Regular\"e&24n&11t&\"-,Regular\"er&Z&F", c);
+            Assert.AreEqual("&R&\"-,Bold\"H&\"-,Regular\"&18ög&\"-,Italic\"&11er\n            f&\"Avenir Next LT Pro Demi,Italic\"ö&\"Avenir Next LT Pro\n            Demi,Regular\"r&\"-,Regular\" fan", r);
 
-            var l2 = ws.HeaderFooter.OddHeader.LeftAligned.WriteHeaderFooterFormat();
+            SaveAndCleanup(p);
         }
+
         [TestMethod, Ignore]
         public void NamedStyles()
         {

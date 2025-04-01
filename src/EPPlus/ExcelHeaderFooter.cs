@@ -631,11 +631,11 @@ namespace OfficeOpenXml
 		{
 			string ret = "";
 			if (headerFooter.LeftAlignedText != null)
-				ret += "&L" + headerFooter.LeftAlignedText;
+				ret += headerFooter.LeftAlignedText;
 			if (headerFooter.CenteredText != null)
-				ret += "&C" + headerFooter.CenteredText;
+				ret += headerFooter.CenteredText;
 			if (headerFooter.RightAlignedText != null)
-				ret += "&R" + headerFooter.RightAlignedText;
+				ret += headerFooter.RightAlignedText;
 			return ret;
 		}
 #endregion

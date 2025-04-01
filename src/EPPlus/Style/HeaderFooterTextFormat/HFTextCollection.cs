@@ -23,13 +23,10 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
 
         internal Lanes lane;
 
-
         private List<HFText> _textCollection = new List<HFText>();
 
-        //public List<HFText> TextCollection
-        //{
-        //    get { return _textCollection; }
-        //}
+        internal HFTextCollection lane1;
+        internal HFTextCollection lane2;
 
         public HFText this[int index]
         {
@@ -43,11 +40,31 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             }
         }
 
-        internal HFTextCollection(ExcelWorkbook wb, Lanes lane)
+        internal HFTextCollection(ExcelWorkbook wb, Lanes lane, HFTextCollection col1, HFTextCollection col2 )
         {
             _wb = wb;
             this.lane = lane;
+
+            lane1 = col1;
+            lane2 = col2;
         }
+
+        internal void ValidateTextLength()
+        {
+            string text1 = WriteHeaderFooterFormat();
+            string text2 = lane1.WriteHeaderFooterFormat();
+            string text3 = lane2.WriteHeaderFooterFormat();
+            int length = text1.Length + text2.Length + text3.Length;
+            if (length > 255)
+            {
+                throw new ArgumentOutOfRangeException("");
+            }
+            TextLength = length;
+        }
+
+        public static int TextLength { get; private set } = 0;
+
+
 
         public void Add(HFText textItem)
         {
@@ -63,8 +80,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         {
             if(index < 0 || index >= _textCollection.Count) throw new IndexOutOfRangeException("index was out of range.");
             if (text == null) throw new ArgumentException("Text can't be null", "text");
-            HFText hFText = new HFText();
-            hFText.Text = text;
+            HFText hFText = new HFText(text);
             _textCollection.Insert(index, hFText);
             return hFText;
         }
@@ -85,6 +101,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         {
             get { return _textCollection.Count; }
         }
+
         public string Text
         {
             get
@@ -120,7 +137,6 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                 }
             }
         }
-        //IEnumerable
 
         private Color GetColor(string c, ref eThemeSchemeColor? theme, ref double? tint)
         {
