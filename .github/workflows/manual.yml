@@ -30,7 +30,10 @@ jobs:
           PROJECT_NUMBER: 7
 
         run: |
+          gh auth status
+          
           gh project list --owner EPPlusSoftware
+          
           gh api graphql -f query='
             query($org: String!, $number: Int!) {
               organization(login: $org){
