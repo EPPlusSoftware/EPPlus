@@ -23,10 +23,9 @@ jobs:
     name: Move Issue To Done
     runs-on: ubuntu-latest
     steps:
-    
+
       - name: Get project data
         env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           ORGANIZATION: EPPlus
           PROJECT_NUMBER: 7
 
@@ -63,8 +62,7 @@ jobs:
 
       - name: Get items
         env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
-    
+          ORGANIZATION: EPPlus
         run: |
             gh api graphql -f query='
             query($org: String!, $number: Int!, $statusId: String!) {
@@ -94,30 +92,30 @@ jobs:
       
       - name: Set fields
         env:
-          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          ORGANIZATION: EPPlus
           
-          run: |
-              gh api graphql -f query='
-                mutation (
-                  $project: ID!
-                  $item: ID!
-                  $status_field: ID!
-                  $status_value: String!
-                  $date_field: ID!
-                  $date_value: Date!
-                ) {
-                  set_status: updateProjectV2ItemFieldValue(input: {
-                    projectId: $project
-                    itemId: $item
-                    fieldId: $status_field
-                    value: {
-                      singleSelectOptionId: $status_value
-                      }
-                  }) {
-                    projectV2Item {
-                      id
-                      }
-                  }
-                }' -f project=$PROJECT_ID -f item=$FIRST_ITEM_ID -f status_field=$STATUS_FIELD_ID -f status_value=${{ env.DONE_OPTION_ID }} --silent
+        run: |
+            gh api graphql -f query='
+              mutation (
+                $project: ID!
+                $item: ID!
+                $status_field: ID!
+                $status_value: String!
+                $date_field: ID!
+                $date_value: Date!
+              ) {
+                set_status: updateProjectV2ItemFieldValue(input: {
+                  projectId: $project
+                  itemId: $item
+                  fieldId: $status_field
+                  value: {
+                    singleSelectOptionId: $status_value
+                    }
+                }) {
+                  projectV2Item {
+                    id
+                    }
+                }
+              }' -f project=$PROJECT_ID -f item=$FIRST_ITEM_ID -f status_field=$STATUS_FIELD_ID -f status_value=${{ env.DONE_OPTION_ID }} --silent
 
           
