@@ -27,7 +27,7 @@ jobs:
 
       - name: Get project data
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ORGANIZATION: EPPlusSoftware
           PROJECT_NUMBER: 7
 
@@ -64,7 +64,7 @@ jobs:
 
       - name: Get items
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
         run: |
             gh api graphql -f query='
@@ -95,7 +95,7 @@ jobs:
       
       - name: Set fields
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
         run: |
             gh api graphql -f query='
