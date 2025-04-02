@@ -23,8 +23,6 @@ jobs:
     name: Move Issue To Done
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
       - name: Get project data
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -32,6 +30,7 @@ jobs:
           PROJECT_NUMBER: 7
 
         run: |
+          gh auth login --scopes "project"
           gh api graphql -f query='
             query($org: String!, $number: Int!) {
               organization(login: $org){
