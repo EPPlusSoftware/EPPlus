@@ -13,6 +13,8 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
 {
     public class HFTextCollection : IEnumerable<HFText>
     {
+        const string ARG_TO_LONG_EXCEPTION_TEXT = "Header and Footer texts cannot exceed 255 characters.";
+
         internal ExcelWorkbook _wb;
         internal enum Lanes
         {
@@ -21,7 +23,8 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             Right,
         }
 
-        internal Lanes lane;
+        internal readonly Lanes lane;
+        private readonly int _defaultFontSize;
 
         private List<HFText> _textCollection = new List<HFText>();
 
@@ -40,40 +43,43 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             }
         }
 
-        internal HFTextCollection(ExcelWorkbook wb, Lanes lane, HFTextCollection col1, HFTextCollection col2 )
+        internal HFTextCollection(ExcelWorkbook wb, Lanes lane, int defaultFontSize)
         {
             _wb = wb;
             this.lane = lane;
-
-            lane1 = col1;
-            lane2 = col2;
+            Clear();
+            _defaultFontSize = defaultFontSize;
         }
 
         internal void ValidateTextLength()
         {
             string text1 = WriteHeaderFooterFormat();
-            string text2 = lane1.WriteHeaderFooterFormat();
-            string text3 = lane2.WriteHeaderFooterFormat();
-            int length = text1.Length + text2.Length + text3.Length;
+            string text2 = lane1 == null ? string.Empty : lane1.WriteHeaderFooterFormat();
+            string text3 = lane2 == null ? string.Empty : lane2.WriteHeaderFooterFormat();
+            int length = text1.Length + text2.Length + text3.Length - 2;//-2 here because it appears Excel does not count the other lanes format codes (&R, &C, &L).
             if (length > 255)
             {
-                throw new ArgumentOutOfRangeException("");
+                throw new ArgumentOutOfRangeException(ARG_TO_LONG_EXCEPTION_TEXT);
             }
             TextLength = length;
         }
 
-        public static int TextLength { get; private set } = 0;
+        public static int TextLength { get; private set; } = 0;
 
-
+        //Add date
+        //Add page
+        //...
 
         public void Add(HFText textItem)
         {
             _textCollection.Add(textItem);
+            ValidateTextLength();
         }
         public HFText Add(string text)
         {
             HFText hfText = new HFText(text);
             _textCollection.Add(hfText);
+            ValidateTextLength();
             return hfText;
         }
         public HFText Insert(int index, string text)
@@ -82,20 +88,35 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             if (text == null) throw new ArgumentException("Text can't be null", "text");
             HFText hFText = new HFText(text);
             _textCollection.Insert(index, hFText);
+            ValidateTextLength();
             return hFText;
         }
         public void Remove(HFText Item)
         {
             _textCollection.Remove(Item);
+            ValidateTextLength();
         }
 
         public void RemoveAt(int index)
         {
             _textCollection.RemoveAt(index);
+            ValidateTextLength();
         }
         public void Clear()
         {
             _textCollection.Clear();
+            switch (lane)
+            {
+                case Lanes.Left:
+                    Add(new HFText("&L"));
+                    break;
+                case Lanes.Center:
+                    Add(new HFText("&C"));
+                    break;
+                case Lanes.Right:
+                    Add(new HFText("&R"));
+                    break;
+            }
         }
         public int Count
         {
@@ -393,7 +414,8 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         private string WriteHeaderFooter2(HFText current, HFText prev)
         {
             string hfstring = "";
-            if (!string.IsNullOrEmpty(current.FontName) || current.FontName == "-" || current.Bold || current.Italic)
+
+            if (!(current.FontName == prev.FontName && current.Bold == prev.Bold && current.Italic == prev.Italic))
             {
                 var fontParts = new List<string> { current.FontName ?? "-" };
 
@@ -406,25 +428,6 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
 
                 hfstring += $"&\"{string.Join(",", fontParts.ToArray())}\"";
             }
-
-            if (current.Underline && !prev.Underline) hfstring += "&U";
-            else if(!current.Underline && prev.Underline) hfstring += "&U";
-
-            if (current.DoubleUnderline && !prev.DoubleUnderline) hfstring += "&E";
-            else if(!current.DoubleUnderline && prev.DoubleUnderline) hfstring += "&E";
-
-
-            if (current.Shadow) hfstring += "&H";
-
-            if (current.GetThemeOrColorAsString() != prev.GetThemeOrColorAsString()) hfstring += current.GetThemeOrColorAsString();
-
-            if (current.Outline) hfstring += "&O";
-
-            if (current.Striketrough) hfstring += "&S";
-
-            if (current.SuperScript) hfstring += "&X";
-
-            if (current.SubScript) hfstring += "&Y";
 
             if (current.FontSize != null && prev.FontSize != null)
             {
@@ -440,11 +443,35 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             else if (current.FontSize != null && prev.FontSize == null)
             {
                 hfstring += "&" + current.FontSize;
-                if (char.IsDigit( current.Text[0]))
+                if (char.IsDigit(current.Text[0]))
                 {
                     hfstring += " ";
                 }
+            } else if (current.FontSize == null && prev.FontSize != null )
+            {
+                hfstring += "&" + _defaultFontSize;
             }
+
+            if (current.Underline && !prev.Underline) hfstring += "&U";
+            else if(!current.Underline && prev.Underline) hfstring += "&U";
+
+            if (current.DoubleUnderline && !prev.DoubleUnderline) hfstring += "&E";
+            else if(!current.DoubleUnderline && prev.DoubleUnderline) hfstring += "&E";
+
+
+            if (current.Shadow) hfstring += "&H";
+
+            string currentColor = current.GetThemeOrColorAsString();
+            string prevColor = prev.GetThemeOrColorAsString();
+            if (currentColor != prevColor) hfstring += currentColor;
+
+            if (current.Outline) hfstring += "&O";
+
+            if (current.Striketrough) hfstring += "&S";
+
+            if (current.SuperScript) hfstring += "&X";
+
+            if (current.SubScript) hfstring += "&Y";
 
             switch (current.FormatCode)
             {

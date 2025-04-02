@@ -1598,18 +1598,7 @@ namespace EPPlusTest
 
             _pck.Workbook.Worksheets.Copy(ws.Name, "Copied HeaderImage");
         }
-        [TestMethod]
-        public void HeaderFooterRichText()
-        {
-            using var p = new ExcelPackage();
-            var ws = p.Workbook.Worksheets.Add("Sheet 1");
 
-            //HFTextCollection hfc = new HFTextCollection(p.Workbook, HFTextCollection.Lanes.Left);
-            //hfc.ReadHeaderFooterFormat("&L&\"-,Bold\"this&\"-,Regular\" &\"-,Italic\"word&\"-,Regular\"\r\n            &K06-023horse");
-            //hfc.ReadHeaderFooterFormat("&L&\"-,Bold\"this&\"-,Regular\" &\"-,Italic\"word&\"-,Regular\"\r\n            &K06-049horse");
-            //string hfTtext = hfc.WriteHeaderFooterFormat();
-            //Assert.AreEqual("&L&\"-,Bold\"this&\"-,Regular\" &\"-,Italic\"word&\"-,Regular\"\r\n            &K06-049horse", hfTtext);
-        }
         [TestMethod]
         public void HeaderFooterTests()
         {
@@ -1642,6 +1631,43 @@ namespace EPPlusTest
             Assert.AreEqual("&R&\"-,Bold\"H&\"-,Regular\"&18ög&\"-,Italic\"&11er\n            f&\"Avenir Next LT Pro Demi,Italic\"ö&\"Avenir Next LT Pro\n            Demi,Regular\"r&\"-,Regular\" fan", r);
 
             SaveAndCleanup(p);
+        }
+
+        [TestMethod]
+        public void WriteHeaderText()
+        {
+            using var p = new ExcelPackage();
+            var ws = p.Workbook.Worksheets.Add("Sheet 1");
+            var text1 = ws.HeaderFooter.OddHeader.Centered.Add("This ");
+            text1.Bold = true;
+            var text2 = ws.HeaderFooter.OddHeader.Centered.Add("is ");
+            var text3 = ws.HeaderFooter.OddHeader.Centered.Add("a ");
+            var text4 = ws.HeaderFooter.OddHeader.Centered.Add("Header");
+            text4.FontSize = 24;
+            text4.Underline = true;
+            ws.HeaderFooter.OddHeader.Centered.Add(" ");
+            var text5 = ws.HeaderFooter.OddHeader.Centered.Add("in ");
+            var text6 = ws.HeaderFooter.OddHeader.Centered.Add("Center");
+            text6.Color = Color.Green;
+            p.SaveAs("c:\\epplustest\\testoutput\\WriteHeaderText1.xlsx");
+        }
+
+        [TestMethod]
+        public void OverWriteHeaderTextBuffer()
+        {
+
+        }
+
+        [TestMethod]
+        public void AddHeaderFooterFormatCodes()
+        {
+
+        }
+
+        [TestMethod]
+        public void HeaderFooterAddImage()
+        {
+
         }
 
         [TestMethod, Ignore]

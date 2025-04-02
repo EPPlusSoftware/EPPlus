@@ -51,9 +51,6 @@ namespace OfficeOpenXml
     /// </summary>
 	public class ExcelHeaderFooterText
 	{
-        const string ARG_TO_LONG_EXCEPTION_TEXT = "Header and Footer texts cannot exceed 255 characters.";
-
-
 		ExcelWorksheet _ws;
         string _hf;
         internal ExcelHeaderFooterText(XmlNode TextNode, ExcelWorksheet ws, string hf)
@@ -99,8 +96,9 @@ namespace OfficeOpenXml
             {
                 if(_leftAligned == null)
                 {
-                    _leftAligned = new HFTextCollection(_ws.Workbook, HFTextCollection.Lanes.Left);
-                    _leftAligned.Add(new HFText("&L"));
+                    _leftAligned = new HFTextCollection(_ws.Workbook, HFTextCollection.Lanes.Left, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
+                    _leftAligned.lane1 = _centered;
+                    _leftAligned.lane2 = _rightAligned;
                 }
                 return _leftAligned;
             }
@@ -118,8 +116,10 @@ namespace OfficeOpenXml
 			}
             set
             {
-                _leftAlignedText = ValidateAndTrimText(value);
-                LeftAligned.ReadHeaderFooterFormat(_leftAlignedText);
+                //_leftAlignedText = ValidateAndTrimText(value);
+                //LeftAligned.ReadHeaderFooterFormat(_leftAlignedText);
+                LeftAligned.Add(value);
+                _leftAlignedText = LeftAligned.WriteHeaderFooterFormat();
             }
         }
         private HFTextCollection _centered = null;
@@ -129,8 +129,9 @@ namespace OfficeOpenXml
             {
                 if (_centered == null)
                 {
-                    _centered = new HFTextCollection(_ws.Workbook, HFTextCollection.Lanes.Center);
-                    _centered.Add(new HFText("&C"));
+                    _centered = new HFTextCollection(_ws.Workbook, HFTextCollection.Lanes.Center, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
+                    _centered.lane1 = _leftAligned;
+                    _centered.lane2 = _rightAligned;
                 }
                 return _centered;
             }
@@ -149,9 +150,11 @@ namespace OfficeOpenXml
 			}
 			set
 			{
-				_centeredText = ValidateAndTrimText(value);
-                Centered.ReadHeaderFooterFormat((_centeredText));
-			}
+                //_centeredText = ValidateAndTrimText(value);
+                //Centered.ReadHeaderFooterFormat((_centeredText));
+                Centered.Add(value);
+                _centeredText = Centered.WriteHeaderFooterFormat();
+            }
 		}
         private HFTextCollection _rightAligned = null;
         public HFTextCollection RightAligned
@@ -160,8 +163,9 @@ namespace OfficeOpenXml
             {
                 if (_rightAligned == null)
                 {
-                    _rightAligned = new HFTextCollection(_ws.Workbook, HFTextCollection.Lanes.Right);
-                    _rightAligned.Add(new HFText("&R"));
+                    _rightAligned = new HFTextCollection(_ws.Workbook, HFTextCollection.Lanes.Right, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
+                    _rightAligned.lane1 = _leftAligned;
+                    _rightAligned.lane2 = _centered;
                 }
                 return _rightAligned;
             }
@@ -176,24 +180,16 @@ namespace OfficeOpenXml
 			{
                 _rightAlignedText = RightAligned.WriteHeaderFooterFormat();
 				return _rightAlignedText;
-
 			}
 			set
 			{
-				_rightAlignedText = ValidateAndTrimText(value);
-                RightAligned.ReadHeaderFooterFormat(_rightAlignedText);
+                //_rightAlignedText = ValidateAndTrimText(value);
+                //RightAligned.ReadHeaderFooterFormat(_rightAlignedText);
+                RightAligned.Add(value);
+                _rightAlignedText = RightAligned.WriteHeaderFooterFormat();
 			}
 		}
 
-		private string ValidateAndTrimText(string value)
-		{
-			value = value?.Trim();
-			if (value != null && value.Length > 255)
-			{
-				throw new ArgumentOutOfRangeException(ARG_TO_LONG_EXCEPTION_TEXT);
-			}
-			return value;
-		}
 		/// <summary>
 		/// Inserts a picture at the end of the text in the header or footer
 		/// </summary>
@@ -630,11 +626,11 @@ namespace OfficeOpenXml
 		private string GetText(ExcelHeaderFooterText headerFooter)
 		{
 			string ret = "";
-			if (headerFooter.LeftAlignedText != null)
+			if (headerFooter.LeftAlignedText != null && headerFooter.LeftAligned.Count > 1)
 				ret += headerFooter.LeftAlignedText;
-			if (headerFooter.CenteredText != null)
+			if (headerFooter.CenteredText != null && headerFooter.Centered.Count > 1)
 				ret += headerFooter.CenteredText;
-			if (headerFooter.RightAlignedText != null)
+			if (headerFooter.RightAlignedText != null && headerFooter.RightAligned.Count > 1)
 				ret += headerFooter.RightAlignedText;
 			return ret;
 		}
