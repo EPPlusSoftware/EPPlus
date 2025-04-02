@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         EPPlusVersion = "4",
         Description = "Adds the cells in a supplied range, that satisfy multiple criteria",
         IntroducedInExcelVersion = "2007")]
-    internal class SumIfs : MultipleRangeCriteriasFunction
+    internal class SumIfs : RangeCriteriaFunction
     {
         public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
@@ -55,7 +55,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             if(index == 0)
             {
-                IEnumerable<int> matchIndexes = GetMatchingIndiciesFromArguments(1, args);
+                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args);
                 addresses = EnqueueMatchingAddresses(args[0].Address, matchIndexes);
             }
         }

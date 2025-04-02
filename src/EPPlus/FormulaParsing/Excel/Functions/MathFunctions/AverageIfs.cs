@@ -29,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         EPPlusVersion = "4",
         Description = "Calculates the Average of the cells in a supplied range, that satisfy multiple criteria",
         IntroducedInExcelVersion = "2007")]
-    internal class AverageIfs : MultipleRangeCriteriasFunction
+    internal class AverageIfs : RangeCriteriaFunction
     {
         private object GetCriteraFromArgsByIndex(IList<FunctionArgument> arguments, int index)
         {
@@ -53,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             if (index == 0)
             {
-                IEnumerable<int> matchIndexes = GetMatchingIndiciesFromArguments(1, args);
+                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args);
                 addresses = EnqueueMatchingAddresses(args[0].Address, matchIndexes);
             }
         }

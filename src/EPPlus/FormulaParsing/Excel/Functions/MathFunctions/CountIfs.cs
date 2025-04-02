@@ -10,18 +10,11 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
+using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml.XPath;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
-using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
-using OfficeOpenXml.FormulaParsing.Utilities;
-using OfficeOpenXml.Utils;
-using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -30,7 +23,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         EPPlusVersion = "4",
         Description = "Returns the number of cells (of a supplied range), that satisfy a set of given criteria",
         IntroducedInExcelVersion = "2007")]
-    internal class CountIfs : MultipleRangeCriteriasFunction
+    internal class CountIfs : RangeCriteriaFunction
     {
         public override int ArgumentMinLength => 2;
         public override ExcelFunctionArrayBehaviour ArrayBehaviour => ExcelFunctionArrayBehaviour.Custom;
@@ -42,14 +35,6 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             }
             return FunctionParameterInformation.Normal;
         }));
-        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
-        {
-            if (index == 0)
-            {
-                IEnumerable<int> matchIndexes = GetMatchingIndiciesFromArguments(0, args);
-                addresses = EnqueueMatchingAddresses(args[0].Address, matchIndexes);
-            }
-        }
 
         public override void ConfigureArrayBehaviour(ArrayBehaviourConfig config)
         {
@@ -59,7 +44,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var argRanges = new List<RangeOrValue>();
-            var criterias = new List<object>();
+            var criteria = new List<object>();
             for (var ix = 0; ix < 30; ix +=2)
             {
                 if (arguments.Count <= ix) break;
@@ -80,13 +65,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
                 {
                     argRanges.Add(new RangeOrValue { Value = arg.Value });
                 }
-                criterias.Add(arguments[ix + 1].ValueFirst);
+                criteria.Add(arguments[ix + 1].ValueFirst);
             }
-            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criterias[0], context, false);
+            IEnumerable<int> matchIndexes = GetMatchIndexes(argRanges[0], criteria[0], context, false);
             var enumerable = matchIndexes as IList<int> ?? matchIndexes.ToList();
             for (var ix = 1; ix < argRanges.Count && enumerable.Any(); ix++)
             {
-                var indexes = GetMatchIndexes(argRanges[ix], criterias[ix], context, false);
+                var indexes = GetMatchIndexes(argRanges[ix], criteria[ix], context, false);
                 matchIndexes = matchIndexes.Intersect(indexes);
             }
             

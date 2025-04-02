@@ -835,5 +835,15 @@ namespace EPPlusTest.Issues
 
             Console.WriteLine(new DateTime(sw.ElapsedTicks).ToString("HH:mm:ss"));
         }
+        [TestMethod]
+        public void Issue1687()
+        {
+            using var p = OpenTemplatePackage("i1687.xlsx");
+            var sheet = p.Workbook.Worksheets.First();
+			sheet.Cells["D5"].ClearFormulaValues();
+            sheet.Calculate();
+			Assert.AreEqual(44D, sheet.Cells["D5"].Value);
+            SaveAndCleanup(p);
+        }
     }
 }

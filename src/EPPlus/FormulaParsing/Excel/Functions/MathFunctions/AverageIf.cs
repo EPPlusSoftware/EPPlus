@@ -10,18 +10,15 @@
  *************************************************************************************************
   01/27/2020         EPPlus Software AB       Initial release EPPlus 5
  *************************************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using OfficeOpenXml.FormulaParsing;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
-using OfficeOpenXml.FormulaParsing.Exceptions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
-using OfficeOpenXml.FormulaParsing.Utilities;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
-using Require = OfficeOpenXml.FormulaParsing.Utilities.Require;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
 {
@@ -30,7 +27,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         EPPlusVersion = "4",
         Description = "Calculates the Average of the cells in a supplied range, that satisfy a given criteria",
         IntroducedInExcelVersion = "2007")]
-    internal class AverageIf : HiddenValuesHandlingFunction
+    internal class AverageIf : RangeCriteriaFunction
     {
         private ExpressionEvaluator _expressionEvaluator;
 
@@ -40,6 +37,19 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         {
             config.SetArrayParameterIndexes(1);
         }
+        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+        {
+            if (index == 2)
+            {
+                if (args[0].Result is IRangeInfo rangeInfo)
+                {
+                    var rv = new RangeOrValue { Range = rangeInfo };
+                    var mi = GetMatchIndexes(rv, args[1].Result, null);
+                    addresses = EnqueueMatchingAddresses(args[2].Address, mi);
+                }
+            }
+        }
+
         private bool Evaluate(object obj, string expression)
         {
             double? candidate = default(double?);
@@ -173,6 +183,10 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
             if (argumentIndex == 1)
             {
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
+            }
+            else if (argumentIndex == 2)
+            {
+                return FunctionParameterInformation.AdjustParameterAddress;
             }
             return FunctionParameterInformation.Normal;
         }));
