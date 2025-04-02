@@ -90,13 +90,13 @@ jobs:
             }' -f org=$ORGANIZATION -F number=$PROJECT_NUMBER -F statusId=$SLATED_FOR_RELEASE_OPTION_ID > project_items.json
 
             echo 'ITEM_IDS='$(jq '.data.organization.projectV2.items.nodes[] | select(.fieldValues.nodes[]?.optionId == $SLATED_FOR_RELEASE_OPTION_ID) | .id' project_items.json) >> $GITHUB_ENV
+            echo 'FIRST_ITEM_ID='$(echo $ITEM_IDS | awk '{print $1}') >> $GITHUB_ENV
       
       - name: Set fields
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           
           run: |
-              FIRST_ITEM_ID=$(echo $FILTERED_ITEM_IDS | awk '{print $1}')
               gh api graphql -f query='
                 mutation (
                   $project: ID!
