@@ -23,10 +23,12 @@ jobs:
     name: Move Issue To Done
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
 
       - name: Get project data
         env:
-          ORGANIZATION: EPPlus
+          GH_TOKEN: ${{ github.token }}
+          ORGANIZATION: EPPlusSoftware
           PROJECT_NUMBER: 7
 
         run: |
@@ -62,7 +64,8 @@ jobs:
 
       - name: Get items
         env:
-          ORGANIZATION: EPPlus
+          GH_TOKEN: ${{ github.token }}
+
         run: |
             gh api graphql -f query='
             query($org: String!, $number: Int!, $statusId: String!) {
@@ -92,7 +95,7 @@ jobs:
       
       - name: Set fields
         env:
-          ORGANIZATION: EPPlus
+          GH_TOKEN: ${{ github.token }}
           
         run: |
             gh api graphql -f query='
