@@ -58,9 +58,45 @@ jobs:
 
           echo 'PROJECT_ID='$(jq '.data.organization.projectV2.id' project_data.json) >> $GITHUB_ENV
           echo 'STATUS_FIELD_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .id' project_data.json) >> $GITHUB_ENV
-          echo 'TODO_OPTION_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .options[] | select(.name=="Done") |.id' project_data.json) >> $GITHUB_ENV
+          echo 'SLATED_FOR_RELEASE_OPTION_ID'='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .options[] | select(.name=="Slated For Release") |.id' project_data.json) >> $GITHUB_ENV
+          echo 'DONE_OPTION_ID='$(jq '.data.organization.projectV2.fields.nodes[] | select(.name== "Status") | .options[] | select(.name=="Done") |.id' project_data.json) >> $GITHUB_ENV
+
+      - name: Get items
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+    
+        run: |
+            gh api graphql -f query='
+            query($org: String!, $number: Int!, $statusId: String!) {
+              organization(login: $org) {
+                projectV2(number: $number) {
+                  items(first: 100) {
+                    nodes {
+                      id
+                      fieldValues(first: 20) {
+                        nodes {
+                          ... on ProjectV2ItemFieldSingleSelectValue {
+                            field {
+                              name
+                            }
+                            optionId
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }' -f org=$ORGANIZATION -F number=$PROJECT_NUMBER -F statusId=$SLATED_FOR_RELEASE_OPTION_ID > project_items.json
+
+            echo 'ITEM_IDS='$(jq '.data.organization.projectV2.items.nodes[] | select(.fieldValues.nodes[]?.optionId == $SLATED_FOR_RELEASE_OPTION_ID) | .id' project_items.json) >> $GITHUB_ENV
+      
+      - name: Set fields
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
           
           run: |
+              FIRST_ITEM_ID=$(echo $FILTERED_ITEM_IDS | awk '{print $1}')
               gh api graphql -f query='
                 mutation (
                   $project: ID!
@@ -82,6 +118,6 @@ jobs:
                       id
                       }
                   }
-                }' -f project=$PROJECT_ID -f item=$ITEM_ID -f status_field=$STATUS_FIELD_ID -f status_value=${{ env.TODO_OPTION_ID }} --silent
+                }' -f project=$PROJECT_ID -f item=$FIRST_ITEM_ID -f status_field=$STATUS_FIELD_ID -f status_value=${{ env.DONE_OPTION_ID }} --silent
 
           
