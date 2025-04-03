@@ -49,11 +49,11 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 return CompileResult.GetErrorResult(eErrorType.Value);
             }
             var calculator = cr.Result as LambdaCalculator;
-            calculator.BeginCalculation();
+            if(!calculator.IsReadyForCalc)  calculator.BeginCalculation();
             for (var i = 0; i < _lambdaArguments.Count; i++)
             {
                 var arg = _lambdaArguments[i];
-                calculator.SetVariableValue(i, arg.Result, arg.DataType);
+                calculator.SetVariableValue(i, arg.Result, arg.DataType, Context);
             }
             return calculator.Execute(Context);
         }

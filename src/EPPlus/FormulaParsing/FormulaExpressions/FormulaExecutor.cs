@@ -222,7 +222,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         lambdaLevel++;
                         if (rpnFormula != null)
                         {
-                            rpnFormula.AddLambdaToken(tokenIx);
+                            rpnFormula.LambdaSettings.AddLambdaToken(tokenIx);
                         }
                         lambdaCalculationExpression.AddLambdaToken(t);
                         continue;
@@ -233,7 +233,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                         {
                             if (rpnFormula != null)
                             {
-                                rpnFormula.AddLambdaToken(tokenIx);
+                                rpnFormula.LambdaSettings.AddLambdaToken(tokenIx);
                             }
                             lambdaCalculationExpression.AddLambdaToken(t);
                             lambdaLevel--;
@@ -244,7 +244,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                     {
                         if (rpnFormula != null)
                         {
-                            rpnFormula.AddLambdaToken(tokenIx);
+                            rpnFormula.LambdaSettings.AddLambdaToken(tokenIx);
                         }
                         lambdaCalculationExpression.AddLambdaToken(t);
                         continue;

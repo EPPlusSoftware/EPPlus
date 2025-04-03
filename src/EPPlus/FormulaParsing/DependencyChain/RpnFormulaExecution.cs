@@ -1,4 +1,16 @@
-﻿using OfficeOpenXml.Core.CellStore;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  05/14/2024         EPPlus Software AB       Initial release EPPlus 7
+ *************************************************************************************************/
+using OfficeOpenXml.Core.CellStore;
 using OfficeOpenXml.FormulaParsing.Excel.Functions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup.LookupUtils;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
@@ -16,6 +28,7 @@ using static OfficeOpenXml.ExcelAddressBase;
 using static OfficeOpenXml.ExcelWorksheet;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.RichData.RichValues;
+using OfficeOpenXml.FormulaParsing.DependencyChain;
 
 namespace OfficeOpenXml.FormulaParsing
 {
@@ -462,7 +475,7 @@ namespace OfficeOpenXml.FormulaParsing
                         var exps = f._expressionStack.Reverse().ToList();
                         if (exps[0] is LambdaCalculationExpression lce)
                         {
-                            cr = InvokeLambdaFunction(depChain, f);
+                            cr = LambdaInvoker.InvokeLambdaFunction(depChain, f);
                         }
                         else
                         {
@@ -982,31 +995,19 @@ namespace OfficeOpenXml.FormulaParsing
             var s = f._expressionStack;
             while (f._tokenIndex < f._tokens.Count)
             {
-                if (f.LambdaTokens != null && f.LambdaTokens.Contains(f._tokenIndex))
+                if (f.HasLambdaToken(f._tokenIndex))
                 {
                     f._tokenIndex++;
                     continue;
                 }
-                if(s.Count > 0 && s.Peek().ExpressionType == ExpressionType.LambdaCalculation &&  s.Peek() is LambdaCalculationExpression lce2)
+                if(LambdaExpressionFunctions.LastExpressionIsLambdaCalculation(s, out LambdaCalculationExpression lce))
                 {
-                    if(f.CurrentLambdaExpressions.Count == 0 || f.CurrentLambdaExpressions.Peek().Id != lce2.Id)
-                    {
-                        lce2.BeginCalculation();
-                        f.CurrentLambdaExpressions.Push(lce2);
-                        f.LambdaArgsAdded.Push(0);
-                    }
+                    LambdaExpressionFunctions.PreProcessLambdaCalculation(s, f, lce);
                 }
-                var lce = f.CurrentLambdaExpressions.Count > 0 ? f.CurrentLambdaExpressions.Peek() : null;
-                if (lce != null && (f.LambdaArgsAdded.Count > 0 ? f.LambdaArgsAdded.Peek() : 0) >= lce.GetNumberOfVariables())
+                var leStackPos = f.GetCurrentLambdaExpressionStackPosition();
+                if (LambdaExpressionFunctions.CheckLambdaExpression(s, f, leStackPos, depChain._parsingContext, out CompileResult res))
                 {
-                    var cr = lce.Compile();
-                    var calculator = cr.Result as LambdaCalculator;
-                    var res = calculator.Execute(depChain._parsingContext);
-                    s.Pop();
                     PushResult(depChain._parsingContext, f, res);
-                    f.CurrentLambdaExpressions.Pop();
-                    f.LambdaArgsAdded.Pop();
-                    f.LastFuncWasLambda = false;
                 }
                 var t = f._tokens[f._tokenIndex];
                 switch (t.TokenType)
@@ -1019,7 +1020,7 @@ namespace OfficeOpenXml.FormulaParsing
                     case TokenType.ParameterVariableDeclaration:
                     case TokenType.ParameterVariable:
                     case TokenType.CommaLambda:
-                        if(lce != null)
+                        if(leStackPos != null)
                         {
                             var exp = f._expressions[f._tokenIndex];
                             if (exp.ExpressionType == ExpressionType.LambdaVariableDeclaration || exp.ExpressionType == ExpressionType.Variable)
@@ -1034,9 +1035,13 @@ namespace OfficeOpenXml.FormulaParsing
                             }
                             else if(cr.DataType != DataType.LambdaVariableDeclaration)
                             {
-                                lce.SetVariable(f.LambdaArgsAdded.Peek(), cr.Result, cr.DataType);
-                                var nLambdaArgsAdded = f.LambdaArgsAdded.Pop();
-                                f.LambdaArgsAdded.Push(++nLambdaArgsAdded);
+                                leStackPos.Expression.SetVariable(f.LambdaSettings.LambdaArgsAdded.Peek(), cr.Result, cr.DataType);
+                                var nLambdaArgsAdded = f.LambdaSettings.LambdaArgsAdded.Pop();
+                                f.LambdaSettings.LambdaArgsAdded.Push(++nLambdaArgsAdded);
+                            }
+                            else
+                            {
+                                s.Push(f._expressions[f._tokenIndex]);
                             }
                         }
                         else
@@ -1085,13 +1090,12 @@ namespace OfficeOpenXml.FormulaParsing
                         }
                         break;
                     case TokenType.Comma:
-                        if(f.LastFuncWasLambda && s.Count == f.NumberOfLambdaArgs + 1 && !f._funcStack.Peek().ExecutesLambda)
+                        if(f.ShouldInvokeLambda(s))
                         {
-                            CompileResult lambdaResult = InvokeLambdaFunction(depChain, f);
+                            CompileResult lambdaResult = LambdaInvoker.InvokeLambdaFunction(depChain, f);
                             if (lambdaResult != null)
                                 PushResult(depChain._parsingContext, f, lambdaResult);
-                            f.LastFuncWasLambda = false;
-                            f.NumberOfLambdaArgs = 0;
+                            f.OnLambdaInvoked();
                         }
                         else if(f._funcStack.Count > 0)
                         {
@@ -1169,15 +1173,10 @@ namespace OfficeOpenXml.FormulaParsing
                             }
 
                             var r = ExecFunc(depChain, f, funcExp);
-                            if(funcExp.IsLambda && !(funcExp is LambdaNameFunctionExpression) && r.Result is LambdaCalculator clc)
+                            if(funcExp.IsLambda && funcExp is not LambdaNameFunctionExpression && r.Result is LambdaCalculator clc)
                             {
-                                f.LastFuncWasLambda = true;
-                                f.NumberOfLambdaArgs = clc.NumberOfVariables;
-                            }
-                            else
-                            {
-                                f.LastFuncWasLambda = false;
-                                f.NumberOfLambdaArgs = 0;
+                                f.LambdaSettings.LambdaStackNumbers.Push(s.Count);
+                                f.LambdaSettings.NumberOfLambdaVariables.Push(clc.NumberOfVariables);
                             }
                             if (r.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
                             {
@@ -1207,7 +1206,7 @@ namespace OfficeOpenXml.FormulaParsing
                         f._funcStack.Push(fe);
                         break;
                     case TokenType.LambdaInvokeArgsEnd:
-                        CompileResult result = InvokeLambdaFunction(depChain, f);
+                        CompileResult result = LambdaInvoker.InvokeLambdaFunction(depChain, f);
                         if (result != null)
                             PushResult(depChain._parsingContext, f, result);
                         break;
@@ -1258,43 +1257,6 @@ namespace OfficeOpenXml.FormulaParsing
 				}
 			}
             return null;
-        }
-
-        // This method compiles the arguments for a Lambda function,
-        // invokes it and returns the result.
-        private static CompileResult InvokeLambdaFunction(RpnOptimizedDependencyChain depChain, RpnFormula f)
-        {
-            var lambdaArgs = new List<CompileResult>();
-            CompileResult result = default;
-            while (f._expressionStack.Count > 0)
-            {
-                var exp = f._expressionStack.Pop();
-
-                if (f._expressionStack.Count > 0)
-                {
-                    var arg = exp.Compile();
-                    lambdaArgs.Insert(0, arg);
-                }
-                else
-                {
-                    // The last expression on the stack should be a LambdaCalculationExpression
-                    if (exp is LambdaCalculationExpression lce)
-                    {
-                        var lie = new LambdaInvokeExpression(lce, depChain._parsingContext, f._tokenIndex);
-                        foreach (var arg in lambdaArgs)
-                        {
-                            lie.AddArgument(arg);
-                        }
-                        result = lie.Compile();
-                    }
-                    else
-                    {
-                        f._expressionStack.Push(new ErrorExpression(new CompileResult(eErrorType.Value), depChain._parsingContext));
-                        break;
-                    }
-                }
-            }
-            return result;
         }
 
         private static ExpressionCondition GetCondition(CompileResult v)
@@ -1421,7 +1383,7 @@ namespace OfficeOpenXml.FormulaParsing
                     args.Add(f._expressionStack.Pop());
                 }
                 var cr = args.First().Compile();
-                lc.SetVariableValue(0, cr.Result, cr.DataType);
+                lc.SetVariableValue(0, cr.Result, cr.DataType, context);
                 c2 = lc.Execute(context);
             }
             else if(c1.Result is LambdaCalculator lc2)

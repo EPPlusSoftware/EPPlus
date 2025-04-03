@@ -1,4 +1,17 @@
-﻿using OfficeOpenXml.Core.CellStore;
+﻿/*************************************************************************************************
+  Required Notice: Copyright (C) EPPlus Software AB. 
+  This software is licensed under PolyForm Noncommercial License 1.0.0 
+  and may only be used for noncommercial purposes 
+  https://polyformproject.org/licenses/noncommercial/1.0.0/
+
+  A commercial license to use this software can be purchased at https://epplussoftware.com
+ *************************************************************************************************
+  Date               Author                       Change
+ *************************************************************************************************
+  05/14/2024         EPPlus Software AB       Initial release EPPlus 7
+ *************************************************************************************************/
+using OfficeOpenXml.Core.CellStore;
+using OfficeOpenXml.FormulaParsing.DependencyChain;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
 using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
@@ -47,32 +60,8 @@ namespace OfficeOpenXml.FormulaParsing
             }
         }
 
-        public HashSet<int> LambdaTokens { get; private set; }
-
-        internal bool LastFuncWasLambda { get; set; }
-
-        internal int NumberOfLambdaArgs { get; set; }
-
-        internal Stack<LambdaCalculationExpression> CurrentLambdaExpressions { get; set; } = new Stack<LambdaCalculationExpression>();
-
-        internal Stack<short> LambdaArgsAdded { get; set; } = new Stack<short>();
-
-        internal short CurrentLambdaArgsAdded
-        {
-            get
-            {
-                if (LambdaArgsAdded.Count == 0) return 0;
-                return LambdaArgsAdded.Peek();
-            }
-        }
         internal VariableStorageManager VariableStorage => _variableStorage;
 
-        public void AddLambdaToken(int tokenIx)
-        {
-            LambdaTokens ??= [];
-            if (LambdaTokens.Contains(tokenIx)) return;
-            LambdaTokens.Add(tokenIx);
-        }
 
         internal RpnFormula(ExcelWorksheet ws, int row, int column)
             : this(ws, row, column, new VariableStorageManager())
@@ -87,6 +76,72 @@ namespace OfficeOpenXml.FormulaParsing
             _expressionStack = new Stack<Expression>();
             _funcStack = new Stack<FunctionExpression>();
             _variableStorage = variableStorage;
+        }
+
+        private LambdaFormulaSettings _lambdaSettings;
+        internal LambdaFormulaSettings LambdaSettings
+        {
+            get
+            {
+                if(_lambdaSettings == null)
+                {
+                    _lambdaSettings = new LambdaFormulaSettings();
+                }
+                return _lambdaSettings;
+            }
+        }
+
+        internal bool HasLambdaSettings => _lambdaSettings != null;
+
+        internal bool HasLambdaToken(int tokenIx)
+        {
+            return _lambdaSettings != null && _lambdaSettings.LambdaTokens != null && _lambdaSettings.LambdaTokens.Contains(tokenIx);
+        }
+
+        internal LambdaExpressionStackPosition GetCurrentLambdaExpressionStackPosition()
+        {
+            if (_lambdaSettings == null || _lambdaSettings.CurrentLambdaExpressions == null) return null;
+            return _lambdaSettings.CurrentLambdaExpressions.Count > 0 ? _lambdaSettings.CurrentLambdaExpressions.Peek() : null;
+        }
+
+        internal int GetNumberOfLambdaVariables()
+        {
+            if (_lambdaSettings == null || _lambdaSettings.NumberOfLambdaVariables == null || _lambdaSettings.NumberOfLambdaVariables.Count == 0) return 0;
+            return _lambdaSettings.NumberOfLambdaVariables.Peek();
+        }
+
+        internal bool ShouldInvokeLambda(Stack<Expression> s)
+        {
+            var nLambdaArgs = GetNumberOfLambdaVariables();
+            if(nLambdaArgs > 0)
+            {
+                return _lambdaSettings.CurrentLambdaExpressions.Count > 0 && (s.Count - _lambdaSettings.CurrentLambdaExpressions.Peek().StackIndex) == nLambdaArgs + 1;
+            }
+            return false;
+        }
+
+        internal void OnLambdaInvoked()
+        {
+            if(LambdaSettings != null)
+            {
+                if(LambdaSettings.CurrentLambdaExpressions.Count > 0)
+                {
+                    LambdaSettings.CurrentLambdaExpressions.Pop();
+                }
+                if(LambdaSettings.NumberOfLambdaVariables.Count > 0)
+                {
+                    LambdaSettings.NumberOfLambdaVariables.Pop();
+                }
+            }
+        }
+
+        internal short CurrentLambdaArgsAdded
+        {
+            get
+            {
+                if (_lambdaSettings == null) return 0;
+                return _lambdaSettings.CurrentLambdaArgsAdded;
+            }
         }
 
         internal string GetAddress()

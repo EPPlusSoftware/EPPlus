@@ -12,11 +12,13 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    [DebuggerDisplay("VariableExpression - Name: {Name}, Value: {Value}")]
     internal class VariableExpression : Expression
     {
         public VariableExpression(string variableName, VariableFunctionExpression expression, bool isDeclaration)

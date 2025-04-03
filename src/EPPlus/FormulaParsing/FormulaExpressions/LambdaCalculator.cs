@@ -43,7 +43,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         private List<Token> _currentTokens;
         private int _nVariablesSet = 0;
 
-        public int NumberOfVariables => _variables?.Count ?? 0;
+        public short NumberOfVariables => _variables != null ? Convert.ToInt16(_variables.Count()) : (short)0;
 
         public bool IsReadyForCalc => _nVariablesSet >= NumberOfVariables;
 
@@ -52,12 +52,27 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
             CloneTokens();
         }
 
+        internal string GetDebugInfo()
+        {
+            if(_variables == null)
+            {
+                return "#variables: 0";
+            }
+            var sb = new StringBuilder();
+            sb.Append("#variables: " + _variables.Count() + ", ");
+            foreach (var v in _variables)
+            {
+                sb.Append(v.Result);
+            }
+            return sb.ToString();
+        }
+
         public void SetVariables(List<CompileResult> variables)
         {
             _variables = variables;
         }
 
-        public void SetVariableValue(int index, object value, DataType dt)
+        public void SetVariableValue(int index, object value, DataType dt, ParsingContext ctx)
         {
             var variable = _variables[index];
             foreach(var ix in _variableIndexes)
@@ -65,6 +80,12 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 var t = _currentTokens[ix];
                 if (string.Compare(t.Value, variable.Result.ToString(), StringComparison.OrdinalIgnoreCase) == 0)
                 {
+                    if(value is LambdaCalculator lc)
+                    {
+                        var cr = lc.Execute(ctx);
+                        value = cr.Result;
+                        dt = cr.DataType;
+                    }
                     var tt = DataTypeToTokenType(dt, value);
                     var tokenValue = Convert.ToString(value, CultureInfo.CurrentCulture);
                     if(tt == TokenType.StringContent)

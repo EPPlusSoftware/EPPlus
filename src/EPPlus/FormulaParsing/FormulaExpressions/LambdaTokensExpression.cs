@@ -12,6 +12,7 @@
  *************************************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions.VariableStorage;
@@ -19,6 +20,7 @@ using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    [DebuggerDisplay("LambdaTokensExpression - Count: {Tokens?.Count}")]
     internal class LambdaTokensExpression : Expression
     {
         internal LambdaTokensExpression(ParsingContext ctx, VariableStorageScope scope) : base(ctx)

@@ -14,11 +14,13 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
 namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
 {
+    [DebuggerDisplay("LambdaCalculationExpression - _compileResult: {GetResultInfo()}")]
     internal class LambdaCalculationExpression : Expression
     {
         public LambdaCalculationExpression(CompileResult cr, ParsingContext context) : base(context)
@@ -28,6 +30,16 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         }
 
         private readonly CompileResult _compileResult;
+
+        internal string GetResultInfo()
+        {
+            if (_compileResult == null) return "<null>";
+            if(_compileResult.Result is LambdaCalculator calc)
+            {
+                return calc.GetDebugInfo();
+            }
+            return _compileResult.ToString();   
+        }
 
         internal override ExpressionType ExpressionType => ExpressionType.LambdaCalculation;
 
@@ -57,7 +69,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
         {
             if(_compileResult.Result is LambdaCalculator calculator)
             {
-                calculator.SetVariableValue(index, val, dt);
+                calculator.SetVariableValue(index, val, dt, Context);
             }
         }
 

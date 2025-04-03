@@ -30,7 +30,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
             calculator.BeginCalculation();
             for(var argIx = 0; argIx < arguments.Count || argIx < calculator.NumberOfVariables; argIx++)
             {
-                calculator.SetVariableValue(argIx, arguments[argIx].Value, arguments[argIx].DataType);
+                calculator.SetVariableValue(argIx, arguments[argIx].Value, arguments[argIx].DataType, ctx);
             }
             var r2 = calculator.Execute(ctx);
             return r2;
