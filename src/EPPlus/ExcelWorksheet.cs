@@ -546,7 +546,7 @@ namespace OfficeOpenXml
         {
             if (this is ExcelChartsheet)
             {
-                throw (new NotSupportedException("This property or method is not supported for a Chartsheet"));
+                throw (new NotSupportedException("This property or method is not supported for a chart sheet"));
             }
             if(_positionId==-1 && _values==null)
             {
@@ -2875,6 +2875,7 @@ namespace OfficeOpenXml
             {
                 pt.Save();
             }
+            View.DeletePivotTableSelection();
         }
 
         private static string GetTotalFunction(ExcelTableColumn col, string funcNum)
@@ -4061,7 +4062,6 @@ namespace OfficeOpenXml
         {
             return Workbook.Styles.RoundValueFromNumberFormat(c);
         }
-
         #endregion
     }  // END class Worksheet
 }

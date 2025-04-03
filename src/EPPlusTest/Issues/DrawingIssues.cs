@@ -59,6 +59,15 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s762()
+        {
+            using (var package = OpenTemplatePackage("s762.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+        }
 
         [TestMethod]
         public void i1673()

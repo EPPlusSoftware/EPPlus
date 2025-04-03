@@ -157,6 +157,7 @@ Renaming worksheet's will now change the formula correctly to include single quo
   Also see https://github.com/EPPlusSoftware/EPPlus/wiki/Autofit-columns.
 * Adding Threaded Comments now throws an exception if the 'personId' does not exist in the ThreadedCommentPersons Collection.
 * Worksheet.Dimension now returns the address including rows and columns data.
+* Removed enum OfficeOpenXml.FormulaParsing.Excel.Operators.LimitedOperators as it was unused.
 
 #### Removed Methods & Properties
 * Obsolete property `ExcelVbaReferenceControl.LibIdExternal`, please use `LibIdExtended` instead.

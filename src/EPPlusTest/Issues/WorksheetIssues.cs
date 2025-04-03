@@ -447,6 +447,19 @@ namespace EPPlusTest.Issues
 
             }
         }
+	[TestMethod]
+	public void i1663()
+	{
+		using (var p1 = OpenTemplatePackage("i1663-source.xlsx"))
+		{
+			var copiedSht = p1.Workbook.Worksheets[0];
+			using (var p2 = OpenTemplatePackage("i1663-dest.xlsx"))
+			{
+				p2.Workbook.Worksheets.Add("newSht", copiedSht);
+				SaveAndCleanup(p2);
+			}
+		}
+	}
         [TestMethod]
         public void I1628()
         {

@@ -19,6 +19,7 @@ using OfficeOpenXml.FormulaParsing.Excel.Functions.Metadata;
 using OfficeOpenXml.FormulaParsing.Excel.Operators;
 using OfficeOpenXml.FormulaParsing.ExcelUtilities;
 using OfficeOpenXml.FormulaParsing.FormulaExpressions;
+using OfficeOpenXml.FormulaParsing.LexicalAnalysis;
 using OfficeOpenXml.Utils;
 
 namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
@@ -28,7 +29,7 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         EPPlusVersion = "4",
         Description = "Calculates the Average of the cells in a supplied range, that satisfy multiple criteria",
         IntroducedInExcelVersion = "2007")]
-    internal class AverageIfs : MultipleRangeCriteriasFunction
+    internal class AverageIfs : RangeCriteriaFunction
     {
         private object GetCriteraFromArgsByIndex(IList<FunctionArgument> arguments, int index)
         {
@@ -38,12 +39,24 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.MathFunctions
         public override int ArgumentMinLength => 3;
         public override ExcelFunctionParametersInfo ParametersInfo => new ExcelFunctionParametersInfo(new Func<int, FunctionParameterInformation>((argumentIndex) =>
         {
-            if (argumentIndex % 2 == 0 && argumentIndex > 0)
+            if (argumentIndex == 0)
+            {
+                return FunctionParameterInformation.AdjustParameterAddress;
+            }
+            if (argumentIndex % 2 == 0)
             {
                 return FunctionParameterInformation.IgnoreErrorInPreExecute;
             }
             return FunctionParameterInformation.Normal;
         }));
+        public override void GetNewParameterAddress(IList<CompileResult> args, int index, ref Queue<FormulaRangeAddress> addresses)
+        {
+            if (index == 0)
+            {
+                IEnumerable<int> matchIndexes = GetMatchingIndicesFromArguments(1, args);
+                addresses = EnqueueMatchingAddresses(args[0].Address, matchIndexes);
+            }
+        }
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {
             var valueRange = arguments[0].ValueAsRangeInfo;

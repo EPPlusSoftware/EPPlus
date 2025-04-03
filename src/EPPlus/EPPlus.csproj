@@ -7,7 +7,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageProjectUrl>https://epplussoftware.com</PackageProjectUrl>
 		<Authors>EPPlus Software AB</Authors>
-		<PackageLicenseFile>license.md</PackageLicenseFile>
+		<PackageLicenseFile>license.md</PackageLicenseFile>		
 		<Company>EPPlus Software AB</Company>
 		<Product>EPPlus</Product>
 		<Description>A spreadsheet library for .NET framework and .NET core</Description>

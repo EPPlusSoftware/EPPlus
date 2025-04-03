@@ -1313,7 +1313,7 @@ namespace OfficeOpenXml.FormulaParsing
             var c1 = v1.Compile();
             var c2 = v2.Compile();
 
-            if (OperatorsDict.Instance.TryGetValue(opToken.Value, out IOperator op))
+            if (OperatorsDict.AllOperators.TryGetValue(opToken.Value, out IOperator op))
             {
                 var result = op.Apply(c2, c1, context);
                 if (result.ResultType == CompileResultType.DynamicArray_AlwaysSetCellAsDynamic)
