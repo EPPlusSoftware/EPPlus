@@ -1,35 +1,39 @@
 ﻿using OfficeOpenXml.Drawing;
-using OfficeOpenXml.Drawing.EMF;
-using OfficeOpenXml.Packaging.Ionic.Zip;
+using OfficeOpenXml.Drawing.Vml;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Security.Cryptography.Pkcs;
 using System.Text;
-using System.Xml;
 namespace OfficeOpenXml.Style.HeaderFooterTextFormat
 {
     public class HFTextCollection : IEnumerable<HFText>
     {
         const string ARG_TO_LONG_EXCEPTION_TEXT = "Header and Footer texts cannot exceed 255 characters.";
 
-        internal ExcelWorkbook _wb;
+        private List<HFText> _textCollection = new List<HFText>();
+        private readonly int _defaultFontSize;
+
         internal enum Lanes
         {
             Left,
             Center,
             Right,
         }
-
         internal readonly Lanes lane;
-        private readonly int _defaultFontSize;
-
-        private List<HFText> _textCollection = new List<HFText>();
-
+        internal ExcelWorksheet _ws;
         internal HFTextCollection lane1;
         internal HFTextCollection lane2;
+        internal ExcelHeaderFooterText headerFooter;
+
+
+        public ExcelVmlDrawingPicture VmlDrawingPicutre { get; set; } = null;
+
+
+        public static int TextLength { get; private set; } = 0;
+
 
         public HFText this[int index]
         {
@@ -43,12 +47,13 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             }
         }
 
-        internal HFTextCollection(ExcelWorkbook wb, Lanes lane, int defaultFontSize)
+        internal HFTextCollection(ExcelWorksheet ws, ExcelHeaderFooterText headerFooter, Lanes lane, int defaultFontSize)
         {
-            _wb = wb;
+            _ws = ws;
             this.lane = lane;
             Clear();
             _defaultFontSize = defaultFontSize;
+            this.headerFooter = headerFooter;
         }
 
         internal void ValidateTextLength()
@@ -64,44 +69,183 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             TextLength = length;
         }
 
-        public static int TextLength { get; private set; } = 0;
-
-        //Add date
-        //Add page
-        //...
-
         public void Add(HFText textItem)
         {
             _textCollection.Add(textItem);
             ValidateTextLength();
         }
-        public HFText Add(string text)
+        public HFText AddText(string text)
         {
             HFText hfText = new HFText(text);
             _textCollection.Add(hfText);
             ValidateTextLength();
             return hfText;
         }
-        public HFText Insert(int index, string text)
+        public HFText AddPageNumber(int number = 0)
         {
-            if(index < 0 || index >= _textCollection.Count) throw new IndexOutOfRangeException("index was out of range.");
+            HFText hft = new HFText();
+            hft.FormatCode = HFFormattingCodes.PageNumber;
+            if (number > 0 || number < 0)
+            {
+                hft.PageNumberSuffix = number >= 0 ? "+" : "-";
+                hft.PageNumberSuffix += Math.Abs(number);
+            }
+            Add(hft);
+            return hft;
+        }
+        public HFText AddNumberOfPages()
+        {
+            return AddFormatCode(HFFormattingCodes.NumberOfPages);
+        }
+        public HFText AddSheetName()
+        {
+            return AddFormatCode(HFFormattingCodes.SheetName);
+        }
+        public HFText AddFilePath()
+        {
+            return AddFormatCode(HFFormattingCodes.FilePath);
+        }
+        public HFText AddFileName()
+        {
+            return AddFormatCode(HFFormattingCodes.FileName);
+        }
+        public HFText AddCurrentDate()
+        {
+            return AddFormatCode(HFFormattingCodes.CurrentDate);
+        }
+        public HFText AddCurrentTime()
+        {
+            return AddFormatCode(HFFormattingCodes.CurrentTime);
+        }
+        public HFText AddImage(FileInfo pictureFile)
+        {
+            headerFooter.InsertPicture(pictureFile, (PictureAlignment)lane);
+            return AddFormatCode(HFFormattingCodes.Image);
+        }
+        public HFText AddImage (Stream pictureStream, ePictureType pictureType)
+        {
+            headerFooter.InsertPicture(pictureStream, pictureType, (PictureAlignment)lane);
+            return AddFormatCode(HFFormattingCodes.Image);
+        }
+        private HFText AddFormatCode(HFFormattingCodes formatCode)
+        {
+            HFText hft = new HFText();
+            hft.FormatCode = formatCode;
+            Add(hft);
+            return hft;
+        }
+
+        public void Insert(int index, HFText item)
+        {
+            if (index < 0 || index >= _textCollection.Count) throw new IndexOutOfRangeException("index was out of range.");
+            if (item == null) throw new ArgumentException("Item can't be null", "item");
+            _textCollection.Insert(index, item);
+            ValidateTextLength();
+        }
+        public HFText InsertText(int index, string text)
+        {
+            if (index < 0 || index >= _textCollection.Count) throw new IndexOutOfRangeException("index was out of range.");
             if (text == null) throw new ArgumentException("Text can't be null", "text");
             HFText hFText = new HFText(text);
             _textCollection.Insert(index, hFText);
             ValidateTextLength();
             return hFText;
         }
-        public void Remove(HFText Item)
+        //Insert pagenumber, date...
+        public HFText InsertPageNumber(int index, int number = 0)
         {
-            _textCollection.Remove(Item);
+            HFText hft = new HFText();
+            hft.FormatCode = HFFormattingCodes.PageNumber;
+            if (number > 0 || number < 0)
+            {
+                hft.PageNumberSuffix = number >= 0 ? "+" : "-";
+                hft.PageNumberSuffix += Math.Abs(number);
+            }
+            Insert(index, hft);
+            return hft;
+        }
+        public HFText InsertNumberOfPages(int index)
+        {
+            return InsertFormatCode(index, HFFormattingCodes.NumberOfPages);
+        }
+        public HFText InsertSheetName(int index)
+        {
+            return InsertFormatCode(index, HFFormattingCodes.SheetName);
+        }
+        public HFText InsertFilePath(int index)
+        {
+            return InsertFormatCode(index, HFFormattingCodes.FilePath);
+        }
+        public HFText InsertFileName(int index)
+        {
+            return InsertFormatCode(index, HFFormattingCodes.FileName);
+        }
+        public HFText InsertCurrentDate(int index)
+        {
+            return InsertFormatCode(index, HFFormattingCodes.CurrentDate);
+        }
+        public HFText InsertCurrentTime(int index)
+        {
+            return InsertFormatCode(index, HFFormattingCodes.CurrentTime);
+        }
+        public HFText InsertImage(int index, FileInfo pictureFile)
+        {
+            string id = headerFooter.ValidateImage((PictureAlignment)lane));
+            if (!pictureFile.Exists)
+            {
+                throw (new FileNotFoundException(string.Format("{0} is missing", pictureFile.FullName)));
+            }
+            var uriPic = XmlHelper.GetNewUri(_ws._package.ZipPackage, "/xl/media/" + pictureFile.Name.Substring(0, pictureFile.Name.Length - pictureFile.Extension.Length) + "{0}" + pictureFile.Extension);
+            var imgBytes = File.ReadAllBytes(pictureFile.FullName);
+            var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, uriPic, null);
+            var hft = InsertFormatCode(index, HFFormattingCodes.Image);
+            VmlDrawingPicutre = headerFooter.AddImage(id, ii);
+            return hft;
+        }
+        public HFText InsertImage(int index, Stream pictureStream, ePictureType pictureType)
+        {
+            string id = headerFooter.ValidateImage((PictureAlignment)lane);
+            var imgBytes = new byte[pictureStream.Length];
+            pictureStream.Seek(0, SeekOrigin.Begin);
+            var r = pictureStream.Read(imgBytes, 0, imgBytes.Length);
+            var ii = _ws.Workbook._package.PictureStore.AddImage(imgBytes, null, pictureType);
+            var hft = InsertFormatCode(index, HFFormattingCodes.Image);
+            VmlDrawingPicutre = headerFooter.AddImage(id, ii);
+            return hft;
+        }
+        private HFText InsertFormatCode(int index, HFFormattingCodes formatCode)
+        {
+            if (index < 0 || index >= _textCollection.Count) throw new IndexOutOfRangeException("index was out of range.");
+            if (formatCode == HFFormattingCodes.Text) throw new ArgumentException("HFFormattingCode cannot be Text", "formatcode");
+            HFText hFText = new HFText();
+            hFText.FormatCode = formatCode;
+            _textCollection.Insert(index, hFText);
+            ValidateTextLength();
+            return hFText;
+        }
+
+        public void Remove(HFText item)
+        {
+            //check if image
+            _textCollection.Remove(item);
             ValidateTextLength();
         }
 
         public void RemoveAt(int index)
         {
+            //Check if image
             _textCollection.RemoveAt(index);
             ValidateTextLength();
         }
+
+        internal void RemoveImage()
+        {
+            //remoge hftext element from list
+            //remove from ExcelVmlDrawingsCollection
+            //remove from pictureStore
+
+        }
+
         public void Clear()
         {
             _textCollection.Clear();
@@ -142,7 +286,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                 }
                 else if (Count == 0)
                 {
-                    Add(value);
+                    AddText(value);
                 }
                 else if (Count > 1)
                 {
@@ -164,7 +308,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             if (c.Contains('-') || c.Contains('+'))
             {
                 theme = (eThemeSchemeColor)int.Parse(""+c[0] + c[1]);
-                var themeColor = _wb.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum((eThemeSchemeColor)theme);
+                var themeColor = _ws.Workbook.ThemeManager.GetOrCreateTheme().ColorScheme.GetColorByEnum((eThemeSchemeColor)theme);
                 var color = Utils.ColorConverter.GetThemeColor(themeColor);
                 tint = double.Parse((""+c[3] + c[4] + c[5]));
                 tint = c[2] == '-' ? -(tint/100) : tint / 100;
@@ -203,7 +347,6 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                             break;
                         //Constants
                         case 'P':
-                            //Parse pagenumber se doc..
                             temp.FormatCode = HFFormattingCodes.PageNumber;
                             writeFormatCode = true;
                             break;
@@ -341,6 +484,19 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                             }
                         }
                     }
+                    else if(writeFormatCode && temp.FormatCode == HFFormattingCodes.PageNumber)
+                    {
+                        if (hfText[i] == '+' || hfText[i] == '-')
+                        {
+                            temp.PageNumberSuffix += hfText[i];
+                        }
+                        i++;
+                        while (char.IsDigit( hfText[i]))
+                        {
+                            temp.PageNumberSuffix += hfText[i];
+                            i++;
+                        }
+                    }
                     HFText newText = new HFText
                     {
                         Text = temp.Text,
@@ -359,6 +515,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                         FontSize = temp.FontSize,
                         FontName = temp.FontName,
                         FormatCode = temp.FormatCode,
+                        PageNumberSuffix = temp.PageNumberSuffix,
                     };
                     _textCollection.Add(newText);
                     writeFormatCode = false;
@@ -392,6 +549,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
                     FontSize = temp.FontSize,
                     FontName = temp.FontName,
                     FormatCode = temp.FormatCode,
+                    PageNumberSuffix = temp.PageNumberSuffix,
                 };
                 _textCollection.Add(newText);
             }
@@ -404,10 +562,6 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             {
                 hfstring += WriteHeaderFooter2(_textCollection[i], _textCollection[i - 1]);
             }
-            //foreach (HFText text in _textCollection)
-            //{
-            //    hfstring += WriteHeaderFooter2(text, prev);
-            //}
             return hfstring;
         }
 
@@ -476,7 +630,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
             switch (current.FormatCode)
             {
                 case HFFormattingCodes.PageNumber:
-                    hfstring += "&P";
+                    hfstring += "&P" + current.PageNumberSuffix;
                     break;
                 case HFFormattingCodes.NumberOfPages:
                     hfstring += "&N";

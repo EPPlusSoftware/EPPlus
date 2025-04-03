@@ -96,7 +96,7 @@ namespace OfficeOpenXml
             {
                 if(_leftAligned == null)
                 {
-                    _leftAligned = new HFTextCollection(_ws.Workbook, HFTextCollection.Lanes.Left, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
+                    _leftAligned = new HFTextCollection(_ws, this, HFTextCollection.Lanes.Left, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
                     _leftAligned.lane1 = _centered;
                     _leftAligned.lane2 = _rightAligned;
                 }
@@ -116,9 +116,9 @@ namespace OfficeOpenXml
 			}
             set
             {
-                //_leftAlignedText = ValidateAndTrimText(value);
-                //LeftAligned.ReadHeaderFooterFormat(_leftAlignedText);
-                LeftAligned.Add(value);
+                _leftAlignedText = value;
+                LeftAligned.Clear();
+                LeftAligned.ReadHeaderFooterFormat(_leftAlignedText);
                 _leftAlignedText = LeftAligned.WriteHeaderFooterFormat();
             }
         }
@@ -129,7 +129,7 @@ namespace OfficeOpenXml
             {
                 if (_centered == null)
                 {
-                    _centered = new HFTextCollection(_ws.Workbook, HFTextCollection.Lanes.Center, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
+                    _centered = new HFTextCollection(_ws, this, HFTextCollection.Lanes.Center, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
                     _centered.lane1 = _leftAligned;
                     _centered.lane2 = _rightAligned;
                 }
@@ -150,9 +150,9 @@ namespace OfficeOpenXml
 			}
 			set
 			{
-                //_centeredText = ValidateAndTrimText(value);
-                //Centered.ReadHeaderFooterFormat((_centeredText));
-                Centered.Add(value);
+                _centeredText = value;
+                Centered.Clear();
+                Centered.ReadHeaderFooterFormat((_centeredText));
                 _centeredText = Centered.WriteHeaderFooterFormat();
             }
 		}
@@ -163,7 +163,7 @@ namespace OfficeOpenXml
             {
                 if (_rightAligned == null)
                 {
-                    _rightAligned = new HFTextCollection(_ws.Workbook, HFTextCollection.Lanes.Right, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
+                    _rightAligned = new HFTextCollection(_ws, this, HFTextCollection.Lanes.Right, (int)_ws.Workbook.Styles.GetNormalStyle().Style.Font.Size);
                     _rightAligned.lane1 = _leftAligned;
                     _rightAligned.lane2 = _centered;
                 }
@@ -183,9 +183,9 @@ namespace OfficeOpenXml
 			}
 			set
 			{
-                //_rightAlignedText = ValidateAndTrimText(value);
-                //RightAligned.ReadHeaderFooterFormat(_rightAlignedText);
-                RightAligned.Add(value);
+                _rightAlignedText = value;
+                RightAligned.Clear();
+                RightAligned.ReadHeaderFooterFormat(_rightAlignedText);
                 _rightAlignedText = RightAligned.WriteHeaderFooterFormat();
 			}
 		}
@@ -198,7 +198,7 @@ namespace OfficeOpenXml
 		public ExcelVmlDrawingPicture InsertPicture(FileInfo PictureFile, PictureAlignment Alignment)
         {
             string id = ValidateImage(Alignment);
-
+            AddImageToTextLast(Alignment);
             if (!PictureFile.Exists)
             {
                 throw (new FileNotFoundException(string.Format("{0} is missing", PictureFile.FullName)));
@@ -219,7 +219,7 @@ namespace OfficeOpenXml
         public ExcelVmlDrawingPicture InsertPicture(Stream PictureStream, ePictureType pictureType, PictureAlignment Alignment)
         {
             string id = ValidateImage(Alignment);
-
+            AddImageToTextLast(Alignment);
             var imgBytes=new byte[PictureStream.Length];
             PictureStream.Seek(0, SeekOrigin.Begin);
             var r = PictureStream.Read(imgBytes,0, imgBytes.Length);
@@ -228,25 +228,18 @@ namespace OfficeOpenXml
             return AddImage(id, ii);
         }
 
-        private ExcelVmlDrawingPicture AddImage(string id, ImageInfo ii)
+        internal ExcelVmlDrawingPicture AddImage(string id, ImageInfo ii)
         {
             double width = ImageUtil.PixelToPointConversion(ii.Bounds.Width, ii.Bounds.HorizontalResolution),
                    height = ImageUtil.PixelToPointConversion(ii.Bounds.Height, ii.Bounds.VerticalResolution);
-            //Add VML-drawing            
+            //Add VML-drawing
             return _ws.HeaderFooter.Pictures.Add(id, ii.Uri, "", width, height);
         }
-        private string ValidateImage(PictureAlignment Alignment)
+
+        private void AddImageToTextLast(PictureAlignment alignment)
         {
-            string id = string.Concat(Alignment.ToString()[0], _hf);
-            foreach (ExcelVmlDrawingPicture image in _ws.HeaderFooter.Pictures)
-            {
-                if (image.Id == id)
-                {
-                    throw (new InvalidOperationException("A picture already exists in this section"));
-                }
-            }
             //Add the image placeholder to the end of the text
-            switch (Alignment)
+            switch (alignment)
             {
                 case PictureAlignment.Left:
                     LeftAlignedText += ExcelHeaderFooter.Image;
@@ -257,6 +250,18 @@ namespace OfficeOpenXml
                 default:
                     RightAlignedText += ExcelHeaderFooter.Image;
                     break;
+            }
+        }
+
+        internal string ValidateImage(PictureAlignment Alignment)
+        {
+            string id = string.Concat(Alignment.ToString()[0], _hf);
+            foreach (ExcelVmlDrawingPicture image in _ws.HeaderFooter.Pictures)
+            {
+                if (image.Id == id)
+                {
+                    throw (new InvalidOperationException("A picture already exists in this section"));
+                }
             }
             return id;
         }

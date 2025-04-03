@@ -1,4 +1,5 @@
 ﻿using OfficeOpenXml.Drawing;
+using OfficeOpenXml.Drawing.Vml;
 using System;
 using System.Drawing;
 
@@ -35,6 +36,7 @@ namespace OfficeOpenXml.Style.HeaderFooterTextFormat
         public string? FontName { get; set; } = null;
         public int? FontSize { get; set; } = null;
         public HFFormattingCodes FormatCode = HFFormattingCodes.Text;
+        public string PageNumberSuffix = string.Empty;
         #endregion
 
         public string Text { get; set; }
