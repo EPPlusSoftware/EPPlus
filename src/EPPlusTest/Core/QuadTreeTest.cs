@@ -13,7 +13,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void QuadTreeIntersect1Test()
         {
-            var qt = new QuadTree<int>(1,1,5000,200);
+            var qt = new QuadTree<int>(5000,200);
             qt.Add(new QuadRange(2, 1, 50, 20), 1);
             qt.Add(new QuadRange(55, 7, 55, 7), 2);
 
@@ -28,7 +28,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void QuadTreeIntersectAboveAndBelowTest()
         {
-            var qt = new QuadTree<int>(1, 1, 5000, 500);
+            var qt = new QuadTree<int>(5000, 500);
 
             qt.Add(new QuadRange(1000, 100, 1000, 100), 1);
             qt.Add(new QuadRange(1010, 95, 1020, 105), 2);
@@ -67,7 +67,7 @@ namespace EPPlusTest.Core
         {
             var rows = 1000000;
             var cols = 1000;
-            var qt = new QuadTree<int>(1, 1, rows, cols);
+            var qt = new QuadTree<int>(rows, cols);
             var sw = new Stopwatch();
             sw.Start();
             var items = AddRangeItems(rows, cols, qt, 50, 50);
@@ -190,7 +190,7 @@ namespace EPPlusTest.Core
         [TestMethod]
         public void QuadTree_DeleteRowMoveToQuad()
         {
-            var qt = new QuadTree<int>(1,1,60,60);
+            var qt = new QuadTree<int>(60,60);
             var r = new QuadRange(29, 29, 31, 29);
             qt.Add(r, 1);
             Assert.AreEqual(1, qt.Root.Ranges.Count);

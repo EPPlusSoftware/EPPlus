@@ -11,22 +11,22 @@ namespace OfficeOpenXml.Core.RangeQuadTree
 {
     internal class QuadTree<T>
     {
-        public QuadTree() : this(1, 1, QuadRange.MinSize, QuadRange.MinSize)
+        public QuadTree() : this(QuadRange.MinSize, QuadRange.MinSize)
         {
 
         }
-        public QuadTree(FormulaRangeAddress range) : this(range.FromRow, range.FromCol, range.ToRow, range.ToCol)
+        public QuadTree(FormulaRangeAddress range) : this(range.ToRow, range.ToCol)
         {
 
         }
-        public QuadTree(ExcelAddressBase address) : this(address._fromRow, address._fromCol, address._toRow, address._toCol)
+        public QuadTree(ExcelAddressBase address) : this(address._toRow, address._toCol)
         {
             
         }
 
-        public QuadTree(int fromRow, int fromCol, int toRow, int toCol)
+        public QuadTree(int toRow, int toCol)
         {
-            var dimension = new QuadRange(fromRow, fromCol, toRow, toCol);
+            var dimension = new QuadRange(1, 1, Math.Max(toRow, QuadRange.MinSize), Math.Max(toCol, QuadRange.MinSize));
             Root = new QuadItem<T>(null, dimension);            
         }
 
