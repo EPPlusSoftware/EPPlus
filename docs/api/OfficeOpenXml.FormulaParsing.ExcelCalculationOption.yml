@@ -7,6 +7,7 @@ items:
   children:
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.#ctor
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AllowCircularReferences
+  - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AlwaysRefreshImageFunction
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.CacheExpressions
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.FollowDependencyChain
   - OfficeOpenXml.FormulaParsing.ExcelCalculationOption.PrecisionAndRoundingStrategy
@@ -20,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelCalculationOption
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
@@ -63,7 +64,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: .ctor
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
@@ -95,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AllowCircularReferences
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
@@ -132,7 +133,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheExpressions
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
@@ -140,7 +141,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nExpressions in the formula calculation will be cached, to be resused. \nThis increases speed, if having multiple formulas using the same expressions. \nCanching increases memory consumtion on calculate.\n"
+  summary: "\nExpressions in the formula calculation will be cached, to be reduced. \nThis increases speed, if having multiple formulas using the same expressions. \nCaching increases memory consumption on calculate.\n"
   example: []
   syntax:
     content: public bool CacheExpressions { get; set; }
@@ -169,7 +170,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PrecisionAndRoundingStrategy
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
@@ -206,7 +207,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FollowDependencyChain
     path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
@@ -214,7 +215,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.FormulaParsing
-  summary: "\nIf true, EPPlus will calculate the cells in order calculating any dependent cells.\nIf false, EPPlus will calculate the cells without calculating dependent cells.\n"
+  summary: "\nIf true, EPPlus will calculate the cells in order calculating any dependent cells. Default.\nIf false, EPPlus will calculate the cells without calculating dependent cells.\n"
   example: []
   syntax:
     content: public bool FollowDependencyChain { get; set; }
@@ -223,6 +224,43 @@ items:
       type: System.Boolean
     content.vb: Public Property FollowDependencyChain As Boolean
   overload: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.FollowDependencyChain*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AlwaysRefreshImageFunction
+  commentId: P:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AlwaysRefreshImageFunction
+  id: AlwaysRefreshImageFunction
+  parent: OfficeOpenXml.FormulaParsing.ExcelCalculationOption
+  langs:
+  - csharp
+  - vb
+  name: AlwaysRefreshImageFunction
+  nameWithType: ExcelCalculationOption.AlwaysRefreshImageFunction
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AlwaysRefreshImageFunction
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: AlwaysRefreshImageFunction
+    path: ../src/EPPlus/FormulaParsing/ExcelCalculationOption.cs
+    startLine: 104
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.FormulaParsing
+  summary: "\nIf true, EPPlus will download the images in the IMAGE function even if they exists in the package. The same URL will only be downloaded once.\nIf false(default), EPPlus will only download images that doesn&apos;t exist in the package.\n"
+  example: []
+  syntax:
+    content: public bool AlwaysRefreshImageFunction { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property AlwaysRefreshImageFunction As Boolean
+  overload: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AlwaysRefreshImageFunction*
   modifiers.csharp:
   - public
   - get
@@ -565,3 +603,8 @@ references:
   name: FollowDependencyChain
   nameWithType: ExcelCalculationOption.FollowDependencyChain
   fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.FollowDependencyChain
+- uid: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AlwaysRefreshImageFunction*
+  commentId: Overload:OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AlwaysRefreshImageFunction
+  name: AlwaysRefreshImageFunction
+  nameWithType: ExcelCalculationOption.AlwaysRefreshImageFunction
+  fullName: OfficeOpenXml.FormulaParsing.ExcelCalculationOption.AlwaysRefreshImageFunction

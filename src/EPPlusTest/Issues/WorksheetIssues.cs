@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Reflection;
 
 namespace EPPlusTest.Issues
@@ -34,15 +35,9 @@ namespace EPPlusTest.Issues
 			{
 				ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Invoice");
 
-				//var namedStyle = p.Workbook.Styles.CreateNamedStyle("Default"); // Create a default style
-				//namedStyle.Style.Font.Name = "Arial";
-				//namedStyle.Style.Font.Size = 7;
 				var namedStyle = package.Workbook.Styles.NamedStyles[0]; // Create a default style
 				namedStyle.Style.Font.Name = "Arial";
 				namedStyle.Style.Font.Size = 7;
-
-				//"&L&\"Arial,Normal\"&8";
-
 
 				// Default font and size for spreadsheet  DOES NOT WORK
 				worksheet.Cells.Style.Font.Name = "Arial";
@@ -54,24 +49,12 @@ namespace EPPlusTest.Issues
 
 				// Set other print settings as needed
 				worksheet.PrinterSettings.Orientation = eOrientation.Portrait;
-				//worksheet.PrinterSettings.FitToPage = true;
-				//worksheet.PrinterSettings.FitToWidth = 1;
 				worksheet.PrinterSettings.FooterMargin = 5;
-
-
-
-
-				//string longText = ""; // Our long string
-				//int maxLineLength = 140; // Maximum length of each line, adjust as needed
-				//						 //var lines = SplitStringIntoLines(longText, maxLineLength);
 
 
 				// Now 'lines' contains our text split into lines.
 				// We can then concatenate these lines with a line break character for the footer.
 				//string footerText = string.Join(Environment.NewLine, lines.Take(5)); // Take only the first 5 lines
-
-
-
 
 				var footerText = "This communication is intended only for the addressed recipient(s) and may contain information which is privileged, confidential, commercially sensitive and exempt from " + // + "\n" + 
 					"disclosure under applicable codes and laws.Unauthorised copying.";// or disclosure of this communication to any other person is strictly prohibited. ";// +
@@ -83,26 +66,6 @@ namespace EPPlusTest.Issues
 
 				worksheet.HeaderFooter.OddFooter.LeftAlignedText = footerText;
 				worksheet.HeaderFooter.EvenFooter.LeftAlignedText = footerText; // We want the same for even pages
-
-
-				//worksheet.HeaderFooter.OddFooter.CenteredText = "Test Disclaimer";
-				//worksheet.HeaderFooter.EvenFooter.CenteredText = "Test Disclaimer";
-
-
-
-
-				// Populate all elements of the SS in order
-				//int startRow = 1;
-				//PopulateInvoiceHeader(worksheet, invoiceHeader, company, shipper, invoiceType, imagePath, ref startRow);
-				//PopulateInvoiceDetailLines(worksheet, invoiceHeader, ref startRow);
-				//PopulateInvoiceSummary(worksheet, invoiceHeader, invoiceType, ref startRow);
-				//PopulateInvoicenote(worksheet, invoiceHeader, ref startRow);
-				//PopulateInvoiceVATnote(worksheet, shipper, company, invoiceHeader, ref startRow);
-				//PopulateInvoiceFootnoteData(worksheet, company, invoiceHeader, ref startRow);
-				//  PopulateDisclaimer(worksheet, invoiceHeader, ref startRow);
-
-
-
 
 				// Conversion factor (assuming the default font size)
 				double conversionFactor = 0.45;
@@ -116,7 +79,6 @@ namespace EPPlusTest.Issues
 				worksheet.Column(5).Width = 35 * conversionFactor; // Column E
 				worksheet.Column(6).Width = 24 * conversionFactor; // Column F
 				worksheet.Column(7).Width = 30 * conversionFactor; // Column G
-
 
 				SaveAndCleanup(package);
 			}
@@ -345,7 +307,6 @@ namespace EPPlusTest.Issues
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.StackTrace);
-                    //Assert.Fail("Expected no exception, but got: " + ex.Message);
                 }
             }
         }
@@ -454,6 +415,19 @@ namespace EPPlusTest.Issues
 
             }
         }
+	[TestMethod]
+	public void i1663()
+	{
+		using (var p1 = OpenTemplatePackage("i1663-source.xlsx"))
+		{
+			var copiedSht = p1.Workbook.Worksheets[0];
+			using (var p2 = OpenTemplatePackage("i1663-dest.xlsx"))
+			{
+				p2.Workbook.Worksheets.Add("newSht", copiedSht);
+				SaveAndCleanup(p2);
+			}
+		}
+	}
         [TestMethod]
         public void I1628()
         {
@@ -491,7 +465,7 @@ namespace EPPlusTest.Issues
 		[TestMethod]
 		public void i1742()
 		{
-			// before this fix we couldn't delete the very last coloumn on the sheet...
+			// before this fix we couldn't delete the very last column on the sheet...
 			using var package = new ExcelPackage();
 			var sheet = package.Workbook.Worksheets.Add("Sheet1");
 			var maxCol = ExcelPackage.MaxColumns;
@@ -564,7 +538,7 @@ namespace EPPlusTest.Issues
 		public void i1782()
 		{
 			var list = new List<I1782DataItem>();
-			var hl = new ExcelHyperLink("https://epplussoftare.com", "epplussoftare.com");
+			var hl = new ExcelHyperLink("https://epplussoftware.com", "epplussoftware.com");
 			list.Add(new I1782DataItem { Id = 1, ProjectNumberUrl = hl});
 
 			using var p = OpenPackage("i1782.xlsx",true);
@@ -597,7 +571,7 @@ namespace EPPlusTest.Issues
 			// and then closed without changing anything, Excel still shows a "Save changes" dialog.
 			// this seems to be related to that Excel renames the worksheet xml files.
 			// EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
-			// this bug was fixed in Github Issue 1794 /MA
+			// this bug was fixed in GitHub Issue 1794 /MA
 
 			using var p = OpenTemplatePackage("Issue1794.xltx");
             var wsTemplate = p.Workbook.Worksheets[0];
@@ -618,7 +592,7 @@ namespace EPPlusTest.Issues
             // and then closed without changing anything, Excel still shows a "Save changes" dialog.
             // this seems to be related to that Excel renames the worksheet xml files.
             // EPPlus keeps the sheet2.xml and sheet3.xml file names after the line p.Workbook.Worksheets.Delete(wsTemplate);
-            // this bug was fixed in Github Issue 1794 /MA
+            // this bug was fixed in github Issue 1794 /MA
             using var p = OpenTemplatePackage("Issue1794.xlsx");
             var wsTemplate = p.Workbook.Worksheets[0];
 
@@ -745,5 +719,82 @@ namespace EPPlusTest.Issues
 			var loadedCommentText = loadedSheet.Cells["A3"].Comment.Text;
 			Assert.AreEqual("6", loadedCommentText);
 		}
+        [TestMethod]
+        public void properties()
+        {
+            using (var package = OpenTemplatePackage("properties.xlsx"))
+            {
+				package.Workbook.Properties.LastModifiedBy = "";
+                SaveAndCleanup(package);
+            }
+        }
+
+        [TestMethod]
+        public void s816_2()
+        {
+            using var excelPackage = OpenTemplatePackage("s816-2.xlsx");
+            var sheet = excelPackage.Workbook.Worksheets.First();
+			var formula = sheet.Cells["B5"].Formula;
+            // Act
+            sheet.Cells.Sort(column: 0);
+
+			Assert.AreEqual(sheet.Cells["B3"].Formula, formula);
+			SaveAndCleanup(excelPackage);
+        }
+        [TestMethod]
+        public void i1870()
+		{
+            using var savedExcelPackage = OpenTemplatePackage("i1870.xlsx");
+            var sheet = savedExcelPackage.Workbook.Worksheets.First();
+
+            // Act
+            sheet.Cells["2:3"].Clear();
+            sheet.Cells["6:6"].Clear();
+            sheet.Cells.Sort(column: 0);
+
+            //Assert 1
+
+            Assert.AreEqual("2", sheet.Cells["A1"].ThreadedComment.Comments.First().Text);
+            Assert.AreEqual("3", sheet.Cells["A2"].ThreadedComment.Comments.First().Text);
+            Assert.AreEqual("2", sheet.Cells["B1"].Comment.Text);
+            Assert.AreEqual("3", sheet.Cells["B2"].Comment.Text);
+
+            //Act 2
+            SaveWorkbook("i1870-save.xlsx", savedExcelPackage);
+
+            //Assert 2
+            using var loadedExcelPackage = OpenPackage("i1870-save.xlsx");
+            var loadedSheet = loadedExcelPackage.Workbook.Worksheets.First();
+
+            Assert.AreEqual("2", loadedSheet.Cells["A1"].ThreadedComment.Comments.First().Text);
+            Assert.AreEqual("3", loadedSheet.Cells["A2"].ThreadedComment.Comments.First().Text);
+            Assert.AreEqual("2", loadedSheet.Cells["B1"].Comment.Text);
+            Assert.AreEqual("3", loadedSheet.Cells["B2"].Comment.Text);
+        }
+		[TestMethod]
+		public void i1876()
+        {
+            using (var p = OpenTemplatePackage("i1876.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets[0];                
+				var dv = ws.DimensionByValue;
+
+				Assert.AreEqual("A1:F1", dv.Address);
+
+            }
+        }
+		[TestMethod]
+		public void i1878()
+		{
+            using (var p = OpenTemplatePackage("i1878.xlsx"))
+            {
+                var ws = p.Workbook.Worksheets.First();
+
+                var timeSpanCell = ws.GetValue<TimeSpan>(1,1);
+
+                Assert.AreEqual(timeSpanCell.Ticks, new TimeSpan(12, 30, 45).Ticks);
+            }
+        }
+
     }
 }

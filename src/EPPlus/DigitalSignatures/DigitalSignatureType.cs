@@ -5,6 +5,9 @@ using System.Text;
 
 namespace OfficeOpenXml.DigitalSignatures
 {
+    /// <summary>
+    /// Digital Signature Types
+    /// </summary>
     public enum DigitalSignatureType
     {
         /// <summary>

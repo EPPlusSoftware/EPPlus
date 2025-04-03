@@ -11,18 +11,18 @@ namespace OfficeOpenXml.DigitalSignatures
     {
         private readonly Type[] _inputTypes = { typeof(Stream), typeof(XmlDocument), typeof(XmlNodeList) };
         private readonly Type[] _outputTypes = { typeof(Stream) };
-        private string? _xpathexpr;
-        private XmlDocument? _originalDoc = new XmlDocument();
-        private XmlDocument? _outputDoc;
-        private XmlNamespaceManager? _nsm;
+        //private string? _xpathexpr;
+        private XmlDocument _originalDoc = new XmlDocument();
+        private XmlDocument _outputDoc;
+        //private XmlNamespaceManager? _nsm;
         internal string TransformXml = "<Transform Algorithm=\"http://schemas.openxmlformats.org/package/2006/RelationshipTransform\">";
 
-        string relTransformUri = "http://schemas.openxmlformats.org/package/2006/RelationshipTransform";
+        //string relTransformUri = "http://schemas.openxmlformats.org/package/2006/RelationshipTransform";
         string relReference = "<mdssi:RelationshipReference xmlns:mdssi=\"http://schemas.openxmlformats.org/package/2006/digital-signature\" SourceId=\"{0}\"/>";
 
         internal List<string> FilterRemoveRelsWith = new List<string> { "../customXml", "docProps/", "/_xmlsignatures", "_xmlsignatures/origin.sigs" };
 
-        int RIdCount = 0;
+        //int RIdCount = 0;
         List<string> _idList = new List<string>();
 
         internal RelTransform(string xml)

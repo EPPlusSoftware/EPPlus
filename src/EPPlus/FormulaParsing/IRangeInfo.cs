@@ -53,7 +53,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         RangeDefinition Size { get; }
         /// <summary>
-        /// Get the value from a cell
+        /// Get the value from a cell               
         /// </summary>
         /// <param name="row">The Row</param>
         /// <param name="col">The Column</param>
@@ -88,9 +88,15 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         ExcelWorksheet Worksheet { get; }
         /// <summary>
-        /// The worksheet dimension if the range referres to an worksheet address, otherwise the size of the array.
+        /// The worksheet dimension if the range refers to an worksheet address, otherwise the size of the array.
         /// </summary>
         FormulaRangeAddress Dimension { get; }
+        /// <summary>
+        /// Get the address adjusted inside the dimension of the worksheet.
+        /// </summary>
+        /// <param name="index">The index of the address.</param>
+        /// <returns>The address adjusted within the dimension of the worksheet.</returns>
+        public FormulaRangeAddress GetAddressDimensionAdjusted(int index);
     }
     /// <summary>
     /// Address info
@@ -102,7 +108,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         FormulaRangeAddress Address { get; }
         /// <summary>
-        /// If the address contains commaseparated addresses, this array contains the individual addresses.
+        /// If the address contains comma separated addresses, this array contains the individual addresses.
         /// </summary>
         FormulaRangeAddress[] Addresses { get; }
     }

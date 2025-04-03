@@ -504,22 +504,7 @@ namespace OfficeOpenXml
         /// </summary>
         /// 
         const string SortStatePath = "d:sortState";
-        /// <summary>
-        /// The auto filter address. 
-        /// null means no auto filter.
-        /// </summary>
-        [Obsolete("AutoFilterAddress is deprecated please use AutoFilter.Address instead.")]
-        public ExcelAddressBase AutoFilterAddress
-        {
-            get
-            {
-                return AutoFilter.Address;
-            }
-            internal set
-            {
-                AutoFilter.Address = value;
-            }
-        }
+
         ExcelAutoFilter _autoFilter = null;
         /// <summary>
         /// Autofilter settings
@@ -561,7 +546,7 @@ namespace OfficeOpenXml
         {
             if (this is ExcelChartsheet)
             {
-                throw (new NotSupportedException("This property or method is not supported for a Chartsheet"));
+                throw (new NotSupportedException("This property or method is not supported for a chart sheet"));
             }
             if(_positionId==-1 && _values==null)
             {
@@ -615,20 +600,20 @@ namespace OfficeOpenXml
         }
         //TODO: Examine if mdw is really a neccessary input parameter.
         //Seems it is always the same as Workbook.MaxFontWidth
-        internal int GetColumnWidthPixels(int col, decimal mdw)
+        internal int GetColumnWidthPixels(int col, double mdw)
         {
             return ExcelColumn.ColumnWidthToPixels(GetColumnWidth(col + 1), Workbook.MaxFontWidth);
         }
-        internal decimal GetColumnWidth(int col)
+        internal double GetColumnWidth(int col)
         {
             var column = GetColumn(col);
             if (column == null)   //Check that the column exists
             {                
-                return (decimal)DefaultColWidth;
+                return DefaultColWidth;
             }
             else
             {
-                return (decimal)Columns[col].Width;
+                return Columns[col].Width;
             }
         }
 
@@ -977,27 +962,47 @@ namespace OfficeOpenXml
                 SetXmlNodeString(outLineApplyStylePath, value ? "1" : "0");
             }
         }
-        const string tabColorPath = "d:sheetPr/d:tabColor/@rgb";
+        const string tabColorPath = "d:sheetPr/d:tabColor";
         /// <summary>
-        /// Color of the sheet tab
+        /// Color of the sheet tab. To remove color, set TabColor to Color.Empty.
         /// </summary>
         public Color TabColor
         {
             get
             {
-                string col = GetXmlNodeString(tabColorPath);
+                string col = GetXmlNodeString(tabColorPath + "/@rgb");
                 if (col == "")
                 {
-                    return Color.Empty;
+                    double tint = GetXmlNodeDouble(tabColorPath + "/@tint");
+                    eThemeSchemeColor theme = (eThemeSchemeColor)GetXmlNodeInt(tabColorPath + "/@theme");
+                    int indexed = GetXmlNodeInt(tabColorPath + "/@indexed");
+                    bool auto = GetXmlNodeBool(tabColorPath + "/@auto");
+                    if (tint == double.NaN)
+                    {
+                        return Color.Empty;
+                    }
+                    col = ExcelColor.LookupColor(col, theme, tint, indexed, auto, Workbook);
                 }
-                else
+                if (col.StartsWith("#"))
                 {
-                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                    col = col.Substring(1);
                 }
+                var argb = int.Parse(col, System.Globalization.NumberStyles.HexNumber);
+                return Color.FromArgb((argb >> 24) & 0xFF, (argb >> 16) & 0xFF, (argb >> 8) & 0xFF, argb & 0xFF);
             }
             set
             {
-                SetXmlNodeString(tabColorPath, value.ToArgb().ToString("X"));
+                DeleteNode(tabColorPath + "/@tint");
+                DeleteNode(tabColorPath + "/@theme");
+                DeleteNode(tabColorPath + "/@indexed");
+                DeleteNode(tabColorPath + "/@auto");
+                if (value == Color.Empty)
+                {
+                    DeleteNode(tabColorPath, true);
+                    return;
+                }
+
+                SetXmlNodeString(tabColorPath + "/@rgb", value.ToArgb().ToString("X"));
             }
         }
         const string codeModuleNamePath = "d:sheetPr/@codeName";
@@ -2253,17 +2258,6 @@ namespace OfficeOpenXml
             WorksheetRangeDeleteHelper.DeleteRow(this, rowFrom, rows);
         }
 
-        /// <summary>
-        /// Deletes the specified rows from the worksheet.
-        /// </summary>
-        /// <param name="rowFrom">The number of the start row to be deleted</param>
-        /// <param name="rows">Number of rows to delete</param>
-        /// <param name="shiftOtherRowsUp">Not used. Rows are always shifted</param>
-        [Obsolete("Use the two-parameter method instead")]
-        public void DeleteRow(int rowFrom, int rows, bool shiftOtherRowsUp)
-        {
-            DeleteRow(rowFrom, rows);
-        }
 #endregion
 #region Delete column
         /// <summary>
@@ -2573,8 +2567,13 @@ namespace OfficeOpenXml
             }
             else if(d is ExcelOleObject o)
             {
-                if(o._oleObjectPart != null && o._linkedOleObjectXml != null)
-                    o._linkedOleObjectXml.Save(o._oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+                if (o.IsExternalLink)
+                {
+                    if (o._oleObjectPart != null && o._linkedOleObjectXml != null)
+                    {
+                        o._linkedOleObjectXml.Save(o._oleObjectPart.GetStream(FileMode.Create, FileAccess.Write));
+                    }
+                }
                 o.UpdateXml();
             }
             else if (d is ExcelGroupShape grp)
@@ -2876,6 +2875,7 @@ namespace OfficeOpenXml
             {
                 pt.Save();
             }
+            View.DeletePivotTableSelection();
         }
 
         private static string GetTotalFunction(ExcelTableColumn col, string funcNum)
@@ -3718,6 +3718,7 @@ namespace OfficeOpenXml
         }
         internal void SetValueRow_Value(int row, int col, object[] array)
         {
+            _formulas.Clear(row, col, row, col + array.Length - 1);
             for (int c = 0; c < array.Length; c++)
             {
                 if (array[c] == DBNull.Value)
@@ -3732,6 +3733,7 @@ namespace OfficeOpenXml
         }
         internal void SetValueRow_ValueTransposed(int row, int col, object[] array)
         {
+            _formulas.Clear(row, col, row+array.Length-1, col);
             for (int c = 0; c < array.Length; c++)
             {
                 if (array[c] == DBNull.Value)
@@ -3747,9 +3749,12 @@ namespace OfficeOpenXml
         internal void SetValueRow_Value(int row, int col, IEnumerable collection)
         {
             int offset = 0;
+            
             foreach (var v in collection)
             {
-                SetValueInner(row, col + offset, v);
+                var c = col + offset;
+                _formulas.Clear(row, c, row, c);
+                SetValueInner(row, c, v);
                 offset++;
             }
         }
@@ -3758,7 +3763,9 @@ namespace OfficeOpenXml
             int offset = 0;
             foreach (var v in collection)
             {
-                SetValueInner(row + offset, col, v);
+                var r = row + offset;
+                _formulas.Clear(r, col, r, col);
+                SetValueInner(r, col, v);
                 offset++;
             }
         }
@@ -4055,7 +4062,6 @@ namespace OfficeOpenXml
         {
             return Workbook.Styles.RoundValueFromNumberFormat(c);
         }
-
         #endregion
     }  // END class Worksheet
 }

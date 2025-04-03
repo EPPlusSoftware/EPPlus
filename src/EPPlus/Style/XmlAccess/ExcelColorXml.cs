@@ -47,7 +47,7 @@ namespace OfficeOpenXml.Style.XmlAccess
                 {
                     _theme = (eThemeSchemeColor)v;
                 }
-                _tint = GetXmlNodeDecimalNull("@tint")??decimal.MinValue;
+                _tint = GetXmlNodeDoubleNull("@tint")??double.MinValue;
                 _rgb = GetXmlNodeString("@rgb");
                 _indexed = GetXmlNodeIntNull("@indexed") ?? int.MinValue;
             }
@@ -94,15 +94,15 @@ namespace OfficeOpenXml.Style.XmlAccess
                 Exists = true;
             }
         }
-        decimal _tint = decimal.MinValue;
+        double _tint = double.MinValue;
         /// <summary>
         /// The Tint value for the color
         /// </summary>
-        public decimal Tint
+        public double Tint
         {
             get
             {
-                if (_tint == decimal.MinValue)
+                if (_tint == double.MinValue)
                 {
                     return 0;
                 }
@@ -160,7 +160,7 @@ namespace OfficeOpenXml.Style.XmlAccess
         internal void Clear()
         {
             _theme = null;
-            _tint = decimal.MinValue;
+            _tint = double.MinValue;
             _indexed = int.MinValue;
             _rgb = "";
             _auto = false;
@@ -217,7 +217,7 @@ namespace OfficeOpenXml.Style.XmlAccess
             {
                 SetXmlNodeBool("@auto", _auto);
             }
-            if (_tint != decimal.MinValue)
+            if (_tint != double.MinValue)
             {
                 SetXmlNodeString("@tint", _tint.ToString(CultureInfo.InvariantCulture));
             }

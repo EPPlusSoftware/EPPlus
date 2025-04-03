@@ -78,7 +78,7 @@ namespace OfficeOpenXml.RichData
         /// Gets a rich value by its value metadata index
         /// </summary>
         /// <param name="vmId">Id of the requested <see cref="ExcelValueMetadataBlock"/></param>
-        /// <returns>An <see cref="ExcelRichValue"/> instance corresponding to <paramref name="vm"/></returns>
+        /// <returns>An <see cref="ExcelRichValue"/> instance corresponding to <paramref name="vmId"/></returns>
         internal ExcelRichValue GetRichValue(uint vmId)
         {
             var valueMetaData = _metadata.Db.ValueMetadata.Get(vmId);

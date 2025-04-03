@@ -95,34 +95,4 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Operators
         /// </summary>
         Intersect
     }
-    /// <summary>
-    /// Limited operators
-    /// </summary>
-    public enum LimitedOperators
-    {
-        /// <summary>
-        /// Equals
-        /// </summary>
-        Equals = Operators.Equals,
-        /// <summary>
-        /// Greater than
-        /// </summary>
-        GreaterThan = Operators.GreaterThan,
-        /// <summary>
-        /// Greater than or equal
-        /// </summary>
-        GreaterThanOrEqual = Operators.GreaterThanOrEqual,
-        /// <summary>
-        /// Less than
-        /// </summary>
-        LessThan = Operators.LessThan,
-        /// <summary>
-        /// Less than or equal
-        /// </summary>
-        LessThanOrEqual = Operators.LessThanOrEqual,
-        /// <summary>
-        /// Not equal to
-        /// </summary>
-        NotEqualTo = Operators.NotEqualTo,
-    }
 }

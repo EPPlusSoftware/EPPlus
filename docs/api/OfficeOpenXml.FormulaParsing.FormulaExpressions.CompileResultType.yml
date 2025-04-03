@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CompileResultType
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
@@ -54,7 +54,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Normal
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
@@ -88,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RangeAddress
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
@@ -122,7 +122,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DynamicArray
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
@@ -156,7 +156,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DynamicArray_AlwaysSetCellAsDynamic
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
@@ -190,7 +190,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LocalImage
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: WebImage
     path: ../src/EPPlus/FormulaParsing/FormulaExpressions/CompileResults/CompileResultType.cs

@@ -13,6 +13,7 @@
 using OfficeOpenXml.Drawing.EMF;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.RichData;
+using OfficeOpenXml.RichData.Structures.Constants;
 using System.IO;
 
 namespace OfficeOpenXml.CellPictures
@@ -45,7 +46,11 @@ namespace OfficeOpenXml.CellPictures
         {
             get
             {
-                return _cellPicturesManager.GetCellPicture(_range._fromRow, _range._fromCol) != null;
+                if(_cellPicturesManager.GetCellPicture(_range._fromRow, _range._fromCol) != null)
+                {
+                    return true;
+                }
+                return _cellPicturesManager.GetCellPicture(_range._fromRow, _range._fromCol, StructureTypes.WebImage) != null;
             }
         }
 
@@ -76,7 +81,17 @@ namespace OfficeOpenXml.CellPictures
         public void Set(byte[] imageBytes, string altText = null, bool isDecorative = false)
         {
             var calcOrigin = isDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
-            _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, imageBytes, altText, calcOrigin);
+            var fromRow = _range._fromRow;
+            var toRow = _range._toRow;
+            var fromCol = _range._fromCol;
+            var toCol = _range._toCol;
+            for (var row = fromRow; row <= toRow; row++)
+            {
+                for (var col = fromCol; col <= toCol; col++)
+                {
+                    _cellPicturesManager.SetCellPicture(row, col, imageBytes, altText, calcOrigin);
+                }
+            }      
         }
 
         /// <summary>
@@ -89,7 +104,17 @@ namespace OfficeOpenXml.CellPictures
         public void Set(Stream imageStream, string altText = null, bool isDecorative = false)
         {
             var calcOrigin = isDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
-            _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, imageStream, altText, calcOrigin);
+            var fromRow = _range._fromRow;
+            var toRow = _range._toRow;
+            var fromCol = _range._fromCol;
+            var toCol = _range._toCol;
+            for (var row = fromRow; row <= toRow; row++)
+            {
+                for (var col = fromCol; col <= toCol; col++)
+                {
+                    _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, imageStream, altText, calcOrigin);
+                }
+            }   
         }
 
         /// <summary>
@@ -102,7 +127,17 @@ namespace OfficeOpenXml.CellPictures
         public void Set(string path, string altText = null, bool isDecorative = false)
         {
             var calcOrigin = isDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
-            _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, path, altText, calcOrigin);
+            var fromRow = _range._fromRow;
+            var toRow = _range._toRow;
+            var fromCol = _range._fromCol;
+            var toCol = _range._toCol;
+            for (var row = fromRow; row <= toRow; row++)
+            {
+                for (var col = fromCol; col <= toCol; col++)
+                {
+                    _cellPicturesManager.SetCellPicture(row, col, path, altText, calcOrigin);
+                }
+            }       
         }
 
         /// <summary>
@@ -115,7 +150,17 @@ namespace OfficeOpenXml.CellPictures
         public void Set(FileInfo fileInfo, string altText = null, bool isDecorative = false)
         {
             var calcOrigin = isDecorative ? CalcOrigins.StandaloneDecorative : CalcOrigins.StandAlone;
-            _cellPicturesManager.SetCellPicture(_range._fromRow, _range._fromCol, fileInfo, altText, calcOrigin);
+            var fromRow = _range._fromRow;
+            var toRow = _range._toRow;
+            var fromCol = _range._fromCol;
+            var toCol = _range._toCol;
+            for (var row = fromRow; row <= toRow; row++)
+            {
+                for(var col = fromCol; col <= toCol; col++)
+                {
+                    _cellPicturesManager.SetCellPicture(row, col, fileInfo, altText, calcOrigin);
+                }
+            }
         }
 
         /// <summary>

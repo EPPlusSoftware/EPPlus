@@ -164,7 +164,7 @@ namespace EPPlusTest.FormulaParsing.Excel.Functions.RefAndLookup
 
             Assert.AreEqual(21022650D, ws.Cells["G5"].Value);
             Assert.AreEqual(2733102395100D, ws.Cells["G6"].Value);
-            Assert.AreEqual(2.14276220630102E+35D, (double)ws.Cells["G7"].Value, 1E20);
+            Assert.AreEqual(2.1427622063010162E+35D, (double)ws.Cells["G7"].Value, 1E20);
             Assert.AreEqual(0D, ws.Cells["G8"].Value);
             Assert.AreEqual(ErrorValues.RefError, ws.Cells["G9"].Value);
         }

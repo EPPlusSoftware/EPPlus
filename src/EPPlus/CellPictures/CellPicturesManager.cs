@@ -11,6 +11,7 @@
   11/11/2024         EPPlus Software AB       Initial release EPPlus 8
  *************************************************************************************************/
 using OfficeOpenXml.Drawing;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.RefAndLookup;
 using OfficeOpenXml.RichData;
 using OfficeOpenXml.RichData.IndexRelations;
 using OfficeOpenXml.RichData.RichValues;
@@ -70,9 +71,9 @@ namespace OfficeOpenXml.CellPictures
             return null;
         }
 
-        public ExcelCellPicture GetCellPicture(int row, int col)
+        public ExcelCellPicture GetCellPicture(int row, int col, string type = StructureTypes.LocalImage)
         {
-            var richValue = _richDataStore.GetRichValue(row, col, out uint vmId, StructureTypes.LocalImage);
+            var richValue = _richDataStore.GetRichValue(row, col, out uint vmId, type);
             if (richValue != null)
             {
                 return GetExcelCellPictureByRichValue(richValue, row, col, vmId);
@@ -150,26 +151,38 @@ namespace OfficeOpenXml.CellPictures
         {
             // Add image to picture store and create relation
             var imageInfo = AddToPictureStore(imageBytes);
-            
+            var existingPic = GetCellPicture(row, col);
+            if(existingPic == null)
+            {
+                existingPic = GetCellPicture(row, col, StructureTypes.WebImage);
+            }
             var rdUri = new Uri(ExcelRichValueCollection.PART_URI_PATH, UriKind.Relative);
             var imageUri = UriHelper.ResolvePartUri(rdUri, imageInfo.Uri);
             var cacheKey = new LocalImageCacheKey(imageUri, calcOrigin, altText);
 
             if (_referenceCache.Contains(cacheKey, out uint cachedVmId))
             {
+                if(existingPic != null && existingPic.ImageUri.OriginalString != imageUri.OriginalString)
+                {
+                    var cKey = GetCacheKey(existingPic);
+                    _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
+                    if(numberOfRefsLeft <= 0)
+                    {
+                        _richDataStore.DeleteRichData(row, col);
+                    }
+                    _pictureStore.RemoveReference(existingPic.ImageUri);
+                }
                 AddReferenceToPicture(row, col, cacheKey, cachedVmId);
                 return;
             }
 
-            var hasRv = _richDataStore.HasRichData(row, col, out MetaDataReference md);
             // no existing rich data, add new
-            if (!hasRv)
+            if (existingPic == null)
             {
                 AddNewLocalPicture(row, col, altText, calcOrigin, imageUri);
             }
             else
             {
-                var existingPic = GetCellPicture(row, col);
                 if(existingPic != null)
                 {
                     if(existingPic.ImageUri.OriginalString == imageUri.OriginalString)
@@ -178,7 +191,13 @@ namespace OfficeOpenXml.CellPictures
                     }
                     else
                     {
-                        _referenceCache.RemoveReference(cacheKey, out int numberOfRefsLeft);
+                        var cKey = GetCacheKey(existingPic);
+                        _referenceCache.RemoveReference(cKey, out int numberOfRefsLeft);
+                        if(numberOfRefsLeft <= 0)
+                        {
+                            _richDataStore.DeleteRichData(row, col);
+                        }
+                        _pictureStore.RemoveReference(existingPic.ImageUri);
                     }
                 }
                 else
@@ -229,6 +248,15 @@ namespace OfficeOpenXml.CellPictures
                 }
                 AddNewWebPicture(row, col, imageUri, addressUri, altText, calcOrigin, sizing, height, width);
             }
+        }
+
+        private PictureCacheKey GetCacheKey(ExcelCellPicture pic)
+        {
+            if(pic.PictureType == ExcelCellPictureTypes.LocalImage)
+            {
+                return new LocalImageCacheKey(pic.ImageUri, pic.CalcOrigin, pic.AltText);
+            }
+            return new WebPictureCacheKey(pic.ExternalAddress, pic.AltText, pic.CalcOrigin, pic.Sizing ?? WebImageSizing.FitToCellMaintainRatio, null, null);
         }
 
         private void AddNewLocalPicture(int row, int col, string altText, CalcOrigins calcOrigin, Uri imageUri)
@@ -313,6 +341,7 @@ namespace OfficeOpenXml.CellPictures
             if (_pictureStore.ImageExists(imageBytes))
             {
                 imageInfo = _pictureStore.GetImageInfo(imageBytes);
+                _pictureStore.AddReference(imageInfo.Uri, imageBytes);
             }
             else
             {

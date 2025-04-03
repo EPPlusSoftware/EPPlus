@@ -27,23 +27,6 @@ namespace OfficeOpenXml.VBA
         {
             ReferenceRecordID = 0x2F;
         }
-        /// <summary>
-        /// LibIdExternal 
-        /// For more info check MS-OVBA 2.1.1.8 LibidReference and 2.3.4.2.2 PROJECTREFERENCES
-        /// This corresponds to LibIdExtended in the documentation.
-        /// </summary>
-        [Obsolete("Use LibIdExtended instead of this.")]
-        public string LibIdExternal
-        {
-            get
-            {
-                return LibIdExtended;
-            }
-            set
-            {
-                LibIdExtended = value;
-            }
-        }
 
         /// <summary>
         /// LibIdExtended 

@@ -154,7 +154,7 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             {
                 var clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "dcw", ws, worksheets.Count > 1) + " ";
                 CssRule widthRule = new CssRule(clsName, int.MaxValue);
-                widthRule.AddDeclaration("width", $"{ExcelColumn.ColumnWidthToPixels(Convert.ToDecimal(ws.DefaultColWidth), ws.Workbook.MaxFontWidth)}px");
+                widthRule.AddDeclaration("width", $"{ExcelColumn.ColumnWidthToPixels(ws.DefaultColWidth, ws.Workbook.MaxFontWidth)}px");
 
                 clsName = "." + HtmlExportTableUtil.GetWorksheetClassName(_settings.StyleClassPrefix, "drh", ws, worksheets.Count > 1) + " ";
                 CssRule heightRule = new CssRule(clsName, int.MaxValue);
@@ -180,6 +180,12 @@ namespace OfficeOpenXml.Export.HtmlExport.CssCollections
             if (style.Font != null && style.Font.HasValue && _context.Exclude.Font != eFontExclude.All)
             {
                 translators.Add(new CssFontTranslator(style.Font, ns.Style.Font, style.CheckBox));
+            }
+            if (style.NumberFormat != null && style.NumberFormat.HasValue)
+            {
+                //TODO: possibly ensure to only apply one color attribute.
+                //Currently Numberformat AND Font can decide text color. Numberformat "wins" because written last.
+                translators.Add(new CssNumberFormatTranslator(style.NumberFormat));
             }
 
             if (styleList.Count > 1)

@@ -1,7 +1,38 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿/*******************************************************************************
+ * You may amend and distribute as you like, but don't remove this header!
+ *
+ * Required Notice: Copyright (C) EPPlus Software AB. 
+ * https://epplussoftware.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU Lesser General Public License for more details.
+ *
+ * The GNU Lesser General Public License can be viewed at http://www.opensource.org/licenses/lgpl-license.php
+ * If you unfamiliar with this license or have questions about it, here is an http://www.gnu.org/licenses/gpl-faq.html
+ *
+ * All code and executables are provided "" as is "" with no warranty either express or implied. 
+ * The author accepts no liability for any damage or loss of business that this product may cause.
+ *
+ * Code change notes:
+ * 
+  Date               Author                       Change
+ *******************************************************************************
+  04/03/2025         EPPlus Software AB       Initial release EPPlus 8.1
+ *******************************************************************************/
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
 using OfficeOpenXml;
+using OfficeOpenXml.Table;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -11,26 +42,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EPPlusTest.LongrunningTests
+namespace EPPlusTest.LongRunning
 {
     [TestClass, Ignore]
-    internal class LongrunningIssuesTests : TestBase
+    public class LongRunningIssuesTests : TestBase
     {
-
-        const string SubFolder = "DigSig\\";
-
-        X509Certificate2 GetSelfCert()
-        {
-            var requestedCert = new CertificateRequest("cn=SelfSignCert", RSA.Create(), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-            var finalCert = requestedCert.CreateSelfSigned(DateTimeOffset.Now, DateTimeOffset.Now.AddMinutes(5));
-
-            var certPrivate = finalCert.Export(X509ContentType.Pfx);
-            var certPublic = finalCert.Export(X509ContentType.Cert);
-            var newCert = new X509Certificate2(certPrivate, "", X509KeyStorageFlags.Exportable);
-            return newCert;
-        }
-
-
         [ClassInitialize]
         public static void Init(TestContext context)
         {
@@ -186,56 +202,165 @@ namespace EPPlusTest.LongrunningTests
                 SaveAndCleanup(package);
             }
         }
+
         [TestMethod]
-        public void SignSaveFileWithLOTSOfData()
+        public void S127()
         {
-            string fileName = $"s350.xlsm";
-
-            using (var pck = OpenTemplatePackage(fileName))
+            using (var p = OpenTemplatePackage("Tagging Template V15 - New Format.xlsx"))
             {
-                var wb = pck.Workbook;
+                SaveWorkbook("Tagging Template V15 - New Format2.xlsx", p);
+            }
+        }
+        public class Error { public string TypeOfError { get; set; } public int Row { get; set; } public int Col { get; set; } public List<string> Messages { get; set; } }
+        public class AssetField { public int Index { get; set; } public string Field { get; set; } }
 
-                wb.FullCalcOnLoad = false;
+        [TestMethod]
+        public void Issue478()
+        {
 
-                var cert = GetSelfCert();
-                var digSig = wb.DigitialSignatures.Add(cert);
+            var dataStartRow = 2;
+            var errors = JsonConvert.DeserializeObject<Error[]>("[{\"typeOfError\":\"WARNING\",\"row\":4,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":20,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":35,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":47,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":57,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":60,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":90,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":131,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":136,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":138,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]},{\"typeOfError\":\"WARNING\",\"row\":139,\"col\":17,\"messages\":[\"The address is uncompleted. It can only get an approximate coordinates.\"]}]");
+            var assetFields = JsonConvert.DeserializeObject<AssetField[]>("[{\"index\":1,\"field\":\"Reference\"},{\"index\":15,\"field\":\"ZipCode\"},{\"index\":16,\"field\":\"Municipality\"},{\"index\":17,\"field\":\"FullAddress\"}]");
 
-                pck.SaveAs(GetOutputFile(SubFolder, fileName));
+            using (var excelPackage = OpenTemplatePackage("issue478.xlsx"))
+            {
+                var worksheet = excelPackage.Workbook.Worksheets["Avances"];
+                var start = worksheet.Dimension.Start;
+                var end = worksheet.Dimension.End;
+
+                // Add column of errors and warnings
+                var startMessagesColumn = end.Column + 1;
+                worksheet.InsertColumn(startMessagesColumn, 2);
+                var errorColumn = startMessagesColumn;
+                var warningColumn = startMessagesColumn + 1;
+                worksheet.Cells[(dataStartRow) - 1, errorColumn].Value = "Errors";
+                worksheet.Cells[(dataStartRow) - 1, warningColumn].Value = "Warnings";
+                foreach (var error in errors)
+                {
+                    if (error.TypeOfError == "ERROR")
+                    {
+                        //worksheet.Cells[error.Row - 1, errorColumn].Value += string.Join(" ", error.Messages.Select(w => string.Format("{0} {1}", ASSET_FIELDS.GetValueOrDefault(assetFields.Where(x => x.Index == error.Col).Select(x => x.Field).FirstOrDefault()), w)));
+                    }
+                    else
+                    {
+                        //worksheet.Cells[error.Row - 1, warningColumn].Value += string.Join(" ", error.Messages.Select(w => string.Format("{0} {1}", ASSET_FIELDS.GetValueOrDefault(assetFields.Where(x => x.Index == error.Col).Select(x => x.Field).FirstOrDefault()), w)));
+                    }
+                }
+
+                // Remove distinct columns from "Reference"
+                var colFieldReference = assetFields.Where(x => x.Field == "REFERENCE").Select(x => x.Index).FirstOrDefault();
+                worksheet.Cells[1, colFieldReference + 1].Value = "Reference";
+
+                var deletedColumns = 0;
+                for (int i = 1; i <= end.Column; i++)
+                {
+                    if (colFieldReference + 1 != i && errorColumn != i && warningColumn != i)
+                    {
+                        worksheet.DeleteColumn(i - deletedColumns);
+                        deletedColumns++;
+                    }
+                }
+
+                // Remove rows that do not contain errors
+                var deletedRows = 0;
+                for (int i = 1; i <= end.Row; i++)
+                {
+                    if (i < (dataStartRow - 1) || (i >= dataStartRow && !errors.Any(w => (w.Row - 1) == i)))
+                    {
+                        worksheet.DeleteRow(i - deletedRows);
+                        deletedRows++;
+                    }
+                }
+                SaveAndCleanup(excelPackage);
+            };
+        }
+        [TestMethod]
+        public void Issue38()
+        {
+            using (var p = OpenTemplatePackage("pivottest.xlsx"))
+            {
+                Assert.AreEqual(1, p.Workbook.Worksheets[1].PivotTables.Count);
+                var tbl = p.Workbook.Worksheets[0].Tables[0];
+                var pt = p.Workbook.Worksheets[1].PivotTables[0];
+                Assert.IsNotNull(p.Workbook.Worksheets[1].PivotTables[0].CacheDefinition);
+                var s1 = pt.Fields[0].AddSlicer();
+                s1.SetPosition(0, 500);
+                var s2 = pt.Fields["OpenDate"].AddSlicer();
+                pt.Fields["Distance"].Format = "#,##0.00";
+                pt.Fields["Distance"].AddSlicer();
+                s2.SetPosition(0, 500 + (int)s1._width);
+                tbl.Columns["IsUser"].AddSlicer();
+                pt.Fields["IsUser"].AddSlicer();
+
+                SaveWorkbook("pivotTable2.xlsx", p);
+            }
+        }
+        [TestMethod]
+        public void DvcfCopy()
+        {
+            using (var p = OpenTemplatePackage("i527.xlsm"))
+            {
+
+                // Fails when data validation is set
+                // Fails when conditional formatting is set.
+                var copyFrom1 = p.Workbook.Worksheets["CopyFrom"].Cells["A1:BR23"];
+                var copyTo1 = p.Workbook.Worksheets["CopyTo"].Cells["A:XFD"];
+                copyFrom1.Copy(copyTo1);
+
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void SaveDefinedName()
+        {
+            using (var p = OpenTemplatePackage("SaveIssueName.xlsm"))
+            {
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void EmfIssue()
+        {
+            using (var p = OpenTemplatePackage("emfIssue.xlsm"))
+            {
+                var ws = p.Workbook.Worksheets[0];
+                SaveAndCleanup(p);
+            }
+        }
+        [TestMethod]
+        public void Issue345()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("issue345.xlsx"))
+            {
+                var worksheet = package.Workbook.Worksheets["test"];
+                int[] sortColumns = new int[1];
+                sortColumns[0] = 0;
+                worksheet.Cells["A2:A30864"].Sort(sortColumns);
+                package.Save();
+            }
+        }
+        [TestMethod]
+        public void s831()
+        {
+            using var p = OpenTemplatePackage("s831.xlsx");
+            var sheet = p.Workbook.Worksheets[0];
+            var sw = new Stopwatch();
+            sw.Start();
+            p.Workbook.Calculate();
+            //p.Workbook.FormulaParser.
+            GC.Collect();
+
+            Console.WriteLine(new DateTime(sw.ElapsedTicks).ToString("HH:mm:ss"));
+        }
+        [TestMethod]
+        public void s688()
+        {
+            using (ExcelPackage package = OpenTemplatePackage("s688.xlsx"))
+            {
+                package.Workbook.Worksheets[0].PivotTables[0].Calculate(false);
+                SaveAndCleanup(package);
             }
         }
 
-        //Interestingly enough. Excel gets invalid signature when EXCEL tries to save this.
-        //We do too
-        [TestMethod]
-        public void SignSaveFileWithLOTSOfData2()
-        {
-            using (var pck = OpenTemplatePackage("S610.xlsx"))
-            {
-                var wb = pck.Workbook;
-
-                wb.FullCalcOnLoad = false;
-
-                X509Store store = new X509Store(StoreLocation.CurrentUser);
-                store.Open(OpenFlags.ReadOnly);
-                var digSig = wb.DigitialSignatures.Add(store.Certificates[1]);
-
-                SaveAndCleanup(pck);
-            }
-        }
-        [TestMethod]
-        public void TableAddColumnToMax()
-        {
-            using (var p = new ExcelPackage()) // We discard this as it takes to long time to save
-            {
-                //Setup
-                var ws = p.Workbook.Worksheets.Add("TableMaxColumn");
-                LoadTestdata(ws, 100);
-                var tbl = ws.Tables.Add(ws.Cells["A1:D100"], "TableMaxColumn");
-                //Act
-                tbl.Columns.Add(ExcelPackage.MaxColumns - 4);
-                //Assert
-                Assert.AreEqual(ExcelPackage.MaxColumns, tbl.Address._toCol);
-            }
-        }
     }
 }

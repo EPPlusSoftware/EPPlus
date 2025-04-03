@@ -95,6 +95,7 @@ namespace OfficeOpenXml.RichData.RichValues.WebImages
 
         /// <summary>
         /// Boolean value that when true indicates the image can be generated on demand.
+        /// </summary>
         public bool ComputedImage
         {
             get

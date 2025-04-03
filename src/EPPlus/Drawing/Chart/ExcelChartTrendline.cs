@@ -102,11 +102,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Order for polynominal trendlines
         /// </summary>
-        public decimal Order
+        public double Order
         {
             get
             {
-                return GetXmlNodeDecimal(ORDERPATH);
+                return GetXmlNodeDouble(ORDERPATH);
             }
             set
             {
@@ -122,11 +122,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Period for monthly average trendlines
         /// </summary>
-        public decimal Period
+        public double Period
         {
             get
             {
-                return GetXmlNodeDecimal(PERIODPATH);
+                return GetXmlNodeDouble(PERIODPATH);
             }
             set
             {
@@ -142,11 +142,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Forcast forward periods
         /// </summary>
-        public decimal Forward
+        public double Forward
         {
             get
             {
-                return GetXmlNodeDecimal(FORWARDPATH);
+                return GetXmlNodeDouble(FORWARDPATH);
             }
             set
             {
@@ -157,11 +157,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// Forcast backwards periods
         /// </summary>
-        public decimal Backward
+        public double Backward
         {
             get
             {
-                return GetXmlNodeDecimal(BACKWARDPATH);
+                return GetXmlNodeDouble(BACKWARDPATH);
             }
             set
             {
@@ -172,11 +172,11 @@ namespace OfficeOpenXml.Drawing.Chart
         /// <summary>
         /// The point where the trendline crosses the vertical axis
         /// </summary>
-        public decimal Intercept
+        public double Intercept
         {
             get
             {
-                return GetXmlNodeDecimal(INTERCEPTPATH);
+                return GetXmlNodeDouble(INTERCEPTPATH);
             }
             set
             {

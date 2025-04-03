@@ -39,7 +39,7 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
                    _style.VerticalAlignment != ExcelVerticalAlignment.Bottom ||
                    _style.TextRotation != 0 ||
                    _style.Indent > 0 ||
-                   _style.WrapText;
+                   _style.WrapText || _style.NumberFormatId > 0;
             }
         }
 
@@ -48,6 +48,8 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
         public IBorder Border { get; } = null;
 
         public IFont Font { get; } = null;
+
+        public INumberFormat NumberFormat { get; } = null;
 
         public bool CheckBox { get; }
 
@@ -66,6 +68,10 @@ namespace OfficeOpenXml.Export.HtmlExport.StyleCollectors
             if(style.BorderId >= 0) 
             {
                 Border = new BorderXml(style.Border);
+            }
+            if(style.NumberFormatId >= 0)
+            {
+                NumberFormat = new NumberFormatXml(style.Numberformat);
             }
 
             CheckBox = style.Checkbox;

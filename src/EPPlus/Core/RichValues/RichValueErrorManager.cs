@@ -54,14 +54,14 @@ namespace OfficeOpenXml.Core.RichValues
                         return ErrorValues.NameError;
                     case 8:
                         var spillError = error.As.ErrorSpill;
-                        if (spillError != null && spillError.RwOffset > -1 && spillError.ColOffset > 0)
+                        if (spillError != null && spillError.RwOffset >= 0 && spillError.ColOffset >= 0)
                         {
-                            return new ExcelRichDataErrorValue(spillError.RwOffset ?? 0, spillError.ColOffset ?? 0);
+                            return new ExcelSpillErrorValue(spillError.RwOffset ?? 0, spillError.ColOffset ?? 0);
                         }
-                        return new ExcelRichDataErrorValue(0, 0);
+                        return new ExcelSpillErrorValue(0, 0);
 
                     case 13:
-                        return ErrorValues.CalcError;
+                        return new ExcelCalcErrorValue();
                     default:  //We can implement other error types here later, See MS-XLSX 2.3.6.1.3
                         return v;
                 }
@@ -81,7 +81,7 @@ namespace OfficeOpenXml.Core.RichValues
             switch (error.Type)
             {
                 case eErrorType.Spill:
-                    var spillError = (ExcelRichDataErrorValue)error;
+                    var spillError = (ExcelSpillErrorValue)error;
                     if (spillError.IsPropagated)
                     {
                         newRv = CreatePropagated(eErrorType.Spill);
@@ -117,7 +117,7 @@ namespace OfficeOpenXml.Core.RichValues
                     case eErrorType.Calc:
                         return rdErrorBase.ErrorType == 13;
                     case eErrorType.Spill:
-                        var rdError = (ExcelRichDataErrorValue)error;
+                        var rdError = (ExcelSpillErrorValue)error;
                         var spillError = rdErrorBase.As.ErrorSpill;
                         if(spillError != null)
                         {
@@ -172,7 +172,7 @@ namespace OfficeOpenXml.Core.RichValues
             return item;
         }
 
-        internal ErrorSpillRichValue CreateErrorSpill(ExcelRichDataErrorValue spillError)
+        internal ErrorSpillRichValue CreateErrorSpill(ExcelSpillErrorValue spillError)
         {
             var item = new ErrorSpillRichValue(_richDataDb)
             {

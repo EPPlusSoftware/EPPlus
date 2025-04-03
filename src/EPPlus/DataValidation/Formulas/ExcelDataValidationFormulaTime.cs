@@ -25,8 +25,7 @@ namespace OfficeOpenXml.DataValidation.Formulas
             var value = formula;
             if (!string.IsNullOrEmpty(value))
             {
-                decimal time = default;
-                if (decimal.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out time))
+                if (double.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out double time))
                 {
                     Value = new ExcelTime(time);
                 }

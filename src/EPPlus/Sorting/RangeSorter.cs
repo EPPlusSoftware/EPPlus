@@ -157,7 +157,6 @@ namespace OfficeOpenXml.Sorting
                 {
                     var row = range._fromRow + r;
                     var col = range._fromCol + c;
-                    //_worksheet._values.SetValueSpecial(row, col, SortSetValue, l[r].Items[c]);
                     _worksheet._values.SetValue(row, col, sortItems[r].Items[c]);
                     var addr = ExcelCellBase.GetAddress(sortItems[r].Row, range._fromCol + c);
                     //Move flags
@@ -166,7 +165,7 @@ namespace OfficeOpenXml.Sorting
                     HandleMetadata(wsd, row, col, addr);
 
                     //Move formulas
-                    HandleFormula(wsd, row, col, addr, sortItems[r].Row, col);
+                    HandleFormula(wsd, row, col, addr, sortItems[r].Row, col, range);
 
                     //Move hyperlinks
                     HandleHyperlink(wsd, row, col, addr);
@@ -178,12 +177,25 @@ namespace OfficeOpenXml.Sorting
                     HandleThreadedComment(wsd, row, col, addr);
                 }
             }
+            if(sortItems.Count < range.Rows)
+            {
+                var delFromRow = range._fromRow + sortItems.Count;
+                //Clear comments in the store, otherwise the clear of the range might delete comments that have been moved in the sort operation.
+                _worksheet._commentsStore.Delete(delFromRow, range._fromCol, range._toRow - delFromRow+1, nColumnsInRange, false);
+                _worksheet._threadedCommentsStore.Delete(delFromRow, range._fromCol, range._toRow - delFromRow + 1, nColumnsInRange, false);
+            }
         }
 
         private void ApplySortedRange(ExcelRangeBase range, List<SortItemLeftToRight<ExcelValue>> sortItems, RangeWorksheetData wsd)
         {
             //Sort the values and styles.
             var nRowsInRange = range._toRow - range._fromRow + 1;
+            var dim = range.Worksheet.Dimension;
+            if (dim != null && nRowsInRange > dim.End.Row)
+            {
+                nRowsInRange = dim.End.Row;
+            }
+
             _worksheet._values.Clear(range._fromRow, range._fromCol, range._toRow - range._fromRow + 1, range._toCol);
             for (var c = 0; c < sortItems.Count; c++)
             {
@@ -200,7 +212,7 @@ namespace OfficeOpenXml.Sorting
                     HandleMetadata(wsd, row, col, addr);
 
                     //Move formulas
-                    HandleFormula(wsd, row, col, addr, row, sortItems[c].Column);
+                    HandleFormula(wsd, row, col, addr, row, sortItems[c].Column, range);
 
                     //Move hyperlinks
                     HandleHyperlink(wsd, row, col, addr);
@@ -211,6 +223,13 @@ namespace OfficeOpenXml.Sorting
                     //Move threaded comments
                     HandleThreadedComment(wsd, row, col, addr);
                 }
+            }
+            if (sortItems.Count < range.Columns)
+            {
+                var delFromCol = range._fromCol + sortItems.Count;
+                //Clear comments in the store, otherwise the clear of the range might delete comments that have been moved in the sort operation.
+                _worksheet._commentsStore.Delete(range._fromRow, delFromCol, nRowsInRange, range._toCol - delFromCol + 1, false);
+                _worksheet._threadedCommentsStore.Delete(range._fromRow, delFromCol, nRowsInRange, range._toCol - delFromCol + 1, false);
             }
         }
 
@@ -272,17 +291,16 @@ namespace OfficeOpenXml.Sorting
             }
         }
 
-        private void HandleFormula(RangeWorksheetData wsd, int row, int col, string addr, int initialRow, int initialCol)
+        private void HandleFormula(RangeWorksheetData wsd, int row, int col, string addr, int initialRow, int initialCol, ExcelRangeBase rangeToSort)
         {
             if (wsd.Formulas.ContainsKey(addr))
             {
-                _worksheet._formulas.SetValue(row, col, wsd.Formulas[addr]);
                 if(wsd.Formulas[addr] is string)
                 {
                     var formula = wsd.Formulas[addr].ToString();
                     var newFormula = initialRow != row ?
-                        AddressUtility.ShiftAddressRowsInFormula(string.Empty, formula, 1, row - initialRow) :
-                        AddressUtility.ShiftAddressColumnsInFormula(string.Empty, formula, 1, col - initialCol);
+                        AddressUtility.ShiftAddressRowsInFormula(rangeToSort, formula, 1, row - initialRow) :
+                        AddressUtility.ShiftAddressColumnsInFormula(rangeToSort, formula, 1, col - initialCol);
                     _worksheet._formulas.SetValue(row, col, newFormula);
                 }
                 else if (wsd.Formulas[addr] is int)
@@ -293,6 +311,7 @@ namespace OfficeOpenXml.Sorting
 
                     f.Formula = ExcelCellBase.TranslateFromR1C1(ExcelCellBase.TranslateToR1C1(f.Formula, f.StartRow, f.StartCol), row, col);
                     f.Address = ExcelCellBase.GetAddress(row, col, row, col);
+                    _worksheet._formulas.SetValue(row, col, wsd.Formulas[addr]);
                 }
             }
             else

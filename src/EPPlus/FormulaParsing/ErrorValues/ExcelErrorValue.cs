@@ -67,6 +67,11 @@ namespace OfficeOpenXml
             /// </summary>
             public const string Spill = "#SPILL!";
 
+            /// <summary>
+            /// A constant for the Spill error in Excel
+            /// </summary>
+            public const string Busy = "#BUSY!";
+
             private static Dictionary<string, eErrorType> _values = new Dictionary<string, eErrorType>(StringComparer.InvariantCultureIgnoreCase)
                 {
                     {Div0, eErrorType.Div0},
@@ -78,6 +83,7 @@ namespace OfficeOpenXml
                     {Value, eErrorType.Value},
                     {Calc, eErrorType.Calc},
                     {Spill, eErrorType.Spill},
+                    {Busy, eErrorType.Busy}
                 };
 
             /// <summary>
@@ -196,6 +202,8 @@ namespace OfficeOpenXml
                     return Values.Calc;
                 case eErrorType.Spill:
                     return Values.Spill;
+                case eErrorType.Busy:
+                    return Values.Busy;
                 default:
                     throw (new ArgumentException("Invalid errortype"));
             }
@@ -231,6 +239,15 @@ namespace OfficeOpenXml
         {
             if (!(obj is ExcelErrorValue)) return false;
             return ((ExcelErrorValue)obj).ToString() == this.ToString();
+        }
+
+        /// <summary>
+        /// Serves as the default hash function
+        /// </summary>
+        /// <returns>A hash code for the current object</returns>
+        public override int GetHashCode()
+        {
+           return base.GetHashCode();
         }
     }
 }

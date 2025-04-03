@@ -471,9 +471,11 @@ namespace EPPlusTest.Core.Range
         {
             using (var p = new ExcelPackage())
             {
+                var person = p.Workbook.ThreadedCommentPersons.Add("JK");
                 ExcelWorksheet ws = SetupCopyRange(p);
+                var person1 = p.Workbook.ThreadedCommentPersons.Add("Person 1");
                 ws.Cells["A2"].AddThreadedComment();
-                ws.Cells["A2"].ThreadedComment.AddComment("1", "Threaded Comment");
+                ws.Cells["A2"].ThreadedComment.AddComment(person.Id, "Threaded Comment");
                 ws.Cells["A1:A2"].Copy(ws.Cells["B5:B6"], ExcelRangeCopyOptionFlags.ExcludeValues, ExcelRangeCopyOptionFlags.ExcludeStyles);
 
                 Assert.AreEqual("Threaded Comment", ws.Cells["B6"].ThreadedComment.Comments[0].Text);
@@ -863,11 +865,11 @@ namespace EPPlusTest.Core.Range
             }
         }
         [TestMethod]
-        public void CopyExcludingHiddenCells_TheadedComments()
+        public void CopyExcludingHiddenCells_ThreadedComments()
         {
             using (var p = new ExcelPackage())
             {
-                p.Workbook.ThreadedCommentPersons.Add("JK");
+                var person = p.Workbook.ThreadedCommentPersons.Add("JK");
                 var ws = p.Workbook.Worksheets.Add("Sheet1");
 
                 for (var r = 1; r <= 5; r++)
@@ -875,7 +877,7 @@ namespace EPPlusTest.Core.Range
                     for (var c = 1; c <= 5; c++)
                     {
                         var tc = ws.Cells[r, c].AddThreadedComment();
-                        tc.AddComment("1", $"R{r}C{c}");
+                        tc.AddComment(person.Id, $"R{r}C{c}");
                     }
                 }
 
@@ -1070,6 +1072,25 @@ namespace EPPlusTest.Core.Range
             a1b2.Copy(a1b2Dest2, ExcelRangeCopyOptionFlags.Fill);
             a1b2.Copy(a1b2Dest3, ExcelRangeCopyOptionFlags.Fill);
             SaveAndCleanup(p);
+        }
+        [TestMethod]
+
+        public void InCellPicture_CopyBecomesLeftAlign()
+        {
+            using (var package = OpenPackage("PicturesInCellRef.xlsx", true))
+            {
+                var wb = package.Workbook;
+                var ws = wb.Worksheets.Add("NewSheet");
+                var wsOther = wb.Worksheets.Add("NewSheet2");
+                var fi = GetResourceFile("EPPlus.png");
+                ws.Cells["A2"].Value = 1;
+                ws.Cells["C3"].Formula = "A2";
+                ws.Cells["D4"].Picture.Set(fi);
+                ws.Cells["A1:M30"].Copy(wsOther.Cells["A1:M30"]);
+                Assert.AreEqual(1, wsOther.Cells["A2"].Value);
+                Assert.AreEqual("A2", wsOther.Cells["C3"].Formula);
+                Assert.IsTrue(wsOther.Cells["D4"].Picture.Exists);
+            }
         }
     }
 }

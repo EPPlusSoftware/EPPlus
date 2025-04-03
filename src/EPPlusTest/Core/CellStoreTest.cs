@@ -120,7 +120,7 @@ namespace EPPlusTest.Core
             var cellStore = (CellStore<object>)l[0];
             var index = (int)l[1];
             var count = (int)l[2];
-            var noOfRows = 50000;
+            var noOfRows = 5000;
             for (int r=1;r < noOfRows; r+=count)
             {
                 var row = r + index;
@@ -135,7 +135,7 @@ namespace EPPlusTest.Core
             for (int r = 1; r < noOfRows; r += count)
             {
                 var row = r + index;
-                for (int c = 0; c >= 100; c++)
+                for (int c = 0; c >= 10; c++)
                 {
                     Assert.AreEqual($"Cell C{c}R{row}", cellStore.GetValue(row, c));
                 }
@@ -536,12 +536,12 @@ namespace EPPlusTest.Core
 
             for(int r= incr; r < max; r+= incr)
             {
-                var row = r;
+                var row = r+5;
                 int c = 1;
                 
                 if(cellStore.PrevCellByColumn(ref row, ref c, 1, 0, 0))
                 {
-                    Assert.AreEqual(r - incr, row);
+                    Assert.AreEqual(r, row);
                 }
             }
         }

@@ -21,6 +21,7 @@ items:
   - OfficeOpenXml.Style.ExcelGradientFill
   - OfficeOpenXml.Style.ExcelHorizontalAlignment
   - OfficeOpenXml.Style.ExcelIndexedColor
+  - OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
   - OfficeOpenXml.Style.ExcelNumberFormat
   - OfficeOpenXml.Style.ExcelParagraph
   - OfficeOpenXml.Style.ExcelParagraphCollection
@@ -106,6 +107,12 @@ references:
   name: ExcelIndexedColor
   nameWithType: ExcelIndexedColor
   fullName: OfficeOpenXml.Style.ExcelIndexedColor
+- uid: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  commentId: T:OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
+  parent: OfficeOpenXml.Style
+  name: ExcelIndexedColorNamedNumFt
+  nameWithType: ExcelIndexedColorNamedNumFt
+  fullName: OfficeOpenXml.Style.ExcelIndexedColorNamedNumFt
 - uid: OfficeOpenXml.Style.ExcelReadingOrder
   commentId: T:OfficeOpenXml.Style.ExcelReadingOrder
   parent: OfficeOpenXml.Style

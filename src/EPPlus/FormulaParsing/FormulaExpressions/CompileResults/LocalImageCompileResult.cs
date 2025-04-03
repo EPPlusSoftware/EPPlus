@@ -27,9 +27,8 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions.CompileResults
         /// Constructor
         /// </summary>
         /// <param name="result"></param>
-        /// <param name="dataType"></param>
         /// <param name="address"></param>
-        public LocalImageCompileResult(object result,  FormulaRangeAddress address) : base(result, DataType.LocalImage, address)
+        public LocalImageCompileResult(object result, FormulaRangeAddress address) : base(result, DataType.LocalImage, address)
         {
         }
 

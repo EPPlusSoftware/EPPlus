@@ -80,9 +80,9 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         public bool AllowCircularReferences { get; set; }
         /// <summary>
-        /// Expressions in the formula calculation will be cached, to be resused. 
+        /// Expressions in the formula calculation will be cached, to be reduced. 
         /// This increases speed, if having multiple formulas using the same expressions. 
-        /// Canching increases memory consumtion on calculate.
+        /// Caching increases memory consumption on calculate.
         /// </summary>
         public bool CacheExpressions { get; set; } = true;
         /// <summary>
@@ -90,7 +90,7 @@ namespace OfficeOpenXml.FormulaParsing
         /// </summary>
         public PrecisionAndRoundingStrategy PrecisionAndRoundingStrategy { get; set; }
         /// <summary>
-        /// If true, EPPlus will calculate the cells in order calculating any dependent cells.
+        /// If true, EPPlus will calculate the cells in order calculating any dependent cells. Default.
         /// If false, EPPlus will calculate the cells without calculating dependent cells.
         /// </summary>
         public bool FollowDependencyChain
@@ -98,6 +98,14 @@ namespace OfficeOpenXml.FormulaParsing
             get;
             set;
         } = true;
-
+        /// <summary>
+        /// If true, EPPlus will download the images in the IMAGE function even if they exists in the package. The same URL will only be downloaded once.
+        /// If false(default), EPPlus will only download images that doesn't exist in the package.
+        /// </summary>
+        public bool AlwaysRefreshImageFunction
+        {
+            get; 
+            set; 
+        } = false; 
     }
 }

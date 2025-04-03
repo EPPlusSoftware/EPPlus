@@ -50,6 +50,11 @@ namespace OfficeOpenXml.DigitalSignatures
             return _signatures.GetEnumerator();
         }
 
+        /// <summary>
+        /// Get the signature at index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public ExcelDigitalSignature this[int index]
         {
             get { return _signatures[index]; }

@@ -22,7 +22,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelPivotCacheDefinition
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -65,7 +65,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Refresh
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -97,7 +97,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheDefinitionXml
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -134,7 +134,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheDefinitionUri
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -171,7 +171,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PivotTable
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -208,7 +208,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SourceRange
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -216,7 +216,7 @@ items:
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Table.PivotTable
-  summary: "\nThe source data range when the pivottable has a worksheet datasource. \nThe number of columns in the range must be intact if this property is changed.\nThe range must be in the same workbook as the pivottable.\n"
+  summary: "\nThe source data range when the pivottable has a worksheet datasource. \nThe number of columns in the range must be intact if this property is changed.\nThe range must be in the same workbook as the pivot table.\n"
   example: []
   syntax:
     content: public ExcelRangeBase SourceRange { get; set; }
@@ -245,7 +245,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveData
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
@@ -282,7 +282,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CacheSource
     path: ../src/EPPlus/Table/PivotTable/ExcelPivotCacheDefinition.cs
