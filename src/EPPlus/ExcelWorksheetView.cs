@@ -948,6 +948,13 @@ namespace OfficeOpenXml
             SelectedRange = sqRef;
             ActiveCell = activeCell;
         }
+        internal void DeletePivotTableSelection()
+        {
+            while (ExistsNode("d:pivotSelection"))
+            {
+                DeleteNode("d:pivotSelection", true);
+            }
+        }
         #endregion
     }
 }

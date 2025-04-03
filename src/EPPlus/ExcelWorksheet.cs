@@ -2864,6 +2864,7 @@ namespace OfficeOpenXml
             {
                 pt.Save();
             }
+            View.DeletePivotTableSelection();
         }
 
         private static string GetTotalFunction(ExcelTableColumn col, string funcNum)

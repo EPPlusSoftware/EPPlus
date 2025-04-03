@@ -46,7 +46,7 @@ namespace EPPlusTest.Issues
 		[TestMethod]
 		public void I1229()
 		{
-			using (var p = OpenPackage("XLOOKUP.xlsx"))
+			using (var p = OpenPackage("XLOOKUP.xlsx", true))
 			{
 				var ws = p.Workbook.Worksheets.Add("Sheet1");
 				ws.Cells["A1:A5"].Formula = "XLOOKUP(B1,$C$1:$C$5,$D$1:$D$5,0)";
