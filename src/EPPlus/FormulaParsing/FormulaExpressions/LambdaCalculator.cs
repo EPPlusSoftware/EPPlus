@@ -137,7 +137,7 @@ namespace OfficeOpenXml.FormulaParsing.FormulaExpressions
                 case DataType.ExcelError:
                     switch(obj.ToString().ToUpper())
                     {
-                        case "#NA!":
+                        case "#N/A":
                             return TokenType.NAError;
                         case "#NAME!":
                             return TokenType.NameError;

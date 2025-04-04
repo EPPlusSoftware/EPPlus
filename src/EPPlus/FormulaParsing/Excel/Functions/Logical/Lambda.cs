@@ -22,12 +22,13 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions.Logical
 {
     [FunctionMetadata(
         Category = ExcelFunctionCategory.Logical,
-        EPPlusVersion = "7.2",
+        EPPlusVersion = "8.1",
         Description = "Create custom, reusable functions and call them by a friendly name",
         IntroducedInExcelVersion = "2021")]
     internal class Lambda : ExcelFunction
     {
         public override int ArgumentMinLength => 2;
+        public override bool IsVolatile => true;
 
         public override CompileResult Execute(IList<FunctionArgument> arguments, ParsingContext context)
         {

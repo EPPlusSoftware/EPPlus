@@ -324,6 +324,8 @@ namespace OfficeOpenXml.FormulaParsing.Excel.Functions
             Functions["let"] = new LetFunction();
             Functions["lambda"] = new Lambda();
             Functions["makearray"] = new MakeArray();
+            Functions["scan"] = new Scan();
+            Functions["map"] = new Map();
             // Reference and lookup
             Functions["address"] = new Address();
             Functions["areas"] = new Areas();
