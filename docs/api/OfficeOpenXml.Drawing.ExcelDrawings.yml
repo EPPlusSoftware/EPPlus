@@ -44,16 +44,12 @@ items:
   - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.FileInfo,OfficeOpenXml.Drawing.PictureLocation)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.FileInfo,System.Uri,OfficeOpenXml.Drawing.PictureLocation)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream)
-  - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
-  - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Uri)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.String,OfficeOpenXml.Drawing.PictureLocation)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.String,OfficeOpenXml.ExcelHyperLink,OfficeOpenXml.Drawing.PictureLocation)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.FileInfo,OfficeOpenXml.Drawing.PictureLocation)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.FileInfo,System.Uri,OfficeOpenXml.Drawing.PictureLocation)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream)
-  - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
-  - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Uri)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.String,OfficeOpenXml.Drawing.PictureLocation)
   - OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.String,System.Uri,OfficeOpenXml.Drawing.PictureLocation)
@@ -100,7 +96,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDrawings
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -149,7 +145,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingXml
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -187,7 +183,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -223,7 +219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.Drawing.ExcelDrawing>.GetEnumerator
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -255,7 +251,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -299,7 +295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -343,7 +339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Count
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -380,7 +376,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -401,10 +397,10 @@ items:
       description: Type of chart
     - id: PivotTableSource
       type: OfficeOpenXml.Table.PivotTable.ExcelPivotTable
-      description: The pivottable source for a pivotchart
+      description: The pivot table source for a pivot chart
     - id: DrawingType
       type: OfficeOpenXml.Drawing.eEditAs
-      description: The top element drawingtype. Default is OneCellAnchor for Pictures and TwoCellAnchor from Charts and Shapes
+      description: The top element drawing type. Default is OneCellAnchor for Pictures and TwoCellAnchor from Charts and Shapes
     return:
       type: OfficeOpenXml.Drawing.Chart.ExcelChart
       description: The chart
@@ -428,7 +424,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -470,7 +466,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddExtendedChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -512,7 +508,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSunburstChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -551,7 +547,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTreemapChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -590,7 +586,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBoxWhiskerChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -629,7 +625,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddHistogramChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -671,7 +667,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddWaterfallChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -710,7 +706,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddFunnelChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -749,7 +745,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRegionMapChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -788,7 +784,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddExtendedChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -833,7 +829,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -881,7 +877,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -938,7 +934,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddStockChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -995,7 +991,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLineChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1037,7 +1033,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLineChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1082,7 +1078,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAreaChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1124,7 +1120,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddAreaChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1169,7 +1165,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBarChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1211,7 +1207,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBarChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1256,7 +1252,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPieChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1298,7 +1294,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPieChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1343,7 +1339,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDoughnutChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1388,7 +1384,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDoughnutChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1430,7 +1426,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOfPieChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1472,7 +1468,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOfPieChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1517,7 +1513,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBubbleChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1559,7 +1555,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddBubbleChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1604,7 +1600,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddScatterChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1649,7 +1645,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddScatterChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1691,7 +1687,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRadarChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1736,7 +1732,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRadarChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1778,7 +1774,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSurfaceChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1823,7 +1819,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSurfaceChart
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1865,7 +1861,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1910,7 +1906,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -1958,7 +1954,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2003,7 +1999,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2051,7 +2047,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2093,7 +2089,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPicture
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
@@ -2124,129 +2120,6 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
-  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
-  id: AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
-  parent: OfficeOpenXml.Drawing.ExcelDrawings
-  langs:
-  - csharp
-  - vb
-  name: AddPicture(String, Stream, Nullable<ePictureType>)
-  nameWithType: ExcelDrawings.AddPicture(String, Stream, Nullable<ePictureType>)
-  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.IO.Stream, System.Nullable<OfficeOpenXml.Drawing.ePictureType>)
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: AddPicture
-    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 986
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing
-  summary: "\nAdds a picture to the worksheet\n"
-  example: []
-  syntax:
-    content: >-
-      [Obsolete("This overload is deprecated, please use AddPicture(string, Stream) instead.")]
-
-      public ExcelPicture AddPicture(string Name, Stream PictureStream, ePictureType? PictureType)
-    parameters:
-    - id: Name
-      type: System.String
-      description: ''
-    - id: PictureStream
-      type: System.IO.Stream
-      description: An stream image.
-    - id: PictureType
-      type: System.Nullable{OfficeOpenXml.Drawing.ePictureType}
-      description: The type of image.  A null value means that EPPlus will identify the type of image automatically.
-    return:
-      type: OfficeOpenXml.Drawing.ExcelPicture
-      description: A picture object
-    content.vb: >-
-      <Obsolete("This overload is deprecated, please use AddPicture(string, Stream) instead.")>
-
-      Public Function AddPicture(Name As String, PictureStream As Stream, PictureType As ePictureType?) As ExcelPicture
-  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: This overload is deprecated, please use AddPicture(string, Stream) instead.
-  nameWithType.vb: ExcelDrawings.AddPicture(String, Stream, Nullable(Of ePictureType))
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.IO.Stream, System.Nullable(Of OfficeOpenXml.Drawing.ePictureType))
-  name.vb: AddPicture(String, Stream, Nullable(Of ePictureType))
-- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
-  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
-  id: AddPicture(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
-  parent: OfficeOpenXml.Drawing.ExcelDrawings
-  langs:
-  - csharp
-  - vb
-  name: AddPicture(String, Stream, Nullable<ePictureType>, Uri)
-  nameWithType: ExcelDrawings.AddPicture(String, Stream, Nullable<ePictureType>, Uri)
-  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.IO.Stream, System.Nullable<OfficeOpenXml.Drawing.ePictureType>, System.Uri)
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: AddPicture
-    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 999
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing
-  summary: "\nAdds a picture to the worksheet\n"
-  example: []
-  syntax:
-    content: >-
-      [Obsolete("This overload is deprecated, please use AddPicture(string, Stream, Uri) instead.")]
-
-      public ExcelPicture AddPicture(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
-    parameters:
-    - id: Name
-      type: System.String
-      description: ''
-    - id: pictureStream
-      type: System.IO.Stream
-      description: An stream image.
-    - id: pictureType
-      type: System.Nullable{OfficeOpenXml.Drawing.ePictureType}
-      description: The type of image. A null value means that EPPlus will identify the type of image automatically.
-    - id: Hyperlink
-      type: System.Uri
-      description: Picture Hyperlink
-    return:
-      type: OfficeOpenXml.Drawing.ExcelPicture
-      description: A picture object
-    content.vb: >-
-      <Obsolete("This overload is deprecated, please use AddPicture(string, Stream, Uri) instead.")>
-
-      Public Function AddPicture(Name As String, pictureStream As Stream, pictureType As ePictureType?, Hyperlink As Uri) As ExcelPicture
-  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: This overload is deprecated, please use AddPicture(string, Stream, Uri) instead.
-  nameWithType.vb: ExcelDrawings.AddPicture(String, Stream, Nullable(Of ePictureType), Uri)
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawings.AddPicture(System.String, System.IO.Stream, System.Nullable(Of OfficeOpenXml.Drawing.ePictureType), System.Uri)
-  name.vb: AddPicture(String, Stream, Nullable(Of ePictureType), Uri)
 - uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.FileInfo,OfficeOpenXml.Drawing.PictureLocation)
   commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.FileInfo,OfficeOpenXml.Drawing.PictureLocation)
   id: AddPictureAsync(System.String,System.IO.FileInfo,OfficeOpenXml.Drawing.PictureLocation)
@@ -2261,11 +2134,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1042
+    startLine: 1017
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2307,11 +2180,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1054
+    startLine: 1029
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2356,11 +2229,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1077
+    startLine: 1052
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2402,11 +2275,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1090
+    startLine: 1065
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2451,11 +2324,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1101
+    startLine: 1076
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2494,11 +2367,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddPictureAsync
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1112
+    startLine: 1087
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2526,131 +2399,6 @@ items:
   - async
   modifiers.vb:
   - Public
-- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
-  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
-  id: AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType})
-  parent: OfficeOpenXml.Drawing.ExcelDrawings
-  langs:
-  - csharp
-  - vb
-  name: AddPictureAsync(String, Stream, Nullable<ePictureType>)
-  nameWithType: ExcelDrawings.AddPictureAsync(String, Stream, Nullable<ePictureType>)
-  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.IO.Stream, System.Nullable<OfficeOpenXml.Drawing.ePictureType>)
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: AddPictureAsync
-    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1123
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing
-  summary: "\nAdds a picture to the worksheet\n"
-  example: []
-  syntax:
-    content: >-
-      [Obsolete("This overload is deprecated, please use AddPictureAsync(string, Stream) instead.")]
-
-      public async Task<ExcelPicture> AddPictureAsync(string Name, Stream PictureStream, ePictureType? PictureType)
-    parameters:
-    - id: Name
-      type: System.String
-      description: ''
-    - id: PictureStream
-      type: System.IO.Stream
-      description: An stream image.
-    - id: PictureType
-      type: System.Nullable{OfficeOpenXml.Drawing.ePictureType}
-      description: The type of image. A null value means that EPPlus will identify the type of image automatically.
-    return:
-      type: System.Threading.Tasks.Task{OfficeOpenXml.Drawing.ExcelPicture}
-      description: A picture object
-    content.vb: >-
-      <Obsolete("This overload is deprecated, please use AddPictureAsync(string, Stream) instead.")>
-
-      Public Function AddPictureAsync(Name As String, PictureStream As Stream, PictureType As ePictureType?) As Task(Of ExcelPicture)
-  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: This overload is deprecated, please use AddPictureAsync(string, Stream) instead.
-  nameWithType.vb: ExcelDrawings.AddPictureAsync(String, Stream, Nullable(Of ePictureType))
-  modifiers.csharp:
-  - public
-  - async
-  modifiers.vb:
-  - Public
-  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.IO.Stream, System.Nullable(Of OfficeOpenXml.Drawing.ePictureType))
-  name.vb: AddPictureAsync(String, Stream, Nullable(Of ePictureType))
-- uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
-  commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
-  id: AddPictureAsync(System.String,System.IO.Stream,System.Nullable{OfficeOpenXml.Drawing.ePictureType},System.Uri)
-  parent: OfficeOpenXml.Drawing.ExcelDrawings
-  langs:
-  - csharp
-  - vb
-  name: AddPictureAsync(String, Stream, Nullable<ePictureType>, Uri)
-  nameWithType: ExcelDrawings.AddPictureAsync(String, Stream, Nullable<ePictureType>, Uri)
-  fullName: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.IO.Stream, System.Nullable<OfficeOpenXml.Drawing.ePictureType>, System.Uri)
-  type: Method
-  source:
-    remote:
-      path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
-      repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: AddPictureAsync
-    path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1136
-  assemblies:
-  - EPPlus
-  namespace: OfficeOpenXml.Drawing
-  summary: "\nAdds a picture to the worksheet\n"
-  example: []
-  syntax:
-    content: >-
-      [Obsolete("This overload is deprecated, please use AddPictureAsync(string, Stream, Uri) instead.")]
-
-      public async Task<ExcelPicture> AddPictureAsync(string Name, Stream pictureStream, ePictureType? pictureType, Uri Hyperlink)
-    parameters:
-    - id: Name
-      type: System.String
-      description: ''
-    - id: pictureStream
-      type: System.IO.Stream
-      description: An stream image.
-    - id: pictureType
-      type: System.Nullable{OfficeOpenXml.Drawing.ePictureType}
-      description: The type of image. A null value means that EPPlus will identify the type of image automatically.
-    - id: Hyperlink
-      type: System.Uri
-      description: The Picture Hyperlink
-    return:
-      type: System.Threading.Tasks.Task{OfficeOpenXml.Drawing.ExcelPicture}
-      description: A picture object
-    content.vb: >-
-      <Obsolete("This overload is deprecated, please use AddPictureAsync(string, Stream, Uri) instead.")>
-
-      Public Function AddPictureAsync(Name As String, pictureStream As Stream, pictureType As ePictureType?, Hyperlink As Uri) As Task(Of ExcelPicture)
-  overload: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: This overload is deprecated, please use AddPictureAsync(string, Stream, Uri) instead.
-  nameWithType.vb: ExcelDrawings.AddPictureAsync(String, Stream, Nullable(Of ePictureType), Uri)
-  modifiers.csharp:
-  - public
-  - async
-  modifiers.vb:
-  - Public
-  fullName.vb: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync(System.String, System.IO.Stream, System.Nullable(Of OfficeOpenXml.Drawing.ePictureType), System.Uri)
-  name.vb: AddPictureAsync(String, Stream, Nullable(Of ePictureType), Uri)
 - uid: OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.FileInfo,System.String)
   commentId: M:OfficeOpenXml.Drawing.ExcelDrawings.AddChartFromTemplate(System.IO.FileInfo,System.String)
   id: AddChartFromTemplate(System.IO.FileInfo,System.String)
@@ -2665,11 +2413,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChartFromTemplate
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1195
+    startLine: 1146
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2707,11 +2455,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChartFromTemplate
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1206
+    startLine: 1157
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2752,11 +2500,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChartFromTemplate
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1235
+    startLine: 1186
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2794,11 +2542,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddChartFromTemplate
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1246
+    startLine: 1197
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2839,11 +2587,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTextbox
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1309
+    startLine: 1260
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2881,11 +2629,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddShape
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1347
+    startLine: 1298
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2923,11 +2671,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddTableSlicer
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1371
+    startLine: 1322
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -2962,11 +2710,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddShape
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1459
+    startLine: 1410
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3004,11 +2752,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1488
+    startLine: 1439
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3053,11 +2801,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddButtonControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1512
+    startLine: 1463
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3092,11 +2840,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddCheckBoxControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1521
+    startLine: 1472
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3131,11 +2879,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddRadioButtonControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1530
+    startLine: 1481
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3170,11 +2918,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddListBoxControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1539
+    startLine: 1490
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3209,11 +2957,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddDropDownControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1548
+    startLine: 1499
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3248,11 +2996,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddGroupBoxControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1557
+    startLine: 1508
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3287,11 +3035,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddLabelControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1566
+    startLine: 1517
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3326,11 +3074,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddSpinButtonControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1575
+    startLine: 1526
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3365,11 +3113,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddScrollBarControl
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1584
+    startLine: 1535
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3404,11 +3152,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOleObject
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1598
+    startLine: 1549
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3434,7 +3182,7 @@ items:
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.
+    description: Can Throw exception if Name exists or if OleStream or IconStream are invalid streams.
   nameWithType.vb: ExcelDrawings.AddOleObject(String, String, Action(Of ExcelOleObjectParameters))
   modifiers.csharp:
   - public
@@ -3456,11 +3204,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOleObject
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1612
+    startLine: 1563
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3486,7 +3234,7 @@ items:
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.
+    description: Can Throw exception if Name exists or if OleStream or IconStream are invalid streams.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -3505,11 +3253,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOleObject
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1634
+    startLine: 1585
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3535,7 +3283,7 @@ items:
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.
+    description: Can Throw exception if Name exists or if OleStream or IconStream are invalid streams.
   nameWithType.vb: ExcelDrawings.AddOleObject(String, FileInfo, Action(Of ExcelOleObjectParameters))
   modifiers.csharp:
   - public
@@ -3557,11 +3305,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOleObject
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1648
+    startLine: 1599
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3587,7 +3335,7 @@ items:
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.
+    description: Can Throw exception if Name exists or if OleStream or IconStream are invalid streams.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -3606,11 +3354,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOleObject
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1672
+    startLine: 1623
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3639,7 +3387,7 @@ items:
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.
+    description: Can Throw exception if Name exists or if OleStream or IconStream are invalid streams.
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
     description: Can Throw exception if ExcelOleObjectParameters.LinkToFile is true when using a stream for OLE Object.
@@ -3664,11 +3412,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddOleObject
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1688
+    startLine: 1643
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3697,7 +3445,7 @@ items:
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: Can Throw exception if Name exsists or if OleStream or IconStream are invalid streams.
+    description: Can Throw exception if Name exists or if OleStream or IconStream are invalid streams.
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
     description: Can Throw exception if ExcelOleObjectParameters.LinkToFile is true when using a stream for OLE Object.
@@ -3719,11 +3467,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1811
+    startLine: 1764
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3755,11 +3503,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1844
+    startLine: 1797
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3791,11 +3539,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1852
+    startLine: 1805
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3827,11 +3575,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1859
+    startLine: 1812
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -3859,11 +3607,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/ExcelDrawings.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/Drawing/ExcelDrawings.cs
-    startLine: 1996
+    startLine: 1949
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing
@@ -4932,87 +4680,6 @@ references:
   name: Stream
   nameWithType: Stream
   fullName: System.IO.Stream
-- uid: System.Nullable{OfficeOpenXml.Drawing.ePictureType}
-  commentId: T:System.Nullable{OfficeOpenXml.Drawing.ePictureType}
-  parent: System
-  definition: System.Nullable`1
-  name: Nullable<ePictureType>
-  nameWithType: Nullable<ePictureType>
-  fullName: System.Nullable<OfficeOpenXml.Drawing.ePictureType>
-  nameWithType.vb: Nullable(Of ePictureType)
-  fullName.vb: System.Nullable(Of OfficeOpenXml.Drawing.ePictureType)
-  name.vb: Nullable(Of ePictureType)
-  spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: OfficeOpenXml.Drawing.ePictureType
-    name: ePictureType
-    nameWithType: ePictureType
-    fullName: OfficeOpenXml.Drawing.ePictureType
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: OfficeOpenXml.Drawing.ePictureType
-    name: ePictureType
-    nameWithType: ePictureType
-    fullName: OfficeOpenXml.Drawing.ePictureType
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Nullable`1
-  commentId: T:System.Nullable`1
-  isExternal: true
-  name: Nullable<T>
-  nameWithType: Nullable<T>
-  fullName: System.Nullable<T>
-  nameWithType.vb: Nullable(Of T)
-  fullName.vb: System.Nullable(Of T)
-  name.vb: Nullable(Of T)
-  spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync*
   commentId: Overload:OfficeOpenXml.Drawing.ExcelDrawings.AddPictureAsync
   name: AddPictureAsync

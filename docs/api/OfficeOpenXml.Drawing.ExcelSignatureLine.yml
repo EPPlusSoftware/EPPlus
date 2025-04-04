@@ -17,7 +17,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/ExcelSignatureLine.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSignatureLine
     path: ../src/EPPlus/Drawing/SignatureLine/ExcelSignatureLine.cs
@@ -88,7 +88,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/ExcelSignatureLine.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SignatureText
     path: ../src/EPPlus/Drawing/SignatureLine/ExcelSignatureLine.cs
@@ -125,7 +125,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/ExcelSignatureLine.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SignWithText
     path: ../src/EPPlus/Drawing/SignatureLine/ExcelSignatureLine.cs

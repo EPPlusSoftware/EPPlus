@@ -6,6 +6,7 @@ items:
   parent: OfficeOpenXml
   children:
   - OfficeOpenXml.EncryptionVersion.Agile
+  - OfficeOpenXml.EncryptionVersion.ProtectedBySensibilityLabel
   - OfficeOpenXml.EncryptionVersion.Standard
   langs:
   - csharp
@@ -17,7 +18,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EncryptionVersion
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -50,7 +51,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Standard
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -84,7 +85,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelEncryption.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Agile
     path: ../src/EPPlus/ExcelEncryption.cs
@@ -96,6 +97,40 @@ items:
   example: []
   syntax:
     content: Agile = 1
+    return:
+      type: OfficeOpenXml.EncryptionVersion
+  modifiers.csharp:
+  - public
+  - const
+  modifiers.vb:
+  - Public
+  - Const
+- uid: OfficeOpenXml.EncryptionVersion.ProtectedBySensibilityLabel
+  commentId: F:OfficeOpenXml.EncryptionVersion.ProtectedBySensibilityLabel
+  id: ProtectedBySensibilityLabel
+  parent: OfficeOpenXml.EncryptionVersion
+  langs:
+  - csharp
+  - vb
+  name: ProtectedBySensibilityLabel
+  nameWithType: EncryptionVersion.ProtectedBySensibilityLabel
+  fullName: OfficeOpenXml.EncryptionVersion.ProtectedBySensibilityLabel
+  type: Field
+  source:
+    remote:
+      path: src/EPPlus/ExcelEncryption.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ProtectedBySensibilityLabel
+    path: ../src/EPPlus/ExcelEncryption.cs
+    startLine: 60
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml
+  summary: "\nThe workbook is protected by a sensitiviy label.\nFor EPPlus to work with this type of encryption you need to set a <xref href=\"OfficeOpenXml.ExcelPackage.SensibilityLabelHandler\" data-throw-if-not-resolved=\"false\"></xref> that handels the decryption/encryption using the Microsoft MIPS API.\n"
+  example: []
+  syntax:
+    content: ProtectedBySensibilityLabel = 2
     return:
       type: OfficeOpenXml.EncryptionVersion
   modifiers.csharp:
@@ -116,3 +151,6 @@ references:
   name: EncryptionVersion
   nameWithType: EncryptionVersion
   fullName: OfficeOpenXml.EncryptionVersion
+- uid: OfficeOpenXml.ExcelPackage.SensibilityLabelHandler
+  commentId: P:OfficeOpenXml.ExcelPackage.SensibilityLabelHandler
+  isExternal: true

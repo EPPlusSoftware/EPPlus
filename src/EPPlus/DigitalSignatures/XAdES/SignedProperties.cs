@@ -12,7 +12,7 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
         string Id = "idSignedProperties";
         string Prefix = "xd";
 
-        internal SignedSignatureProperites SignatureProps;
+        internal SignedSignatureProperties SignatureProps;
         internal SignedDataObjectProperties DataObjectProps;
 
         internal SignedProperties(XmlElement signedPropertiesNode, AdditionalSignatureInfo info, List<string> TypeQualifiers, ref CommitmentType type)
@@ -20,7 +20,7 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
             Prefix = signedPropertiesNode.Prefix;
             if(signedPropertiesNode.ChildNodes.Count > 0)
             {
-                SignatureProps = new SignedSignatureProperites(Prefix, (XmlElement)signedPropertiesNode.ChildNodes[0], info);
+                SignatureProps = new SignedSignatureProperties(Prefix, (XmlElement)signedPropertiesNode.ChildNodes[0], info);
             }
             if(signedPropertiesNode.ChildNodes.Count > 1)
             {
@@ -32,7 +32,7 @@ namespace OfficeOpenXml.DigitalSignatures.XAdES
         internal SignedProperties(X509Certificate2 cert, CommitmentType type, string prefix, List<string> TypeQualifiers, AdditionalSignatureInfo info)
         {
             Prefix = prefix;
-            SignatureProps = new SignedSignatureProperites(Prefix, cert, info);
+            SignatureProps = new SignedSignatureProperties(Prefix, cert, info);
             DataObjectProps = new SignedDataObjectProperties(Prefix, type, TypeQualifiers);
         }
 

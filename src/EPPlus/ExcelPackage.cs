@@ -627,9 +627,9 @@ namespace OfficeOpenXml
         /// <summary>
         /// This property is obsolete in EPPlus 8, and will be removed in coming versions. 
         /// Please use the <see cref="License"/> property to configure the license.
-        /// see https://epplussoftware.com/developers/licensenotsetexception
+        /// <see href="https://epplussoftware.com/developers/licensenotsetexception" />
         /// </summary>
-        [Obsolete("Please set the license using the License property from EPPlus 8 and later. For more info see http://epplussoftware.com/developers/licensenotsetexception")]
+        [Obsolete("Please use the static 'ExcelPackage.License' property to set the required license information from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licensenotsetexception.")]
         public static LicenseContext? LicenseContext
         {
             get
@@ -638,15 +638,26 @@ namespace OfficeOpenXml
             }
             set
             {
-                throw new NotImplementedException("Please use the License Property to set the license from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licensenotsetexception");
+                throw new LicenseContextPropertyObsoleteException("Please use the static 'ExcelPackage.License' property to set the required license information from EPPlus 8 and later versions. For more info see http://epplussoftware.com/developers/licensenotsetexception.");
             }
         }
 
         /// <summary>
+        /// <para>
         /// Used to set the license EPPlus uses.
+        /// </para>
+        /// <para>
+        /// For use within a commercial organization. Requires a license key which can be purchased at <see href="https://epplussoftware.com" />.<br/>
         /// <see cref="EPPlusLicense.SetCommercial(string)"/>
+        /// </para>
+        /// <para>
+        /// For use within a non-commercial organization. The document will be tagged with the Polyform Noncommercial License.<br/>
         /// <see cref="EPPlusLicense.SetNonCommercialOrganization(string)"/>
+        /// </para>
+        /// <para>
+        /// For personal non-commercial use. <br/>
         /// <see cref="EPPlusLicense.SetNonCommercialPersonal(string)"/>
+        /// </para>
         /// </summary>
         public static EPPlusLicense License { get; } = new EPPlusLicense();            
         /// <summary>

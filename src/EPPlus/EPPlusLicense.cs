@@ -16,7 +16,7 @@ namespace OfficeOpenXml
     {
         private static ExcelPackageConfiguration _configuration = new ExcelPackageConfiguration();
         static bool _licenseSet = false;
-        internal const string _versionDate = "2025-02-14";
+        internal const string _versionDate = "2025-03-28";
         /// <summary>
         /// The license key used for a commercial license.
         /// </summary>
@@ -38,7 +38,7 @@ namespace OfficeOpenXml
         /// </summary>
         public EPPlusLicenseType? LicenseType { get; private set; }
         /// <summary>
-        /// License information from the license key. If no license key has been set, this propery contains null.
+        /// License information from the license key. If no license key has been set, this property contains null.
         /// </summary>
         public EPPlusLicenseInfo LicenseInfo { get; internal set; }
         /// <summary>
@@ -79,11 +79,11 @@ namespace OfficeOpenXml
             _licenseSet = true;
         }
         /// <summary>
-        /// User this option if you use EPPlus within a noncommercial organization.
+        /// Use this option if you use EPPlus within a noncommercial organization.
         /// Using this option will tag all created document with the Polyform Noncommercial license. 
-        /// See https://polyformproject.org/licenses/noncommercial/1.0.0/
+        /// <see href="https://polyformproject.org/licenses/noncommercial/1.0.0/"/>
         /// </summary>
-        /// <param name="organizationName">The noncommercial organziations name</param>
+        /// <param name="organizationName">The noncommercial organizations name</param>
         public void SetNonCommercialOrganization(string organizationName)
         {
             if (ValidateName(organizationName, out string msg) == false)
@@ -123,7 +123,8 @@ namespace OfficeOpenXml
         /// If you use EPPlus within a commercial organization or for commercial purposes.
         /// This requires a license for EPPlus that can be purchased at https://epplussoftware.com
         /// </summary>
-        /// <param name="licenseKey">The licens key you recieved with your license</param>
+        /// <param name="licenseKey">The license key you received with your license.</param>
+        /// <seealso href="https://epplussoftware.com/en/Home/GettingStartedLicenseKey"/>
         public void SetCommercial(string licenseKey)
         {
             _licenseSet = LicenseHandler.ValidateLicenseKey(licenseKey, ExtendUnderRenewal, out EPPlusLicenseInfo licenseInfo, out string msg);

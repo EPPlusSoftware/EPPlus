@@ -5,9 +5,16 @@ items:
   id: ExcelOleObject
   parent: OfficeOpenXml.Drawing.OleObject
   children:
+  - OfficeOpenXml.Drawing.OleObject.ExcelOleObject.CreateLinkToEmbeddedPackage
   - OfficeOpenXml.Drawing.OleObject.ExcelOleObject.DisplayAsIcon
   - OfficeOpenXml.Drawing.OleObject.ExcelOleObject.DrawingType
+  - OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ExternalLink
+  - OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedObjectBytes
+  - OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedPackage
+  - OfficeOpenXml.Drawing.OleObject.ExcelOleObject.Image
   - OfficeOpenXml.Drawing.OleObject.ExcelOleObject.IsExternalLink
+  - OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ProgId
+  - OfficeOpenXml.Drawing.OleObject.ExcelOleObject.SetEmbeddedPackage(OfficeOpenXml.ExcelPackage)
   langs:
   - csharp
   - vb
@@ -18,11 +25,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelOleObject
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
-    startLine: 31
+    startLine: 33
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.OleObject
@@ -100,11 +107,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayAsIcon
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
-    startLine: 50
+    startLine: 52
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.OleObject
@@ -135,11 +142,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsExternalLink
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
-    startLine: 55
+    startLine: 57
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.OleObject
@@ -153,6 +160,117 @@ items:
   modifiers.csharp:
   - public
   - readonly
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ExternalLink
+  commentId: P:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ExternalLink
+  id: ExternalLink
+  parent: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+  langs:
+  - csharp
+  - vb
+  name: ExternalLink
+  nameWithType: ExcelOleObject.ExternalLink
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ExternalLink
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ExternalLink
+    path: ../src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+    startLine: 61
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.OleObject
+  summary: "\nIf the Ole object is linked, this property contains the external link object.\n"
+  example: []
+  syntax:
+    content: public ExcelExternalOleLink ExternalLink { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.ExternalReferences.ExcelExternalOleLink
+    content.vb: Public ReadOnly Property ExternalLink As ExcelExternalOleLink
+  overload: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ExternalLink*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ProgId
+  commentId: P:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ProgId
+  id: ProgId
+  parent: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+  langs:
+  - csharp
+  - vb
+  name: ProgId
+  nameWithType: ExcelOleObject.ProgId
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ProgId
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: ProgId
+    path: ../src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+    startLine: 71
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.OleObject
+  summary: "\nThe progid for the ole object.\n"
+  example: []
+  syntax:
+    content: public string ProgId { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property ProgId As String
+  overload: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ProgId*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.Image
+  commentId: P:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.Image
+  id: Image
+  parent: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+  langs:
+  - csharp
+  - vb
+  name: Image
+  nameWithType: ExcelOleObject.Image
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.Image
+  type: Property
+  source:
+    remote:
+      path: src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: Image
+    path: ../src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+    startLine: 83
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.OleObject
+  summary: "\nThe icon bitmap used to display the ole object. \nMust be a .bmp or .emf image.\n"
+  example: []
+  syntax:
+    content: public ExcelImageReadOnly Image { get; }
+    parameters: []
+    return:
+      type: OfficeOpenXml.Drawing.ExcelImageReadOnly
+    content.vb: Public ReadOnly Property Image As ExcelImageReadOnly
+  overload: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.Image*
+  modifiers.csharp:
+  - public
+  - get
   modifiers.vb:
   - Public
   - ReadOnly
@@ -170,11 +288,11 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DrawingType
     path: ../src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
-    startLine: 60
+    startLine: 103
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.Drawing.OleObject
@@ -196,6 +314,150 @@ items:
   - Public
   - Overrides
   - ReadOnly
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedObjectBytes
+  commentId: M:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedObjectBytes
+  id: GetEmbeddedObjectBytes
+  parent: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+  langs:
+  - csharp
+  - vb
+  name: GetEmbeddedObjectBytes()
+  nameWithType: ExcelOleObject.GetEmbeddedObjectBytes()
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedObjectBytes()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEmbeddedObjectBytes
+    path: ../src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+    startLine: 750
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.OleObject
+  summary: "\nGet the byte array of the embedded OLE object.\n"
+  example: []
+  syntax:
+    content: public byte[] GetEmbeddedObjectBytes()
+    return:
+      type: System.Byte[]
+      description: The byte array of embedded OLE object.
+    content.vb: Public Function GetEmbeddedObjectBytes As Byte()
+  overload: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedObjectBytes*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.CreateLinkToEmbeddedPackage
+  commentId: M:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.CreateLinkToEmbeddedPackage
+  id: CreateLinkToEmbeddedPackage
+  parent: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+  langs:
+  - csharp
+  - vb
+  name: CreateLinkToEmbeddedPackage()
+  nameWithType: ExcelOleObject.CreateLinkToEmbeddedPackage()
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.CreateLinkToEmbeddedPackage()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: CreateLinkToEmbeddedPackage
+    path: ../src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+    startLine: 813
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.OleObject
+  summary: "\nCreates a link to the embedded Ole Package. Used for accessing contents in embedded xlsx files.\n"
+  example: []
+  syntax:
+    content: public void CreateLinkToEmbeddedPackage()
+    content.vb: Public Sub CreateLinkToEmbeddedPackage
+  overload: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.CreateLinkToEmbeddedPackage*
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedPackage
+  commentId: M:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedPackage
+  id: GetEmbeddedPackage
+  parent: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+  langs:
+  - csharp
+  - vb
+  name: GetEmbeddedPackage()
+  nameWithType: ExcelOleObject.GetEmbeddedPackage()
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedPackage()
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: GetEmbeddedPackage
+    path: ../src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+    startLine: 831
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.OleObject
+  summary: "\nGet the workbook of the embedded xlsx object.\n"
+  example: []
+  syntax:
+    content: public ExcelPackage GetEmbeddedPackage()
+    return:
+      type: OfficeOpenXml.ExcelPackage
+      description: ''
+    content.vb: Public Function GetEmbeddedPackage As ExcelPackage
+  overload: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedPackage*
+  exceptions:
+  - type: System.NotImplementedException
+    commentId: T:System.NotImplementedException
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.SetEmbeddedPackage(OfficeOpenXml.ExcelPackage)
+  commentId: M:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.SetEmbeddedPackage(OfficeOpenXml.ExcelPackage)
+  id: SetEmbeddedPackage(OfficeOpenXml.ExcelPackage)
+  parent: OfficeOpenXml.Drawing.OleObject.ExcelOleObject
+  langs:
+  - csharp
+  - vb
+  name: SetEmbeddedPackage(ExcelPackage)
+  nameWithType: ExcelOleObject.SetEmbeddedPackage(ExcelPackage)
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.SetEmbeddedPackage(OfficeOpenXml.ExcelPackage)
+  type: Method
+  source:
+    remote:
+      path: src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+      branch: bug/issue1928
+      repo: https://github.com/EPPlusSoftware/EPPlus.git
+    id: SetEmbeddedPackage
+    path: ../src/EPPlus/Drawing/OleObject/ExcelOleObject.cs
+    startLine: 851
+  assemblies:
+  - EPPlus
+  namespace: OfficeOpenXml.Drawing.OleObject
+  summary: "\nOverwrites the current package with the new package in Ole Object.\n"
+  example: []
+  syntax:
+    content: public void SetEmbeddedPackage(ExcelPackage package)
+    parameters:
+    - id: package
+      type: OfficeOpenXml.ExcelPackage
+      description: The new package.
+    content.vb: Public Sub SetEmbeddedPackage(package As ExcelPackage)
+  overload: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.SetEmbeddedPackage*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
 references:
 - uid: OfficeOpenXml.Drawing.OleObject
   commentId: N:OfficeOpenXml.Drawing.OleObject
@@ -1314,6 +1576,45 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ExternalLink*
+  commentId: Overload:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ExternalLink
+  name: ExternalLink
+  nameWithType: ExcelOleObject.ExternalLink
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ExternalLink
+- uid: OfficeOpenXml.ExternalReferences.ExcelExternalOleLink
+  commentId: T:OfficeOpenXml.ExternalReferences.ExcelExternalOleLink
+  parent: OfficeOpenXml.ExternalReferences
+  name: ExcelExternalOleLink
+  nameWithType: ExcelExternalOleLink
+  fullName: OfficeOpenXml.ExternalReferences.ExcelExternalOleLink
+- uid: OfficeOpenXml.ExternalReferences
+  commentId: N:OfficeOpenXml.ExternalReferences
+  name: OfficeOpenXml.ExternalReferences
+  nameWithType: OfficeOpenXml.ExternalReferences
+  fullName: OfficeOpenXml.ExternalReferences
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ProgId*
+  commentId: Overload:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ProgId
+  name: ProgId
+  nameWithType: ExcelOleObject.ProgId
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.ProgId
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.Image*
+  commentId: Overload:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.Image
+  name: Image
+  nameWithType: ExcelOleObject.Image
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.Image
+- uid: OfficeOpenXml.Drawing.ExcelImageReadOnly
+  commentId: T:OfficeOpenXml.Drawing.ExcelImageReadOnly
+  parent: OfficeOpenXml.Drawing
+  name: ExcelImageReadOnly
+  nameWithType: ExcelImageReadOnly
+  fullName: OfficeOpenXml.Drawing.ExcelImageReadOnly
 - uid: OfficeOpenXml.Drawing.ExcelDrawing.DrawingType
   commentId: P:OfficeOpenXml.Drawing.ExcelDrawing.DrawingType
   parent: OfficeOpenXml.Drawing.ExcelDrawing
@@ -1331,3 +1632,65 @@ references:
   name: eDrawingType
   nameWithType: eDrawingType
   fullName: OfficeOpenXml.Drawing.eDrawingType
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedObjectBytes*
+  commentId: Overload:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedObjectBytes
+  name: GetEmbeddedObjectBytes
+  nameWithType: ExcelOleObject.GetEmbeddedObjectBytes
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedObjectBytes
+- uid: System.Byte[]
+  isExternal: true
+  name: Byte[]
+  nameWithType: Byte[]
+  fullName: System.Byte[]
+  nameWithType.vb: Byte()
+  fullName.vb: System.Byte()
+  name.vb: Byte()
+  spec.csharp:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.Byte
+    name: Byte
+    nameWithType: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  parent: System
+  isExternal: true
+  name: InvalidOperationException
+  nameWithType: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.CreateLinkToEmbeddedPackage*
+  commentId: Overload:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.CreateLinkToEmbeddedPackage
+  name: CreateLinkToEmbeddedPackage
+  nameWithType: ExcelOleObject.CreateLinkToEmbeddedPackage
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.CreateLinkToEmbeddedPackage
+- uid: System.NotImplementedException
+  commentId: T:System.NotImplementedException
+  isExternal: true
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedPackage*
+  commentId: Overload:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedPackage
+  name: GetEmbeddedPackage
+  nameWithType: ExcelOleObject.GetEmbeddedPackage
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.GetEmbeddedPackage
+- uid: OfficeOpenXml.ExcelPackage
+  commentId: T:OfficeOpenXml.ExcelPackage
+  parent: OfficeOpenXml
+  name: ExcelPackage
+  nameWithType: ExcelPackage
+  fullName: OfficeOpenXml.ExcelPackage
+- uid: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.SetEmbeddedPackage*
+  commentId: Overload:OfficeOpenXml.Drawing.OleObject.ExcelOleObject.SetEmbeddedPackage
+  name: SetEmbeddedPackage
+  nameWithType: ExcelOleObject.SetEmbeddedPackage
+  fullName: OfficeOpenXml.Drawing.OleObject.ExcelOleObject.SetEmbeddedPackage

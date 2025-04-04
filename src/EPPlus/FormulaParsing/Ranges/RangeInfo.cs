@@ -420,9 +420,15 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             }
             return "<No address>";
         }
+        /// <summary>
+        /// Get the address adjusted inside the dimension of the worksheet.
+        /// </summary>
+        /// <param name="index">The index of the address.</param>
+        /// <returns>The address adjusted within the dimension of the worksheet.</returns>
         public FormulaRangeAddress GetAddressDimensionAdjusted(int index=0)
         {
-            var a = Addresses[0];
+            if (index >= Addresses.Length) return null;
+            var a = Addresses[index];
             if (Worksheet?.Dimension!=null)
             {
                 var d = Worksheet?.Dimension;
@@ -443,63 +449,6 @@ namespace OfficeOpenXml.FormulaParsing.Ranges
             else
             {
                 return a;
-            }
-        }
-        public int GetNumberOfRowsDimension()
-        {
-            if (Worksheet?.Dimension != null)
-            {
-                int tr;
-                if (Worksheet.Dimension._toRow < Address.ToRow)
-                {
-                    tr = Worksheet.Dimension._toRow;
-                }
-                else
-                {
-                    tr = Address.ToRow;
-                }
-
-                if (Worksheet.Dimension._fromRow > Address.FromRow)
-                {
-                    return tr - Worksheet.Dimension._fromRow+1;
-                }
-                else
-                {
-                    return tr - Address.FromRow+1;
-                }
-            }
-            else
-            {
-                return Size.NumberOfRows;
-            }
-        }
-
-        public int GetNumberOfColsDimension()
-        {
-            if (Worksheet?.Dimension != null)
-            {
-                int tc;
-                if (Worksheet.Dimension._toCol < Address.ToCol)
-                {
-                    tc = Worksheet.Dimension._toCol;
-                }
-                else
-                {
-                    tc = Address.ToCol;
-                }
-
-                if (Worksheet.Dimension._fromCol > Address.FromCol)
-                {
-                    return tc - Worksheet.Dimension._fromCol + 1;
-                }
-                else
-                {
-                    return tc - Address.FromCol + 1;
-                }
-            }
-            else
-            {
-                return Size.NumberOfCols;
             }
         }
     }

@@ -161,7 +161,7 @@ namespace EPPlusTest.FormulaParsing
                 Assert.AreEqual(5D, ws.Cells["F2"].Value);
                 Assert.IsNull(ws.Cells["F3"].Value);
 
-                SaveAndCleanup(p);
+                SaveWorkbook("DynamicArrayFormulaRead.xlsx", p);
             }
         }
         [TestMethod]
@@ -182,7 +182,7 @@ namespace EPPlusTest.FormulaParsing
                 var ws = p.Workbook.Worksheets[0];
                 ws.Workbook.Worksheets[0].InsertColumn(2, 1);
                 ws.Calculate();
-                SaveWorkbook("ArrayFormulas_Deleted.xlsx", p);
+                SaveWorkbook("ArrayFormulas_Insert.xlsx", p);
             }
         }
         [TestMethod]
@@ -203,6 +203,17 @@ namespace EPPlusTest.FormulaParsing
 
             chart.SetPosition(10, 0, 25, 0);
 
+        }
+        [TestMethod]
+        public void DynamicFunctionWithReferenceBefore()
+        {               
+            _ws.Cells[40, 20].Formula = "RandArray(5,5)";
+            _ws.Cells[1, 100].Formula = "T41:U43";
+            _ws.Calculate();
+            var address = _ws.Cells[40, 20].FormulaRange;
+            Assert.AreEqual("T40:X44", address.Address);
+            address = _ws.Cells[1, 100].FormulaRange;
+            Assert.AreEqual("CV1:CW3", address.Address);
         }
     }
 }

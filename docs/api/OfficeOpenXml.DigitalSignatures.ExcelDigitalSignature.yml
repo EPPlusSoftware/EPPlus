@@ -21,7 +21,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDigitalSignature
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -67,7 +67,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Certificate
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -104,7 +104,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Details
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -124,7 +124,7 @@ items:
   modifiers.vb:
   - Public
 - uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature.PurposeForSigning
-  commentId: F:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature.PurposeForSigning
+  commentId: P:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature.PurposeForSigning
   id: PurposeForSigning
   parent: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
   langs:
@@ -133,11 +133,11 @@ items:
   name: PurposeForSigning
   nameWithType: ExcelDigitalSignature.PurposeForSigning
   fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature.PurposeForSigning
-  type: Field
+  type: Property
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: PurposeForSigning
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -148,12 +148,16 @@ items:
   summary: "\nReason for signing the document-\n"
   example: []
   syntax:
-    content: public string PurposeForSigning
+    content: public string PurposeForSigning { get; set; }
+    parameters: []
     return:
       type: System.String
-    content.vb: Public PurposeForSigning As String
+    content.vb: Public Property PurposeForSigning As String
+  overload: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature.PurposeForSigning*
   modifiers.csharp:
   - public
+  - get
+  - set
   modifiers.vb:
   - Public
 - uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature.CommitmentTyping
@@ -170,7 +174,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CommitmentTyping
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -203,7 +207,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsValid
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -240,7 +244,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetDigestMethod
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignature.cs
@@ -598,6 +602,11 @@ references:
   name: AdditionalSignatureInfo
   nameWithType: AdditionalSignatureInfo
   fullName: OfficeOpenXml.DigitalSignatures.AdditionalSignatureInfo
+- uid: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature.PurposeForSigning*
+  commentId: Overload:OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature.PurposeForSigning
+  name: PurposeForSigning
+  nameWithType: ExcelDigitalSignature.PurposeForSigning
+  fullName: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature.PurposeForSigning
 - uid: System.String
   commentId: T:System.String
   parent: System

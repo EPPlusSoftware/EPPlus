@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/ExcelSignatureLineStamp.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelSignatureLineStamp
     path: ../src/EPPlus/Drawing/SignatureLine/ExcelSignatureLineStamp.cs
@@ -87,7 +87,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/ExcelSignatureLineStamp.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SignatureLineType
     path: ../src/EPPlus/Drawing/SignatureLine/ExcelSignatureLineStamp.cs
@@ -124,7 +124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/ExcelSignatureLineStamp.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SignatureImage
     path: ../src/EPPlus/Drawing/SignatureLine/ExcelSignatureLineStamp.cs
@@ -163,7 +163,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/ExcelSignatureLineStamp.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DigitalSignature
     path: ../src/EPPlus/Drawing/SignatureLine/ExcelSignatureLineStamp.cs
@@ -200,7 +200,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/ExcelSignatureLineStamp.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SignWithImage
     path: ../src/EPPlus/Drawing/SignatureLine/ExcelSignatureLineStamp.cs
@@ -242,7 +242,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/SignatureLine/ExcelSignatureLineStamp.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AsSignatureLine
     path: ../src/EPPlus/Drawing/SignatureLine/ExcelSignatureLineStamp.cs

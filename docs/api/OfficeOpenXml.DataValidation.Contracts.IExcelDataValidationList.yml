@@ -16,7 +16,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidationList.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IExcelDataValidationList
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidationList.cs
@@ -48,7 +48,6 @@ items:
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.Validate
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.As
   - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
-  - OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
   modifiers.csharp:
   - public
   - interface
@@ -69,7 +68,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DataValidation/Contracts/IExcelDataValidationList.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HideDropDown
     path: ../src/EPPlus/DataValidation/Contracts/IExcelDataValidationList.cs
@@ -217,12 +216,6 @@ references:
   name: ImeMode
   nameWithType: IExcelDataValidation.ImeMode
   fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.ImeMode
-- uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
-  parent: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation
-  name: IsStale
-  nameWithType: IExcelDataValidation.IsStale
-  fullName: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidation.IsStale
 - uid: OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula`1.Formula
   commentId: P:OfficeOpenXml.DataValidation.Contracts.IExcelDataValidationWithFormula`1.Formula
   name: Formula

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using OfficeOpenXml;
 using OfficeOpenXml.Drawing;
 using OfficeOpenXml.Drawing.Chart;
+using System.IO;
+using System.Drawing;
 namespace EPPlusTest.Issues
 {
 	[TestClass]
@@ -57,6 +59,15 @@ namespace EPPlusTest.Issues
                 SaveAndCleanup(package);
             }
         }
+        [TestMethod]
+        public void s762()
+        {
+            using (var package = OpenTemplatePackage("s762.xlsx"))
+            {
+                var sheet = package.Workbook.Worksheets[0];
+                SaveAndCleanup(package);
+            }
+        }
 
         [TestMethod]
         public void i1673()
@@ -82,6 +93,18 @@ namespace EPPlusTest.Issues
                 excelWorksheet.Cells[destFrom.ToString() + ":" + destTo]);
         }
         [TestMethod]
+        public void OleTest1()
+        {
+            using var p = OpenTemplatePackage("OleMSChart.xlsx");
+            var ws = p.Workbook.Worksheets[0];
+            var oleObject = ws.Drawings[0].As.OleObject;
+            var grph = oleObject.GetEmbeddedObjectBytes();
+            Assert.IsNotNull(oleObject);
+            Assert.IsNotNull(oleObject.ProgId);
+            Assert.IsNotNull(oleObject.Image);
+            Assert.IsNull(oleObject.ExternalLink);
+            SaveAndCleanup(p);
+        }
         public void i1902()
         {
             using var package = new ExcelPackage();
@@ -91,5 +114,44 @@ namespace EPPlusTest.Issues
 
             Console.WriteLine(rect.Text);
         }
+        [TestMethod]
+        public void CommentIssue()
+        {
+            using var package = OpenPackage("CommentIssuePosition.xlsx", true);
+            var ws = package.Workbook.Worksheets.Add("Sheet1");
+
+            //Add a comment using the Comment collection
+            var comment = ws.Comments.Add(ws.Cells["B3"], "This column contains the size of the files.", "JK");
+            //This sets the size and position. (The position is only when the comment is visible)
+            comment.From.Column = 7;
+            comment.From.Row = 3;
+            comment.To.Column = 16;
+            comment.To.Row = 8;
+            comment.BackgroundColor = Color.White;
+            comment.RichText.Add("\r\nTo format the numbers use the Numberformat-property like:\r\n");
+
+            Assert.AreEqual("7, 15, 3, 2, 16, 31, 8, 1", comment.Anchor);
+
+            ws.Cells["B3:B42"].Style.Numberformat.Format = "#,##0";
+
+            //Format the code using the RichText Collection
+            var rc = comment.RichText.Add("//Format the Size and Count column\r\n");
+            rc.FontName = "Courier New";
+            rc.Color = Color.FromArgb(0, 128, 0);
+            rc = comment.RichText.Add("ws.Cells[");
+            rc.Color = Color.Black;
+            rc = comment.RichText.Add("\"B3:B42\"");
+            rc.Color = Color.FromArgb(123, 21, 21);
+            rc = comment.RichText.Add("].Style.Numberformat.Format = ");
+            rc.Color = Color.Black;
+            rc = comment.RichText.Add("\"#,##0\"");
+            rc.Color = Color.FromArgb(123, 21, 21);
+            rc = comment.RichText.Add(";");
+            rc.Color = Color.Black;
+
+            SaveAndCleanup(package);
+        }
+
     }
 }
+

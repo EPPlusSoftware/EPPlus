@@ -1,41 +1,59 @@
 ### YamlMime:ManagedReference
 items:
-- uid: OfficeOpenXml.DigitalSignatures.SignatureProperty
-  commentId: T:OfficeOpenXml.DigitalSignatures.SignatureProperty
-  id: SignatureProperty
-  parent: OfficeOpenXml.DigitalSignatures
+- uid: OfficeOpenXml.LicenseNotValidException
+  commentId: T:OfficeOpenXml.LicenseNotValidException
+  id: LicenseNotValidException
+  parent: OfficeOpenXml
   children: []
   langs:
   - csharp
   - vb
-  name: SignatureProperty
-  nameWithType: SignatureProperty
-  fullName: OfficeOpenXml.DigitalSignatures.SignatureProperty
+  name: LicenseNotValidException
+  nameWithType: LicenseNotValidException
+  fullName: OfficeOpenXml.LicenseNotValidException
   type: Class
   source:
     remote:
-      path: src/EPPlus/DigitalSignatures/SignatureProperty.cs
-      branch: develop8
+      path: src/EPPlus/LicenseException.cs
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
-    id: SignatureProperty
-    path: ../src/EPPlus/DigitalSignatures/SignatureProperty.cs
-    startLine: 7
+    id: LicenseNotValidException
+    path: ../src/EPPlus/LicenseException.cs
+    startLine: 52
   assemblies:
   - EPPlus
-  namespace: OfficeOpenXml.DigitalSignatures
+  namespace: OfficeOpenXml
+  summary: "\nAn exception thrown when the license has expired for the version used.\n"
+  example: []
   syntax:
-    content: public class SignatureProperty
-    content.vb: Public Class SignatureProperty
+    content: 'public class LicenseNotValidException : Exception, ISerializable'
+    content.vb: >-
+      Public Class LicenseNotValidException
+          Inherits Exception
+          Implements ISerializable
   inheritance:
   - System.Object
+  - System.Exception
+  implements:
+  - System.Runtime.Serialization.ISerializable
   inheritedMembers:
+  - System.Exception.GetBaseException
+  - System.Exception.GetType
+  - System.Exception.ToString
+  - System.Exception.Data
+  - System.Exception.HelpLink
+  - System.Exception.HResult
+  - System.Exception.InnerException
+  - System.Exception.Message
+  - System.Exception.Source
+  - System.Exception.StackTrace
+  - System.Exception.TargetSite
+  - System.Exception.SerializeObjectState
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
-  - System.Object.GetType
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
-  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
@@ -43,11 +61,11 @@ items:
   - Public
   - Class
 references:
-- uid: OfficeOpenXml.DigitalSignatures
-  commentId: N:OfficeOpenXml.DigitalSignatures
-  name: OfficeOpenXml.DigitalSignatures
-  nameWithType: OfficeOpenXml.DigitalSignatures
-  fullName: OfficeOpenXml.DigitalSignatures
+- uid: OfficeOpenXml
+  commentId: N:OfficeOpenXml
+  name: OfficeOpenXml
+  nameWithType: OfficeOpenXml
+  fullName: OfficeOpenXml
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -55,6 +73,176 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: System.Exception
+  commentId: T:System.Exception
+  parent: System
+  isExternal: true
+  name: Exception
+  nameWithType: Exception
+  fullName: System.Exception
+- uid: System.Runtime.Serialization.ISerializable
+  commentId: T:System.Runtime.Serialization.ISerializable
+  parent: System.Runtime.Serialization
+  isExternal: true
+  name: ISerializable
+  nameWithType: ISerializable
+  fullName: System.Runtime.Serialization.ISerializable
+- uid: System.Exception.GetBaseException
+  commentId: M:System.Exception.GetBaseException
+  parent: System.Exception
+  isExternal: true
+  name: GetBaseException()
+  nameWithType: Exception.GetBaseException()
+  fullName: System.Exception.GetBaseException()
+  spec.csharp:
+  - uid: System.Exception.GetBaseException
+    name: GetBaseException
+    nameWithType: Exception.GetBaseException
+    fullName: System.Exception.GetBaseException
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Exception.GetBaseException
+    name: GetBaseException
+    nameWithType: Exception.GetBaseException
+    fullName: System.Exception.GetBaseException
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Exception.GetType
+  commentId: M:System.Exception.GetType
+  parent: System.Exception
+  isExternal: true
+  name: GetType()
+  nameWithType: Exception.GetType()
+  fullName: System.Exception.GetType()
+  spec.csharp:
+  - uid: System.Exception.GetType
+    name: GetType
+    nameWithType: Exception.GetType
+    fullName: System.Exception.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Exception.GetType
+    name: GetType
+    nameWithType: Exception.GetType
+    fullName: System.Exception.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Exception.ToString
+  commentId: M:System.Exception.ToString
+  parent: System.Exception
+  isExternal: true
+  name: ToString()
+  nameWithType: Exception.ToString()
+  fullName: System.Exception.ToString()
+  spec.csharp:
+  - uid: System.Exception.ToString
+    name: ToString
+    nameWithType: Exception.ToString
+    fullName: System.Exception.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Exception.ToString
+    name: ToString
+    nameWithType: Exception.ToString
+    fullName: System.Exception.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Exception.Data
+  commentId: P:System.Exception.Data
+  parent: System.Exception
+  isExternal: true
+  name: Data
+  nameWithType: Exception.Data
+  fullName: System.Exception.Data
+- uid: System.Exception.HelpLink
+  commentId: P:System.Exception.HelpLink
+  parent: System.Exception
+  isExternal: true
+  name: HelpLink
+  nameWithType: Exception.HelpLink
+  fullName: System.Exception.HelpLink
+- uid: System.Exception.HResult
+  commentId: P:System.Exception.HResult
+  parent: System.Exception
+  isExternal: true
+  name: HResult
+  nameWithType: Exception.HResult
+  fullName: System.Exception.HResult
+- uid: System.Exception.InnerException
+  commentId: P:System.Exception.InnerException
+  parent: System.Exception
+  isExternal: true
+  name: InnerException
+  nameWithType: Exception.InnerException
+  fullName: System.Exception.InnerException
+- uid: System.Exception.Message
+  commentId: P:System.Exception.Message
+  parent: System.Exception
+  isExternal: true
+  name: Message
+  nameWithType: Exception.Message
+  fullName: System.Exception.Message
+- uid: System.Exception.Source
+  commentId: P:System.Exception.Source
+  parent: System.Exception
+  isExternal: true
+  name: Source
+  nameWithType: Exception.Source
+  fullName: System.Exception.Source
+- uid: System.Exception.StackTrace
+  commentId: P:System.Exception.StackTrace
+  parent: System.Exception
+  isExternal: true
+  name: StackTrace
+  nameWithType: Exception.StackTrace
+  fullName: System.Exception.StackTrace
+- uid: System.Exception.TargetSite
+  commentId: P:System.Exception.TargetSite
+  parent: System.Exception
+  isExternal: true
+  name: TargetSite
+  nameWithType: Exception.TargetSite
+  fullName: System.Exception.TargetSite
+- uid: System.Exception.SerializeObjectState
+  commentId: E:System.Exception.SerializeObjectState
+  parent: System.Exception
+  isExternal: true
+  name: SerializeObjectState
+  nameWithType: Exception.SerializeObjectState
+  fullName: System.Exception.SerializeObjectState
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -184,37 +372,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Object.GetType
-  commentId: M:System.Object.GetType
-  parent: System.Object
-  isExternal: true
-  name: GetType()
-  nameWithType: Object.GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Object.MemberwiseClone
   commentId: M:System.Object.MemberwiseClone
   parent: System.Object
@@ -303,40 +460,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Object.ToString
-  commentId: M:System.Object.ToString
-  parent: System.Object
-  isExternal: true
-  name: ToString()
-  nameWithType: Object.ToString()
-  fullName: System.Object.ToString()
-  spec.csharp:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ToString
-    name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: System
   commentId: N:System
   isExternal: true
   name: System
   nameWithType: System
   fullName: System
+- uid: System.Runtime.Serialization
+  commentId: N:System.Runtime.Serialization
+  isExternal: true
+  name: System.Runtime.Serialization
+  nameWithType: System.Runtime.Serialization
+  fullName: System.Runtime.Serialization

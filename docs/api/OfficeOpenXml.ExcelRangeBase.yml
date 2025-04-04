@@ -172,7 +172,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRangeBase
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -278,7 +278,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _worksheet
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -311,7 +311,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ChangeAddress
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -346,7 +346,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Style
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -383,7 +383,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleName
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -420,7 +420,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: StyleID
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -457,7 +457,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Value
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -494,7 +494,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetErrorValue
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -530,7 +530,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Text
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -567,7 +567,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Picture
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -604,7 +604,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFitColumns
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -637,7 +637,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFitColumns
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -674,7 +674,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFitColumns
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -714,7 +714,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Formula
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -753,7 +753,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaR1C1
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -790,7 +790,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateHtmlExporter
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -825,7 +825,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Hyperlink
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -862,7 +862,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetHyperlink
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -898,7 +898,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetHyperlink
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -934,7 +934,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetHyperlink
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -973,7 +973,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetHyperlink
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1009,7 +1009,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Merge
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1046,7 +1046,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AutoFilter
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1083,7 +1083,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsEmpty
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1124,7 +1124,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsRichText
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1161,7 +1161,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsTable
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1198,7 +1198,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetTable
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1232,7 +1232,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Insert
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1270,7 +1270,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Delete
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1306,7 +1306,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: IsArrayFormula
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1343,7 +1343,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: _rtc
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1376,7 +1376,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: RichText
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1413,7 +1413,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Comment
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1450,7 +1450,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreadedComment
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1487,7 +1487,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Worksheet
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1524,7 +1524,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullAddress
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1561,7 +1561,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FullAddressAbsolute
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1598,7 +1598,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulas
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1630,7 +1630,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ClearFormulaValues
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1662,7 +1662,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ConditionalFormatting
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1699,7 +1699,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DataValidation
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1736,7 +1736,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetValue
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1785,7 +1785,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Offset
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1827,7 +1827,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Offset
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1875,7 +1875,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddComment
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1917,7 +1917,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: AddThreadedComment
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1952,7 +1952,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -1988,7 +1988,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2030,7 +2030,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Copy
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2072,7 +2072,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CopyFill
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2108,7 +2108,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CopyFill
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2150,7 +2150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CopyTranspose
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2186,7 +2186,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CopyTranspose
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2228,7 +2228,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CopyStyles
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2264,7 +2264,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Clear
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2296,7 +2296,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: CreateArrayFormula
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2335,7 +2335,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FormulaRange
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2373,7 +2373,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Dispose
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2407,7 +2407,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetEnumerator
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2445,7 +2445,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2477,7 +2477,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Current
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2517,7 +2517,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerator.Current
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2556,7 +2556,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: MoveNext
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2593,7 +2593,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Reset
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2627,7 +2627,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2659,7 +2659,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2696,7 +2696,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2744,7 +2744,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2784,7 +2784,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Sort
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2821,7 +2821,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EntireColumn
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2858,7 +2858,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: EntireRow
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2895,7 +2895,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2936,7 +2936,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -2980,7 +2980,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: GetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -3027,7 +3027,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SetCellValue
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -3069,7 +3069,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: UseImplicitItersection
     path: ../src/EPPlus/ExcelRangeBase.cs
@@ -3106,7 +3106,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillNumber
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3138,7 +3138,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillNumber
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3180,7 +3180,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillNumber
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3219,7 +3219,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillDateTime
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3251,7 +3251,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillDateTime
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3293,7 +3293,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillDateTime
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3332,7 +3332,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillList
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3374,7 +3374,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Fill.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: FillList
     path: ../src/EPPlus/ExcelRangeBase_Fill.cs
@@ -3419,7 +3419,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReader
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3467,7 +3467,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReader
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3518,7 +3518,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReader
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3560,7 +3560,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReader
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3605,7 +3605,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3660,7 +3660,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3718,7 +3718,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3761,7 +3761,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3807,7 +3807,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3853,7 +3853,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataReaderAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3902,7 +3902,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -3950,7 +3950,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4001,7 +4001,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4043,7 +4043,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4082,7 +4082,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDataTable
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4128,7 +4128,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromArrays
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4169,7 +4169,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromArraysTransposed
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4211,7 +4211,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4256,7 +4256,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4304,7 +4304,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4355,7 +4355,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4409,7 +4409,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4466,7 +4466,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4526,7 +4526,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromCollection
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4575,7 +4575,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4614,7 +4614,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4656,7 +4656,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4707,7 +4707,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4746,7 +4746,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4788,7 +4788,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4839,7 +4839,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4881,7 +4881,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromText
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4923,7 +4923,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -4963,7 +4963,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5006,7 +5006,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5055,7 +5055,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5098,7 +5098,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5144,7 +5144,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5193,7 +5193,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5245,7 +5245,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5297,7 +5297,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5342,7 +5342,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Load.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: LoadFromDictionaries
     path: ../src/EPPlus/ExcelRangeBase_Load.cs
@@ -5387,7 +5387,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5422,7 +5422,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5464,7 +5464,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5503,7 +5503,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5548,7 +5548,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5587,7 +5587,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToDataTable
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5629,7 +5629,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5664,7 +5664,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5703,7 +5703,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5742,7 +5742,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5781,7 +5781,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5820,7 +5820,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5859,7 +5859,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToText
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5898,7 +5898,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5934,7 +5934,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -5974,7 +5974,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6016,7 +6016,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6058,7 +6058,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6098,7 +6098,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6140,7 +6140,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToTextAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6182,7 +6182,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToJson
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6217,7 +6217,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToJson
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6259,7 +6259,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJson
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6295,7 +6295,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJson
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6337,7 +6337,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJsonAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6377,7 +6377,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: SaveToJsonAsync
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6423,7 +6423,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6468,7 +6468,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6516,7 +6516,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollectionWithMappings
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6564,7 +6564,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6605,7 +6605,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/ExcelRangeBase_Save.cs
@@ -6650,7 +6650,7 @@ items:
   source:
     remote:
       path: src/EPPlus/ExcelRangeBase_Save.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ToCollection
     path: ../src/EPPlus/ExcelRangeBase_Save.cs

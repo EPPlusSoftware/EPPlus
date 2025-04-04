@@ -546,7 +546,7 @@ namespace OfficeOpenXml
         {
             if (this is ExcelChartsheet)
             {
-                throw (new NotSupportedException("This property or method is not supported for a Chartsheet"));
+                throw (new NotSupportedException("This property or method is not supported for a chart sheet"));
             }
             if(_positionId==-1 && _values==null)
             {
@@ -962,7 +962,7 @@ namespace OfficeOpenXml
                 SetXmlNodeString(outLineApplyStylePath, value ? "1" : "0");
             }
         }
-        const string tabColorPath = "d:sheetPr/d:tabColor/@rgb";
+        const string tabColorPath = "d:sheetPr/d:tabColor";
         /// <summary>
         /// Color of the sheet tab. To remove color, set TabColor to Color.Empty.
         /// </summary>
@@ -970,24 +970,39 @@ namespace OfficeOpenXml
         {
             get
             {
-                string col = GetXmlNodeString(tabColorPath);
+                string col = GetXmlNodeString(tabColorPath + "/@rgb");
                 if (col == "")
                 {
-                    return Color.Empty;
+                    double tint = GetXmlNodeDouble(tabColorPath + "/@tint");
+                    eThemeSchemeColor theme = (eThemeSchemeColor)GetXmlNodeInt(tabColorPath + "/@theme");
+                    int indexed = GetXmlNodeInt(tabColorPath + "/@indexed");
+                    bool auto = GetXmlNodeBool(tabColorPath + "/@auto");
+                    if (tint == double.NaN)
+                    {
+                        return Color.Empty;
+                    }
+                    col = ExcelColor.LookupColor(col, theme, tint, indexed, auto, Workbook);
                 }
-                else
+                if (col.StartsWith("#"))
                 {
-                    return Color.FromArgb(int.Parse(col, System.Globalization.NumberStyles.AllowHexSpecifier));
+                    col = col.Substring(1);
                 }
+                var argb = int.Parse(col, System.Globalization.NumberStyles.HexNumber);
+                return Color.FromArgb((argb >> 24) & 0xFF, (argb >> 16) & 0xFF, (argb >> 8) & 0xFF, argb & 0xFF);
             }
             set
             {
+                DeleteNode(tabColorPath + "/@tint");
+                DeleteNode(tabColorPath + "/@theme");
+                DeleteNode(tabColorPath + "/@indexed");
+                DeleteNode(tabColorPath + "/@auto");
                 if (value == Color.Empty)
                 {
                     DeleteNode(tabColorPath, true);
                     return;
                 }
-                SetXmlNodeString(tabColorPath, value.ToArgb().ToString("X"));
+
+                SetXmlNodeString(tabColorPath + "/@rgb", value.ToArgb().ToString("X"));
             }
         }
         const string codeModuleNamePath = "d:sheetPr/@codeName";
@@ -2860,6 +2875,7 @@ namespace OfficeOpenXml
             {
                 pt.Save();
             }
+            View.DeletePivotTableSelection();
         }
 
         private static string GetTotalFunction(ExcelTableColumn col, string funcNum)
@@ -4046,7 +4062,6 @@ namespace OfficeOpenXml
         {
             return Workbook.Styles.RoundValueFromNumberFormat(c);
         }
-
         #endregion
     }  // END class Worksheet
 }

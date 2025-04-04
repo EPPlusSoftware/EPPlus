@@ -20,7 +20,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelDigitalSignatureCollection
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
@@ -69,7 +69,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.Generic.IEnumerable<OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature>.GetEnumerator
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
@@ -102,7 +102,7 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: System.Collections.IEnumerable.GetEnumerator
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
@@ -134,21 +134,25 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: this[]
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-    startLine: 52
+    startLine: 57
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DigitalSignatures
+  summary: "\nGet the signature at index.\n"
+  example: []
   syntax:
     content: public ExcelDigitalSignature this[int index] { get; set; }
     parameters:
     - id: index
       type: System.Int32
+      description: ''
     return:
       type: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignature
+      description: ''
     content.vb: Public Property Item(index As Integer) As ExcelDigitalSignature
   overload: OfficeOpenXml.DigitalSignatures.ExcelDigitalSignatureCollection.Item*
   nameWithType.vb: ExcelDigitalSignatureCollection.Item(Int32)
@@ -174,11 +178,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Add
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-    startLine: 87
+    startLine: 92
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DigitalSignatures
@@ -213,11 +217,11 @@ items:
   source:
     remote:
       path: src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Remove
     path: ../src/EPPlus/DigitalSignatures/ExcelDigitalSignatureCollection.cs
-    startLine: 101
+    startLine: 106
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.DigitalSignatures

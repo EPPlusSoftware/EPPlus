@@ -69,7 +69,7 @@ namespace OfficeOpenXml.Drawing
         {
             get
             {
-                return wb.DigitialSignatures.GetSignatureBySignatureLineGuid(SetupID);
+                return wb.DigitalSignatures.GetSignatureBySignatureLineGuid(SetupID);
             }
         }
         SignatureLineTemplateEmfBase Emf;
@@ -183,7 +183,7 @@ namespace OfficeOpenXml.Drawing
         /// <returns></returns>
         private protected ExcelDigitalSignature Sign(X509Certificate2 certificate)
         {
-            var digSig = wb.DigitialSignatures.Add(certificate);
+            var digSig = wb.DigitalSignatures.Add(certificate);
             digSig.SignatureLine = this;
             return digSig;
         }

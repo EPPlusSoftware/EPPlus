@@ -15,7 +15,7 @@ items:
   source:
     remote:
       path: src/EPPlus/FormulaParsing/ErrorValues/ExcelRichDataErrorValue.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelRichDataErrorValue
     path: ../src/EPPlus/FormulaParsing/ErrorValues/ExcelRichDataErrorValue.cs
@@ -33,6 +33,8 @@ items:
   inheritance:
   - System.Object
   - OfficeOpenXml.ExcelErrorValue
+  derivedClasses:
+  - OfficeOpenXml.ExcelSpillErrorValue
   inheritedMembers:
   - OfficeOpenXml.ExcelErrorValue.Create(OfficeOpenXml.eErrorType)
   - OfficeOpenXml.ExcelErrorValue.AsCompileResult
@@ -40,8 +42,8 @@ items:
   - OfficeOpenXml.ExcelErrorValue.Type
   - OfficeOpenXml.ExcelErrorValue.ToString
   - OfficeOpenXml.ExcelErrorValue.Equals(System.Object)
+  - OfficeOpenXml.ExcelErrorValue.GetHashCode
   - System.Object.Equals(System.Object,System.Object)
-  - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
@@ -224,6 +226,34 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
+  commentId: M:OfficeOpenXml.ExcelErrorValue.GetHashCode
+  parent: OfficeOpenXml.ExcelErrorValue
+  name: GetHashCode()
+  nameWithType: ExcelErrorValue.GetHashCode()
+  fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode()
+  spec.csharp:
+  - uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
+    name: GetHashCode
+    nameWithType: ExcelErrorValue.GetHashCode
+    fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: OfficeOpenXml.ExcelErrorValue.GetHashCode
+    name: GetHashCode
+    nameWithType: ExcelErrorValue.GetHashCode
+    fullName: OfficeOpenXml.ExcelErrorValue.GetHashCode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.Object.Equals(System.Object,System.Object)
   commentId: M:System.Object.Equals(System.Object,System.Object)
   parent: System.Object
@@ -278,37 +308,6 @@ references:
     nameWithType: Object
     fullName: System.Object
     isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  commentId: M:System.Object.GetHashCode
-  parent: System.Object
-  isExternal: true
-  name: GetHashCode()
-  nameWithType: Object.GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
-    isExternal: true
-  - name: (
-    nameWithType: (
-    fullName: (
   - name: )
     nameWithType: )
     fullName: )

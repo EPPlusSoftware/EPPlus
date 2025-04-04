@@ -91,6 +91,11 @@ namespace OfficeOpenXml.FormulaParsing
         /// The worksheet dimension if the range refers to an worksheet address, otherwise the size of the array.
         /// </summary>
         FormulaRangeAddress Dimension { get; }
+        /// <summary>
+        /// Get the address adjusted inside the dimension of the worksheet.
+        /// </summary>
+        /// <param name="index">The index of the address.</param>
+        /// <returns>The address adjusted within the dimension of the worksheet.</returns>
         public FormulaRangeAddress GetAddressDimensionAdjusted(int index);
     }
     /// <summary>

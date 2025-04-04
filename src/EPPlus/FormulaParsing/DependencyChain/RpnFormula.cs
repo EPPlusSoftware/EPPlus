@@ -32,7 +32,7 @@ namespace OfficeOpenXml.FormulaParsing
     internal enum FormulaFlags : short
     {
         IsDynamic           = 1,
-        IsAllwaysDynamic    = 2,
+        IsAlwaysDynamic    = 2,
     }
     internal class RpnFormula
     {
@@ -210,7 +210,7 @@ namespace OfficeOpenXml.FormulaParsing
 
         internal virtual int GetWorksheetIndex()
         {
-            return _ws.IndexInList;
+            return _ws?.IndexInList??-1;
         }
         internal virtual RpnFormulaType Type
         {
@@ -219,6 +219,8 @@ namespace OfficeOpenXml.FormulaParsing
                 return RpnFormulaType.Formula;
             }
         }
+
+        public ulong CellId { get { return ExcelCellBase.GetCellId(GetWorksheetIndex(), _row, _column); } }
     }        
     internal class RpnNameFormula : RpnFormula
     {        

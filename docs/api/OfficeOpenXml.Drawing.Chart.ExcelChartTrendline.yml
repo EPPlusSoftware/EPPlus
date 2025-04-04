@@ -30,7 +30,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelChartTrendline
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -76,7 +76,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Type
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -113,7 +113,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Name
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -150,7 +150,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Order
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -161,11 +161,11 @@ items:
   summary: "\nOrder for polynominal trendlines\n"
   example: []
   syntax:
-    content: public decimal Order { get; set; }
+    content: public double Order { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property Order As Decimal
+      type: System.Double
+    content.vb: Public Property Order As Double
   overload: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline.Order*
   modifiers.csharp:
   - public
@@ -187,7 +187,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Period
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -198,11 +198,11 @@ items:
   summary: "\nPeriod for monthly average trendlines\n"
   example: []
   syntax:
-    content: public decimal Period { get; set; }
+    content: public double Period { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property Period As Decimal
+      type: System.Double
+    content.vb: Public Property Period As Double
   overload: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline.Period*
   modifiers.csharp:
   - public
@@ -224,7 +224,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Forward
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -235,11 +235,11 @@ items:
   summary: "\nForcast forward periods\n"
   example: []
   syntax:
-    content: public decimal Forward { get; set; }
+    content: public double Forward { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property Forward As Decimal
+      type: System.Double
+    content.vb: Public Property Forward As Double
   overload: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline.Forward*
   modifiers.csharp:
   - public
@@ -261,7 +261,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Backward
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -272,11 +272,11 @@ items:
   summary: "\nForcast backwards periods\n"
   example: []
   syntax:
-    content: public decimal Backward { get; set; }
+    content: public double Backward { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property Backward As Decimal
+      type: System.Double
+    content.vb: Public Property Backward As Double
   overload: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline.Backward*
   modifiers.csharp:
   - public
@@ -298,7 +298,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Intercept
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -309,11 +309,11 @@ items:
   summary: "\nThe point where the trendline crosses the vertical axis\n"
   example: []
   syntax:
-    content: public decimal Intercept { get; set; }
+    content: public double Intercept { get; set; }
     parameters: []
     return:
-      type: System.Decimal
-    content.vb: Public Property Intercept As Decimal
+      type: System.Double
+    content.vb: Public Property Intercept As Double
   overload: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline.Intercept*
   modifiers.csharp:
   - public
@@ -335,7 +335,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayRSquaredValue
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -372,7 +372,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: DisplayEquation
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -409,7 +409,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Fill
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -446,7 +446,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Border
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -483,7 +483,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Effect
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -520,7 +520,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ThreeD
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -557,7 +557,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: Label
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -594,7 +594,7 @@ items:
   source:
     remote:
       path: src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: HasLbl
     path: ../src/EPPlus/Drawing/Chart/ExcelChartTrendline.cs
@@ -954,13 +954,13 @@ references:
   name: Order
   nameWithType: ExcelChartTrendline.Order
   fullName: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline.Order
-- uid: System.Decimal
-  commentId: T:System.Decimal
+- uid: System.Double
+  commentId: T:System.Double
   parent: System
   isExternal: true
-  name: Decimal
-  nameWithType: Decimal
-  fullName: System.Decimal
+  name: Double
+  nameWithType: Double
+  fullName: System.Double
 - uid: OfficeOpenXml.Drawing.Chart.ExcelChartTrendline.Period*
   commentId: Overload:OfficeOpenXml.Drawing.Chart.ExcelChartTrendline.Period
   name: Period

@@ -18,11 +18,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExcelExternalOleLink
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-    startLine: 24
+    startLine: 23
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -67,11 +67,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ExternalLinkType
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-    startLine: 94
+    startLine: 96
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -107,11 +107,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: OleItems
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-    startLine: 109
+    startLine: 111
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
@@ -144,11 +144,11 @@ items:
   source:
     remote:
       path: src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-      branch: develop8
+      branch: bug/issue1928
       repo: https://github.com/EPPlusSoftware/EPPlus.git
     id: ProgId
     path: ../src/EPPlus/ExternalReferences/ExcelExternalOleLink.cs
-    startLine: 116
+    startLine: 118
   assemblies:
   - EPPlus
   namespace: OfficeOpenXml.ExternalReferences
